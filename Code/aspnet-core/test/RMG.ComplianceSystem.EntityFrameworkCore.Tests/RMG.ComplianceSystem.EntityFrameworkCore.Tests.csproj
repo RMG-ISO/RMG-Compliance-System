@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>RMG.ComplianceSystem</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RMG.ComplianceSystem.EntityFrameworkCore\RMG.ComplianceSystem.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\RMG.ComplianceSystem.TestBase\RMG.ComplianceSystem.TestBase.csproj" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+  </ItemGroup>
+
+</Project>
