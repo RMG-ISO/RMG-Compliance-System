@@ -9,14 +9,23 @@ export const environment = {
     name: 'ComplianceSystem',
     logoUrl: '',
   },
+  // oAuthConfig: {
+  //   issuer: 'https://localhost:44375',
+  //   redirectUri: baseUrl,
+  //   clientId: 'ComplianceSystem_App',
+  //   responseType: 'code',
+  //   scope: 'offline_access openid profile role email phone ComplianceSystem',
+  //   requireHttps: true,
+  // },
+
   oAuthConfig: {
     issuer: 'https://localhost:44375',
-    redirectUri: baseUrl,
-    clientId: 'ComplianceSystem_App',
-    responseType: 'code',
+    clientId: 'MyProjectName_App',
+    dummyClientSecret: '1q2w3e*',
     scope: 'offline_access openid profile role email phone ComplianceSystem',
-    requireHttps: true
   },
+
+
   apis: {
     default: {
       url: 'https://localhost:44375',
