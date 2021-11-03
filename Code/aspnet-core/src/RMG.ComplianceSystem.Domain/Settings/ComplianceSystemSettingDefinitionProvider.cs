@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Settings;
+﻿using Volo.Abp.Localization;
+using Volo.Abp.Settings;
 
 namespace RMG.ComplianceSystem.Settings
 {
@@ -8,6 +9,9 @@ namespace RMG.ComplianceSystem.Settings
         {
             //Define your own settings here. Example:
             //context.Add(new SettingDefinition(ComplianceSystemSettings.MySetting1));
+
+            context.Add(new SettingDefinition(LocalizationSettingNames.DefaultLanguage, "ar-EG"));
+
         }
     }
 }

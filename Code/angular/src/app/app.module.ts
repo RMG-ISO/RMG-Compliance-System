@@ -15,6 +15,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 
+import { storeLocaleData } from '@abp/ng.core/locale';
+import(
+/* webpackChunkName: "_locale-your-locale-js"*/
+/* webpackMode: "eager" */
+'@angular/common/locales/ar-EG.js'
+).then(m => storeLocaleData(m.default, 'ar-EG'));
+
 @NgModule({
   imports: [
     BrowserModule,
