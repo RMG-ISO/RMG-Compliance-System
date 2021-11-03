@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 
 import { storeLocaleData } from '@abp/ng.core/locale';
+import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
 import(
 /* webpackChunkName: "_locale-your-locale-js"*/
 /* webpackMode: "eager" */
@@ -39,7 +40,7 @@ import(
     NgxsModule.forRoot(),
     ThemeBasicModule.forRoot(),
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, ComplianceLayoutComponent],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],
 })
