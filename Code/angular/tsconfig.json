@@ -18,7 +18,10 @@
     ],
     "paths": {
       "@proxy": ["src/app/proxy/index.ts"],
-      "@proxy/*": ["src/app/proxy/*"]
+      "@proxy/*": ["src/app/proxy/*"],
+
+      "@abp/ng.theme.basic": ["projects/theme-basic/src/public-api.ts"],
+    "@abp/ng.theme.basic/testing": ["projects/theme-basic/testing/src/public-api.ts"]
     }
   },
   "angularCompilerOptions": {

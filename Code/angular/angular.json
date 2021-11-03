@@ -140,7 +140,27 @@
           }
         }
       }
-    }
+    },
+    "theme-basic": {
+      "projectType": "library",
+      "root": "projects/theme-basic",
+      "sourceRoot": "projects/theme-basic/src",
+      "prefix": "abp",
+      "architect": {
+          "build": {
+              "builder": "@angular-devkit/build-ng-packagr:build",
+              "options": {
+                  "tsConfig": "projects/theme-basic/tsconfig.lib.json",
+                  "project": "projects/theme-basic/ng-package.json"
+              },
+              "configurations": {
+                  "production": {
+                  "tsConfig": "projects/theme-basic/tsconfig.lib.prod.json"
+                  }
+              }
+          }
+      }
+  }
   },
   "defaultProject": "ComplianceSystem"
 }
