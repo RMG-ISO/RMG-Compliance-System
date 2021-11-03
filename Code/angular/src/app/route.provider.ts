@@ -15,13 +15,6 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
-      {
-        path: 'podcasts',
-        name: 'podcasts',
-        iconClass: 'fas fa-location',
-        order: 1,
-        layout: eLayoutType.application,
-      },
     ]);
   };
 }
