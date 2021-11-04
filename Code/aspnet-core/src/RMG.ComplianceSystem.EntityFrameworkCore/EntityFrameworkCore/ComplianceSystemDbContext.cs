@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RMG.ComplianceSystem.Authors;
+using RMG.ComplianceSystem.Books;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -51,7 +54,11 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
         #endregion
-        
+
+
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Authors { get; set; }
+
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
         {
@@ -81,6 +88,30 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+
+            builder.Entity<Book>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Books",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+                b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+                b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
+            });
+
+            builder.Entity<Author>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Authors",
+                    ComplianceSystemConsts.DbSchema);
+
+                b.ConfigureByConvention();
+
+                b.Property(x => x.Name)
+                    .IsRequired()
+                    .HasMaxLength(AuthorConsts.MaxNameLength);
+
+                b.HasIndex(x => x.Name);
+            });
         }
     }
 }
