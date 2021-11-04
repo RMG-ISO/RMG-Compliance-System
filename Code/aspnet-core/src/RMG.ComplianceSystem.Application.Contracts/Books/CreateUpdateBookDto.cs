@@ -12,7 +12,7 @@ namespace RMG.ComplianceSystem.Books
         public BookType Type { get; set; } = BookType.Undefined;
 
         [Required]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         public DateTime PublishDate { get; set; } = DateTime.Now;
 
         [Required]
