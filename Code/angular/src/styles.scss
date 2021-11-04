@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
 
 @keyframes donut-spin {
   0% {
@@ -27,3 +28,24 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+@font-face {
+  font-family: 'ElMessiri';
+  src: url('./assets/fonts/ElMessiri/ElMessiri-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ElMessiri';
+  src: url('./assets/fonts/ElMessiri/ElMessiri-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+);
+@include mat-core($custom-typography);

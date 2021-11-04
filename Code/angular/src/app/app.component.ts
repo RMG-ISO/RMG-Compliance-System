@@ -14,10 +14,10 @@ export class AppComponent {
 
   constructor (private replaceableComponent: ReplaceableComponentsService){
 
-    // this.replaceableComponent.add({
-    //   component: ComplianceLayoutComponent,
-    //   key: eThemeBasicComponents.ApplicationLayout,
-    // });
+    this.replaceableComponent.add({
+      component: ComplianceLayoutComponent,
+      key: eThemeBasicComponents.ApplicationLayout,
+    });
 
   }
 }

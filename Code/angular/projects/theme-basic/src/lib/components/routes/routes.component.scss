@@ -1,0 +1,85 @@
+
+:host {
+    width: 280px ;
+    display: block;
+    button {
+        width: 100%;
+        display: flex;
+        width: 100%;
+        display: flex;
+        height: 48px;
+        align-items: center;
+        border-radius: 0;
+        font-size: 18px;
+        margin-bottom: 4px;
+        box-shadow: none;
+        &:hover, &.active {
+            background-color: #4B74FF;
+            color: #fff;;
+            i {
+                color: #fff;
+            }
+        }
+       
+    }
+    i {
+        color: #B3B3B3;
+    }
+    .route-name{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+
+    mat-accordion {
+        &.level-2 {
+            mat-expansion-panel {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+
+        mat-expansion-panel{
+            margin-bottom: 4px;
+            font-size: 18px;
+            border-radius: 0 !important;
+            box-shadow: none;
+            ::ng-deep {
+                mat-expansion-panel-header{
+                    .mat-content  {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    &:hover {
+                        background: rgba(0,0,0,.04);
+                    }
+                }
+                .mat-expansion-panel-body {
+                    padding: 0;
+                }
+            }
+            mat-expansion-panel-header{
+                padding-left: 16px;
+                padding-right: 16px;
+                height: 48px !important;
+                mat-panel-title {
+                    font-size: 18px;
+                }
+            }
+    
+            button {
+                padding-right: 36px;
+                padding-left: 36px;
+                // &:last-child {
+                //     margin-bottom: 0;
+                // }
+            }
+        }
+
+    }
+    
+}
+
+
+// box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px transparent, 0px 1px 5px 0px transparent;

@@ -1,6 +1,44 @@
-<div class="container">
-    <abp-page-alert-container></abp-page-alert-container>
+<abp-page-alert-container></abp-page-alert-container>
+
+<!-- <router-outlet #outlet="outlet"></router-outlet> -->
+<!--   
+<mat-drawer-container>
+  <mat-drawer #drawer [mode]="windowWidth > 768 ? 'side' : 'over' " [opened]="windowWidth > 768 ? true : false  ">
+      <div class="wrapper">
+        <sidebar></sidebar>
+      </div>
+    </mat-drawer>
+  <mat-drawer-content [style.margin-left]=" windowWidth > 768 ? drawer._getWidth() + 'px' : 0" >
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>  -->
+
+
   
+<mat-drawer-container class="main-drawer" [hasBackdrop]="false">
+  <mat-drawer #drawer opened mode="side">
+    <div class="wrapper" >
+      <!-- <sidebar></sidebar> -->
+
+      <abp-routes
+      *abpReplaceableTemplate="{
+        componentKey: service.routesComponentKey,
+        inputs: {
+          smallScreen: { value: service.smallScreen }
+        }
+      }"
+      class="mx-auto"
+      [smallScreen]="service.smallScreen"
+    ></abp-routes>
+
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <nav class="app-nav d-flex" >
+      <button mat-button class="menu-button">
+        <img src="assets/icons/bars.svg" alt="">
+      </button>
+    </nav>
     <router-outlet #outlet="outlet"></router-outlet>
-  </div>
-  
+  </mat-drawer-content>
+</mat-drawer-container> 

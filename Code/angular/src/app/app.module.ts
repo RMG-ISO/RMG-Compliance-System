@@ -1,3 +1,4 @@
+import { MatButtonModule } from '@angular/material/button';
 import { AccountConfigModule } from '@abp/ng.account/config';
 import { CoreModule } from '@abp/ng.core';
 import { registerLocale } from '@abp/ng.core/locale';
@@ -23,6 +24,10 @@ import(
 '@angular/common/locales/ar-EG.js'
 ).then(m => storeLocaleData(m.default, 'ar-EG'));
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -39,8 +44,15 @@ import(
     SettingManagementConfigModule.forRoot(),
     NgxsModule.forRoot(),
     ThemeBasicModule.forRoot(),
+    MatSidenavModule,
+
+    MatExpansionModule,
+    MatButtonModule
   ],
-  declarations: [AppComponent, ComplianceLayoutComponent],
+  declarations: [
+    AppComponent,
+    ComplianceLayoutComponent,
+  ],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],
 })
