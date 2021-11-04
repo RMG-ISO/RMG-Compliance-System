@@ -15,11 +15,10 @@
 
 
   
-<mat-drawer-container class="main-drawer" [hasBackdrop]="false">
-  <mat-drawer #drawer opened mode="side">
+<mat-drawer-container class="main-drawer" [hasBackdrop]="windowWidth <= 960">
+  <mat-drawer #drawer opened [mode]="windowWidth > 960 ? 'side' : 'over' " [opened]="windowWidth > 960 ? true : false  " *ngIf="(user.currentUser$ | async)?.isAuthenticated">
     <div class="wrapper" >
-      <!-- <sidebar></sidebar> -->
-
+      <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
       <abp-routes
       *abpReplaceableTemplate="{
         componentKey: service.routesComponentKey,
@@ -34,11 +33,28 @@
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <nav class="app-nav d-flex" >
-      <button mat-button class="menu-button">
-        <img src="assets/icons/bars.svg" alt="">
-      </button>
+    <nav class="app-nav d-flex align-items-center justify-content-between" >
+
+      <div>
+        <button *ngIf="drawer" (click)="drawer.toggle()" mat-button class="menu-button">
+          <img src="assets/icons/bars.svg" alt="">
+        </button>
+
+        <ng-container *ngIf="!drawer || !drawer.opened" >
+          <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
+        </ng-container>
+
+      </div>
+
+      <abp-current-user #user></abp-current-user>
     </nav>
-    <router-outlet #outlet="outlet"></router-outlet>
+
+<!-- wheelSpeed:50 -->
+    
+    <div class="router-content" [perfectScrollbar]="{wheelSpeed:50}" [style.max-height]="(window.innerHeight - 66 ) + 'px'" [style.height]="(window.innerHeight - 66 ) + 'px'" >
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
   </mat-drawer-content>
 </mat-drawer-container> 
+
+

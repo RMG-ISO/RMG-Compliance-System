@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountConfigModule } from '@abp/ng.account/config';
 import { CoreModule } from '@abp/ng.core';
@@ -26,7 +27,12 @@ import(
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  // suppressScrollX: true
+  suppressScrollX: false, suppressScrollY: false
+};
 
 @NgModule({
   imports: [
@@ -46,14 +52,22 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ThemeBasicModule.forRoot(),
     MatSidenavModule,
 
+    PerfectScrollbarModule,
     MatExpansionModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule
   ],
   declarations: [
     AppComponent,
     ComplianceLayoutComponent,
   ],
-  providers: [APP_ROUTE_PROVIDER],
+  providers: [
+    APP_ROUTE_PROVIDER,
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

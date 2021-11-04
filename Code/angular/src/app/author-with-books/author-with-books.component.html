@@ -92,6 +92,8 @@
         <button mat-raised-button color="primary" (click)="addBook()">
           {{'::AddBook' | abpLocalization}}
         </button>
+        <span style="width: 30px;display: inline-block;"></span>
+
         <button
           *ngIf="bookFormArray.controls.length"
           mat-raised-button

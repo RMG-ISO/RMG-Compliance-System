@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'abp-current-user',
   templateUrl: './current-user.component.html',
+  styleUrls:['./current-user.component.scss']
 })
 export class CurrentUserComponent {
   currentUser$: Observable<CurrentUserDto> = this.configState.getOne$('currentUser');

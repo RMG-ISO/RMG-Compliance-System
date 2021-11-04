@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CoreModule } from '@abp/ng.core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
@@ -59,7 +60,8 @@ export const LAYOUTS = [ApplicationLayoutComponent, AccountLayoutComponent, Empt
     NgbDropdownModule,
     NgxValidateCoreModule,
     MatExpansionModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule
   ],
   entryComponents: [...LAYOUTS, ValidationErrorComponent, CurrentUserComponent, LanguagesComponent],
 })

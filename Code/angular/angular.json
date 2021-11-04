@@ -66,9 +66,15 @@
                 "inject": true,
                 "bundleName": "bootstrap-ltr.min"
               },
+              {
+                "input": "node_modules/pace-js/themes/blue/pace-theme-flash.css",
+                "inject": true
+              },
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/pace-js/pace.min.js"
+            ]
           },
           "configurations": {
             "production": {
