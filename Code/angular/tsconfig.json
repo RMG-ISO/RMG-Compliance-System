@@ -22,7 +22,11 @@
 
       "@abp/ng.theme.basic": ["projects/theme-basic/src/public-api.ts"],
     "@abp/ng.theme.basic/testing": ["projects/theme-basic/testing/src/public-api.ts"]
-    }
+    },
+    "types": [
+      "jquery",
+      "mcustomscrollbar"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false

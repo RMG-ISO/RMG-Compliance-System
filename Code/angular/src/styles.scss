@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import '~@angular/material/theming';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import "./styles/theme.config.scss";
 @keyframes donut-spin {
   0% {
     transform: rotate(0deg);
@@ -8,6 +10,7 @@
     transform: rotate(360deg);
   }
 }
+
 .donut {
   display: inline-block;
   border: 4px solid rgba(0, 0, 0, 0.1);
@@ -24,3 +27,28 @@
     transform: translate(-50%, -50%);
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+@font-face {
+  font-family: 'ElMessiri';
+  src: url('./assets/fonts/ElMessiri/ElMessiri-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ElMessiri';
+  src: url('./assets/fonts/ElMessiri/ElMessiri-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+);
+@include mat-core($custom-typography);
+

@@ -1,6 +1,67 @@
-<div class="container">
-    <abp-page-alert-container></abp-page-alert-container>
+<!-- <abp-page-alert-container></abp-page-alert-container> -->
+
+<!-- <router-outlet #outlet="outlet"></router-outlet> -->
+<!--   
+<mat-drawer-container>
+  <mat-drawer #drawer [mode]="windowWidth > 768 ? 'side' : 'over' " [opened]="windowWidth > 768 ? true : false  ">
+      <div class="wrapper">
+        <sidebar></sidebar>
+      </div>
+    </mat-drawer>
+  <mat-drawer-content [style.margin-left]=" windowWidth > 768 ? drawer._getWidth() + 'px' : 0" >
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>  -->
+
+
   
-    <router-outlet #outlet="outlet"></router-outlet>
-  </div>
-  
+<mat-drawer-container class="main-drawer" [hasBackdrop]="windowWidth <= 960">
+  <mat-drawer #drawer opened [mode]="windowWidth >= 992 ? 'side' : 'over' " [opened]="windowWidth >= 992 ? true : false  " *ngIf="(user.currentUser$ | async)?.isAuthenticated">
+    <div class="wrapper" >
+      <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
+      <abp-routes
+      *abpReplaceableTemplate="{
+        componentKey: service.routesComponentKey,
+        inputs: {
+          smallScreen: { value: service.smallScreen }
+        }
+      }"
+      class="mx-auto"
+      [smallScreen]="service.smallScreen"
+    ></abp-routes>
+
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <nav class="app-nav d-flex align-items-center justify-content-between" >
+
+      <div>
+        <button *ngIf="drawer" (click)="drawer.toggle()" mat-button class="menu-button">
+          <img src="assets/icons/bars.svg" alt="">
+        </button>
+
+        <ng-container *ngIf="!drawer || !drawer.opened" >
+          <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
+        </ng-container>
+
+      </div>
+
+
+      <abp-current-user #user></abp-current-user>
+    </nav>
+
+<!-- wheelSpeed:50 -->
+    
+    <!-- <div class="router-content" [perfectScrollbar]="{wheelSpeed:50}" [style.max-height]="(window.innerHeight - 66 ) + 'px'" [style.height]="(window.innerHeight - 66 ) + 'px'" >
+      <abp-page-alert-container></abp-page-alert-container>
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div> -->
+
+    <div class="router-content" malihu-scrollbar [scrollbarOptions]="{ axis: 'yx', theme: 'minimal-dark', scrollInertia:10 }" [style.height]="(window.innerHeight - 66 ) + 'px'" >
+      <abp-page-alert-container></abp-page-alert-container>
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container> 
+
+

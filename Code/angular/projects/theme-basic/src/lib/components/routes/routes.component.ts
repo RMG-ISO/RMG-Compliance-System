@@ -12,11 +12,12 @@ import {
 @Component({
   selector: 'abp-routes',
   templateUrl: 'routes.component.html',
+  styleUrls:['./routes.component.scss']
 })
 export class RoutesComponent {
   @Input() smallScreen: boolean;
 
-  @ViewChildren('childrenContainer') childrenContainers: QueryList<ElementRef<HTMLDivElement>>;
+  // @ViewChildren('childrenContainer') childrenContainers: QueryList<ElementRef<HTMLDivElement>>;
 
   trackByFn: TrackByFunction<TreeNode<ABP.Route>> = (_, item) => item.name;
 
@@ -27,9 +28,9 @@ export class RoutesComponent {
   }
 
   closeDropdown() {
-    this.childrenContainers.forEach(({ nativeElement }) => {
-      this.renderer.addClass(nativeElement, 'd-none');
-      setTimeout(() => this.renderer.removeClass(nativeElement, 'd-none'), 0);
-    });
+    // this.childrenContainers.forEach(({ nativeElement }) => {
+    //   this.renderer.addClass(nativeElement, 'd-none');
+    //   setTimeout(() => this.renderer.removeClass(nativeElement, 'd-none'), 0);
+    // });
   }
 }

@@ -9,12 +9,41 @@ function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.add([
       {
-        path: '/',
+        path: '/home',
         name: '::Menu:Home',
         iconClass: 'fas fa-home',
         order: 1,
         layout: eLayoutType.application,
+      },     
+      {
+        path: "/book-store",
+        name: "::Menu:BookStore",
+        iconClass: "fas fa-book",
+        order: 2,
+        layout: eLayoutType.application,
       },
+      {
+        path: "/books",
+        name: "::Menu:Books",
+        parentName: "::Menu:BookStore",
+        requiredPolicy:"ComplianceSystem.Books",
+        layout: eLayoutType.application,
+      },
+      {
+        path: "/authors",
+        name: "::Menu:Authors",
+        parentName: "::Menu:BookStore",
+        requiredPolicy:"ComplianceSystem.Authors",
+        layout: eLayoutType.application,
+      },
+      {
+        path: "/abp-books",
+        name: "::Menu:abp-Books",
+        parentName: "::Menu:BookStore",
+        requiredPolicy:"ComplianceSystem.Books",
+        layout: eLayoutType.application,
+      },
+
     ]);
   };
 }

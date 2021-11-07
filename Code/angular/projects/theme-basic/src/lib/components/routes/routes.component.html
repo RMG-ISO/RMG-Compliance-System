@@ -1,4 +1,4 @@
-<ul class="navbar-nav">
+<!-- <ul class="navbar-nav">
   <ng-container
     *ngFor="let route of routesService.visible$ | async; trackBy: trackByFn"
     [ngTemplateOutlet]="isDropdown(route) ? dropdownLink : defaultLink"
@@ -101,4 +101,127 @@
       </div>
     </div>
   </ng-template>
-</ul>
+</ul> -->
+
+
+<ng-container
+  *ngFor="let route of routesService.visible$ | async; trackBy: trackByFn"
+  [ngTemplateOutlet]="isDropdown(route) ? dropdownLink : defaultLink"
+  [ngTemplateOutletContext]="{ $implicit: route }"
+>
+</ng-container>
+
+<ng-template #defaultLink let-route>
+  <a mat-raised-button *abpPermission="route.requiredPolicy" [routerLink]="[route.path]" routerLinkActive="active">
+    <i *ngIf="route.iconClass" [ngClass]="route.iconClass"></i>
+    <span class="route-name">
+      {{ route.name | abpLocalization }}
+    </span>
+  </a>
+</ng-template>
+
+<ng-template #dropdownLink let-route>
+  <ng-container *ngIf="route.children?.length">
+    <mat-accordion *abpPermission="route.requiredPolicy" class="level-1">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <i *ngIf="route.iconClass" [ngClass]="route.iconClass"></i>
+            <span class="route-name">
+              {{ route.name | abpLocalization }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <ng-container *ngTemplateOutlet="forTemplate; context: { $implicit: route }"></ng-container>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+</ng-template>
+
+<ng-template #forTemplate let-route>
+  <ng-container *ngFor="let child of route.children">
+    <ng-template
+      [ngTemplateOutlet]="child.children?.length ? dropdownChild : defaultChild"
+      [ngTemplateOutletContext]="{ $implicit: child }"
+    ></ng-template>
+  </ng-container>
+</ng-template>
+
+<ng-template #defaultChild let-child>
+  <ng-container *ngIf="child.path">
+    
+    <a mat-raised-button *abpPermission="child.requiredPolicy" [routerLink]="[child.path]" routerLinkActive="active">
+      <i *ngIf="child.iconClass" [ngClass]="child.iconClass"></i>
+      <span class="route-name">
+        {{ child.name | abpLocalization }}
+      </span>
+    </a>
+  </ng-container>
+</ng-template>
+
+<ng-template #dropdownChild let-child>
+    <mat-accordion *abpPermission="child.requiredPolicy" class="level-2">
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <i *ngIf="child.iconClass" [ngClass]="child.iconClass"></i>
+            <span class="route-name">
+              {{ child.name | abpLocalization }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <ng-container *ngTemplateOutlet="forTemplate; context: { $implicit: child }"></ng-container>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+</ng-template>
+
+
+<!-- <ng-template #dropdownChild let-child>
+  <div
+    class="dropdown-submenu"
+    ngbDropdown
+    #dropdownSubmenu="ngbDropdown"
+    placement="right-top"
+    [autoClose]="true"
+    *abpPermission="child.requiredPolicy"
+  >
+    <div ngbDropdownToggle [class.dropdown-toggle]="false">
+      <a
+        abpEllipsis="210px"
+        [abpEllipsisEnabled]="!smallScreen"
+        role="button"
+        class="btn d-block text-left dropdown-toggle"
+      >
+        <i *ngIf="child.iconClass" [ngClass]="child.iconClass"></i>
+        {{ child.name | abpLocalization }}
+      </a>
+    </div>
+    <div
+      #childrenContainer
+      class="dropdown-menu border-0 shadow-sm"
+      [class.d-block]="smallScreen && dropdownSubmenu.isOpen()"
+    >
+      <ng-container *ngTemplateOutlet="forTemplate; context: { $implicit: child }"></ng-container>
+    </div>
+  </div>
+</ng-template> -->
+
+
+<!-- <mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        This is the expansion title
+      </mat-panel-title>
+      <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+  </mat-expansion-panel>
+</mat-accordion> -->

@@ -1,3 +1,5 @@
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { CoreModule } from '@abp/ng.core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
 import { ModuleWithProviders, NgModule } from '@angular/core';
@@ -22,6 +24,9 @@ import { BASIC_THEME_STYLES_PROVIDERS } from './providers/styles.provider';
 import { PageAlertContainerComponent } from './components/page-alert-container/page-alert-container.component';
 import { TenantBoxComponent } from './components/account-layout/tenant-box/tenant-box.component';
 import { AuthWrapperComponent } from './components/account-layout/auth-wrapper/auth-wrapper.component';
+
+import { MatExpansionModule } from '@angular/material/expansion';
+
 
 export const LAYOUTS = [ApplicationLayoutComponent, AccountLayoutComponent, EmptyLayoutComponent];
 
@@ -54,6 +59,9 @@ export const LAYOUTS = [ApplicationLayoutComponent, AccountLayoutComponent, Empt
     NgbCollapseModule,
     NgbDropdownModule,
     NgxValidateCoreModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatMenuModule
   ],
   entryComponents: [...LAYOUTS, ValidationErrorComponent, CurrentUserComponent, LanguagesComponent],
 })
