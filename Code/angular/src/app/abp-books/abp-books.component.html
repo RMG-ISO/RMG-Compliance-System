@@ -8,8 +8,8 @@
             </div>
             <div class="text-right col col-md-6">
                 <div class="text-lg-right pt-2">
-                    <button *abpPermission="'ComplianceSystem.Books.Create'" id="create" class="btn btn-primary" type="button"
-                        (click)="createBook()">
+                    <button *abpPermission="'ComplianceSystem.Books.Create'" id="create" class="btn btn-primary"
+                        type="button" (click)="createBook()">
                         <i class="fa fa-plus mr-1"></i>
                         <span>{{ "::NewBook" | abpLocalization }}</span>
                     </button>
@@ -18,10 +18,8 @@
         </div>
     </div>
     <div class="card-body">
-        <ngx-datatable
-        #dataTable
-        class="material fullscreen"
-        [rows]="book.items" [count]="book.totalCount" [list]="list" default>
+        <ngx-datatable #dataTable class="material fullscreen" [rows]="book.items" [count]="book.totalCount"
+            [list]="list" default>
             <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -48,10 +46,12 @@
                             <i class="fa fa-cog mr-1"></i>{{ '::Actions' | abpLocalization }}
                         </button>
                         <div ngbDropdownMenu>
-                            <button *abpPermission="'ComplianceSystem.Books.Update'" ngbDropdownItem (click)="editBook(row.id)">
+                            <button *abpPermission="'ComplianceSystem.Books.Update'" ngbDropdownItem
+                                (click)="editBook(row.id)">
                                 {{ '::Edit' | abpLocalization }}
                             </button>
-                            <button *abpPermission="'ComplianceSystem.Books.Delete'" ngbDropdownItem (click)="delete(row.id)">
+                            <button *abpPermission="'ComplianceSystem.Books.Delete'" ngbDropdownItem
+                                (click)="delete(row.id)">
                                 {{ '::Delete' | abpLocalization }}
                             </button>
                         </div>
@@ -68,9 +68,10 @@
     </ng-template>
 
     <ng-template #abpBody>
-        <form [formGroup]="form" (ngSubmit)="save()" malihu-scrollbar [scrollbarOptions]="{ axis: 'yx', theme: 'minimal-dark', scrollInertia:10 }" style="max-height: 70vh;">
+        <form [formGroup]="form" (ngSubmit)="save()" malihu-scrollbar
+            [scrollbarOptions]="{ axis: 'yx', theme: 'minimal-dark', scrollInertia:10 }" style="max-height: 70vh;">
 
-            <div class="form-group" style="height: 500px;">
+            <div class="form-group">
                 <label for="author-id">Author</label><span> * </span>
                 <select class="form-control" id="author-id" formControlName="authorId">
                     <option [ngValue]="null">Select author</option>
