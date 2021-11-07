@@ -16,6 +16,22 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
+        path: '/home',
+        name: '::Menu:HomePage',
+        iconClass: 'fas fa-home',
+        order: 1,
+        layout: eLayoutType.application,
+        parentName:'::Menu:Home'
+      },
+      {
+        path: '/abp-books',
+        name: '::Menu:AbpBooks',
+        iconClass: 'fas fa-home',
+        order: 1,
+        layout: eLayoutType.application,
+        parentName:'::Menu:Home'
+      },
+      {
         path: "/book-store",
         name: "::Menu:BookStore",
         iconClass: "fas fa-book",

@@ -34,6 +34,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: false, suppressScrollY: false
 };
 
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -55,7 +57,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     MatExpansionModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+
+    MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
     AppComponent,

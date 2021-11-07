@@ -70,10 +70,16 @@
                 "input": "node_modules/pace-js/themes/blue/pace-theme-flash.css",
                 "inject": true
               },
+              {
+                "input": "node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css",
+                "inject": true
+              },
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/pace-js/pace.min.js"
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"
             ]
           },
           "configurations": {

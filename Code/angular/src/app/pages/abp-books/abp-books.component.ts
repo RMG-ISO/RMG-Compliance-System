@@ -1,11 +1,12 @@
 import { PagedResultDto, ListService } from '@abp/ng.core';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BookDto, bookTypeOptions, AuthorLookupDto, BookService } from '@proxy/books';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 
 
 @Component({
@@ -17,8 +18,9 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }
   ]
 })
-export class AbpBooksComponent implements OnInit {
-
+export class AbpBooksComponent implements OnInit, AfterViewInit {
+  @ViewChild('dataTable') dataTable;
+  
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
   isModalOpen = false; // add this line
   form: FormGroup; // add this line
@@ -27,15 +29,16 @@ export class AbpBooksComponent implements OnInit {
 
   authors$: Observable<AuthorLookupDto[]>;
   isCollapsed = false;
-smallScreen = false;
-resizeObservable$: Observable<Event>
-resizeSubscription$: Subscription
+  smallScreen = false;
+  resizeObservable$: Observable<Event>
+  resizeSubscription$: Subscription
 
   constructor(
     public readonly list: ListService,
     private bookService: BookService,
     private fb: FormBuilder, // inject FormBuilder
     private confirmation: ConfirmationService, // inject the ConfirmationService
+    private mScrollbarService:MalihuScrollbarService
   ) { 
     this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
   }
@@ -49,7 +52,9 @@ resizeSubscription$: Subscription
     });
   }
   ngAfterViewInit() {
-  
+    console.log(this.dataTable)
+    // this.mScrollbarService.initScrollbar('.datatable-scroll', { axis: 'yx', theme: 'minimal-dark', scrollInertia:10, setHeight:true });
+    
   }
 
   createBook() {

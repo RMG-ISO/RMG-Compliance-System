@@ -7,7 +7,7 @@ import { AbpBooksComponent } from './abp-books.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
     NgxDatatableModule,
     SharedModule,
     NgbDatepickerModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    MalihuScrollbarModule
   ]
 })
 export class AbpBooksModule { }
