@@ -27,11 +27,12 @@ const routes: Routes = [
   { path: 'books', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
   { path: 'authors', loadChildren: () => import('./author/author.module').then(m => m.AuthorModule) },
   { path: 'author-with-books', loadChildren: () => import('./author-with-books/author-with-books.module').then(m => m.AuthorWithBooksModule) },
+  { path: 'abp-books', loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule) },
   {
     path:'',
     redirectTo:'/home',
     pathMatch:'full'
-  }
+  },
 ];
 
 @NgModule({

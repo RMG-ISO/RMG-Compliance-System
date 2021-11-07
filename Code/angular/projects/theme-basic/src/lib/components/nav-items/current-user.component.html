@@ -1,3 +1,14 @@
+<button *ngIf="(dropdownLanguages$ | async)?.length > 0" mat-button [matMenuTriggerFor]="languageMenu">
+  {{ defaultLanguage$ | async }}
+</button>
+<mat-menu #languageMenu="matMenu">
+  <button mat-menu-item  *ngFor="let lang of dropdownLanguages$ | async" (click)="onChangeLang(lang.cultureName)">
+    {{ lang?.displayName }}
+  </button>
+</mat-menu>
+
+
+
 <ng-template #loginBtn>
   <button
   style="font-size: 16px;"
@@ -31,6 +42,8 @@
     <i class="fa fa-power-off mr-1"></i>{{ 'AbpUi::Logout' | abpLocalization }}
   </button>
 </mat-menu>
+
+
 
 <!-- <div
   *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn"

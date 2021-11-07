@@ -1,4 +1,4 @@
-import { SubscriptionService } from '@abp/ng.core';
+import { ConfigStateService, LanguageInfo, SessionStateService, SubscriptionService } from '@abp/ng.core';
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, Inject } from '@angular/core';
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 
