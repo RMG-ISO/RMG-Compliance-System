@@ -42,12 +42,21 @@ function configureRoutes(routesService: RoutesService) {
         path: "/books",
         name: "::Menu:Books",
         parentName: "::Menu:BookStore",
+        requiredPolicy:"ComplianceSystem.Books",
         layout: eLayoutType.application,
       },
       {
         path: "/authors",
         name: "::Menu:Authors",
         parentName: "::Menu:BookStore",
+        requiredPolicy:"ComplianceSystem.Authors",
+        layout: eLayoutType.application,
+      },
+      {
+        path: "/abp-books",
+        name: "::Menu:abp-Books",
+        parentName: "::Menu:BookStore",
+        requiredPolicy:"ComplianceSystem.Books",
         layout: eLayoutType.application,
       },
 
