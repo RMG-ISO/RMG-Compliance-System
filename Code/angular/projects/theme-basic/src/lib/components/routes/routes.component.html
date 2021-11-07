@@ -112,12 +112,12 @@
 </ng-container>
 
 <ng-template #defaultLink let-route>
-  <button mat-raised-button *abpPermission="route.requiredPolicy" [routerLink]="[route.path]" routerLinkActive="active">
+  <a mat-raised-button *abpPermission="route.requiredPolicy" [routerLink]="[route.path]" routerLinkActive="active">
     <i *ngIf="route.iconClass" [ngClass]="route.iconClass"></i>
     <span class="route-name">
       {{ route.name | abpLocalization }}
     </span>
-  </button>
+  </a>
 </ng-template>
 
 <ng-template #dropdownLink let-route>
@@ -152,12 +152,12 @@
 <ng-template #defaultChild let-child>
   <ng-container *ngIf="child.path">
     
-    <button mat-raised-button *abpPermission="child.requiredPolicy" [routerLink]="[child.path]" routerLinkActive="active">
+    <a mat-raised-button *abpPermission="child.requiredPolicy" [routerLink]="[child.path]" routerLinkActive="active">
       <i *ngIf="child.iconClass" [ngClass]="child.iconClass"></i>
       <span class="route-name">
         {{ child.name | abpLocalization }}
       </span>
-    </button>
+    </a>
   </ng-container>
 </ng-template>
 

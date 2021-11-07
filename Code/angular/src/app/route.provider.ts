@@ -34,12 +34,6 @@ function configureRoutes(routesService: RoutesService) {
         parentName: "::Menu:BookStore",
         layout: eLayoutType.application,
       },
-      {
-        path: "/abp-books",
-        name: "::Menu:abp-Books",
-        parentName: "::Menu:BookStore",
-        layout: eLayoutType.application,
-      },
 
     ]);
   };
