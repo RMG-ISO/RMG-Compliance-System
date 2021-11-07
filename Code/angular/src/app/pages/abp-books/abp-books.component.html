@@ -18,7 +18,10 @@
         </div>
     </div>
     <div class="card-body">
-        <ngx-datatable [rows]="book.items" [count]="book.totalCount" [list]="list" default>
+        <ngx-datatable
+        perfectScrollbar
+        class="material fullscreen"
+        [rows]="book.items" [count]="book.totalCount" [list]="list" default>
             <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
                 <ng-template let-row="row" ngx-datatable-cell-template>

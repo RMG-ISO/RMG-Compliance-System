@@ -8,7 +8,7 @@ import snq from 'snq';
   selector: 'abp-languages',
   // tslint:disable-next-line: component-max-inline-declarations
   template: `
-    <div
+    <!-- <div
       *ngIf="(dropdownLanguages$ | async)?.length > 0"
       class="dropdown"
       ngbDropdown
@@ -40,7 +40,7 @@ import snq from 'snq';
           >{{ lang?.displayName }}</a
         >
       </div>
-    </div>
+    </div> -->
   `,
 })
 export class LanguagesComponent {

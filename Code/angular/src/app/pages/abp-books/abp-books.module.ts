@@ -1,4 +1,4 @@
-import { SharedModule } from './../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +6,7 @@ import { AbpBooksRoutingModule } from './abp-books-routing.module';
 import { AbpBooksComponent } from './abp-books.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     AbpBooksRoutingModule,
     NgxDatatableModule,
     SharedModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    PerfectScrollbarModule
   ]
 })
 export class AbpBooksModule { }
