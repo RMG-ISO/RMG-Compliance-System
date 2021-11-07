@@ -10,10 +10,10 @@ const routes: Routes = [
     path: 'abp-books',
     loadChildren: () => import('./pages/abp-books/abp-books.module').then(m => m.AbpBooksModule),
   },
-  // {
-  //   path: 'compliance-department',
-  //   loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
-  // },
+  {
+    path: 'compliance-department',
+    loadChildren: () => import('./pages/compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
+  },
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),

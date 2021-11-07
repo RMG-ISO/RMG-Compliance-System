@@ -37,7 +37,7 @@ mat-drawer-container.main-drawer {
         background-color: #EFEFEF;
         .router-content {
             padding: 16px;
-            // scroll-behavior: smooth;
+            scroll-behavior: smooth;
             position: relative;
             // height: calc(100% - 66px );
         }
