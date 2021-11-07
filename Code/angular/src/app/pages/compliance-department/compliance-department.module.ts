@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ComplianceDepartmentRoutingModule } from './compliance-department-routing.module';
 import { ComplianceDepartmentComponent } from './compliance-department.component';
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 @NgModule({
@@ -14,7 +13,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
   imports: [
     CommonModule,
     ComplianceDepartmentRoutingModule,
-    Ng2SmartTableModule,
   ]
 })
 export class ComplianceDepartmentModule { }
