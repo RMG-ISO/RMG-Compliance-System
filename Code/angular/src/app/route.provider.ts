@@ -14,7 +14,14 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-home',
         order: 1,
         layout: eLayoutType.application,
-      },     
+      },
+      {
+        path:'/frameworks',
+        name:'::إدارة اطر العمل',
+        iconClass: 'fas fa-th-large',
+        order: 1,
+        layout: eLayoutType.application,
+      },
       // {
       //   path: '/compliance-department',
       //   name: '::Menu:ComplianceDepartment',
