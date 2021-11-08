@@ -73,6 +73,19 @@
     "AttachmentFileAttachment": "AttachmentFileAttachment",
     "CreateAttachmentFile": "CreateAttachmentFile",
     "EditAttachmentFile": "EditAttachmentFile",
-    "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?"
+    "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?",
+    "Permission:Framework": "Framework",
+    "Menu:Framework": "MenuFramework",
+    "Framework": "Framework",
+    "FrameworkNameAr": "FrameworkNameAr",
+    "FrameworkNameEn": "FrameworkNameEn",
+    "FrameworkShortcutAr": "FrameworkShortcutAr",
+    "FrameworkShortcutEn": "FrameworkShortcutEn",
+    "FrameworkDescriptionAr": "FrameworkDescriptionAr",
+    "FrameworkDescriptionEn": "FrameworkDescriptionEn",
+    "FrameworkStatus": "FrameworkStatus",
+    "CreateFramework": "CreateFramework",
+    "EditFramework": "EditFramework",
+    "FrameworkDeletionConfirmationMessage": "Are you sure to delete the framework {0}?"
   }
 }
