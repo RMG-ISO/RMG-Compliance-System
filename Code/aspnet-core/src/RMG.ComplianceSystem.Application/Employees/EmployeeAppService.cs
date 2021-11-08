@@ -6,6 +6,8 @@ using Volo.Abp.Application.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Volo.Abp;
 
 namespace RMG.ComplianceSystem.Employees
 {
@@ -19,7 +21,7 @@ namespace RMG.ComplianceSystem.Employees
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Employee.Delete;
 
         private readonly IEmployeeRepository _repository;
-        
+
         public EmployeeAppService(IEmployeeRepository repository) : base(repository)
         {
             _repository = repository;
@@ -37,10 +39,32 @@ namespace RMG.ComplianceSystem.Employees
             return Repository.GetAsync(id);
         }
 
-        public async Task<ListResultDto<EmployeeDto>> GetDepartmentListLookupAsync()
+        public async Task<ListResultDto<EmployeeDto>> GetEmployeeListLookupAsync()
         {
             var data = await Repository.GetListAsync();
             return new ListResultDto<EmployeeDto>(ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(data));
+        }
+
+        [AllowAnonymous]
+        [RemoteService(false)]
+        public async Task CreateOrUpdateAsync(Guid id, string fullName, string email, bool isDeleted)
+        {
+            var employee = await Repository.GetAsync(id, includeDetails: false);
+
+            if (employee is null)
+                await Repository.InsertAsync(new Employee(id, fullName, email, null, false), autoSave: true);
+
+            else if (isDeleted)
+                await Repository.DeleteAsync(employee, autoSave: true);
+
+            else
+            {
+                employee.FullName = fullName;
+                employee.Email = email;
+
+                await Repository.UpdateAsync(employee, autoSave: true);
+            }
+
         }
     }
 }

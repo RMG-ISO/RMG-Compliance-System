@@ -11,7 +11,7 @@ namespace RMG.ComplianceSystem.Employees.Dtos
 
         public string Email { get; set; }
 
-        public Guid DepartmentId { get; set; }
+        public Guid? DepartmentId { get; set; }
 
         public bool IsManager { get; set; }
     }
