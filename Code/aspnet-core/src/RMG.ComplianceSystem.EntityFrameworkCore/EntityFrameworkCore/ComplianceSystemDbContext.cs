@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RMG.ComplianceSystem.Authors;
 using RMG.ComplianceSystem.Books;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -15,6 +15,8 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using RMG.ComplianceSystem.Attachments;
+using RMG.ComplianceSystem.Frameworks;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -58,6 +60,9 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<AttachmentFile> AttachmentFiles { get; set; }
+        public DbSet<Framework> Frameworks { get; set; }
 
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
@@ -111,6 +116,38 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     .HasMaxLength(AuthorConsts.MaxNameLength);
 
                 b.HasIndex(x => x.Name);
+            });
+
+
+            builder.Entity<Attachment>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Attachments", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+
+                /* Configure more properties here */
+
+                b.HasMany(t => t.AttachmentFiles).WithOne(t => t.Attachment).HasForeignKey(t => t.AttachmentId);
+            });
+
+
+            builder.Entity<AttachmentFile>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "AttachmentFiles", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention(); 
+                
+
+                /* Configure more properties here */
+            });
+
+
+            builder.Entity<Framework>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Frameworks", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention(); 
+                
+
+                /* Configure more properties here */
             });
         }
     }

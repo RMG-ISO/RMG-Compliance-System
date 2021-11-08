@@ -1,5 +1,9 @@
-﻿using AutoMapper;
+using AutoMapper;
 using RMG.ComplianceSystem.Authors;
+using RMG.ComplianceSystem.Attachments;
+using RMG.ComplianceSystem.Attachments.Dtos;
+using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Frameworks.Dtos;
 using RMG.ComplianceSystem.Books;
 
 namespace RMG.ComplianceSystem
@@ -19,6 +23,14 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateAuthorWithBookDto, Author>();
             CreateMap<CreateBookDto, Book>();
             CreateMap<Author, AuthorWithDetailsDto>();
+
+
+            CreateMap<Attachment, AttachmentDto>();
+            CreateMap<CreateUpdateAttachmentDto, Attachment>(MemberList.Source);
+            CreateMap<AttachmentFile, AttachmentFileDto>();
+            CreateMap<CreateUpdateAttachmentFileDto, AttachmentFile>(MemberList.Source);
+            CreateMap<Framework, FrameworkDto>();
+            CreateMap<CreateUpdateFrameworkDto, Framework>(MemberList.Source);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Attachments;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -39,6 +41,9 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
                 options.AddDefaultRepositories(includeAllEntities: true);
+                options.AddRepository<Attachment, AttachmentRepository>();
+                options.AddRepository<AttachmentFile, AttachmentFileRepository>();
+                options.AddRepository<Framework, FrameworkRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>
