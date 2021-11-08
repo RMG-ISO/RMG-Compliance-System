@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SharedStatus } from '@proxy/shared';
 import { FrameworkService } from '@proxy/frameworks';
 import { MatDialogRef } from '@angular/material/dialog';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-framework',
@@ -20,7 +21,7 @@ export class AddFrameworkComponent implements OnInit {
 
   SharedStatus = SharedStatus
   FormMode = FormMode;
-  
+
   constructor(
     private frameworkService:FrameworkService,
   ) { }
@@ -45,16 +46,26 @@ export class AddFrameworkComponent implements OnInit {
     }
   }
 
+  isSaving = false;
   save() {
     console.log(this.form)
     if(this.form.invalid) return;
+    this.isSaving = true;
     if(this.form.value.id) {
-      this.frameworkService.update(this.form.value.id, this.form.value).subscribe(r => {
+      this.frameworkService.update(this.form.value.id, this.form.value)
+      .pipe(
+        finalize(() => this.isSaving = false)
+      )
+      .subscribe(r => {
         console.log(r);
         this.ref.close(true);
       })
     } else {
-      this.frameworkService.create(this.form.value).subscribe(r => {
+      this.frameworkService.create(this.form.value)
+      .pipe(
+        finalize(() => this.isSaving = false)
+      )
+      .subscribe(r => {
         console.log(r);
         this.ref.close(true);
       })

@@ -74,7 +74,7 @@
                 </button>
                 <ng-container *ngIf="mode != FormMode.View">
                     <span class="space"></span>
-                    <button  mat-raised-button color="primary">
+                    <button  mat-raised-button color="primary" [disabled]="isSaving">
                         {{ '::Actions:Save' | abpLocalization }}
                     </button>
                 </ng-container>
