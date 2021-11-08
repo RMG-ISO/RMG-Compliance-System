@@ -4,7 +4,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedStatus } from '@proxy/shared';
 import { FrameworkService } from '@proxy/frameworks';
-import { MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -27,9 +26,6 @@ export class AddFrameworkComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.mode);
-    console.log(this.data);
-
     this.form = new FormGroup({
       nameAr: new FormControl(null, Validators.required),
       nameEn: new FormControl(null, Validators.required),
@@ -48,7 +44,6 @@ export class AddFrameworkComponent implements OnInit {
 
   isSaving = false;
   save() {
-    console.log(this.form)
     if(this.form.invalid) return;
     this.isSaving = true;
     if(this.form.value.id) {
