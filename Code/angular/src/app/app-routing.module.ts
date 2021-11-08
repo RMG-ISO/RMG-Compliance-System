@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
   },
   {
+    path: 'compliance-department',
+    loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
+  },  
+  {
     path: 'abp-books',
     loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule),
   },  

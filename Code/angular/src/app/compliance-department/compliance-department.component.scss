@@ -1,0 +1,14 @@
+.toggle-btn-cont {
+    // padding-left: 5px;
+    // padding-right: 5px;
+    button {
+        min-width: auto;
+        padding-left: 13px;
+        padding-right: 13px;
+        i {
+            font-size: 20px;
+            transition: transform .3s  ease-in-out;
+        }
+    }
+    
+}

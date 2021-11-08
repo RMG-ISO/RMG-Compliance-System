@@ -1,0 +1,78 @@
+<mat-tab-group mat-align-tabs="start">
+    <mat-tab label="الدومين الرئيسى">
+        الدومين الرئيسى
+    </mat-tab>
+    <mat-tab label="الدومين الفرعى">
+        <ngx-datatable
+        #myTable
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rows]="rows"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        (page)="onPage($event)"
+        
+      >
+        <!-- <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div style="padding-left:35px;">
+              <div><strong>Address</strong></div>
+              <div>{{ row.address.city }}, {{ row.address.state }}</div>
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail> -->
+      
+        <!-- <ngx-datatable-column name="المرجع" prop="reference" [width]="80">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{ rowIndex }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="الدومين بالعربية" prop="domain_ar">
+          <ng-template let-value="value" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{ value }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="الدومين بالإنجليزية" prop="domain_en">
+          <ng-template let-value="value" let-expanded="expanded" ngx-datatable-cell-template>
+            <strong>{{ value }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="التحكمات الفرعية" prop="subControls">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{ value }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="الحالة" prop="status">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <strong>{{ value }}</strong>
+          </ng-template>
+        </ngx-datatable-column> -->
+
+        <ngx-datatable-column *ngFor="let column of columns" [name]="column.name" [prop]="column.prop"></ngx-datatable-column>
+
+        <ngx-datatable-column
+          name="الخيارات"
+          [resizeable]="true"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+          cellClass="p-0 d-flex justify-content-center align-items-center"
+        >
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template >
+         <div class="toggle-btn-cont">
+            <button  mat-button (click)="toggleExpandRow(row)">
+              <i class="fas fa-chevron-up" [style.transform]="expanded ? 'rotate(180deg)' : 'none'"></i>
+            </button>
+         </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      </ngx-datatable>
+    </mat-tab>
+</mat-tab-group>
