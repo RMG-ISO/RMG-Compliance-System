@@ -8,8 +8,8 @@ namespace RMG.ComplianceSystem.Frameworks
     public interface IFrameworkAppService :
         ICrudAppService< 
             FrameworkDto, 
-            Guid, 
-            PagedAndSortedResultRequestDto,
+            Guid,
+            FrameworkPagedAndSortedResultRequestDto,
             CreateUpdateFrameworkDto,
             CreateUpdateFrameworkDto>
     {

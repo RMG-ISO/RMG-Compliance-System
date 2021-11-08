@@ -3,10 +3,13 @@ using RMG.ComplianceSystem.Permissions;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
-    public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
+    public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {
         protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
@@ -20,6 +23,23 @@ namespace RMG.ComplianceSystem.Frameworks
         public FrameworkAppService(IFrameworkRepository repository) : base(repository)
         {
             _repository = repository;
+        }
+
+
+        protected override async Task<IQueryable<Framework>> CreateFilteredQueryAsync(FrameworkPagedAndSortedResultRequestDto input)
+        {
+            return (await Repository.WithDetailsAsync())
+                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.NameAr.Contains(input.Search))
+                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.NameEn.Contains(input.Search))
+                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.ShortcutAr.Contains(input.Search))
+                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.ShortcutEn.Contains(input.Search))
+                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.DescriptionAr.Contains(input.Search))
+                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.DescriptionEn.Contains(input.Search));
+        }
+
+        protected override Task<Framework> GetEntityByIdAsync(Guid id)
+        {
+            return Repository.GetAsync(id);
         }
     }
 }

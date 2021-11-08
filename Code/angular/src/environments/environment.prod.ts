@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'https://iso.digitaltransformationinstitute.org:11001';
 
 export const environment = {
   production: true,
@@ -9,17 +9,23 @@ export const environment = {
     name: 'ComplianceSystem',
     logoUrl: 'assets/logo.png',
   },
+  // oAuthConfig: {
+  //   issuer: 'https://iso.digitaltransformationinstitute.org:11000',
+  //   redirectUri: baseUrl,
+  //   clientId: 'ComplianceSystem_App',
+  //   responseType: 'code',
+  //   scope: 'offline_access ComplianceSystem',
+  //   requireHttps: true
+  // },
   oAuthConfig: {
-    issuer: 'https://localhost:44375',
-    redirectUri: baseUrl,
+    issuer: 'https://iso.digitaltransformationinstitute.org:11000',
     clientId: 'ComplianceSystem_App',
-    responseType: 'code',
+    dummyClientSecret: '1q2w3e*',
     scope: 'offline_access ComplianceSystem',
-    requireHttps: true
   },
   apis: {
     default: {
-      url: 'https://localhost:44375',
+      url: 'https://iso.digitaltransformationinstitute.org:11000',
       rootNamespace: 'RMG.ComplianceSystem',
     },
   },
