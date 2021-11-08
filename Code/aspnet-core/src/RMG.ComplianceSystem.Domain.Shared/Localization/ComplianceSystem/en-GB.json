@@ -86,6 +86,25 @@
     "FrameworkStatus": "FrameworkStatus",
     "CreateFramework": "CreateFramework",
     "EditFramework": "EditFramework",
-    "FrameworkDeletionConfirmationMessage": "Are you sure to delete the framework {0}?"
+    "FrameworkDeletionConfirmationMessage": "Are you sure to delete the framework {0}?",
+    "Permission:Department": "Department",
+    "Menu:Department": "MenuDepartment",
+    "Department": "Department",
+    "DepartmentName": "DepartmentName",
+    "DepartmentEmployees": "DepartmentEmployees",
+    "CreateDepartment": "CreateDepartment",
+    "EditDepartment": "EditDepartment",
+    "DepartmentDeletionConfirmationMessage": "Are you sure to delete the department {0}?",
+    "Permission:Employee": "Employee",
+    "Menu:Employee": "MenuEmployee",
+    "Employee": "Employee",
+    "EmployeeFullName": "EmployeeFullName",
+    "EmployeeEmail": "EmployeeEmail",
+    "EmployeeDepartmentId": "EmployeeDepartmentId",
+    "EmployeeIsManager": "EmployeeIsManager",
+    "EmployeeDepartment": "EmployeeDepartment",
+    "CreateEmployee": "CreateEmployee",
+    "EditEmployee": "EditEmployee",
+    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?"
   }
 }

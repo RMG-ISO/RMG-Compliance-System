@@ -1,3 +1,5 @@
+using RMG.ComplianceSystem.Employees;
+using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Attachments;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +46,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddRepository<Attachment, AttachmentRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();
+                options.AddRepository<Department, DepartmentRepository>();
+                options.AddRepository<Employee, EmployeeRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>
