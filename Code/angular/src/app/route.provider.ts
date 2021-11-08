@@ -15,13 +15,20 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },     
+      // {
+      //   path: '/compliance-department',
+      //   name: '::Menu:ComplianceDepartment',
+      //   iconClass: 'fas fa-home',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   parentName:'::Menu:Home'
+      // },
       {
-        path: '/compliance-department',
-        name: '::Menu:ComplianceDepartment',
+        path:'/compliance-department',
+        name:'::إدارة الامتثال',
         iconClass: 'fas fa-home',
         order: 1,
         layout: eLayoutType.application,
-        parentName:'::Menu:Home'
       },
       {
         path: "/book-store",

@@ -44,15 +44,59 @@ ngb-datepicker {
 ::-webkit-scrollbar-thumb {
     background: rgba(0,0,0,.45) !important;
     border-radius: 15px !important;;
-  }
+}
   
-  ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: rgba(0,0,0,.15) !important;
-  }
+}
   
   
-  ::-webkit-scrollbar {
-    width: 12px;
+::-webkit-scrollbar {
+    width: 6px;
     height: 6px !important;;
-  }
-  
+}
+
+ngx-datatable {
+    .datatable-header .datatable-header-cell.resizeable .resize-handle {
+        visibility: visible;
+        border-color: #ddd;
+    }
+    datatable-body-cell, datatable-header-cell {
+        text-align: center !important;
+    }
+    datatable-scroller {
+        display: block !important;
+    }
+
+
+    datatable-body-cell {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+mat-tab-group  {
+    mat-tab-header {
+        .mat-tab-label{
+            position: relative;
+            &.mat-tab-label-active{
+                opacity: 1;
+                &::after {
+                    background-color: #3f51b5;
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 2px;
+                    width: 100%;
+                    z-index: 1;
+                }
+            }
+        }
+        mat-ink-bar {
+            display: none;
+        }
+    }
+}
