@@ -18,6 +18,9 @@ import { Component } from '@angular/core';
       {{ appInfo.name }}
     </ng-template>
   `,
+  styles:[
+    `img{height: 38px;margin-bottom: -4px;}`
+  ]
 })
 export class LogoComponent {
   get appInfo(): ApplicationInfo {

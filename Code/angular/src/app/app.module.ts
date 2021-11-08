@@ -27,14 +27,6 @@ import(
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  // suppressScrollX: true
-  suppressScrollX: false, suppressScrollY: false
-};
-
-import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 @NgModule({
   imports: [
@@ -54,12 +46,10 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
     ThemeBasicModule.forRoot(),
     MatSidenavModule,
 
-    PerfectScrollbarModule,
     MatExpansionModule,
     MatButtonModule,
     MatMenuModule,
 
-    MalihuScrollbarModule.forRoot(),
   ],
   declarations: [
     AppComponent,
@@ -67,10 +57,6 @@ import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
   ],
   providers: [
     APP_ROUTE_PROVIDER,
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
   ],
   bootstrap: [AppComponent],
 })

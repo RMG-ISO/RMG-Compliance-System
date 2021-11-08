@@ -5,13 +5,14 @@ import { ComplianceDepartmentRoutingModule } from './compliance-department-routi
 import { ComplianceDepartmentComponent } from './compliance-department.component';
 
 
+
 @NgModule({
   declarations: [
     ComplianceDepartmentComponent
   ],
   imports: [
     CommonModule,
-    ComplianceDepartmentRoutingModule
+    ComplianceDepartmentRoutingModule,
   ]
 })
 export class ComplianceDepartmentModule { }
