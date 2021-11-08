@@ -12,6 +12,12 @@ namespace RMG.ComplianceSystem.Settings
 
             context.Add(new SettingDefinition(LocalizationSettingNames.DefaultLanguage, "ar-EG"));
 
+
+            context.Add(new SettingDefinition(ComplianceSystemSettings.Attachment.IsMultiple, "true", isVisibleToClients: true));
+            context.Add(new SettingDefinition(ComplianceSystemSettings.Attachment.MaxFileSize, "10", isVisibleToClients: true));
+            context.Add(new SettingDefinition(ComplianceSystemSettings.Attachment.FileExtentions, "pdf,doc,docx,xls,xlsx,png,jpg,jpeg", isVisibleToClients: true));
+
+
         }
     }
 }

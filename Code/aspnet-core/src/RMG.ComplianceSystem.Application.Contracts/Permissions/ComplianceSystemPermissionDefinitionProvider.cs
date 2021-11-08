@@ -1,4 +1,4 @@
-﻿using RMG.ComplianceSystem.Localization;
+using RMG.ComplianceSystem.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 
@@ -29,6 +29,16 @@ namespace RMG.ComplianceSystem.Permissions
 
             authorsPermission.AddChild(
                 ComplianceSystemPermissions.Authors.Delete, L("Permission:Authors.Delete"));
+
+            var attachmentPermission = myGroup.AddPermission(ComplianceSystemPermissions.Attachment.Default, L("Permission:Attachment"));
+            attachmentPermission.AddChild(ComplianceSystemPermissions.Attachment.Create, L("Permission:Create"));
+            attachmentPermission.AddChild(ComplianceSystemPermissions.Attachment.Update, L("Permission:Update"));
+            attachmentPermission.AddChild(ComplianceSystemPermissions.Attachment.Delete, L("Permission:Delete"));
+
+            var attachmentFilePermission = myGroup.AddPermission(ComplianceSystemPermissions.AttachmentFile.Default, L("Permission:AttachmentFile"));
+            attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Create, L("Permission:Create"));
+            attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Update, L("Permission:Update"));
+            attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)
