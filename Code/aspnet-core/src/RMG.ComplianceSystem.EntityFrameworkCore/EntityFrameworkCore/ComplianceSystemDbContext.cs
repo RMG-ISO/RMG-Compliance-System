@@ -17,21 +17,23 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using RMG.ComplianceSystem.Attachments;
 using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Departments;
+using RMG.ComplianceSystem.Employees;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
     [ReplaceDbContext(typeof(IIdentityDbContext))]
     [ReplaceDbContext(typeof(ITenantManagementDbContext))]
     [ConnectionStringName("Default")]
-    public class ComplianceSystemDbContext : 
+    public class ComplianceSystemDbContext :
         AbpDbContext<ComplianceSystemDbContext>,
         IIdentityDbContext,
         ITenantManagementDbContext
     {
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
-        
+
         #region Entities from the modules
-        
+
         /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
          * and replaced them for this DbContext. This allows you to perform JOIN
          * queries for the entities of these modules over the repositories easily. You
@@ -42,7 +44,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
          * More info: Replacing a DbContext of a module ensures that the related module
          * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
          */
-        
+
         //Identity
         public DbSet<IdentityUser> Users { get; set; }
         public DbSet<IdentityRole> Roles { get; set; }
@@ -50,7 +52,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
         public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
         public DbSet<IdentityLinkUser> LinkUsers { get; set; }
-        
+
         // Tenant Management
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
@@ -63,6 +65,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
         public DbSet<Framework> Frameworks { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
@@ -134,8 +138,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             builder.Entity<AttachmentFile>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "AttachmentFiles", ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention(); 
-                
+                b.ConfigureByConvention();
+
 
                 /* Configure more properties here */
             });
@@ -144,8 +148,30 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             builder.Entity<Framework>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Frameworks", ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention(); 
-                
+                b.ConfigureByConvention();
+
+
+                /* Configure more properties here */
+            });
+
+
+            builder.Entity<Department>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Departments", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+
+                /* Configure more properties here */
+
+                b.HasMany(t => t.Employees).WithOne(t => t.Department).HasForeignKey(t => t.DepartmentId);
+            });
+
+
+            builder.Entity<Employee>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Employees", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
 
                 /* Configure more properties here */
             });

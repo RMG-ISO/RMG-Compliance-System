@@ -44,6 +44,16 @@ namespace RMG.ComplianceSystem.Permissions
             frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Create, L("Permission:Create"));
             frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Update, L("Permission:Update"));
             frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Delete, L("Permission:Delete"));
+
+            var departmentPermission = myGroup.AddPermission(ComplianceSystemPermissions.Department.Default, L("Permission:Department"));
+            departmentPermission.AddChild(ComplianceSystemPermissions.Department.Create, L("Permission:Create"));
+            departmentPermission.AddChild(ComplianceSystemPermissions.Department.Update, L("Permission:Update"));
+            departmentPermission.AddChild(ComplianceSystemPermissions.Department.Delete, L("Permission:Delete"));
+
+            var employeePermission = myGroup.AddPermission(ComplianceSystemPermissions.Employee.Default, L("Permission:Employee"));
+            employeePermission.AddChild(ComplianceSystemPermissions.Employee.Create, L("Permission:Create"));
+            employeePermission.AddChild(ComplianceSystemPermissions.Employee.Update, L("Permission:Update"));
+            employeePermission.AddChild(ComplianceSystemPermissions.Employee.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)

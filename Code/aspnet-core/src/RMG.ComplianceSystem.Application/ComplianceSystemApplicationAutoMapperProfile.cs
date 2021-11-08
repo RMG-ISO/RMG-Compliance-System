@@ -4,6 +4,10 @@ using RMG.ComplianceSystem.Attachments;
 using RMG.ComplianceSystem.Attachments.Dtos;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Frameworks.Dtos;
+using RMG.ComplianceSystem.Departments;
+using RMG.ComplianceSystem.Departments.Dtos;
+using RMG.ComplianceSystem.Employees;
+using RMG.ComplianceSystem.Employees.Dtos;
 using RMG.ComplianceSystem.Books;
 
 namespace RMG.ComplianceSystem
@@ -31,6 +35,10 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateAttachmentFileDto, AttachmentFile>(MemberList.Source);
             CreateMap<Framework, FrameworkDto>();
             CreateMap<CreateUpdateFrameworkDto, Framework>(MemberList.Source);
+            CreateMap<Department, DepartmentDto>();
+            CreateMap<CreateUpdateDepartmentDto, Department>(MemberList.Source);
+            CreateMap<Employee, EmployeeDto>();
+            CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
         }
     }
 }
