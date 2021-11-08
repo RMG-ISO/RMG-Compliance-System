@@ -163,7 +163,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
                 /* Configure more properties here */
 
-                b.HasMany(t => t.Employees).WithOne(t => t.Department).HasForeignKey(t => t.DepartmentId);
+                b.HasMany(t => t.Employees).WithOne(t => t.Department).HasForeignKey(t => t.DepartmentId).IsRequired(false);
             });
 
 
