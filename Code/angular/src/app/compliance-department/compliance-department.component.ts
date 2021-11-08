@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./compliance-department.component.scss']
 })
 export class ComplianceDepartmentComponent implements OnInit {
-
-  constructor() { }
+ 
+  constructor(
+  ) { }
 
   ngOnInit(): void {
   }
 
+  ngAfterViewInit() {
+  }
+
 }
+
+

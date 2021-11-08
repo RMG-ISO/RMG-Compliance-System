@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
-@import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import "./styles/theme.config.scss";
 @keyframes donut-spin {
   0% {
@@ -51,4 +50,5 @@ $custom-typography: mat-typography-config(
   $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
 );
 @include mat-core($custom-typography);
+
 
