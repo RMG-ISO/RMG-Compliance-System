@@ -15,7 +15,7 @@
 
 
   
-<mat-drawer-container class="main-drawer" [hasBackdrop]="windowWidth <= 960">
+<mat-drawer-container class="main-drawer" [hasBackdrop]="windowWidth <= 960" [autosize]="true">
   <mat-drawer #drawer opened [mode]="windowWidth >= 992 ? 'side' : 'over' " [opened]="windowWidth >= 992 ? true : false  " *ngIf="(user.currentUser$ | async)?.isAuthenticated">
     <div class="wrapper" >
       <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
@@ -32,7 +32,7 @@
 
     </div>
   </mat-drawer>
-  <mat-drawer-content autosize="true">
+  <mat-drawer-content >
     <nav class="app-nav d-flex align-items-center justify-content-between" >
 
       <div>

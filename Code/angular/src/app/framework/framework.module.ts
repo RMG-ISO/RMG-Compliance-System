@@ -3,13 +3,13 @@ import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FrameworksRoutingModule } from './frameworks-routing.module';
-import { ListComponent } from './list/list.component';
+import { FrameworkComponent } from './framework.component';
+import { FrameworksRoutingModule } from './framework-routing.module';
 
 
 @NgModule({
   declarations: [
-    ListComponent
+    FrameworkComponent
   ],
   imports: [
     CommonModule,
