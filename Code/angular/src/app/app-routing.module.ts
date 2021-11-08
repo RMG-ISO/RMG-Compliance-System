@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'compliance-department',
-    loadChildren: () => import('./pages/compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
+    loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
   },
   {
     path: 'account',
