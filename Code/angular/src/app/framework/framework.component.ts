@@ -23,7 +23,7 @@ export class FrameworkComponent implements OnInit {
     private confirmation: ConfirmationService,
   ) { }
 
-  book = { items: [], totalCount: 0 } as PagedResultDto<FrameworkDto>;
+  source = { items: [], totalCount: 0 } as PagedResultDto<FrameworkDto>;
 
   ngOnInit(): void {
     this.getList();
@@ -32,7 +32,7 @@ export class FrameworkComponent implements OnInit {
   getList() {
     const bookStreamCreator = (query) => this.frameworkService.getList(query);
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
-      this.book = response;
+      this.source = response;
       console.log(response)
     });
   }
@@ -46,8 +46,8 @@ export class FrameworkComponent implements OnInit {
         mode
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    dialogRef.afterClosed().subscribe(reload => {
+      if(reload) this.getList()
     });
   }
 
