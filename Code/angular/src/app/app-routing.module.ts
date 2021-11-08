@@ -1,4 +1,3 @@
-import { AuthGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -6,18 +5,11 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
-    canActivate:[AuthGuard]
   },
   {
     path: 'abp-books',
     loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule),
-    canActivate:[AuthGuard]
-  },
-  {
-    path: 'compliance-department',
-    loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
-    canActivate:[AuthGuard]
-  },
+  },  
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
