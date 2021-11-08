@@ -38,5 +38,13 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Create = Default + ".Create";
             public const string Delete = Default + ".Delete";
         }
+
+        public class Framework
+        {
+            public const string Default = GroupName + ".Framework";
+            public const string Update = Default + ".Update";
+            public const string Create = Default + ".Create";
+            public const string Delete = Default + ".Delete";
+        }
     }
 }

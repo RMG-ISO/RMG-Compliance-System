@@ -39,6 +39,11 @@ namespace RMG.ComplianceSystem.Permissions
             attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Create, L("Permission:Create"));
             attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Update, L("Permission:Update"));
             attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Delete, L("Permission:Delete"));
+
+            var frameworkPermission = myGroup.AddPermission(ComplianceSystemPermissions.Framework.Default, L("Permission:Framework"));
+            frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Create, L("Permission:Create"));
+            frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Update, L("Permission:Update"));
+            frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)

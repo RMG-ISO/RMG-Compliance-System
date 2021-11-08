@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Attachments;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -42,6 +43,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddDefaultRepositories(includeAllEntities: true);
                 options.AddRepository<Attachment, AttachmentRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
+                options.AddRepository<Framework, FrameworkRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>
