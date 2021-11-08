@@ -21,7 +21,7 @@ export const environment = {
     issuer: 'https://iso.digitaltransformationinstitute.org:11000',
     clientId: 'ComplianceSystem_App',
     dummyClientSecret: '1q2w3e*',
-    scope: 'offline_access openid profile role email phone ComplianceSystem',
+    scope: 'offline_access ComplianceSystem',
   },
   apis: {
     default: {
