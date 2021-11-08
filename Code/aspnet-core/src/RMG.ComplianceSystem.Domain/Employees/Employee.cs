@@ -13,7 +13,7 @@ namespace RMG.ComplianceSystem.Employees
     {
         public string FullName { get; set; }
         public string Email { get; set; }
-        public Guid DepartmentId { get; set; }
+        public Guid? DepartmentId { get; set; }
         public bool IsManager { get; set; }
 
         public virtual Department Department { get; set; }
@@ -26,16 +26,13 @@ namespace RMG.ComplianceSystem.Employees
             Guid id,
             string fullName,
             string email,
-            Guid departmentId,
-            bool isManager,
-            Department department
-        ) : base(id)
+            Guid? departmentId,
+            bool isManager) : base(id)
         {
             FullName = fullName;
             Email = email;
             DepartmentId = departmentId;
             IsManager = isManager;
-            Department = department;
         }
     }
 }
