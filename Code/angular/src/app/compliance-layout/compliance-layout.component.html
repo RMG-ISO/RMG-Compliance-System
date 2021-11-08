@@ -50,17 +50,15 @@
       <abp-current-user #user></abp-current-user>
     </nav>
 
-<!-- wheelSpeed:50 -->
-    
-    <!-- <div class="router-content" [perfectScrollbar]="{wheelSpeed:50}" [style.max-height]="(window.innerHeight - 66 ) + 'px'" [style.height]="(window.innerHeight - 66 ) + 'px'" >
-      <abp-page-alert-container></abp-page-alert-container>
-      <router-outlet #outlet="outlet"></router-outlet>
-    </div> -->
-
-    <div class="router-content" malihu-scrollbar [scrollbarOptions]="{ axis: 'yx', theme: 'minimal-dark', scrollInertia:10 }" [style.height]="(window.innerHeight - 66 ) + 'px'" >
+    <div class="router-content" [style.max-height]="(window.innerHeight - 66 ) + 'px'" [style.height]="(window.innerHeight - 66 ) + 'px'" >
       <abp-page-alert-container></abp-page-alert-container>
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
+
+    <!-- <div class="router-content" malihu-scrollbar [scrollbarOptions]="{ axis: 'y', theme: 'minimal-dark', scrollInertia:10 }" [style.height]="(window.innerHeight - 66 ) + 'px'" >
+      <abp-page-alert-container></abp-page-alert-container>
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div> -->
   </mat-drawer-content>
 </mat-drawer-container> 
 

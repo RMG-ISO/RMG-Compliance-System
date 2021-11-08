@@ -6,7 +6,6 @@ import { BookDto, bookTypeOptions, AuthorLookupDto, BookService } from '@proxy/b
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { MalihuScrollbarService } from 'ngx-malihu-scrollbar';
 
 
 @Component({
@@ -38,7 +37,6 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
     private bookService: BookService,
     private fb: FormBuilder, // inject FormBuilder
     private confirmation: ConfirmationService, // inject the ConfirmationService
-    private mScrollbarService:MalihuScrollbarService
   ) { 
     this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
   }
@@ -52,8 +50,6 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
     });
   }
   ngAfterViewInit() {
-    console.log(this.dataTable)
-    // this.mScrollbarService.initScrollbar('.datatable-scroll', { axis: 'yx', theme: 'minimal-dark', scrollInertia:10, setHeight:true });
     
   }
 
