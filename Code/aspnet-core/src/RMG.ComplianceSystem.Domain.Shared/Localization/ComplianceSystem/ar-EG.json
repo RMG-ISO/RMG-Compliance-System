@@ -1,4 +1,4 @@
-{
+﻿{
   "culture": "ar-EG",
   "texts": {
     "Menu:Home": "الرئيسية",
@@ -105,6 +105,45 @@
     "EmployeeDepartment": "EmployeeDepartment",
     "CreateEmployee": "CreateEmployee",
     "EditEmployee": "EditEmployee",
-    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?"
+    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?",
+
+
+    "Actions:Edit": "تعديل",
+    "Actions:View": "عرض",
+    "Actions:Create": "إضافة",
+    "Actions:Save": "حفظ",
+    "Actions:Cancel": "إلغاء",
+    "Actions:Confirm": "تأكيد",
+    "Actions:Back": "رجوع",
+    "Actions:AddNew": "إضافة",
+    "Actions:Add": "إضافة",
+    "Actions:Closed": "تمت",
+    "Actions:Canceled": "ملغي",
+    "Actions:NoResults": "لا يوجد نتائج",
+    "Actions:Send": "إرسال",
+    "Actions:Permissions": "أذونات",
+    "Actions:Remove": "حذف",
+    "Search":"بحث",
+
+    "Tabel:Status":"الحالة",
+    "Table:Actions":"الخيارات",
+    "Framework:Page:Title":"إدارة اطر العمل",
+    "Framework:Framework":"إطار عمل",
+    "Framework:Name_Ar":"اسم الإطار  بالعربية",
+    "Framework:Name_Ar:P":"الإسم بالعربية",
+    "Framework:Name_En":"اسم الإطار  بالانجليزية",
+    "Framework:Name_En:P":"الاسم بالانجليزية",
+    "Framework:Shortcut_Ar":"الاختصار بالعربية",
+    "Framework:Shortcut_Ar:P":"الاختصار بالعربية",
+    "Framework:Shortcut_En":"الاختصار بالانجليزية",
+    "Framework:Shortcut_En:P":"الاختصار بالانجليزية",
+    "Framework:LastUpdate":"آخر تحديث",
+    "Framework:Description_Ar":"الوصف بالعربية",
+    "Framework:Description_En":"الوصف بالانجليزية",
+    "Framework:Status:Active":"فعال",
+    "Framework:Status:Inactive":"غير فعال"
+    
+
+
   }
 }

@@ -43,7 +43,7 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const bookStreamCreator = (query) => this.bookService.getList(query);
-
+    console.log('goung g')
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
       console.log(response)

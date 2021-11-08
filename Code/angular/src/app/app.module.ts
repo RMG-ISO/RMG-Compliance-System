@@ -1,7 +1,7 @@
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountConfigModule } from '@abp/ng.account/config';
-import { CoreModule } from '@abp/ng.core';
+import { CoreModule, ListService } from '@abp/ng.core';
 import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
@@ -57,6 +57,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   ],
   providers: [
     APP_ROUTE_PROVIDER,
+    ListService
   ],
   bootstrap: [AppComponent],
 })

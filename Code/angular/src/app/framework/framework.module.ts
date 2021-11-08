@@ -4,18 +4,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FrameworkComponent } from './framework.component';
-import { FrameworksRoutingModule } from './framework-routing.module';
+import { FrameworkRoutingModule } from './framework-routing.module';
+import { AddFrameworkComponent } from './add-framework/add-framework.component';
 
 
 @NgModule({
   declarations: [
-    FrameworkComponent
+    FrameworkComponent,
+    AddFrameworkComponent
+  ],
+  entryComponents:[
+    AddFrameworkComponent
   ],
   imports: [
     CommonModule,
-    FrameworksRoutingModule,
+    FrameworkRoutingModule,
     SharedModule,
     MatCardModule
   ]
 })
-export class FrameworksModule { }
+export class FrameworkModule { }

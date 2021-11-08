@@ -10,7 +10,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatButtonModule } from "@angular/material/button";
 
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -78,6 +78,11 @@ import { MatStepperModule } from "@angular/material/stepper";
 
     MatStepperModule,
   ],
-  providers: []
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    } 
+  ]
 })
 export class SharedModule {}

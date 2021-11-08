@@ -105,6 +105,44 @@
     "EmployeeDepartment": "EmployeeDepartment",
     "CreateEmployee": "CreateEmployee",
     "EditEmployee": "EditEmployee",
-    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?"
+    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?",
+
+
+
+    "Actions:Edit": "Edit",
+    "Actions:View": "View",
+    "Actions:Add": "Add",
+    "Actions:Create": "Add",
+    "Actions:Save": "Save",
+    "Actions:Cancel": "Cancel",
+    "Actions:Confirm": "Confirm",
+    "Actions:Review": "Review",
+    "Actions:Back": "Back",
+    "Actions:Closed": "Done",
+    "Actions:Canceled": "Canceled",
+    "Actions:NoResults": "No results found",
+    "Actions:Send": "Send",
+    "Actions:Permissions": "Permissions",
+    "Actions:Remove": "Remove",
+    "Search":"Search",
+
+    "Tabel:Status":"Status",
+    "Table:Actions":"Actions",
+    "Framework:Page:Title":"Framework Management",
+    "Framework:Framework":"Framework",
+    "Framework:Name_Ar":"Framework arabic name",
+    "Framework:Name_Ar:P":"Arabic name",
+    "Framework:Name_En":"Framework english name",
+    "Framework:Name_En:P":"English name",
+    "Framework:Shortcut_Ar":"Arabic shortcut",
+    "Framework:Shortcut_Ar:P":"Arabic shortcut",
+    "Framework:Shortcut_En":"English shortcut",
+    "Framework:Shortcut_En:P":"English shortcut",
+    "Framework:LastUpdate":"Last update",
+    "Framework:Description_Ar":"Arabic description ",
+    "Framework:Description_En":"English description ",
+    "Framework:Status:Active":"Active",
+    "Framework:Status:Inactive":"In Active"
+
   }
 }

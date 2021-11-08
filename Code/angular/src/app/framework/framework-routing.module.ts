@@ -5,7 +5,7 @@ import { FrameworkComponent } from './framework.component';
 const routes: Routes = [
   {
     path:'',
-    redirectTo:'home',
+    redirectTo:'list',
     pathMatch:'full'
   },
   {
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FrameworksRoutingModule { }
+export class FrameworkRoutingModule { }
