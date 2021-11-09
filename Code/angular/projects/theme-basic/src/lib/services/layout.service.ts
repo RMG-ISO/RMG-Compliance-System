@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { eThemeBasicComponents } from '../enums';
 import { SubscriptionService } from '@abp/ng.core';
@@ -16,6 +17,8 @@ export class LayoutService {
 
   navItemsComponentKey = eThemeBasicComponents.NavItems;
 
+  sideNaveToggle = new Subject()
+
   constructor(private subscription: SubscriptionService, private cdRef: ChangeDetectorRef) {}
 
   private checkWindowWidth() {
@@ -28,6 +31,7 @@ export class LayoutService {
     }
     this.smallScreen = isSmallScreen;
     this.cdRef.detectChanges();
+    
   }
 
   subscribeWindowSize() {
@@ -36,4 +40,6 @@ export class LayoutService {
     const resize$ = fromEvent(window, 'resize').pipe(debounceTime(150));
     this.subscription.addOne(resize$, () => this.checkWindowWidth());
   }
+
+
 }

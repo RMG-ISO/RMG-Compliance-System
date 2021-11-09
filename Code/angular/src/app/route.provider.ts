@@ -16,8 +16,8 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path:'/frameworks',
-        name:'::إدارة اطر العمل',
+        path:'/framework',
+        name:'::Framework:Page:Title',
         iconClass: 'fas fa-th-large',
         order: 1,
         layout: eLayoutType.application,
