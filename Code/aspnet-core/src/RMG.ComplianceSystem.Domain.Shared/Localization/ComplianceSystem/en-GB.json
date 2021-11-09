@@ -21,6 +21,8 @@
     "Permission:Delete": "Delete",
     "Enum:SharedStatus:0": "Inactive",
     "Enum:SharedStatus:1": "Active",
+    "yes":"yes",
+    "no":"no",
 
 
     "Menu:BookStore": "Book Store",
@@ -89,7 +91,7 @@
     "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?",
 
     "Permission:Framework": "Framework",
-    "Menu:Framework": "MenuFramework",
+    "Menu:Framework": "Framework",
     "Framework": "Framework",
     "FrameworkNameAr": "Name Arabic",
     "FrameworkNameEn": "Name English",
@@ -98,12 +100,13 @@
     "FrameworkDescriptionAr": "Description Arabic",
     "FrameworkDescriptionEn": "Description English",
     "FrameworkStatus": "Status",
+    "FrameworkLastUpdate": "Last Update",
     "CreateFramework": "Create Framework",
     "EditFramework": "Edit Framework",
     "FrameworkDeletionConfirmationMessage": "Are you sure to delete the framework {0}?",
 
     "Permission:Department": "Department",
-    "Menu:Department": "MenuDepartment",
+    "Menu:Department": "Department",
     "Department": "Department",
     "DepartmentName": "DepartmentName",
     "DepartmentEmployees": "DepartmentEmployees",
@@ -112,7 +115,7 @@
     "DepartmentDeletionConfirmationMessage": "Are you sure to delete the department {0}?",
 
     "Permission:Employee": "Employee",
-    "Menu:Employee": "MenuEmployee",
+    "Menu:Employee": "Employee",
     "Employee": "Employee",
     "EmployeeFullName": "EmployeeFullName",
     "EmployeeEmail": "EmployeeEmail",

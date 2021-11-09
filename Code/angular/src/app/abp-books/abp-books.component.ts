@@ -39,6 +39,7 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
     private confirmation: ConfirmationService, // inject the ConfirmationService
   ) { 
     this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
+    console.log(bookTypeOptions);
   }
 
   ngOnInit() {

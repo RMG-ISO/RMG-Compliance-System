@@ -52,3 +52,6 @@ $custom-typography: mat-typography-config(
 @include mat-core($custom-typography);
 
 
+// datatable-header, datatable-body , .datatable-header-inner, .datatable-row-center, datatable-body-row{
+//   width: 100% !important;
+// }

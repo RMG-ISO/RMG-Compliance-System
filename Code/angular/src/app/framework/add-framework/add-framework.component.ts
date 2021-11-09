@@ -2,7 +2,7 @@ import { FormMode } from './../../shared/interfaces/form-mode';
 import { Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
-import { SharedStatus } from '@proxy/shared';
+import { sharedStatusOptions } from '@proxy/shared';
 import { FrameworkService } from '@proxy/frameworks';
 import { finalize } from 'rxjs/operators';
 
@@ -18,14 +18,16 @@ export class AddFrameworkComponent implements OnInit {
   
   form:FormGroup;
 
-  SharedStatus = SharedStatus
+  sharedStatusOptions = sharedStatusOptions
   FormMode = FormMode;
 
   constructor(
     private frameworkService:FrameworkService,
   ) { }
-
+  title
   ngOnInit(): void {
+    this.title = `::${this.mode}Framework`;
+    console.log(this.sharedStatusOptions)
     this.form = new FormGroup({
       nameAr: new FormControl(null, Validators.required),
       nameEn: new FormControl(null, Validators.required),
