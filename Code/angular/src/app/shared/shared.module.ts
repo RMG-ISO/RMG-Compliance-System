@@ -1,4 +1,4 @@
-import { CoreModule } from '@abp/ng.core';
+import { CoreModule, SubscriptionService } from '@abp/ng.core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
@@ -22,11 +22,12 @@ import { MatMenuModule } from "@angular/material/menu";
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 import { MatStepperModule } from "@angular/material/stepper";
+import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 
 
 @NgModule({
   declarations: [
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
   ],
   imports: [
     CoreModule,
@@ -82,7 +83,9 @@ import { MatStepperModule } from "@angular/material/stepper";
     {
       provide: MatDialogRef,
       useValue: {}
-    } 
+    },
+    LayoutService,
+    SubscriptionService
   ]
 })
 export class SharedModule {}

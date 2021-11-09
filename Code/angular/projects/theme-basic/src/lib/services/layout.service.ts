@@ -17,7 +17,6 @@ export class LayoutService {
 
   navItemsComponentKey = eThemeBasicComponents.NavItems;
 
-  sideNaveToggle = new Subject()
 
   constructor(private subscription: SubscriptionService, private cdRef: ChangeDetectorRef) {}
 

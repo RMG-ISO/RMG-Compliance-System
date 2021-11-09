@@ -94,8 +94,8 @@
                 <label for="book-type">{{ '::Type' | abpLocalization }}</label><span> * </span>
                 <select class="form-control" id="book-type" formControlName="type">
                     <option [ngValue]="null">{{'::SelectBookType' | abpLocalization}}</option>
-                    <option [ngValue]="type.value" *ngFor="let type of bookTypes"> {{ '::Enum:BookType:' + type.value |
-                        abpLocalization }}</option>
+                    <option [ngValue]="type.value" *ngFor="let type of bookTypes"> 
+                        {{ '::Enum:BookType:' + type.value | abpLocalization }}</option>
                 </select>
             </div>
 
