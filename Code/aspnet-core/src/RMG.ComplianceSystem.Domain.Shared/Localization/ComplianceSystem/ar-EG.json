@@ -93,7 +93,7 @@
 
     "Permission:Framework": "Framework",
     "Menu:Framework": "أطر العمل",
-    "Framework": "إطار عمل",
+    "Framework": "أطر العمل",
     "FrameworkNameAr": "الاسم  بالعربية",
     "FrameworkNameEn": "الاسم  بالانجليزية",
     "FrameworkShortcutAr": "الاختصار بالعربية",
@@ -108,7 +108,7 @@
 
     "Permission:Department": "الإدرارات",
     "Menu:Department": "الإدرارات",
-    "Department": "الإدارة",
+    "Department": "الإدرارات",
     "DepartmentName": "اسم الإدارة",
     "DepartmentEmployees": "الموظفين",
     "CreateDepartment": "إنشاء إدارة",
@@ -117,7 +117,7 @@
 
     "Permission:Employee": "الموظفين",
     "Menu:Employee": "الموظفين",
-    "Employee": "الموظف",
+    "Employee": "الموظفين",
     "EmployeeFullName": "الاسم الكامل",
     "EmployeeEmail": "البريد الإلكتروني",
     "EmployeeDepartmentId": "الإدارة",

@@ -34,7 +34,7 @@ function configureRoutes(routesService: RoutesService) {
         name:'::Menu:Department',
         iconClass: 'fas fa-building',
         order: 1,
-        parentName:'::Menu:Settings',
+        parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
       },
 
@@ -43,7 +43,7 @@ function configureRoutes(routesService: RoutesService) {
         name:'::Menu:Employee',
         iconClass: 'fas fa-users',
         order: 2,
-        parentName:'::Menu:Settings',
+        parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
       },
       
