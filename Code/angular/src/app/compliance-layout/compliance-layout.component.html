@@ -18,8 +18,8 @@
     [hasBackdrop]="windowWidth <= 960" [autosize]="true"
     [opened]="windowWidth >= 992 ? true : false  "
    -->
-<mat-drawer-container class="main-drawer" [autosize]="true">
-  <mat-drawer #drawer [mode]="windowWidth >= 992 ? 'side' : 'over' "  *ngIf="(user.currentUser$ | async)?.isAuthenticated">
+<mat-drawer-container class="main-drawer" [autosize]="true" [hasBackdrop]="windowWidth <= 992" [autosize]="true">
+  <mat-drawer #drawer [mode]="windowWidth >= 992 ? 'side' : 'over' " [opened]="windowWidth >= 992 ? true : false  " *ngIf="(user.currentUser$ | async)?.isAuthenticated">
     <div class="wrapper" >
       <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
       <abp-routes
