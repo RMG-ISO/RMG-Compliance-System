@@ -24,7 +24,7 @@ function configureRoutes(routesService: RoutesService) {
       },
       {
         path:'/department',
-        name:'::Menu:Settings',
+        name:'::Menu:ComplianceSystemSettings',
         iconClass: 'fas fa-cogs',
         order: 1,
         layout: eLayoutType.application,
