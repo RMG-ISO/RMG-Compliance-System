@@ -7,7 +7,6 @@ import { FormMode } from '../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -19,7 +18,6 @@ export class FrameworkComponent implements OnInit {
   @ViewChild("dialogRef") dialogRef: TemplateRef<AddFrameworkComponent>;
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
-  @ViewChild('dataTable', { static: false }) table: DatatableComponent;
 
   constructor(
     public readonly list: ListService,
@@ -39,11 +37,7 @@ export class FrameworkComponent implements OnInit {
     const bookStreamCreator = (query) => this.frameworkService.getList(query);
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
-      this.totalCount = response.totalCount;
-      // setInterval(() => {
-      //   this.items = [...this.items]
-      // }, 1000)
-      console.log(response)
+      this.totalCount = response.totalCount;     
     });
   }
 

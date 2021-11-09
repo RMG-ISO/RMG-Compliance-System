@@ -3,6 +3,10 @@ import { ConfigStateService, LanguageInfo, SessionStateService, SubscriptionServ
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 declare var ng;
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MatDrawer } from '@angular/material/sidenav';
+
 
 @Component({
   selector: 'app-compliance-layout',
@@ -11,21 +15,21 @@ declare var ng;
   providers: [LayoutService, SubscriptionService],
 })
 export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
-  @ViewChild('drawer') drawer;
+  @ViewChild('drawer') drawer: MatDrawer;
   window = window;
   // static type = eLayoutType.application;
 
   constructor(
     public service: LayoutService,
-    private cdk:ChangeDetectorRef,
-    private layoutService:LayoutService,
-    private ngZone:NgZone,
-    private appLayoutService:AppLayoutService
-    ) {}
+    private cdk: ChangeDetectorRef,
+    private layoutService: LayoutService,
+    private ngZone: NgZone,
+    private appLayoutService: AppLayoutService
+  ) { }
 
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
-   
+
   }
 
   ngAfterViewInit() {
@@ -40,19 +44,16 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
 
   toggleDraw() {
     this.drawer.toggle();
-    // this.appLayoutService.sideNavToggle.next(this.windowWidth)
-    // let tables = document.querySelectorAll('ngx-datatable') as any;
-    // for(let table of tables) {
-    //   let ngEle = ng.getComponent(table);
-    //   console.log(ngEle);
-    //   let temp =  [...ngEle.rows];
-    //   ngEle.rows = [];
-    //   setTimeout(() => {
-    //     ngEle.rows = temp;
-    //     ngEle.recalculate();
-    //   }, 100)
-    // }
-   
-    // this.cdk.detectChanges()
+
+    this.drawer.openedChange.subscribe(t => {
+      let tables = document.querySelectorAll('ngx-datatable');
+      for (let table of tables as any) {
+        let ngEle = ng.getComponent(table);
+        var el = <DatatableComponent>ngEle;
+        el.recalculate()
+      }
+    })
+
+
   }
 }

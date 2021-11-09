@@ -24,9 +24,17 @@ function configureRoutes(routesService: RoutesService) {
       },
       {
         path:'/department',
+        name:'::Menu:ComplianceSystemSettings',
+        iconClass: 'fas fa-cogs',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/department',
         name:'::Menu:Department',
         iconClass: 'fas fa-building',
         order: 1,
+        parentName:'::Menu:Settings',
         layout: eLayoutType.application,
       },
 
@@ -34,7 +42,8 @@ function configureRoutes(routesService: RoutesService) {
         path:'/employee',
         name:'::Menu:Employee',
         iconClass: 'fas fa-users',
-        order: 1,
+        order: 2,
+        parentName:'::Menu:Settings',
         layout: eLayoutType.application,
       },
       
@@ -47,41 +56,35 @@ function configureRoutes(routesService: RoutesService) {
       //   layout: eLayoutType.application,
       //   parentName:'::Menu:Home'
       // },
-      {
-        path:'/compliance-department',
-        name:'::إدارة الامتثال',
-        iconClass: 'fas fa-home',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path: "/book-store",
-        name: "::Menu:BookStore",
-        iconClass: "fas fa-book",
-        order: 2,
-        layout: eLayoutType.application,
-      },
-      {
-        path: "/books",
-        name: "::Menu:Books",
-        parentName: "::Menu:BookStore",
-        requiredPolicy:"ComplianceSystem.Books",
-        layout: eLayoutType.application,
-      },
-      {
-        path: "/authors",
-        name: "::Menu:Authors",
-        parentName: "::Menu:BookStore",
-        requiredPolicy:"ComplianceSystem.Authors",
-        layout: eLayoutType.application,
-      },
-      {
-        path: "/abp-books",
-        name: "::Menu:abp-Books",
-        parentName: "::Menu:BookStore",
-        requiredPolicy:"ComplianceSystem.Books",
-        layout: eLayoutType.application,
-      },
+     
+      // {
+      //   path: "/book-store",
+      //   name: "::Menu:BookStore",
+      //   iconClass: "fas fa-book",
+      //   order: 2,
+      //   layout: eLayoutType.application,
+      // },
+      // {
+      //   path: "/books",
+      //   name: "::Menu:Books",
+      //   parentName: "::Menu:BookStore",
+      //   requiredPolicy:"ComplianceSystem.Books",
+      //   layout: eLayoutType.application,
+      // },
+      // {
+      //   path: "/authors",
+      //   name: "::Menu:Authors",
+      //   parentName: "::Menu:BookStore",
+      //   requiredPolicy:"ComplianceSystem.Authors",
+      //   layout: eLayoutType.application,
+      // },
+      // {
+      //   path: "/abp-books",
+      //   name: "::Menu:abp-Books",
+      //   parentName: "::Menu:BookStore",
+      //   requiredPolicy:"ComplianceSystem.Books",
+      //   layout: eLayoutType.application,
+      // },
 
     ]);
   };
