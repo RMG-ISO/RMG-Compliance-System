@@ -12,7 +12,7 @@ export interface CreateUpdateFrameworkDto {
   status: SharedStatus;
 }
 
-export interface FrameworkDto extends FullAuditedEntityWithUserDto<string, IdentityUserDto> {
+export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
   nameEn?: string;
   shortcutAr?: string;

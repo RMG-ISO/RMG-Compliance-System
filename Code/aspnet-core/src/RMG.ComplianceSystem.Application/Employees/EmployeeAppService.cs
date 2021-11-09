@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
+using Volo.Abp.Data;
 
 namespace RMG.ComplianceSystem.Employees
 {
@@ -21,10 +22,16 @@ namespace RMG.ComplianceSystem.Employees
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Employee.Delete;
 
         private readonly IEmployeeRepository _repository;
+        private readonly IDataFilter _dataFilter;
 
-        public EmployeeAppService(IEmployeeRepository repository) : base(repository)
+
+        public EmployeeAppService(
+            IEmployeeRepository repository,
+                        IDataFilter dataFilter
+) : base(repository)
         {
             _repository = repository;
+            _dataFilter = dataFilter;
         }
 
         protected override async Task<IQueryable<Employee>> CreateFilteredQueryAsync(EmployeePagedAndSortedResultRequestDto input)
@@ -49,20 +56,24 @@ namespace RMG.ComplianceSystem.Employees
         [RemoteService(false)]
         public async Task CreateOrUpdateAsync(Guid id, string fullName, string email, bool isDeleted)
         {
-            var employee = await Repository.GetAsync(id, includeDetails: false);
-
-            if (employee is null)
-                await Repository.InsertAsync(new Employee(id, fullName, email, null, false), autoSave: true);
-
-            else if (isDeleted)
-                await Repository.DeleteAsync(employee, autoSave: true);
-
-            else
+            using (_dataFilter.Disable<ISoftDelete>())
             {
-                employee.FullName = fullName;
-                employee.Email = email;
+                var employee = Repository.SingleOrDefault(t => t.Id == id);
 
-                await Repository.UpdateAsync(employee, autoSave: true);
+                if (employee is null)
+                    await Repository.InsertAsync(new Employee(id, fullName, email, null, false), autoSave: true);
+
+                else if (isDeleted)
+                    await Repository.DeleteAsync(employee, autoSave: true);
+
+                else
+                {
+                    employee.FullName = fullName;
+                    employee.Email = email;
+                    employee.IsDeleted = isDeleted;
+
+                    await Repository.UpdateAsync(employee, autoSave: true);
+                }
             }
 
         }
