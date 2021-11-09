@@ -91,9 +91,9 @@
     "EditAttachmentFile": "EditAttachmentFile",
     "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?",
 
-    "Permission:Framework": "Framework",
-    "Menu:Framework": "Framework",
-    "Framework": "Framework",
+    "Permission:Framework": "Frameworks",
+    "Menu:Framework": "Frameworks",
+    "Framework": "Frameworks",
     "FrameworkNameAr": "Name Arabic",
     "FrameworkNameEn": "Name English",
     "FrameworkShortcutAr": "Shortcut Arabic",
@@ -108,7 +108,7 @@
 
     "Permission:Department": "Departments",
     "Menu:Department": "Departments",
-    "Department": "Department",
+    "Department": "Departments",
     "DepartmentName": "Name",
     "DepartmentEmployees": "Employees",
     "CreateDepartment": "Create Department",
@@ -117,7 +117,7 @@
 
     "Permission:Employee": "Employees",
     "Menu:Employee": "Employees",
-    "Employee": "Employee",
+    "Employee": "Employees",
     "EmployeeFullName": "Full Name",
     "EmployeeEmail": "Email",
     "EmployeeDepartmentId": "Department",
