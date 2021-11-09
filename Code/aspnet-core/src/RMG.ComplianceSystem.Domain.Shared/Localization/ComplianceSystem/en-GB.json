@@ -21,6 +21,8 @@
     "Permission:Delete": "Delete",
     "Enum:SharedStatus:0": "Inactive",
     "Enum:SharedStatus:1": "Active",
+    "yes":"yes",
+    "no":"no",
 
 
     "Menu:BookStore": "Book Store",

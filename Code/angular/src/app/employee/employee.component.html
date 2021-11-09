@@ -62,8 +62,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="department-name">{{ '::EmployeeFullName' | abpLocalization }}</label><span> * </span>
-                        <input type="text" id="department-name" class="form-control" formControlName="fullName" autofocus />
+                        <label for="EmployeeFullName">{{ '::EmployeeFullName' | abpLocalization }}</label><span> * </span>
+                        <input type="text" id="EmployeeFullName" class="form-control" formControlName="fullName" autofocus />
                     </div>
                 </div>
             </div>
@@ -71,8 +71,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="department-name">{{ '::EmployeeEmail' | abpLocalization }}</label><span> * </span>
-                        <input type="email" id="department-name" class="form-control" formControlName="email" autofocus />
+                        <label for="EmployeeEmail">{{ '::EmployeeEmail' | abpLocalization }}</label><span> * </span>
+                        <input type="email" id="EmployeeEmail" class="form-control" formControlName="email" autofocus />
                     </div>
                 </div>
             </div>
@@ -80,8 +80,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="status">{{ '::EmployeeDepartmentId' | abpLocalization }}</label><span> * </span>
-                        <select class="form-control" id="status" formControlName="departmentId">
+                        <label for="EmployeeDepartmentId">{{ '::EmployeeDepartmentId' | abpLocalization }}</label><span> * </span>
+                        <select class="form-control" id="EmployeeDepartmentId" formControlName="departmentId">
                             <option  *ngFor="let department of departments" [value]="department.id">
                                 {{  department.name | abpLocalization }}
                             </option>
@@ -90,18 +90,18 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="status">{{ '::EmployeeIsManager' | abpLocalization }}</label><span> * </span>
+                        <label >{{ '::EmployeeIsManager' | abpLocalization }}</label><span> * </span>
                         <div class="d-flex justify-content-center align-items-center">
                             <div class="form-check">
                                 <input class="form-check-input" [value]="true" type="radio" name="isManager" id="true" formControlName="isManager">
                                 <label class="form-check-label" for="true">
-                                    {{ '::true' | abpLocalization }}
+                                    {{ '::yes' | abpLocalization }}
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input [value]="false" class="form-check-input" type="radio" name="isManager" id="false" formControlName="isManager">
                                 <label class="form-check-label" for="false">
-                                   {{ '::false' | abpLocalization }}
+                                   {{ '::no' | abpLocalization }}
                                 </label>
                             </div>
                         </div>

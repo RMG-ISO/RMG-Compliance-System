@@ -21,6 +21,8 @@
     "Permission:Delete": "حذف",
     "Enum:SharedStatus:0": "غير فعال",
     "Enum:SharedStatus:1": "فعال",
+    "yes":"نعم",
+    "no":"لا",
 
 
     "Menu:BookStore": "معرض الكتب",
