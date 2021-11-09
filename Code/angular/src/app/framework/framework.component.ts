@@ -40,9 +40,9 @@ export class FrameworkComponent implements OnInit {
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
-      setInterval(() => {
-        this.items = [...this.items]
-      }, 100)
+      // setInterval(() => {
+      //   this.items = [...this.items]
+      // }, 100)
       console.log(response)
     });
   }
