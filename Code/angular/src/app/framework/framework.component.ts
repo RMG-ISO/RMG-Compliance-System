@@ -29,24 +29,12 @@ export class FrameworkComponent implements OnInit {
     public  dialog: MatDialog,
     private confirmation: ConfirmationService,
     private router:Router,
-    private appLayoutService:AppLayoutService,
-    private ngZone:NgZone
   ) { }
 
   items
   totalCount
   ngOnInit(): void {
     this.getList();
-    setTimeout(() => {
-      console.log(this.table)
-    }, 100)
-
-    this.appLayoutService.sideNavToggle.subscribe(r => {
-      console.log('rr',r );
-        this.items = [...this.items]
-        this.table.recalculate();
-    })
-    
   }
 
   getList() {

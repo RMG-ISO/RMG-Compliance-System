@@ -40,21 +40,19 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
 
   toggleDraw() {
     this.drawer.toggle();
-    this.appLayoutService.sideNavToggle.next(this.windowWidth)
-    let tables = document.querySelectorAll('ngx-datatable') as any;
-    for(let table of tables) {
-      // this.ngZone.run(() => {
-        let ngEle = ng.getComponent(table);
-        console.log(ngEle);
-        let temp =  [...ngEle.rows];
-        ngEle.rows = [];
-        setTimeout(() => {
-          ngEle.rows = temp;
-        }, 100)
-         setTimeout(() => {ngEle.recalculateDims();ngEle.recalculateColumns()})
-      // })
-    }
+    // this.appLayoutService.sideNavToggle.next(this.windowWidth)
+    // let tables = document.querySelectorAll('ngx-datatable') as any;
+    // for(let table of tables) {
+    //   let ngEle = ng.getComponent(table);
+    //   console.log(ngEle);
+    //   let temp =  [...ngEle.rows];
+    //   ngEle.rows = [];
+    //   setTimeout(() => {
+    //     ngEle.rows = temp;
+    //     ngEle.recalculate();
+    //   }, 100)
+    // }
    
-    this.cdk.detectChanges()
+    // this.cdk.detectChanges()
   }
 }
