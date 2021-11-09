@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DepartmentDto } from '@proxy/departments/dtos';
 
 @Component({
   selector: 'app-department',
@@ -19,16 +20,24 @@ export class DepartmentComponent implements OnInit {
   sharedStatusOptions = sharedStatusOptions;
   @ViewChild('dataTable', { static: false }) table: DatatableComponent;
 
+
+  items: DepartmentDto[];
+  totalCount: number;
+  departments: DepartmentDto[];
+  isModalOpen: boolean = false;
+  selected: DepartmentDto;
+  form: FormGroup;
+  
+
   constructor(
     public readonly list: ListService,
-    private departmentService:DepartmentService,
-    public  dialog: MatDialog,
+    private departmentService: DepartmentService,
+    public dialog: MatDialog,
     private confirmation: ConfirmationService,
-    private router:Router,
+    private router: Router,
   ) { }
 
-  items
-  totalCount
+
   ngOnInit(): void {
     this.getList();
   }
@@ -41,8 +50,6 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
-
- 
   delete(id: string) {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
@@ -51,31 +58,20 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
-  activate(ev) {
-    if(ev.type === 'click') this.router.navigate(['/framework', ev.row.id])
-  }
-
-
-
-  isModalOpen = false;
-  selected
-  openDialog(data = {}) {
+  openDialog(data: DepartmentDto) {
     this.selected = data;
     this.buildForm();
     this.isModalOpen = true;
   }
 
-  // add buildForm method
-  form
   buildForm() {
-    this.form =  new FormGroup({
+    this.form = new FormGroup({
       name: new FormControl(null, Validators.required),
-      id:new FormControl(null)
+      id: new FormControl(null)
     })
     this.form.patchValue(this.selected);
   }
 
-  // add save method
   save() {
     if (this.form.invalid) {
       return;

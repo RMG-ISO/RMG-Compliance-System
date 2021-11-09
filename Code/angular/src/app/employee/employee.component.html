@@ -28,8 +28,7 @@
         #dataTable
         [rows]="items"
         [count]="totalCount"
-        [list]="list"
-        (activate)="activate($event)"
+        [list]="list"        
         >
             <ngx-datatable-column [name]="'::EmployeeFullName' | abpLocalization" prop="fullName"></ngx-datatable-column>
 

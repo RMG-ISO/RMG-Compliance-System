@@ -8,7 +8,7 @@ export interface CreateUpdateEmployeeDto {
   isManager: boolean;
 }
 
-export interface EmployeeDto extends FullAuditedEntityWithUserDto<string, IdentityUserDto> {
+export interface EmployeeDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   fullName?: string;
   email?: string;
   departmentId?: string;

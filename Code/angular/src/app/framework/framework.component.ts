@@ -8,6 +8,7 @@ import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FrameworkDto } from '@proxy/frameworks/dtos';
 
 @Component({
   selector: 'app-framework',
@@ -15,20 +16,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./framework.component.scss']
 })
 export class FrameworkComponent implements OnInit {
-  @ViewChild("dialogRef") dialogRef: TemplateRef<AddFrameworkComponent>;
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
+  items: FrameworkDto[];
+  totalCount: number;
+  isModalOpen: boolean = false;
+  selected: FrameworkDto;
+  form: FormGroup;
 
   constructor(
     public readonly list: ListService,
-    private frameworkService:FrameworkService,
-    public  dialog: MatDialog,
+    private frameworkService: FrameworkService,
+    public dialog: MatDialog,
     private confirmation: ConfirmationService,
-    private router:Router,
+    private router: Router,
   ) { }
 
-  items
-  totalCount
+
   ngOnInit(): void {
     this.getList();
   }
@@ -37,23 +41,12 @@ export class FrameworkComponent implements OnInit {
     const bookStreamCreator = (query) => this.frameworkService.getList(query);
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
-      this.totalCount = response.totalCount;     
+      this.totalCount = response.totalCount;
     });
   }
 
 
-  // openDialog(data = null, mode = FormMode.Create) {
-  //   console.log(data, mode);
-  //   const dialogRef = this.dialog.open(this.dialogRef, {
-  //     data :{
-  //       data,
-  //       mode
-  //     }
-  //   });
-  //   dialogRef.afterClosed().subscribe(reload => {
-  //     if(reload) this.getList()
-  //   });
-  // }
+
 
   delete(id: string) {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
@@ -64,23 +57,21 @@ export class FrameworkComponent implements OnInit {
   }
 
   activate(ev) {
-    if(ev.type === 'click') this.router.navigate(['/framework', ev.row.id])
+    if (ev.type === 'click') this.router.navigate(['/framework', ev.row.id])
   }
 
 
 
-  isModalOpen = false;
-  selected
-  openDialog(data = {}) {
+
+  openDialog(data: FrameworkDto) {
     this.selected = data;
     this.buildForm();
     this.isModalOpen = true;
   }
 
-  // add buildForm method
-  form
+
   buildForm() {
-    this.form =  new FormGroup({
+    this.form = new FormGroup({
       nameAr: new FormControl(null, Validators.required),
       nameEn: new FormControl(null, Validators.required),
       shortcutAr: new FormControl(null, Validators.required),
@@ -88,12 +79,11 @@ export class FrameworkComponent implements OnInit {
       descriptionAr: new FormControl(null, Validators.required),
       descriptionEn: new FormControl(null, Validators.required),
       status: new FormControl(null, Validators.required),
-      id:new FormControl(null)
+      id: new FormControl(null)
     })
     this.form.patchValue(this.selected);
   }
 
-  // add save method
   save() {
     if (this.form.invalid) {
       return;
