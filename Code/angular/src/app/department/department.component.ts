@@ -1,8 +1,7 @@
-import { FrameworkService } from './../proxy/frameworks/framework.service';
+import { DepartmentService } from '../proxy/departments/department.service';
 import { ListService } from '@abp/ng.core';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddFrameworkComponent } from './add-framework/add-framework.component';
 import { FormMode } from '../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Router } from '@angular/router';
@@ -11,19 +10,18 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-framework',
-  templateUrl: './framework.component.html',
-  styleUrls: ['./framework.component.scss']
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrls: ['./department.component.scss']
 })
-export class FrameworkComponent implements OnInit {
-  @ViewChild("dialogRef") dialogRef: TemplateRef<AddFrameworkComponent>;
+export class DepartmentComponent implements OnInit {
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
   @ViewChild('dataTable', { static: false }) table: DatatableComponent;
 
   constructor(
     public readonly list: ListService,
-    private frameworkService:FrameworkService,
+    private departmentService:DepartmentService,
     public  dialog: MatDialog,
     private confirmation: ConfirmationService,
     private router:Router,
@@ -36,35 +34,19 @@ export class FrameworkComponent implements OnInit {
   }
 
   getList() {
-    const bookStreamCreator = (query) => this.frameworkService.getList(query);
+    const bookStreamCreator = (query) => this.departmentService.getList(query);
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
-      // setInterval(() => {
-      //   this.items = [...this.items]
-      // }, 1000)
-      console.log(response)
     });
   }
 
 
-  // openDialog(data = null, mode = FormMode.Create) {
-  //   console.log(data, mode);
-  //   const dialogRef = this.dialog.open(this.dialogRef, {
-  //     data :{
-  //       data,
-  //       mode
-  //     }
-  //   });
-  //   dialogRef.afterClosed().subscribe(reload => {
-  //     if(reload) this.getList()
-  //   });
-  // }
-
+ 
   delete(id: string) {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.frameworkService.delete(id).subscribe(() => this.list.get());
+        this.departmentService.delete(id).subscribe(() => this.list.get());
       }
     });
   }
@@ -87,13 +69,7 @@ export class FrameworkComponent implements OnInit {
   form
   buildForm() {
     this.form =  new FormGroup({
-      nameAr: new FormControl(null, Validators.required),
-      nameEn: new FormControl(null, Validators.required),
-      shortcutAr: new FormControl(null, Validators.required),
-      shortcutEn: new FormControl(null, Validators.required),
-      descriptionAr: new FormControl(null, Validators.required),
-      descriptionEn: new FormControl(null, Validators.required),
-      status: new FormControl(null, Validators.required),
+      name: new FormControl(null, Validators.required),
       id:new FormControl(null)
     })
     this.form.patchValue(this.selected);
@@ -106,8 +82,8 @@ export class FrameworkComponent implements OnInit {
     }
 
     const request = this.selected.id
-      ? this.frameworkService.update(this.selected.id, this.form.value)
-      : this.frameworkService.create(this.form.value);
+      ? this.departmentService.update(this.selected.id, this.form.value)
+      : this.departmentService.create(this.form.value);
 
     request.subscribe(() => {
       this.isModalOpen = false;

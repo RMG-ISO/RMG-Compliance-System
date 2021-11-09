@@ -17,11 +17,28 @@ function configureRoutes(routesService: RoutesService) {
       },
       {
         path:'/framework',
-        name:'::Framework:Page:Title',
+        name:'::Menu:Framework',
         iconClass: 'fas fa-th-large',
         order: 1,
         layout: eLayoutType.application,
       },
+      {
+        path:'/department',
+        name:'::Menu:Department',
+        iconClass: 'fas fa-building',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+
+      {
+        path:'/employee',
+        name:'::Menu:Employee',
+        iconClass: 'fas fa-users',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      
+
       // {
       //   path: '/compliance-department',
       //   name: '::Menu:ComplianceDepartment',
