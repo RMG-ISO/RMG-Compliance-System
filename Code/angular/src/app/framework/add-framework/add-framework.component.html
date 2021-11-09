@@ -1,22 +1,21 @@
 <form [formGroup]="form" (ngSubmit)="save()">
     <mat-card>
         <mat-card-title>
-            {{ ('::Actions:' + mode) | abpLocalization }}
-            {{ '::Framework:Framework' | abpLocalization }}
+            {{ title | abpLocalization }}
         </mat-card-title>
         <mat-card-content>
             <div class="row">
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>
-                            {{ '::Framework:Name_Ar:P' | abpLocalization }}
+                            {{ '::FrameworkNameAr' | abpLocalization }}
                         </mat-label>
                         <input matInput formControlName="nameAr">
                     </mat-form-field>  
                 </div>
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label>{{ '::Framework:Name_En:P' | abpLocalization }}</mat-label>
+                        <mat-label>{{ '::FrameworkNameEn' | abpLocalization }}</mat-label>
                         <input matInput formControlName="nameEn">
                     </mat-form-field>  
                 </div>
@@ -25,13 +24,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label>{{ '::Framework:Shortcut_Ar:P' | abpLocalization }}</mat-label>
+                        <mat-label>{{ '::FrameworkShortcutAr' | abpLocalization }}</mat-label>
                         <input matInput formControlName="shortcutAr">
                     </mat-form-field>  
                 </div>
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label>{{ '::Framework:Shortcut_En:P' | abpLocalization }}</mat-label>
+                        <mat-label>{{ '::FrameworkShortcutEn' | abpLocalization }}</mat-label>
                         <input matInput formControlName="shortcutEn" >
                     </mat-form-field>  
                 </div>
@@ -40,7 +39,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <mat-form-field appearance="outline">
-                        <mat-label> {{ '::Framework:Description_Ar' | abpLocalization }} </mat-label>
+                        <mat-label> {{ '::FrameworkDescriptionAr' | abpLocalization }} </mat-label>
                          <textarea matInput formControlName="descriptionAr"></textarea>
                     </mat-form-field>  
                 </div>
@@ -49,7 +48,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <mat-form-field appearance="outline">
-                        <mat-label> {{ '::Framework:Description_En' | abpLocalization }} </mat-label>
+                        <mat-label> {{ '::FrameworkDescriptionEn' | abpLocalization }} </mat-label>
                          <textarea matInput formControlName="descriptionEn"></textarea>
                     </mat-form-field>  
                 </div>
@@ -58,10 +57,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label> {{ '::Table:Status' }} </mat-label>
+                        <mat-label> {{ '::FrameworkStatus' | abpLocalization }} </mat-label>
                         <mat-select name="status" formControlName="status">
-                            <mat-option [value]="SharedStatus.Active"> {{ ( '::Framework:Status:' + SharedStatus[SharedStatus.Active] ) | abpLocalization }} </mat-option>
-                            <mat-option [value]="SharedStatus.Inactive"> {{ ( '::Framework:Status:' + SharedStatus[SharedStatus.Inactive] ) | abpLocalization }} </mat-option>
+                            <mat-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                                 {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                                </mat-option>
                         </mat-select>
                     </mat-form-field>  
                 </div>
@@ -70,12 +70,12 @@
 
             <mat-card-actions align="end">
                 <button mat-raised-button (click)="ref.close()" color="warn" type="button">
-                    {{ '::Actions:Back' | abpLocalization }}
+                    {{ '::Close' | abpLocalization }}
                 </button>
                 <ng-container *ngIf="mode != FormMode.View">
                     <span class="space"></span>
                     <button  mat-raised-button color="primary" [disabled]="isSaving">
-                        {{ '::Actions:Save' | abpLocalization }}
+                        {{ '::Save' | abpLocalization }}
                     </button>
                 </ng-container>
             </mat-card-actions>

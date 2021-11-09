@@ -31,10 +31,10 @@ export class EmployeeService {
     },
     { apiName: this.apiName });
 
-  getDepartmentListLookup = () =>
+  getEmployeeListLookup = () =>
     this.restService.request<any, ListResultDto<EmployeeDto>>({
       method: 'GET',
-      url: '/api/app/employee/department-list-lookup',
+      url: '/api/app/employee/employee-list-lookup',
     },
     { apiName: this.apiName });
 

@@ -1,3 +1,4 @@
+import { IdentityUserDto } from '@abp/ng.account';
 import type { FullAuditedEntityWithUserDto } from '@abp/ng.core';
 
 export interface AttachmentDto extends FullAuditedEntityWithUserDto<string, IdentityUserDto> {

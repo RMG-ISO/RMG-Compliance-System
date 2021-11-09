@@ -11,6 +11,14 @@ const routes: Routes = [
     loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
   },
   {
+    path:'department',
+    loadChildren: () => import('./department/department.module').then(m => m.DepartmentModule)
+  },
+  {
+    path:'employee',
+    loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule)
+  },
+  {
     path: 'compliance-department',
     loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
   },  

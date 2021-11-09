@@ -1,7 +1,7 @@
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountConfigModule } from '@abp/ng.account/config';
-import { CoreModule, ListService } from '@abp/ng.core';
+import { CoreModule, ListService, SubscriptionService } from '@abp/ng.core';
 import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
@@ -27,7 +27,6 @@ import(
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 
 @NgModule({
   imports: [
@@ -59,7 +58,6 @@ import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.serv
   providers: [
     APP_ROUTE_PROVIDER,
     ListService,
-    LayoutService
   ],
   bootstrap: [AppComponent],
 })
