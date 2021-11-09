@@ -21,8 +21,8 @@
     "Permission:Delete": "حذف",
     "Enum:SharedStatus:0": "غير فعال",
     "Enum:SharedStatus:1": "فعال",
-    "yes":"نعم",
-    "no":"لا",
+    "yes": "نعم",
+    "no": "لا",
 
 
     "Menu:BookStore": "معرض الكتب",
@@ -103,28 +103,28 @@
     "FrameworkLastUpdate": "آخر تحديث",
     "CreateFramework": "إنشاء إطار",
     "EditFramework": "تعديل إطار",
-    "FrameworkDeletionConfirmationMessage": "Are you sure to delete the framework {0}?",
+    "FrameworkDeletionConfirmationMessage": "هل أنت متأكد من حذف إطار العمل {0}؟",
 
-    "Permission:Department": "Department",
+    "Permission:Department": "الإدرارات",
     "Menu:Department": "الإدرارات",
     "Department": "الإدارة",
     "DepartmentName": "اسم الإدارة",
-    "DepartmentEmployees": "DepartmentEmployees",
-    "CreateDepartment": "CreateDepartment",
-    "EditDepartment": "EditDepartment",
-    "DepartmentDeletionConfirmationMessage": "Are you sure to delete the department {0}?",
+    "DepartmentEmployees": "الموظفين",
+    "CreateDepartment": "إنشاء إدارة",
+    "EditDepartment": "تعديل إدارة",
+    "DepartmentDeletionConfirmationMessage": "هل أنت متأكد من حذف الإدارة {0}؟",
 
-    "Permission:Employee": "Employee",
-    "Menu:Employee": "MenuEmployee",
-    "Employee": "Employee",
-    "EmployeeFullName": "EmployeeFullName",
-    "EmployeeEmail": "EmployeeEmail",
-    "EmployeeDepartmentId": "EmployeeDepartmentId",
-    "EmployeeIsManager": "EmployeeIsManager",
-    "EmployeeDepartment": "EmployeeDepartment",
-    "CreateEmployee": "CreateEmployee",
-    "EditEmployee": "EditEmployee",
-    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?"
+    "Permission:Employee": "الموظفين",
+    "Menu:Employee": "الموظفين",
+    "Employee": "الموظف",
+    "EmployeeFullName": "الاسم الكامل",
+    "EmployeeEmail": "البريد الإلكتروني",
+    "EmployeeDepartmentId": "الإدارة",
+    "EmployeeIsManager": "إنه مدير",
+    "EmployeeDepartment": "الإدارة",
+    "CreateEmployee": "إنشاء موظف",
+    "EditEmployee": "تعديل موظف",
+    "EmployeeDeletionConfirmationMessage": "هل أنت متأكد من حذف الموظف {0}؟"
   }
 }
 
