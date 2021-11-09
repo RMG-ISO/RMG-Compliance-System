@@ -122,8 +122,8 @@
 
 <ng-template #dropdownLink let-route>
   <ng-container *ngIf="route.children?.length">
-    <mat-accordion *abpPermission="route.requiredPolicy" class="level-1">
-      <mat-expansion-panel [expanded]="true">
+    <mat-accordion *abpPermission="route.requiredPolicy" class="level-1" >
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <i *ngIf="route.iconClass" [ngClass]="route.iconClass"></i>
@@ -163,7 +163,7 @@
 
 <ng-template #dropdownChild let-child>
     <mat-accordion *abpPermission="child.requiredPolicy" class="level-2">
-      <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <i *ngIf="child.iconClass" [ngClass]="child.iconClass"></i>
