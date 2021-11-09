@@ -27,6 +27,7 @@ import(
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
   ],
   providers: [
     APP_ROUTE_PROVIDER,
-    ListService
+    ListService,
+    LayoutService
   ],
   bootstrap: [AppComponent],
 })

@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path:'list',
     component:FrameworkComponent
+  },
+  {
+    path:':frameworkId',
+    component:FrameworkComponent
   }
 ];
 

@@ -27,9 +27,11 @@
         rowHeight="auto"
         [scrollbarH]="true"
         #dataTable
-        [rows]="source.items"
-        [count]="source.totalCount"
-        [list]="list" default>
+        [rows]="items"
+        [count]="totalCount"
+        [list]="list"
+        (activate)="activate($event)"
+        default>
         
             <ngx-datatable-column [name]="'::Framework:Name_Ar' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::Framework:Name_En' | abpLocalization" prop="nameEn"> </ngx-datatable-column>
@@ -38,7 +40,7 @@
         
             <ngx-datatable-column [name]="'::Tabel:Status' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ value }}
+                    {{ ( '::Framework:Status:' + SharedStatus[value] ) | abpLocalization  }}
                 </ng-template>
             </ngx-datatable-column>
         
@@ -55,11 +57,11 @@
                         <mat-icon>more_vert</mat-icon>
                     </button> -->
 
-                    <button mat-button color="warn" (click)="delete(row.id)">
+                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row.id)">
                         <mat-icon >delete_forever</mat-icon>
                     </button>
 
-                    <button mat-button (click)="openDialog(row, FormMode.Edit)">
+                    <button mat-button (click)="$event.stopPropagation();openDialog(row, FormMode.Edit)">
                         <mat-icon>edit</mat-icon>
                     </button>
 
