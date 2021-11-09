@@ -61,6 +61,12 @@ ngx-datatable {
         visibility: visible;
         border-color: #ddd;
     }
+
+    datatable-header-cell.datatable-header-cell{
+        font-weight: bold !important;
+        color: #343C63 !important;
+    }
+
     datatable-body-cell, datatable-header-cell {
         text-align: center !important;
     }
@@ -68,11 +74,27 @@ ngx-datatable {
         display: block !important;
     }
 
-
     datatable-body-cell {
         display: flex !important;
         align-items: center;
         justify-content: center;
+        &.options {
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            button {
+                width: auto;
+                min-width: auto;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+    .empty-row  {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
     }
 }
 
@@ -100,3 +122,87 @@ mat-tab-group  {
         }
     }
 }
+
+.mat-option-text {
+    font-size: 16px;
+}
+mat-card {
+    mat-card-title.mat-card-title {
+        font-size: 16px;
+    }
+
+    .space {
+        width: 30px;
+    }
+    mat-form-field.mat-form-field {
+        font-size: 10px;
+        .mat-form-field-wrapper {
+            padding-bottom: 0;
+        }
+        input,textarea, .mat-select-min-line  {
+            font-size: 16px;
+        }
+        textarea {
+            font-size: 16px;
+            min-height: 50px; 
+        }
+        label.mat-form-field-label {
+            font-size: 14px;
+            top: 1.4em !important;
+        }
+        mat-icon {
+            font-size: 22px !important;
+        }
+        &.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+            transform: translateY(-1.12em) scale(0.75) !important;
+        }
+    }
+}
+
+.round {
+    border-radius: 100px !important;
+}
+
+//Colors
+button.mat-raised-button.mat-primary {
+    background-color: #4B74FF;
+}
+button.mat-button.mat-primary {
+    color: #4B74FF;
+}
+
+mat-dialog-container.mat-dialog-container {
+    padding: 0;
+    mat-card {
+        min-width: 800px ;
+        padding: 0;
+        mat-card-title {
+            padding: 20px 22px 14px 22px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        mat-card-content {
+            padding: 15px 30px;
+            .row {
+                margin-bottom: 32px;
+            }
+            mat-form-field {
+                width: 100%;
+                background-color: #EDF1F7;
+                .mat-form-field-wrapper{
+                    margin: 0;
+                }
+                abp-validation-error {
+                    .invalid-feedback {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+        mat-card-actions {
+            button {
+                min-width: 90px;
+            }
+        }
+    }
+}
+

@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListComponent } from './list/list.component';
+import { FrameworkComponent } from './framework.component';
 
 const routes: Routes = [
   {
     path:'',
-    redirectTo:'home',
+    redirectTo:'list',
     pathMatch:'full'
   },
   {
     path:'list',
-    component:ListComponent
+    component:FrameworkComponent
+  },
+  {
+    path:':frameworkId',
+    component:FrameworkComponent
   }
 ];
 
@@ -18,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FrameworksRoutingModule { }
+export class FrameworkRoutingModule { }
