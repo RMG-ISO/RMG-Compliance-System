@@ -115,7 +115,7 @@
     "DepartmentDeletionConfirmationMessage": "Are you sure to delete the department {0}?",
 
     "Permission:Employee": "Employee",
-    "Menu:Employee": "MenuEmployee",
+    "Menu:Employee": "Employee",
     "Employee": "Employee",
     "EmployeeFullName": "EmployeeFullName",
     "EmployeeEmail": "EmployeeEmail",
