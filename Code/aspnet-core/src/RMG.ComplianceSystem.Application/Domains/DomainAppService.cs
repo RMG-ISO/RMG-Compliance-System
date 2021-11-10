@@ -30,6 +30,7 @@ namespace RMG.ComplianceSystem.Domains
             return (await Repository.WithDetailsAsync())
                 .WhereIf(input.IsMainDomain, t => t.ParentId == null)
                 .WhereIf(!input.IsMainDomain, t => t.ParentId != null)
+                .WhereIf(input.MainDomainId != null, t => t.ParentId == input.MainDomainId)
                 .WhereIf(!input.Search.IsNullOrEmpty(),
                    t => t.NameAr.Contains(input.Search) ||
                    t.NameEn.Contains(input.Search) ||

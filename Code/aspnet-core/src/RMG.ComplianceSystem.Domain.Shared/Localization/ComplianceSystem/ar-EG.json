@@ -137,8 +137,12 @@
     "DomainDepartment": "الإدارة",
     "DomainParent": "الأب",
     "DomainChildren": "النظاقات الفرعية",
-    "CreateDomain": "إنشاء النطاق",
-    "EditDomain": "تعديل النطاق",
+    "CreateDomain": "إنشاء {0}",
+    "EditDomain": "تعديل {0}",
+    "DomainMainDomains": "نطاقات رئيسية",
+    "DomainSubDomains": "نطاقات فرعية",
+    "DomainMainDomain": "نطاق رئيسي",
+    "DomainSubDomain": "نطاق فرعي",
     "DomainDeletionConfirmationMessage": "هل أنت متأكد من حذف النظاق {0}؟"
   }
 }

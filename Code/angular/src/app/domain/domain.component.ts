@@ -69,10 +69,10 @@ export class DomainComponent implements OnInit {
     });
   }
 
-  delete(id: string) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: DomainDto) {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.nameAr]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.domainService.delete(id).subscribe(() => this.list.get());
+        this.domainService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }

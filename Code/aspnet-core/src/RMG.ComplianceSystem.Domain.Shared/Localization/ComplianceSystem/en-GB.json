@@ -137,8 +137,12 @@
     "DomainDepartment": "Department",
     "DomainParent": "Parent",
     "DomainChildren": "Children",
-    "CreateDomain": "Create Domain",
-    "EditDomain": "Edit Domain",
+    "CreateDomain": "Create {0}",
+    "EditDomain": "Edit {0}",
+    "DomainMainDomains": "Main Domains",
+    "DomainSubDomains": "Sub Domains",
+    "DomainMainDomain": "Main Domain",
+    "DomainSubDomain": "Sub Domain",
     "DomainDeletionConfirmationMessage": "Are you sure to delete the domain {0}?"
   }
 }

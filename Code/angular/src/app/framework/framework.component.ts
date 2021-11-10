@@ -47,10 +47,10 @@ export class FrameworkComponent implements OnInit {
 
 
 
-  delete(id: string) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: FrameworkDto) {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.nameAr]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.frameworkService.delete(id).subscribe(() => this.list.get());
+        this.frameworkService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }

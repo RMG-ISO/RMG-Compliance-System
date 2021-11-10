@@ -50,10 +50,10 @@ export class EmployeeComponent implements OnInit {
 
 
 
-  delete(id: string) {
-    this.confirmation.warn('::EmployeeDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: EmployeeDto) {
+    this.confirmation.warn('::EmployeeDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.fullName]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.employeeService.delete(id).subscribe(() => this.list.get());
+        this.employeeService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }

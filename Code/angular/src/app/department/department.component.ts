@@ -49,10 +49,10 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
-  delete(id: string) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: DepartmentDto) {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.departmentService.delete(id).subscribe(() => this.list.get());
+        this.departmentService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }
