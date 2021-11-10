@@ -1,8 +1,7 @@
 import { FrameworkService } from './../proxy/frameworks/framework.service';
 import { ListService } from '@abp/ng.core';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddFrameworkComponent } from './add-framework/add-framework.component';
 import { FormMode } from '../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Router } from '@angular/router';
@@ -21,7 +20,7 @@ export class FrameworkComponent implements OnInit {
   items: FrameworkDto[];
   totalCount: number;
   isModalOpen: boolean = false;
-  selected: FrameworkDto;
+  selected;
   form: FormGroup;
 
   constructor(
@@ -37,9 +36,9 @@ export class FrameworkComponent implements OnInit {
     this.getList();
   }
 
-  getList() {
-    const bookStreamCreator = (query) => this.frameworkService.getList(query);
-    this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+  getList(search = null) {
+    const streamCreator = (query) => this.frameworkService.getList({...query, search});
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
