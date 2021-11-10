@@ -19,6 +19,7 @@ using RMG.ComplianceSystem.Attachments;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Employees;
+using RMG.ComplianceSystem.Domains;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -67,6 +68,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Framework> Frameworks { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Domain> Domains { get; set; }
 
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
@@ -174,6 +176,20 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
 
                 /* Configure more properties here */
+            });
+
+
+            builder.Entity<Domain>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Domains", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+
+                /* Configure more properties here */
+
+                b.HasOne(t => t.Framework).WithMany(t => t.Domains).HasForeignKey(t => t.FrameworkId);
+                b.HasOne(t => t.Department).WithMany(t => t.Domains).HasForeignKey(t => t.DepartmentId).IsRequired(false);
+                b.HasOne(t => t.Parent  ).WithMany(t => t.Children).HasForeignKey(t => t.ParentId).IsRequired(false);
             });
         }
     }

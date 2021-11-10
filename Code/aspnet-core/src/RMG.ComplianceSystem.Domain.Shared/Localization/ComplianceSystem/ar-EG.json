@@ -1,10 +1,9 @@
-﻿{
+{
   "culture": "ar-EG",
   "texts": {
     "Menu:Home": "الرئيسية",
     "Welcome": "مرحبا",
     "LongWelcomeMessage": "مرحبا بكم في التطبيق. هذا مشروع بدء تشغيل يعتمد على إطار عمل ABP. لمزيد من المعلومات ، يرجى زيارة abp.io.",
-
     "Search": "بحث",
     "Close": "إغلاق",
     "Delete": "حذف",
@@ -24,8 +23,6 @@
     "yes": "نعم",
     "no": "لا",
     "Menu:ComplianceSystemSettings": "إعدادات النظام",
-
-
     "Menu:BookStore": "معرض الكتب",
     "Menu:Books": "كتب",
     "Menu:abp-Books": "كتب",
@@ -65,7 +62,6 @@
     "EditBook": "تعديل الكتاب",
     "EditAuthor": "تعديل المؤلف",
     "NewAuthorWithBook": "مؤلف جديد بالكتاب",
-
     "Permission:Attachment": "Attachment",
     "Menu:Attachment": "MenuAttachment",
     "Attachment": "Attachment",
@@ -76,7 +72,6 @@
     "CreateAttachment": "CreateAttachment",
     "EditAttachment": "EditAttachment",
     "AttachmentDeletionConfirmationMessage": "Are you sure to delete the attachment {0}?",
-
     "SuccessfullyDeleted": "Successfully deleted",
     "Permission:AttachmentFile": "AttachmentFile",
     "Menu:AttachmentFile": "MenuAttachmentFile",
@@ -90,7 +85,6 @@
     "CreateAttachmentFile": "CreateAttachmentFile",
     "EditAttachmentFile": "EditAttachmentFile",
     "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?",
-
     "Permission:Framework": "Framework",
     "Menu:Framework": "أطر العمل",
     "Framework": "أطر العمل",
@@ -105,7 +99,6 @@
     "CreateFramework": "إنشاء إطار",
     "EditFramework": "تعديل إطار",
     "FrameworkDeletionConfirmationMessage": "هل أنت متأكد من حذف إطار العمل {0}؟",
-
     "Permission:Department": "الإدرارات",
     "Menu:Department": "الإدرارات",
     "Department": "الإدرارات",
@@ -114,7 +107,6 @@
     "CreateDepartment": "إنشاء إدارة",
     "EditDepartment": "تعديل إدارة",
     "DepartmentDeletionConfirmationMessage": "هل أنت متأكد من حذف الإدارة {0}؟",
-
     "Permission:Employee": "الموظفين",
     "Menu:Employee": "الموظفين",
     "Employee": "الموظفين",
@@ -125,8 +117,25 @@
     "EmployeeDepartment": "الإدارة",
     "CreateEmployee": "إنشاء موظف",
     "EditEmployee": "تعديل موظف",
-    "EmployeeDeletionConfirmationMessage": "هل أنت متأكد من حذف الموظف {0}؟"
+    "EmployeeDeletionConfirmationMessage": "هل أنت متأكد من حذف الموظف {0}؟",
+    "Permission:Domain": "Domain",
+    "Menu:Domain": "MenuDomain",
+    "Domain": "Domain",
+    "DomainNameAr": "DomainNameAr",
+    "DomainNameEn": "DomainNameEn",
+    "DomainDescriptionAr": "DomainDescriptionAr",
+    "DomainDescriptionEn": "DomainDescriptionEn",
+    "DomainReference": "DomainReference",
+    "DomainStatus": "DomainStatus",
+    "DomainParentId": "DomainParentId",
+    "DomainFrameworkId": "DomainFrameworkId",
+    "DomainDepartmentId": "DomainDepartmentId",
+    "DomainFramework": "DomainFramework",
+    "DomainDepartment": "DomainDepartment",
+    "DomainParent": "DomainParent",
+    "DomainChildren": "DomainChildren",
+    "CreateDomain": "CreateDomain",
+    "EditDomain": "EditDomain",
+    "DomainDeletionConfirmationMessage": "Are you sure to delete the domain {0}?"
   }
 }
-
-
