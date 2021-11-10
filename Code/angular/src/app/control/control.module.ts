@@ -15,7 +15,7 @@ import { ControlRoutingModule } from './control-routing.module';
     CommonModule,
     ControlRoutingModule,
     SharedModule,
-    MatCardModule
+    MatCardModule,
   ]
 })
 export class ControlModule { }

@@ -24,12 +24,14 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { MatStepperModule } from "@angular/material/stepper";
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 import { SearchComponent } from './components/search/search.component';
+import { FromNowPipe } from './pipe/from-now.pipe';
 
 
 @NgModule({
   declarations: [
     ConfirmationDialogComponent,
     SearchComponent,
+    FromNowPipe,
   ],
   imports: [
     CoreModule,
@@ -55,6 +57,7 @@ import { SearchComponent } from './components/search/search.component';
     MatMenuModule,
 
     MatStepperModule,
+
   ],
   exports: [
     SearchComponent,
@@ -81,6 +84,9 @@ import { SearchComponent } from './components/search/search.component';
     MatMenuModule,
 
     MatStepperModule,
+    
+    FromNowPipe,
+
   ],
   providers: [
     {

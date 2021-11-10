@@ -45,8 +45,9 @@ export class ControlComponent implements OnInit {
     private router: Router,
     private departmentService: DepartmentService,
     private frameworktService: FrameworkService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
+    
   }
 
 

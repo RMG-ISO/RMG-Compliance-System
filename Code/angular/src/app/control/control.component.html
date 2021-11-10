@@ -33,7 +33,7 @@
 
             <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | date }}
+                    {{value | fromNow}}
                 </ng-template>
             </ngx-datatable-column>
 
