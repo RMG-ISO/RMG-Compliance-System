@@ -21,6 +21,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-th-large',
         order: 1,
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Framework',
       },
       {
         path:'/department',
@@ -36,6 +37,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Department',
       },
 
       {
@@ -45,6 +47,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Employee',
       },
       
 

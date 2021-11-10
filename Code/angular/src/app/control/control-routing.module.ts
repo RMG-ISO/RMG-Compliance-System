@@ -1,3 +1,4 @@
+import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ControlComponent } from './control.component';
@@ -10,12 +11,20 @@ const routes: Routes = [
   },
   {
     path:'list',
-    data:{mainControls:true},
-    component:ControlComponent
+    component:ControlComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.Control',
+      mainControls:true
+    },
   },{
     path:':mainControlId/sub-controls',
-    data:{mainControls:false},
-    component:ControlComponent
+    component:ControlComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.Control',
+      mainControls:false
+    },
   },
 ];
 

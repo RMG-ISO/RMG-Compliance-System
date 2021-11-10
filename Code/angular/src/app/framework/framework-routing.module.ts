@@ -1,3 +1,4 @@
+import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FrameworkComponent } from './framework.component';
@@ -10,11 +11,19 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    component: FrameworkComponent
+    component: FrameworkComponent, 
+    canActivate: [AuthGuard, PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.Framework',
+    },
   },
   {
     path: ':frameworkId',
-    component: FrameworkComponent
+    component: FrameworkComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.Framework',
+    },
   },
   {
     path: ':frameworkId/main-domains',
