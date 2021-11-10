@@ -8,8 +8,8 @@ namespace RMG.ComplianceSystem.Domains
     public interface IDomainAppService :
         ICrudAppService< 
             DomainDto, 
-            Guid, 
-            PagedAndSortedResultRequestDto,
+            Guid,
+            DomainPagedAndSortedResultRequestDto,
             CreateUpdateDomainDto,
             CreateUpdateDomainDto>
     {
