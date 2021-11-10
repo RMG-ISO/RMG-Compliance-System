@@ -1,6 +1,6 @@
 import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedResultRequestDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
-import type { PagedResultDto } from '@abp/ng.core';
+import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -28,6 +28,13 @@ export class FrameworkService {
     this.restService.request<any, FrameworkDto>({
       method: 'GET',
       url: `/api/app/framework/${id}`,
+    },
+    { apiName: this.apiName });
+
+  getFrameworkListLookup = () =>
+    this.restService.request<any, ListResultDto<FrameworkDto>>({
+      method: 'GET',
+      url: '/api/app/framework/framework-list-lookup',
     },
     { apiName: this.apiName });
 

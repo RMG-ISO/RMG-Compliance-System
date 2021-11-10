@@ -24,6 +24,8 @@ namespace RMG.ComplianceSystem.Domains.Dtos
 
         public Guid FrameworkId { get; set; }
 
-        public Guid? DepartmentId { get; set; }
+        public Guid? DepartmentId { get; set; } 
+
+        public string DepartmentName { get; set; }
     }
 }

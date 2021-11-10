@@ -77,7 +77,7 @@ export class DepartmentComponent implements OnInit {
       return;
     }
 
-    const request = this.selected.id
+    const request = this.selected?.id
       ? this.departmentService.update(this.selected.id, this.form.value)
       : this.departmentService.create(this.form.value);
 

@@ -88,7 +88,7 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const request = this.selectedBook.id
+    const request = this.selectedBook?.id
       ? this.bookService.update(this.selectedBook.id, this.form.value)
       : this.bookService.create(this.form.value);
 

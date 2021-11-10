@@ -42,7 +42,8 @@ namespace RMG.ComplianceSystem
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));
             CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
-            CreateMap<Domain, DomainDto>();
+            CreateMap<Domain, DomainDto>()
+                .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));            
             CreateMap<CreateUpdateDomainDto, Domain>(MemberList.Source);
         }
     }

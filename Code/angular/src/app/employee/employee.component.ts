@@ -81,7 +81,7 @@ export class EmployeeComponent implements OnInit {
       return;
     }
 
-    const request = this.selected.id
+    const request = this.selected?.id
       ? this.employeeService.update(this.selected.id, this.form.getRawValue())
       : this.employeeService.create(this.form.getRawValue());
 

@@ -57,7 +57,7 @@ export class FrameworkComponent implements OnInit {
   }
 
   activate(ev) {
-    if (ev.type === 'click') this.router.navigate(['/framework', ev.row.id])
+    if (ev.type === 'click') this.router.navigate(['framework',ev.row.id,'main-domains']);
   }
 
 
@@ -89,7 +89,7 @@ export class FrameworkComponent implements OnInit {
       return;
     }
 
-    const request = this.selected.id
+    const request = this.selected?.id
       ? this.frameworkService.update(this.selected.id, this.form.value)
       : this.frameworkService.create(this.form.value);
 
