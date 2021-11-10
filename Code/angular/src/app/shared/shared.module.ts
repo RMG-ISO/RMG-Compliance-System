@@ -23,11 +23,13 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 
 import { MatStepperModule } from "@angular/material/stepper";
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
+import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
   declarations: [
     ConfirmationDialogComponent,
+    SearchComponent,
   ],
   imports: [
     CoreModule,
@@ -55,6 +57,7 @@ import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.serv
     MatStepperModule,
   ],
   exports: [
+    SearchComponent,
     CoreModule,
     ThemeSharedModule,
     NgbDropdownModule,
