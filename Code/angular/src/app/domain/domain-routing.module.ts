@@ -12,6 +12,10 @@ const routes: Routes = [
     path:'list',
     data:{mainDomains:true},
     component:DomainComponent
+  },{
+    path:':mainDomainId/sub-domains',
+    data:{mainDomains:false},
+    component:DomainComponent
   },
 ];
 

@@ -59,14 +59,10 @@ export class DomainComponent implements OnInit {
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.isMainDomains = this.activatedRoute.snapshot.data["mainDomains"];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
-
-    console.log(this.activatedRoute.snapshot.params['frameworkId']);
-    console.log(this.activatedRoute.snapshot.data["mainDomains"]);
-
   }
 
-  getList() {
-    const bookStreamCreator = (query) => this.domainService.getList({...query,isMainDomain:this.isMainDomains});
+  getList(search = null) {
+    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: this.isMainDomains, search: search,mainDomainId:this.mainDomainId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -79,6 +75,10 @@ export class DomainComponent implements OnInit {
         this.domainService.delete(id).subscribe(() => this.list.get());
       }
     });
+  }
+
+  activate(ev) {
+    if (ev.type === 'click') this.router.navigate(['framework', this.frameworkId, 'main-domains', ev.row.id,'sub-domains']);
   }
 
   openDialog(data: DomainDto) {

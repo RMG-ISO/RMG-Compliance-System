@@ -35,7 +35,7 @@ export class DomainService {
     this.restService.request<any, PagedResultDto<DomainDto>>({
       method: 'GET',
       url: '/api/app/domain',
-      params: { isMainDomain: input.isMainDomain, search: input.search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

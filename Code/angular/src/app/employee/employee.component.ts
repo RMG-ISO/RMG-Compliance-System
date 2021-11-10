@@ -40,7 +40,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   getList(search = null) {
-    const streamCreator = (query) =>  this.employeeService.getList({...query, search});
+    const streamCreator = (query) =>  this.employeeService.getList({...query,search:search});
 
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
