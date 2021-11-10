@@ -1,6 +1,6 @@
 import type { SharedStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { IdentityUserDto } from '@abp/ng.identity';
+import { IdentityUserDto } from '@abp/ng.account';
 
 export interface CreateUpdateFrameworkDto {
   nameAr?: string;
@@ -12,7 +12,7 @@ export interface CreateUpdateFrameworkDto {
   status: SharedStatus;
 }
 
-export interface FrameworkDto extends FullAuditedEntityWithUserDto<string, IdentityUserDto> {
+export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
   nameEn?: string;
   shortcutAr?: string;
