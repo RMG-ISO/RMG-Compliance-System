@@ -6,6 +6,7 @@ using Volo.Abp.Application.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RMG.ComplianceSystem.Controls.Dtos;
 
 namespace RMG.ComplianceSystem.Domains
 {

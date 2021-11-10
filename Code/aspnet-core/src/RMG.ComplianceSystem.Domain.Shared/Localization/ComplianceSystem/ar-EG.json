@@ -24,7 +24,6 @@
     "no": "لا",
     "Menu:ComplianceSystemSettings": "إعدادات النظام",
     "PleaseSelect": "الرجاء الإختيار",
-
     "Menu:BookStore": "معرض الكتب",
     "Menu:Books": "كتب",
     "Menu:abp-Books": "كتب",
@@ -120,7 +119,6 @@
     "CreateEmployee": "إنشاء موظف",
     "EditEmployee": "تعديل موظف",
     "EmployeeDeletionConfirmationMessage": "هل أنت متأكد من حذف الموظف {0}؟",
-
     "Permission:Domain": "النطاقات",
     "Menu:Domain": "النطاقات",
     "Domain": "النطاقات",
@@ -143,6 +141,23 @@
     "DomainSubDomains": "نطاقات فرعية",
     "DomainMainDomain": "نطاق رئيسي",
     "DomainSubDomain": "نطاق فرعي",
-    "DomainDeletionConfirmationMessage": "هل أنت متأكد من حذف النظاق {0}؟"
+    "DomainDeletionConfirmationMessage": "هل أنت متأكد من حذف النظاق {0}؟",
+    "Permission:Control": "Control",
+    "Menu:Control": "MenuControl",
+    "Control": "Control",
+    "ControlNameAr": "ControlNameAr",
+    "ControlNameEn": "ControlNameEn",
+    "ControlDescriptionAr": "ControlDescriptionAr",
+    "ControlDescriptionEn": "ControlDescriptionEn",
+    "ControlReference": "ControlReference",
+    "ControlStatus": "ControlStatus",
+    "ControlParentId": "ControlParentId",
+    "ControlDomainId": "ControlDomainId",
+    "ControlDomain": "ControlDomain",
+    "ControlParent": "ControlParent",
+    "ControlChildren": "ControlChildren",
+    "CreateControl": "CreateControl",
+    "EditControl": "EditControl",
+    "ControlDeletionConfirmationMessage": "Are you sure to delete the control {0}?"
   }
 }

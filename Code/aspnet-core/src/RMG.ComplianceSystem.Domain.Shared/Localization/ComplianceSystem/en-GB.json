@@ -24,7 +24,6 @@
     "no": "no",
     "Menu:ComplianceSystemSettings": "System Settings",
     "PleaseSelect": "Please Select",
-
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Menu:abp-Books": "Books",
@@ -120,7 +119,6 @@
     "CreateEmployee": "Create Employee",
     "EditEmployee": "Edit Employee",
     "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?",
-
     "Permission:Domain": "Domains",
     "Menu:Domain": "Domains",
     "Domain": "Domains",
@@ -143,6 +141,23 @@
     "DomainSubDomains": "Sub Domains",
     "DomainMainDomain": "Main Domain",
     "DomainSubDomain": "Sub Domain",
-    "DomainDeletionConfirmationMessage": "Are you sure to delete the domain {0}?"
+    "DomainDeletionConfirmationMessage": "Are you sure to delete the domain {0}?",
+    "Permission:Control": "Control",
+    "Menu:Control": "MenuControl",
+    "Control": "Control",
+    "ControlNameAr": "ControlNameAr",
+    "ControlNameEn": "ControlNameEn",
+    "ControlDescriptionAr": "ControlDescriptionAr",
+    "ControlDescriptionEn": "ControlDescriptionEn",
+    "ControlReference": "ControlReference",
+    "ControlStatus": "ControlStatus",
+    "ControlParentId": "ControlParentId",
+    "ControlDomainId": "ControlDomainId",
+    "ControlDomain": "ControlDomain",
+    "ControlParent": "ControlParent",
+    "ControlChildren": "ControlChildren",
+    "CreateControl": "CreateControl",
+    "EditControl": "EditControl",
+    "ControlDeletionConfirmationMessage": "Are you sure to delete the control {0}?"
   }
 }

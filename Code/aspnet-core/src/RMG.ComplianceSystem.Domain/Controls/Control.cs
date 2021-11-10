@@ -1,6 +1,4 @@
-using RMG.ComplianceSystem.Controls;
-using RMG.ComplianceSystem.Departments;
-using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Shared;
 using System;
 using System.Collections.Generic;
@@ -10,9 +8,9 @@ using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
-namespace RMG.ComplianceSystem.Domains
+namespace RMG.ComplianceSystem.Controls
 {
-    public class Domain : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
+    public class Control : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
     {
         public string NameAr { get; set; }
         public string NameEn { get; set; }
@@ -21,22 +19,17 @@ namespace RMG.ComplianceSystem.Domains
         public string Reference { get; set; }
         public SharedStatus Status { get; set; }
         public Guid? ParentId { get; set; }
-        public Guid FrameworkId { get; set; }
-        public Guid? DepartmentId { get; set; }
+        public Guid DomainId { get; set; }
 
-        public Framework Framework { get; set; }
-        public Department Department { get; set; }
-        public Domain Parent { get; set; }
-        public ICollection<Domain> Children { get; set; }
-        public ICollection<Control> Controls { get; set; }
+        public Domain Domain { get; set; }
+        public Control Parent { get; set; }
+        public ICollection<Control> Children { get; set; }
 
-
-
-        protected Domain()
+        protected Control()
         {
         }
 
-        public Domain(
+        public Control(
             Guid id,
             string nameAr,
             string nameEn,
@@ -45,8 +38,7 @@ namespace RMG.ComplianceSystem.Domains
             string reference,
             SharedStatus status,
             Guid? parentId,
-            Guid frameworkId,
-            Guid departmentId
+            Guid domainId
         ) : base(id)
         {
             NameAr = nameAr;
@@ -56,8 +48,7 @@ namespace RMG.ComplianceSystem.Domains
             Reference = reference;
             Status = status;
             ParentId = parentId;
-            FrameworkId = frameworkId;
-            DepartmentId = departmentId;
+            DomainId = domainId;
         }
     }
 }

@@ -10,6 +10,8 @@ using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Employees.Dtos;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Domains.Dtos;
+using RMG.ComplianceSystem.Controls;
+using RMG.ComplianceSystem.Controls.Dtos;
 using RMG.ComplianceSystem.Books;
 
 namespace RMG.ComplianceSystem
@@ -45,6 +47,8 @@ namespace RMG.ComplianceSystem
             CreateMap<Domain, DomainDto>()
                 .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));            
             CreateMap<CreateUpdateDomainDto, Domain>(MemberList.Source);
+            CreateMap<Control, ControlDto>();
+            CreateMap<CreateUpdateControlDto, Control>(MemberList.Source);
         }
     }
 }
