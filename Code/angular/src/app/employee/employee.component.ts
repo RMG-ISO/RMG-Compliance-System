@@ -40,7 +40,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   getList(search = null) {
-    const streamCreator = (query) =>  this.employeeService.getList({...query, search});
+    const streamCreator = (query) =>  this.employeeService.getList({...query,search:search});
 
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
@@ -50,10 +50,10 @@ export class EmployeeComponent implements OnInit {
 
 
 
-  delete(id: string) {
-    this.confirmation.warn('::EmployeeDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: EmployeeDto) {
+    this.confirmation.warn('::EmployeeDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.fullName]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.employeeService.delete(id).subscribe(() => this.list.get());
+        this.employeeService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }

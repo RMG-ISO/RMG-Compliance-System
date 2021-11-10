@@ -24,12 +24,4 @@ export class SearchComponent implements OnInit {
       });
   }
 
-  timeOut
-  change(value) {
-    if(this.timeOut) clearTimeout(this.timeOut)
-    this.timeOut = setTimeout(() => {
-      // console.log(value);
-      this.search.emit(value);
-    }, 300)
-  }
-}
+ }

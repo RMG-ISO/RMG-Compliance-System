@@ -12,6 +12,14 @@ const routes: Routes = [
     path:'list',
     data:{mainDomains:true},
     component:DomainComponent
+  },{
+    path:':mainDomainId/sub-domains',
+    data:{mainDomains:false},
+    component:DomainComponent
+  },
+  {
+    path: ':mainDomainId/sub-domains/:subDomainId/main-controls',
+    loadChildren: () => import('../control/control.module').then(m => m.ControlModule),
   },
 ];
 

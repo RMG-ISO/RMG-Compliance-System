@@ -35,7 +35,7 @@ export class DomainComponent implements OnInit {
   isMainDomains: boolean;
   frameworkId: string;
   mainDomainId: string;
-
+  mainDomain: DomainDto;
 
 
   constructor(
@@ -56,29 +56,37 @@ export class DomainComponent implements OnInit {
     this.departmentService.getDepartmentListLookup().subscribe(r => this.departments = r.items);
     this.frameworktService.getFrameworkListLookup().subscribe(r => this.framewoks = r.items);
 
+
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.isMainDomains = this.activatedRoute.snapshot.data["mainDomains"];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
 
-    console.log(this.activatedRoute.snapshot.params['frameworkId']);
-    console.log(this.activatedRoute.snapshot.data["mainDomains"]);
-
+    this.getMainDomain();
   }
 
-  getList() {
-    const bookStreamCreator = (query) => this.domainService.getList({...query,isMainDomain:this.isMainDomains});
+  getList(search = null) {
+    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: this.isMainDomains, search: search, mainDomainId: this.mainDomainId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
 
-  delete(id: string) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: DomainDto) {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [model.nameAr] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.domainService.delete(id).subscribe(() => this.list.get());
+        this.domainService.delete(model.id).subscribe(() => this.list.get());
       }
     });
+  }
+
+  activate(ev) {
+    if (this.isMainDomains) {
+      if (ev.type === 'click') this.router.navigate(['framework', this.frameworkId, 'main-domains', ev.row.id, 'sub-domains']);
+    }
+    else {
+      if (ev.type === 'click') this.router.navigate(['framework', this.frameworkId, 'main-domains', this.mainDomainId, 'sub-domains', ev.row.id, 'main-controls']);
+    }
   }
 
   openDialog(data: DomainDto) {
@@ -92,10 +100,10 @@ export class DomainComponent implements OnInit {
       id: new FormControl(null),
       nameAr: new FormControl(null, Validators.required),
       nameEn: new FormControl(null, Validators.required),
-      descriptionAr: new FormControl(null, Validators.required),
-      descriptionEn: new FormControl(null, Validators.required),
+      descriptionAr: new FormControl(null),
+      descriptionEn: new FormControl(null),
       reference: new FormControl(null, Validators.required),
-      departmentId: new FormControl(null, Validators.required),
+      departmentId: new FormControl({ value: this.isMainDomains ? null : this.mainDomain.departmentId, disabled: !this.isMainDomains }, Validators.required),
       frameworkId: new FormControl(this.frameworkId, Validators.required),
       status: new FormControl(null, Validators.required),
       parentId: new FormControl(this.isMainDomains ? null : this.mainDomainId, this.isMainDomains ? null : Validators.required),
@@ -110,8 +118,8 @@ export class DomainComponent implements OnInit {
     }
 
     const request = this.selected?.id
-      ? this.domainService.update(this.selected.id, this.form.value)
-      : this.domainService.create(this.form.value);
+      ? this.domainService.update(this.selected.id, this.form.getRawValue())
+      : this.domainService.create(this.form.getRawValue());
 
     request.subscribe(() => {
       this.isModalOpen = false;
@@ -120,4 +128,11 @@ export class DomainComponent implements OnInit {
     });
   }
 
+  getMainDomain() {
+    if (!this.isMainDomains) {
+      this.domainService.get(this.mainDomainId).subscribe(domain => {
+        this.mainDomain = domain;
+      })
+    }
+  }
 }

@@ -28,6 +28,7 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
 }
 
 export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  mainDomainId?: string;
   isMainDomain: boolean;
   search?: string;
 }

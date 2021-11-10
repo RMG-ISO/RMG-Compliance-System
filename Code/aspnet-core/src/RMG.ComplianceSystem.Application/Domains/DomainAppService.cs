@@ -6,6 +6,7 @@ using Volo.Abp.Application.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RMG.ComplianceSystem.Controls.Dtos;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -30,11 +31,13 @@ namespace RMG.ComplianceSystem.Domains
             return (await Repository.WithDetailsAsync())
                 .WhereIf(input.IsMainDomain, t => t.ParentId == null)
                 .WhereIf(!input.IsMainDomain, t => t.ParentId != null)
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.NameAr.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.NameEn.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.DescriptionAr.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.DescriptionEn.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.Reference.Contains(input.Search))
+                .WhereIf(input.MainDomainId != null, t => t.ParentId == input.MainDomainId)
+                .WhereIf(!input.Search.IsNullOrEmpty(),
+                   t => t.NameAr.Contains(input.Search) ||
+                   t.NameEn.Contains(input.Search) ||
+                   t.DescriptionAr.Contains(input.Search) ||
+                   t.DescriptionEn.Contains(input.Search) ||
+                   t.Reference.Contains(input.Search))
             ;
         }
 

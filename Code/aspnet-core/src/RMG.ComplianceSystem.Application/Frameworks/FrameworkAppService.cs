@@ -19,7 +19,7 @@ namespace RMG.ComplianceSystem.Frameworks
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Delete;
 
         private readonly IFrameworkRepository _repository;
-        
+
         public FrameworkAppService(IFrameworkRepository repository) : base(repository)
         {
             _repository = repository;
@@ -29,12 +29,13 @@ namespace RMG.ComplianceSystem.Frameworks
         protected override async Task<IQueryable<Framework>> CreateFilteredQueryAsync(FrameworkPagedAndSortedResultRequestDto input)
         {
             return (await Repository.WithDetailsAsync())
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.NameAr.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.NameEn.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.ShortcutAr.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.ShortcutEn.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.DescriptionAr.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.DescriptionEn.Contains(input.Search));
+                .WhereIf(!input.Search.IsNullOrEmpty(), t =>
+                t.NameAr.Contains(input.Search) ||
+                t.NameEn.Contains(input.Search) ||
+                t.ShortcutAr.Contains(input.Search) ||
+                t.ShortcutEn.Contains(input.Search) ||
+                t.DescriptionAr.Contains(input.Search) ||
+                t.DescriptionEn.Contains(input.Search));
         }
 
         protected override Task<Framework> GetEntityByIdAsync(Guid id)

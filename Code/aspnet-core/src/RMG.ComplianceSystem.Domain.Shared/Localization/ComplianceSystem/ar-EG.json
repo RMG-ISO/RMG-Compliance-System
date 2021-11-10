@@ -24,7 +24,6 @@
     "no": "لا",
     "Menu:ComplianceSystemSettings": "إعدادات النظام",
     "PleaseSelect": "الرجاء الإختيار",
-
     "Menu:BookStore": "معرض الكتب",
     "Menu:Books": "كتب",
     "Menu:abp-Books": "كتب",
@@ -120,7 +119,6 @@
     "CreateEmployee": "إنشاء موظف",
     "EditEmployee": "تعديل موظف",
     "EmployeeDeletionConfirmationMessage": "هل أنت متأكد من حذف الموظف {0}؟",
-
     "Permission:Domain": "النطاقات",
     "Menu:Domain": "النطاقات",
     "Domain": "النطاقات",
@@ -137,8 +135,34 @@
     "DomainDepartment": "الإدارة",
     "DomainParent": "الأب",
     "DomainChildren": "النظاقات الفرعية",
-    "CreateDomain": "إنشاء النطاق",
-    "EditDomain": "تعديل النطاق",
-    "DomainDeletionConfirmationMessage": "هل أنت متأكد من حذف النظاق {0}؟"
+    "CreateDomain": "إنشاء {0}",
+    "EditDomain": "تعديل {0}",
+    "DomainMainDomains": "نطاقات رئيسية",
+    "DomainSubDomains": "نطاقات فرعية",
+    "DomainMainDomain": "نطاق رئيسي",
+    "DomainSubDomain": "نطاق فرعي",
+    "DomainDeletionConfirmationMessage": "هل أنت متأكد من حذف النظاق {0}؟",
+
+    "Permission:Control": "الضوابط",
+    "Menu:Control": "الضوابط",
+    "Control": "الضوابط",
+    "ControlNameAr": "الاسم بالعربي",
+    "ControlNameEn": "الاسم بالإنجليزي",
+    "ControlDescriptionAr": "الوصف بالعربي",
+    "ControlDescriptionEn": "الوصف بالإنجليزي",
+    "ControlReference": "المرجع",
+    "ControlStatus": "الحالة",
+    "ControlParentId": "الأب",
+    "ControlDomainId": "نطاق الضابظ",
+    "ControlDomain": "النطاق",
+    "ControlParent": "الأب",
+    "ControlChildren": "الضوابط الفرعية",
+    "CreateControl": "إنشاء {0}",
+    "EditControl": "تعديل {0}",
+    "ControlMainControls": "ضوابط رئيسية",
+    "ControlSubControls": "ضوابط فرعية",
+    "ControlMainControl": "ضابط رئيسي",
+    "ControlSubControl": "ضابط فرعي",
+    "ControlDeletionConfirmationMessage": "هل أنت متأكد من حذف الضابط {0}؟"
   }
 }

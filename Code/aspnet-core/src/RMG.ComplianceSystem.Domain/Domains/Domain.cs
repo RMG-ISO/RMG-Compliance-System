@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Shared;
@@ -27,6 +28,7 @@ namespace RMG.ComplianceSystem.Domains
         public Department Department { get; set; }
         public Domain Parent { get; set; }
         public ICollection<Domain> Children { get; set; }
+        public ICollection<Control> Controls { get; set; }
 
 
 

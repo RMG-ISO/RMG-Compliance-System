@@ -42,17 +42,17 @@ export class DepartmentComponent implements OnInit {
   }
 
   getList(search = null) {
-    const streamCreator = (query) => this.departmentService.getList({...query, search});
+    const streamCreator = (query) => this.departmentService.getList({...query, search:search});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
 
-  delete(id: string) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure').subscribe((status) => {
+  delete(model: DepartmentDto) {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.departmentService.delete(id).subscribe(() => this.list.get());
+        this.departmentService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }

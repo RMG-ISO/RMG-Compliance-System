@@ -267,6 +267,90 @@ namespace RMG.ComplianceSystem.Migrations
                     b.ToTable("AppBooks");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Controls.Control", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("DescriptionAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DomainId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("NameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("DomainId");
+
+                    b.HasIndex("LastModifierId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("AppControls");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Departments.Department", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2528,6 +2612,41 @@ namespace RMG.ComplianceSystem.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Controls.Control", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("RMG.ComplianceSystem.Domains.Domain", "Domain")
+                        .WithMany("Controls")
+                        .HasForeignKey("DomainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.HasOne("RMG.ComplianceSystem.Controls.Control", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("Domain");
+
+                    b.Navigation("LastModifier");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Departments.Department", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
@@ -2920,6 +3039,11 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("AttachmentFiles");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Controls.Control", b =>
+                {
+                    b.Navigation("Children");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Departments.Department", b =>
                 {
                     b.Navigation("Domains");
@@ -2930,6 +3054,8 @@ namespace RMG.ComplianceSystem.Migrations
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
                 {
                     b.Navigation("Children");
+
+                    b.Navigation("Controls");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.Framework", b =>

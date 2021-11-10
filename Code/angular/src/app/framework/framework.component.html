@@ -52,7 +52,7 @@
                 <ng-template let-row="row" ngx-datatable-cell-template>
                    
 
-                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row.id)">
+                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
                         <mat-icon >delete_forever</mat-icon>
                     </button>
 
@@ -107,7 +107,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label><span> * </span>
+                        <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label>
                         <input type="text" id="description-ar" class="form-control" formControlName="descriptionAr" autofocus />
                     </div>
                 </div>
@@ -117,7 +117,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label><span> * </span>
+                        <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label>
                         <input type="text" id="description" class="form-control" formControlName="descriptionEn" autofocus />
                     </div>
                 </div>
@@ -128,6 +128,7 @@
                     <div class="form-group">
                         <label for="status">{{ '::FrameworkStatus' | abpLocalization }}</label><span> * </span>
                         <select class="form-control" id="status" formControlName="status">
+                            <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
                             <option  *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
                                 {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
                             </option>
