@@ -23,7 +23,7 @@ export class EmployeeComponent implements OnInit {
   totalCount: number;
   departments: DepartmentDto[];
   isModalOpen:boolean = false;
-  selected: EmployeeDto;
+  selected;
   form: FormGroup;
 
   
@@ -31,7 +31,6 @@ export class EmployeeComponent implements OnInit {
     public readonly list: ListService,
     private employeeService: EmployeeService,
     private confirmation: ConfirmationService,
-    private router: Router,
     private departmentService: DepartmentService
   ) { }
 
@@ -40,9 +39,10 @@ export class EmployeeComponent implements OnInit {
     this.departmentService.getDepartmentListLookup().subscribe(r => this.departments = r.items)
   }
 
-  getList() {
-    const bookStreamCreator = (query) => this.employeeService.getList(query);
-    this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+  getList(search = null) {
+    const streamCreator = (query) =>  this.employeeService.getList({...query, search});
+
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
@@ -81,7 +81,7 @@ export class EmployeeComponent implements OnInit {
       return;
     }
 
-    const request = this.selected.id
+    const request = this.selected?.id
       ? this.employeeService.update(this.selected.id, this.form.getRawValue())
       : this.employeeService.create(this.form.getRawValue());
 

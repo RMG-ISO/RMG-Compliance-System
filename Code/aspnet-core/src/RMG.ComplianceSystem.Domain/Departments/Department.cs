@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Employees;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace RMG.ComplianceSystem.Departments
         public string Name { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
+        public ICollection<Domain> Domains { get; set; }
+
 
         protected Department()
         {

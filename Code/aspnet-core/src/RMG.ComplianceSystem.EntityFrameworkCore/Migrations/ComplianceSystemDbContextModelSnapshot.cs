@@ -326,6 +326,95 @@ namespace RMG.ComplianceSystem.Migrations
                     b.ToTable("AppDepartments");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DescriptionAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<Guid>("FrameworkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("NameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("FrameworkId");
+
+                    b.HasIndex("LastModifierId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("AppDomains");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Employees.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2460,6 +2549,47 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("RMG.ComplianceSystem.Departments.Department", "Department")
+                        .WithMany("Domains")
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("RMG.ComplianceSystem.Frameworks.Framework", "Framework")
+                        .WithMany("Domains")
+                        .HasForeignKey("FrameworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.HasOne("RMG.ComplianceSystem.Domains.Domain", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Framework");
+
+                    b.Navigation("LastModifier");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Employees.Employee", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
@@ -2792,7 +2922,19 @@ namespace RMG.ComplianceSystem.Migrations
 
             modelBuilder.Entity("RMG.ComplianceSystem.Departments.Department", b =>
                 {
+                    b.Navigation("Domains");
+
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.Framework", b =>
+                {
+                    b.Navigation("Domains");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

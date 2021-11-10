@@ -41,5 +41,11 @@ namespace RMG.ComplianceSystem.Frameworks
         {
             return Repository.GetAsync(id);
         }
+
+        public async Task<ListResultDto<FrameworkDto>> GetFrameworkListLookupAsync()
+        {
+            var data = await Repository.GetListAsync();
+            return new ListResultDto<FrameworkDto>(ObjectMapper.Map<List<Framework>, List<FrameworkDto>>(data));
+        }
     }
 }

@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Shared;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace RMG.ComplianceSystem.Frameworks
         public string DescriptionAr { get; set; }
         public string DescriptionEn { get; set; }
         public SharedStatus Status { get; set; }
+
+        public ICollection<Domain> Domains { get; set; }
 
         protected Framework()
         {

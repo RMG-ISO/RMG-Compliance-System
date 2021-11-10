@@ -25,7 +25,7 @@ export class DepartmentComponent implements OnInit {
   totalCount: number;
   departments: DepartmentDto[];
   isModalOpen: boolean = false;
-  selected: DepartmentDto;
+  selected = {} as any;
   form: FormGroup;
   
 
@@ -34,7 +34,6 @@ export class DepartmentComponent implements OnInit {
     private departmentService: DepartmentService,
     public dialog: MatDialog,
     private confirmation: ConfirmationService,
-    private router: Router,
   ) { }
 
 
@@ -42,9 +41,9 @@ export class DepartmentComponent implements OnInit {
     this.getList();
   }
 
-  getList() {
-    const bookStreamCreator = (query) => this.departmentService.getList(query);
-    this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+  getList(search = null) {
+    const streamCreator = (query) => this.departmentService.getList({...query, search});
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
@@ -77,7 +76,7 @@ export class DepartmentComponent implements OnInit {
       return;
     }
 
-    const request = this.selected.id
+    const request = this.selected?.id
       ? this.departmentService.update(this.selected.id, this.form.value)
       : this.departmentService.create(this.form.value);
 

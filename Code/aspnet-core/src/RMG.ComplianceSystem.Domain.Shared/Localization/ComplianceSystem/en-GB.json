@@ -4,7 +4,6 @@
     "Menu:Home": "Home",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
-
     "Search": "Search",
     "Close": "Close",
     "Delete": "Delete",
@@ -24,12 +23,11 @@
     "yes": "yes",
     "no": "no",
     "Menu:ComplianceSystemSettings": "System Settings",
-
+    "PleaseSelect": "Please Select",
 
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Menu:abp-Books": "Books",
-
     "PublishDate": "Publish date",
     "NewBook": "New book",
     "Name": "Name",
@@ -67,7 +65,6 @@
     "EditAuthor": "Edit Author",
     "NewAuthorWithBook": "New Author With Book",
     "Permission:Attachment": "Attachment",
-
     "Menu:Attachment": "MenuAttachment",
     "Attachment": "Attachment",
     "AttachmentIsMultiple": "AttachmentIsMultiple",
@@ -90,7 +87,6 @@
     "CreateAttachmentFile": "CreateAttachmentFile",
     "EditAttachmentFile": "EditAttachmentFile",
     "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?",
-
     "Permission:Framework": "Frameworks",
     "Menu:Framework": "Frameworks",
     "Framework": "Frameworks",
@@ -105,7 +101,6 @@
     "CreateFramework": "Create Framework",
     "EditFramework": "Edit Framework",
     "FrameworkDeletionConfirmationMessage": "Are you sure to delete the framework {0}?",
-
     "Permission:Department": "Departments",
     "Menu:Department": "Departments",
     "Department": "Departments",
@@ -114,7 +109,6 @@
     "CreateDepartment": "Create Department",
     "EditDepartment": "Edit Department",
     "DepartmentDeletionConfirmationMessage": "Are you sure to delete the department {0}?",
-
     "Permission:Employee": "Employees",
     "Menu:Employee": "Employees",
     "Employee": "Employees",
@@ -125,6 +119,26 @@
     "EmployeeDepartment": "Department",
     "CreateEmployee": "Create Employee",
     "EditEmployee": "Edit Employee",
-    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?"
+    "EmployeeDeletionConfirmationMessage": "Are you sure to delete the employee {0}?",
+
+    "Permission:Domain": "Domains",
+    "Menu:Domain": "Domains",
+    "Domain": "Domains",
+    "DomainNameAr": "Name Arabic",
+    "DomainNameEn": "DomainName English",
+    "DomainDescriptionAr": "Description Arabic",
+    "DomainDescriptionEn": "Description English",
+    "DomainReference": "Reference",
+    "DomainStatus": "Status",
+    "DomainParentId": "Parent",
+    "DomainFrameworkId": "Framework",
+    "DomainDepartmentId": "Department",
+    "DomainFramework": "Framework",
+    "DomainDepartment": "Department",
+    "DomainParent": "Parent",
+    "DomainChildren": "Children",
+    "CreateDomain": "Create Domain",
+    "EditDomain": "Edit Domain",
+    "DomainDeletionConfirmationMessage": "Are you sure to delete the domain {0}?"
   }
 }

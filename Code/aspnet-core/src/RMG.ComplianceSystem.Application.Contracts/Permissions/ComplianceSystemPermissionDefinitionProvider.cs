@@ -54,6 +54,11 @@ namespace RMG.ComplianceSystem.Permissions
             employeePermission.AddChild(ComplianceSystemPermissions.Employee.Create, L("Permission:Create"));
             employeePermission.AddChild(ComplianceSystemPermissions.Employee.Update, L("Permission:Update"));
             employeePermission.AddChild(ComplianceSystemPermissions.Employee.Delete, L("Permission:Delete"));
+
+            var domainPermission = myGroup.AddPermission(ComplianceSystemPermissions.Domain.Default, L("Permission:Domain"));
+            domainPermission.AddChild(ComplianceSystemPermissions.Domain.Create, L("Permission:Create"));
+            domainPermission.AddChild(ComplianceSystemPermissions.Domain.Update, L("Permission:Update"));
+            domainPermission.AddChild(ComplianceSystemPermissions.Domain.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)

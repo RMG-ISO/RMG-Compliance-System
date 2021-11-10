@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Frameworks;
@@ -48,6 +49,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddRepository<Framework, FrameworkRepository>();
                 options.AddRepository<Department, DepartmentRepository>();
                 options.AddRepository<Employee, EmployeeRepository>();
+                options.AddRepository<Domain, DomainRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>

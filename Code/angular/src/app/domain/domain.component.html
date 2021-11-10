@@ -1,0 +1,137 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col col-md-6">
+                <h3 class="card-title">
+                    {{ '::Domain' | abpLocalization }}
+                </h3>
+            </div>
+            <div class="text-right col col-md-6">
+                <div class="text-lg-right pt-2">
+                    <button *abpPermission="'ComplianceSystem.Books.Create'" id="create" class="btn btn-primary"
+                        type="button" (click)="openDialog()">
+                        <i class="fa fa-plus mr-1"></i>
+                        <span>{{ "::CreateDomain" | abpLocalization }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50" 
+            rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list">
+            <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DomainNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DomainDepartment' | abpLocalization" prop="departmentName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DomainStatus' | abpLocalization" prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization  }}
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
+                cellClass="options">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row.id)">
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
+                    <button mat-button (click)="$event.stopPropagation();openDialog(row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable> 
+    </div>
+</div>
+
+
+<abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h3 class="mb-0">{{ (selected?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization }}</h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="domain-nameAr">{{ '::DomainNameAr' | abpLocalization }}</label><span> * </span>
+                        <input type="text" id="domain-nameAr" class="form-control" formControlName="nameAr" autofocus />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="domain-nameEn">{{ '::DomainNameEn' | abpLocalization }}</label><span> * </span>
+                        <input type="text" id="domain-nameEn" class="form-control" formControlName="nameEn" autofocus />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="domain-descriptionAr">{{ '::DomainDescriptionAr' | abpLocalization }}</label><span>
+                            * </span>
+                        <input type="text" id="domain-descriptionAr" class="form-control"
+                            formControlName="descriptionAr" autofocus />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="domain-descriptionEn">{{ '::DomainDescriptionEn' | abpLocalization }}</label><span>
+                            * </span>
+                        <input type="text" id="domain-descriptionEn" class="form-control"
+                            formControlName="descriptionEn" autofocus />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="domain-reference">{{ '::DomainReference' | abpLocalization }}</label><span>
+                            * </span>
+                        <input type="text" id="domain-reference" class="form-control" formControlName="reference"
+                            autofocus />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="status">{{ '::DomainStatus' | abpLocalization }}</label><span> * </span>
+                        <select class="form-control" id="status" formControlName="status">
+                            <option [ngValue]="null">{{'::PleaseSelect'  | abpLocalization}}</option>
+                            <option  *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
+                                {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                            </option>
+                        </select>
+                    </div>
+                </div>               
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="departmentId">{{ '::DomainDepartmentId' | abpLocalization }}</label><span> * </span>
+                        <select class="form-control" id="departmentId" formControlName="departmentId">
+                            <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
+                            <option  *ngFor="let department of departments" [ngValue]="department.id">
+                                {{  department.name  }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+        <button type="button" class="btn btn-secondary" #abpClose>
+            {{ '::Close' | abpLocalization }}
+        </button>
+
+        <!--added save button-->
+        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+            <i class="fa fa-check mr-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+    </ng-template>
+</abp-modal>
