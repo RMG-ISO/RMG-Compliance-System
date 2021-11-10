@@ -1,1 +1,1 @@
-<input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control w-auto" (input)="change($event.target.value)" >
+<input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control w-auto"  [(ngModel)]="filterText"  (ngModelChange)="this.filterTextUpdate.next($event)" >

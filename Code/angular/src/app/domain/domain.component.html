@@ -20,9 +20,9 @@
     <div class="card-body">
         <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50" 
             rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list">
+            <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::DomainNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::DomainDepartment' | abpLocalization" prop="departmentName"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::DomainStatus' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
