@@ -23,6 +23,8 @@
     "yes": "yes",
     "no": "no",
     "Menu:ComplianceSystemSettings": "System Settings",
+    "PleaseSelect": "Please Select",
+
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Menu:abp-Books": "Books",

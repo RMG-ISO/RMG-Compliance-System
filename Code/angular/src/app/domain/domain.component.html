@@ -101,7 +101,8 @@
                     <div class="form-group">
                         <label for="status">{{ '::DomainStatus' | abpLocalization }}</label><span> * </span>
                         <select class="form-control" id="status" formControlName="status">
-                            <option  *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            <option [ngValue]="null">{{'::PleaseSelect'  | abpLocalization}}</option>
+                            <option  *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
                                 {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
                             </option>
                         </select>
@@ -111,8 +112,9 @@
                     <div class="form-group">
                         <label for="departmentId">{{ '::DomainDepartmentId' | abpLocalization }}</label><span> * </span>
                         <select class="form-control" id="departmentId" formControlName="departmentId">
-                            <option  *ngFor="let department of departments" [value]="department.id">
-                                {{  department.name | abpLocalization }}
+                            <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
+                            <option  *ngFor="let department of departments" [ngValue]="department.id">
+                                {{  department.name  }}
                             </option>
                         </select>
                     </div>
@@ -127,7 +129,7 @@
         </button>
 
         <!--added save button-->
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+        <button class="btn btn-primary" (click)="save()">
             <i class="fa fa-check mr-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>

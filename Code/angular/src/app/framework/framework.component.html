@@ -129,7 +129,7 @@
                     <div class="form-group">
                         <label for="status">{{ '::FrameworkStatus' | abpLocalization }}</label><span> * </span>
                         <select class="form-control" id="status" formControlName="status">
-                            <option  *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            <option  *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
                                 {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
                             </option>
                         </select>

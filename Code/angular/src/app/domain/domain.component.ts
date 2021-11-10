@@ -97,26 +97,29 @@ export class DomainComponent implements OnInit {
       reference: new FormControl(null, Validators.required),
       departmentId: new FormControl(null, Validators.required),
       frameworkId: new FormControl(this.frameworkId, Validators.required),
-      status: new FormControl(this.frameworkId, Validators.required),
+      status: new FormControl(null, Validators.required),
       parentId: new FormControl(this.isMainDomains ? null : this.mainDomainId, this.isMainDomains ? null : Validators.required),
     })
     this.form.patchValue(this.selected);
   }
 
   save() {
-    if (this.form.invalid) {
-      return;
-    }
+console.log(this.form.value)
+console.log(this.form.valid)
 
-    const request = this.selected?.id
-      ? this.domainService.update(this.selected.id, this.form.value)
-      : this.domainService.create(this.form.value);
+    // if (this.form.invalid) {
+    //   return;
+    // }
 
-    request.subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.list.get();
-    });
+    // const request = this.selected?.id
+    //   ? this.domainService.update(this.selected.id, this.form.value)
+    //   : this.domainService.create(this.form.value);
+
+    // request.subscribe(() => {
+    //   this.isModalOpen = false;
+    //   this.form.reset();
+    //   this.list.get();
+    // });
   }
 
 }

@@ -59,7 +59,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label> {{ '::FrameworkStatus' | abpLocalization }} </mat-label>
                         <mat-select name="status" formControlName="status">
-                            <mat-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            <mat-option *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
                                  {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
                                 </mat-option>
                         </mat-select>

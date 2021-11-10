@@ -23,6 +23,8 @@
     "yes": "نعم",
     "no": "لا",
     "Menu:ComplianceSystemSettings": "إعدادات النظام",
+    "PleaseSelect": "الرجاء الإختيار",
+
     "Menu:BookStore": "معرض الكتب",
     "Menu:Books": "كتب",
     "Menu:abp-Books": "كتب",
@@ -33,7 +35,7 @@
     "Price": "السعر",
     "CreationTime": "تاريخ الإنشاء",
     "AreYouSure": "ها أنت متأكد؟",
-    "Enum:BookType:0": "Undefined",
+    "Enum:BookType:0": "غير معرف",
     "Enum:BookType:1": "مغامرات",
     "Enum:BookType:2": "سيرة ذاتية",
     "Enum:BookType:3": "ديستوبيا",

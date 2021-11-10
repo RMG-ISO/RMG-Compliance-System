@@ -53,10 +53,10 @@
           <mat-form-field class="w-100">
             <mat-label>{{'::Type' | abpLocalization}}<span> * </span></mat-label>
             <mat-select id="book-type" formControlName="type">
-              <mat-option [value]="null"
+              <mat-option [ngValue]="null"
                 >{{'::SelectBookType' | abpLocalization}}</mat-option
               >
-              <mat-option [value]="type.value" *ngFor="let type of bookTypes"
+              <mat-option [ngValue]="type.value" *ngFor="let type of bookTypes"
                 >{{ '::Enum:BookType:' + type.value | abpLocalization
                 }}</mat-option
               >
