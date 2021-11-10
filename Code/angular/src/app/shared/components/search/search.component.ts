@@ -1,4 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -7,9 +9,19 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
   @Output('search') search = new EventEmitter();
+
+  filterText: string = "";
+    filterTextUpdate = new Subject<string>();
+
   constructor() { }
 
   ngOnInit(): void {
+    this.filterTextUpdate.pipe(
+      debounceTime(1000),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.search.emit(value);
+      });
   }
 
   timeOut

@@ -37,8 +37,9 @@ namespace RMG.ComplianceSystem.Employees
         protected override async Task<IQueryable<Employee>> CreateFilteredQueryAsync(EmployeePagedAndSortedResultRequestDto input)
         {
             return (await Repository.WithDetailsAsync())
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.FullName.Contains(input.Search))
-                .WhereIf(!input.Search.IsNullOrEmpty(), t => t.Email.Contains(input.Search));
+                .WhereIf(!input.Search.IsNullOrEmpty(), t =>
+                    t.FullName.Contains(input.Search) ||
+                    t.Email.Contains(input.Search));
         }
 
         protected override Task<Employee> GetEntityByIdAsync(Guid id)
