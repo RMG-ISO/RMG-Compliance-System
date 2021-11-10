@@ -104,22 +104,20 @@ export class DomainComponent implements OnInit {
   }
 
   save() {
-console.log(this.form.value)
-console.log(this.form.valid)
 
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) {
+      return;
+    }
 
-    // const request = this.selected?.id
-    //   ? this.domainService.update(this.selected.id, this.form.value)
-    //   : this.domainService.create(this.form.value);
+    const request = this.selected?.id
+      ? this.domainService.update(this.selected.id, this.form.value)
+      : this.domainService.create(this.form.value);
 
-    // request.subscribe(() => {
-    //   this.isModalOpen = false;
-    //   this.form.reset();
-    //   this.list.get();
-    // });
+    request.subscribe(() => {
+      this.isModalOpen = false;
+      this.form.reset();
+      this.list.get();
+    });
   }
 
 }
