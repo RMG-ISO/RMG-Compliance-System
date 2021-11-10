@@ -10,7 +10,8 @@
                 <button *abpPermission="'ComplianceSystem.Books.Create'" id="create" class="btn btn-primary mr-3"
                     type="button" (click)="openDialog()">
                     <i class="fa fa-plus mr-1"></i>
-                    <span>{{ "::CreateDomain" | abpLocalization:((isMainDomains? '::DomainMainDomain':'::DomainSubDomain')| abpLocalization) }}</span>
+                    <span>{{ "::CreateDomain" | abpLocalization:((isMainDomains?
+                        '::DomainMainDomain':'::DomainSubDomain')| abpLocalization) }}</span>
                 </button>
 
                 <app-search (search)="getList($event)"></app-search>
@@ -58,41 +59,44 @@
 
 <abp-modal [(visible)]="isModalOpen">
     <ng-template #abpHeader>
-        <h3 class="mb-0">{{ (selected?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization:((isMainDomains? '::DomainMainDomain':'::DomainSubDomain')| abpLocalization) }}</h3>
+        <h3 class="mb-0">{{ (selected?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization:((isMainDomains?
+            '::DomainMainDomain':'::DomainSubDomain')| abpLocalization) }}</h3>
     </ng-template>
 
     <ng-template #abpBody>
         <form [formGroup]="form" (ngSubmit)="save()">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="domain-nameAr">{{ '::DomainNameAr' | abpLocalization }}</label><span> * </span>
                         <input type="text" id="domain-nameAr" class="form-control" formControlName="nameAr" autofocus />
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="domain-nameEn">{{ '::DomainNameEn' | abpLocalization }}</label><span> * </span>
                         <input type="text" id="domain-nameEn" class="form-control" formControlName="nameEn" autofocus />
                     </div>
                 </div>
-                <div class="col-md-12">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label for="domain-descriptionAr">{{ '::DomainDescriptionAr' | abpLocalization }}</label><span>
-                            * </span>
+                        <label for="domain-descriptionAr">{{ '::DomainDescriptionAr' | abpLocalization }}</label>
                         <input type="text" id="domain-descriptionAr" class="form-control"
                             formControlName="descriptionAr" autofocus />
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label for="domain-descriptionEn">{{ '::DomainDescriptionEn' | abpLocalization }}</label><span>
-                            * </span>
+                        <label for="domain-descriptionEn">{{ '::DomainDescriptionEn' | abpLocalization }}</label>
                         <input type="text" id="domain-descriptionEn" class="form-control"
                             formControlName="descriptionEn" autofocus />
                     </div>
                 </div>
-                <div class="col-md-12">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="domain-reference">{{ '::DomainReference' | abpLocalization }}</label><span>
                             * </span>
@@ -100,7 +104,7 @@
                             autofocus />
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="status">{{ '::DomainStatus' | abpLocalization }}</label><span> * </span>
                         <select class="form-control" id="status" formControlName="status">
@@ -111,6 +115,8 @@
                         </select>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="departmentId">{{ '::DomainDepartmentId' | abpLocalization }}</label><span> * </span>

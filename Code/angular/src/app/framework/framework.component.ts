@@ -75,8 +75,8 @@ export class FrameworkComponent implements OnInit {
       nameEn: new FormControl(null, Validators.required),
       shortcutAr: new FormControl(null, Validators.required),
       shortcutEn: new FormControl(null, Validators.required),
-      descriptionAr: new FormControl(null, Validators.required),
-      descriptionEn: new FormControl(null, Validators.required),
+      descriptionAr: new FormControl(null),
+      descriptionEn: new FormControl(null),
       status: new FormControl(null, Validators.required),
       id: new FormControl(null)
     })
