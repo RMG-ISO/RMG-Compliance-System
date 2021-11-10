@@ -1,0 +1,7 @@
+:host {
+    ngx-datatable ::ng-deep{
+        datatable-body-row {
+            cursor: pointer;
+        }
+    }
+}
