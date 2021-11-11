@@ -25,6 +25,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 import { SearchComponent } from './components/search/search.component';
 import { FromNowPipe } from './pipe/from-now.pipe';
+import { ComplienceSettingBreadcrumbComponent } from './components/complience-setting-breadcrumb/complience-setting-breadcrumb.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { FromNowPipe } from './pipe/from-now.pipe';
     ConfirmationDialogComponent,
     SearchComponent,
     FromNowPipe,
+    ComplienceSettingBreadcrumbComponent,
   ],
   imports: [
     CoreModule,
@@ -86,7 +88,7 @@ import { FromNowPipe } from './pipe/from-now.pipe';
     MatStepperModule,
     
     FromNowPipe,
-
+    ComplienceSettingBreadcrumbComponent,
   ],
   providers: [
     {
