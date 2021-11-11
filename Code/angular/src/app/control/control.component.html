@@ -35,8 +35,8 @@
             </ngx-datatable-column>
 
             <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | fromNow}}
+                <ng-template let-value="value"  ngx-datatable-cell-template>
+                   <span title="{{value | date}}">{{value | fromNow}}</span>
                 </ng-template>
             </ngx-datatable-column>
 
@@ -83,15 +83,15 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="control-descriptionAr">{{ '::ControlDescriptionAr' | abpLocalization }}</label>
-                        <input type="text" id="control-descriptionAr" class="form-control"
-                            formControlName="descriptionAr" />
+                        <textarea  id="control-descriptionAr" class="form-control"
+                            formControlName="descriptionAr" ></textarea>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="control-descriptionEn">{{ '::ControlDescriptionEn' | abpLocalization }}</label>
-                        <input type="text" id="control-descriptionEn" class="form-control"
-                            formControlName="descriptionEn" />
+                        <textarea id="control-descriptionEn" class="form-control"
+                            formControlName="descriptionEn" ></textarea>
                     </div>
                 </div>
             </div>
