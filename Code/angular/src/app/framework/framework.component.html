@@ -17,46 +17,41 @@
         </div>
     </div>
     <div class="card-body">
-        <ngx-datatable
-        class="material fullscreen"
-        columnMode="force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        [rows]="items"
-        [count]="totalCount"
-        [list]="list"
-        (activate)="activate($event)"
-        >
-        
+        <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list"
+            (activate)="activate($event)">
+
             <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkNameEn' | abpLocalization" prop="nameEn"> </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::FrameworkShortcutAr' | abpLocalization" prop="shortcutAr"> </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn"> </ngx-datatable-column>
-        
+            <ngx-datatable-column [name]="'::FrameworkShortcutAr' | abpLocalization" prop="shortcutAr">
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn">
+            </ngx-datatable-column>
+
             <ngx-datatable-column [name]="'::FrameworkStatus' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization  }}
+                    {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
                 </ng-template>
             </ngx-datatable-column>
-        
+
             <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | fromNow}}
-                </ng-template>
+                    <span title="{{value | date}}">{{value | fromNow}}</span>                </ng-template>
             </ngx-datatable-column>
-                
-        
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                   
 
-                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Delete'" color="warn" (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon >delete_forever</mat-icon>
+
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
+                cellClass="options">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+
+
+                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Delete'" color="warn"
+                        (click)="$event.stopPropagation();delete(row)">
+                        <mat-icon>delete_forever</mat-icon>
                     </button>
 
-                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'" (click)="$event.stopPropagation();openDialog(row)">
+                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
+                        (click)="$event.stopPropagation();openDialog(row)">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </ng-template>
@@ -108,7 +103,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label>
-                        <input type="text" id="description-ar" class="form-control" formControlName="descriptionAr" />
+                        <textarea id="description-ar" class="form-control" formControlName="descriptionAr"></textarea>
                     </div>
                 </div>
             </div>
@@ -118,7 +113,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label>
-                        <input type="text" id="description" class="form-control" formControlName="descriptionEn" />
+                        <textarea id="description" class="form-control" formControlName="descriptionEn"> </textarea>
                     </div>
                 </div>
             </div>
@@ -129,7 +124,7 @@
                         <label for="status">{{ '::FrameworkStatus' | abpLocalization }}</label><span> * </span>
                         <select class="form-control" id="status" formControlName="status">
                             <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
-                            <option  *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
+                            <option *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
                                 {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
                             </option>
                         </select>
