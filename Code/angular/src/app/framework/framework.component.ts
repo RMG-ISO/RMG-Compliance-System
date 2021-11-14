@@ -1,5 +1,5 @@
 import { FrameworkService } from './../proxy/frameworks/framework.service';
-import { ListService } from '@abp/ng.core';
+import { ListService, LocalizationService, SessionStateService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from '../shared/interfaces/form-mode';
@@ -23,16 +23,24 @@ export class FrameworkComponent implements OnInit {
   selected;
   form: FormGroup;
 
+  visibleContent = 'grid';
+
   constructor(
     public readonly list: ListService,
     private frameworkService: FrameworkService,
     public dialog: MatDialog,
     private confirmation: ConfirmationService,
     private router: Router,
+    private localizationService:LocalizationService,
+    private sessionState: SessionStateService,
+
   ) { }
 
 
   ngOnInit(): void {
+    console.log('this.localizationService.currentLang', this.localizationService.currentLang);
+    console.log('this.sessionState.getLanguage', this.sessionState.getLanguage());
+
     this.getList();
   }
 
@@ -58,8 +66,6 @@ export class FrameworkComponent implements OnInit {
   activate(ev) {
     if (ev.type === 'click') this.router.navigate(['framework',ev.row.id,'main-domains']);
   }
-
-
 
 
   openDialog(data: FrameworkDto) {
