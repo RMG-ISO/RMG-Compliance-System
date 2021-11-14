@@ -34,9 +34,7 @@ namespace RMG.ComplianceSystem
 
 
             CreateMap<Attachment, AttachmentDto>();
-            CreateMap<CreateUpdateAttachmentDto, Attachment>(MemberList.Source);
             CreateMap<AttachmentFile, AttachmentFileDto>();
-            CreateMap<CreateUpdateAttachmentFileDto, AttachmentFile>(MemberList.Source);
             CreateMap<Framework, FrameworkDto>();
             CreateMap<CreateUpdateFrameworkDto, Framework>(MemberList.Source);
             CreateMap<Department, DepartmentDto>();

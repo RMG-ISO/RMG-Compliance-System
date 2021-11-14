@@ -4,34 +4,94 @@ using RMG.ComplianceSystem.Attachments.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using System.Threading.Tasks;
+using Volo.Abp;
+using Volo.Abp.Content;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RMG.ComplianceSystem.Attachments
 {
-    public class AttachmentAppService : CrudAppService<Attachment, AttachmentDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAttachmentDto, CreateUpdateAttachmentDto>,
-        IAttachmentAppService
+    public class AttachmentAppService : ComplianceSystemAppService, IAttachmentAppService
     {
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Attachment.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Attachment.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Attachment.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Attachment.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Attachment.Delete;
 
-        private readonly IAttachmentRepository _repository;
-        
-        public AttachmentAppService(IAttachmentRepository repository) : base(repository)
+
+        private readonly IAttachmentRepository _attachmentRepository;
+        private readonly IAttachmentFileRepository _attachmentFileRepository;
+
+        public AttachmentAppService(IAttachmentRepository attachmentRepository, IAttachmentFileRepository attachmentFileRepository)
         {
-            _repository = repository;
+            _attachmentRepository = attachmentRepository;
+            _attachmentFileRepository = attachmentFileRepository;
         }
 
-        protected override Task<System.Linq.IQueryable<Attachment>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
+        //protected override Task<System.Linq.IQueryable<Attachment>> CreateFilteredQueryAsync(PagedAndSortedResultRequestDto input)
+        //{
+        //    return Repository.WithDetailsAsync();
+        //}
+
+        //protected override Task<Attachment> GetEntityByIdAsync(Guid id)
+        //{
+        //    return Repository.GetAsync(id);
+        //}
+
+        //[RemoteService(false)]
+        //public override Task<AttachmentDto> CreateAsync(CreateUpdateAttachmentDto input)
+        //{
+        //    return base.CreateAsync(input);
+        //}
+
+        //[RemoteService(false)]
+        //public override Task<AttachmentDto> UpdateAsync(Guid id, CreateUpdateAttachmentDto input)
+        //{
+        //    return base.UpdateAsync(id, input);
+        //}
+
+        //[RemoteService(false)]
+        //public override Task DeleteAsync(Guid id)
+        //{
+        //    return base.DeleteAsync(id);
+        //}
+
+        //[RemoteService(false)]
+        //public override Task<AttachmentDto> GetAsync(Guid id)
+        //{
+        //    return base.GetAsync(id);
+        //}
+
+        //[RemoteService(false)]
+        //public override Task<PagedResultDto<AttachmentDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        //{
+        //    return base.GetListAsync(input);
+        //}
+
+        [Route("/api/app/attachment/upload-files")]
+        public async Task<Guid> UploadFiles(Guid? attachmentId, bool? isMultiple, int? maxFileSize, string fileExtentions, List<IFormFile> files)
         {
-            return Repository.WithDetailsAsync();
+            return GuidGenerator.Create();
         }
 
-        protected override Task<Attachment> GetEntityByIdAsync(Guid id)
+        public async Task DeleteFile(Guid attachmentId, Guid fileId)
         {
-            return Repository.GetAsync(id);
+
         }
+
+        public async Task<AttachmentDto> GetAttachmentWithFile(Guid attachmentId)
+        {
+            return null;
+        }
+
+        public async Task<IRemoteStreamContent> GetDownloadAttachmentFiles(Guid attachmentId)
+        {
+            return null;
+        }
+
+        public async Task<IRemoteStreamContent> GetDownloadFile(Guid fileId)
+        {
+            return null;
+        }
+
+
 
         //public override async Task<PagedResultDto<AttachmentDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         //{

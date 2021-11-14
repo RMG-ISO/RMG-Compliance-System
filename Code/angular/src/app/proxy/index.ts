@@ -8,4 +8,5 @@ import * as Domains from './domains';
 import * as Employees from './employees';
 import * as Frameworks from './frameworks';
 import * as Shared from './shared';
-export { Attachments, Authors, Books, Breadcrumbs, Controls, Departments, Domains, Employees, Frameworks, Shared };
+import * as Volo from './volo';
+export { Attachments, Authors, Books, Breadcrumbs, Controls, Departments, Domains, Employees, Frameworks, Shared, Volo };

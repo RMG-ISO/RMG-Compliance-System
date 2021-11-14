@@ -1,5 +1,6 @@
 using RMG.ComplianceSystem.Localization;
 using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.FeatureManagement;
 using Volo.Abp.Localization;
 
 namespace RMG.ComplianceSystem.Permissions
@@ -8,6 +9,11 @@ namespace RMG.ComplianceSystem.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
+
+            context.RemoveGroup(FeatureManagementPermissions.GroupName);
+            context.RemoveGroup("AbpTenantManagement");
+            context.RemoveGroup("SettingManagement");
+
             var myGroup = context.AddGroup(ComplianceSystemPermissions.GroupName, L("Permission:SytemPermissions"));
             //Define your own permissions here. Example:
             //myGroup.AddPermission(ComplianceSystemPermissions.MyPermission1, L("Permission:MyPermission1"));
