@@ -1,6 +1,7 @@
-import type { AttachmentDto, UploadFilesDto } from './dtos/models';
+import type { AttachmentDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { IFormFile } from '../microsoft/asp-net-core/http/models';
 import type { IRemoteStreamContent } from '../volo/abp/content/models';
 
 @Injectable({
@@ -38,12 +39,12 @@ export class AttachmentService {
     },
     { apiName: this.apiName });
 
-  uploadFilesByInput = (input: UploadFilesDto) =>
+  uploadFilesByAttachmentIdAndIsMultipleAndMaxFileSizeAndFileExtentionsAndFiles = (attachmentId: string, isMultiple: boolean, maxFileSize: number, fileExtentions: string, files: IFormFile[]) =>
     this.restService.request<any, string>({
       method: 'POST',
       responseType: 'text',
       url: '/api/app/attachment/upload-files',
-      body: input,
+      params: { attachmentId, isMultiple, maxFileSize, fileExtentions },
     },
     { apiName: this.apiName });
 

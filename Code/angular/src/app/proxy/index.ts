@@ -7,6 +7,7 @@ import * as Departments from './departments';
 import * as Domains from './domains';
 import * as Employees from './employees';
 import * as Frameworks from './frameworks';
+import * as Microsoft from './microsoft';
 import * as Shared from './shared';
 import * as Volo from './volo';
-export { Attachments, Authors, Books, Breadcrumbs, Controls, Departments, Domains, Employees, Frameworks, Shared, Volo };
+export { Attachments, Authors, Books, Breadcrumbs, Controls, Departments, Domains, Employees, Frameworks, Microsoft, Shared, Volo };
