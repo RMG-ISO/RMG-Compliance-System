@@ -37,7 +37,7 @@ export class FrameworkComponent implements OnInit {
   }
 
   getList(search = null) {
-    const streamCreator = (query) => this.frameworkService.getList({...query, search:search});
+    const streamCreator = (query) => this.frameworkService.getList({ ...query, search: search });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -48,7 +48,7 @@ export class FrameworkComponent implements OnInit {
 
 
   delete(model: FrameworkDto) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.nameAr]}).subscribe((status) => {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [model.nameAr] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.frameworkService.delete(model.id).subscribe(() => this.list.get());
       }
@@ -56,7 +56,7 @@ export class FrameworkComponent implements OnInit {
   }
 
   activate(ev) {
-    if (ev.type === 'click') this.router.navigate(['framework',ev.row.id,'main-domains']);
+    if (ev.type === 'click') this.router.navigate(['framework', ev.row.id, 'main-domains']);
   }
 
 
@@ -99,4 +99,14 @@ export class FrameworkComponent implements OnInit {
     });
   }
 
+  onUpload(attachmentId: string) {
+    console.log(attachmentId)
+  }
+
+  OnBeginUpload(isStart: boolean) {
+    console.log(isStart);
+  }
+  OnEndUpload(isEnd: boolean) {
+    console.log(isEnd);
+  }
 }

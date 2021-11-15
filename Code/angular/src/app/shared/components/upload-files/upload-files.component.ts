@@ -20,6 +20,8 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
   @Input() attachment: AttachmentDto;
   @Output() OnUpload: EventEmitter<string> = new EventEmitter<string>();
+  @Output() OnBeginUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() OnEndUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
   attachmentId: string;
   fileExtentions: string;
   isMultiple: boolean;
@@ -73,32 +75,31 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   handleFileInput(files: FileList) {
 
     this.checkFiles(files);
+    this.OnBeginUpload.emit(true);
+    this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
+      switch (event.type) {
+        case HttpEventType.Sent:
+          //console.log('Request has been made!');
+          break;
+        case HttpEventType.ResponseHeader:
+          //console.log('Response header has been received!');
+          break;
+        case HttpEventType.UploadProgress:
+          this.progress = Math.round(event.loaded / event.total * 100);
+          //console.log(`Uploaded! ${this.progress}%`);
+          break;
+        case HttpEventType.Response:
+          //console.log('successfully file uploaded!', event.body);
+          this.OnUpload.emit(event.body);
+          this.OnEndUpload.emit(true);
+          this.progress = 0;
+          break;
 
-    if (this.attachment) {
-    }
-    else {
+      }
 
-      this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.Sent:
-            //console.log('Request has been made!');
-            break;
-          case HttpEventType.ResponseHeader:
-            //console.log('Response header has been received!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round(event.loaded / event.total * 100);
-            //console.log(`Uploaded! ${this.progress}%`);
-            break;
-          case HttpEventType.Response:
-            //console.log('successfully file uploaded!', event.body);
-            this.OnUpload.emit(event.body);
-            this.progress = 0;
-            break;
-
-        }
-      });
-    }
+    },err=>{
+      this.OnEndUpload.emit(true);
+    });
   }
 
 
@@ -123,10 +124,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
         },
         body: this.generateFormData(files),
-
         reportProgress: true,
-
-
       },
       {
         apiName: this.attachmentService.apiName,

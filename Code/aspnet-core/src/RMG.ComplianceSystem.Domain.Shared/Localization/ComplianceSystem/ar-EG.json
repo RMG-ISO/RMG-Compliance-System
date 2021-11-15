@@ -90,6 +90,7 @@
     "AttachmentValidationFileExtention": "لاحقة الملف عير مطابقة لأحد هذه اللواحق {0}",
     "AttachmentUploadFiles": "رفع الملفات",
     "AttachmentUploadFile": "رفع الملف",
+    "AttachmentFileNotFoundException": "لم يتم العثور على الملف",
     "AttachmentFileDeletionConfirmationMessage": "Are you sure to delete the attachmentFile {0}?",
     "Permission:Framework": "أطر العمل",
     "Menu:Framework": "أطر العمل",

@@ -39,5 +39,35 @@ namespace RMG.ComplianceSystem.Attachments
             AttachmentId = attachmentId;
             Attachment = attachment;
         }
+
+        public AttachmentFile(
+         Guid id,
+         string name,
+         double size,
+         string displayName,
+         string extention,
+         Guid attachmentId
+     ) : base(id)
+        {
+            Name = name;
+            Size = size;
+            DisplayName = displayName;
+            Extention = extention;
+            AttachmentId = attachmentId;
+        }
+
+        public AttachmentFile(
+         Guid id,
+         string name,
+         double size,
+         string displayName,
+         string extention
+     ) : base(id)
+        {
+            Name = name;
+            Size = size;
+            DisplayName = displayName;
+            Extention = extention;
+        }
     }
 }

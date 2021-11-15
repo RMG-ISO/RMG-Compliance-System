@@ -260,3 +260,4 @@ src/RMG.ComplianceSystem.HttpApi.Host/Logs/*
 src/RMG.ComplianceSystem.DbMigrator/Logs/*
 src/RMG.ComplianceSystem.Blazor.Server/Logs/*
 src/RMG.ComplianceSystem.Blazor.Server.Tiered/Logs/*
+src/RMG.ComplianceSystem.HttpApi.Host/ComplianceSystem-Files/*

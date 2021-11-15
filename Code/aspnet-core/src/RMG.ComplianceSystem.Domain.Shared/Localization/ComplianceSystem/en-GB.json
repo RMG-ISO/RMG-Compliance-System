@@ -77,6 +77,7 @@
     "AttachmentValidationFileExtention": "File Extention Not Valid like {0}",
     "AttachmentUploadFiles": "Upload Files",
     "AttachmentUploadFile": "Upload File",
+    "AttachmentFileNotFoundException": "File Not Found",
     "AttachmentDeletionConfirmationMessage": "Are you sure to delete the attachment {0}?",
     "SuccessfullyDeleted": "Successfully deleted",
     "Permission:AttachmentFile": "AttachmentFile",
