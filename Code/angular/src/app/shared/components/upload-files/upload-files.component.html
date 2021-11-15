@@ -1,8 +1,7 @@
 <label for="file-upload" class="custom-file-upload btn btn-info">
     {{(isMultiple?'::AttachmentUploadFiles':'::AttachmentUploadFile') |abpLocalization}}
 </label>
-<input id="file-upload" type="file" hidden (change)="handleFileInput(($event.target.files))" [multiple]="isMultiple"
-    [accept]="acceptedTypes" />
+<input id="file-upload" type="file" hidden (change)="handleFileInput(($event.target.files))" [multiple]="isMultiple"  [accept]="acceptedTypes"  [disabled]="uploading" />
 
     <div *ngIf="progress>0" class="progress">
       <div class="progress-bar" role="progressbar" [style]="'width:'+progress+'%'" ></div>

@@ -29,6 +29,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   acceptedTypes: string;
   fileUploaderErrors: IFileUploaderErrors[];
   progress: number;
+  uploading:boolean=false;
 
   constructor(
     private config: ConfigStateService,
@@ -76,6 +77,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
     this.checkFiles(files);
     this.OnBeginUpload.emit(true);
+    this.uploading=true;
     this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
@@ -92,6 +94,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
           //console.log('successfully file uploaded!', event.body);
           this.OnUpload.emit(event.body);
           this.OnEndUpload.emit(true);
+          this.uploading=false;
           this.progress = 0;
           break;
 
@@ -99,6 +102,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
     },err=>{
       this.OnEndUpload.emit(true);
+      this.uploading=false;
     });
   }
 
