@@ -27,6 +27,7 @@ import { SearchComponent } from './components/search/search.component';
 import { FromNowPipe } from './pipe/from-now.pipe';
 import { ComplienceSettingBreadcrumbComponent } from './components/complience-setting-breadcrumb/complience-setting-breadcrumb.component';
 import { LangPipe } from './pipe/lang.pipe';
+import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { LangPipe } from './pipe/lang.pipe';
     FromNowPipe,
     ComplienceSettingBreadcrumbComponent,
     LangPipe,
+    UploadFilesComponent,
   ],
   imports: [
     CoreModule,
@@ -92,6 +94,7 @@ import { LangPipe } from './pipe/lang.pipe';
     FromNowPipe,
     LangPipe,
     ComplienceSettingBreadcrumbComponent,
+    UploadFilesComponent,
   ],
   providers: [
     {

@@ -5,13 +5,7 @@ using Volo.Abp.Application.Services;
 
 namespace RMG.ComplianceSystem.Attachments
 {
-    public interface IAttachmentAppService :
-        ICrudAppService< 
-            AttachmentDto, 
-            Guid, 
-            PagedAndSortedResultRequestDto,
-            CreateUpdateAttachmentDto,
-            CreateUpdateAttachmentDto>
+    public interface IAttachmentAppService :IApplicationService
     {
 
     }

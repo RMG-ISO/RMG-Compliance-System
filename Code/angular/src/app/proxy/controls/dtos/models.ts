@@ -1,7 +1,6 @@
+import { IdentityUserDto } from '@abp/ng.account';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { SharedStatus } from '../../shared/shared-status.enum';
-import { IdentityUserDto } from '@abp/ng.account';
-
 
 export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
