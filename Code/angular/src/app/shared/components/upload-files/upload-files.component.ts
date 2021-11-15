@@ -1,8 +1,14 @@
-import { ConfigStateService, RestService } from '@abp/ng.core';
-import { Component, Input, OnInit } from '@angular/core';
+import { ConfigStateService, LocalizationService, Rest, RestService } from '@abp/ng.core';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AttachmentService } from '@proxy/attachments';
 import { AttachmentDto } from '@proxy/attachments/dtos';
-import * as mimeLite from 'mime/lite';
+import * as mime from 'mime';
+
+export interface IFileUploaderErrors {
+  fileName: string,
+  errors: Array<string>
+}
 
 
 @Component({
@@ -10,106 +16,151 @@ import * as mimeLite from 'mime/lite';
   templateUrl: './upload-files.component.html',
   styleUrls: ['./upload-files.component.scss']
 })
-export class UploadFilesComponent implements OnInit {
+export class UploadFilesComponent implements OnInit, OnChanges {
 
   @Input() attachment: AttachmentDto;
+  @Output() OnUpload: EventEmitter<string> = new EventEmitter<string>();
+  attachmentId: string;
+  fileExtentions: string;
+  isMultiple: boolean;
+  maxFileSize: number;
+  acceptedTypes: string;
+  fileUploaderErrors: IFileUploaderErrors[];
+  progress: number;
 
   constructor(
     private config: ConfigStateService,
     private attachmentService: AttachmentService,
-    private restService: RestService) { }
+    private restService: RestService,
+    private localizationService: LocalizationService
+  ) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes["attachment"]) {
+      let att = changes["attachment"].currentValue;
+      this.attachmentId = att ? att.id : null;
+      this.fileExtentions = att ? att.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
+      this.isMultiple = att ? att.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
+      this.maxFileSize = att ? att.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
+
+      let exts = []
+      this.fileExtentions.split(',').forEach(v => {
+        exts.push(mime.getType(v));
+      });
+
+      this.acceptedTypes = exts.join(',');
+    }
+  }
 
   ngOnInit(): void {
+    this.attachmentId = this.attachment ? this.attachment.id : null;
+    this.fileExtentions = this.attachment ? this.attachment.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
+    this.isMultiple = this.attachment ? this.attachment.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
+    this.maxFileSize = this.attachment ? this.attachment.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
+
+    let exts = []
+    this.fileExtentions.split(',').forEach(v => {
+      exts.push(mime.getType(v));
+    });
+
+    this.acceptedTypes = exts.join(',');
+
+
   }
 
 
   handleFileInput(files: FileList) {
 
-    console.log(this.attachment);
+    this.checkFiles(files);
 
-    console.log(this.config.getSetting("ComplianceSystem.Attachment.IsMultiple"));
-    console.log(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
-    console.log(this.config.getSetting("ComplianceSystem.Attachment.FileExtentions"));
+    if (this.attachment) {
+    }
+    else {
 
-    // let formData = new FormData();
-    // let data: IRemoteStreamContent[] = [];
-    Array.from(files).forEach(file => {
+      this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            //console.log('Request has been made!');
+            break;
+          case HttpEventType.ResponseHeader:
+            //console.log('Response header has been received!');
+            break;
+          case HttpEventType.UploadProgress:
+            this.progress = Math.round(event.loaded / event.total * 100);
+            //console.log(`Uploaded! ${this.progress}%`);
+            break;
+          case HttpEventType.Response:
+            //console.log('successfully file uploaded!', event.body);
+            this.OnUpload.emit(event.body);
+            this.progress = 0;
+            break;
 
-      // formData.append(file.type, file, file.name)
-      // data.push({ contentLength: file.size, contentType: file.type, fileName: file.name })
-      console.log(file.type)
-      console.log(mimeLite.getExtension(file.type));
-      console.log(file.size);
-
-      if (this.attachment) {
-      }
-      else {
-
-        this.createasd(file).subscribe(result => {
-          console.log(result);
-        });
-
-
-      }
-    });
+        }
+      });
+    }
   }
 
-  // if (this.attachment) {
-  // }
-  // else {
-  //   // this.attachmentService.uploadFilesByInput(
-  //   //   { files: formData,
-  //   //      attachmentId: null,
-  //   //       fileExtentions: this.config.getSetting("ComplianceSystem.Attachment.FileExtentions"),
-  //   //       isMultiple:this.config.getSetting("ComplianceSystem.Attachment.IsMultiple"),
-  //   //       maxFileSize:this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize")
-  //   //      });
 
-
-
-  // this.createasd(file)
-
-
-
-  // //  for (let index = 0; index < files.length; index++) {
-  // //    const file:File = files[index];
-
-  // //    console.log(file.type)
-  // //    console.log(mimeLite.getExtension(file.type));
-  // //    console.log(file.size);
-
-  // //    console.log(this.config.getSetting("ComplianceSystem.Attachment.IsMultiple"));
-  // //    console.log(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
-  // //    console.log(this.config.getSetting("ComplianceSystem.Attachment.FileExtentions"));
-  // //  }
-
-  // }
-
-  private generateFormData(file: File) {
+  private generateFormData(files: FileList) {
     const formData = new FormData();
-    formData.append('files', file, file.name);
+    Array.from(files).forEach(file => {
+      formData.append('files', file, file.name);
+    });
     return formData;
   }
 
-  createasd = (file: File) => this.restService
+  uploadFiles = (files: FileList, attachment: AttachmentDto) => this.restService
     .request<any, any>(
       {
         method: 'POST',
-        ///api/app/attachment/upload-files/{attachmentId}
         url: '/api/app/attachment/upload-files',
         params: {
-          attachmentId: '2432eda6-454b-11ec-81d3-0242ac130003',
-          fileExtentions: this.config.getSetting("ComplianceSystem.Attachment.FileExtentions"),
-          isMultiple: this.config.getSetting("ComplianceSystem.Attachment.IsMultiple"),
-          maxFileSize: this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize")
+          attachmentId: attachment ? attachment.id : null,
+          fileExtentions: attachment ? attachment.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions"),
+          isMultiple: attachment ? attachment.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple"),
+          maxFileSize: attachment ? attachment.maxFileSize : this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize")
 
         },
-        body: this.generateFormData(file),
+        body: this.generateFormData(files),
 
+        reportProgress: true,
 
 
       },
-      { apiName: this.attachmentService.apiName }
+      {
+        apiName: this.attachmentService.apiName,
+        observe: Rest.Observe.Events
+      },
+
     );
+
+  checkFiles = (files: FileList) => {
+    this.fileUploaderErrors = [];
+    Array.from(files).forEach(file => {
+      let fileSizeError = '';
+      this.localizationService.get('::AttachmentValidationFileSize', this.maxFileSize.toString()).subscribe(res => {
+        fileSizeError = res;
+      });
+      let fileExtentionError = '';
+      this.localizationService.get('::AttachmentValidationFileExtention', this.fileExtentions).subscribe(res => {
+        fileExtentionError = res;
+      });;
+      let erros: Array<string> = [];
+      if (file.size > this.maxFileSize * 1024 * 1024)
+        erros.push(fileSizeError)
+
+      let fileExtention = file.name.substring(file.name.indexOf('.') + 1, file.name.length);
+
+      if (!this.acceptedTypes.includes(mime.getType(fileExtention)))
+        erros.push(fileExtentionError)
+      if (erros.length > 0)
+        this.fileUploaderErrors.push({ fileName: file.name, errors: erros })
+    });
+
+
+    if (this.fileUploaderErrors.length > 0)
+      throw Error(JSON.stringify(this.fileUploaderErrors))
+  };
 }
 
