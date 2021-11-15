@@ -7,6 +7,15 @@
                 </h3>
             </div>
             <div class="col col-md-6 pt-2 d-flex justify-content-end">
+                <div class="visible-content mr-3">
+                    <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent == 'cards'">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button mat-button (click)="visibleContent = 'grid'" [class.active]="visibleContent == 'grid'">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+
                 <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" class="btn btn-primary mr-3"
                     type="button" (click)="openDialog()">
                     <i class="fa fa-plus mr-1"></i>
@@ -17,7 +26,38 @@
         </div>
     </div>
     <div class="card-body">
-        <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+        <div class="row" *ngIf="visibleContent == 'cards'">
+            <div class="col-md-4 col-lg-3 card-cont" *ngFor="let item of items">
+                <mat-card>
+                    <mat-card-title class="text-center">
+                        {{ item | lang:'name' }}
+                    </mat-card-title>
+                    <mat-card-content>
+                        <div>
+                            <button mat-raised-button>
+                                <i class="fas fa-globe-americas"></i>
+                            </button>
+                            <p>
+                                {{ item | lang:'shortcut' }}
+                            </p>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions class="d-flex justify-content-center">
+                        <button mat-raised-button>
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button mat-raised-button>
+                            <i class="fas fa-list-ul"></i>
+                        </button>
+                        <button mat-raised-button (click)="openDialog(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+
+        <ngx-datatable [class.hide-content]="visibleContent == 'cards'" class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
             rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list"
             (activate)="activate($event)">
 
@@ -146,3 +186,5 @@
         </button>
     </ng-template>
 </abp-modal>
+
+<app-upload-files (OnUpload)="onUpload($event)" (OnBeginUpload)="OnBeginUpload($event)" (OnEndUpload)="OnEndUpload($event)"></app-upload-files>

@@ -17,6 +17,5 @@ namespace RMG.ComplianceSystem.Attachments.Dtos
 
         public Guid AttachmentId { get; set; }
 
-        public AttachmentDto Attachment { get; set; }
     }
 }
