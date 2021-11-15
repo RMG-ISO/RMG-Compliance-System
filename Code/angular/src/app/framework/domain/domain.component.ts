@@ -1,8 +1,8 @@
-import { DomainService } from '../proxy/domains/domain.service';
+import { DomainService } from '../../proxy/domains/domain.service';
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormMode } from '../shared/interfaces/form-mode';
+import { FormMode } from '../../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
