@@ -38,7 +38,8 @@ namespace RMG.ComplianceSystem.Domains
                    t.DescriptionAr.Contains(input.Search) ||
                    t.DescriptionEn.Contains(input.Search) ||
                    t.Reference.Contains(input.Search))
-            ;
+                .WhereIf(input.Status.HasValue, t => t.Status == input.Status);
+           
         }
 
         protected override Task<Domain> GetEntityByIdAsync(Guid id)

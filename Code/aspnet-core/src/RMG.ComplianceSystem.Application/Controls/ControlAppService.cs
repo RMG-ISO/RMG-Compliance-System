@@ -18,7 +18,7 @@ namespace RMG.ComplianceSystem.Controls
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Control.Delete;
 
         private readonly IControlRepository _repository;
-        
+
         public ControlAppService(IControlRepository repository) : base(repository)
         {
             _repository = repository;
@@ -36,7 +36,7 @@ namespace RMG.ComplianceSystem.Controls
                    t.DescriptionAr.Contains(input.Search) ||
                    t.DescriptionEn.Contains(input.Search) ||
                    t.Reference.Contains(input.Search))
-            ;
+                .WhereIf(input.Status.HasValue, t => t.Status == input.Status);
         }
 
         protected override Task<Control> GetEntityByIdAsync(Guid id)

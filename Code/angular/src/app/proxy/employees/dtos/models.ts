@@ -1,4 +1,3 @@
-import { IdentityUserDto } from '@abp/ng.account';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 
 export interface CreateUpdateEmployeeDto {
@@ -8,7 +7,7 @@ export interface CreateUpdateEmployeeDto {
   isManager: boolean;
 }
 
-export interface EmployeeDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
+export interface EmployeeDto extends FullAuditedEntityWithUserDto<string, IdentityUserDto> {
   fullName?: string;
   email?: string;
   departmentId?: string;

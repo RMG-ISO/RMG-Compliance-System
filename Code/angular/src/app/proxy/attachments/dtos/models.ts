@@ -14,5 +14,4 @@ export interface AttachmentFileDto extends FullAuditedEntityWithUserDto<Identity
   displayName?: string;
   extention?: string;
   attachmentId?: string;
-  attachment: AttachmentDto;
 }

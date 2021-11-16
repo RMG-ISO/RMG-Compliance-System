@@ -35,7 +35,8 @@ namespace RMG.ComplianceSystem.Frameworks
                 t.ShortcutAr.Contains(input.Search) ||
                 t.ShortcutEn.Contains(input.Search) ||
                 t.DescriptionAr.Contains(input.Search) ||
-                t.DescriptionEn.Contains(input.Search));
+                t.DescriptionEn.Contains(input.Search))
+                .WhereIf(input.Status.HasValue,t=>t.Status==input.Status);
         }
 
         protected override Task<Framework> GetEntityByIdAsync(Guid id)
