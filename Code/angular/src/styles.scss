@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
 @import "./styles/theme.config.scss";
+@import "~@ng-select/ng-select/themes/material.theme.css";
+
 @keyframes donut-spin {
   0% {
     transform: rotate(0deg);

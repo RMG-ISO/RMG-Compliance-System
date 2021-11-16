@@ -53,7 +53,10 @@ const routes: Routes = [
   // { path: 'authors', loadChildren: () => import('./author/author.module').then(m => m.AuthorModule) },
   // { path: 'author-with-books', loadChildren: () => import('./author-with-books/author-with-books.module').then(m => m.AuthorWithBooksModule) },
   // { path: 'abp-books', loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule) },
-
+  {
+    path:'design-guide',
+    loadChildren:() => import('./design-guide/design-guide.module').then(m => m.DesignGuideModule)
+  },
   {
     path:'',
     redirectTo:'/home',

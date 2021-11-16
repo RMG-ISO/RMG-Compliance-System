@@ -28,6 +28,7 @@ import { FromNowPipe } from './pipe/from-now.pipe';
 import { ComplienceSettingBreadcrumbComponent } from './components/complience-setting-breadcrumb/complience-setting-breadcrumb.component';
 import { LangPipe } from './pipe/lang.pipe';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -63,7 +64,7 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     MatMenuModule,
 
     MatStepperModule,
-
+    NgSelectModule
   ],
   exports: [
     SearchComponent,
@@ -95,6 +96,7 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     LangPipe,
     ComplienceSettingBreadcrumbComponent,
     UploadFilesComponent,
+    NgSelectModule
   ],
   providers: [
     {

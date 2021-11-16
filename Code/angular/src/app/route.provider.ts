@@ -41,6 +41,18 @@ function configureRoutes(routesService: RoutesService) {
       },
 
       {
+        path:'/design-guide',
+        name:'::design-guide',
+        iconClass: 'fas fa-building',
+        order: 1,
+        layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Department',
+      },
+
+
+      
+
+      {
         path:'/employee',
         name:'::Menu:Employee',
         iconClass: 'fas fa-users',
