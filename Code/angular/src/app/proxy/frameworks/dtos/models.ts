@@ -24,4 +24,5 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
+  status?: SharedStatus;
 }

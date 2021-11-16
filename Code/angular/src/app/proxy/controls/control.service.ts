@@ -35,7 +35,7 @@ export class ControlService {
     this.restService.request<any, PagedResultDto<ControlDto>>({
       method: 'GET',
       url: '/api/app/control',
-      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

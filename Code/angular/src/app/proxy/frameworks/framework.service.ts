@@ -42,7 +42,7 @@ export class FrameworkService {
     this.restService.request<any, PagedResultDto<FrameworkDto>>({
       method: 'GET',
       url: '/api/app/framework',
-      params: { search: input.search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
