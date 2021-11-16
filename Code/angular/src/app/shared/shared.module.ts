@@ -29,6 +29,7 @@ import { ComplienceSettingBreadcrumbComponent } from './components/complience-se
 import { LangPipe } from './pipe/lang.pipe';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FileSizePipe } from './pipe/file-size.pipe';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ComplienceSettingBreadcrumbComponent,
     LangPipe,
     UploadFilesComponent,
+    FileSizePipe,
   ],
   imports: [
     CoreModule,
@@ -94,6 +96,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     
     FromNowPipe,
     LangPipe,
+    FileSizePipe,
     ComplienceSettingBreadcrumbComponent,
     UploadFilesComponent,
     NgSelectModule

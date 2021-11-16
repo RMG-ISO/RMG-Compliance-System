@@ -1,15 +1,35 @@
-<label for="file-upload" class="custom-file-upload btn btn-info">
+<!-- <label (click)="input.click()" class="custom-file-upload btn btn-info">
     {{ ( isMultiple ? '::AttachmentUploadFiles' : '::AttachmentUploadFile' ) |abpLocalization }}
 </label>
-<input id="file-upload" type="file" hidden (change)="handleFileInput(($event.target.files))" [multiple]="isMultiple"  [accept]="acceptedTypes"  [disabled]="uploading" />
+<input #input type="file" hidden (change)="handleFileInput(($event.target.files))" [multiple]="isMultiple"  [accept]="acceptedTypes"  [disabled]="uploading" /> -->
 
-    <div *ngIf="progress>0" class="progress">
-      <div class="progress-bar" role="progressbar" [style]="'width:'+progress+'%'" ></div>
+<div>
+    <div class="precentage-cont" *ngIf="progress>0">
+        <svg preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" viewBox="0 0 100 100">
+            <g>
+                <circle cx="50%" cy="50%" r="45" style="stroke-dashoffset: 0;stroke: #EDF1F7;"></circle>
+                <circle cx="50%" cy="50%" [attr.r]="radius" [style.stroke-dashoffset]="circumference - progress / 100 * circumference"></circle>
+            </g>
+        </svg>
+        <h4>
+            {{progress}}
+            <span>%</span>
+        </h4>
     </div>
-    <ol *ngFor="let err of fileUploaderErrors" class="validation-error">
-        <li>{{err.fileName}}
-            <ul>
-                <li *ngFor="let fileErr of err.errors">{{fileErr}}</li>
-            </ul>
-        </li>
-    </ol>
+
+    <button mat-button type="button" [disabled]="uploading" >
+        {{ ( isMultiple ? '::AttachmentUploadFiles' : '::AttachmentUploadFile' ) |abpLocalization }}
+        <input type="text" type="file" (change)="handleFileInput(($event.target.files))" [multiple]="isMultiple" [disabled]="uploading" [accept]="acceptedTypes" >
+    </button>
+</div>
+
+<!-- <div *ngIf="progress>0" class="progress">
+    <div class="progress-bar" role="progressbar" [style]="'width:'+progress+'%'" ></div>
+</div> -->
+<ol *ngFor="let err of fileUploaderErrors" class="validation-error">
+    <li>{{err.fileName}}
+        <ul>
+            <li *ngFor="let fileErr of err.errors">{{fileErr}}</li>
+        </ul>
+    </li>
+</ol>

@@ -78,6 +78,9 @@ ngx-datatable {
         display: flex !important;
         align-items: center;
         justify-content: center;
+        .datatable-body-cell-label {
+            word-break: break-all;
+        }
         &.options {
             display: flex;
             align-items: center;
@@ -206,3 +209,79 @@ mat-dialog-container.mat-dialog-container {
     }
 }
 
+.header-pipe {
+    display: inline-block;
+    padding: 2px 10px;
+    border-left: 2px solid #000000;
+    font-size: 16px;
+    font-weight: bold;
+    &.no {
+        padding: 2px 11px;
+        border-left: none;
+        border-right: none;
+    }
+}
+
+body[dir="rtl"] {
+    .header-pipe {
+        border-right: 2px solid #000000;
+        border-left:none;
+    }
+}
+
+ng-select.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    border: 1px solid #4B74FF;
+    background-color: transparent;
+    color: #558BED;
+    border-radius: 100px;
+    padding: 7px 14px;
+    .ng-value-icon {
+        color: #4B74FF !important;
+        font-size: 20px;
+    }
+}
+
+mat-card.global-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    mat-card-title{
+        color: #2C3254;
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    mat-card-content{
+        flex: 1;
+        text-align: center;
+        button{
+            color: #558BED;
+            font-size: 20px;
+            width: 55px;
+            height: 55px;
+            padding: 0;
+            font-size: 32px;
+            border-radius: 100px;
+            min-width: auto;
+            margin: 26px 0;
+        }
+        p {
+            margin-bottom: 0;
+        }
+    }
+    mat-card-actions {
+        padding-bottom: 16px !important;
+        button{
+            color: #558BED;
+            font-size: 20px;
+            min-width: auto;
+            padding: 0;
+            width: 45px;
+            height: 45px;
+            margin-left: 5px !important;
+            border-radius: 50px ;
+            margin-right: 5px !important;
+        }
+    }
+}

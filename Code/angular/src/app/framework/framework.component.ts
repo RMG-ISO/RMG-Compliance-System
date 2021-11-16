@@ -104,15 +104,4 @@ export class FrameworkComponent implements OnInit {
       this.list.get();
     });
   }
-
-  onUpload(attachmentId: string) {
-    console.log(attachmentId)
-  }
-
-  OnBeginUpload(isStart: boolean) {
-    console.log(isStart);
-  }
-  OnEndUpload(isEnd: boolean) {
-    console.log(isEnd);
-  }
 }

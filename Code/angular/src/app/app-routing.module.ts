@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
   },
   {
+    path:'compliance',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./compliance-management/compliance-management.module').then(m => m.ComplianceManagementModule)
+  },
+  {
     path:'department',
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./department/department.module').then(m => m.DepartmentModule)

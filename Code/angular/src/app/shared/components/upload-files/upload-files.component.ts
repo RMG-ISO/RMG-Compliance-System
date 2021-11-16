@@ -17,6 +17,9 @@ export interface IFileUploaderErrors {
   styleUrls: ['./upload-files.component.scss']
 })
 export class UploadFilesComponent implements OnInit, OnChanges {
+  radius = 45;
+  circumference = this.radius * 2 * Math.PI;
+
 
   @Input('attachment') attachment: AttachmentDto;
   @Output() OnUpload: EventEmitter<string> = new EventEmitter<string>();

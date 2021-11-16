@@ -1,6 +1,10 @@
-<div>
-    <app-upload-files [attachment]="{ attachmentId: attachmentId }" (OnUpload)="OnUpload($event)" [attachment]="{}"></app-upload-files>
+<div class="d-flex justify-content-between align-items-center">
+    <span class="header-pipe">
+        المرفقات
+    </span>
+    <app-upload-files *ngIf="!disabled" [attachment]="attachment" (OnUpload)="OnFileUploaded($event)"></app-upload-files>
 </div>
+
 <ngx-datatable
 class="material fullscreen"
 columnMode="force"
@@ -9,28 +13,35 @@ columnMode="force"
 rowHeight="auto"
 [scrollbarH]="true"
 [rows]="items"
-[count]="totalCount">
-    <ngx-datatable-column [name]="'::الملف' | abpLocalization" prop="nameAr"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'::الحجم' | abpLocalization" prop="nameEn"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::الشخص المسؤول' | abpLocalization" prop="shortcutAr">
-    </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::تاريخ اخر تعديل' | abpLocalization" prop="shortcutEn">
-    </ngx-datatable-column>
+[count]="totalCount"
+>
 
-    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
-        cellClass="options">
+    <ngx-datatable-column [name]="'::AttachmentFileName' | abpLocalization" prop="displayName"></ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::AttachmentFileSize' | abpLocalization" prop="size">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | fileSize }}
+        </ng-template>
+    </ngx-datatable-column>
+    
+    <ngx-datatable-column [name]="'::Responsible' | abpLocalization" prop="creator">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value.name }}
+        </ng-template>
+    </ngx-datatable-column>
+    
+    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
         <ng-template let-row="row" ngx-datatable-cell-template>
+            <ng-container *ngIf="!disabled">
+                <button  mat-button *abpPermission="'ComplianceSystem.Framework.Delete'" color="warn" (click)="delete(row)">
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
+            </ng-container>
 
-
-            <button mat-button *abpPermission="'ComplianceSystem.Framework.Delete'" color="warn"
-                (click)="$event.stopPropagation();delete(row)">
-                <mat-icon>delete_forever</mat-icon>
-            </button>
-
-            <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
-                (click)="$event.stopPropagation();openDialog(row)">
-                <mat-icon>edit</mat-icon>
+            <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'" (click)="download(row)" color="primary">
+                <mat-icon>file_download</mat-icon>
             </button>
         </ng-template>
     </ngx-datatable-column>
+    
 </ngx-datatable>
