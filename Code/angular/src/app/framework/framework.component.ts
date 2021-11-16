@@ -20,7 +20,7 @@ export class FrameworkComponent implements OnInit {
   items: FrameworkDto[];
   totalCount: number;
   isModalOpen: boolean = false;
-  selected;
+  selected:FrameworkDto;
   form: FormGroup;
 
   constructor(
