@@ -26,6 +26,7 @@ import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.serv
 import { SearchComponent } from './components/search/search.component';
 import { FromNowPipe } from './pipe/from-now.pipe';
 import { ComplienceSettingBreadcrumbComponent } from './components/complience-setting-breadcrumb/complience-setting-breadcrumb.component';
+import { LangPipe } from './pipe/lang.pipe';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 
 
@@ -35,6 +36,7 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     SearchComponent,
     FromNowPipe,
     ComplienceSettingBreadcrumbComponent,
+    LangPipe,
     UploadFilesComponent,
   ],
   imports: [
@@ -90,6 +92,7 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     MatStepperModule,
     
     FromNowPipe,
+    LangPipe,
     ComplienceSettingBreadcrumbComponent,
     UploadFilesComponent,
   ],
