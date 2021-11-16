@@ -31,4 +31,5 @@ export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResu
   mainDomainId?: string;
   isMainDomain: boolean;
   search?: string;
+  status?: SharedStatus;
 }
