@@ -14,7 +14,9 @@ namespace RMG.ComplianceSystem.Attachments
 
             return queryable
                 // .Include(x => x.xxx) // TODO: AbpHelper generated
-                .Include(t => t.Attachment)
+                .Include(t => t.Attachment.Creator)
+                .Include(t => t.Attachment.LastModifier)
+                .Include(t => t.Attachment.Deleter)
                 .Include(t => t.Creator)
                 .Include(t => t.LastModifier)
                 .Include(t => t.Deleter)

@@ -20,7 +20,7 @@ export class FrameworkComponent implements OnInit {
   items: FrameworkDto[];
   totalCount: number;
   isModalOpen: boolean = false;
-  selected:FrameworkDto;
+  selected: FrameworkDto;
   form: FormGroup;
 
   visibleContent = 'grid';
@@ -31,7 +31,7 @@ export class FrameworkComponent implements OnInit {
     public dialog: MatDialog,
     private confirmation: ConfirmationService,
     private router: Router,
-    private localizationService:LocalizationService,
+    private localizationService: LocalizationService,
     private sessionState: SessionStateService,
 
   ) { }
