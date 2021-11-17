@@ -64,12 +64,12 @@ export class NgxdatatableCustomDirective implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    debugger
     this.fixStyleOnWindowResize();
     //todo
-    //this.appLayoutService.bsSideNavOpened.subscribe(result=>{
-    //   console.log(result);
-    // })
+    this.appLayoutService.naveToggle.subscribe(result=>{
+      console.log(result);
+      this.table.recalculate();
+    })
   }
 
   ngOnDestroy() {

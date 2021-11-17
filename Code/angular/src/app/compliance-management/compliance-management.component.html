@@ -54,7 +54,7 @@
         <ngx-datatable
             [class.hide-content]="visibleContent == 'cards'"
             class="material fullscreen" 
-            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list" (activate)="activate($event)" default>
+            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list" (activate)="activate($event)" appNgxdatatable>
 
             <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkNameEn' | abpLocalization" prop="nameEn"> </ngx-datatable-column>

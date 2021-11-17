@@ -4,16 +4,18 @@ import { CommonModule } from '@angular/common';
 
 import { DomainRoutingModule } from './domain-routing.module';
 import { DomainComponent } from './domain.component';
+import { AssessmentFormComponent } from './assessment-form/assessment-form.component';
 
 
 @NgModule({
   declarations: [
-    DomainComponent
+    DomainComponent,
+    AssessmentFormComponent
   ],
   imports: [
     CommonModule,
     DomainRoutingModule,
     SharedModule
-  ]
+  ],
 })
 export class DomainModule { }

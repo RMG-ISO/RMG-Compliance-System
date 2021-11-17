@@ -9,9 +9,7 @@ import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ControlDto } from '@proxy/controls/dtos';
-import { DepartmentDto } from '@proxy/departments/dtos';
 import { DepartmentService } from '@proxy/departments';
-import { FrameworkDto } from '@proxy/frameworks/dtos';
 import { FrameworkService } from '@proxy/frameworks';
 
 @Component({
