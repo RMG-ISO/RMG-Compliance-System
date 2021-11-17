@@ -1,12 +1,11 @@
 import { AppLayoutService } from './../shared/services/app-layout.service';
 import { ConfigStateService, LanguageInfo, SessionStateService, SubscriptionService } from '@abp/ng.core';
-import { Component, OnInit, AfterViewInit, ViewChild, HostListener, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, HostListener, Inject, ChangeDetectorRef, NgZone, ApplicationRef } from '@angular/core';
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 declare var ng;
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MatDrawer } from '@angular/material/sidenav';
-
+import  { ɵpublishDefaultGlobalUtils } from '@angular/core';
 
 @Component({
   selector: 'app-compliance-layout',
@@ -24,12 +23,15 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
     private cdk: ChangeDetectorRef,
     private layoutService: LayoutService,
     private ngZone: NgZone,
-    private appLayoutService: AppLayoutService
+    private appLayoutService: AppLayoutService,
+    private app:ApplicationRef
   ) { }
 
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
-
+    if(!ng) ɵpublishDefaultGlobalUtils();
+    // console.log('ɵpublishGlobalUtil', ɵpublishGlobalUtil);
+    
   }
 
   ngAfterViewInit() {

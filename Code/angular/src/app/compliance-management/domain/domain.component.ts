@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,6 +44,8 @@ export class DomainComponent implements OnInit {
     const bookStreamCreator = (query) => this.domainService.getList({ ...query});
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.mainDomainsList = response.items;
+      this.mainDomainId = response.items[0].id;
+      this.getSubDomains();
     });
   }
 
@@ -57,13 +60,18 @@ export class DomainComponent implements OnInit {
     // }
   }
 
+
+
   searchValue:string = '';
   doSearch(search:string) {
     this.searchValue = search;
     this.getSubDomains();
   }
+  
+  requestSub:Subscription
   getSubDomains() {
-    this.domainService.get(this.mainDomainId).subscribe(domain => {
+    if(this.requestSub) this.requestSub.unsubscribe();
+    this.requestSub = this.domainService.get(this.mainDomainId).subscribe(domain => {
       this.mainDomain = domain;
     })
   }

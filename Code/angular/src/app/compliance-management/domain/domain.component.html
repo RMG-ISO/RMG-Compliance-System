@@ -1,59 +1,70 @@
 
 <app-complience-setting-breadcrumb [type]="isMainDomains?0:1" [itemId]="isMainDomains?frameworkId:mainDomainId"></app-complience-setting-breadcrumb>
-
-<div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col col-md-6">
-                <h3 class="card-title">
-                    {{ (isMainDomains? '::DomainMainDomains' : '::DomainSubDomains') | abpLocalization }}
-                </h3>
+<div class="row m-0">
+    <div class="col-md-3 col-xl-2 p-0" >
+        <div class="link-navigations">
+            <a *ngFor="let domain of mainDomainsList; index as i" (click)="mainDomainId = domain.id; getSubDomains();" [class.active]="mainDomainId === domain.id">
+                <span class="index">
+                    {{i + 1}}
+                </span>
+    
+                <span class="text">
+                    {{ domain | lang:'name' }}
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9 col-xl-10">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col col-md-6">
+                        <h3 class="card-title">
+                            {{ (isMainDomains? '::DomainMainDomains' : '::DomainSubDomains') | abpLocalization }}
+                        </h3>
+                    </div>
+                    <div class="col col-md-6 pt-2 d-flex justify-content-end">
+                        <app-search (search)="doSearch($event)"></app-search>
+                    </div>
+                </div>
             </div>
-            <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" class="btn btn-primary mr-3"
-                    type="button" (click)="openDialog()">
-                    <i class="fa fa-plus mr-1"></i>
-                    <span>{{ "::CreateDomain" | abpLocalization:((isMainDomains?
-                        '::DomainMainDomain':'::DomainSubDomain')| abpLocalization) }}</span>
-                </button>
-
-                <app-search (search)="doSearch($event)"></app-search>
+            <div class="card-body">
+                <ngx-datatable class="material fullscreen"
+                    rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list"
+                    (activate)="activate($event)" default>
+                    <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::DomainNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::DomainDepartment' | abpLocalization" prop="departmentName">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::DomainStatus' | abpLocalization" prop="status">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
+                        </ng-template>
+                    </ngx-datatable-column>
+        
+                    <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span title="{{value | date}}">{{value | fromNow}}</span>                </ng-template>
+                    </ngx-datatable-column>
+        
+        
+                    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
+                        cellClass="options">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button *abpPermission="'ComplianceSystem.Domain.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                            <button *abpPermission="'ComplianceSystem.Domain.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
             </div>
         </div>
     </div>
-    <div class="card-body">
-        <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
-            rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list"
-            (activate)="activate($event)">
-            <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference">
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DomainNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DomainDepartment' | abpLocalization" prop="departmentName">
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DomainStatus' | abpLocalization" prop="status">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
-                </ng-template>
-            </ngx-datatable-column>
+   
 
-            <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <span title="{{value | date}}">{{value | fromNow}}</span>                </ng-template>
-            </ngx-datatable-column>
-
-
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
-                cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button *abpPermission="'ComplianceSystem.Domain.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon>delete_forever</mat-icon>
-                    </button>
-                    <button *abpPermission="'ComplianceSystem.Domain.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
 </div>

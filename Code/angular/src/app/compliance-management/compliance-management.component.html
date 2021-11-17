@@ -51,9 +51,10 @@
             </div>
         </div>
 
-        <ngx-datatable [class.hide-content]="visibleContent == 'cards'" class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
-            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list"
-            (activate)="activate($event)">
+        <ngx-datatable
+            [class.hide-content]="visibleContent == 'cards'"
+            class="material fullscreen" 
+            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list" (activate)="activate($event)" default>
 
             <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkNameEn' | abpLocalization" prop="nameEn"> </ngx-datatable-column>
@@ -73,23 +74,6 @@
                     <span title="{{value | date}}">{{value | fromNow}}</span>                </ng-template>
             </ngx-datatable-column>
 
-
-            <!-- <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
-                cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-
-
-                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Delete'" color="warn"
-                        (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon>delete_forever</mat-icon>
-                    </button>
-
-                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
-                        (click)="$event.stopPropagation();openDialog(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </ng-template>
-            </ngx-datatable-column> -->
         </ngx-datatable>
     </div>
 </div>

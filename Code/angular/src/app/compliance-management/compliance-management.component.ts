@@ -36,7 +36,7 @@ export class ComplianceManagementComponent implements OnInit {
   }
 
   activate(ev) {
-    if (ev.type === 'click') this.router.navigate(['framework', ev.row.id, 'main-domains']);
+    if (ev.type === 'click') this.router.navigate(['/compliance', ev.row.id]);
   }
 
 

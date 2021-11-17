@@ -1,0 +1,22 @@
+@mixin _prepend-with-selector($selector, $prop: null, $value: null) {
+    #{$selector} & {
+      @if $prop != null {
+        #{$prop}: $value;
+      }
+  
+      @content;
+    }
+  }
+  
+  @mixin nb-ltr($prop: null, $value: null) {
+    @include _prepend-with-selector('[dir=ltr]', $prop, $value) {
+      @content;
+    }
+  }
+  
+  @mixin nb-rtl($prop: null, $value: null) {
+    @include _prepend-with-selector('[dir=rtl]', $prop, $value) {
+      @content;
+    };
+  }
+  
