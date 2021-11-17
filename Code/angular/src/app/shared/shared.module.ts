@@ -30,6 +30,7 @@ import { LangPipe } from './pipe/lang.pipe';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FileSizePipe } from './pipe/file-size.pipe';
+import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.directive';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { FileSizePipe } from './pipe/file-size.pipe';
     LangPipe,
     UploadFilesComponent,
     FileSizePipe,
+    NgxdatatableCustomDirective,
   ],
   imports: [
     CoreModule,
@@ -49,11 +51,11 @@ import { FileSizePipe } from './pipe/file-size.pipe';
     NgxValidateCoreModule,
 
 
-    MatCardModule, 
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatSortModule, 
-    MatButtonModule, 
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
 
     MatDialogModule,
     MatDatepickerModule,
@@ -76,13 +78,13 @@ import { FileSizePipe } from './pipe/file-size.pipe';
     NgxValidateCoreModule,
 
 
-    MatCardModule, 
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatSortModule, 
-    MatButtonModule, 
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
 
-    
+
     MatDialogModule,
     MatDatepickerModule,
     MatFormFieldModule,
@@ -93,13 +95,14 @@ import { FileSizePipe } from './pipe/file-size.pipe';
     MatMenuModule,
 
     MatStepperModule,
-    
+
     FromNowPipe,
     LangPipe,
     FileSizePipe,
     ComplienceSettingBreadcrumbComponent,
     UploadFilesComponent,
-    NgSelectModule
+    NgSelectModule,
+    NgxdatatableCustomDirective,
   ],
   providers: [
     {

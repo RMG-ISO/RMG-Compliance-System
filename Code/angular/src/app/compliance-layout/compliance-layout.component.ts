@@ -17,6 +17,7 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('drawer') drawer: MatDrawer;
   window = window;
   // static type = eLayoutType.application;
+   ;
 
   constructor(
     public service: LayoutService,
@@ -36,6 +37,12 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.service.subscribeWindowSize();
+
+    this.drawer.openedChange.subscribe(t => {
+     //to do
+      console.log('dr')
+      console.log(this.drawer.opened)
+    })
   }
 
   windowWidth
@@ -47,14 +54,7 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
   toggleDraw() {
     this.drawer.toggle();
 
-    this.drawer.openedChange.subscribe(t => {
-      let tables = document.querySelectorAll('ngx-datatable');
-      for (let table of tables as any) {
-        let ngEle = ng.getComponent(table);
-        var el = <DatatableComponent>ngEle;
-        el.recalculate()
-      }
-    })
+
 
 
   }
