@@ -23,7 +23,7 @@ export class FrameworkComponent implements OnInit {
   selected: FrameworkDto;
   form: FormGroup;
 
-  visibleContent = 'grid';
+  visibleContent:string = 'grid';
 
   constructor(
     public readonly list: ListService,

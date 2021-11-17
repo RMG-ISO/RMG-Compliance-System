@@ -1,11 +1,8 @@
-import { AppLayoutService } from './../shared/services/app-layout.service';
-import { ConfigStateService, LanguageInfo, SessionStateService, SubscriptionService } from '@abp/ng.core';
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, Inject, ChangeDetectorRef, NgZone } from '@angular/core';
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
-declare var ng;
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MatDrawer } from '@angular/material/sidenav';
+import { AppLayoutService } from '../shared/services/app-layout.service';
+import { SubscriptionService } from '@abp/ng.core';
 
 
 @Component({
@@ -18,13 +15,13 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('drawer') drawer: MatDrawer;
   window = window;
   // static type = eLayoutType.application;
+   ;
 
   constructor(
     public service: LayoutService,
     private cdk: ChangeDetectorRef,
     private layoutService: LayoutService,
     private ngZone: NgZone,
-    private appLayoutService: AppLayoutService
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +31,12 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.service.subscribeWindowSize();
+
+    this.drawer.openedChange.subscribe(t => {
+     //to do
+      console.log('dr')
+      console.log(this.drawer.opened)
+    })
   }
 
   windowWidth
@@ -45,14 +48,7 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
   toggleDraw() {
     this.drawer.toggle();
 
-    this.drawer.openedChange.subscribe(t => {
-      let tables = document.querySelectorAll('ngx-datatable');
-      for (let table of tables as any) {
-        let ngEle = ng.getComponent(table);
-        var el = <DatatableComponent>ngEle;
-        el.recalculate()
-      }
-    })
+
 
 
   }

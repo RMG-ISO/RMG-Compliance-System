@@ -28,6 +28,7 @@ import { FromNowPipe } from './pipe/from-now.pipe';
 import { ComplienceSettingBreadcrumbComponent } from './components/complience-setting-breadcrumb/complience-setting-breadcrumb.component';
 import { LangPipe } from './pipe/lang.pipe';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
+import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.directive';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     ComplienceSettingBreadcrumbComponent,
     LangPipe,
     UploadFilesComponent,
+    NgxdatatableCustomDirective,
   ],
   imports: [
     CoreModule,
@@ -46,11 +48,11 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     NgxValidateCoreModule,
 
 
-    MatCardModule, 
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatSortModule, 
-    MatButtonModule, 
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
 
     MatDialogModule,
     MatDatepickerModule,
@@ -73,13 +75,13 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     NgxValidateCoreModule,
 
 
-    MatCardModule, 
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatSortModule, 
-    MatButtonModule, 
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
 
-    
+
     MatDialogModule,
     MatDatepickerModule,
     MatFormFieldModule,
@@ -90,11 +92,12 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
     MatMenuModule,
 
     MatStepperModule,
-    
+
     FromNowPipe,
     LangPipe,
     ComplienceSettingBreadcrumbComponent,
     UploadFilesComponent,
+    NgxdatatableCustomDirective,
   ],
   providers: [
     {
