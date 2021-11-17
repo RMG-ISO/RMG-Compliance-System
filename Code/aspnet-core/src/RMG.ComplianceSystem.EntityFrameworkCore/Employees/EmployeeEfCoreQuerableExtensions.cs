@@ -15,7 +15,9 @@ namespace RMG.ComplianceSystem.Employees
             return queryable
                 // .Include(x => x.xxx) // TODO: AbpHelper generated
 
-                .Include(t => t.Department)
+                .Include(t => t.Department.Deleter)
+                .Include(t => t.Department.Creator)
+                .Include(t => t.Department.LastModifier)
                 .Include(t => t.Creator)
                 .Include(t => t.LastModifier)
                 .Include(t => t.Deleter)

@@ -148,7 +148,6 @@
     "DomainMainDomain": "Main Domain",
     "DomainSubDomain": "Sub Domain",
     "DomainDeletionConfirmationMessage": "Are you sure to delete the domain {0}?",
-
     "Permission:Control": "Controls",
     "Menu:Control": "Controls",
     "Control": "Controls",
@@ -169,6 +168,23 @@
     "ControlSubControls": "Sub Controls",
     "ControlMainControl": "Main Control",
     "ControlSubControl": "Sub Control",
-    "ControlDeletionConfirmationMessage": "Are you sure to delete the control {0}?"
+    "ControlDeletionConfirmationMessage": "Are you sure to delete the control {0}?",
+    "Permission:Assessment": "Assessment",
+    "Menu:Assessment": "MenuAssessment",
+    "Assessment": "Assessment",
+    "AssessmentControlId": "AssessmentControlId",
+    "AssessmentApplicable": "AssessmentApplicable",
+    "AssessmentComplianceLevel": "AssessmentComplianceLevel",
+    "AssessmentComplianceDate": "AssessmentComplianceDate",
+    "AssessmentNextComplianceDate": "AssessmentNextComplianceDate",
+    "AssessmentDocumented": "AssessmentDocumented",
+    "AssessmentImplemented": "AssessmentImplemented",
+    "AssessmentEffective": "AssessmentEffective",
+    "AssessmentComment": "AssessmentComment",
+    "AssessmentAttaChmentId": "AssessmentAttaChmentId",
+    "AssessmentControl": "AssessmentControl",
+    "CreateAssessment": "CreateAssessment",
+    "EditAssessment": "EditAssessment",
+    "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?"
   }
 }

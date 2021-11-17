@@ -148,7 +148,6 @@
     "DomainMainDomain": "نطاق رئيسي",
     "DomainSubDomain": "نطاق فرعي",
     "DomainDeletionConfirmationMessage": "هل أنت متأكد من حذف النظاق {0}؟",
-
     "Permission:Control": "الضوابط",
     "Menu:Control": "الضوابط",
     "Control": "الضوابط",
@@ -169,6 +168,23 @@
     "ControlSubControls": "ضوابط فرعية",
     "ControlMainControl": "ضابط رئيسي",
     "ControlSubControl": "ضابط فرعي",
-    "ControlDeletionConfirmationMessage": "هل أنت متأكد من حذف الضابط {0}؟"
+    "ControlDeletionConfirmationMessage": "هل أنت متأكد من حذف الضابط {0}؟",
+    "Permission:Assessment": "Assessment",
+    "Menu:Assessment": "MenuAssessment",
+    "Assessment": "Assessment",
+    "AssessmentControlId": "AssessmentControlId",
+    "AssessmentApplicable": "AssessmentApplicable",
+    "AssessmentComplianceLevel": "AssessmentComplianceLevel",
+    "AssessmentComplianceDate": "AssessmentComplianceDate",
+    "AssessmentNextComplianceDate": "AssessmentNextComplianceDate",
+    "AssessmentDocumented": "AssessmentDocumented",
+    "AssessmentImplemented": "AssessmentImplemented",
+    "AssessmentEffective": "AssessmentEffective",
+    "AssessmentComment": "AssessmentComment",
+    "AssessmentAttaChmentId": "AssessmentAttaChmentId",
+    "AssessmentControl": "AssessmentControl",
+    "CreateAssessment": "CreateAssessment",
+    "EditAssessment": "EditAssessment",
+    "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?"
   }
 }
