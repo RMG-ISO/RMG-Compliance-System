@@ -60,6 +60,7 @@ export class DomainComponent implements OnInit {
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.isMainDomains = this.activatedRoute.snapshot.data["mainDomains"];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
+    console.log(this.isMainDomains, this.mainDomainId);
 
     this.getMainDomain();
   }

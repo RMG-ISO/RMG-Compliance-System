@@ -8,6 +8,10 @@ const routes: Routes = [
     component:ComplianceManagementComponent
   },
   {
+    path:':frameworkId',
+    loadChildren: () => import('./domain/domain.module').then(m => m.DomainModule)
+  },
+  {
     path: '',
     redirectTo: 'list',
     pathMatch: 'full'
