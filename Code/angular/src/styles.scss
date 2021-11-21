@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/theming';
 @import "./styles/theme.config.scss";
+// @import "~@ng-select/ng-select/themes/material.theme.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 @keyframes donut-spin {
   0% {
     transform: rotate(0deg);
@@ -55,3 +58,11 @@ $custom-typography: mat-typography-config(
 // datatable-header, datatable-body , .datatable-header-inner, .datatable-row-center, datatable-body-row{
 //   width: 100% !important;
 // }
+
+
+$primary: mat-palette($mat-blue,200);
+$accent: mat-palette($mat-orange,200);
+
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);

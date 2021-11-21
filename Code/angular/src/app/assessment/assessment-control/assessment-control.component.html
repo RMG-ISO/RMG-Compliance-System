@@ -1,0 +1,17 @@
+<app-complience-setting-breadcrumb [type]="isMainDomains?0:1" [itemId]="isMainDomains?frameworkId:mainDomainId">
+</app-complience-setting-breadcrumb>
+<div class="row m-0">
+  <div class="col-md-3 col-xl-2 p-0">
+    <div class="link-navigations">
+      <a *ngFor="let domain of mainDomains; index as i" (click)="mainDomainId = domain.id; getSubDomains();"
+        [class.active]="mainDomainId === domain.id">
+        {{domain.reference}} | {{ domain | lang:'name' }}
+      </a>
+    </div>
+  </div>
+  <div class="col-md-9 col-xl-10">
+    <ng-container *ngFor="let subDomain of subDomains">
+      <app-assessment-sub-domain [subDomain]="subDomain"></app-assessment-sub-domain>
+    </ng-container>
+  </div>
+</div>

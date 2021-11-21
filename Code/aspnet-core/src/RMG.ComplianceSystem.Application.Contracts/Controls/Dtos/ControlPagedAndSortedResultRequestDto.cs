@@ -12,6 +12,8 @@ namespace RMG.ComplianceSystem.Controls.Dtos
         public bool IsMainControl { get; set; }
         public string Search { get; set; }
         public SharedStatus? Status { get; set; }
+        public Guid? DomainId { get; set; }
+
 
     }
 }

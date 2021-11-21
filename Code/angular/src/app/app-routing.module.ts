@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
   },
   {
+    path:'assessment',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule)
+  },
+  {
     path:'department',
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./department/department.module').then(m => m.DepartmentModule)
@@ -53,7 +58,10 @@ const routes: Routes = [
   // { path: 'authors', loadChildren: () => import('./author/author.module').then(m => m.AuthorModule) },
   // { path: 'author-with-books', loadChildren: () => import('./author-with-books/author-with-books.module').then(m => m.AuthorWithBooksModule) },
   // { path: 'abp-books', loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule) },
-
+  {
+    path:'design-guide',
+    loadChildren:() => import('./design-guide/design-guide.module').then(m => m.DesignGuideModule)
+  },
   {
     path:'',
     redirectTo:'/home',

@@ -16,10 +16,10 @@ export class FromNowPipe implements PipeTransform {
       // console.log(moment().format('YYYY/MM/DD hh:mm:ss a'))
   }
   transform(value: unknown, ...args: unknown[]): unknown {
-    console.log(value)
-    if(value)
-    return moment(value).locale(this.sessionState.getLanguage()).fromNow();
-    else return null;
+    return value ? moment(value).locale(this.sessionState.getLanguage()).fromNow() : null;
+    // if(value)
+    // return moment(value).locale(this.sessionState.getLanguage()).fromNow();
+    // else return null;
   }
 
 }

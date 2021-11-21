@@ -21,6 +21,7 @@ using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Controls;
+using RMG.ComplianceSystem.Assessments;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -71,6 +72,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Domain> Domains { get; set; }
         public DbSet<Control> Controls { get; set; }
+        public DbSet<Assessment> Assessments { get; set; }
 
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
@@ -202,6 +204,18 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 
 
                 /* Configure more properties here */
+            });
+
+
+            builder.Entity<Assessment>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Assessments", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+
+                /* Configure more properties here */
+                b.HasOne(t => t.Control).WithMany(t => t.Assessments).HasForeignKey(t => t.ControlId);
+
             });
         }
     }

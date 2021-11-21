@@ -24,6 +24,22 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Framework',
       },
       {
+        path:'/assessment',
+        name:'::Menu:Assessment',
+        iconClass: 'fas fa-sitemap',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/design-guide',
+        name:'::design-guide',
+        iconClass: 'fas fa-building',
+        order: 1,
+        layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Department',
+      },
+
+      {
         path:'/department',
         name:'::Menu:ComplianceSystemSettings',
         iconClass: 'fas fa-cogs',
@@ -39,6 +55,11 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Department',
       },
+
+
+
+
+      
 
       {
         path:'/employee',

@@ -1,3 +1,4 @@
+import * as Assessments from './assessments';
 import * as Attachments from './attachments';
 import * as Authors from './authors';
 import * as Books from './books';
@@ -10,4 +11,4 @@ import * as Frameworks from './frameworks';
 import * as Microsoft from './microsoft';
 import * as Shared from './shared';
 import * as Volo from './volo';
-export { Attachments, Authors, Books, Breadcrumbs, Controls, Departments, Domains, Employees, Frameworks, Microsoft, Shared, Volo };
+export { Assessments, Attachments, Authors, Books, Breadcrumbs, Controls, Departments, Domains, Employees, Frameworks, Microsoft, Shared, Volo };

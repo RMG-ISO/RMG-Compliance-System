@@ -1,6 +1,6 @@
 import type { ControlDto, ControlPagedAndSortedResultRequestDto, CreateUpdateControlDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
-import type { PagedResultDto } from '@abp/ng.core';
+import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -35,7 +35,15 @@ export class ControlService {
     this.restService.request<any, PagedResultDto<ControlDto>>({
       method: 'GET',
       url: '/api/app/control',
-      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+  getListWithoutPaging = (input: ControlPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, ListResultDto<ControlDto>>({
+      method: 'GET',
+      url: '/api/app/control/without-paging',
+      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

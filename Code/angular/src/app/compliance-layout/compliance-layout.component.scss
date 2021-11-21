@@ -46,6 +46,7 @@ mat-drawer-container.main-drawer {
         overflow: hidden;
         background-color: #EFEFEF;
         .router-content {
+            overflow: auto;
             padding: 16px;
             scroll-behavior: smooth;
             position: relative;

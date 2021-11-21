@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Shared;
 using System;
@@ -24,6 +25,7 @@ namespace RMG.ComplianceSystem.Controls
         public Domain Domain { get; set; }
         public Control Parent { get; set; }
         public ICollection<Control> Children { get; set; }
+        public ICollection<Assessment> Assessments { get; set; }
 
         protected Control()
         {

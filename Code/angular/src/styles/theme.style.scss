@@ -1,0 +1,24 @@
+$indigo-palette: (
+    50: #e9ecff,
+    100: #c7cfff,
+    200: #a0b0ff,
+    300: #7390ff,
+    400:#4b75ff,
+    500:#015afc,
+    600:#0051f0,
+    700:#0046e4,
+    800:#003ad9,
+    900:#0025c0,
+    contrast: (
+        50: rgba(black, 0.87),
+        100: rgba(black, 0.87),
+        200: rgba(black, 0.87),
+        300: white,
+        400: white,
+        500: white,
+        600: white,
+        700: white,
+        800: white,
+        900: white,
+    )
+);

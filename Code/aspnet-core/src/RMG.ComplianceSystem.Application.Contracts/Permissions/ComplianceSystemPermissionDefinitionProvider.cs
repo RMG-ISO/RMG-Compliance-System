@@ -70,6 +70,11 @@ namespace RMG.ComplianceSystem.Permissions
             controlPermission.AddChild(ComplianceSystemPermissions.Control.Create, L("Permission:Create"));
             controlPermission.AddChild(ComplianceSystemPermissions.Control.Update, L("Permission:Update"));
             controlPermission.AddChild(ComplianceSystemPermissions.Control.Delete, L("Permission:Delete"));
+
+            var assessmentPermission = myGroup.AddPermission(ComplianceSystemPermissions.Assessment.Default, L("Permission:Assessment"));
+            assessmentPermission.AddChild(ComplianceSystemPermissions.Assessment.Create, L("Permission:Create"));
+            assessmentPermission.AddChild(ComplianceSystemPermissions.Assessment.Update, L("Permission:Update"));
+            //assessmentPermission.AddChild(ComplianceSystemPermissions.Assessment.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)

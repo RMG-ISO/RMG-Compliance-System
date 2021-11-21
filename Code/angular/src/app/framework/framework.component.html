@@ -8,10 +8,10 @@
             </div>
             <div class="col col-md-6 pt-2 d-flex justify-content-end">
                 <div class="visible-content mr-3">
-                    <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent == 'cards'">
+                    <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
                         <i class="fas fa-th-large"></i>
                     </button>
-                    <button mat-button (click)="visibleContent = 'grid'" [class.active]="visibleContent == 'grid'">
+                    <button mat-button (click)="visibleContent = 'grid'" [class.active]="visibleContent === 'grid'">
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
@@ -26,9 +26,9 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row" *ngIf="visibleContent == 'cards'">
+        <div class="row" *ngIf="visibleContent === 'cards'">
             <div class="col-md-4 col-lg-3 card-cont" *ngFor="let item of items">
-                <mat-card>
+                <mat-card class="global-card">
                     <mat-card-title class="text-center">
                         {{ item | lang:'name' }}
                     </mat-card-title>
@@ -57,8 +57,8 @@
             </div>
         </div>
 
-        <ngx-datatable [class.hide-content]="visibleContent == 'cards'" class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
-            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list"
+        <ngx-datatable [class.hide-content]="visibleContent === 'cards'" class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+            rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable
             (activate)="activate($event)">
 
             <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
@@ -186,5 +186,3 @@
         </button>
     </ng-template>
 </abp-modal>
-
-<app-upload-files (OnUpload)="onUpload($event)" (OnBeginUpload)="OnBeginUpload($event)" (OnEndUpload)="OnEndUpload($event)"></app-upload-files>

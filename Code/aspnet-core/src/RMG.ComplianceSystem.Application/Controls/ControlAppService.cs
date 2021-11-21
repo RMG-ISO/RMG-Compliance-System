@@ -36,12 +36,24 @@ namespace RMG.ComplianceSystem.Controls
                    t.DescriptionAr.Contains(input.Search) ||
                    t.DescriptionEn.Contains(input.Search) ||
                    t.Reference.Contains(input.Search))
+                .WhereIf(input.DomainId.HasValue, t => t.DomainId == input.DomainId)
                 .WhereIf(input.Status.HasValue, t => t.Status == input.Status);
         }
 
         protected override Task<Control> GetEntityByIdAsync(Guid id)
         {
             return Repository.GetAsync(id);
+        }
+
+
+        public async Task<ListResultDto<ControlDto>> GetListWithoutPagingAsync(ControlPagedAndSortedResultRequestDto input)
+        {
+            var query = await CreateFilteredQueryAsync(input);
+
+            var entities = await AsyncExecuter.ToListAsync(query);
+            var entityDtos = await MapToGetListOutputDtosAsync(entities);
+
+            return new ListResultDto<ControlDto>(entityDtos);
         }
     }
 }
