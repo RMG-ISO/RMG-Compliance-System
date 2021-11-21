@@ -1,15 +1,15 @@
-import { ComplianceManagementComponent } from './compliance-management.component';
+import { AssessmentComponent } from './assessment.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path:'list',
-    component:ComplianceManagementComponent
+    component:AssessmentComponent
   },
   {
     path:':frameworkId',
-    loadChildren: () => import('./domain/domain.module').then(m => m.DomainModule)
+    loadChildren: () => import('./assessment-control/assessment-control.module').then(m => m.AssessmentControlModule)
   },
   {
     path: '',
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ComplianceManagementRoutingModule { }
+export class AssessmentRoutingModule { }

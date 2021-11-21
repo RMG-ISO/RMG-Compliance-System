@@ -5,11 +5,11 @@ import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
 
 @Component({
-  selector: 'app-compliance-management',
-  templateUrl: './compliance-management.component.html',
-  styleUrls: ['./compliance-management.component.scss']
+  selector: 'app-assessment',
+  templateUrl: './assessment.component.html',
+  styleUrls: ['./assessment.component.scss']
 })
-export class ComplianceManagementComponent implements OnInit {
+export class AssessmentComponent implements OnInit {
   items: FrameworkDto[];
   totalCount: number;
 
@@ -36,7 +36,7 @@ export class ComplianceManagementComponent implements OnInit {
   }
 
   activate(ev) {
-    if (ev.type === 'click') this.router.navigate(['/compliance', ev.row.id]);
+    if (ev.type === 'click') this.router.navigate(['/assessment', ev.row.id]);
   }
 
 

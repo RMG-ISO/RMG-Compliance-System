@@ -9,11 +9,11 @@ import { DomainDto } from '@proxy/domains/dtos';
 import { ControlService } from '@proxy/controls';
 
 @Component({
-  selector: 'app-domain',
-  templateUrl: './domain.component.html',
-  styleUrls: ['./domain.component.scss']
+  selector: 'app-assessment-control',
+  templateUrl: './assessment-control.component.html',
+  styleUrls: ['./assessment-control.component.scss']
 })
-export class DomainComponent implements OnInit {
+export class AssessmentControlComponent implements OnInit {
   @ViewChild('table') table: DatatableComponent;
   items: DomainDto[];
   totalCount: number;

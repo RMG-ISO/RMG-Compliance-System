@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DomainComponent } from './domain.component';
+import { AssessmentControlComponent } from './assessment-control.component';
 
-describe('DomainComponent', () => {
-  let component: DomainComponent;
-  let fixture: ComponentFixture<DomainComponent>;
+describe('AssessmentControlComponent', () => {
+  let component: AssessmentControlComponent;
+  let fixture: ComponentFixture<AssessmentControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DomainComponent ]
+      declarations: [ AssessmentControlComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DomainComponent);
+    fixture = TestBed.createComponent(AssessmentControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
