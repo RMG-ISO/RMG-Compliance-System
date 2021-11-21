@@ -18,6 +18,7 @@ export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedRes
   isMainControl: boolean;
   search?: string;
   status?: SharedStatus;
+  domainId?: string;
 }
 
 export interface CreateUpdateControlDto {

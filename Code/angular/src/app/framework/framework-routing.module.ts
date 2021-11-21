@@ -1,4 +1,4 @@
-import { DomainComponent } from './domain/domain.component';
+import { DomainComponent } from '../domain/domain.component';
 import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    component: FrameworkComponent, 
+    component: FrameworkComponent,
     canActivate: [AuthGuard, PermissionGuard],
     data: {
       requiredPolicy: 'ComplianceSystem.Framework',
@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: ':frameworkId/main-domains',
-    loadChildren: () => import('./domain/domain.module').then(m => m.DomainModule),
+    loadChildren: () => import('../domain/domain.module').then(m => m.DomainModule),
   },
 ];
 

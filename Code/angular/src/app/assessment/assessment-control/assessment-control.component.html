@@ -1,81 +1,17 @@
-
-<app-complience-setting-breadcrumb [type]="isMainDomains?0:1" [itemId]="isMainDomains?frameworkId:mainDomainId"></app-complience-setting-breadcrumb>
+<app-complience-setting-breadcrumb [type]="isMainDomains?0:1" [itemId]="isMainDomains?frameworkId:mainDomainId">
+</app-complience-setting-breadcrumb>
 <div class="row m-0">
-    <div class="col-md-3 col-xl-2 p-0" >
-        <div class="link-navigations">
-            <a *ngFor="let domain of mainDomainsList; index as i" (click)="mainDomainId = domain.id; getSubDomains();" [class.active]="mainDomainId === domain.id">
-                <span class="index">
-                    {{i + 1}}
-                </span>
-    
-                <span class="text">
-                    {{ domain | lang:'name' }}
-                </span>
-            </a>
-        </div>
+  <div class="col-md-3 col-xl-2 p-0">
+    <div class="link-navigations">
+      <a *ngFor="let domain of mainDomains; index as i" (click)="mainDomainId = domain.id; getSubDomains();"
+        [class.active]="mainDomainId === domain.id">
+        {{domain.reference}} | {{ domain | lang:'name' }}
+      </a>
     </div>
-    <div class="col-md-9 col-xl-10">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col col-md-6">
-                        <h3 class="card-title">
-                            {{ (isMainDomains? '::DomainMainDomains' : '::DomainSubDomains') | abpLocalization }}
-                        </h3>
-                    </div>
-                    <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                        <app-search (search)="doSearch($event)"></app-search>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
-                rowHeight="auto" [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list"
-                (activate)="activate($event)" #table appNgxdatatable>
-                    <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference"></ngx-datatable-column>
-                    <ngx-datatable-column [name]="'::ControlNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
-                    <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>           
-                    <ngx-datatable-column [name]="'::ControlStatus' | abpLocalization" prop="status">
-                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                            {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
-                        </ng-template>
-                    </ngx-datatable-column>
-        
-                    <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
-                        <ng-template let-value="value"  ngx-datatable-cell-template>
-                        <span title="{{value | date}}">{{value | fromNow}}</span>
-                        </ng-template>
-                    </ngx-datatable-column>
-    
-                    <ngx-datatable-column
-                    [width]="50"
-                    [resizeable]="false"
-                    [sortable]="false"
-                    [draggable]="false"
-                    [canAutoResize]="false"
-                >
-                    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                        <a
-                            href="javascript:void(0)"
-                            [class.datatable-icon-right]="!expanded"
-                            [class.datatable-icon-down]="expanded"
-                            title="Expand/Collapse Row"
-                            (click)="toggleExpandRow(row)"
-                        >
-                        </a>
-                    </ng-template>
-                </ngx-datatable-column>
-
-            <ngx-datatable-row-detail [rowHeight]="'auto'" (toggle)="onDetailToggle($event)">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                    <app-assessment-form></app-assessment-form>
-                </ng-template>
-            </ngx-datatable-row-detail>
-
-            </ngx-datatable>
-                </div>
-        </div>
-    </div>
-   
-
+  </div>
+  <div class="col-md-9 col-xl-10">
+    <ng-container *ngFor="let subDomain of subDomains">
+      <app-assessment-sub-domain [subDomain]="subDomain"></app-assessment-sub-domain>
+    </ng-container>
+  </div>
 </div>

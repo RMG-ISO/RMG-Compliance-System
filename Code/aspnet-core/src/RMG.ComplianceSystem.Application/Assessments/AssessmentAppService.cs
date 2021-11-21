@@ -6,6 +6,9 @@ using Volo.Abp.Application.Services;
 using System.Threading.Tasks;
 using System.Linq;
 using Volo.Abp;
+using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Domains;
+using RMG.ComplianceSystem.Controls;
 
 namespace RMG.ComplianceSystem.Assessments
 {
@@ -19,10 +22,21 @@ namespace RMG.ComplianceSystem.Assessments
         //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Assessment.Delete;
 
         private readonly IAssessmentRepository _repository;
-        
-        public AssessmentAppService(IAssessmentRepository repository) : base(repository)
+        private readonly IFrameworkRepository _frameworkRepository;
+        private readonly IDomainRepository _domainRepository;
+        private readonly IControlRepository _controlRepository;
+
+        public AssessmentAppService(
+            IAssessmentRepository repository,
+            IFrameworkRepository frameworkRepository,
+            IDomainRepository domainRepository,
+            IControlRepository controlRepository
+            ) : base(repository)
         {
             _repository = repository;
+            _frameworkRepository = frameworkRepository;
+            _domainRepository = domainRepository;
+            _controlRepository = controlRepository;
         }
 
         protected override Task<IQueryable<Assessment>> CreateFilteredQueryAsync(AssessmentPagedAndSortedResultRequestDto input)
@@ -36,9 +50,9 @@ namespace RMG.ComplianceSystem.Assessments
         }
 
 
-       
 
-        
+
+
 
         public override Task<AssessmentDto> CreateAsync(CreateUpdateAssessmentDto input)
         {
@@ -70,5 +84,7 @@ namespace RMG.ComplianceSystem.Assessments
         {
             return base.GetListAsync(input);
         }
+
+       
     }
 }
