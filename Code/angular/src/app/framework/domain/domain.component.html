@@ -24,7 +24,7 @@
     <div class="card-body">
         <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
             rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list"
-            (activate)="activate($event)">
+            (activate)="activate($event)" appNgxdatatable>
             <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference">
             </ngx-datatable-column>
             <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>

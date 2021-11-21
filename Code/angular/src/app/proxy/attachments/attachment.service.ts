@@ -36,6 +36,7 @@ export class AttachmentService {
     this.restService.request<any, IRemoteStreamContent>({
       method: 'GET',
       url: `/api/app/attachment/download-file/${fileId}`,
+      responseType: 'blob',
     },
     { apiName: this.apiName });
 

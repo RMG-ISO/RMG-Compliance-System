@@ -28,7 +28,11 @@ import { FromNowPipe } from './pipe/from-now.pipe';
 import { ComplienceSettingBreadcrumbComponent } from './components/complience-setting-breadcrumb/complience-setting-breadcrumb.component';
 import { LangPipe } from './pipe/lang.pipe';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FileSizePipe } from './pipe/file-size.pipe';
 import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.directive';
+import { TableFilesComponent } from './components/table-files/table-files.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -39,7 +43,9 @@ import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.di
     ComplienceSettingBreadcrumbComponent,
     LangPipe,
     UploadFilesComponent,
+    FileSizePipe,
     NgxdatatableCustomDirective,
+    TableFilesComponent
   ],
   imports: [
     CoreModule,
@@ -65,7 +71,7 @@ import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.di
     MatMenuModule,
 
     MatStepperModule,
-
+    NgSelectModule
   ],
   exports: [
     SearchComponent,
@@ -73,7 +79,9 @@ import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.di
     ThemeSharedModule,
     NgbDropdownModule,
     NgxValidateCoreModule,
-
+    TableFilesComponent,
+    ComplienceSettingBreadcrumbComponent,
+    UploadFilesComponent,
 
     MatCardModule,
     MatTableModule,
@@ -95,9 +103,10 @@ import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.di
 
     FromNowPipe,
     LangPipe,
-    ComplienceSettingBreadcrumbComponent,
-    UploadFilesComponent,
+    FileSizePipe,
+    NgSelectModule,
     NgxdatatableCustomDirective,
+    NgbDatepickerModule
   ],
   providers: [
     {
