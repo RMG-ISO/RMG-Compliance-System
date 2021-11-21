@@ -1,7 +1,8 @@
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { AttachmentDto, AttachmentFileDto } from './../../proxy/attachments/dtos/models';
+// import { AttachmentDto, AttachmentFileDto } from './../../proxy/attachments/dtos/models';
 import { Component, Input, OnInit } from '@angular/core';
 import { AttachmentService } from '@proxy/attachments';
+import { AttachmentDto, AttachmentFileDto } from '@proxy/attachments/dtos/models';
 import { saveAs } from 'file-saver';
 
 @Component({

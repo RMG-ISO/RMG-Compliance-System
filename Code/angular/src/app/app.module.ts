@@ -28,6 +28,9 @@ import(
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 
+import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
   providers: [
     APP_ROUTE_PROVIDER,
     ListService,
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }
   ],
   bootstrap: [AppComponent],
 })

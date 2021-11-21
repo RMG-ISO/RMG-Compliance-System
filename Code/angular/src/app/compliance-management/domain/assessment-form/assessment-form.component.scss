@@ -23,5 +23,8 @@ mat-form-field {
 }
 
 :host {
-    
+    input:disabled, textarea:disabled, select:disabled  {
+        background: none;
+        border: none;
+    }
 }

@@ -107,6 +107,7 @@ ngx-datatable {
     datatable-row-wrapper {
         .datatable-row-detail  {
             overflow-y: visible !important;
+            background-color: #fff !important;
         }
     }
 }
@@ -239,15 +240,24 @@ body[dir="rtl"] {
     }
 }
 
-ng-select.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
-    border: 1px solid #4B74FF;
-    background-color: transparent;
-    color: #558BED;
-    border-radius: 100px;
-    padding: 7px 14px;
-    .ng-value-icon {
-        color: #4B74FF !important;
-        font-size: 20px;
+ng-select.ng-select.ng-select-multiple{
+    &.ng-select-disabled {
+        .ng-select-container .ng-value-container .ng-value {
+            background-color: transparent;
+            color: #558BED;
+        }
+    }
+
+    .ng-select-container .ng-value-container .ng-value {
+        border: 1px solid #4B74FF;
+        background-color: transparent;
+        color: #558BED;
+        border-radius: 100px;
+        padding: 7px 14px;
+        .ng-value-icon {
+            color: #4B74FF !important;
+            font-size: 20px;
+        }
     }
 }
 
