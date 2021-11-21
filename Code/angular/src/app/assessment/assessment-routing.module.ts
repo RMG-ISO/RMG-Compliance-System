@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path:':frameworkId',
-    loadChildren: () => import('./assessment-control/assessment-control.module').then(m => m.AssessmentControlModule)
+    loadChildren: () => import('./modules/assessment-control/assessment-control.module').then(m => m.AssessmentControlModule)
   },
   {
     path: '',
