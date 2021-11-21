@@ -24,8 +24,8 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Framework',
       },
       {
-        path:'/compliance',
-        name:'::Menu:Compliance',
+        path:'/assessment',
+        name:'::Menu:Assessment',
         iconClass: 'fas fa-sitemap',
         order: 1,
         layout: eLayoutType.application,
