@@ -21,7 +21,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   circumference = this.radius * 2 * Math.PI;
 
 
-  @Input('attachment') attachment: AttachmentDto;
+  @Input() attachment: AttachmentDto;
   @Output() OnUpload: EventEmitter<string> = new EventEmitter<string>();
   @Output() OnBeginUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() OnEndUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -32,7 +32,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   acceptedTypes: string;
   fileUploaderErrors: IFileUploaderErrors[];
   progress: number;
-  uploading:boolean=false;
+  uploading: boolean = false;
 
   constructor(
     private config: ConfigStateService,
@@ -81,7 +81,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
     this.checkFiles(files);
     this.OnBeginUpload.emit(true);
-    this.uploading=true;
+    this.uploading = true;
     this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
@@ -98,13 +98,13 @@ export class UploadFilesComponent implements OnInit, OnChanges {
           //console.log('successfully file uploaded!', event.body);
           this.OnUpload.emit(event.body);
           this.OnEndUpload.emit(true);
-          this.uploading=false;
+          this.uploading = false;
           this.progress = 0;
           break;
 
       }
 
-    },err=>{
+    }, err => {
       this.OnEndUpload.emit(true);
       this.uploading = false;
     });

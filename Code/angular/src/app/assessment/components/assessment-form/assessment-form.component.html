@@ -4,7 +4,7 @@
       <i class="far fa-edit"></i>
     </button>
     <ng-template #showActions>
-      <button mat-stroked-button color="primary" class="mr-3" type="submit">
+      <button mat-stroked-button color="primary" class="mr-3" type="submit" [disabled]="uploading">
         {{ '::Save' | abpLocalization }}
       </button>
 
@@ -60,26 +60,39 @@
 
   <ng-container *ngIf="form.controls.applicable.value === 1">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-4">
         <div class="header-pipe">
           مستوى الامتثال
         </div>
-        <ng-select formControlName="complianceLevel" [searchable]="false" [clearable]="true">
-          <ng-option *ngFor="let complianceLevelTypeOption of complianceLevelTypeOptions" [value]="complianceLevelTypeOption.value">
-            {{'::Enum:ComplianceLevel:'+complianceLevelTypeOption.value | abpLocalization}}
-          </ng-option>
-      </ng-select>
+        <div>
+          <span *ngIf="form.controls.complianceLevel.disabled; else complianceLevelSelect">
+            {{(form.controls.complianceLevel.value?'::Enum:ComplianceLevel:'+form.controls.complianceLevel.value:'') | abpLocalization}}
+          </span>
+          <ng-template #complianceLevelSelect>
+            <ng-select formControlName="complianceLevel" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let complianceLevelTypeOption of complianceLevelTypeOptions"
+                [value]="complianceLevelTypeOption.value">
+                {{'::Enum:ComplianceLevel:'+complianceLevelTypeOption.value | abpLocalization}}
+              </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+
       </div>
-      <div class="col-md-7">
+      <div class="col-md-4">
         <div class="header-pipe">
           تاريخ الامتثال
         </div>
-        <input #datepicker="ngbDatepicker" class="form-control" name="datepicker" formControlName="complianceDate"
-          ngbDatepicker (click)="datepicker.toggle()" />
+        <input #datepicker="ngbDatepicker" class="form-control" name="complianceDate" formControlName="complianceDate"
+          ngbDatepicker (click)="complianceDate.toggle()" />
+      </div>
 
-        <div class="beneath">
-          <!-- {{ complianceDate }} -->
+      <div class="col-md-4">
+        <div class="header-pipe">
+          تاريخ الامتثال التالي
         </div>
+        <input #datepicker="ngbDatepicker" class="form-control" name="nextComplianceDate" formControlName="nextComplianceDate"
+          ngbDatepicker (click)="nextComplianceDate.toggle()" />
       </div>
     </div>
 
@@ -95,12 +108,14 @@
         </div>
         <div>
           <span *ngIf="form.controls.documented.disabled; else documentedSelect">
-            {{ '::' + form.controls.documented.value | abpLocalization }}
+            {{(form.controls.documented.value?'::Enum:DocumentedType:'+form.controls.documented.value:'') | abpLocalization}}
           </span>
           <ng-template #documentedSelect>
-            <ng-select formControlName="documented">
-              <ng-option [value]="true">{{ '::yes' | abpLocalization }}</ng-option>
-              <ng-option [value]="false"> {{ '::no' | abpLocalization }} </ng-option>
+            <ng-select formControlName="documented" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let documentedTypeOption of documentedTypeOptions"
+                [value]="documentedTypeOption.value">
+                {{'::Enum:DocumentedType:'+documentedTypeOption.value | abpLocalization}}
+              </ng-option>
             </ng-select>
           </ng-template>
         </div>
@@ -111,12 +126,14 @@
         </div>
         <div>
           <span *ngIf="form.controls.implemented.disabled; else executedSelect">
-            {{ '::' + form.controls.implemented.value | abpLocalization }}
+            {{(form.controls.implemented.value?'::Enum:ImplementedType:'+form.controls.implemented.value:'') | abpLocalization}}
           </span>
           <ng-template #executedSelect>
-            <ng-select formControlName="implemented">
-              <ng-option [value]="1">{{ '::جزئى' | abpLocalization }}</ng-option>
-              <ng-option [value]="2"> {{ '::كلى' | abpLocalization }} </ng-option>
+            <ng-select formControlName="implemented" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let implementedTypeOption of implementedTypeOptions"
+                [value]="implementedTypeOption.value">
+                {{'::Enum:ImplementedType:'+implementedTypeOption.value | abpLocalization}}
+              </ng-option>
             </ng-select>
           </ng-template>
         </div>
@@ -127,13 +144,14 @@
         </div>
         <div>
           <span *ngIf="form.controls.effective.disabled; else effectiveSelect">
-            {{ '::' + form.controls.effective.value | abpLocalization }}
+            {{(form.controls.effective.value?'::Enum:EffectiveType:'+form.controls.effective.value:'') | abpLocalization}}
           </span>
 
           <ng-template #effectiveSelect>
-            <ng-select formControlName="effective">
-              <ng-option [value]="true">{{ '::yes' | abpLocalization }}</ng-option>
-              <ng-option [value]="false"> {{ '::no' | abpLocalization }} </ng-option>
+            <ng-select formControlName="effective" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let effectiveTypeOption of effectiveTypeOptions" [value]="effectiveTypeOption.value">
+                {{'::Enum:EffectiveType:'+effectiveTypeOption.value | abpLocalization}}
+              </ng-option>
             </ng-select>
           </ng-template>
         </div>
@@ -159,26 +177,15 @@
           المسؤولين عن الضابط
         </div>
         <p class="beneath">
-          <ng-select formControlName="responsibles" [multiple]="true">
-            <ng-option [value]="1">
-              محمد احمد
-            </ng-option>
-            <ng-option [value]="2">
-              هادي هادي
-            </ng-option>
-            <ng-option [value]="3">
-              علي علي
-            </ng-option>
-            <ng-option [value]="4">
-              كمال كمال
-            </ng-option>
+          <ng-select formControlName="responsibles" [multiple]="true" [items]="employees" bindLabel="fullName"
+            bindValue="id">
           </ng-select>
         </p>
       </div>
     </div>
 
-    <app-table-files [attachmentId]="form.controls.attachmentId.value"
-      [disabled]="form.controls.attachmentId.disabled"></app-table-files>
+    <app-table-files [attachmentId]="form.controls.attachmentId.value" [disabled]="form.controls.attachmentId.disabled" (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)" (OnFileEndUpload)="OnFileEndUpload($event)">
+    </app-table-files>
 
   </ng-container>
 
