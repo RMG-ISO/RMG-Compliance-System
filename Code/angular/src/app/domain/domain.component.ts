@@ -17,7 +17,8 @@ import { FrameworkService } from '@proxy/frameworks';
 @Component({
   selector: 'app-domain',
   templateUrl: './domain.component.html',
-  styleUrls: ['./domain.component.scss']
+  styleUrls: ['./domain.component.scss'],
+  providers:[ListService]
 })
 export class DomainComponent implements OnInit {
   FormMode = FormMode;
@@ -63,7 +64,7 @@ export class DomainComponent implements OnInit {
   }
 
   getList(search = null) {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: this.isMainDomains, search: search, mainDomainId: this.mainDomainId });
+    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: this.isMainDomains, search: search, mainDomainId: this.mainDomainId, frameworkId: this.frameworkId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

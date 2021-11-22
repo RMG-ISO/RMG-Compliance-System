@@ -13,7 +13,11 @@ namespace RMG.ComplianceSystem.Domains
             }
 
             return queryable
-                // .Include(x => x.xxx) // TODO: AbpHelper generated
+                 // .Include(x => x.xxx) // TODO: AbpHelper generated
+                 .Include(t => t.Controls).ThenInclude(t => t.Creator)
+                .Include(t => t.Controls).ThenInclude(t => t.LastModifier)
+                .Include(t => t.Controls).ThenInclude(t => t.Deleter)
+
                 .Include(t => t.Department.Creator)
                 .Include(t => t.Department.LastModifier)
                 .Include(t => t.Department.Deleter)
@@ -23,9 +27,9 @@ namespace RMG.ComplianceSystem.Domains
                 .Include(t => t.Parent.Creator)
                 .Include(t => t.Parent.LastModifier)
                 .Include(t => t.Parent.Deleter)
-                .Include(t => t.Children).ThenInclude(t=>t.Creator)
-                .Include(t => t.Children).ThenInclude(t=>t.LastModifier)
-                .Include(t => t.Children).ThenInclude(t=>t.Deleter)
+                .Include(t => t.Children).ThenInclude(t => t.Creator)
+                .Include(t => t.Children).ThenInclude(t => t.LastModifier)
+                .Include(t => t.Children).ThenInclude(t => t.Deleter)
                 .Include(t => t.Creator)
                 .Include(t => t.LastModifier)
                 .Include(t => t.Deleter)

@@ -3,7 +3,7 @@
     {{subDomain.reference }} | {{subDomain | lang:'name'}}
   </div>
   <div class="card-body">
-    <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount" #table appNgxdatatable>
+    <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount"  #table appNgxdatatable>
       <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::ControlNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>

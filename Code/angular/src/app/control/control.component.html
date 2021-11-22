@@ -22,12 +22,11 @@
         </div>
     </div>
     <div class="card-body">
-        <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
-            rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list"
+        <ngx-datatable class="material fullscreen"  #dataTable [rows]="items" [count]="totalCount" [list]="list"
             (activate)="activate($event)" appNgxdatatable>
             <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::ControlNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>           
+            <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::ControlStatus' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
@@ -114,7 +113,7 @@
                         </select>
                     </div>
                 </div>
-            </div>           
+            </div>
         </form>
     </ng-template>
 

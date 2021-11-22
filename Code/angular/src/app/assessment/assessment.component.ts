@@ -7,7 +7,8 @@ import { FrameworkDto } from '@proxy/frameworks/dtos';
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
-  styleUrls: ['./assessment.component.scss']
+  styleUrls: ['./assessment.component.scss'],
+  providers:[ListService]
 })
 export class AssessmentComponent implements OnInit {
   items: FrameworkDto[];
