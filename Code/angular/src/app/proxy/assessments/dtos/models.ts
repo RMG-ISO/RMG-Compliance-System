@@ -8,26 +8,26 @@ import { IdentityUserDto } from '@abp/ng.account';
 
 export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   controlId?: string;
-  applicable: ApplicableType;
-  complianceLevel: ComplianceLevelType;
+  applicable?: ApplicableType;
+  complianceLevel?: ComplianceLevelType;
   complianceDate?: string;
   nextComplianceDate?: string;
-  documented: DocumentedType;
-  implemented: ImplementedType;
-  effective: EffectiveType;
+  documented?: DocumentedType;
+  implemented?: ImplementedType;
+  effective?: EffectiveType;
   comment?: string;
   attachmentId?: string;
 }
 
 export interface CreateUpdateAssessmentDto {
   controlId?: string;
-  applicable: ApplicableType;
-  complianceLevel: ComplianceLevelType;
+  applicable?: ApplicableType;
+  complianceLevel?: ComplianceLevelType;
   complianceDate?: string;
   nextComplianceDate?: string;
-  documented: DocumentedType;
-  implemented: ImplementedType;
-  effective: EffectiveType;
+  documented?: DocumentedType;
+  implemented?: ImplementedType;
+  effective?: EffectiveType;
   comment?: string;
   attachmentId?: string;
 }
