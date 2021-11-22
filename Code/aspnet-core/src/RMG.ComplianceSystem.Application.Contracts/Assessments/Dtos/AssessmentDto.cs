@@ -25,6 +25,6 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
 
         public string Comment { get; set; }
 
-        public Guid? AttaChmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
     }
 }

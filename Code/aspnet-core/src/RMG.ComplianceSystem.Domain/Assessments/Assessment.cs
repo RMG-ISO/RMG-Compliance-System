@@ -20,7 +20,7 @@ namespace RMG.ComplianceSystem.Assessments
         public ImplementedType Implemented { get; set; }
         public EffectiveType Effective { get; set; }
         public string Comment { get; set; }
-        public Guid? AttaChmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
 
         public Control Control { get; set; }
 
@@ -39,7 +39,7 @@ namespace RMG.ComplianceSystem.Assessments
             ImplementedType implemented,
             EffectiveType effective,
             string comment,
-            Guid? attaChmentId,
+            Guid? attachmentId,
             Control control
         ) : base(id)
         {
@@ -52,7 +52,7 @@ namespace RMG.ComplianceSystem.Assessments
             Implemented = implemented;
             Effective = effective;
             Comment = comment;
-            AttaChmentId = attaChmentId;
+            AttachmentId = attachmentId;
             Control = control;
         }
     }
