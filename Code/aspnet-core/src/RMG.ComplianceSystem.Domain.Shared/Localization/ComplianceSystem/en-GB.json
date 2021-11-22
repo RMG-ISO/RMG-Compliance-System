@@ -181,6 +181,13 @@
     "EditAssessment": "Edit Compliance",
     "AssessmentRequirement": "Requirement",
     "AssessmentResponsibles": "Responsibles",
+    "Enum:ApplicableType:0": "Not Applicable",
+    "Enum:ApplicableType:1": "Applicable",
+    "Enum:ComplianceLevel:1": "First Level",
+    "Enum:ComplianceLevel:2": "Second Level",
+    "Enum:ComplianceLevel:3": "Third Level",
+    "Enum:ComplianceLevel:4": "Fourth Level",
+    "Enum:ComplianceLevel:5": "Fifth Level",
     "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?"
   }
 }

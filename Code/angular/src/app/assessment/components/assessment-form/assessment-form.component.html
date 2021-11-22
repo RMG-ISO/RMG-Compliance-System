@@ -1,178 +1,185 @@
-<form [formGroup]="form">
-    <div class="d-flex justify-content-end mb-3">
-        <button mat-stroked-button *ngIf="form.disabled; else showActions" (click)="setFormEnable()">
-            <i class="far fa-edit"></i>
-        </button>
-        <ng-template  #showActions>
-            <button mat-stroked-button color="primary" class="mr-3"  (click)="form.disable()">
-                {{ '::Save' | abpLocalization }}
-            </button>
-            
-            <button mat-stroked-button type="button" color="warn"  (click)="form.disable()">
-                {{ '::Cancel' | abpLocalization }}
-            </button>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="d-flex justify-content-end mb-3">
+    <button mat-stroked-button *ngIf="form.disabled; else showActions" (click)="setFormEnable()">
+      <i class="far fa-edit"></i>
+    </button>
+    <ng-template #showActions>
+      <button mat-stroked-button color="primary" class="mr-3" type="submit">
+        {{ '::Save' | abpLocalization }}
+      </button>
+
+      <button mat-stroked-button type="button" color="warn" (click)="form.disable()">
+        {{ '::Cancel' | abpLocalization }}
+      </button>
+    </ng-template>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-pipe">
+        المرجع
+      </div>
+      <label>
+        {{control.reference}}
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-pipe">
+        التفاصيل
+      </div>
+      <label>
+        {{control.descriptionAr}}
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-pipe">
+        قابلية التطبيق
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="beneath">
+        <span *ngIf="form.controls.applicable.disabled; else showSelect">
+          {{ (form.controls.applicable.value? '::Enum:ApplicableType:' + form.value.applicable : '')| abpLocalization }}
+        </span>
+        <ng-template #showSelect>
+          <ng-select formControlName="applicable" [searchable]="false" [clearable]="true">
+            <ng-option *ngFor="let applicableTypeOption of applicableTypeOptions" [value]="applicableTypeOption.value">
+              {{applicableTypeOption.name}}
+              {{'::Enum:ApplicableType:'+applicableTypeOption.value | abpLocalization}}
+            </ng-option>
+          </ng-select>
         </ng-template>
+      </div>
     </div>
+  </div>
+
+  <ng-container *ngIf="form.controls.applicable.value === 1">
     <div class="row">
-       <div class="col-md-12">
-            <div class="header-pipe">
-                المرجع
-            </div>
-            <input type="text" class="form-control" formControlName="reference">
-       </div>
+      <div class="col-md-5">
+        <div class="header-pipe">
+          مستوى الامتثال
+        </div>
+        <ng-select formControlName="complianceLevel" [searchable]="false" [clearable]="true">
+          <ng-option *ngFor="let complianceLevelTypeOption of complianceLevelTypeOptions" [value]="complianceLevelTypeOption.value">
+            {{'::Enum:ComplianceLevel:'+complianceLevelTypeOption.value | abpLocalization}}
+          </ng-option>
+      </ng-select>
+      </div>
+      <div class="col-md-7">
+        <div class="header-pipe">
+          تاريخ الامتثال
+        </div>
+        <input #datepicker="ngbDatepicker" class="form-control" name="datepicker" formControlName="complianceDate"
+          ngbDatepicker (click)="datepicker.toggle()" />
+
+        <div class="beneath">
+          <!-- {{ complianceDate }} -->
+        </div>
+      </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="header-pipe">
-                التفاصيل
-            </div>
-            <textarea class="form-control" formControlName="details"></textarea>
+      <div class="col-md-12">
+        <div class="header-pipe">
+          المتطلبات
         </div>
+      </div>
+      <div class="col-md-4">
+        <div class="beneath">
+          موثق
+        </div>
+        <div>
+          <span *ngIf="form.controls.documented.disabled; else documentedSelect">
+            {{ '::' + form.controls.documented.value | abpLocalization }}
+          </span>
+          <ng-template #documentedSelect>
+            <ng-select formControlName="documented">
+              <ng-option [value]="true">{{ '::yes' | abpLocalization }}</ng-option>
+              <ng-option [value]="false"> {{ '::no' | abpLocalization }} </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="beneath">
+          منفذ
+        </div>
+        <div>
+          <span *ngIf="form.controls.implemented.disabled; else executedSelect">
+            {{ '::' + form.controls.implemented.value | abpLocalization }}
+          </span>
+          <ng-template #executedSelect>
+            <ng-select formControlName="implemented">
+              <ng-option [value]="1">{{ '::جزئى' | abpLocalization }}</ng-option>
+              <ng-option [value]="2"> {{ '::كلى' | abpLocalization }} </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="beneath">
+          فعال
+        </div>
+        <div>
+          <span *ngIf="form.controls.effective.disabled; else effectiveSelect">
+            {{ '::' + form.controls.effective.value | abpLocalization }}
+          </span>
+
+          <ng-template #effectiveSelect>
+            <ng-select formControlName="effective">
+              <ng-option [value]="true">{{ '::yes' | abpLocalization }}</ng-option>
+              <ng-option [value]="false"> {{ '::no' | abpLocalization }} </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="header-pipe">
-                قابلية التطبيق
-            </div>
+      <div class="col-md-12">
+        <div class="header-pipe no">
+          التعليقات
         </div>
-        <div class="col-md-4">
-            <div class="beneath">
-                <span *ngIf="form.controls.applicability.disabled; else showSelect">
-                  {{ '::' + form.value.applicability | abpLocalization }} 
-                </span>
-                <ng-template #showSelect>
-                    <ng-select formControlName="applicability" >
-                        <ng-option value="1">
-                            ينطبق
-                        </ng-option>
-                        <ng-option value="2">
-                            لا ينطبق
-                        </ng-option>
-                    </ng-select>
-                </ng-template>
-            </div>
-        </div>
-    </div>
-
-    <ng-container formGroupName="subForm" *ngIf="form.controls.applicability.value == 1">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="header-pipe">
-                    مستوى الامتثال
-                </div>
-                <input type="text" class="form-control" formControlName="complianceLevel">
-            </div>
-            <div class="col-md-7">
-                <div class="header-pipe">
-                    تاريخ  الامتثال
-                </div>
-                <input #datepicker="ngbDatepicker" class="form-control" name="datepicker" formControlName="complianceDate"
-                ngbDatepicker (click)="datepicker.toggle()" />
-
-                <div class="beneath">
-                   <!-- {{ complianceDate }} -->
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="header-pipe">
-                    المتطلبات
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="beneath">
-                    موثق
-                </div>
-                <div>
-                    <span *ngIf="form.controls.subForm.controls.documented.disabled; else documentedSelect">
-                        {{ '::' + form.controls.subForm.controls.documented.value | abpLocalization }} 
-                    </span>
-                    <ng-template #documentedSelect>
-                        <ng-select formControlName="documented">
-                            <ng-option [value]="true">{{ '::yes' | abpLocalization }}</ng-option>
-                            <ng-option [value]="false"> {{ '::no' | abpLocalization }} </ng-option>
-                        </ng-select>
-                    </ng-template>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="beneath">
-                    منفذ
-                </div>
-                <div>
-                    <span *ngIf="form.controls.subForm.controls.executed.disabled; else executedSelect">
-                        {{ '::' + form.controls.subForm.controls.executed.value | abpLocalization }} 
-                    </span>
-                    <ng-template #executedSelect>
-                        <ng-select  formControlName="executed">
-                            <ng-option [value]="1">{{ '::جزئى' | abpLocalization }}</ng-option>
-                            <ng-option [value]="2"> {{ '::كلى' | abpLocalization }} </ng-option>
-                        </ng-select>
-                    </ng-template>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="beneath">
-                    فعال
-                </div>
-                <div>
-                    <span *ngIf="form.controls.subForm.controls.effective.disabled; else effectiveSelect">
-                        {{ '::' + form.controls.subForm.controls.effective.value | abpLocalization }} 
-                    </span>
-
-                    <ng-template #effectiveSelect>
-                        <ng-select formControlName="effective">
-                            <ng-option [value]="true">{{ '::yes' | abpLocalization }}</ng-option>
-                            <ng-option [value]="false"> {{ '::no' | abpLocalization }} </ng-option>
-                        </ng-select>
-                    </ng-template>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="header-pipe no">
-                    التعليقات
-                </div>
-                <textarea formControlName="comments" class="form-control"></textarea>
-                <!-- <p class="beneath">
-                    تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي 
+        <textarea formControlName="comment" class="form-control"></textarea>
+        <!-- <p class="beneath">
+                    تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي
                 </p> -->
-            </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="header-pipe no">
+          المسؤولين عن الضابط
         </div>
+        <p class="beneath">
+          <ng-select formControlName="responsibles" [multiple]="true">
+            <ng-option [value]="1">
+              محمد احمد
+            </ng-option>
+            <ng-option [value]="2">
+              هادي هادي
+            </ng-option>
+            <ng-option [value]="3">
+              علي علي
+            </ng-option>
+            <ng-option [value]="4">
+              كمال كمال
+            </ng-option>
+          </ng-select>
+        </p>
+      </div>
+    </div>
 
+    <app-table-files [attachmentId]="form.controls.attachmentId.value"
+      [disabled]="form.controls.attachmentId.disabled"></app-table-files>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="header-pipe no">
-                    المسؤولين عن الضابط
-                </div>
-                <p class="beneath">
-                    <ng-select formControlName="responsibles" [multiple]="true">
-                        <ng-option [value]="1">
-                            محمد احمد
-                        </ng-option>
-                        <ng-option [value]="2">
-                            هادي هادي
-                        </ng-option>
-                        <ng-option [value]="3">
-                          علي علي
-                        </ng-option>
-                        <ng-option [value]="4">
-                            كمال كمال
-                        </ng-option>
-                    </ng-select>
-                </p>
-            </div>
-        </div>
-
-        <app-table-files [attachmentId]="form.controls.subForm.controls.attachmentId.value" [disabled]="form.controls.subForm.controls.attachmentId.disabled"></app-table-files>
-
-    </ng-container>
+  </ng-container>
 
 </form>

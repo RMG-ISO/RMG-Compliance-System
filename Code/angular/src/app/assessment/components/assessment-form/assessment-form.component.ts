@@ -1,6 +1,10 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormMode } from './../../../shared/interfaces/form-mode';
 import { Component, Input, OnInit } from '@angular/core';
+import { ControlDto } from '@proxy/controls/dtos';
+import { AssessmentDto } from '@proxy/assessments/dtos';
+import { ApplicableType, applicableTypeOptions, ComplianceLevelType, complianceLevelTypeOptions } from '@proxy/assessments';
+import { ABP } from '@abp/ng.core';
 
 @Component({
   selector: 'app-assessment-form',
@@ -8,26 +12,33 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./assessment-form.component.scss']
 })
 export class AssessmentFormComponent implements OnInit {
-  @Input('mode') mode = FormMode.View;
-  form:FormGroup;
+  @Input() mode = FormMode.View;
+  @Input() control: ControlDto;
+
+
+  form: FormGroup;
+  applicableTypeOptions:ABP.Option<typeof ApplicableType>[] = applicableTypeOptions;
+  complianceLevelTypeOptions:ABP.Option<typeof ComplianceLevelType>[] = complianceLevelTypeOptions;
+
   constructor() { }
 
   ngOnInit(): void {
+console.log(this.applicableTypeOptions)
+
+
     this.form = new FormGroup({
-      reference:new FormControl('1.1.1'),
-      details:new FormControl(`يجب تحديد استراتيجية الأمن السيبراني وتوثيقها واعتمادها. يجب أن يكون مدعومًا من قبل رئيس المنظمة أو من يفوضه / مندوبها
-      (المشار إليه في هذه الوثيقة باسم مسؤول التخويل). يجب أن تتماشى أهداف الاستراتيجية مع القوانين واللوائح ذات الصلة.`),
-      applicability:new FormControl(true),
-      subForm:new FormGroup({
-        complianceLevel: new FormControl('مستوى 1'),
-        complianceDate: new FormControl(new Date()),
-        documented:new FormControl(true),
-        executed:new FormControl(1),
-        effective:new FormControl(true),
-        comments:new FormControl(' تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي '),
-        responsibles:new FormControl([1,2,3]),
-        attachmentId:new FormControl('cc8f65dc-a7ca-d2dc-daf8-3a003aa31bdd')
-      })
+      Id: new FormControl(null),
+      controlId: new FormControl(null),
+      applicable: new FormControl(null),
+      complianceLevel: new FormControl(1),
+      complianceDate: new FormControl(new Date()),
+      nextComplianceDate: new FormControl(new Date()),
+      documented: new FormControl(true),
+      implemented: new FormControl(1),
+      effective: new FormControl(true),
+      comment: new FormControl(' تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي '),
+      attaChmentId: new FormControl(null),
+      responsibles: new FormControl([1, 2, 3]),
     })
 
     console.log(this.form)
@@ -35,9 +46,14 @@ export class AssessmentFormComponent implements OnInit {
   }
 
   setFormEnable() {
-    this.form.controls.applicability.enable();
-    this.form.controls.subForm.enable();
+    this.form.controls.applicable.enable();
+    this.form.enable();
   }
-  
+
+  save(){
+    this.form.disable();
+    console.log(this.form)
+    console.log(this.form.value)
+  }
 
 }

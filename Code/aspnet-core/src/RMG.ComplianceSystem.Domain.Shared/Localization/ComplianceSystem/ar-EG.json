@@ -181,6 +181,13 @@
     "EditAssessment": "تعديل إمتثال",
     "AssessmentRequirement": "المتطلبات",
     "AssessmentResponsibles": "المسؤولين عن الضابط",
+    "Enum:ApplicableType:0": "لا ينطبق",
+    "Enum:ApplicableType:1": "ينطبق",
+    "Enum:ComplianceLevel:1": "مستوى أول",
+    "Enum:ComplianceLevel:2": "مستوى ثاني",
+    "Enum:ComplianceLevel:3": "مستوى ثالث",
+    "Enum:ComplianceLevel:4": "مستوى رابع",
+    "Enum:ComplianceLevel:5": "مستوى خامس",
     "AssessmentDeletionConfirmationMessage": "هل أنت متأكد من حذف الإمتثال {0}؟"
   }
 }
