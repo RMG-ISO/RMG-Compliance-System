@@ -16,7 +16,7 @@ export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUser
   implemented: ImplementedType;
   effective: EffectiveType;
   comment?: string;
-  attaChmentId?: string;
+  attachmentId?: string;
 }
 
 export interface CreateUpdateAssessmentDto {
@@ -29,5 +29,5 @@ export interface CreateUpdateAssessmentDto {
   implemented: ImplementedType;
   effective: EffectiveType;
   comment?: string;
-  attaChmentId?: string;
+  attachmentId?: string;
 }
