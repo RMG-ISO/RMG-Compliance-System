@@ -16,10 +16,10 @@ export class AssessmentService {
     },
     { apiName: this.apiName });
 
-  get = (id: string) =>
+  getByControlId = (id: string) =>
     this.restService.request<any, AssessmentDto>({
       method: 'GET',
-      url: `/api/app/assessment/${id}`,
+      url: `/api/app/assessment/${id}/by-control-id`,
     },
     { apiName: this.apiName });
 

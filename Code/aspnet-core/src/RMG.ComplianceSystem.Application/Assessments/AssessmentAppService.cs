@@ -65,7 +65,7 @@ namespace RMG.ComplianceSystem.Assessments
             input.ComplianceDate = Clock.Now;
             return base.UpdateAsync(id, input);
         }
-
+        [RemoteService(false)]
         public override Task<AssessmentDto> GetAsync(Guid id)
         {
             return base.GetAsync(id);
@@ -85,6 +85,11 @@ namespace RMG.ComplianceSystem.Assessments
             return base.GetListAsync(input);
         }
 
-       
+        public async Task<AssessmentDto> GetByControlIdAsync(Guid id)
+        {
+            var ent = Repository.SingleOrDefault(t => t.ControlId == id);
+            return ObjectMapper.Map<Assessment, AssessmentDto>(ent);
+
+        }
     }
 }
