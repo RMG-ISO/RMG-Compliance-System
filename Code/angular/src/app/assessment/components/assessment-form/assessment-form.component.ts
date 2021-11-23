@@ -62,19 +62,79 @@ export class AssessmentFormComponent implements OnInit {
       Id: new FormControl(this.assessment ? this.assessment.id : null),
       controlId: new FormControl(this.control.id),
       applicable: new FormControl(this.assessment ? this.assessment.applicable : null, Validators.required),
-      complianceLevel: new FormControl(this.assessment ? this.assessment.complianceLevel : null),
-      complianceDate: new FormControl(this.assessment ? this.assessment.complianceDate : null),
-      nextComplianceDate: new FormControl(this.assessment ? this.assessment.nextComplianceDate : null, Validators.required),
-      documented: new FormControl(this.assessment ? this.assessment.documented : null, Validators.required),
-      implemented: new FormControl(this.assessment ? this.assessment.implemented : null, Validators.required),
-      effective: new FormControl(this.assessment ? this.assessment.effective : null, Validators.required),
-      comment: new FormControl(this.assessment ? this.assessment.comment : null),
-      attachmentId: new FormControl(this.assessment ? this.assessment.attachmentId : null),
-      responsibles: new FormControl(this.assessment ? null : null),
+      complianceLevel: new FormControl(),
+      complianceDate: new FormControl(),
+      nextComplianceDate: new FormControl(),
+      documented: new FormControl(),
+      implemented: new FormControl(),
+      effective: new FormControl(),
+      comment: new FormControl(),
+      attachmentId: new FormControl(),
+      responsibles: new FormControl(),
     })
 
     console.log(this.form)
     this.form.disable()
+
+    this.form.get('applicable').valueChanges.subscribe(applicable => {
+      console.log(applicable)
+      if (applicable === 0) {
+        this.form.get('complianceLevel').setValidators([]);
+        this.form.get('complianceLevel').patchValue(null);
+
+        this.form.get('complianceDate').setValidators([]);
+        this.form.get('complianceDate').patchValue(null);
+
+        this.form.get('nextComplianceDate').setValidators([]);
+        this.form.get('nextComplianceDate').patchValue(null);
+
+        this.form.get('documented').setValidators([]);
+        this.form.get('documented').patchValue(null);
+
+        this.form.get('implemented').setValidators([]);
+        this.form.get('implemented').patchValue(null);
+
+        this.form.get('effective').setValidators([]);
+        this.form.get('effective').patchValue(null);
+
+        this.form.get('comment').setValidators([]);
+        this.form.get('comment').patchValue(null);
+
+        this.form.get('attachmentId').setValidators([]);
+        this.form.get('attachmentId').patchValue(null);
+
+        this.form.get('responsibles').setValidators([]);
+        this.form.get('responsibles').patchValue(null);
+      }
+      else if (applicable === 1) {
+        this.form.get('complianceLevel').setValidators([]);
+        this.form.get('complianceLevel').patchValue(this.assessment ? this.assessment.complianceLevel : null);
+
+        this.form.get('complianceDate').setValidators([]);
+        this.form.get('complianceDate').patchValue(this.assessment ? this.assessment.complianceDate : null);
+
+        this.form.get('nextComplianceDate').setValidators([Validators.required]);
+        this.form.get('nextComplianceDate').patchValue(this.assessment ? this.assessment.nextComplianceDate : null);
+
+        this.form.get('documented').setValidators([Validators.required]);
+        this.form.get('documented').patchValue(this.assessment ? this.assessment.documented : null);
+
+        this.form.get('implemented').setValidators([Validators.required]);
+        this.form.get('implemented').patchValue(this.assessment ? this.assessment.implemented : null);
+
+        this.form.get('effective').setValidators([Validators.required]);
+        this.form.get('effective').patchValue(this.assessment ? this.assessment.effective : null);
+
+        this.form.get('comment').setValidators([]);
+        this.form.get('comment').patchValue(this.assessment ? this.assessment.comment : null);
+
+        this.form.get('attachmentId').setValidators([]);
+        this.form.get('attachmentId').patchValue(this.assessment ? this.assessment.attachmentId : null);
+
+        this.form.get('responsibles').setValidators([]);
+        this.form.get('responsibles').patchValue(this.assessment ? null : null);
+      }
+    })
   }
   setFormEnable() {
     this.form.controls.applicable.enable();
