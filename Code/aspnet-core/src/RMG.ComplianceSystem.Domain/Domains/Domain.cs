@@ -59,6 +59,8 @@ namespace RMG.ComplianceSystem.Domains
 
         public void AddDomainDepartment(DomainDepartment entity)
         {
+            if (DomainDepartments is null)
+                DomainDepartments = new List<DomainDepartment>();
             DomainDepartments.Add(entity);
         }
     }

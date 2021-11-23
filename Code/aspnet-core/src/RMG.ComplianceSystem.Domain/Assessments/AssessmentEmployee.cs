@@ -8,7 +8,7 @@ using Volo.Abp.Domain.Entities;
 
 namespace RMG.ComplianceSystem.Assessments
 {
-   public class AssessmentEmployee: Entity
+    public class AssessmentEmployee : Entity
     {
         public Guid AssessmentId { get; set; }
         public Guid EmployeeId { get; set; }
@@ -31,13 +31,6 @@ namespace RMG.ComplianceSystem.Assessments
         )
         {
             AssessmentId = assessmentId;
-            EmployeeId = employeeId;
-        }
-
-        public AssessmentEmployee(
-            Guid employeeId
-        )
-        {
             EmployeeId = employeeId;
         }
     }

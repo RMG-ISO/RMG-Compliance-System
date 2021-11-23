@@ -57,6 +57,8 @@ namespace RMG.ComplianceSystem.Assessments
 
         public void AddAssessmentEmployee(AssessmentEmployee entity)
         {
+            if (AssessmentEmployees is null)
+                AssessmentEmployees = new List<AssessmentEmployee>();
             AssessmentEmployees.Add(entity);
         }
 

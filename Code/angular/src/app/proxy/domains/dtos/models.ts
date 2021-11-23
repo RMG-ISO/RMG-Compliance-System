@@ -25,7 +25,7 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   status: SharedStatus;
   parentId?: string;
   frameworkId?: string;
-  departments: NameId<string>;
+  departments: NameId<string>[];
 }
 
 export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
@@ -45,6 +45,6 @@ export interface DomainWithoutPagingDto extends FullAuditedEntityWithUserDto<Ide
   status: SharedStatus;
   parentId?: string;
   frameworkId?: string;
-  departments: NameId<string>;
+  departments: NameId<string>[];
   controls: ControlDto[];
 }

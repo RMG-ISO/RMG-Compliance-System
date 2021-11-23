@@ -62,7 +62,7 @@ namespace RMG.ComplianceSystem.Assessments
 
             foreach (var item in input.EmployeeIds)
             {
-                entity.AddAssessmentEmployee(new AssessmentEmployee(item));
+                entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
             }
 
             entity.SetComplianceDate(Clock.Now);
@@ -87,7 +87,7 @@ namespace RMG.ComplianceSystem.Assessments
 
             foreach (var item in input.EmployeeIds)
             {
-                entity.AddAssessmentEmployee(new AssessmentEmployee(item));
+                entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
             }
 
             entity.SetComplianceDate(Clock.Now);

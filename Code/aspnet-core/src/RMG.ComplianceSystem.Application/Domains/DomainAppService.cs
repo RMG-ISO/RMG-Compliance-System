@@ -56,13 +56,14 @@ namespace RMG.ComplianceSystem.Domains
 
             foreach (var item in input.DepartmentIds)
             {
-                entity.AddDomainDepartment(new DomainDepartment(item));
+                entity.AddDomainDepartment(new DomainDepartment(entity.Id, item));
             }
 
             TryToSetTenantId(entity);
 
             await Repository.InsertAsync(entity, autoSave: true);
 
+            entity = await GetEntityByIdAsync(entity.Id);
             return await MapToGetOutputDtoAsync(entity);
         }
 
@@ -78,11 +79,12 @@ namespace RMG.ComplianceSystem.Domains
 
             foreach (var item in input.DepartmentIds)
             {
-                entity.AddDomainDepartment(new DomainDepartment(item));
+                entity.AddDomainDepartment(new DomainDepartment(entity.Id, item));
             }
 
             await Repository.UpdateAsync(entity, autoSave: true);
 
+            entity = await GetEntityByIdAsync(entity.Id);
             return await MapToGetOutputDtoAsync(entity);
         }
 

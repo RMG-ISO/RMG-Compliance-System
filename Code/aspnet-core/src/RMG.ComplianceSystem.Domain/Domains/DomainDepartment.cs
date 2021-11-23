@@ -33,12 +33,5 @@ namespace RMG.ComplianceSystem.Domains
             DomainId = domainId;
             DepartmentId = departmentId;
         }
-
-        public DomainDepartment(
-           Guid departmentId
-       )
-        {
-            DepartmentId = departmentId;
-        }
     }
 }
