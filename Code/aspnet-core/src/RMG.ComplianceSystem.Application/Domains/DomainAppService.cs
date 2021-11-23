@@ -48,6 +48,44 @@ namespace RMG.ComplianceSystem.Domains
             return Repository.GetAsync(id);
         }
 
+        public override async Task<DomainDto> CreateAsync(CreateUpdateDomainDto input)
+        {
+            await CheckCreatePolicyAsync();
+
+            var entity = await MapToEntityAsync(input);
+
+            foreach (var item in input.DepartmentIds)
+            {
+                entity.AddDomainDepartment(new DomainDepartment(item));
+            }
+
+            TryToSetTenantId(entity);
+
+            await Repository.InsertAsync(entity, autoSave: true);
+
+            return await MapToGetOutputDtoAsync(entity);
+        }
+
+        public override async Task<DomainDto> UpdateAsync(Guid id, CreateUpdateDomainDto input)
+        {
+            await CheckUpdatePolicyAsync();
+
+            var entity = await GetEntityByIdAsync(id);
+            entity.DomainDepartments.Clear();
+            await Repository.UpdateAsync(entity, autoSave: true);
+
+            await MapToEntityAsync(input, entity);
+
+            foreach (var item in input.DepartmentIds)
+            {
+                entity.AddDomainDepartment(new DomainDepartment(item));
+            }
+
+            await Repository.UpdateAsync(entity, autoSave: true);
+
+            return await MapToGetOutputDtoAsync(entity);
+        }
+
         public async Task<ListResultDto<DomainWithoutPagingDto>> GetListWithoutPagingAsync(DomainPagedAndSortedResultRequestDto input)
         {
             var query = await CreateFilteredQueryAsync(input);

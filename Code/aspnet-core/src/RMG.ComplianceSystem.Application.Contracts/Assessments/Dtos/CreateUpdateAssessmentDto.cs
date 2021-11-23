@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 namespace RMG.ComplianceSystem.Assessments.Dtos
 {
@@ -24,5 +25,8 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public string Comment { get; set; }
 
         public Guid? AttachmentId { get; set; }
+
+        public List<Guid> EmployeeIds { get; set; }
+
     }
 }

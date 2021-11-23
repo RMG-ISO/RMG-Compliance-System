@@ -31,7 +31,6 @@
     "LastModifier": "Responsible",
     "KB": "KB",
     "MB": "MB",
-
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Menu:abp-Books": "Books",
@@ -195,6 +194,25 @@
     "Enum:ImplementedType:2": "Yes",
     "Enum:EffectiveType:0": "No",
     "Enum:EffectiveType:1": "Yes",
-    "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?"
+    "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?",
+    "Permission:AssessmentEmployee": "AssessmentEmployee",
+    "Menu:AssessmentEmployee": "MenuAssessmentEmployee",
+    "AssessmentEmployee": "AssessmentEmployee",
+    "AssessmentEmployeeAssessmentId": "AssessmentEmployeeAssessmentId",
+    "AssessmentEmployeeEmployeeId": "AssessmentEmployeeEmployeeId",
+    "AssessmentEmployeeAssessment": "AssessmentEmployeeAssessment",
+    "AssessmentEmployeeEmployee": "AssessmentEmployeeEmployee",
+    "CreateAssessmentEmployee": "CreateAssessmentEmployee",
+    "EditAssessmentEmployee": "EditAssessmentEmployee",
+    "AssessmentEmployeeDeletionConfirmationMessage": "Are you sure to delete the assessmentEmployee {0}?",
+    "Permission:DomainDepartment": "DomainDepartment",
+    "Menu:DomainDepartment": "MenuDomainDepartment",
+    "DomainDepartmentDomainId": "DomainDepartmentDomainId",
+    "DomainDepartmentDepartmentId": "DomainDepartmentDepartmentId",
+    "DomainDepartmentDomain": "DomainDepartmentDomain",
+    "DomainDepartmentDepartment": "DomainDepartmentDepartment",
+    "CreateDomainDepartment": "CreateDomainDepartment",
+    "EditDomainDepartment": "EditDomainDepartment",
+    "DomainDepartmentDeletionConfirmationMessage": "Are you sure to delete the domainDepartment {0}?"
   }
 }

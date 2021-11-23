@@ -18,9 +18,9 @@ namespace RMG.ComplianceSystem.Domains
                 .Include(t => t.Controls).ThenInclude(t => t.LastModifier)
                 .Include(t => t.Controls).ThenInclude(t => t.Deleter)
 
-                .Include(t => t.Department.Creator)
-                .Include(t => t.Department.LastModifier)
-                .Include(t => t.Department.Deleter)
+                .Include(t => t.DomainDepartments).ThenInclude(t=>t.Department.Creator)
+                .Include(t => t.DomainDepartments).ThenInclude(t=>t.Department.LastModifier)
+                .Include(t => t.DomainDepartments).ThenInclude(t=>t.Department.Deleter)
                 .Include(t => t.Framework.Creator)
                 .Include(t => t.Framework.LastModifier)
                 .Include(t => t.Framework.Deleter)

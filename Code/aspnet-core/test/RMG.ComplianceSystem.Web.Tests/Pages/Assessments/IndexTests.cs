@@ -14,7 +14,7 @@ namespace RMG.ComplianceSystem.Pages.Assessments
             // Arrange
 
             // Act
-            var response = await GetResponseAsStringAsync("/Assessment");
+            var response = await GetResponseAsStringAsync("/AssessmentEmployee");
 
             // Assert
             response.ShouldNotBeNull();

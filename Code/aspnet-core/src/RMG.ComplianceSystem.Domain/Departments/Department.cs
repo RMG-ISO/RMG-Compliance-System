@@ -15,7 +15,7 @@ namespace RMG.ComplianceSystem.Departments
         public string Name { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
-        public ICollection<Domain> Domains { get; set; }
+        public virtual ICollection<DomainDepartment> DomainDepartments { get; set; }
 
 
         protected Department()

@@ -14,6 +14,9 @@ namespace RMG.ComplianceSystem.Assessments
 
             return queryable
                  // .Include(x => x.xxx) // TODO: AbpHelper generated
+                 .Include(t => t.AssessmentEmployees).ThenInclude(t=>t.Employee.Creator)
+                 .Include(t => t.AssessmentEmployees).ThenInclude(t=>t.Employee.LastModifier)
+                 .Include(t => t.AssessmentEmployees).ThenInclude(t=>t.Employee.Deleter)
                  .Include(t => t.Control.Creator)
                  .Include(t => t.Control.LastModifier)
                  .Include(t => t.Control.Deleter)

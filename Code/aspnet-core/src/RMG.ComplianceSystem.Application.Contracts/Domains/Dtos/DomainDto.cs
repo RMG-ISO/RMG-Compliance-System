@@ -1,5 +1,6 @@
 using RMG.ComplianceSystem.Shared;
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 
@@ -24,8 +25,6 @@ namespace RMG.ComplianceSystem.Domains.Dtos
 
         public Guid FrameworkId { get; set; }
 
-        public Guid? DepartmentId { get; set; } 
-
-        public string DepartmentName { get; set; }
+        public List<NameId<Guid>> Departments { get; set; }
     }
 }

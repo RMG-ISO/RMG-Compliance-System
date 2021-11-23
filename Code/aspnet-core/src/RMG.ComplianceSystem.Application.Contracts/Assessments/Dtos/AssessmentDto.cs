@@ -1,4 +1,6 @@
+using RMG.ComplianceSystem.Shared;
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 
@@ -26,5 +28,8 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public string Comment { get; set; }
 
         public Guid? AttachmentId { get; set; }
+
+        public List<NameId<Guid>> Employees { get; set; }
+
     }
 }

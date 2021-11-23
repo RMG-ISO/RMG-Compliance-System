@@ -21,7 +21,7 @@ namespace RMG.ComplianceSystem.Frameworks
         public string DescriptionEn { get; set; }
         public SharedStatus Status { get; set; }
 
-        public ICollection<Domain> Domains { get; set; }
+        public virtual ICollection<Domain> Domains { get; set; }
 
         protected Framework()
         {

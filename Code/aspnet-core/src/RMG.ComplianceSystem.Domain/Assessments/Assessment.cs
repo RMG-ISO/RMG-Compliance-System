@@ -22,7 +22,8 @@ namespace RMG.ComplianceSystem.Assessments
         public string Comment { get; set; }
         public Guid? AttachmentId { get; set; }
 
-        public Control Control { get; set; }
+        public virtual Control Control { get; set; }
+        public virtual ICollection<AssessmentEmployee> AssessmentEmployees { get; set; }
 
         protected Assessment()
         {
@@ -39,8 +40,7 @@ namespace RMG.ComplianceSystem.Assessments
             ImplementedType implemented,
             EffectiveType effective,
             string comment,
-            Guid? attachmentId,
-            Control control
+            Guid? attachmentId
         ) : base(id)
         {
             ControlId = controlId;
@@ -53,7 +53,16 @@ namespace RMG.ComplianceSystem.Assessments
             Effective = effective;
             Comment = comment;
             AttachmentId = attachmentId;
-            Control = control;
+        }
+
+        public void AddAssessmentEmployee(AssessmentEmployee entity)
+        {
+            AssessmentEmployees.Add(entity);
+        }
+
+        public void SetComplianceDate(DateTime date)
+        {
+            ComplianceDate = date;
         }
     }
 }

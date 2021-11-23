@@ -15,6 +15,9 @@ using RMG.ComplianceSystem.Controls.Dtos;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using RMG.ComplianceSystem.Books;
+using System.Linq;
+using RMG.ComplianceSystem.Shared;
+using System;
 
 namespace RMG.ComplianceSystem
 {
@@ -45,12 +48,13 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));
             CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
             CreateMap<Domain, DomainDto>()
-                .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));
+                .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Domain, DomainWithoutPagingDto>()
-               .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null)); CreateMap<CreateUpdateDomainDto, Domain>(MemberList.Source);
+                .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Control, ControlDto>();
             CreateMap<CreateUpdateControlDto, Control>(MemberList.Source);
-            CreateMap<Assessment, AssessmentDto>();
+            CreateMap<Assessment, AssessmentDto>()
+                .ForMember(t => t.Employees, ops => ops.MapFrom(t => t.AssessmentEmployees.Select(r => new NameId<Guid>(r.Employee.FullName, r.EmployeeId))));
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
         }
     }
