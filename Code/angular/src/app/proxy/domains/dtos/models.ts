@@ -1,5 +1,6 @@
 import type { SharedStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { NameId } from '../../shared/models';
 import type { ControlDto } from '../../controls/dtos/models';
 import { IdentityUserDto } from '@abp/ng.account';
 
@@ -12,7 +13,7 @@ export interface CreateUpdateDomainDto {
   status: SharedStatus;
   parentId?: string;
   frameworkId?: string;
-  departmentId?: string;
+  departmentIds: string[];
 }
 
 export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
@@ -24,8 +25,7 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   status: SharedStatus;
   parentId?: string;
   frameworkId?: string;
-  departmentId?: string;
-  departmentName?: string;
+  departments: NameId<string>;
 }
 
 export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
@@ -45,7 +45,6 @@ export interface DomainWithoutPagingDto extends FullAuditedEntityWithUserDto<Ide
   status: SharedStatus;
   parentId?: string;
   frameworkId?: string;
-  departmentId?: string;
-  departmentName?: string;
+  departments: NameId<string>;
   controls: ControlDto[];
 }

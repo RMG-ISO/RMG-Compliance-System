@@ -4,6 +4,7 @@ import type { ComplianceLevelType } from '../compliance-level-type.enum';
 import type { DocumentedType } from '../documented-type.enum';
 import type { ImplementedType } from '../implemented-type.enum';
 import type { EffectiveType } from '../effective-type.enum';
+import type { NameId } from '../../shared/models';
 import { IdentityUserDto } from '@abp/ng.account';
 
 export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
@@ -17,6 +18,7 @@ export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUser
   effective?: EffectiveType;
   comment?: string;
   attachmentId?: string;
+  employees: NameId<string>;
 }
 
 export interface CreateUpdateAssessmentDto {
@@ -30,4 +32,5 @@ export interface CreateUpdateAssessmentDto {
   effective?: EffectiveType;
   comment?: string;
   attachmentId?: string;
+  employeeIds: string[];
 }
