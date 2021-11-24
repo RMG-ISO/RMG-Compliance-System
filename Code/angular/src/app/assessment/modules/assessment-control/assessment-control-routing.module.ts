@@ -5,8 +5,18 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path:'',
-    component:AssessmentControlComponent
-  }
+    component:AssessmentControlComponent,
+    pathMatch: 'full'
+  },
+  {
+    path:':controlId',
+    loadChildren: () => import('../assessment-sub-control/assessment-sub-control.module').then(m => m.AssessmentSubControlModule)
+  },
+  // {
+  //   path: '',
+  //   redirectTo: 'list',
+  //   pathMatch: 'full'
+  // },
 ];
 
 @NgModule({

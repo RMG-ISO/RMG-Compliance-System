@@ -1,6 +1,6 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormMode } from './../../../shared/interfaces/form-mode';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ControlDto } from '@proxy/controls/dtos';
 import { AssessmentDto } from '@proxy/assessments/dtos';
 import { ApplicableType, applicableTypeOptions, AssessmentService, ComplianceLevelType, complianceLevelTypeOptions, DocumentedType, documentedTypeOptions, EffectiveType, effectiveTypeOptions, ImplementedType, implementedTypeOptions } from '@proxy/assessments';
@@ -34,6 +34,7 @@ export class AssessmentFormComponent implements OnInit {
   employees: EmployeeDto[];
 
   uploading: boolean = false;
+  saving: boolean = false;
   assessment: AssessmentDto;
   editing: boolean = false;
 
@@ -58,7 +59,7 @@ export class AssessmentFormComponent implements OnInit {
       console.log('assessment');
       console.log(assessment);
       this.createForm();
-      this.applicableChange(assessment.applicable);
+      this.applicableChange(assessment?.applicable);
 
     })
   }
@@ -93,16 +94,22 @@ export class AssessmentFormComponent implements OnInit {
 
   save() {
     if (this.form.valid) {
+      this.saving = true;
       if (this.assessment)
         this.assessmentService.update(this.assessment.id, this.form.value).subscribe(r => {
           console.log(r)
           this.cancel()
+          this.saving = false;
         }, err => {
-
+          this.saving = false;
         });
       else
         this.assessmentService.create(this.form.value).subscribe(r => {
-          console.log(r)
+          console.log(r);
+          this.cancel()
+          this.saving = false;
+        }, err => {
+          this.saving = false;
         });
     }
     else
@@ -202,7 +209,7 @@ export class AssessmentFormComponent implements OnInit {
     return localizationKey + langKey;
   }
 
-  getEmployeesName(){
-   return this.assessment.employees.map(t=>t.name)
+  getEmployeesName() {
+    return this.assessment.employees.map(t => t.name)
   }
 }

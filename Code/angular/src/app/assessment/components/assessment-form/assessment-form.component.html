@@ -3,7 +3,7 @@
     <button mat-stroked-button *ngIf="!editing" (click)="startEditing()">
       <i class="far fa-edit"></i>
     </button>
-    <button *ngIf="editing" mat-stroked-button color="primary" class="mr-3" type="submit" [disabled]="uploading">
+    <button *ngIf="editing" mat-stroked-button color="primary" class="mr-3" type="submit" [disabled]="uploading || saving">
       {{ '::Save' | abpLocalization }}
     </button>
 

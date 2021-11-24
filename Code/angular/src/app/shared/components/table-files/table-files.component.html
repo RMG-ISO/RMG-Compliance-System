@@ -6,8 +6,7 @@
     (OnBeginUpload)="OnBeginUpload($event)" (OnEndUpload)="OnEndUpload($event)"></app-upload-files>
 </div>
 
-<ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
-  [scrollbarH]="true" [rows]="items" [count]="totalCount">
+<ngx-datatable class="material fullscreen"  [rows]="items" [count]="totalCount" appNgxdatatable >
 
   <ngx-datatable-column [name]="'::AttachmentFileName' | abpLocalization" prop="displayName"></ngx-datatable-column>
 
@@ -36,5 +35,5 @@
       </button>
     </ng-template>
   </ngx-datatable-column>
-
+  <ngx-datatable-footer></ngx-datatable-footer>
 </ngx-datatable>

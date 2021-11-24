@@ -1,8 +1,8 @@
 import { ListService } from '@abp/ng.core';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlService } from '@proxy/controls';
+import { Router } from '@angular/router';
 import { ControlDto } from '@proxy/controls/dtos';
-import { DomainDto, DomainWithoutPagingDto } from '@proxy/domains/dtos';
+import { DomainWithoutPagingDto } from '@proxy/domains/dtos';
 import { SharedStatus } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -24,6 +24,7 @@ export class AssessmentSubDomainComponent implements OnInit {
   totalCount: number;
   constructor(
     public list: ListService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -33,16 +34,8 @@ export class AssessmentSubDomainComponent implements OnInit {
 
   getControlsList() {
 
-    this.items = this.subDomain.controls.filter(t=>t.parentId==null&&t.status==SharedStatus.Active);
+    this.items = this.subDomain.controls.filter(t => t.parentId == null && t.status == SharedStatus.Active);
     this.totalCount = this.items.length;
-
-
-    // const bookStreamCreator = (query) => this.controlService.getListWithoutPaging({ ...query, isMainControl: true, domainId: this.subDomain.id });
-    // this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
-    //   //console.log(response)
-    //   this.items = response.items;
-    //   this.totalCount = response.totalCount;
-    // });
   }
 
   toggleExpandRow(row) {
@@ -52,5 +45,16 @@ export class AssessmentSubDomainComponent implements OnInit {
 
   onDetailToggle(event) {
     //console.log('Detail Toggled', event);
+  }
+
+  getLinkForSubControlText(row: ControlDto) {
+    let childrenControls = this.subDomain.controls.filter(t => t.parentId == row.id)
+
+    return row.reference + (childrenControls.length > 0 ? ' >' : '')
+  }
+
+  getLinkForSubControlLink(row: ControlDto) {
+    let childrenControls = this.subDomain.controls.filter(t => t.parentId == row.id)
+    this.router.navigate([`/${this.router.url}/${row.id}`]);
   }
 }
