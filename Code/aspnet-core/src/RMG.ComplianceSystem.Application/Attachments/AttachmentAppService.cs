@@ -6,9 +6,11 @@ using Volo.Abp.Content;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMG.ComplianceSystem.Attachments
 {
+    [Authorize]
     public class AttachmentAppService : ComplianceSystemAppService, IAttachmentAppService
     {
 

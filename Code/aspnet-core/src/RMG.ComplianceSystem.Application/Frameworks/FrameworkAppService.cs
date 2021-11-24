@@ -6,6 +6,7 @@ using Volo.Abp.Application.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -44,6 +45,7 @@ namespace RMG.ComplianceSystem.Frameworks
             return Repository.GetAsync(id);
         }
 
+       [Authorize]
         public async Task<ListResultDto<FrameworkDto>> GetFrameworkListLookupAsync()
         {
             var data = await Repository.GetListAsync();

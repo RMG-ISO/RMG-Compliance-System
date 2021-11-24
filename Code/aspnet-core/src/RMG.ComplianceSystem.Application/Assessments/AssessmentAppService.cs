@@ -9,6 +9,7 @@ using Volo.Abp;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Controls;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMG.ComplianceSystem.Assessments
 {
@@ -120,6 +121,7 @@ namespace RMG.ComplianceSystem.Assessments
             return base.GetListAsync(input);
         }
 
+        [Authorize(ComplianceSystemPermissions.Assessment.Default)]
         public async Task<AssessmentDto> GetByControlIdAsync(Guid id)
         {
             var ent = (await Repository.WithDetailsAsync()).SingleOrDefault(t => t.ControlId == id);

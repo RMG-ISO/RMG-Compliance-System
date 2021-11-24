@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RMG.ComplianceSystem.Controls.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -90,6 +91,7 @@ namespace RMG.ComplianceSystem.Domains
             return await MapToGetOutputDtoAsync(entity);
         }
 
+        [Authorize(ComplianceSystemPermissions.Assessment.Default)]
         public async Task<ListResultDto<DomainWithoutPagingDto>> GetListWithoutPagingAsync(DomainPagedAndSortedResultRequestDto input)
         {
             var query = await CreateFilteredQueryAsync(input);
