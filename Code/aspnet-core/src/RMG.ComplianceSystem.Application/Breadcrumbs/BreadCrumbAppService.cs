@@ -1,4 +1,5 @@
-﻿using RMG.ComplianceSystem.Breadcrumbs.Dtos;
+﻿using Microsoft.AspNetCore.Authorization;
+using RMG.ComplianceSystem.Breadcrumbs.Dtos;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Frameworks;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace RMG.ComplianceSystem.Breadcrumbs
 {
+    [Authorize]
     public class BreadCrumbAppService : ComplianceSystemAppService, IBreadCrumbAppService
     {
         private readonly IFrameworkRepository _frameworkRepository;

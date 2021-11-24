@@ -76,15 +76,6 @@ namespace RMG.ComplianceSystem.Permissions
             assessmentPermission.AddChild(ComplianceSystemPermissions.Assessment.Update, L("Permission:Update"));
             //assessmentPermission.AddChild(ComplianceSystemPermissions.Assessment.Delete, L("Permission:Delete"));
 
-            var assessmentEmployeePermission = myGroup.AddPermission(ComplianceSystemPermissions.AssessmentEmployee.Default, L("Permission:AssessmentEmployee"));
-            assessmentEmployeePermission.AddChild(ComplianceSystemPermissions.AssessmentEmployee.Create, L("Permission:Create"));
-            assessmentEmployeePermission.AddChild(ComplianceSystemPermissions.AssessmentEmployee.Update, L("Permission:Update"));
-            assessmentEmployeePermission.AddChild(ComplianceSystemPermissions.AssessmentEmployee.Delete, L("Permission:Delete"));
-
-            var domainDepartmentPermission = myGroup.AddPermission(ComplianceSystemPermissions.DomainDepartment.Default, L("Permission:DomainDepartment"));
-            domainDepartmentPermission.AddChild(ComplianceSystemPermissions.DomainDepartment.Create, L("Permission:Create"));
-            domainDepartmentPermission.AddChild(ComplianceSystemPermissions.DomainDepartment.Update, L("Permission:Update"));
-            domainDepartmentPermission.AddChild(ComplianceSystemPermissions.DomainDepartment.Delete, L("Permission:Delete"));
         }
 
         private static LocalizableString L(string name)

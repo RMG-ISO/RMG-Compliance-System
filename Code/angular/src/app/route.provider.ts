@@ -29,15 +29,16 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-sitemap',
         order: 1,
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Assessment',
       },
-      {
-        path:'/design-guide',
-        name:'::design-guide',
-        iconClass: 'fas fa-building',
-        order: 1,
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Department',
-      },
+      // {
+      //   path:'/design-guide',
+      //   name:'::design-guide',
+      //   iconClass: 'fas fa-building',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.Department',
+      // },
 
       {
         path:'/department',

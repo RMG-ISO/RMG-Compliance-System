@@ -5,6 +5,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMG.ComplianceSystem.Controls
 {
@@ -46,6 +47,7 @@ namespace RMG.ComplianceSystem.Controls
         }
 
 
+        [Authorize(ComplianceSystemPermissions.Assessment.Default)]
         public async Task<ListResultDto<ControlDto>> GetListWithoutPagingAsync(ControlPagedAndSortedResultRequestDto input)
         {
             var query = await CreateFilteredQueryAsync(input);

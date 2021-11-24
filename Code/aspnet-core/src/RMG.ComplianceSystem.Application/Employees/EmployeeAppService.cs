@@ -47,6 +47,7 @@ namespace RMG.ComplianceSystem.Employees
             return Repository.GetAsync(id);
         }
 
+        [Authorize]
         public async Task<ListResultDto<EmployeeDto>> GetEmployeeListLookupAsync()
         {
             var data = await Repository.GetListAsync();

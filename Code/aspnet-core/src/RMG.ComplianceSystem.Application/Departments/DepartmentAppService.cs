@@ -6,6 +6,7 @@ using Volo.Abp.Application.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RMG.ComplianceSystem.Departments
 {
@@ -35,7 +36,8 @@ namespace RMG.ComplianceSystem.Departments
         {
             return Repository.GetAsync(id);
         }
-                
+
+        [Authorize]
         public async Task<ListResultDto<DepartmentDto>> GetDepartmentListLookupAsync()
         {
             var data = await Repository.GetListAsync();

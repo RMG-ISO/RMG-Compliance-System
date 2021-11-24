@@ -87,20 +87,6 @@ namespace RMG.ComplianceSystem.Permissions
             //public const string Delete = Default + ".Delete";
         }
 
-        public class AssessmentEmployee
-        {
-            public const string Default = GroupName + ".AssessmentEmployee";
-            public const string Update = Default + ".Update";
-            public const string Create = Default + ".Create";
-            public const string Delete = Default + ".Delete";
-        }
-
-        public class DomainDepartment
-        {
-            public const string Default = GroupName + ".DomainDepartment";
-            public const string Update = Default + ".Update";
-            public const string Create = Default + ".Create";
-            public const string Delete = Default + ".Delete";
-        }
+      
     }
 }
