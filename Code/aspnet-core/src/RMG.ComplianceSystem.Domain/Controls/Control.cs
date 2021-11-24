@@ -22,10 +22,10 @@ namespace RMG.ComplianceSystem.Controls
         public Guid? ParentId { get; set; }
         public Guid DomainId { get; set; }
 
-        public Domain Domain { get; set; }
-        public Control Parent { get; set; }
-        public ICollection<Control> Children { get; set; }
-        public ICollection<Assessment> Assessments { get; set; }
+        public virtual Domain Domain { get; set; }
+        public virtual Control Parent { get; set; }
+        public virtual ICollection<Control> Children { get; set; }
+        public virtual ICollection<Assessment> Assessments { get; set; }
 
         protected Control()
         {

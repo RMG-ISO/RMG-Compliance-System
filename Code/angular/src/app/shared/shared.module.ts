@@ -33,6 +33,8 @@ import { FileSizePipe } from './pipe/file-size.pipe';
 import { NgxdatatableCustomDirective } from './directives/ngxdatatable-custom.directive';
 import { TableFilesComponent } from './components/table-files/table-files.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { AssessmentFormComponent } from '../assessment/components/assessment-form/assessment-form.component';
+import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -45,7 +47,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     UploadFilesComponent,
     FileSizePipe,
     NgxdatatableCustomDirective,
-    TableFilesComponent
+    TableFilesComponent,
+    AssessmentFormComponent,
   ],
   imports: [
     CoreModule,
@@ -71,7 +74,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     MatMenuModule,
 
     MatStepperModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbDatepickerModule,
   ],
   exports: [
     SearchComponent,
@@ -106,7 +110,9 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     FileSizePipe,
     NgSelectModule,
     NgxdatatableCustomDirective,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    AssessmentFormComponent,
+
   ],
   providers: [
     {

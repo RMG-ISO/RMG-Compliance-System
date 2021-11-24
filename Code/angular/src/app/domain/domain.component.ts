@@ -17,7 +17,8 @@ import { FrameworkService } from '@proxy/frameworks';
 @Component({
   selector: 'app-domain',
   templateUrl: './domain.component.html',
-  styleUrls: ['./domain.component.scss']
+  styleUrls: ['./domain.component.scss'],
+  providers: [ListService]
 })
 export class DomainComponent implements OnInit {
   FormMode = FormMode;
@@ -57,13 +58,12 @@ export class DomainComponent implements OnInit {
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.isMainDomains = this.activatedRoute.snapshot.data["mainDomains"];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
-    console.log(this.isMainDomains, this.mainDomainId);
 
     this.getMainDomain();
   }
 
   getList(search = null) {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: this.isMainDomains, search: search, mainDomainId: this.mainDomainId });
+    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: this.isMainDomains, search: search, mainDomainId: this.mainDomainId, frameworkId: this.frameworkId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -101,12 +101,15 @@ export class DomainComponent implements OnInit {
       descriptionAr: new FormControl(null),
       descriptionEn: new FormControl(null),
       reference: new FormControl(null, Validators.required),
-      departmentId: new FormControl({ value: this.isMainDomains ? null : this.mainDomain.departmentId, disabled: !this.isMainDomains }, Validators.required),
+      departmentIds: new FormControl({ value: this.isMainDomains ? null : this.mainDomain.departments.map(t => t.id), disabled: !this.isMainDomains }, Validators.required),
       frameworkId: new FormControl(this.frameworkId, Validators.required),
       status: new FormControl(null, Validators.required),
       parentId: new FormControl(this.isMainDomains ? null : this.mainDomainId, this.isMainDomains ? null : Validators.required),
     })
-    this.form.patchValue(this.selected);
+    if (this.selected) {
+      this.form.patchValue(this.selected);
+      this.form.get("departmentIds").setValue(this.selected.departments.map(t => t.id));
+    }
   }
 
   save() {

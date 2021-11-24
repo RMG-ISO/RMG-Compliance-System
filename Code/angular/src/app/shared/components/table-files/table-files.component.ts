@@ -1,6 +1,6 @@
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 // import { AttachmentDto, AttachmentFileDto } from './../../proxy/attachments/dtos/models';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AttachmentService } from '@proxy/attachments';
 import { AttachmentDto, AttachmentFileDto } from '@proxy/attachments/dtos/models';
 import { saveAs } from 'file-saver';
@@ -11,38 +11,52 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./table-files.component.scss']
 })
 export class TableFilesComponent implements OnInit {
-  items:AttachmentFileDto[] = [];
-  totalCount:number;
-  @Input('attachmentId') attachmentId:string;
-  @Input('disabled') disabled:boolean = false;
+  items: AttachmentFileDto[] = [];
+  totalCount: number;
+  @Input() attachmentId: string;
+  @Input() disabled: boolean = false;
 
-  attachment:AttachmentDto;
+  //from file Uploader
+  @Output() OnFileUploaded: EventEmitter<string> = new EventEmitter<string>();
+  @Output() OnFileBeginUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() OnFileEndUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  attachment: AttachmentDto;
 
   constructor(
     private attachmentService: AttachmentService,
-    private confirmation:ConfirmationService
+    private confirmation: ConfirmationService
   ) { }
 
   ngOnInit(): void {
-    if(this.attachmentId) this.getAttachment();
+    if (this.attachmentId) this.getAttachment();
   }
 
-  OnFileUploaded(attachmentId:string) {
-    console.log(attachmentId);
-    if(!this.attachmentId) {
+  OnUploaded(attachmentId: string) {
+    if (!this.attachmentId) {
       this.attachmentId = attachmentId;
     }
+    this.getAttachment();
+
+    this.OnFileUploaded.emit(attachmentId);
+  }
+
+  OnBeginUpload(beginUpload: boolean) {
+    this.OnFileBeginUpload.emit(beginUpload);
+  }
+
+  OnEndUpload(endUpload: boolean) {
+    this.OnFileEndUpload.emit(endUpload);
     this.getAttachment();
   }
 
   getAttachment() {
     this.attachmentService.getAttachmentWithFileByAttachmentId(this.attachmentId).subscribe(r => {
-      console.log(r);
       this.attachment = r;
       this.items = r.attachmentFiles
       // .map(file => {
       //   file.size = ~~(file.size/ 1000);
-      //   return file 
+      //   return file
       // })
     })
   }

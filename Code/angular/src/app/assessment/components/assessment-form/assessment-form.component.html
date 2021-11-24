@@ -1,0 +1,208 @@
+<form [formGroup]="form" (ngSubmit)="save()" validateOnSubmit novalidate>
+  <div class="d-flex justify-content-end mb-3">
+    <button mat-stroked-button *ngIf="!editing" (click)="startEditing()">
+      <i class="far fa-edit"></i>
+    </button>
+    <button *ngIf="editing" mat-stroked-button color="primary" class="mr-3" type="submit" [disabled]="uploading || saving">
+      {{ '::Save' | abpLocalization }}
+    </button>
+
+    <button *ngIf="editing" mat-stroked-button type="button" color="warn" (click)="cancel()">
+      {{ '::Cancel' | abpLocalization }}
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-pipe">
+        {{ '::ControlReference' | abpLocalization }}
+      </div>
+      <label>
+        {{control.reference}}
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-pipe">
+        {{getLocalizationByCurrentLanguage('::ControlDescription') | abpLocalization }}
+      </div>
+      <label>
+        {{control | lang:'description'}}
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-pipe">
+        {{ '::AssessmentApplicable' | abpLocalization }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="beneath">
+        <span *ngIf="form.controls.applicable.disabled; else showSelect">
+          {{ (form.controls.applicable.value !== null ? '::Enum:ApplicableType:' + form.value.applicable : '')|
+          abpLocalization }}
+        </span>
+        <ng-template #showSelect>
+          <ng-select appendTo="body" formControlName="applicable" [searchable]="false" [clearable]="true"
+            (change)="applicableChange($event)">
+            <ng-option *ngFor="let applicableTypeOption of applicableTypeOptions" [value]="applicableTypeOption.value">
+              {{applicableTypeOption.name}}
+              {{'::Enum:ApplicableType:'+applicableTypeOption.value | abpLocalization}}
+            </ng-option>
+          </ng-select>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="form.controls.applicable.value === 1">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="header-pipe">
+          {{ '::AssessmentComplianceLevel' | abpLocalization }}
+        </div>
+        <div>
+          <span *ngIf="form.controls.complianceLevel.disabled; else complianceLevelSelect">
+            {{(form.controls.complianceLevel.value !== null
+            ?'::Enum:ComplianceLevel:'+form.controls.complianceLevel.value:'') |
+            abpLocalization}}
+          </span>
+          <ng-template #complianceLevelSelect>
+            <ng-select formControlName="complianceLevel" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let complianceLevelTypeOption of complianceLevelTypeOptions"
+                [value]="complianceLevelTypeOption.value">
+                {{'::Enum:ComplianceLevel:'+complianceLevelTypeOption.value | abpLocalization}}
+              </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="header-pipe">
+          {{ '::AssessmentComplianceDate' | abpLocalization }}
+        </div>
+        <input #complianceDate="ngbDatepicker" class="form-control" name="complianceDate"
+          formControlName="complianceDate" ngbDatepicker (click)="complianceDate.toggle()" />
+      </div>
+
+      <div class="col-md-4">
+        <div class="header-pipe">
+          {{ '::AssessmentNextComplianceDate' | abpLocalization }}
+        </div>
+        <input #nextComplianceDate="ngbDatepicker" class="form-control" name="nextComplianceDate"
+          formControlName="nextComplianceDate" ngbDatepicker (click)="nextComplianceDate.toggle()" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="header-pipe">
+          {{ '::AssessmentRequirement' | abpLocalization }}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="beneath">
+          {{ '::AssessmentDocumented' | abpLocalization }}
+        </div>
+        <div>
+          <span *ngIf="form.controls.documented.disabled; else documentedSelect">
+            {{( form.controls.documented.value !== null? '::Enum:DocumentedType:'+form.controls.documented.value : '') |
+            abpLocalization}}
+          </span>
+          <ng-template #documentedSelect>
+            <ng-select formControlName="documented" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let documentedTypeOption of documentedTypeOptions"
+                [value]="documentedTypeOption.value">
+                {{'::Enum:DocumentedType:'+documentedTypeOption.value | abpLocalization}}
+              </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="beneath">
+          {{ '::AssessmentImplemented' | abpLocalization }}
+        </div>
+        <div>
+          <span *ngIf="form.controls.implemented.disabled; else executedSelect">
+            {{(form.controls.implemented.value !== null ?'::Enum:ImplementedType:'+form.controls.implemented.value:'') |
+            abpLocalization}}
+          </span>
+          <ng-template #executedSelect>
+            <ng-select formControlName="implemented" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let implementedTypeOption of implementedTypeOptions"
+                [value]="implementedTypeOption.value">
+                {{'::Enum:ImplementedType:'+implementedTypeOption.value | abpLocalization}}
+              </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="beneath">
+          {{ '::AssessmentEffective' | abpLocalization }}
+        </div>
+        <div>
+          <span *ngIf="form.controls.effective.disabled; else effectiveSelect">
+            {{(form.controls.effective.value !== null?'::Enum:EffectiveType:'+form.controls.effective.value:'') |
+            abpLocalization}}
+          </span>
+
+          <ng-template #effectiveSelect>
+            <ng-select formControlName="effective" [searchable]="false" [clearable]="true">
+              <ng-option *ngFor="let effectiveTypeOption of effectiveTypeOptions" [value]="effectiveTypeOption.value">
+                {{'::Enum:EffectiveType:'+effectiveTypeOption.value | abpLocalization}}
+              </ng-option>
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="header-pipe no">
+          {{ '::AssessmentComment' | abpLocalization }}
+        </div>
+        <textarea formControlName="comment" class="form-control"></textarea>
+        <!-- <p class="beneath">
+                    تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي تعليق تجريبي
+                </p> -->
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="header-pipe no">
+          {{ '::AssessmentResponsibles' | abpLocalization }}
+        </div>
+
+        <div>
+          <span *ngIf="form.controls.employeeIds.disabled; else employeeIdsSelect">
+            <ul>
+              <li *ngFor="let emp of assessment.employees ">{{emp.name}}</li>
+            </ul>
+          </span>
+          <ng-template #employeeIdsSelect>
+            <ng-select formControlName="employeeIds" [multiple]="true" [items]="employees" bindLabel="fullName"
+              bindValue="id">
+            </ng-select>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <app-table-files [attachmentId]="form.controls.attachmentId.value" [disabled]="form.controls.attachmentId.disabled"
+      (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+      (OnFileEndUpload)="OnFileEndUpload($event)">
+    </app-table-files>
+
+  </ng-container>
+
+</form>

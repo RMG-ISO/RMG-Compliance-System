@@ -15,7 +15,8 @@ import { FrameworkService } from '@proxy/frameworks';
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
-  styleUrls: ['./control.component.scss']
+  styleUrls: ['./control.component.scss'],
+  providers:[ListService]
 })
 export class ControlComponent implements OnInit {
   FormMode = FormMode;

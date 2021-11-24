@@ -1,5 +1,6 @@
 using RMG.ComplianceSystem.Shared;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 namespace RMG.ComplianceSystem.Domains.Dtos
 {
@@ -22,6 +23,6 @@ namespace RMG.ComplianceSystem.Domains.Dtos
 
         public Guid FrameworkId { get; set; }
 
-        public Guid? DepartmentId { get; set; }
+        public List<Guid> DepartmentIds { get; set; }
     }
 }

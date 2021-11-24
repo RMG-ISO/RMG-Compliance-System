@@ -1,3 +1,4 @@
+import { LocalizationService } from '@abp/ng.core';
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Directive, HostBinding, Inject, Input, OnDestroy } from '@angular/core';
 import { ColumnMode, DatatableComponent, ScrollerComponent } from '@swimlane/ngx-datatable';
@@ -24,14 +25,20 @@ export class NgxdatatableCustomDirective implements AfterViewInit, OnDestroy {
   constructor(
     private table: DatatableComponent,
     @Inject(DOCUMENT) private document: MockDocument,
-    private appLayoutService :AppLayoutService
-    ) {
+    private appLayoutService: AppLayoutService,
+    private localizationService: LocalizationService
+
+  ) {
     this.table.columnMode = ColumnMode.force;
     this.table.footerHeight = 50;
     this.table.headerHeight = 50;
     this.table.rowHeight = 'auto';
     this.table.scrollbarH = true;
     this.table.virtualization = false;
+    localizationService.get('::NoDataFound').subscribe(t => {
+      this.table.messages.emptyMessage = t;
+    });
+    // [messages]="{emptyMessage: ''}"
   }
 
   private fixHorizontalGap(scroller: ScrollerComponent) {
@@ -66,8 +73,7 @@ export class NgxdatatableCustomDirective implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.fixStyleOnWindowResize();
     //todo
-    this.appLayoutService.naveToggle.subscribe(result=>{
-      console.log(result);
+    this.appLayoutService.naveToggle.subscribe(result => {
       this.table.recalculate();
     })
   }

@@ -39,14 +39,14 @@ namespace RMG.ComplianceSystem.Assessments
             _controlRepository = controlRepository;
         }
 
-        protected override Task<IQueryable<Assessment>> CreateFilteredQueryAsync(AssessmentPagedAndSortedResultRequestDto input)
+        protected override async Task<IQueryable<Assessment>> CreateFilteredQueryAsync(AssessmentPagedAndSortedResultRequestDto input)
         {
-            return base.CreateFilteredQueryAsync(input);
+            return (await Repository.WithDetailsAsync());
         }
 
         protected override Task<Assessment> GetEntityByIdAsync(Guid id)
         {
-            return base.GetEntityByIdAsync(id);
+            return Repository.GetAsync(id);
         }
 
 
@@ -54,18 +54,53 @@ namespace RMG.ComplianceSystem.Assessments
 
 
 
-        public override Task<AssessmentDto> CreateAsync(CreateUpdateAssessmentDto input)
+        public override async Task<AssessmentDto> CreateAsync(CreateUpdateAssessmentDto input)
         {
-            input.ComplianceDate = Clock.Now;
-            return base.CreateAsync(input);
+            await CheckCreatePolicyAsync();
+
+            var entity = await MapToEntityAsync(input);
+
+            if (input.EmployeeIds is not null)
+                foreach (var item in input.EmployeeIds)
+                {
+                    entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
+                }
+
+            entity.SetComplianceDate(Clock.Now);
+
+            TryToSetTenantId(entity);
+
+            await Repository.InsertAsync(entity, autoSave: true);
+
+            entity = await GetEntityByIdAsync(entity.Id);
+            return await MapToGetOutputDtoAsync(entity);
         }
 
-        public override Task<AssessmentDto> UpdateAsync(Guid id, CreateUpdateAssessmentDto input)
+        public override async Task<AssessmentDto> UpdateAsync(Guid id, CreateUpdateAssessmentDto input)
         {
-            input.ComplianceDate = Clock.Now;
-            return base.UpdateAsync(id, input);
+
+            await CheckUpdatePolicyAsync();
+
+            var entity = await GetEntityByIdAsync(id);
+            entity.AssessmentEmployees.Clear();
+            await Repository.UpdateAsync(entity, autoSave: true);
+
+            await MapToEntityAsync(input, entity);
+
+            if (input.EmployeeIds is not null)
+                foreach (var item in input.EmployeeIds)
+                {
+                    entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
+                }
+
+            entity.SetComplianceDate(Clock.Now);
+            await Repository.UpdateAsync(entity, autoSave: true);
+
+            entity = await GetEntityByIdAsync(entity.Id);
+            return await MapToGetOutputDtoAsync(entity);
         }
 
+        [RemoteService(false)]
         public override Task<AssessmentDto> GetAsync(Guid id)
         {
             return base.GetAsync(id);
@@ -85,6 +120,11 @@ namespace RMG.ComplianceSystem.Assessments
             return base.GetListAsync(input);
         }
 
-       
+        public async Task<AssessmentDto> GetByControlIdAsync(Guid id)
+        {
+            var ent = (await Repository.WithDetailsAsync()).SingleOrDefault(t => t.ControlId == id);
+            return ObjectMapper.Map<Assessment, AssessmentDto>(ent);
+
+        }
     }
 }

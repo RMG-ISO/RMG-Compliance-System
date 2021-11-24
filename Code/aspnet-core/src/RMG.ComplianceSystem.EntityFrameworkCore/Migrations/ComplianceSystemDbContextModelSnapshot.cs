@@ -26,19 +26,19 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte>("Applicable")
+                    b.Property<byte?>("Applicable")
                         .HasColumnType("tinyint");
 
-                    b.Property<Guid?>("AttaChmentId")
+                    b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ComplianceDate")
+                    b.Property<DateTime?>("ComplianceDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("ComplianceLevel")
+                    b.Property<byte?>("ComplianceLevel")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -66,17 +66,17 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<byte>("Documented")
+                    b.Property<byte?>("Documented")
                         .HasColumnType("tinyint");
 
-                    b.Property<byte>("Effective")
+                    b.Property<byte?>("Effective")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
 
-                    b.Property<byte>("Implemented")
+                    b.Property<byte?>("Implemented")
                         .HasColumnType("tinyint");
 
                     b.Property<bool>("IsDeleted")
@@ -93,7 +93,7 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<DateTime>("NextComplianceDate")
+                    b.Property<DateTime?>("NextComplianceDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -107,6 +107,21 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasIndex("LastModifierId");
 
                     b.ToTable("AppAssessments");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Assessments.AssessmentEmployee", b =>
+                {
+                    b.Property<Guid>("AssessmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AssessmentId", "EmployeeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("AppAssessmentEmployees");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>
@@ -525,9 +540,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<Guid?>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("DescriptionAr")
                         .HasColumnType("nvarchar(max)");
 
@@ -576,8 +588,6 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("DeleterId");
 
-                    b.HasIndex("DepartmentId");
-
                     b.HasIndex("FrameworkId");
 
                     b.HasIndex("LastModifierId");
@@ -585,6 +595,21 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("AppDomains");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Domains.DomainDepartment", b =>
+                {
+                    b.Property<Guid>("DomainId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DomainId", "DepartmentId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("AppDomainDepartments");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Employees.Employee", b =>
@@ -2670,6 +2695,25 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Assessments.AssessmentEmployee", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Assessments.Assessment", "Assessment")
+                        .WithMany("AssessmentEmployees")
+                        .HasForeignKey("AssessmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
+                        .WithMany("AssessmentEmployees")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assessment");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
@@ -2795,10 +2839,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .WithMany()
                         .HasForeignKey("DeleterId");
 
-                    b.HasOne("RMG.ComplianceSystem.Departments.Department", "Department")
-                        .WithMany("Domains")
-                        .HasForeignKey("DepartmentId");
-
                     b.HasOne("RMG.ComplianceSystem.Frameworks.Framework", "Framework")
                         .WithMany("Domains")
                         .HasForeignKey("FrameworkId")
@@ -2817,13 +2857,30 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Navigation("Deleter");
 
-                    b.Navigation("Department");
-
                     b.Navigation("Framework");
 
                     b.Navigation("LastModifier");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Domains.DomainDepartment", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Departments.Department", "Department")
+                        .WithMany("DomainDepartments")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMG.ComplianceSystem.Domains.Domain", "Domain")
+                        .WithMany("DomainDepartments")
+                        .HasForeignKey("DomainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Domain");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Employees.Employee", b =>
@@ -3151,6 +3208,11 @@ namespace RMG.ComplianceSystem.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Assessments.Assessment", b =>
+                {
+                    b.Navigation("AssessmentEmployees");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>
                 {
                     b.Navigation("AttachmentFiles");
@@ -3165,7 +3227,7 @@ namespace RMG.ComplianceSystem.Migrations
 
             modelBuilder.Entity("RMG.ComplianceSystem.Departments.Department", b =>
                 {
-                    b.Navigation("Domains");
+                    b.Navigation("DomainDepartments");
 
                     b.Navigation("Employees");
                 });
@@ -3175,6 +3237,13 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Controls");
+
+                    b.Navigation("DomainDepartments");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Employees.Employee", b =>
+                {
+                    b.Navigation("AssessmentEmployees");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.Framework", b =>

@@ -1,127 +1,108 @@
 <div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col col-md-6">
-                <h3 class="card-title">
-                    {{ '::Employee' | abpLocalization }}
-                </h3>
-            </div>
-            <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                <!-- <button *abpPermission="'ComplianceSystem.Employee.Create'" id="create" class="btn btn-primary mr-3"
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h3 class="card-title">
+          {{ '::Employee' | abpLocalization }}
+        </h3>
+      </div>
+      <div class="col col-md-6 pt-2 d-flex justify-content-end">
+        <!-- <button *abpPermission="'ComplianceSystem.Employee.Create'" id="create" class="btn btn-primary mr-3"
                     type="button" (click)="openDialog()">
                     <i class="fa fa-plus mr-1"></i>
                     <span>{{ "::CreateEmployee" | abpLocalization }}</span>
                 </button> -->
 
-                <app-search (search)="getList($event)"></app-search>
+        <app-search (search)="getList($event)"></app-search>
 
-                <!-- <input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control w-auto" > -->
-            </div>
-        </div>
+        <!-- <input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control w-auto" > -->
+      </div>
     </div>
-    <div class="card-body">
-        <ngx-datatable
-        class="material fullscreen"
-        columnMode="force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        #dataTable
-        [rows]="items"
-        [count]="totalCount"
-        [list]="list"        
-        >
-            <ngx-datatable-column [name]="'::EmployeeFullName' | abpLocalization" prop="fullName"></ngx-datatable-column>
+  </div>
+  <div class="card-body">
+    <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+      rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list">
+      <ngx-datatable-column [name]="'::EmployeeFullName' | abpLocalization" prop="fullName"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::EmployeeEmail' | abpLocalization" prop="email"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::EmployeeDepartment' | abpLocalization" prop="departmentName"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::EmployeeEmail' | abpLocalization" prop="email"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::EmployeeDepartment' | abpLocalization" prop="departmentName">
+      </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button  *abpPermission="'ComplianceSystem.Employee.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon >delete_forever</mat-icon>
-                    </button>
-                    <button  *abpPermission="'ComplianceSystem.Employee.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
+      <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
+        cellClass="options">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <button *abpPermission="'ComplianceSystem.Employee.Delete'" mat-button color="warn"
+            (click)="$event.stopPropagation();delete(row)">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+          <button *abpPermission="'ComplianceSystem.Employee.Update'" mat-button
+            (click)="$event.stopPropagation();openDialog(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 </div>
 
 
 <abp-modal [(visible)]="isModalOpen">
-    <ng-template #abpHeader>
-        <h3 class="mb-0">{{ (selected?.id ? '::EditEmployee' : '::CreateEmployee' ) | abpLocalization }}</h3>
-    </ng-template>
+  <ng-template #abpHeader>
+    <h3 class="mb-0">{{ (selected?.id ? '::EditEmployee' : '::CreateEmployee' ) | abpLocalization }}</h3>
+  </ng-template>
 
-    <ng-template #abpBody>
-        <form [formGroup]="form" (ngSubmit)="save()">
+  <ng-template #abpBody>
+    <form [formGroup]="form" (ngSubmit)="save()">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="EmployeeFullName">{{ '::EmployeeFullName' | abpLocalization }}</label><span> * </span>
-                        <input type="text" id="EmployeeFullName" class="form-control" formControlName="fullName" />
-                    </div>
-                </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="EmployeeFullName">{{ '::EmployeeFullName' | abpLocalization }}</label><span> * </span>
+            <input type="text" id="EmployeeFullName" class="form-control" formControlName="fullName" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="EmployeeEmail">{{ '::EmployeeEmail' | abpLocalization }}</label><span> * </span>
+            <input type="email" id="EmployeeEmail" class="form-control" formControlName="email" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="EmployeeDepartmentId">{{ '::EmployeeDepartmentId' | abpLocalization }}</label><span> * </span>
+            <ng-select appendTo="body" id="EmployeeDepartmentId" formControlName="departmentId" [multiple]="false"
+              [items]="departments" bindLabel="name" bindValue="id">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>{{ '::EmployeeIsManager' | abpLocalization }}</label><span> * </span>
+            <div>
+              <input type="checkbox" formControlName="isManager" />
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="EmployeeEmail">{{ '::EmployeeEmail' | abpLocalization }}</label><span> * </span>
-                        <input type="email" id="EmployeeEmail" class="form-control" formControlName="email" />
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="EmployeeDepartmentId">{{ '::EmployeeDepartmentId' | abpLocalization }}</label><span> * </span>
-                        <select class="form-control" id="EmployeeDepartmentId" formControlName="departmentId">
-                            <option  *ngFor="let department of departments" [ngValue]="department.id">
-                                {{  department.name | abpLocalization }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label >{{ '::EmployeeIsManager' | abpLocalization }}</label><span> * </span>
-                        <div class="d-flex justify-content-center align-items-center">
-                            <div class="form-check">
-                                <input class="form-check-input" [ngValue]="true" type="radio" name="isManager" id="true" formControlName="isManager">
-                                <label class="form-check-label" for="true">
-                                    {{ '::yes' | abpLocalization }}
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input [ngValue]="false" class="form-check-input" type="radio" name="isManager" id="false" formControlName="isManager">
-                                <label class="form-check-label" for="false">
-                                   {{ '::no' | abpLocalization }}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </form>
+  </ng-template>
 
-        </form>
-    </ng-template>
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" #abpClose>
+      {{ '::Close' | abpLocalization }}
+    </button>
 
-    <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" #abpClose>
-            {{ '::Close' | abpLocalization }}
-        </button>
-
-        <!--added save button-->
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-            <i class="fa fa-check mr-1"></i>
-            {{ '::Save' | abpLocalization }}
-        </button>
-    </ng-template>
+    <!--added save button-->
+    <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+      <i class="fa fa-check mr-1"></i>
+      {{ '::Save' | abpLocalization }}
+    </button>
+  </ng-template>
 </abp-modal>

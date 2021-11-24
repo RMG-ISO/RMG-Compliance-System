@@ -19,7 +19,6 @@ export class ComplienceSettingBreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbService.getBreadCrumbSettingsByInput({ type: this.type, id: this.itemId }).subscribe(result => {
       this.breadcrumb = result;
-      console.log(result);
     }
     )
   }

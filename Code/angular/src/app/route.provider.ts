@@ -59,7 +59,7 @@ function configureRoutes(routesService: RoutesService) {
 
 
 
-      
+
 
       {
         path:'/employee',
@@ -70,7 +70,7 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Employee',
       },
-      
+
 
       // {
       //   path: '/compliance-department',
@@ -80,7 +80,7 @@ function configureRoutes(routesService: RoutesService) {
       //   layout: eLayoutType.application,
       //   parentName:'::Menu:Home'
       // },
-     
+
       // {
       //   path: "/book-store",
       //   name: "::Menu:BookStore",

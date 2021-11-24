@@ -1,22 +1,22 @@
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { DomainService } from '@proxy/domains';
-import { DomainDto } from '@proxy/domains/dtos';
+import { DomainDto, DomainWithoutPagingDto } from '@proxy/domains/dtos';
+import { SharedStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-assessment-control',
   templateUrl: './assessment-control.component.html',
-  styleUrls: ['./assessment-control.component.scss'],
+  styleUrls: ['./assessment-control.component.scss']
 
 })
 export class AssessmentControlComponent implements OnInit {
   @ViewChild('table') table: DatatableComponent;
 
   mainDomains: DomainDto[];
-  subDomains: DomainDto[];
+  subDomains: DomainWithoutPagingDto[];
 
   isMainDomains: boolean = true;
   frameworkId: string;
@@ -24,7 +24,6 @@ export class AssessmentControlComponent implements OnInit {
   mainDomain: DomainDto;
 
   constructor(
-    public list: ListService,
     private domainService: DomainService,
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
@@ -37,7 +36,7 @@ export class AssessmentControlComponent implements OnInit {
   }
 
   getDomains() {
-    this.domainService.getListWithoutPaging({ isMainDomain: true, maxResultCount: null }).subscribe((response) => {
+    this.domainService.getListWithoutPaging({ isMainDomain: true, maxResultCount: null, frameworkId: this.frameworkId, status: SharedStatus.Active }).subscribe((response) => {
       this.mainDomains = response.items;
       this.mainDomainId = response.items[0].id;
       this.getSubDomains();
@@ -45,7 +44,7 @@ export class AssessmentControlComponent implements OnInit {
   }
 
   getSubDomains() {
-    this.domainService.getListWithoutPaging({ mainDomainId: this.mainDomainId, isMainDomain: false, maxResultCount: null }).subscribe(subDomains => {
+    this.domainService.getListWithoutPaging({ mainDomainId: this.mainDomainId, isMainDomain: false, maxResultCount: null, frameworkId: this.frameworkId ,status:SharedStatus.Active }).subscribe(subDomains => {
       this.subDomains = subDomains.items;
     })
   }

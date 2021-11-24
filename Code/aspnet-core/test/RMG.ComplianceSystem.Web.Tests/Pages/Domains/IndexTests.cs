@@ -14,7 +14,7 @@ namespace RMG.ComplianceSystem.Pages.Domains
             // Arrange
 
             // Act
-            var response = await GetResponseAsStringAsync("/Domain");
+            var response = await GetResponseAsStringAsync("/DomainDepartment");
 
             // Assert
             response.ShouldNotBeNull();

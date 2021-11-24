@@ -65,8 +65,6 @@ export class BookComponent implements OnInit {
         data: book
       });
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
-
         if (result) {
           this.bookService.update(id, result).subscribe(() => {
             this.list.get();

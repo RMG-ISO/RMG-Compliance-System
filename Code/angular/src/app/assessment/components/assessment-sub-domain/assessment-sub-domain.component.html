@@ -3,8 +3,14 @@
     {{subDomain.reference }} | {{subDomain | lang:'name'}}
   </div>
   <div class="card-body">
-    <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount" #table appNgxdatatable>
-      <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference"></ngx-datatable-column>
+    <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount"  #table appNgxdatatable>
+      <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button mat-button color="primary" (click)="getLinkForSubControlLink(row)">
+            {{ getLinkForSubControlText(row)}}
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [name]="'::ControlNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::ControlStatus' | abpLocalization" prop="status">
@@ -27,7 +33,7 @@
       </ngx-datatable-column>
       <ngx-datatable-row-detail [rowHeight]="'auto'" (toggle)="onDetailToggle($event)">
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-          <app-assessment-form></app-assessment-form>
+          <app-assessment-form [control]="row"></app-assessment-form>
         </ng-template>
       </ngx-datatable-row-detail>
     </ngx-datatable>

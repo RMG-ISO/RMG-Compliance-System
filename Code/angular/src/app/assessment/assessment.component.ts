@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
+import { SharedStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
-  styleUrls: ['./assessment.component.scss']
+  styleUrls: ['./assessment.component.scss'],
+  providers: [ListService]
 })
 export class AssessmentComponent implements OnInit {
   items: FrameworkDto[];
@@ -28,7 +30,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   getList(search = null) {
-    const streamCreator = (query) => this.frameworkService.getList({ ...query, search: search });
+    const streamCreator = (query) => this.frameworkService.getList({ ...query, search: search, status: SharedStatus.Active });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

@@ -22,13 +22,12 @@ namespace RMG.ComplianceSystem.Domains
         public SharedStatus Status { get; set; }
         public Guid? ParentId { get; set; }
         public Guid FrameworkId { get; set; }
-        public Guid? DepartmentId { get; set; }
 
-        public Framework Framework { get; set; }
-        public Department Department { get; set; }
-        public Domain Parent { get; set; }
-        public ICollection<Domain> Children { get; set; }
-        public ICollection<Control> Controls { get; set; }
+        public virtual Framework Framework { get; set; }
+        public virtual Domain Parent { get; set; }
+        public virtual ICollection<Domain> Children { get; set; }
+        public virtual ICollection<Control> Controls { get; set; }
+        public virtual ICollection<DomainDepartment> DomainDepartments { get; set; }
 
 
 
@@ -45,8 +44,7 @@ namespace RMG.ComplianceSystem.Domains
             string reference,
             SharedStatus status,
             Guid? parentId,
-            Guid frameworkId,
-            Guid departmentId
+            Guid frameworkId
         ) : base(id)
         {
             NameAr = nameAr;
@@ -57,7 +55,13 @@ namespace RMG.ComplianceSystem.Domains
             Status = status;
             ParentId = parentId;
             FrameworkId = frameworkId;
-            DepartmentId = departmentId;
+        }
+
+        public void AddDomainDepartment(DomainDepartment entity)
+        {
+            if (DomainDepartments is null)
+                DomainDepartments = new List<DomainDepartment>();
+            DomainDepartments.Add(entity);
         }
     }
 }

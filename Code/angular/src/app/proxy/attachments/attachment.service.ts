@@ -16,21 +16,21 @@ export class AttachmentService {
       url: '/api/app/attachment/file',
       params: { attachmentId, fileId },
     },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
   getAttachmentWithFileByAttachmentId = (attachmentId: string) =>
     this.restService.request<any, AttachmentDto>({
       method: 'GET',
       url: `/api/app/attachment/attachment-with-file/${attachmentId}`,
     },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
   getDownloadAttachmentFilesByAttachmentId = (attachmentId: string) =>
     this.restService.request<any, IRemoteStreamContent>({
       method: 'GET',
       url: `/api/app/attachment/download-attachment-files/${attachmentId}`,
     },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
   getDownloadFileByFileId = (fileId: string) =>
     this.restService.request<any, IRemoteStreamContent>({
@@ -38,7 +38,7 @@ export class AttachmentService {
       url: `/api/app/attachment/download-file/${fileId}`,
       responseType: 'blob',
     },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
   uploadFilesByAttachmentIdAndIsMultipleAndMaxFileSizeAndFileExtentionsAndFiles = (attachmentId: string, isMultiple: boolean, maxFileSize: number, fileExtentions: string, files: IFormFile[]) =>
     this.restService.request<any, string>({
@@ -47,7 +47,7 @@ export class AttachmentService {
       url: '/api/app/attachment/upload-files',
       params: { attachmentId, isMultiple, maxFileSize, fileExtentions },
     },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
-  constructor(private restService: RestService) { }
+  constructor(private restService: RestService) {}
 }

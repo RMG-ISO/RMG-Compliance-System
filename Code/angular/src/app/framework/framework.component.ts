@@ -12,7 +12,8 @@ import { FrameworkDto } from '@proxy/frameworks/dtos';
 @Component({
   selector: 'app-framework',
   templateUrl: './framework.component.html',
-  styleUrls: ['./framework.component.scss']
+  styleUrls: ['./framework.component.scss'],
+  providers:[ListService]
 })
 export class FrameworkComponent implements OnInit {
   FormMode = FormMode;
@@ -38,9 +39,6 @@ export class FrameworkComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('this.localizationService.currentLang', this.localizationService.currentLang);
-    console.log('this.sessionState.getLanguage', this.sessionState.getLanguage());
-
     this.getList();
   }
 

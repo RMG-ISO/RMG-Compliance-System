@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col col-md-6">
         <h3 class="card-title">
-          {{ '::Compliance' | abpLocalization }}
+          {{ '::Assessment' | abpLocalization }}
         </h3>
       </div>
       <div class="col col-md-6 pt-2 d-flex justify-content-end">
@@ -50,8 +50,7 @@
         </mat-card>
       </div>
     </div>
-    <ngx-datatable [class.hide-content]="visibleContent === 'cards'" class="material fullscreen" rowHeight="auto"
-      [scrollbarH]="true" [rows]="items" [count]="totalCount" [list]="list" (activate)="activate($event)"
+    <ngx-datatable [class.hide-content]="visibleContent === 'cards'"  [rows]="items" [count]="totalCount" [list]="list" (activate)="activate($event)"
       appNgxdatatable>
       <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::FrameworkNameEn' | abpLocalization" prop="nameEn"> </ngx-datatable-column>

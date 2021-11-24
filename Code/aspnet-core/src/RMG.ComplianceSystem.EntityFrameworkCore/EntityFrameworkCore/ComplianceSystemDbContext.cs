@@ -73,6 +73,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Domain> Domains { get; set; }
         public DbSet<Control> Controls { get; set; }
         public DbSet<Assessment> Assessments { get; set; }
+        public DbSet<AssessmentEmployee> AssessmentEmployees { get; set; }
+        public DbSet<DomainDepartment> DomainDepartments { get; set; }
 
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
@@ -192,7 +194,6 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 /* Configure more properties here */
 
                 b.HasOne(t => t.Framework).WithMany(t => t.Domains).HasForeignKey(t => t.FrameworkId);
-                b.HasOne(t => t.Department).WithMany(t => t.Domains).HasForeignKey(t => t.DepartmentId).IsRequired(false);
                 b.HasOne(t => t.Parent  ).WithMany(t => t.Children).HasForeignKey(t => t.ParentId).IsRequired(false);
             });
 
@@ -215,6 +216,43 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
                 /* Configure more properties here */
                 b.HasOne(t => t.Control).WithMany(t => t.Assessments).HasForeignKey(t => t.ControlId);
+
+            });
+
+
+            builder.Entity<AssessmentEmployee>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "AssessmentEmployees", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention(); 
+                
+                b.HasKey(e => new
+                {
+                    e.AssessmentId,
+                    e.EmployeeId,
+                });
+
+                /* Configure more properties here */
+
+                b.HasOne(t => t.Assessment).WithMany(t => t.AssessmentEmployees).HasForeignKey(t => t.AssessmentId);
+                b.HasOne(t => t.Employee).WithMany(t => t.AssessmentEmployees).HasForeignKey(t => t.EmployeeId);
+            });
+
+
+            builder.Entity<DomainDepartment>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DomainDepartments", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention(); 
+                
+                b.HasKey(e => new
+                {
+                    e.DomainId,
+                    e.DepartmentId,
+                });
+
+                /* Configure more properties here */
+
+                b.HasOne(t => t.Domain).WithMany(t => t.DomainDepartments).HasForeignKey(t => t.DomainId);
+                b.HasOne(t => t.Department).WithMany(t => t.DomainDepartments).HasForeignKey(t => t.DepartmentId);
 
             });
         }

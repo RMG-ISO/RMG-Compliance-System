@@ -12,17 +12,18 @@ namespace RMG.ComplianceSystem.Assessments
     public class Assessment : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
     {
         public Guid ControlId { get; set; }
-        public ApplicableType Applicable { get; set; }
-        public ComplianceLevelType ComplianceLevel { get; set; }
-        public DateTime ComplianceDate { get; set; }
-        public DateTime NextComplianceDate { get; set; }
-        public DocumentedType Documented { get; set; }
-        public ImplementedType Implemented { get; set; }
-        public EffectiveType Effective { get; set; }
+        public ApplicableType? Applicable { get; set; }
+        public ComplianceLevelType? ComplianceLevel { get; set; }
+        public DateTime? ComplianceDate { get; set; }
+        public DateTime? NextComplianceDate { get; set; }
+        public DocumentedType? Documented { get; set; }
+        public ImplementedType? Implemented { get; set; }
+        public EffectiveType? Effective { get; set; }
         public string Comment { get; set; }
-        public Guid? AttaChmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
 
-        public Control Control { get; set; }
+        public virtual Control Control { get; set; }
+        public virtual ICollection<AssessmentEmployee> AssessmentEmployees { get; set; }
 
         protected Assessment()
         {
@@ -39,8 +40,7 @@ namespace RMG.ComplianceSystem.Assessments
             ImplementedType implemented,
             EffectiveType effective,
             string comment,
-            Guid? attaChmentId,
-            Control control
+            Guid? attachmentId
         ) : base(id)
         {
             ControlId = controlId;
@@ -52,8 +52,19 @@ namespace RMG.ComplianceSystem.Assessments
             Implemented = implemented;
             Effective = effective;
             Comment = comment;
-            AttaChmentId = attaChmentId;
-            Control = control;
+            AttachmentId = attachmentId;
+        }
+
+        public void AddAssessmentEmployee(AssessmentEmployee entity)
+        {
+            if (AssessmentEmployees is null)
+                AssessmentEmployees = new List<AssessmentEmployee>();
+            AssessmentEmployees.Add(entity);
+        }
+
+        public void SetComplianceDate(DateTime date)
+        {
+            ComplianceDate = date;
         }
     }
 }

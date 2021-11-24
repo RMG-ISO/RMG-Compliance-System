@@ -1,3 +1,4 @@
+using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Departments;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace RMG.ComplianceSystem.Employees
         public bool IsManager { get; set; }
 
         public virtual Department Department { get; set; }
+        public virtual ICollection<AssessmentEmployee> AssessmentEmployees { get; set; }
+
 
         protected Employee()
         {
