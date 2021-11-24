@@ -1,22 +1,20 @@
-<form [formGroup]="form" (ngSubmit)="save()">
+<form [formGroup]="form" (ngSubmit)="save()" validateOnSubmit novalidate>
   <div class="d-flex justify-content-end mb-3">
-    <button mat-stroked-button *ngIf="form.disabled; else showActions" (click)="setFormEnable()">
+    <button mat-stroked-button *ngIf="!editing" (click)="startEditing()">
       <i class="far fa-edit"></i>
     </button>
-    <ng-template #showActions>
-      <button mat-stroked-button color="primary" class="mr-3" type="submit" [disabled]="uploading">
-        {{ '::Save' | abpLocalization }}
-      </button>
+    <button *ngIf="editing" mat-stroked-button color="primary" class="mr-3" type="submit" [disabled]="uploading">
+      {{ '::Save' | abpLocalization }}
+    </button>
 
-      <button mat-stroked-button type="button" color="warn" (click)="form.disable()">
-        {{ '::Cancel' | abpLocalization }}
-      </button>
-    </ng-template>
+    <button *ngIf="editing" mat-stroked-button type="button" color="warn" (click)="cancel()">
+      {{ '::Cancel' | abpLocalization }}
+    </button>
   </div>
   <div class="row">
     <div class="col-md-12">
       <div class="header-pipe">
-        المرجع
+        {{ '::ControlReference' | abpLocalization }}
       </div>
       <label>
         {{control.reference}}
@@ -27,10 +25,10 @@
   <div class="row">
     <div class="col-md-12">
       <div class="header-pipe">
-        التفاصيل
+        {{getLocalizationByCurrentLanguage('::ControlDescription') | abpLocalization }}
       </div>
       <label>
-        {{control.descriptionAr}}
+        {{control | lang:'description'}}
       </label>
     </div>
   </div>
@@ -38,16 +36,18 @@
   <div class="row">
     <div class="col-md-12">
       <div class="header-pipe">
-        قابلية التطبيق
+        {{ '::AssessmentApplicable' | abpLocalization }}
       </div>
     </div>
     <div class="col-md-4">
       <div class="beneath">
         <span *ngIf="form.controls.applicable.disabled; else showSelect">
-          {{ (form.controls.applicable.value? '::Enum:ApplicableType:' + form.value.applicable : '')| abpLocalization }}
+          {{ (form.controls.applicable.value !== null ? '::Enum:ApplicableType:' + form.value.applicable : '')|
+          abpLocalization }}
         </span>
         <ng-template #showSelect>
-          <ng-select formControlName="applicable" [searchable]="false" [clearable]="true">
+          <ng-select appendTo="body" formControlName="applicable" [searchable]="false" [clearable]="true"
+            (change)="applicableChange($event)">
             <ng-option *ngFor="let applicableTypeOption of applicableTypeOptions" [value]="applicableTypeOption.value">
               {{applicableTypeOption.name}}
               {{'::Enum:ApplicableType:'+applicableTypeOption.value | abpLocalization}}
@@ -62,11 +62,13 @@
     <div class="row">
       <div class="col-md-4">
         <div class="header-pipe">
-          مستوى الامتثال
+          {{ '::AssessmentComplianceLevel' | abpLocalization }}
         </div>
         <div>
           <span *ngIf="form.controls.complianceLevel.disabled; else complianceLevelSelect">
-            {{(form.controls.complianceLevel.value?'::Enum:ComplianceLevel:'+form.controls.complianceLevel.value:'') | abpLocalization}}
+            {{(form.controls.complianceLevel.value !== null
+            ?'::Enum:ComplianceLevel:'+form.controls.complianceLevel.value:'') |
+            abpLocalization}}
           </span>
           <ng-template #complianceLevelSelect>
             <ng-select formControlName="complianceLevel" [searchable]="false" [clearable]="true">
@@ -81,34 +83,35 @@
       </div>
       <div class="col-md-4">
         <div class="header-pipe">
-          تاريخ الامتثال
+          {{ '::AssessmentComplianceDate' | abpLocalization }}
         </div>
-        <input #datepicker="ngbDatepicker" class="form-control" name="complianceDate" formControlName="complianceDate"
-          ngbDatepicker (click)="complianceDate.toggle()" />
+        <input #complianceDate="ngbDatepicker" class="form-control" name="complianceDate"
+          formControlName="complianceDate" ngbDatepicker (click)="complianceDate.toggle()" />
       </div>
 
       <div class="col-md-4">
         <div class="header-pipe">
-          تاريخ الامتثال التالي
+          {{ '::AssessmentNextComplianceDate' | abpLocalization }}
         </div>
-        <input #datepicker="ngbDatepicker" class="form-control" name="nextComplianceDate" formControlName="nextComplianceDate"
-          ngbDatepicker (click)="nextComplianceDate.toggle()" />
+        <input #nextComplianceDate="ngbDatepicker" class="form-control" name="nextComplianceDate"
+          formControlName="nextComplianceDate" ngbDatepicker (click)="nextComplianceDate.toggle()" />
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-12">
         <div class="header-pipe">
-          المتطلبات
+          {{ '::AssessmentRequirement' | abpLocalization }}
         </div>
       </div>
       <div class="col-md-4">
         <div class="beneath">
-          موثق
+          {{ '::AssessmentDocumented' | abpLocalization }}
         </div>
         <div>
           <span *ngIf="form.controls.documented.disabled; else documentedSelect">
-            {{(form.controls.documented.value?'::Enum:DocumentedType:'+form.controls.documented.value:'') | abpLocalization}}
+            {{( form.controls.documented.value !== null? '::Enum:DocumentedType:'+form.controls.documented.value : '') |
+            abpLocalization}}
           </span>
           <ng-template #documentedSelect>
             <ng-select formControlName="documented" [searchable]="false" [clearable]="true">
@@ -122,11 +125,12 @@
       </div>
       <div class="col-md-4">
         <div class="beneath">
-          منفذ
+          {{ '::AssessmentImplemented' | abpLocalization }}
         </div>
         <div>
           <span *ngIf="form.controls.implemented.disabled; else executedSelect">
-            {{(form.controls.implemented.value?'::Enum:ImplementedType:'+form.controls.implemented.value:'') | abpLocalization}}
+            {{(form.controls.implemented.value !== null ?'::Enum:ImplementedType:'+form.controls.implemented.value:'') |
+            abpLocalization}}
           </span>
           <ng-template #executedSelect>
             <ng-select formControlName="implemented" [searchable]="false" [clearable]="true">
@@ -140,11 +144,12 @@
       </div>
       <div class="col-md-4">
         <div class="beneath">
-          فعال
+          {{ '::AssessmentEffective' | abpLocalization }}
         </div>
         <div>
           <span *ngIf="form.controls.effective.disabled; else effectiveSelect">
-            {{(form.controls.effective.value?'::Enum:EffectiveType:'+form.controls.effective.value:'') | abpLocalization}}
+            {{(form.controls.effective.value !== null?'::Enum:EffectiveType:'+form.controls.effective.value:'') |
+            abpLocalization}}
           </span>
 
           <ng-template #effectiveSelect>
@@ -161,7 +166,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="header-pipe no">
-          التعليقات
+          {{ '::AssessmentComment' | abpLocalization }}
         </div>
         <textarea formControlName="comment" class="form-control"></textarea>
         <!-- <p class="beneath">
@@ -173,18 +178,29 @@
 
     <div class="row">
       <div class="col-md-12">
+
         <div class="header-pipe no">
-          المسؤولين عن الضابط
+          {{ '::AssessmentResponsibles' | abpLocalization }}
         </div>
-        <p class="beneath">
-          <ng-select formControlName="responsibles" [multiple]="true" [items]="employees" bindLabel="fullName"
-            bindValue="id">
-          </ng-select>
-        </p>
+
+        <div>
+          <span *ngIf="form.controls.employeeIds.disabled; else employeeIdsSelect">
+            <ul>
+              <li *ngFor="let emp of assessment.employees ">{{emp.name}}</li>
+            </ul>
+          </span>
+          <ng-template #employeeIdsSelect>
+            <ng-select formControlName="employeeIds" [multiple]="true" [items]="employees" bindLabel="fullName"
+              bindValue="id">
+            </ng-select>
+          </ng-template>
+        </div>
       </div>
     </div>
 
-    <app-table-files [attachmentId]="form.controls.attachmentId.value" [disabled]="form.controls.attachmentId.disabled" (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)" (OnFileEndUpload)="OnFileEndUpload($event)">
+    <app-table-files [attachmentId]="form.controls.attachmentId.value" [disabled]="form.controls.attachmentId.disabled"
+      (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+      (OnFileEndUpload)="OnFileEndUpload($event)">
     </app-table-files>
 
   </ng-container>

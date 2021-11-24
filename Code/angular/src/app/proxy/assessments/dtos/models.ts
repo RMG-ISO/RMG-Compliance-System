@@ -18,7 +18,7 @@ export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUser
   effective?: EffectiveType;
   comment?: string;
   attachmentId?: string;
-  employees: NameId<string>;
+  employees: NameId<string>[];
 }
 
 export interface CreateUpdateAssessmentDto {

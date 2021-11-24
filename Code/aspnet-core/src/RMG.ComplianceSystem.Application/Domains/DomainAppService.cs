@@ -54,10 +54,11 @@ namespace RMG.ComplianceSystem.Domains
 
             var entity = await MapToEntityAsync(input);
 
-            foreach (var item in input.DepartmentIds)
-            {
-                entity.AddDomainDepartment(new DomainDepartment(entity.Id, item));
-            }
+            if (input.DepartmentIds is not null)
+                foreach (var item in input.DepartmentIds)
+                {
+                    entity.AddDomainDepartment(new DomainDepartment(entity.Id, item));
+                }
 
             TryToSetTenantId(entity);
 
@@ -77,10 +78,11 @@ namespace RMG.ComplianceSystem.Domains
 
             await MapToEntityAsync(input, entity);
 
-            foreach (var item in input.DepartmentIds)
-            {
-                entity.AddDomainDepartment(new DomainDepartment(entity.Id, item));
-            }
+            if (input.DepartmentIds is not null)
+                foreach (var item in input.DepartmentIds)
+                {
+                    entity.AddDomainDepartment(new DomainDepartment(entity.Id, item));
+                }
 
             await Repository.UpdateAsync(entity, autoSave: true);
 

@@ -19,7 +19,7 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 })
 export class AbpBooksComponent implements OnInit, AfterViewInit {
   @ViewChild('dataTable') dataTable;
-  
+
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
   isModalOpen = false; // add this line
   form: FormGroup; // add this line
@@ -37,7 +37,7 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
     private bookService: BookService,
     private fb: FormBuilder, // inject FormBuilder
     private confirmation: ConfirmationService, // inject the ConfirmationService
-  ) { 
+  ) {
     this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
     console.log(bookTypeOptions);
   }
@@ -51,7 +51,7 @@ export class AbpBooksComponent implements OnInit, AfterViewInit {
     });
   }
   ngAfterViewInit() {
-    
+
   }
 
   createBook() {

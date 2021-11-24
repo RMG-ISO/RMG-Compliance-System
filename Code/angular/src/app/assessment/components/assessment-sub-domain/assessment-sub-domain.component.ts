@@ -3,6 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlService } from '@proxy/controls';
 import { ControlDto } from '@proxy/controls/dtos';
 import { DomainDto, DomainWithoutPagingDto } from '@proxy/domains/dtos';
+import { SharedStatus } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 
@@ -32,7 +33,7 @@ export class AssessmentSubDomainComponent implements OnInit {
 
   getControlsList() {
 
-    this.items = this.subDomain.controls.filter(t=>t.parentId==null);
+    this.items = this.subDomain.controls.filter(t=>t.parentId==null&&t.status==SharedStatus.Active);
     this.totalCount = this.items.length;
 
 

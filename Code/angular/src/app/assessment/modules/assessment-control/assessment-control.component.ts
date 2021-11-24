@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { DomainDto, DomainWithoutPagingDto } from '@proxy/domains/dtos';
+import { SharedStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-assessment-control',
@@ -35,7 +36,7 @@ export class AssessmentControlComponent implements OnInit {
   }
 
   getDomains() {
-    this.domainService.getListWithoutPaging({ isMainDomain: true, maxResultCount: null, frameworkId: this.frameworkId }).subscribe((response) => {
+    this.domainService.getListWithoutPaging({ isMainDomain: true, maxResultCount: null, frameworkId: this.frameworkId, status: SharedStatus.Active }).subscribe((response) => {
       console.log(response)
       this.mainDomains = response.items;
       this.mainDomainId = response.items[0].id;
@@ -44,7 +45,7 @@ export class AssessmentControlComponent implements OnInit {
   }
 
   getSubDomains() {
-    this.domainService.getListWithoutPaging({ mainDomainId: this.mainDomainId, isMainDomain: false, maxResultCount: null, frameworkId: this.frameworkId }).subscribe(subDomains => {
+    this.domainService.getListWithoutPaging({ mainDomainId: this.mainDomainId, isMainDomain: false, maxResultCount: null, frameworkId: this.frameworkId ,status:SharedStatus.Active }).subscribe(subDomains => {
       this.subDomains = subDomains.items;
     })
   }

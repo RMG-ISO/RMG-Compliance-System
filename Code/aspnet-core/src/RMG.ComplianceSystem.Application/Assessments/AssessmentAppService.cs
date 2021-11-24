@@ -39,14 +39,14 @@ namespace RMG.ComplianceSystem.Assessments
             _controlRepository = controlRepository;
         }
 
-        protected override Task<IQueryable<Assessment>> CreateFilteredQueryAsync(AssessmentPagedAndSortedResultRequestDto input)
+        protected override async Task<IQueryable<Assessment>> CreateFilteredQueryAsync(AssessmentPagedAndSortedResultRequestDto input)
         {
-            return base.CreateFilteredQueryAsync(input);
+            return (await Repository.WithDetailsAsync());
         }
 
         protected override Task<Assessment> GetEntityByIdAsync(Guid id)
         {
-            return base.GetEntityByIdAsync(id);
+            return Repository.GetAsync(id);
         }
 
 
@@ -60,10 +60,11 @@ namespace RMG.ComplianceSystem.Assessments
 
             var entity = await MapToEntityAsync(input);
 
-            foreach (var item in input.EmployeeIds)
-            {
-                entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
-            }
+            if (input.EmployeeIds is not null)
+                foreach (var item in input.EmployeeIds)
+                {
+                    entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
+                }
 
             entity.SetComplianceDate(Clock.Now);
 
@@ -71,6 +72,7 @@ namespace RMG.ComplianceSystem.Assessments
 
             await Repository.InsertAsync(entity, autoSave: true);
 
+            entity = await GetEntityByIdAsync(entity.Id);
             return await MapToGetOutputDtoAsync(entity);
         }
 
@@ -85,15 +87,16 @@ namespace RMG.ComplianceSystem.Assessments
 
             await MapToEntityAsync(input, entity);
 
-            foreach (var item in input.EmployeeIds)
-            {
-                entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
-            }
+            if (input.EmployeeIds is not null)
+                foreach (var item in input.EmployeeIds)
+                {
+                    entity.AddAssessmentEmployee(new AssessmentEmployee(entity.Id, item));
+                }
 
             entity.SetComplianceDate(Clock.Now);
-
             await Repository.UpdateAsync(entity, autoSave: true);
 
+            entity = await GetEntityByIdAsync(entity.Id);
             return await MapToGetOutputDtoAsync(entity);
         }
 
@@ -119,7 +122,7 @@ namespace RMG.ComplianceSystem.Assessments
 
         public async Task<AssessmentDto> GetByControlIdAsync(Guid id)
         {
-            var ent = Repository.SingleOrDefault(t => t.ControlId == id);
+            var ent = (await Repository.WithDetailsAsync()).SingleOrDefault(t => t.ControlId == id);
             return ObjectMapper.Map<Assessment, AssessmentDto>(ent);
 
         }
