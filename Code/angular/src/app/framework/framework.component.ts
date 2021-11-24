@@ -39,9 +39,6 @@ export class FrameworkComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('this.localizationService.currentLang', this.localizationService.currentLang);
-    console.log('this.sessionState.getLanguage', this.sessionState.getLanguage());
-
     this.getList();
   }
 

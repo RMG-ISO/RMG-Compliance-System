@@ -45,15 +45,15 @@ export class BookDialogComponent implements OnInit {
 
   bookTypes = bookTypeOptions;
 
-  authors$: Observable<AuthorLookupDto[]>; 
+  authors$: Observable<AuthorLookupDto[]>;
 
 
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: BookDto,
-    bookService: BookService 
+    bookService: BookService
     ) {
 
-      this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items)); 
+      this.authors$ = bookService.getAuthorLookup().pipe(map((r) => r.items));
 
     }
 
@@ -62,20 +62,18 @@ export class BookDialogComponent implements OnInit {
   }
 
   buildForm() {
-    console.log(this.data)
     this.form = this.fb.group({
       name: [this.data?.name, Validators.required],
       type: [this.data?.type, Validators.required],
       publishDate: [this.data?.publishDate, Validators.required],
       price: [this.data?.price, Validators.required],
-      authorId: [this.data?.authorId, Validators.required], 
+      authorId: [this.data?.authorId, Validators.required],
 
     });
   }
 
   getFormValue() {
     const { publishDate } = this.form.value;
-    console.log(publishDate);
 
     return this.form.value;
     // return {

@@ -45,7 +45,6 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
     if (changes["attachment"]) {
       let att = changes["attachment"].currentValue;
-      console.log('att', att);
       this.attachmentId = att ? att.id : null;
       this.fileExtentions = att ? att.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
       this.isMultiple = att ? att.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
@@ -85,17 +84,13 @@ export class UploadFilesComponent implements OnInit, OnChanges {
     this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
-          //console.log('Request has been made!');
           break;
         case HttpEventType.ResponseHeader:
-          //console.log('Response header has been received!');
           break;
         case HttpEventType.UploadProgress:
           this.progress = Math.round(event.loaded / event.total * 100);
-          //console.log(`Uploaded! ${this.progress}%`);
           break;
         case HttpEventType.Response:
-          //console.log('successfully file uploaded!', event.body);
           this.OnUpload.emit(event.body);
           this.OnEndUpload.emit(true);
           this.uploading = false;

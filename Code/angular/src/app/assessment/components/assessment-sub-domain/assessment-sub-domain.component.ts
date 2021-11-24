@@ -29,7 +29,6 @@ export class AssessmentSubDomainComponent implements OnInit {
 
   ngOnInit(): void {
     this.getControlsList();
-    console.log(this.subDomain)
   }
 
   getControlsList() {
@@ -39,12 +38,10 @@ export class AssessmentSubDomainComponent implements OnInit {
   }
 
   toggleExpandRow(row) {
-    //console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
 
   onDetailToggle(event) {
-    //console.log('Detail Toggled', event);
   }
 
   getLinkForSubControlText(row: ControlDto) {

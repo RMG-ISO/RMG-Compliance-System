@@ -45,7 +45,6 @@ export class AssessmentFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.applicableTypeOptions)
 
     this.createForm();
 
@@ -56,8 +55,6 @@ export class AssessmentFormComponent implements OnInit {
   getAssessment() {
     this.assessmentService.getByControlId(this.control.id).subscribe(assessment => {
       this.assessment = assessment;
-      console.log('assessment');
-      console.log(assessment);
       this.createForm();
       this.applicableChange(assessment?.applicable);
 
@@ -86,7 +83,6 @@ export class AssessmentFormComponent implements OnInit {
       employeeIds: new FormControl(),
     })
 
-    console.log(this.form)
     this.form.disable();
 
   }
@@ -97,7 +93,6 @@ export class AssessmentFormComponent implements OnInit {
       this.saving = true;
       if (this.assessment)
         this.assessmentService.update(this.assessment.id, this.form.value).subscribe(r => {
-          console.log(r)
           this.cancel()
           this.saving = false;
         }, err => {
@@ -105,7 +100,6 @@ export class AssessmentFormComponent implements OnInit {
         });
       else
         this.assessmentService.create(this.form.value).subscribe(r => {
-          console.log(r);
           this.cancel()
           this.saving = false;
         }, err => {
@@ -125,7 +119,6 @@ export class AssessmentFormComponent implements OnInit {
 
   startEditing() {
     this.form.enable();
-    // console.log(this.form.get('applicable').enabled)
     // this.form.get('applicable').enable();
     this.editing = true;
   }
@@ -141,8 +134,6 @@ export class AssessmentFormComponent implements OnInit {
     this.uploading = false;
   }
   applicableChange(value) {
-    console.log(value)
-    console.log(value)
     if (value === 0) {
       this.form.get('complianceLevel').setValidators([]);
       this.form.get('complianceLevel').patchValue(null);

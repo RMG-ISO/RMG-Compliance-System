@@ -37,7 +37,6 @@ export class AssessmentControlComponent implements OnInit {
 
   getDomains() {
     this.domainService.getListWithoutPaging({ isMainDomain: true, maxResultCount: null, frameworkId: this.frameworkId, status: SharedStatus.Active }).subscribe((response) => {
-      console.log(response)
       this.mainDomains = response.items;
       this.mainDomainId = response.items[0].id;
       this.getSubDomains();

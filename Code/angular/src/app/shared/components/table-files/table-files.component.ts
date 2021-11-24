@@ -33,7 +33,6 @@ export class TableFilesComponent implements OnInit {
   }
 
   OnUploaded(attachmentId: string) {
-    console.log(attachmentId);
     if (!this.attachmentId) {
       this.attachmentId = attachmentId;
     }
@@ -53,7 +52,6 @@ export class TableFilesComponent implements OnInit {
 
   getAttachment() {
     this.attachmentService.getAttachmentWithFileByAttachmentId(this.attachmentId).subscribe(r => {
-      console.log(r);
       this.attachment = r;
       this.items = r.attachmentFiles
       // .map(file => {

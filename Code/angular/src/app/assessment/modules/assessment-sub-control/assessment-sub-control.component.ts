@@ -29,7 +29,6 @@ export class AssessmentSubControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log()
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.mainControlId = this.activatedRoute.snapshot.params["controlId"];
     this.getSubControls();
@@ -46,16 +45,13 @@ export class AssessmentSubControlComponent implements OnInit {
       }).subscribe(subControls => {
         this.subControls = subControls.items;
         this.totalCount = subControls.items.length;
-        console.log(subControls.items)
       })
   }
 
   toggleExpandRow(row) {
-    //console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
 
   onDetailToggle(event) {
-    //console.log('Detail Toggled', event);
   }
 }
