@@ -218,7 +218,8 @@
     "Dashboard:MaturityLevel":"Maturity Level",
     "Dashboard:ComplianceBased":"Compliance Based On PDCA NCA-ECC Requirments",
     "Dashboard:TotalRequirementsMaturityLevel":"Total Requirements Maturity Level",
-    "Dashboard:TotalRequirements":"Total Requirements"
+    "Dashboard:TotalRequirements":"Total Requirements",
+    "Dashboard:RequirementsGapAnalysis":"NCA-ECC Requirements Gap Analysis"
 
   }
 }

@@ -218,7 +218,9 @@
     "Dashboard:MaturityLevel":"مستوى النضج",
     "Dashboard:ComplianceBased":"يعتمد الامتثال على متطلبات PDCA NCA-ECC",
     "Dashboard:TotalRequirementsMaturityLevel":"إجمالي مستوى نضج المتطلبات",
-    "Dashboard:TotalRequirements":"المتطلبات الإجمالية"
+    "Dashboard:TotalRequirements":"المتطلبات الإجمالية",
+    "Dashboard:RequirementsGapAnalysis":"تحليل فجوة متطلبات NCA-ECC"
+
 
   }
 }
