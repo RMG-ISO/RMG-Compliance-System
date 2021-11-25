@@ -1,4 +1,7 @@
 
+table {
+    width: 100%;
+}
 
 .card-1 {
     mat-chip-list {
@@ -124,6 +127,48 @@
                 border-right: 1px solid #FFFFFF;
                 border-bottom: 1px solid #FFFFFF;
             }
+        }
+    }
+}
+
+.card-6 {
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    thead {
+        tr {
+            background-color: #F3F1F1;
+            td {
+                border-left: 1px solid #262D36;
+                border-right: 1px solid #262D36;
+                // border-bottom: 1px solid #262D36;
+                &:first-of-type, &:last-of-type {
+                    border: none;
+                }
+                &:first-of-type{
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+    tbody{
+        tr {
+            color: #fff;
+            td {
+                border-left: 1px solid #FFFFFF;
+                border-right: 1px solid #FFFFFF;
+                border-bottom: 1px solid #FFFFFF;
+                &:first-of-type, &:last-of-type {
+                    border: none;
+                }
+            }
+        }
+        tr:first-of-type{
+            background-color: #C10000;
+        }
+        tr:last-of-type{
+            background-color: #262D36;
         }
     }
 }

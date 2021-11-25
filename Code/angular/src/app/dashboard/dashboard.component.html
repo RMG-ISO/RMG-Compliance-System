@@ -87,9 +87,11 @@
     </div>
 </mat-card>
 
+
 <mat-card class="card-2 mb-3">
     <div echarts [options]="chartOneOptions"></div>
 </mat-card>
+
 
 <div class="row mb-3">
     <div class="col-md-6 mb-3">
@@ -104,7 +106,8 @@
     </div>
 </div>
 
-<mat-card class="card-5">
+
+<mat-card class="card-5 mb-3">
     <table class="table">
         <thead>
             <tr>
@@ -158,4 +161,80 @@
             </tr>
         </tbody>
     </table>
+</mat-card>
+
+
+<mat-card class="card-6 mb-3">
+    <h4 class="text-center mb-2">Maturity Level</h4>
+    <div echarts [options]="chartFourOptions"></div>
+</mat-card>
+
+
+<mat-card class="card-6 mb-3">
+    <h4 class="text-center mb-2">Compliance Based On PDCA NCA-ECC Requirments</h4>
+    <div echarts [options]="chartFiveOptions"></div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td></td>
+                <td>
+                    Cybersecurity Governance
+                </td>
+                <td>
+                    Cybersecurity Defense
+                </td>
+                <td>
+                    Cybersecurity Resilience
+                </td>
+                <td>
+                    Third-Party and Cloud Computing Cybersecurity
+                </td>
+                <td>
+                    Industrial Control Systems Cybersecurity
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    As Is Status 
+                </td>
+                <td>59%</td>
+                <td>37%</td>
+                <td>20%</td>
+                <td>54%</td>
+                <td>0%</td>
+            </tr>
+            <tr>
+                <td>
+                    Recommended Level
+                </td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>100%</td>
+                <td>100%</td>
+            </tr>
+        </tbody>
+    </table>
+</mat-card>
+
+
+<div class="row mb-3">
+    <div class="col-md-6 mb-3">
+        <mat-card class="card-3">
+            <div echarts [options]="chartSixOptions"></div>
+        </mat-card>
+    </div>
+    <div class="col-md-6 mb-3">
+        <mat-card class="card-4">
+            <div echarts [options]="chartSevenOptions"></div>
+        </mat-card>
+    </div>
+</div>
+
+
+<mat-card class="card-3">
+    <div echarts [options]="chartEightOptions"></div>
 </mat-card>
