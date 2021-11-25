@@ -9,6 +9,13 @@ function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.add([
       {
+        path:'/dashboard',
+        name:'::Menu:Dashboard',
+        iconClass: 'fas fa-chart-line',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
         path: '/home',
         name: '::Menu:Home',
         iconClass: 'fas fa-home',
