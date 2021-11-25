@@ -45,6 +45,22 @@ table {
                     text-align: center;
                     padding: 0;
                     color: #fff;
+                    &.applicable{
+                        background-color: #fff;
+                        min-width: 400px;
+                        width: 400px;
+                        div {
+                            margin-left: 10px;
+                            margin-right: 10px;
+                            border-radius: 8px;
+                            background-color: #00E355;
+                        }
+                        &.not {
+                            div {
+                                background-color: #E30303;
+                            }
+                        }
+                    }
                     span {
                         display: block;
                         border-radius: 8px;
@@ -72,8 +88,13 @@ table {
                 }
                 &:first-of-type {
                     td {
-                        padding: 0 0 20px 0;
+                        padding: 0 0 15px 0;
                         border-radius: 8px 8px 0 0;
+                    }
+                }
+                &:last-of-type{
+                    td {
+                        padding-bottom: 10px;
                     }
                 }
             }
@@ -82,6 +103,10 @@ table {
             tr {
                td {
                 border-bottom: 1px solid #F3F1F1;
+                &:first-of-type {
+                    background-color: #262D36;
+                    color: #fff;
+                }
                }
                 &:last-of-type {
                     border-bottom:none;
@@ -115,6 +140,7 @@ table {
                     &:first-of-type, &:last-of-type {
                         border: none;
                     }
+                    
                 }
             }
         }
