@@ -18,6 +18,7 @@ export class AssessmentSubControlComponent implements OnInit {
   frameworkId: string;
   mainControlId: string;
   subControls: ControlDto[];
+  mainControl: ControlDto;
   totalCount: number;
 
   constructor(
@@ -31,6 +32,7 @@ export class AssessmentSubControlComponent implements OnInit {
   ngOnInit(): void {
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.mainControlId = this.activatedRoute.snapshot.params["controlId"];
+    this.getMainControl();
     this.getSubControls();
   }
 
@@ -46,6 +48,14 @@ export class AssessmentSubControlComponent implements OnInit {
         this.subControls = subControls.items;
         this.totalCount = subControls.items.length;
       })
+  }
+
+
+  getMainControl() {
+    this.controlService.get(this.mainControlId).subscribe(mainControl => {
+      this.mainControl = mainControl;
+      console.log(mainControl)
+    });
   }
 
   toggleExpandRow(row) {
