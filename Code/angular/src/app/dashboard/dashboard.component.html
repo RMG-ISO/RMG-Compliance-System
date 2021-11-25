@@ -3,12 +3,12 @@
         <div class="col-md-4">
             <mat-chip-list>
                 <mat-chip class="d-flex justify-content-between align-items-center w-100">
-                    <span>Applicable</span>
+                    <span>{{ '::Dashboard:Applicable' | abpLocalization }}</span>
                     <span>180</span>
                 </mat-chip>
 
                 <mat-chip class="d-flex justify-content-between align-items-center w-100">
-                    <span>Not Applicable</span>
+                    <span>{{ '::Dashboard:NotApplicable' | abpLocalization }}</span>
                     <span>13</span>
                 </mat-chip>
 
@@ -21,54 +21,54 @@
                     <tr>
                         <td>
                             <span class="dark-red">
-                                Level 1
+                                {{ '::Dashboard:Level' | abpLocalization }} 1
                             </span>
                         </td>
                         <td>
                             <span class="red">
-                                Level 2
+                                {{ '::Dashboard:Level' | abpLocalization }} 2
                             </span>
                         </td>
                         <td>
                             <span class="yellow">
-                                Level 3
+                                {{ '::Dashboard:Level' | abpLocalization }} 3
                             </span>
                         </td>
                         <td>
                             <span class="dark-yellow">
-                                Level 4
+                                {{ '::Dashboard:Level' | abpLocalization }} 4
                             </span>
                         </td>
                         <td>
                             <span class="green">
-                                Level 5
+                                {{ '::Dashboard:Level' | abpLocalization }} 5
                             </span>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <span class="dark-red">
-                                Initial
+                                {{ '::Dashboard:Initial' | abpLocalization }}
                             </span>
                         </td>
                         <td>
                            <span class="red">
-                                Managed
+                            {{ '::Dashboard:Managed' | abpLocalization }}
                            </span>
                         </td>
                         <td>
                             <span class="yellow">
-                                Defined
+                                {{ '::Dashboard:Defined' | abpLocalization }}
                             </span>
                         </td>
                         <td>
                             <span class="dark-yellow" style="padding: 2px 0;">
-                                Quantitatively Managed
+                                {{ '::Dashboard:QuantitativelyManaged' | abpLocalization }}
                             </span>
                         </td>
                         <td>
                             <span class="green">
-                                Optimizing
+                                {{ '::Dashboard:Optimizing' | abpLocalization }}
                             </span>
                         </td>
                     </tr>
@@ -112,50 +112,50 @@
         <thead>
             <tr>
                 <td></td>
-                <td>As Is Status </td>
-                <td colspan="2">Recommended Level</td>
-                <td>As Is Status </td>
-                <td>Product</td>
+                <td>{{ '::Dashboard:AsIsStatus' | abpLocalization }}</td>
+                <td colspan="2">{{ '::Dashboard:RecommendedLevel' | abpLocalization }}</td>
+                <td>{{ '::Dashboard:AsIsStatus' | abpLocalization }}</td>
+                <td>{{ '::Dashboard:Product' | abpLocalization }}</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Cybersecurity Governance</td>
+                <td>{{ '::Dashboard:CybersecurityGovernance' | abpLocalization }}</td>
                 <td>105</td>
                 <td>255</td>
-                <td>Cybersecurity Governance</td>
+                <td>{{ '::Dashboard:CybersecurityGovernance' | abpLocalization }}</td>
                 <td>59%</td>
                 <td>100%</td>
             </tr>
             <tr>
-                <td>Cybersecurity Defense</td>
+                <td>{{ '::Dashboard:CybersecurityDefense' | abpLocalization }}</td>
                 <td>206</td>
                 <td>550</td>
-                <td>Cybersecurity Defense</td>
+                <td>{{ '::Dashboard:CybersecurityDefense' | abpLocalization }}</td>
                 <td>37%</td>
                 <td>100%</td>
             </tr>
             <tr>
-                <td>Cybersecurity Resilience</td>
+                <td>{{ '::Dashboard:CybersecurityResilience' | abpLocalization }}</td>
                 <td>6</td>
                 <td>30</td>
-                <td>Cybersecurity Resilience</td>
+                <td>{{ '::Dashboard:CybersecurityResilience' | abpLocalization }}</td>
                 <td>20%</td>
                 <td>100%</td>
             </tr>
             <tr>
-                <td>Third-Party and Cloud Computing Cybersecurity</td>
+                <td> {{ '::Dashboard:ThirdParty' | abpLocalization }} </td>
                 <td>35</td>
                 <td>65</td>
-                <td>Third-Party and Cloud Computing Cybersecurity</td>
+                <td> {{ '::Dashboard:ThirdParty' | abpLocalization }} </td>
                 <td>54%</td>
                 <td>100%</td>
             </tr>
             <tr>
-                <td>Industrial Control Systems Cybersecurity</td>
+                <td> {{ '::Dashboard:IndustrialControl' | abpLocalization}} </td>
                 <td>0</td>
                 <td>0</td>
-                <td>Industrial Control Systems Cybersecurity</td>
+                <td> {{ '::Dashboard:IndustrialControl' | abpLocalization}} </td>
                 <td>76%</td>
                 <td>100%</td>
             </tr>
@@ -165,13 +165,13 @@
 
 
 <mat-card class="card-6 mb-3">
-    <h4 class="text-center mb-2">Maturity Level</h4>
+    <h4 class="text-center mb-2">{{ '::Dashboard:MaturityLevel' | abpLocalization }}</h4>
     <div echarts [options]="chartFourOptions"></div>
 </mat-card>
 
 
 <mat-card class="card-6 mb-3">
-    <h4 class="text-center mb-2">Compliance Based On PDCA NCA-ECC Requirments</h4>
+    <h4 class="text-center mb-2">{{ '::Dashboard:ComplianceBased' | abpLocalization }}</h4>
     <div echarts [options]="chartFiveOptions"></div>
 
     <table class="table">
@@ -179,26 +179,26 @@
             <tr>
                 <td></td>
                 <td>
-                    Cybersecurity Governance
+                    {{ '::Dashboard:CybersecurityGovernance' | abpLocalization }}
                 </td>
                 <td>
-                    Cybersecurity Defense
+                    {{ '::Dashboard:CybersecurityDefense' | abpLocalization }}
                 </td>
                 <td>
-                    Cybersecurity Resilience
+                    {{ '::Dashboard:CybersecurityResilience' | abpLocalization }}
                 </td>
                 <td>
-                    Third-Party and Cloud Computing Cybersecurity
+                    {{ '::Dashboard:ThirdParty' | abpLocalization }}
                 </td>
                 <td>
-                    Industrial Control Systems Cybersecurity
+                     {{ '::Dashboard:IndustrialControl' | abpLocalization}} 
                 </td>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>
-                    As Is Status 
+                    {{ '::Dashboard:AsIsStatus' | abpLocalization }} 
                 </td>
                 <td>59%</td>
                 <td>37%</td>
@@ -208,7 +208,7 @@
             </tr>
             <tr>
                 <td>
-                    Recommended Level
+                    {{ '::Dashboard:RecommendedLevel' | abpLocalization }}
                 </td>
                 <td>100%</td>
                 <td>100%</td>
@@ -235,6 +235,6 @@
 </div>
 
 
-<mat-card class="card-3">
+<mat-card class="card-7">
     <div echarts [options]="chartEightOptions"></div>
 </mat-card>

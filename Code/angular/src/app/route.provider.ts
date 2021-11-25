@@ -10,7 +10,7 @@ function configureRoutes(routesService: RoutesService) {
     routesService.add([
       {
         path:'/dashboard',
-        name:'::Menu:Dashboard',
+        name:'::Dashboard:Title',
         iconClass: 'fas fa-chart-line',
         order: 1,
         layout: eLayoutType.application,

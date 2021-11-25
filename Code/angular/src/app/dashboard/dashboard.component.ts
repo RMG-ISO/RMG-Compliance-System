@@ -1,3 +1,4 @@
+import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private localizationService:LocalizationService
+  ) { }
 
   ngOnInit(): void {
     this.setChartOneOptions();
@@ -18,13 +21,14 @@ export class DashboardComponent implements OnInit {
 
     this.setChartSixOptions();
     this.setChartSevenOptions();
+    this.setChartEightOptions()
   }
 
   chartOneOptions
   setChartOneOptions() {
     this.chartOneOptions = {
       title: {
-        text: 'Total Requirements Maturity Level',
+        text: this.localizationService.instant('::Dashboard:TotalRequirementsMaturityLevel'),
         left: 'center',
         bottom: 25,
         textStyle: {
@@ -71,7 +75,7 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: 'Initial',
+          name: this.localizationService.instant('::Dashboard:Initial'),
           type: 'bar',
           data: [72],
           itemStyle: {
@@ -83,7 +87,7 @@ export class DashboardComponent implements OnInit {
           }
         },
         {
-          name: 'Managed',
+          name: this.localizationService.instant('::Dashboard:Managed'),
           data: [12],
           type: 'bar',
           itemStyle: {
@@ -96,7 +100,7 @@ export class DashboardComponent implements OnInit {
         },
         {
           data: [89],
-          name: 'Defined',
+          name: this.localizationService.instant('::Dashboard:Defined'),
           type: 'bar',
           itemStyle: {
             color: '#FFC000'
@@ -107,7 +111,7 @@ export class DashboardComponent implements OnInit {
           }
         }, 
         {
-          name: 'Quantitatively Managed',
+          name: this.localizationService.instant('::Dashboard:QuantitativelyManaged'),
           data: [1],
           type: 'bar',
           itemStyle: {
@@ -121,7 +125,7 @@ export class DashboardComponent implements OnInit {
         {
           data: [5],
           type: 'bar',
-          name: 'Optimizing',
+          name: this.localizationService.instant('::Dashboard:Optimizing'),
           itemStyle: {
             color: '#00B050'
           },
@@ -138,7 +142,7 @@ export class DashboardComponent implements OnInit {
   setChartTwoOptions() {
     this.chartTwoOptions = {
       title: {
-        text: 'Total Requirements',
+        text: this.localizationService.instant('::Dashboard:TotalRequirements'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -159,7 +163,7 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: 'Total Requirements',
+          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
           type: 'pie',
           // radius: [50, 250],
           center: ['50%', '50%'],
@@ -168,11 +172,11 @@ export class DashboardComponent implements OnInit {
             borderRadius: 8
           },
           data: [
-            { value: 40, name: 'Initial' },
-            { value: 38, name: 'Managed' },
-            { value: 32, name: 'Defined' },
-            { value: 30, name: 'Quantitatively Managed' },
-            { value: 28, name: 'Optimizing' },
+            { value: 40, name: this.localizationService.instant('::Dashboard:Initial') },
+            { value: 38, name: this.localizationService.instant('::Dashboard:Managed') },
+            { value: 32, name: this.localizationService.instant('::Dashboard:Defined') },
+            { value: 30, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
+            { value: 28, name: this.localizationService.instant('::Dashboard:Optimizing') },
           ]
         }
       ]
@@ -184,7 +188,7 @@ export class DashboardComponent implements OnInit {
   setChartThreeOptions() {
     this.chartThreeOptions = {
       title: {
-        text: 'Cybersecurity Governance ',
+        text: this.localizationService.instant('::Dashboard:CybersecurityGovernance'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -205,7 +209,7 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: 'Cybersecurity Governance ',
+          name: this.localizationService.instant('::Dashboard:CybersecurityGovernance'),
           type: 'pie',
           // radius: [50, 250],
           center: ['50%', '50%'],
@@ -214,11 +218,11 @@ export class DashboardComponent implements OnInit {
             borderRadius: 8
           },
           data: [
-            { value: 40, name: 'Initial' },
-            { value: 38, name: 'Managed' },
-            { value: 32, name: 'Defined' },
-            { value: 30, name: 'Quantitatively Managed' },
-            { value: 28, name: 'Optimizing' },
+            { value: 40, name: this.localizationService.instant('::Dashboard:Initial') },
+            { value: 38, name: this.localizationService.instant('::Dashboard:Managed') },
+            { value: 32, name: this.localizationService.instant('::Dashboard:Defined') },
+            { value: 30, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
+            { value: 28, name: this.localizationService.instant('::Dashboard:Optimizing') },
           ]
         }
       ]
@@ -229,7 +233,7 @@ export class DashboardComponent implements OnInit {
   setchartFourOptions() {
     this.chartFourOptions = { 
       legend: {
-        data: ['Recommended Level', 'As Is Status'],
+        data: [this.localizationService.instant('::Dashboard:RecommendedLevel'), this.localizationService.instant('::Dashboard:AsIsStatus')],
       },
       toolbox: {
         show: true,
@@ -241,11 +245,11 @@ export class DashboardComponent implements OnInit {
       radar: {
         // shape: 'circle',
         indicator: [
-          { name: 'Cybersecurity Governance', max: 100 },
-          { name: 'Industrial Control Systems Cybersecurity', max: 100 },
-          { name: 'Third-Party and Cloud Computing Cybersecurity', max: 100 },
-          { name: 'Cybersecurity Resilience', max: 100 },
-          { name: 'Cybersecurity Defense', max: 100 },
+          { name: this.localizationService.instant('::Dashboard:CybersecurityGovernance'), max: 100 },
+          { name: this.localizationService.instant('::Dashboard:IndustrialControl'), max: 100 },
+          { name: this.localizationService.instant('::Dashboard:ThirdParty'), max: 100 },
+          { name: this.localizationService.instant('::Dashboard:CybersecurityResilience'), max: 100 },
+          { name: this.localizationService.instant('::Dashboard:CybersecurityDefense'), max: 100 },
         ]
       },
       series: [
@@ -261,11 +265,11 @@ export class DashboardComponent implements OnInit {
           data: [
             {
               value: [100, 100, 100, 100, 100],
-              name: 'Recommended Level'
+              name: this.localizationService.instant('::Dashboard:RecommendedLevel')
             },
             {
               value: [60, 0, 50, 20, 40],
-              name: 'As Is Status',
+              name: this.localizationService.instant('::Dashboard:AsIsStatus'),
             }
           ]
         }
@@ -290,13 +294,13 @@ export class DashboardComponent implements OnInit {
             }
           },
           {
-            value:'Cybersecurity Defense',
+            value:this.localizationService.instant('::Dashboard:CybersecurityDefense'),
             textStyle:{
               fontSize:11
             }
           },
           {
-            value:'Cybersecurity Resilience',
+            value:this.localizationService.instant('::Dashboard:CybersecurityResilience'),
             textStyle:{
               fontSize:11
             }
@@ -308,7 +312,7 @@ export class DashboardComponent implements OnInit {
             }
           },
           {
-            value:'Industrial Control Systems Cybersecurity',
+            value:this.localizationService.instant('::Dashboard:IndustrialControl'),
             textStyle:{
               fontSize:11
             }
@@ -325,7 +329,7 @@ export class DashboardComponent implements OnInit {
       series: [
       
         {
-          name: 'As Is Status',
+          name: this.localizationService.instant('::Dashboard:AsIsStatus'),
           type: 'bar',
           barGap: 0,
           itemStyle: {
@@ -335,7 +339,7 @@ export class DashboardComponent implements OnInit {
           data: [59, 37, 20, 54, 0]
         },
         {
-          name: 'Recommended Level',
+          name: this.localizationService.instant('::Dashboard:RecommendedLevel'),
           type: 'bar',
           barGap: 0,
           itemStyle: {
@@ -354,7 +358,7 @@ export class DashboardComponent implements OnInit {
   setChartSixOptions() {
     this.chartSixOptions = {
       title: {
-        text: 'Cybersecurity Resilience',
+        text: this.localizationService.instant('::Dashboard:CybersecurityResilience'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -375,7 +379,7 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: 'Cybersecurity Governance ',
+          name: this.localizationService.instant('::Dashboard:CybersecurityGovernance'),
           type: 'pie',
           // radius: [50, 250],
           center: ['50%', '50%'],
@@ -384,11 +388,11 @@ export class DashboardComponent implements OnInit {
             borderRadius: 8
           },
           data: [
-            { value: 0, name: 'Initial' },
-            { value: 6, name: 'Managed' },
-            { value: 0, name: 'Defined' },
-            { value: 0, name: 'Quantitatively Managed' },
-            { value: 0, name: 'Optimizing' },
+            { value: 0, name: this.localizationService.instant('::Dashboard:Initial') },
+            { value: 6, name: this.localizationService.instant('::Dashboard:Managed') },
+            { value: 0, name: this.localizationService.instant('::Dashboard:Defined') },
+            { value: 0, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
+            { value: 0, name: this.localizationService.instant('::Dashboard:Optimizing') },
           ]
         }
       ]
@@ -400,7 +404,7 @@ export class DashboardComponent implements OnInit {
   setChartSevenOptions() {
     this.chartSevenOptions = {
       title: {
-        text: 'Cybersecurity Defense',
+        text: this.localizationService.instant('::Dashboard:CybersecurityDefense'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -421,7 +425,7 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: 'Total Requirements',
+          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
           type: 'pie',
           // radius: [50, 250],
           center: ['50%', '50%'],
@@ -430,11 +434,11 @@ export class DashboardComponent implements OnInit {
             borderRadius: 8
           },
           data: [
-            { value: 56, name: 'Initial' },
-            { value: 12, name: 'Managed' },
-            { value: 42, name: 'Defined' },
-            { value: 0, name: 'Quantitatively Managed' },
-            { value: 20, name: 'Optimizing' },
+            { value: 56, name: this.localizationService.instant('::Dashboard:Initial') },
+            { value: 12, name: this.localizationService.instant('::Dashboard:Managed') },
+            { value: 42, name: this.localizationService.instant('::Dashboard:Defined') },
+            { value: 0, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
+            { value: 20, name: this.localizationService.instant('::Dashboard:Optimizing') },
           ]
         }
       ]
@@ -446,7 +450,7 @@ export class DashboardComponent implements OnInit {
   setChartEightOptions() {
     this.chartEightOptions = {
       title: {
-        text: 'Third-Party and Cloud Computing Cybersecurity',
+        text: this.localizationService.instant('::Dashboard:ThirdParty'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -467,20 +471,21 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: 'Total Requirements',
+          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
           type: 'pie',
           // radius: [50, 250],
+          radius: '50%',
           center: ['50%', '50%'],
           roseType: 'area',
           itemStyle: {
             borderRadius: 8
           },
           data: [
-            { value: 0, name: 'Initial' },
-            { value: 2, name: 'Managed' },
-            { value: 11, name: 'Defined' },
-            { value: 0, name: 'Quantitatively Managed' },
-            { value: 0, name: 'Optimizing' },
+            { value: 0, name: this.localizationService.instant('::Dashboard:Initial') },
+            { value: 2, name: this.localizationService.instant('::Dashboard:Managed') },
+            { value: 11, name: this.localizationService.instant('::Dashboard:Defined') },
+            { value: 0, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
+            { value: 0, name: this.localizationService.instant('::Dashboard:Optimizing') },
           ]
         }
       ]
