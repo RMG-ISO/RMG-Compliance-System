@@ -27,6 +27,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule)
   },
+  {
+    path:'dashboard',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
   // {
   //   path: 'compliance-department',
   //   loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
@@ -50,8 +55,7 @@ const routes: Routes = [
   },
   {
     path: 'setting-management',
-    loadChildren: () =>
-      import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
+    loadChildren: () => import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
 
   // { path: 'books', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
