@@ -44,14 +44,17 @@ export class AssessmentSubDomainComponent implements OnInit {
   onDetailToggle(event) {
   }
 
+  getSubControl(id: string) {
+    return this.subDomain.controls.filter(t => t.parentId == id);
+  }
   getLinkForSubControlText(row: ControlDto) {
-    let childrenControls = this.subDomain.controls.filter(t => t.parentId == row.id)
+    let childrenControls = this.getSubControl(row.id);
 
     return row.reference + (childrenControls.length > 0 ? ' >' : '')
   }
 
   getLinkForSubControlLink(row: ControlDto) {
-    let childrenControls = this.subDomain.controls.filter(t => t.parentId == row.id)
+    let childrenControls = this.getSubControl(row.id);
     this.router.navigate([`/${this.router.url}/${row.id}`]);
   }
 }

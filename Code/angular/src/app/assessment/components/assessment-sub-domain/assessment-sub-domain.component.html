@@ -6,7 +6,10 @@
     <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount"  #table appNgxdatatable>
       <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-          <button mat-button color="primary" (click)="getLinkForSubControlLink(row)">
+          <button mat-button color="primary" (click)="getLinkForSubControlLink(row)" *ngIf="getSubControl(row.id).length>0">
+            {{ getLinkForSubControlText(row)}}
+          </button>
+          <button mat-button  *ngIf="getSubControl(row.id).length===0">
             {{ getLinkForSubControlText(row)}}
           </button>
         </ng-template>
