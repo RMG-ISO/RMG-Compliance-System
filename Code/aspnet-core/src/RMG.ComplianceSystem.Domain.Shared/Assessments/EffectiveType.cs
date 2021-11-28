@@ -7,6 +7,7 @@ namespace RMG.ComplianceSystem.Assessments
     public enum EffectiveType : byte
     {
         NotEffective,
+        PartialEffective,
         Effective
     }
 }
