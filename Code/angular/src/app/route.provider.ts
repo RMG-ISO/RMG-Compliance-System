@@ -8,6 +8,13 @@ export const APP_ROUTE_PROVIDER = [
 function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.add([
+      // {
+      //   path:'/dashboard',
+      //   name:'::Menu:Dashboard',
+      //   iconClass: 'fas fa-chart-line',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      // },
       {
         path: '/home',
         name: '::Menu:Home',
