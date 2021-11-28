@@ -7,6 +7,7 @@ namespace RMG.ComplianceSystem.Assessments
     public enum DocumentedType : byte
     {
         NotDocumented,
+        PartialDocumented,
         Documented
     }
 }

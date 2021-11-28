@@ -2,7 +2,8 @@ import { mapEnumToOptions } from '@abp/ng.core';
 
 export enum EffectiveType {
   NotEffective = 0,
-  Effective = 1,
+  PartialEffective = 1,
+  Effective = 2,
 }
 
 export const effectiveTypeOptions = mapEnumToOptions(EffectiveType);
