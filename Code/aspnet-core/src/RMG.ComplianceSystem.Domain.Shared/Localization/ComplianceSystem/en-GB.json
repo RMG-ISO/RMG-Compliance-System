@@ -195,9 +195,32 @@
     "Enum:ImplementedType:0": "No",
     "Enum:ImplementedType:1": "Partial",
     "Enum:ImplementedType:2": "Yes",
-    "Enum:EffectiveType:0": "No",
     "Enum:EffectiveType:1": "Partial",
     "Enum:EffectiveType:2": "Yes",
-    "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?"
+    "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?",
+
+    "Dashboard:Title":"Dashboard",
+    "Dashboard:Applicable":"Applicable",
+    "Dashboard:NotApplicable":"Not Applicable",
+    "Dashboard:Level":"Level",
+    "Dashboard:Initial":"Initial",
+    "Dashboard:Managed":"Managed",
+    "Dashboard:Defined":"Defined",
+    "Dashboard:QuantitativelyManaged":"Quantitatively Managed",
+    "Dashboard:Optimizing":"Optimizing",
+    "Dashboard:AsIsStatus":"As Is Status",
+    "Dashboard:RecommendedLevel":"Recommended Level",
+    "Dashboard:Product":"Product",
+    "Dashboard:CybersecurityGovernance":"Cybersecurity Governance",
+    "Dashboard:CybersecurityDefense":"Cybersecurity Defense",
+    "Dashboard:CybersecurityResilience":"Cybersecurity Resilience",
+    "Dashboard:ThirdParty":"Third-Party and Cloud Computing Cybersecurity",
+    "Dashboard:IndustrialControl":"Industrial Control Systems Cybersecurity",
+    "Dashboard:MaturityLevel":"Maturity Level",
+    "Dashboard:ComplianceBased":"Compliance Based On PDCA NCA-ECC Requirments",
+    "Dashboard:TotalRequirementsMaturityLevel":"Total Requirements Maturity Level",
+    "Dashboard:TotalRequirements":"Total Requirements",
+    "Dashboard:RequirementsGapAnalysis":"NCA-ECC Requirements Gap Analysis"
+
   }
 }
