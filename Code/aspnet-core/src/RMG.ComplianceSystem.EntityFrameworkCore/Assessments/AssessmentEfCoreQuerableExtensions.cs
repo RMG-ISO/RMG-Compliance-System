@@ -21,8 +21,8 @@ namespace RMG.ComplianceSystem.Assessments
                  .Include(t => t.Control.LastModifier)
                  .Include(t => t.Control.Deleter)
                  .Include(t => t.Creator)
-                .Include(t => t.LastModifier)
-                .Include(t => t.Deleter)
+                 .Include(t => t.LastModifier)
+                 .Include(t => t.Deleter)
                 ;
         }
     }
