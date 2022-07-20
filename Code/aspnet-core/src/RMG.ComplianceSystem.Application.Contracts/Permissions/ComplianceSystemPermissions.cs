@@ -14,7 +14,14 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
         }
-
+        public static class Policy
+        {
+            public const string Default = GroupName + ".Policy";
+            public const string Create = Default + ".Create";
+            public const string Update = Default + ".Update";
+            public const string Delete = Default + ".Delete";
+        }
+        
         public static class Authors
         {
             public const string Default = GroupName + ".Authors";

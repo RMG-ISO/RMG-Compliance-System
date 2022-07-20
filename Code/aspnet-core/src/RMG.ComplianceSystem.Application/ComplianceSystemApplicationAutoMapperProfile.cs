@@ -18,6 +18,7 @@ using RMG.ComplianceSystem.Books;
 using System.Linq;
 using RMG.ComplianceSystem.Shared;
 using System;
+using RMG.ComplianceSystem.Policies;
 
 namespace RMG.ComplianceSystem
 {
@@ -36,8 +37,7 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateAuthorWithBookDto, Author>();
             CreateMap<CreateBookDto, Book>();
             CreateMap<Author, AuthorWithDetailsDto>();
-
-
+            CreateMap<Policy, PolicyDto>();
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentFile, AttachmentFileDto>();
             CreateMap<Framework, FrameworkDto>();

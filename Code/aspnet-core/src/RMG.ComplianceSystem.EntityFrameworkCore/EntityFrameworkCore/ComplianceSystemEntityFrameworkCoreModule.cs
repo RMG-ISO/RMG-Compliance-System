@@ -17,6 +17,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using RMG.ComplianceSystem.Policies;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -46,7 +47,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
                 options.AddDefaultRepositories(includeAllEntities: true);
-                options.AddRepository<Attachment, AttachmentRepository>();
+                options.AddRepository<Attachment, PolicyRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();
                 options.AddRepository<Department, DepartmentRepository>();
