@@ -22,6 +22,7 @@ using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments;
+using RMG.ComplianceSystem.Policies;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -62,8 +63,9 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
         #endregion
 
-
+        #region Custom Entities 
         public DbSet<Book> Books { get; set; }
+        public DbSet<Policy> Policies { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -75,6 +77,9 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Assessment> Assessments { get; set; }
         public DbSet<AssessmentEmployee> AssessmentEmployees { get; set; }
         public DbSet<DomainDepartment> DomainDepartments { get; set; }
+        #endregion
+
+
 
         public ComplianceSystemDbContext(DbContextOptions<ComplianceSystemDbContext> options)
             : base(options)
@@ -99,13 +104,15 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
             /* Configure your own tables/entities inside here */
 
+            #region Configuration Entities aand validation
+            //Example
+            //------------------
             //builder.Entity<YourEntity>(b =>
             //{
             //    b.ToTable(ComplianceSystemConsts.DbTablePrefix + "YourEntities", ComplianceSystemConsts.DbSchema);
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
-
 
             builder.Entity<Book>(b =>
             {
@@ -114,6 +121,14 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 b.ConfigureByConvention();
                 b.Property(x => x.Name).IsRequired().HasMaxLength(128);
                 b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
+            });
+            builder.Entity<Policy>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Policies",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+                b.Property(x => x.Title).IsRequired().HasMaxLength(128);
+                b.Property(x => x.TermsAndPrivacy).IsRequired();
             });
 
             builder.Entity<Author>(b =>
@@ -194,15 +209,15 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 /* Configure more properties here */
 
                 b.HasOne(t => t.Framework).WithMany(t => t.Domains).HasForeignKey(t => t.FrameworkId);
-                b.HasOne(t => t.Parent  ).WithMany(t => t.Children).HasForeignKey(t => t.ParentId).IsRequired(false);
+                b.HasOne(t => t.Parent).WithMany(t => t.Children).HasForeignKey(t => t.ParentId).IsRequired(false);
             });
 
 
             builder.Entity<Control>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Controls", ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention(); 
-                
+                b.ConfigureByConvention();
+
 
                 /* Configure more properties here */
             });
@@ -223,8 +238,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             builder.Entity<AssessmentEmployee>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "AssessmentEmployees", ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention(); 
-                
+                b.ConfigureByConvention();
+
                 b.HasKey(e => new
                 {
                     e.AssessmentId,
@@ -241,8 +256,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             builder.Entity<DomainDepartment>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DomainDepartments", ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention(); 
-                
+                b.ConfigureByConvention();
+
                 b.HasKey(e => new
                 {
                     e.DomainId,
@@ -255,6 +270,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 b.HasOne(t => t.Department).WithMany(t => t.DomainDepartments).HasForeignKey(t => t.DepartmentId);
 
             });
+            #endregion
         }
     }
 }
