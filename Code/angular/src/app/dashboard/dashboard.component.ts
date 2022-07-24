@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
     this.setChartThreeOptions();
     this.setchartFourOptions();
     this.setChartFiveOptions();
-
     this.setChartSixOptions();
     this.setChartSevenOptions();
     this.setChartEightOptions()
@@ -69,7 +68,7 @@ export class DashboardComponent implements OnInit {
           type: 'category',
           boundaryGap: true,
         }
-      ],      
+      ],
       yAxis: {
         type: 'value'
       },
@@ -109,7 +108,7 @@ export class DashboardComponent implements OnInit {
             show: true,
             position: 'top'
           }
-        }, 
+        },
         {
           name: this.localizationService.instant('::Dashboard:QuantitativelyManaged'),
           data: [1],
@@ -182,7 +181,7 @@ export class DashboardComponent implements OnInit {
       ]
     };
   }
- 
+
 
   chartThreeOptions
   setChartThreeOptions() {
@@ -231,7 +230,7 @@ export class DashboardComponent implements OnInit {
 
   chartFourOptions
   setchartFourOptions() {
-    this.chartFourOptions = { 
+    this.chartFourOptions = {
       legend: {
         data: [this.localizationService.instant('::Dashboard:RecommendedLevel'), this.localizationService.instant('::Dashboard:AsIsStatus')],
       },
@@ -282,8 +281,8 @@ export class DashboardComponent implements OnInit {
     this.chartFiveOptions = {
       legend: {},
       tooltip: {},
-     
-      xAxis: { 
+
+      xAxis: {
         type: 'category',
         axisTick: { show: false },
         data: [
@@ -325,9 +324,9 @@ export class DashboardComponent implements OnInit {
       yAxis: {
         type: 'value'
       },
-    
+
       series: [
-      
+
         {
           name: this.localizationService.instant('::Dashboard:AsIsStatus'),
           type: 'bar',
@@ -335,7 +334,7 @@ export class DashboardComponent implements OnInit {
           itemStyle: {
             color: '#C10000'
           },
-         
+
           data: [59, 37, 20, 54, 0]
         },
         {
@@ -344,12 +343,12 @@ export class DashboardComponent implements OnInit {
           barGap: 0,
           itemStyle: {
             color: '#262D36'
-          }, 
-          
+          },
+
           data: [100, 100, 100, 100, 100]
         },
       ]
-    
+
     };
   }
 
@@ -399,7 +398,7 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  
+
   chartSevenOptions
   setChartSevenOptions() {
     this.chartSevenOptions = {
@@ -492,7 +491,7 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  
- 
+
+
 
 }
