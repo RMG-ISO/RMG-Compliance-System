@@ -15,7 +15,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Policies
 {
-    [Authorize(ComplianceSystemPermissions.Policy.Default)]
+   // [Authorize(ComplianceSystemPermissions.Policy.Default)]
     public class PolicyAppService :
         CrudAppService<
             Policy, //The Policy entity
@@ -26,12 +26,14 @@ namespace RMG.ComplianceSystem.Policies
         IPolicyAppService //implement the IPolicyAppService
     {
 
+        private readonly IPolicyRepository repository;
 
         public PolicyAppService(
-            IRepository<Policy, Guid> repository)
+            IPolicyRepository _repository)
 
-            : base(repository)
+            : base(_repository)
         {
+            repository = _repository;   
             GetPolicyName = ComplianceSystemPermissions.Policy.Default;
             GetListPolicyName = ComplianceSystemPermissions.Policy.Default;
             CreatePolicyName = ComplianceSystemPermissions.Policy.Create;
@@ -62,7 +64,7 @@ namespace RMG.ComplianceSystem.Policies
         public override async Task<PagedResultDto<PolicyDto>> GetListAsync(
             PagedAndSortedResultRequestDto input)
         {
-            await CheckGetListPolicyAsync();
+           // await CheckGetListPolicyAsync();
 
             //Prepare a query to join Policys and authors
             var query = from Policy in Repository
