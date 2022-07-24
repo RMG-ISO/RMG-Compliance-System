@@ -47,7 +47,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
                 options.AddDefaultRepositories(includeAllEntities: true);
-                options.AddRepository<Attachment, PolicyRepository>();
+                options.AddRepository<Attachment, AttachmentRepository>();
+                options.AddRepository<Policy, PolicyRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();
                 options.AddRepository<Department, DepartmentRepository>();

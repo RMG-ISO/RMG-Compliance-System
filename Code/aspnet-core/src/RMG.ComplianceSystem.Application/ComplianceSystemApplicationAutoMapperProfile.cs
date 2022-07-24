@@ -19,6 +19,7 @@ using System.Linq;
 using RMG.ComplianceSystem.Shared;
 using System;
 using RMG.ComplianceSystem.Policies;
+using RMG.ComplianceSystem.Policies.Dtos;
 
 namespace RMG.ComplianceSystem
 {
@@ -48,6 +49,7 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));
             CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
             CreateMap<CreateUpdateDomainDto, Domain>();
+            CreateMap<CreateUpdatePolicyDto, Policy>();
             CreateMap<Domain, DomainDto>()
                 .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Domain, DomainWithoutPagingDto>()
