@@ -27,13 +27,17 @@ namespace RMG.ComplianceSystem.Policies
             CreateUpdateDocumentDto>, //Used to create/update a Document
         IDocumentAppService //implement the IDocumentAppService
     {
-
-
+        //   Start Permissions
+        #region Start Permissions
         protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Document.Default;
         protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Document.Default;
         protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Document.Create;
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Document.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Document.Delete;
+        #endregion
+        // End Permissions
+        //Start Properties and Constructor DocumentAppService
+        #region Start Properties and Constructor DocumentAppService
         private readonly IDocumentRepository Documentrepository;
         private readonly IdentityUserManager User;
         private readonly IAttachmentRepository _attachmentRepository;
@@ -46,52 +50,49 @@ namespace RMG.ComplianceSystem.Policies
             _attachmentRepository = attachmentRepository;
             _DocCateRepository = DocCateRepository;
         }
-
-        public override async Task<DocumentDto> GetAsync(Guid id)
-        {
-
-            //Prepare a query to join Documents and authors
-            var query = from Document in Repository
-                        where Document.Id == id
-                        select new { Document };
-
-            //Execute the query and get the Document with author
-            var queryResult = await AsyncExecuter.FirstOrDefaultAsync(query);
-            if (queryResult == null)
-            {
-                throw new EntityNotFoundException(typeof(Document), id);
-            }
-
-            var DocumentDto = ObjectMapper.Map<Document, DocumentDto>(queryResult.Document);
-            return DocumentDto;
-        }
-
-
-
+        #endregion
+        //End Properties and Constructor DocumentAppService
+        //Start Methods getbyId and GetListDocumentByCategory
+        #region Start Methods getbyId and GetListDocumentByCategory
         public async Task<PagedResultDto<FullDocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input)
         {
+            // get Document Category By CategoryId
             var DocCate = _DocCateRepository.GetAsync(input.CategoryId).Result;
+            // Mapping DocumentCategory to DocumentCategoryDto
             var DocCateDto = ObjectMapper.Map<DocumentCategory, DocumentCategoryDto>(DocCate);
-            //Prepare a query to join Documents 
+            //get Document By CategoryId and Filters and Pagination
             var Documents = Documentrepository.Where(x => x.CategoryId == input.CategoryId && 
             (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
              .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
-           List<FullDocumentDto> DocumentDtos = new List<FullDocumentDto>();
-            FullDocumentDto fullDocumentDto= new FullDocumentDto();
+            // instance of List of FullDocumentDto
+            List<FullDocumentDto> DocumentDtos = new List<FullDocumentDto>();
+            // instance of  FullDocumentDto
+            FullDocumentDto fullDocumentDto = new FullDocumentDto();
+            // set DocumentCategoryDto to fullDocumentDto.DocumentCategoryDto
             fullDocumentDto.DocumentCategoryDto = DocCateDto;
+            // instance of  List<DocumentDto>
             List<DocumentDto> document=new List<DocumentDto>();
+            // loop in Documents and get attacments by every Document
             foreach (var item in Documents)
             {
+                // get attachmentR
                 var getAttachment = _attachmentRepository.GetAsync(item.AttachmentId).Result;
+                // Mapping Attachment to AttachmentDto
                 var Attachment = ObjectMapper.Map<RMG.ComplianceSystem.Attachments.Attachment, AttachmentDto>(getAttachment);
+                // instance of  IdentityUserDto
                 IdentityUserDto UserDto = new IdentityUserDto();
+                // check CreatorId not equal null 
                 if (item.CreatorId != null)
                 {
+                    // get user by CreatorId
                     var getuser = User.GetByIdAsync((Guid)item.CreatorId).Result;
+                    // Mapping IdentityUser to IdentityUserDto
                     UserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
                 }
-                else { UserDto = null; }
-              
+                else {
+                    // in case CreatorId  equal null 
+                    UserDto = null; }
+                // get object from DocumentDto and Set Data
                 DocumentDto docdto = new DocumentDto
                 {
                     Attachment = Attachment,
@@ -103,19 +104,42 @@ namespace RMG.ComplianceSystem.Policies
                     UserDto = UserDto
 
                 };
+                // Add data of DocumentDto in List of document
                 document.Add(docdto);
                 
             }
+            // Set document in fullDocumentDto.documentDtos
             fullDocumentDto.documentDtos= document;
+            // Set fullDocumentDto in DocumentDtos
             DocumentDtos.Add(fullDocumentDto);
-            //Get the total count with Repository query
+            //Get the total count with document
             var totalCount = document.Count;
-
+            // return DocumentDtos and totalCount
             return new PagedResultDto<FullDocumentDto>(
                 totalCount,
                 DocumentDtos
             );
         }
+
+
+        // get Document and Attachments by DocumentId
+        public async Task<DocumentDto> GetByIdAsync(Guid Id)
+        {
+            // get Document 
+            var Doc = Documentrepository.GetAsync(Id).Result;
+            // Mapping Document to DocumentDto
+            var document = ObjectMapper.Map<Document, DocumentDto>(Doc);
+            // get Attachments 
+            var getAttachment = _attachmentRepository.GetAsync(document.AttachmentId).Result;
+            // Mapping Attachment to AttachmentDto
+            var Attachment = ObjectMapper.Map<RMG.ComplianceSystem.Attachments.Attachment, AttachmentDto>(getAttachment);
+            //Set Attachment in document.Attachment
+            document.Attachment= Attachment;
+            // return document include attachments , attachments Files and Audits
+            return document;
+        }
+        #endregion
+
 
     }
 }

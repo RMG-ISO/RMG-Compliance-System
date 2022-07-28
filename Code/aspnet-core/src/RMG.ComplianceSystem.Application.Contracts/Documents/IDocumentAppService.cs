@@ -15,6 +15,6 @@ namespace RMG.ComplianceSystem.Documents
          CreateUpdateDocumentDto> //Used to create/update a book
     {
         Task<PagedResultDto<FullDocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input);
-
+        Task<DocumentDto> GetByIdAsync(Guid Id);
     }
 }
