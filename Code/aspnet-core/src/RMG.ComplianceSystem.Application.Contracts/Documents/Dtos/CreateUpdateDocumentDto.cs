@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace RMG.ComplianceSystem.Policies.Dtos
+namespace RMG.ComplianceSystem.Documents.Dtos
 {
     [Serializable]
-    public class CreateUpdatePolicyDto
+    public class CreateUpdateDocumentDto
     {
 
         [Required]
         [StringLength(128)]
-        public string Title { get; set; }
+        public string TitleAr { get; set; }
         [Required]
-        public string TermsAndPrivacy { get; set; }
-        public bool Approve { get; set; }
+        [StringLength(128)]
+        public string TitleEn { get; set; }
 
-        public int CompanyId { get; set; }
+        public Guid CategoryId { get; set; }
         public Guid AttachmentId { get; set; }
     }
 }

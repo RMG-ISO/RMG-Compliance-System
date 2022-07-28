@@ -23,6 +23,7 @@ using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Policies;
+using RMG.ComplianceSystem.Documents;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -65,7 +66,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
         #region Custom Entities 
         public DbSet<Book> Books { get; set; }
-        public DbSet<Policy> Policies { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentCategory> DocumentCategories { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -122,14 +124,18 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 b.Property(x => x.Name).IsRequired().HasMaxLength(128);
                 b.HasOne<Author>().WithMany().HasForeignKey(x => x.AuthorId).IsRequired();
             });
-            builder.Entity<Policy>(b =>
+            builder.Entity<Document>(b =>
             {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Policies",
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Documents",
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
-                b.Property(x => x.Title).IsRequired().HasMaxLength(128);
-                b.Property(x => x.TermsAndPrivacy).IsRequired();
             });
+            builder.Entity<DocumentCategory>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentCategories",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            }); 
 
             builder.Entity<Author>(b =>
             {

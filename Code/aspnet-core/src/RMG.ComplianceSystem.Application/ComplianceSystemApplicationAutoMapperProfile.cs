@@ -18,8 +18,8 @@ using RMG.ComplianceSystem.Books;
 using System.Linq;
 using RMG.ComplianceSystem.Shared;
 using System;
-using RMG.ComplianceSystem.Policies;
-using RMG.ComplianceSystem.Policies.Dtos;
+using RMG.ComplianceSystem.Documents.Dtos;
+using RMG.ComplianceSystem.Documents;
 
 namespace RMG.ComplianceSystem
 {
@@ -38,7 +38,10 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateAuthorWithBookDto, Author>();
             CreateMap<CreateBookDto, Book>();
             CreateMap<Author, AuthorWithDetailsDto>();
-            CreateMap<Policy, PolicyDto>();
+            CreateMap<Document, DocumentDto>();
+            CreateMap<CreateUpdateDocumentDto, Document>();
+            CreateMap<DocumentCategory, DocumentCategoryDto>();
+            CreateMap<CreateUpdateDocumentCategoryDto, DocumentCategory>();
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentFile, AttachmentFileDto>();
             CreateMap<Framework, FrameworkDto>();
@@ -49,7 +52,6 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.DepartmentName, ops => ops.MapFrom(t => t.Department != null ? t.Department.Name : null));
             CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
             CreateMap<CreateUpdateDomainDto, Domain>();
-            CreateMap<CreateUpdatePolicyDto, Policy>();
             CreateMap<Domain, DomainDto>()
                 .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Domain, DomainWithoutPagingDto>()

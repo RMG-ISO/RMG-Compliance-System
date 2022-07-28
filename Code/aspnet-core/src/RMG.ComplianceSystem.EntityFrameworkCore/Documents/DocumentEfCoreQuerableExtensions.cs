@@ -1,11 +1,12 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using RMG.ComplianceSystem.Documents;
 
 namespace RMG.ComplianceSystem.Policies
 {
-    public static class PolicyEfCoreQueryableExtensions
+    public static class DocumentEfCoreQueryableExtensions
     {
-        public static IQueryable<Policy> IncludeDetails(this IQueryable<Policy> queryable, bool include = true)
+        public static IQueryable<Document> IncludeDetails(this IQueryable<Document> queryable, bool include = true)
         {
             if (!include)
             {

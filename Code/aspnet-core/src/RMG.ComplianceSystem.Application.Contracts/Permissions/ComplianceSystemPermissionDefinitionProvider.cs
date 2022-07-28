@@ -45,10 +45,10 @@ namespace RMG.ComplianceSystem.Permissions
             //attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Create, L("Permission:Create"));
             //attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Update, L("Permission:Update"));
             //attachmentFilePermission.AddChild(ComplianceSystemPermissions.AttachmentFile.Delete, L("Permission:Delete"));
-            var PolicyPermission = myGroup.AddPermission(ComplianceSystemPermissions.Policy.Default, L("Permission:Policy"));
-            PolicyPermission.AddChild(ComplianceSystemPermissions.Policy.Create, L("Permission:Create"));
-            PolicyPermission.AddChild(ComplianceSystemPermissions.Policy.Update, L("Permission:Update"));
-            PolicyPermission.AddChild(ComplianceSystemPermissions.Policy.Delete, L("Permission:Delete"));
+            var DocumentPermission = myGroup.AddPermission(ComplianceSystemPermissions.Document.Default, L("Permission:Document"));
+            DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Create, L("Permission:Create"));
+            DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Update, L("Permission:Update"));
+            DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Delete, L("Permission:Delete"));
 
 
 
