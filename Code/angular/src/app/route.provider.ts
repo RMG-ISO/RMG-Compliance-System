@@ -79,6 +79,15 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Employee',
       },
 
+      {
+        path:'/files-management',
+        name:'::Menu:FilesManagement',
+        iconClass: 'fas fa-folder-open',
+        order: 1,
+        layout: eLayoutType.application,
+        // requiredPolicy:'ComplianceSystem.Framework',
+      },
+
 
       // {
       //   path: '/compliance-department',

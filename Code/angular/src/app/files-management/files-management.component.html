@@ -1,0 +1,151 @@
+<div class="row">
+    <div class="col-2">
+        <div class="cats-list">
+            <h4>
+                التصنيفات
+            </h4>
+            <mat-selection-list #shoes [multiple]="false">
+                <mat-list-option *ngFor="let i of [1,2,3,4,5,6,7,8]" [value]="i">
+                    <div>
+                        <span>
+                            تصنيف
+                            {{i}}
+                        </span>
+                        <i class="fas fa-chevron-left d-none"></i>
+                    </div>
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center header-content">
+                    <h3 class="card-title m-0">
+                        {{ '::الملفات' | abpLocalization }}
+                    </h3>
+                    <div class="pt-2 d-flex justify-content-end">
+                        <div class="visible-content mr-3">
+                            <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button mat-button (click)="visibleContent = 'grid'" [class.active]="visibleContent === 'grid'">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+        
+                        <button id="create" mat-button class="add-btn mr-3"
+                            type="button" (click)="openDialog()">
+                            <i class="fa fa-plus mr-2"></i>
+                            <span class="line mr-2"></span>
+                            <span>{{ "::إضافة ملفات" | abpLocalization }}</span>
+                        </button>
+                        <app-search (search)="getList($event)"></app-search>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row" *ngIf="visibleContent === 'cards'">
+                    <div class="col-md-4 card-cont" *ngFor="let item of items">
+                        <mat-card class="global-card">
+                            <mat-card-title class="text-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <button mat-button>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <button mat-button>
+                                        <i class="fas fa-file-download"></i>
+                                    </button>
+                                </div>
+                            </mat-card-title>
+                            <mat-card-content>
+                                <div>
+                                    <i class="fas fa-file-pdf"></i>
+                                    <p>
+                                        {{ item | lang:'title' }}
+                                    </p>
+                                </div>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <div class="actions d-flex align-items-center justify-content-between">
+                                    <button>
+                                        AG
+                                    </button>
+                                    <div>
+                                        <button mat-raised-button (click)="openDialog(row)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                        <button mat-raised-button (click)="delete(row)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="details d-flex align-items-center justify-content-between">
+                                    <div>
+                                       <p>
+                                        upload time
+                                       </p>
+                                        {{ value | fromNow }}
+                                    </div>
+                                    <div>
+                                        <p>
+                                            file size
+                                        </p>
+                                        <div class="progress">
+                                        
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+        
+                <!-- <ngx-datatable [class.hide-content]="visibleContent === 'cards'" class="material fullscreen"  [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable
+                    (activate)="activate($event)">
+        
+                    <ngx-datatable-column [name]="'::FilesManagementTitleAr' | abpLocalization" prop="titleAr"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::FilesManagementTitleEn' | abpLocalization" prop="titleEn"> </ngx-datatable-column>
+                   
+                    <ngx-datatable-column [name]="'::FilesManagementUploadDate' | abpLocalization" prop="creationTime">
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span title="{{value | date}}"> {{ value | fromNow }}</span></ng-template>
+                    </ngx-datatable-column>
+        
+        
+                    <ngx-datatable-column [name]="'::FilesManagementUploadedBy' | abpLocalization" prop="user">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value.userdto.name | abpLocalization }}
+                        </ng-template>
+                    </ngx-datatable-column>
+        
+                    <ngx-datatable-column [name]="'::FileSize' | abpLocalization" prop="size">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value.attachment.maxFileSize | abpLocalization }}
+                        </ng-template>
+                    </ngx-datatable-column>
+        
+                  
+        
+        
+                    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"
+                        cellClass="options">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+        
+        
+                            <button mat-button color="warn"
+                                (click)="$event.stopPropagation();delete(row)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+        
+                            <button mat-button (click)="$event.stopPropagation();openDialog(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable> -->
+            </div>
+        </div>
+    </div>
+</div>
