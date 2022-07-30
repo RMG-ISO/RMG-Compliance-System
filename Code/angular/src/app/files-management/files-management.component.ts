@@ -1,9 +1,8 @@
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { documentService } from '@proxy/Documents';
 import { FormMode } from '../shared/interfaces/form-mode';
-import { DocumentService } from './documents/documents.service';
 
 @Component({
   selector: 'app-files-management',
@@ -21,30 +20,24 @@ export class FilesManagementComponent implements OnInit {
   visibleContent:string = 'grid';
 
   constructor(
-    private documentService:DocumentService,
+    private documentsService:documentService,
     public readonly list: ListService,
   ) { }
 
   ngOnInit(): void {
     this.getList();
+    this.documentsService.getListCategory({search:null, maxResultCount:null}).subscribe(r => {
+      console.log(r);
+    })
   }
 
   getList(search = null) {
-    // this.items = items.items;
-    console.log(this.items);
-    const streamCreator = (query) => this.documentService.getList({ ...query, search: search });
+    const streamCreator = (query) => this.documentsService.getList({ ...query, search: search });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(this.items);
     });
-
-    // const streamCreator = (query) => new BehaviorSubject(items);
-    // this.list.hookToQuery(streamCreator).subscribe((response) => {
-    //   this.items = response.items;
-    //   this.totalCount = response.totalCount;
-    //   console.log(this.items);
-    // });
   }
 
   activate(ev) {
