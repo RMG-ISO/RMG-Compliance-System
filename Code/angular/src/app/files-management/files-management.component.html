@@ -67,32 +67,47 @@
                                 </div>
                             </mat-card-content>
                             <mat-card-actions>
-                                <div class="actions d-flex align-items-center justify-content-between">
-                                    <button>
+                                <div class="actions d-flex align-items-center justify-content-between mb-2">
+                                    <button mat-raised-button class="user">
                                         AG
                                     </button>
-                                    <div>
-                                        <button mat-raised-button (click)="openDialog(row)">
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                        <button mat-raised-button (click)="delete(row)">
+                                    <div >
+                                        <button class="del" mat-raised-button (click)="delete(row)">
                                             <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="edit" mat-raised-button (click)="openDialog(row)">
+                                            <mat-icon>edit</mat-icon>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="details d-flex align-items-center justify-content-between">
                                     <div>
-                                       <p>
-                                        upload time
+                                       <p class="mb-1">
+                                        تاريخ الرفع
                                        </p>
                                         {{ value | fromNow }}
                                     </div>
                                     <div>
-                                        <p>
-                                            file size
+                                        <p class="mb-1 file-size-info">
+                                           <span>
+                                            حجم الملف
+                                           </span>
+                                           <span>
+                                            700/800 MB
+                                           </span>
                                         </p>
-                                        <div class="progress">
-                                        
+                                        <div class="progress-cont">
+                                            <div class="progress-bar">
+
+                                            </div>
+                                            <div class="text">
+                                                <span>
+                                                    700 MB
+                                                </span>
+                                                <span>
+                                                    800 MB
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     
