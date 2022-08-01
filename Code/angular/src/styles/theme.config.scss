@@ -305,3 +305,12 @@ mat-card.global-card {
         }
     }
 }
+
+.ltr {
+    direction: ltr;
+    text-align: left;
+}
+.rtl {
+    direction: rtl;
+    text-align: right;
+}

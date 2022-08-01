@@ -1,9 +1,13 @@
 import { ListService } from '@abp/ng.core';
+import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { documentService } from '@proxy/Documents';
 import { DocumentDto } from '@proxy/Documents/dtos';
 import { FormMode } from '../shared/interfaces/form-mode';
+import { LocalizationService } from '@abp/ng.core';
+import { saveAs } from 'file-saver';
+import { AttachmentService } from '@proxy/attachments';
 
 @Component({
   selector: 'app-files-management',
@@ -23,6 +27,10 @@ export class FilesManagementComponent implements OnInit {
   constructor(
     private documentsService:documentService,
     public readonly list: ListService,
+    private confirmation: ConfirmationService,
+    private localizationService:LocalizationService,
+    private attachmentService: AttachmentService,
+
   ) { }
 
 
@@ -40,17 +48,52 @@ export class FilesManagementComponent implements OnInit {
       this.catsList = r.items;
     })
   }
- 
+
   searchVal
+  extensionsIcons = {
+    '.pdf':'fa-file-pdf',
+    '.word':'fa-file-pdf',
+    '.xlsx':'fa-file-excel',
+    '.docx':'fa-file-word',
+    '.png':'fa-file-image',
+    '.jpg':'fa-file-image',
+  };
+
+  calcPrecent(p) {
+    if(p <= 50) return '#03BB71';
+    else if (p > 50 &&  p < 80) return '#FDC547';
+    else return '#D3392F'
+  }
+
   getList() {
     console.log(this.selectedCatId);
     const streamCreator = (query) => this.documentsService.getList({ ...query, search: this.searchVal, CategoryId:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
+      response.items.map(item => {
+        let split = item['attachment'].creator.name;
+        item['attachment'].creator.nameAPP = split[0][0] + "." + split[1][0];
+        item['attachment'].attachmentFiles[0].sizeRound = +(item['attachment'].attachmentFiles[0].size / 1000000).toFixed(1);
+        item['attachment'].attachmentFiles[0].icon =  this.extensionsIcons[item['attachment'].attachmentFiles[0].extention] || 'fa-file';
+
+        item['attachment'].attachmentFiles[0].color = this.calcPrecent(((item['attachment'].attachmentFiles[0].size / 1000000) /  item['attachment'].maxFileSize) *  100);
+        // fa-file-word
+        // fa-file-pdf
+        //  fa-file-excel
+        // fa-file-image
+        // fa-file
+      });
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(this.items);
     });
   }
+
+  download(row) {
+    this.attachmentService.getDownloadFileByFileId(row.attachment.attachmentFiles[0].id).subscribe(file => {
+      saveAs(file, row.attachment.attachmentFiles[0].displayName);
+    })
+  }
+
 
   selectedCatId;
   selectionChange(ev) {
@@ -60,14 +103,13 @@ export class FilesManagementComponent implements OnInit {
   }
   
 
-  activate(ev) {
-    if (ev.type === 'click') {
-      console.log(ev);
-    }
-  }
-
-  delete(row) {
-
+  delete(model: DocumentDto) {
+    let title = this.localizationService.currentLang.includes('ar') ?  model.TitleAr : model.TitleEn;
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [title] }).subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        this.documentsService.delete(model.id).subscribe(() => this.list.get());
+      }
+    });
   }
 
   openDialog(data?: DocumentDto) {
@@ -101,321 +143,13 @@ export class FilesManagementComponent implements OnInit {
   }
 
   save() {
-    console.log('saving here bro');
     if(this.form.invalid) return;
-    this.documentsService.create(this.form.value).subscribe(r => {
-      console.log(r);
-      this.getList();
-    })
+    const request = this.selected?.id ? this.documentsService.update(this.selected.id, this.form.value) : this.documentsService.create(this.form.value);
+    request.subscribe(() => {
+      this.isModalOpen = false;
+      this.form.reset();
+      this.list.get();
+    });
   }
-}
 
-// let items = {
-//   "items": [
-//     {
-//       "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//       "creationTime": "2022-07-29T15:59:58.449Z",
-//       "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//       "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//       "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//       "isDeleted": true,
-//       "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//       "deletionTime": "2022-07-29T15:59:58.449Z",
-//       "creator": {
-//         "extraProperties": {
-//           "additionalProp1": "string",
-//           "additionalProp2": "string",
-//           "additionalProp3": "string"
-//         },
-//         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "creationTime": "2022-07-29T15:59:58.449Z",
-//         "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//         "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "isDeleted": true,
-//         "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "deletionTime": "2022-07-29T15:59:58.449Z",
-//         "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "userName": "string",
-//         "name": "string",
-//         "surname": "string",
-//         "email": "string",
-//         "emailConfirmed": true,
-//         "phoneNumber": "string",
-//         "phoneNumberConfirmed": true,
-//         "lockoutEnabled": true,
-//         "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//         "concurrencyStamp": "string"
-//       },
-//       "lastModifier": {
-//         "extraProperties": {
-//           "additionalProp1": "string",
-//           "additionalProp2": "string",
-//           "additionalProp3": "string"
-//         },
-//         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "creationTime": "2022-07-29T15:59:58.449Z",
-//         "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//         "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "isDeleted": true,
-//         "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "deletionTime": "2022-07-29T15:59:58.449Z",
-//         "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "userName": "string",
-//         "name": "string",
-//         "surname": "string",
-//         "email": "string",
-//         "emailConfirmed": true,
-//         "phoneNumber": "string",
-//         "phoneNumberConfirmed": true,
-//         "lockoutEnabled": true,
-//         "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//         "concurrencyStamp": "string"
-//       },
-//       "deleter": {
-//         "extraProperties": {
-//           "additionalProp1": "string",
-//           "additionalProp2": "string",
-//           "additionalProp3": "string"
-//         },
-//         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "creationTime": "2022-07-29T15:59:58.449Z",
-//         "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//         "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "isDeleted": true,
-//         "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "deletionTime": "2022-07-29T15:59:58.449Z",
-//         "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "userName": "string",
-//         "name": "string",
-//         "surname": "string",
-//         "email": "string",
-//         "emailConfirmed": true,
-//         "phoneNumber": "string",
-//         "phoneNumberConfirmed": true,
-//         "lockoutEnabled": true,
-//         "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//         "concurrencyStamp": "string"
-//       },
-//       "titleAr": "string",
-//       "titleEn": "string",
-//       "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//       "attachmentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//       "userDto": {
-//         "extraProperties": {
-//           "additionalProp1": "string",
-//           "additionalProp2": "string",
-//           "additionalProp3": "string"
-//         },
-//         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "creationTime": "2022-07-29T15:59:58.449Z",
-//         "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//         "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "isDeleted": true,
-//         "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "deletionTime": "2022-07-29T15:59:58.449Z",
-//         "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "userName": "string",
-//         "name": "string",
-//         "surname": "string",
-//         "email": "string",
-//         "emailConfirmed": true,
-//         "phoneNumber": "string",
-//         "phoneNumberConfirmed": true,
-//         "lockoutEnabled": true,
-//         "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//         "concurrencyStamp": "string"
-//       },
-//       "attachment": {
-//         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "creationTime": "2022-07-29T15:59:58.449Z",
-//         "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//         "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "isDeleted": true,
-//         "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//         "deletionTime": "2022-07-29T15:59:58.449Z",
-//         "creator": {
-//           "extraProperties": {
-//             "additionalProp1": "string",
-//             "additionalProp2": "string",
-//             "additionalProp3": "string"
-//           },
-//           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "creationTime": "2022-07-29T15:59:58.449Z",
-//           "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//           "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "isDeleted": true,
-//           "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "deletionTime": "2022-07-29T15:59:58.449Z",
-//           "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "userName": "string",
-//           "name": "string",
-//           "surname": "string",
-//           "email": "string",
-//           "emailConfirmed": true,
-//           "phoneNumber": "string",
-//           "phoneNumberConfirmed": true,
-//           "lockoutEnabled": true,
-//           "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//           "concurrencyStamp": "string"
-//         },
-//         "lastModifier": {
-//           "extraProperties": {
-//             "additionalProp1": "string",
-//             "additionalProp2": "string",
-//             "additionalProp3": "string"
-//           },
-//           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "creationTime": "2022-07-29T15:59:58.449Z",
-//           "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//           "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "isDeleted": true,
-//           "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "deletionTime": "2022-07-29T15:59:58.449Z",
-//           "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "userName": "string",
-//           "name": "string",
-//           "surname": "string",
-//           "email": "string",
-//           "emailConfirmed": true,
-//           "phoneNumber": "string",
-//           "phoneNumberConfirmed": true,
-//           "lockoutEnabled": true,
-//           "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//           "concurrencyStamp": "string"
-//         },
-//         "deleter": {
-//           "extraProperties": {
-//             "additionalProp1": "string",
-//             "additionalProp2": "string",
-//             "additionalProp3": "string"
-//           },
-//           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "creationTime": "2022-07-29T15:59:58.449Z",
-//           "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//           "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "isDeleted": true,
-//           "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "deletionTime": "2022-07-29T15:59:58.449Z",
-//           "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//           "userName": "string",
-//           "name": "string",
-//           "surname": "string",
-//           "email": "string",
-//           "emailConfirmed": true,
-//           "phoneNumber": "string",
-//           "phoneNumberConfirmed": true,
-//           "lockoutEnabled": true,
-//           "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//           "concurrencyStamp": "string"
-//         },
-//         "isMultiple": true,
-//         "maxFileSize": 0,
-//         "fileExtentions": "string",
-//         "attachmentFiles": [
-//           {
-//             "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//             "creationTime": "2022-07-29T15:59:58.449Z",
-//             "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//             "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//             "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//             "isDeleted": true,
-//             "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//             "deletionTime": "2022-07-29T15:59:58.449Z",
-//             "creator": {
-//               "extraProperties": {
-//                 "additionalProp1": "string",
-//                 "additionalProp2": "string",
-//                 "additionalProp3": "string"
-//               },
-//               "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "creationTime": "2022-07-29T15:59:58.449Z",
-//               "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//               "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "isDeleted": true,
-//               "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "deletionTime": "2022-07-29T15:59:58.449Z",
-//               "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "userName": "string",
-//               "name": "string",
-//               "surname": "string",
-//               "email": "string",
-//               "emailConfirmed": true,
-//               "phoneNumber": "string",
-//               "phoneNumberConfirmed": true,
-//               "lockoutEnabled": true,
-//               "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//               "concurrencyStamp": "string"
-//             },
-//             "lastModifier": {
-//               "extraProperties": {
-//                 "additionalProp1": "string",
-//                 "additionalProp2": "string",
-//                 "additionalProp3": "string"
-//               },
-//               "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "creationTime": "2022-07-29T15:59:58.449Z",
-//               "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//               "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "isDeleted": true,
-//               "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "deletionTime": "2022-07-29T15:59:58.449Z",
-//               "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "userName": "string",
-//               "name": "string",
-//               "surname": "string",
-//               "email": "string",
-//               "emailConfirmed": true,
-//               "phoneNumber": "string",
-//               "phoneNumberConfirmed": true,
-//               "lockoutEnabled": true,
-//               "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//               "concurrencyStamp": "string"
-//             },
-//             "deleter": {
-//               "extraProperties": {
-//                 "additionalProp1": "string",
-//                 "additionalProp2": "string",
-//                 "additionalProp3": "string"
-//               },
-//               "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "creationTime": "2022-07-29T15:59:58.449Z",
-//               "creatorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "lastModificationTime": "2022-07-29T15:59:58.449Z",
-//               "lastModifierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "isDeleted": true,
-//               "deleterId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "deletionTime": "2022-07-29T15:59:58.449Z",
-//               "tenantId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-//               "userName": "string",
-//               "name": "string",
-//               "surname": "string",
-//               "email": "string",
-//               "emailConfirmed": true,
-//               "phoneNumber": "string",
-//               "phoneNumberConfirmed": true,
-//               "lockoutEnabled": true,
-//               "lockoutEnd": "2022-07-29T15:59:58.449Z",
-//               "concurrencyStamp": "string"
-//             },
-//             "name": "string",
-//             "size": 0,
-//             "displayName": "string",
-//             "extention": "string",
-//             "attachmentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-//           }
-//         ]
-//       }
-//     }
-//   ],
-//   "totalCount": 0
-// }
+}
