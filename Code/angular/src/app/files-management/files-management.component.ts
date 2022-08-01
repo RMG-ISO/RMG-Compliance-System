@@ -25,21 +25,40 @@ export class FilesManagementComponent implements OnInit {
     public readonly list: ListService,
   ) { }
 
+
+  catsList;
   ngOnInit(): void {
+    this.getCatogries();
+
     this.getList();
-    this.documentsService.getListCategory({search:null, maxResultCount:100}).subscribe(r => {
-      console.log(r);
-    })
   }
 
+
+  getCatogries(search = null) {
+    this.documentsService.getListCategory({search, maxResultCount:null}).subscribe(r => {
+      console.log(r);
+      this.catsList = r.items;
+    })
+  }
+ 
+  searchVal
   getList(search = null) {
-    const streamCreator = (query) => this.documentsService.getList({ ...query, search: search });
+    this.searchVal = search;
+    const streamCreator = (query) => this.documentsService.getList({ ...query, search: this.searchVal, CategoryId:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(this.items);
     });
   }
+
+  selectedCatId;
+  selectionChange(ev) {
+    console.log(ev);
+    this.selectedCatId - ev.option.value;
+    this.getList();
+  }
+  
 
   activate(ev) {
     if (ev.type === 'click') {
@@ -71,6 +90,7 @@ export class FilesManagementComponent implements OnInit {
   OnFileUploaded(attachmentId: string) {
     this.form.controls["attachmentId"].patchValue(attachmentId);
   }
+
   uploading
   OnFileBeginUpload(beginUpload: boolean) {
     this.uploading = true;
@@ -80,6 +100,9 @@ export class FilesManagementComponent implements OnInit {
     this.uploading = false;
   }
 
+  save() {
+    console.log('saving here bro')
+  }
 }
 
 // let items = {

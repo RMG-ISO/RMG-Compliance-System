@@ -81,8 +81,8 @@ function configureRoutes(routesService: RoutesService) {
 
       {
         path:'/files-management',
-        name:'::Menu:FilesManagement',
-        iconClass: 'fas fa-folder-open',
+        name:'::DocumentManagement',
+        iconClass: 'fa fa-cloud-upload',
         order: 1,
         layout: eLayoutType.application,
         // requiredPolicy:'ComplianceSystem.Framework',

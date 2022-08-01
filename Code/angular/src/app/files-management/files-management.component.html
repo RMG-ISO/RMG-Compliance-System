@@ -1,15 +1,15 @@
 <div class="row">
-    <div class="col-2">
+    <div class="col-3">
         <div class="cats-list">
             <h4>
                 التصنيفات
             </h4>
-            <mat-selection-list #shoes [multiple]="false">
-                <mat-list-option *ngFor="let i of [1,2,3,4,5,6,7,8]" [value]="i">
+            <app-search (search)="getCatogries($event)"></app-search>
+            <mat-selection-list [multiple]="false" (selectionChange)="selectionChange($event)">
+                <mat-list-option *ngFor="let cat of catsList" [value]="cat.id" [selected]="selectedCatId == cat.id">
                     <div>
                         <span>
-                            تصنيف
-                            {{i}}
+                            {{ cat | lang:'name' }}
                         </span>
                         <i class="fas fa-chevron-left d-none"></i>
                     </div>
@@ -17,7 +17,7 @@
             </mat-selection-list>
         </div>
     </div>
-    <div class="col-10">
+    <div class="col-9">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center header-content">
@@ -174,23 +174,39 @@
     <ng-template #abpBody>
         <form [formGroup]="form" (ngSubmit)="save()">
             <div class="row">
-                <div class="col-md-12 form-group">
+                <div class="col-md-6 form-group">
                     <label for="department-name">{{ '::TitleAr' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="department-name" class="form-control" formControlName="titleAr" />
+                    <input type="text" id="TitleAr" class="form-control" formControlName="titleAr" />
                 </div>
-                <div class="col-md-12 form-group">
+                <div class="col-md-6 form-group">
                     <label for="department-name">{{ '::TitleEn' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="department-name" class="form-control" formControlName="titleEn" />
+                    <input type="text" id="TitleEn" class="form-control" formControlName="titleEn" />
                 </div>
                 <div class="col-md-12 form-group">
-                    <ng-select>
-                        <ng-option></ng-option>
+                    <label >{{ '::التصنيف' | abpLocalization }}</label><span> * </span>
+                    <ng-select *ngFor="let cat of catsList" formControlName="categoryId">
+                        <ng-option [value]="cat.id">
+                            {{ cat | lang:'name' }}
+                        </ng-option>
                     </ng-select>
                 </div>
-                <app-table-files [attachmentId]="form.controls.attachmentId.value" [disabled]="form.controls.attachmentId.disabled"
-                (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
-                (OnFileEndUpload)="OnFileEndUpload($event)">
-              </app-table-files>
+                <div class="col-md-12">
+                    <!-- <app-upload-files
+                        [attachment]="{isMultiple:false}"
+                        [attachmentId]="form.controls.attachmentId.value"
+                        [disabled]="form.controls.attachmentId.disabled"
+                        (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                        (OnFileEndUpload)="OnFileEndUpload($event)">
+                    </app-upload-files> -->
+
+                    <app-table-files
+                    [attachment]="{isMultiple:false}"
+                    [attachmentId]="form.controls.attachmentId.value"
+                    [disabled]="form.controls.attachmentId.disabled"
+                    (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                    (OnFileEndUpload)="OnFileEndUpload($event)">
+                    </app-table-files>
+                </div>
             </div>
         </form>
     </ng-template>
@@ -201,7 +217,7 @@
         </button>
 
         <!--added save button-->
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading">
+        <button class="btn btn-primary" [disabled]="form.invalid || uploading">
             <i class="fa fa-check mr-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
