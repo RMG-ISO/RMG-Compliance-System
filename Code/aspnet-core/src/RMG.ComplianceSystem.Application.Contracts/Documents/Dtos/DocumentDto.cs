@@ -9,6 +9,8 @@ namespace RMG.ComplianceSystem.Documents.Dtos
     [Serializable]
     public class DocumentDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
+        // DocumentId 
+        public Guid Id { get; set; }
         public string TitleAr { get; set; }
         public string TitleEn { get; set; }
         public Guid CategoryId { get; set; }

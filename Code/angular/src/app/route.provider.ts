@@ -31,6 +31,13 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Framework',
       },
       {
+        path:'/document',
+        name:'::Menu:DocumentManagement',
+        iconClass: 'fa fa-cloud-upload',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
         path:'/assessment',
         name:'::Menu:Assessment',
         iconClass: 'fas fa-sitemap',
@@ -77,6 +84,15 @@ function configureRoutes(routesService: RoutesService) {
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Employee',
+      },
+
+      {
+        path:'/files-management',
+        name:'::DocumentManagement',
+        iconClass: 'fa fa-cloud-upload',
+        order: 1,
+        layout: eLayoutType.application,
+        // requiredPolicy:'ComplianceSystem.Framework',
       },
 
 
