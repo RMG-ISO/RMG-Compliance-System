@@ -54,7 +54,7 @@ namespace RMG.ComplianceSystem.Policies
         //End Properties and Constructor DocumentAppService
         //Start Methods getbyId and GetListDocumentByCategory
         #region Start Methods getbyId and GetListDocumentByCategory
-        public async Task<PagedResultDto<FullDocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input)
+        public async Task<PagedResultDto<DocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input)
         {
             // get Document Category By CategoryId
             var DocCate = _DocCateRepository.GetAsync(input.CategoryId).Result;
@@ -65,11 +65,7 @@ namespace RMG.ComplianceSystem.Policies
             (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
              .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             // instance of List of FullDocumentDto
-            List<FullDocumentDto> DocumentDtos = new List<FullDocumentDto>();
-            // instance of  FullDocumentDto
-            FullDocumentDto fullDocumentDto = new FullDocumentDto();
-            // set DocumentCategoryDto to fullDocumentDto.DocumentCategoryDto
-            fullDocumentDto.DocumentCategoryDto = DocCateDto;
+            List<DocumentDto> DocumentDtos = new List<DocumentDto>();
             // instance of  List<DocumentDto>
             List<DocumentDto> document=new List<DocumentDto>();
             // loop in Documents and get attacments by every Document
@@ -79,19 +75,28 @@ namespace RMG.ComplianceSystem.Policies
                 var getAttachment = _attachmentRepository.GetAsync(item.AttachmentId).Result;
                 // Mapping Attachment to AttachmentDto
                 var Attachment = ObjectMapper.Map<RMG.ComplianceSystem.Attachments.Attachment, AttachmentDto>(getAttachment);
-                // instance of  IdentityUserDto
-                IdentityUserDto UserDto = new IdentityUserDto();
+                // instance of  creatorUserDto
+                IdentityUserDto creatorUserDto = new IdentityUserDto();
+                // instance of  UpdateUserDto
+                IdentityUserDto UpdateUserDto = new IdentityUserDto();
                 // check CreatorId not equal null 
                 if (item.CreatorId != null)
                 {
                     // get user by CreatorId
                     var getuser = User.GetByIdAsync((Guid)item.CreatorId).Result;
                     // Mapping IdentityUser to IdentityUserDto
-                    UserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                    creatorUserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                    //// get user by CreatorId
+                    //var getUdateuser = User.GetByIdAsync((Guid)item.LastModifierId).Result;
+                    //// Mapping IdentityUser to IdentityUserDto
+                    //UpdateUserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getUdateuser);
                 }
                 else {
                     // in case CreatorId  equal null 
-                    UserDto = null; }
+                    creatorUserDto = null;
+                    // in case updateId  equal null 
+                    UpdateUserDto = null;
+                }
                 // get object from DocumentDto and Set Data
                 DocumentDto docdto = new DocumentDto
                 {
@@ -101,23 +106,22 @@ namespace RMG.ComplianceSystem.Policies
                     TitleEn = item.TitleEn,
                     CreationTime = item.CreationTime,
                     CategoryId = item.CategoryId,
-                    UserDto = UserDto
+                    CategoryNameAr = DocCateDto.NameAr,
+                    CategoryNameEn = DocCateDto.NameEn,
+                    CreatorUserName = creatorUserDto.UserName,
+                    UpdateUserName = UpdateUserDto.UserName,
 
                 };
                 // Add data of DocumentDto in List of document
                 document.Add(docdto);
                 
             }
-            // Set document in fullDocumentDto.documentDtos
-            fullDocumentDto.documentDtos= document;
-            // Set fullDocumentDto in DocumentDtos
-            DocumentDtos.Add(fullDocumentDto);
             //Get the total count with document
             var totalCount = document.Count;
             // return DocumentDtos and totalCount
-            return new PagedResultDto<FullDocumentDto>(
+            return new PagedResultDto<DocumentDto>(
                 totalCount,
-                DocumentDtos
+                document
             );
         }
 
