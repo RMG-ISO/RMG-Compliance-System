@@ -37,10 +37,15 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
+  // {
+  //   path:'files-management',
+  //   canActivate: [AuthGuard, PermissionGuard],
+  //   loadChildren: () => import('./files-management/files-management.module').then(m => m.FilesManagementModule)
+  // },
   {
-    path:'files-management',
+    path:'documents-management',
     canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./files-management/files-management.module').then(m => m.FilesManagementModule)
+    loadChildren: () => import('./documents-mangement/documents-mangement.module').then(m => m.DocumentsMangementModule)
   },
   // {
   //   path: 'compliance-department',

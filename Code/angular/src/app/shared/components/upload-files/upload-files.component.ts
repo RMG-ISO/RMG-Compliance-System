@@ -52,6 +52,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
       this.maxFileSize = att ? att.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
 
       let exts = [];
+      console.log(this.fileExtentions);
       (this.fileExtentions || '').split(',').forEach(v => {
         exts.push(mime.getType(v));
       });
@@ -75,13 +76,14 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   }
 
 
-  handleFileInput(files: FileList) {
+  handleFileInput(files: FileList, input:HTMLInputElement) {
     this.fileUploaderErrors = [];
     console.log(this.fileUploaderErrors);
     this.checkFiles(files);
     this.OnBeginUpload.emit(true);
     this.uploading = true;
-    this.uploadFiles(files, this.attachment).subscribe((event: HttpEvent<any>) => {
+    this.uploadFiles(files, this.attachment)
+    .subscribe((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
           break;
@@ -103,6 +105,8 @@ export class UploadFilesComponent implements OnInit, OnChanges {
       this.OnEndUpload.emit(true);
       this.uploading = false;
     });
+    input.type = ''
+    input.type = 'file'
   }
 
 
@@ -139,20 +143,24 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   checkFiles = (files: FileList) => {
     this.fileUploaderErrors = [];
     Array.from(files).forEach(file => {
+      console.log(file);
       let fileSizeError = '';
       this.localizationService.get('::AttachmentValidationFileSize', this.maxFileSize.toString()).subscribe(res => {
         fileSizeError = res;
+        console.log('AttachmentValidationFileSize', res)
       });
       let fileExtentionError = '';
       this.localizationService.get('::AttachmentValidationFileExtention', this.fileExtentions).subscribe(res => {
         fileExtentionError = res;
+        console.log('AttachmentValidationFileExtention', res)
+
       });;
       let erros: Array<string> = [];
       if (file.size > this.maxFileSize * 1024 * 1024)
         erros.push(fileSizeError)
 
       let fileExtention = file.name.substring(file.name.indexOf('.') + 1, file.name.length);
-
+      console.log(this.acceptedTypes);
       if (!this.acceptedTypes.includes(mime.getType(fileExtention)))
         erros.push(fileExtentionError)
       if (erros.length > 0)
