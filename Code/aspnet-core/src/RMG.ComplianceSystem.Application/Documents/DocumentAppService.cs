@@ -56,14 +56,30 @@ namespace RMG.ComplianceSystem.Policies
         #region Start Methods getbyId and GetListDocumentByCategory
         public async Task<PagedResultDto<DocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input)
         {
-            // get Document Category By CategoryId
-            var DocCate = _DocCateRepository.GetAsync(input.CategoryId).Result;
-            // Mapping DocumentCategory to DocumentCategoryDto
-            var DocCateDto = ObjectMapper.Map<DocumentCategory, DocumentCategoryDto>(DocCate);
-            //get Document By CategoryId and Filters and Pagination
-            var Documents = Documentrepository.Where(x => x.CategoryId == input.CategoryId && 
-            (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
-             .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+            //// get Document Category By CategoryId
+            //var DocCate = _DocCateRepository.GetAsync(input.CategoryId).Result;
+            //// Mapping DocumentCategory to DocumentCategoryDto
+            //var DocCateDto = ObjectMapper.Map<DocumentCategory, DocumentCategoryDto>(DocCate);
+            List<DocumentDto> Documents = new List<DocumentDto>();
+            if (input.CategoryId!=null)
+            {
+                //get Document By CategoryId and Filters and Pagination
+                var ListDocuments = Documentrepository.Where(x => x.CategoryId == input.CategoryId &&
+                (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+                 .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                 Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDocuments);
+            }
+            else
+            {
+                //get Document By CategoryId and Filters and Pagination
+              var  ListDoc = Documentrepository.Where(x => 
+                (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+                 .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+
+                Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDoc);
+            }
+           
             // instance of List of FullDocumentDto
             List<DocumentDto> DocumentDtos = new List<DocumentDto>();
             // instance of  List<DocumentDto>
@@ -106,8 +122,8 @@ namespace RMG.ComplianceSystem.Policies
                     TitleEn = item.TitleEn,
                     CreationTime = item.CreationTime,
                     CategoryId = item.CategoryId,
-                    CategoryNameAr = DocCateDto.NameAr,
-                    CategoryNameEn = DocCateDto.NameEn,
+                    //CategoryNameAr = DocCateDto.NameAr,
+                    //CategoryNameEn = DocCateDto.NameEn,
                     CreatorUserName = creatorUserDto.UserName,
                     UpdateUserName = UpdateUserDto.UserName,
 
