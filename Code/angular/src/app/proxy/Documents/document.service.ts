@@ -1,6 +1,6 @@
 import type { CreateUpdateDocumentDto, DocumentDto, DocPagedAndSortedResultRequestDto,DocumentCategoryDto,CreateUpdateDocumentCategoryDto,DocCategoryPagedAndSortedResultRequestDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
-import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
+import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -43,7 +43,7 @@ export class documentService {
   update = (id: string, input: CreateUpdateDocumentCategoryDto) =>
     this.restService.request<any, DocumentDto>({
       method: 'PUT',
-      url: `/api/app/framework/${id}`,
+      url: `/api/app/document/${id}`,
       body: input,
     },
     { apiName: this.apiName });
@@ -51,7 +51,7 @@ export class documentService {
     createCategory = (input: CreateUpdateDocumentCategoryDto) =>
     this.restService.request<any, DocumentCategoryDto>({
       method: 'POST',
-      url: '/api/app/document',
+      url: '/api/app/document-category',
       body: input,
     },
     { apiName: this.apiName });
@@ -59,14 +59,14 @@ export class documentService {
   deleteCategory = (id: string) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: `/api/app/document/${id}`,
+      url: `/api/app/document-category/${id}`,
     },
     { apiName: this.apiName });
 
   getCategory = (id: string) =>
     this.restService.request<any, DocumentCategoryDto>({
       method: 'GET',
-      url: `/api/app/document/${id}`,
+      url: `/api/app/document-category/${id}`,
     },
     { apiName: this.apiName });
 
@@ -74,7 +74,7 @@ export class documentService {
   getListCategory = (input: DocCategoryPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<DocumentCategoryDto>>({
       method: 'GET',
-      url: '/api/app/document/document-by-category',
+      url: '/api/app/document-category/get-document-categories',
       params: { search: input.search,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
@@ -82,7 +82,7 @@ export class documentService {
   updateCategory = (id: string, input: CreateUpdateDocumentDto) =>
     this.restService.request<any, DocumentCategoryDto>({
       method: 'PUT',
-      url: `/api/app/framework/${id}`,
+      url: `/api/app/document-category/${id}`,
       body: input,
     },
     { apiName: this.apiName });
