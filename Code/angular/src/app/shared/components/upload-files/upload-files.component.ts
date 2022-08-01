@@ -45,13 +45,14 @@ export class UploadFilesComponent implements OnInit, OnChanges {
 
     if (changes["attachment"]) {
       let att = changes["attachment"].currentValue;
+      console.log('att', att);
       this.attachmentId = att ? att.id : null;
       this.fileExtentions = att ? att.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
       this.isMultiple = att ? att.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
       this.maxFileSize = att ? att.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
 
-      let exts = []
-      this.fileExtentions.split(',').forEach(v => {
+      let exts = [];
+      (this.fileExtentions || '').split(',').forEach(v => {
         exts.push(mime.getType(v));
       });
 
@@ -60,24 +61,23 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.attachmentId = this.attachment ? this.attachment.id : null;
-    this.fileExtentions = this.attachment ? this.attachment.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
-    this.isMultiple = this.attachment ? this.attachment.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
-    this.maxFileSize = this.attachment ? this.attachment.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
+    this.attachmentId = this.attachment && this.attachment.id? this.attachment.id : null;
+    this.fileExtentions = this.attachment && this.attachment.fileExtentions ? this.attachment.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
+    this.isMultiple = this.attachment && this.attachment.isMultiple ? this.attachment.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
+    this.maxFileSize = this.attachment && this.attachment.maxFileSize ? this.attachment.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
 
-    let exts = []
-    this.fileExtentions.split(',').forEach(v => {
+    let exts = [];
+    (this.fileExtentions || "").split(',').forEach(v => {
       exts.push(mime.getType(v));
     });
 
     this.acceptedTypes = exts.join(',');
-
-
   }
 
 
   handleFileInput(files: FileList) {
-
+    this.fileUploaderErrors = [];
+    console.log(this.fileUploaderErrors);
     this.checkFiles(files);
     this.OnBeginUpload.emit(true);
     this.uploading = true;

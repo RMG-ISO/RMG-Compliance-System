@@ -221,7 +221,9 @@
     "Dashboard:ComplianceBased": "يعتمد الامتثال على متطلبات PDCA NCA-ECC",
     "Dashboard:TotalRequirementsMaturityLevel": "إجمالي مستوى نضج المتطلبات",
     "Dashboard:TotalRequirements": "المتطلبات الإجمالية",
-    "Dashboard:RequirementsGapAnalysis": "تحليل فجوة متطلبات NCA-ECC"
+    "Dashboard:RequirementsGapAnalysis": "تحليل فجوة متطلبات NCA-ECC",
+
+    "DocumentDeletionConfirmationMessage": "هل أنت متأكد من حذف الملف {0}؟"
 
 
   }

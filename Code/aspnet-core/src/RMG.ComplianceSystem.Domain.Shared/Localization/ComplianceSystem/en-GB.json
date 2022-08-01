@@ -221,7 +221,8 @@
     "Dashboard:ComplianceBased": "Compliance Based On PDCA NCA-ECC Requirments",
     "Dashboard:TotalRequirementsMaturityLevel": "Total Requirements Maturity Level",
     "Dashboard:TotalRequirements": "Total Requirements",
-    "Dashboard:RequirementsGapAnalysis": "NCA-ECC Requirements Gap Analysis"
+    "Dashboard:RequirementsGapAnalysis": "NCA-ECC Requirements Gap Analysis",
+    "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?"
 
   }
 }
