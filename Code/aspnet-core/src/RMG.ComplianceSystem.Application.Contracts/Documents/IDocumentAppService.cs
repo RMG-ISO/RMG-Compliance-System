@@ -14,7 +14,7 @@ namespace RMG.ComplianceSystem.Documents
          DocPagedAndSortedResultRequestDto, //Used for paging/sorting
          CreateUpdateDocumentDto> //Used to create/update a book
     {
-        Task<PagedResultDto<FullDocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input);
-
+        Task<PagedResultDto<DocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input);
+        Task<DocumentDto> GetByIdAsync(Guid Id);
     }
 }

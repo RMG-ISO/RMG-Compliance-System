@@ -13,14 +13,13 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         public string TitleEn { get; set; }
         public Guid CategoryId { get; set; }
         public Guid AttachmentId { get; set; }
-        public IdentityUserDto UserDto { get; set; }
+        public string CategoryNameAr { get; set; }
+        public string CategoryNameEn { get; set; }
+        public string CreatorUserName { get; set; }
+        public string UpdateUserName { get; set; }
         public  AttachmentDto Attachment { get; set; }
     }
 
-    public class FullDocumentDto 
-    {
-        public DocumentCategoryDto DocumentCategoryDto { get; set; }
-        public List<DocumentDto> documentDtos { get; set; }
-    }
+  
 
 }      
