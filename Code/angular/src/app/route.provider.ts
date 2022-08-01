@@ -63,12 +63,6 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Department',
       },
-
-
-
-
-
-
       {
         path:'/employee',
         name:'::Menu:Employee',
@@ -79,14 +73,42 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Employee',
       },
 
+
+
+
+
       {
-        path:'/files-management',
-        name:'::DocumentManagement',
+        path:'/documents-management',
+        name:'::Menu:DocumentsManagement',
         iconClass: 'fa fa-cloud-upload',
         order: 1,
         layout: eLayoutType.application,
-        // requiredPolicy:'ComplianceSystem.Framework',
       },
+      {
+        path:'/documents-management/documents',
+        name:'::Menu:Documents',
+        iconClass: 'fas fa-file',
+        order: 1,
+        parentName:'::Menu:DocumentsManagement',
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/documents-management/categories',
+        name:'::DocumentsManagementCategories',
+        iconClass: 'fas fa-list',
+        order: 2,
+        parentName:'::Menu:DocumentsManagement',
+        layout: eLayoutType.application,
+      },
+
+      // {
+      //   path:'/documents-management',
+      //   name:'::DocumentManagement',
+      //   iconClass: 'fa fa-cloud-upload',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   // requiredPolicy:'ComplianceSystem.Framework',
+      // },
 
 
       // {
