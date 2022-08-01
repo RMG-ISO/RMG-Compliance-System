@@ -116,6 +116,7 @@ namespace RMG.ComplianceSystem.Policies
                 // get object from DocumentDto and Set Data
                 DocumentDto docdto = new DocumentDto
                 {
+                    Id= item.Id,    
                     Attachment = Attachment,
                     AttachmentId = item.AttachmentId,
                     TitleAr = item.TitleAr,
