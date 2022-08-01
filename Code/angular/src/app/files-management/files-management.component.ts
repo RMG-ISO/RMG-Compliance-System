@@ -42,8 +42,8 @@ export class FilesManagementComponent implements OnInit {
   }
  
   searchVal
-  getList(search = null) {
-    this.searchVal = search;
+  getList() {
+    console.log(this.selectedCatId);
     const streamCreator = (query) => this.documentsService.getList({ ...query, search: this.searchVal, CategoryId:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
@@ -55,7 +55,7 @@ export class FilesManagementComponent implements OnInit {
   selectedCatId;
   selectionChange(ev) {
     console.log(ev);
-    this.selectedCatId - ev.option.value;
+    this.selectedCatId = ev.option.value;
     this.getList();
   }
   
@@ -101,7 +101,12 @@ export class FilesManagementComponent implements OnInit {
   }
 
   save() {
-    console.log('saving here bro')
+    console.log('saving here bro');
+    if(this.form.invalid) return;
+    this.documentsService.create(this.form.value).subscribe(r => {
+      console.log(r);
+      this.getList();
+    })
   }
 }
 

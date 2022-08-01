@@ -40,7 +40,7 @@
                             <span class="line mr-2"></span>
                             <span>{{ "::إضافة ملفات" | abpLocalization }}</span>
                         </button>
-                        <app-search (search)="getList($event)"></app-search>
+                        <app-search (search)="searchVal = $event; getList()"></app-search>
                     </div>
                 </div>
             </div>
