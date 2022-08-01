@@ -222,7 +222,7 @@
     "Dashboard:TotalRequirementsMaturityLevel": "Total Requirements Maturity Level",
     "Dashboard:TotalRequirements": "Total Requirements",
     "Dashboard:RequirementsGapAnalysis": "NCA-ECC Requirements Gap Analysis",
-    "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?",
+    "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?"
 
   }
 }
