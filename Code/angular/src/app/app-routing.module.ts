@@ -8,6 +8,11 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
   },
   {
+    path:'document',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./document/document.module').then(m => m.documentModule)
+  },
+  {
     path:'framework',
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
@@ -35,11 +40,11 @@ const routes: Routes = [
   // {
   //   path: 'compliance-department',
   //   loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
-  // },  
+  // },
   // {
   //   path: 'abp-books',
   //   loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule),
-  // },  
+  // },
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
@@ -78,5 +83,5 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {
- 
+
 }
