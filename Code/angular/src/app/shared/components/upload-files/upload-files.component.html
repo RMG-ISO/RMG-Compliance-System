@@ -20,7 +20,7 @@
     <button  type="button"  mat-button color="primary" [disabled]="uploading" >
       <i class="fas fa-paperclip"></i>
         {{ ( isMultiple ? '::AttachmentUploadFiles' : '::AttachmentUploadFile' ) |abpLocalization }}
-        <input type="text" type="file" (change)="handleFileInput(($event.target.files))" [multiple]="isMultiple" [disabled]="uploading" [accept]="acceptedTypes" >
+        <input type="text" type="file" (change)="handleFileInput($event.target.files)" [multiple]="isMultiple" [disabled]="uploading" [accept]="acceptedTypes" >
     </button>
 </div>
 

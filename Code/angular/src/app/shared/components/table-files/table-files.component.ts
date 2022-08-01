@@ -21,7 +21,7 @@ export class TableFilesComponent implements OnInit {
   @Output() OnFileBeginUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() OnFileEndUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  attachment: AttachmentDto;
+  @Input('attachment') attachment: AttachmentDto;
 
   constructor(
     private attachmentService: AttachmentService,

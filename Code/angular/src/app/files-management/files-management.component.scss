@@ -1,0 +1,244 @@
+@import "../../styles/mixins";
+
+:host .cats-list {
+    background: #fff;
+    border-radius: 10px;
+    h4 {
+        margin: 0;
+        padding: 14px;
+        border-bottom: 1px solid #D5D7DB;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    app-search ::ng-deep {
+        input {
+            width: 100% !important;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+    }
+    mat-selection-list {
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-bottom: 32px;
+        ::ng-deep mat-list-option  {
+            border-radius: 6px;
+            &.mat-list-single-selected-option  {
+                .mat-list-item-content  {
+                    background-color: #F6F8FF;
+                    border-radius: 6px;
+                    .mat-list-text {
+                        height: 100%;
+                        div {
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            span {
+                                font-weight: bold;
+                            }
+                            i {
+                                font-size: 14px;
+                                color: #4977FD;
+                                display: block !important;
+                                @include nb-ltr(){
+                                    transform: rotate(180deg);
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+:host {
+    ngx-datatable ::ng-deep{
+        datatable-body-row {
+            cursor: pointer;
+        }
+       
+    }
+    ngx-datatable.hide-content ::ng-deep{
+        datatable-header, datatable-body {
+            display: none;
+        }
+        datatable-footer {
+            border-top: none;
+        }
+    } 
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    .card-header {
+        background: #fff;
+        border: none;
+        padding-bottom: 12px;
+        border-radius: 10px 10px 0 0;
+        border-bottom: none;
+        .header-content {
+            flex-wrap: wrap;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #D5D7DB;
+        }
+    }
+}
+
+.add-btn {
+    background-color: transparent;
+    color: #4775FD;
+    border: 2px solid #4775FD;
+    padding-left: 18px;
+    padding-right: 18px;
+    font-weight: bold;
+    .line {
+        border-left: 1px solid #4775fd;
+        height: 14px;
+        display: inline-block;
+    }
+}
+
+.visible-content {
+    button {
+        font-size: 22px;
+        padding-left: 8px;
+        padding-right: 8px;
+        min-width: auto;
+        color: #A5B1C2;
+        &.active {
+            color: #34ACE0;
+        }
+    }
+}
+mat-card {
+    border-radius: 10px;
+    mat-card-title {
+        button {
+            color: #4775FD;
+            font-size: 18px;
+            padding: 0 14px;
+            min-width: auto;
+        
+        }
+    }
+    mat-card-content {
+        margin-bottom: 0;
+        padding-bottom: 26px;
+        border-bottom: 1px solid #D5D7DB;
+
+        i {
+            font-size: 64px;
+            margin: 8px 0 12px;
+            &.fa-file-word{
+                color:#5980F6;
+            }
+            &.fa-file-pdf {
+                color: #FF0000;
+            }
+            &.fa-file-excel {
+                color:#03BB71;
+            }
+            &.fa-file-image {
+                color:#FDC547;
+            }
+            &.fa-file {
+                color:#6c757d;
+            }
+        }
+        p {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2A364A;
+        }
+    }
+}
+
+
+.card-cont {
+    padding-left: 5px;
+    padding-bottom: 5px;
+    .actions {
+        button {
+            border-radius: 10px;
+            border: none;
+            width: 34px;
+            height: 34px;
+            font-size: 16px;
+            box-shadow: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .user {
+            background-color: red;
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .del {
+            color: #FF0303;
+            border: 1px solid #FF0303;
+        }
+        .edit {
+            color: #4D7FF6;
+            border: 1px solid #4d7ff6;
+        }
+    }
+    .details {
+        .file-size-info {
+            direction: ltr;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            span:last-of-type {
+                font-size: 13px;
+            }
+        }
+    }
+    .progress-cont {
+        position: relative;
+        width: 160px;
+        height: 12px;
+        // box-shadow: 0 0 0 1px red;
+        padding: 1px;
+        border-radius: 50px;
+        .progress-bar {
+            // width: 80%;
+            height: 10px;
+            background: red;
+            border-radius: 50px;
+            position: absolute;
+            left: 1px;
+            top: 1px;
+        }
+        .text {
+            font-size: 11px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            direction: ltr;
+
+            display: none;
+
+        }
+    }
+}
+
+
+
+ // fa-file-word
+        // fa-file-pdf
+        //  fa-file-excel
+        // fa-file-image
+        // fa-file

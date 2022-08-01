@@ -86,6 +86,15 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Employee',
       },
 
+      {
+        path:'/files-management',
+        name:'::DocumentManagement',
+        iconClass: 'fa fa-cloud-upload',
+        order: 1,
+        layout: eLayoutType.application,
+        // requiredPolicy:'ComplianceSystem.Framework',
+      },
+
 
       // {
       //   path: '/compliance-department',
