@@ -53,7 +53,7 @@
                                     <button mat-button>
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <button mat-button (click)="download(item)">
+                                    <button *abpPermission="'ComplianceSystem.Document.DownLoad'"  mat-button (click)="download(item)">
                                         <i class="fas fa-file-download"></i>
                                     </button>
                                 </div>
@@ -72,10 +72,10 @@
                                         {{ item['attachment'].creator.nameAPP }}
                                     </button>
                                     <div >
-                                        <button class="del" mat-raised-button (click)="delete(item)">
+                                        <button *abpPermission="'ComplianceSystem.Document.Delete'" class="del" mat-raised-button (click)="delete(item)">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                        <button class="edit" mat-raised-button (click)="openDialog(item)">
+                                        <button *abpPermission="'ComplianceSystem.Document.Update'" class="edit" mat-raised-button (click)="openDialog(item)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
                                     </div>
@@ -149,14 +149,14 @@
                             <button *ngIf="row.attachment.attachmentFiles[0]" style="color:#17a2b8" mat-button (click)="$event.stopPropagation();download(row)">
                                 <i class="fas fa-file-download" style="font-size: 18px;"></i>
                             </button>
-
+                            <button *abpPermission="'ComplianceSystem.Document.Update'" style="color:#4D7FF6" mat-button (click)="$event.stopPropagation();openDialog(row)">
+                              <mat-icon>edit</mat-icon>
+                          </button>
                             <button *abpPermission="'ComplianceSystem.Document.Delete'"  mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>
 
-                            <button *abpPermission="'ComplianceSystem.Document.Update'" style="color:#4D7FF6" mat-button (click)="$event.stopPropagation();openDialog(row)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
+
                         </ng-template>
                     </ngx-datatable-column>
                 </ngx-datatable>

@@ -20,11 +20,11 @@ namespace RMG.ComplianceSystem.DocumentCategorys
         IDocumentCategoryAppService
     {
 
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Document.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Document.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Document.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Document.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Document.Delete;
+        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.DocumentCategory.Default;
+        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.DocumentCategory.Default;
+        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.DocumentCategory.Create;
+        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.DocumentCategory.Update;
+        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.DocumentCategory.Delete;
 
         private readonly IDocumentCategoryRepository DocumentCateRepository;
 

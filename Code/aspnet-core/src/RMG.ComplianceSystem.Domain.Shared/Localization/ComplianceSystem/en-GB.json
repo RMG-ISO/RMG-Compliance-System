@@ -3,6 +3,7 @@
   "texts": {
     "Menu:Home": "Home",
     "Menu:DocumentsManagement": "Document Management",
+    "Permission:DocumentCategory": "Document Category",
     "Menu:Documents": "Documents",
     "Menu:DocumentsCategories": "Categories",
     "Document:Files": "Files",
@@ -34,8 +35,10 @@
     "Back": "Back",
     "AreYouSureToDelete": "Are you sure you want to delete this item?",
     "Permission:Create": "Create",
+    "Permission:Document": "Document Management",
     "Permission:Update": "Update",
     "Permission:Delete": "Delete",
+    "Permission:DownLoad": "DownLoad",
     "Enum:SharedStatus:0": "Inactive",
     "Enum:SharedStatus:1": "Active",
     "yes": "yes",

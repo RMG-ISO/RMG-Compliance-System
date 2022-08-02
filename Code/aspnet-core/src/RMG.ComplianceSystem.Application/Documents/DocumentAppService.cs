@@ -34,6 +34,7 @@ namespace RMG.ComplianceSystem.Policies
         protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Document.Create;
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Document.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Document.Delete;
+        protected  string DownLoadPolicyName { get; set; } = ComplianceSystemPermissions.Document.DownLoad;
         #endregion
         // End Permissions
         //Start Properties and Constructor DocumentAppService

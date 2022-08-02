@@ -49,8 +49,12 @@ namespace RMG.ComplianceSystem.Permissions
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Create, L("Permission:Create"));
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Update, L("Permission:Update"));
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Delete, L("Permission:Delete"));
+            DocumentPermission.AddChild(ComplianceSystemPermissions.Document.DownLoad, L("Permission:DownLoad"));
 
-
+            var DocumentCategoryPermission = myGroup.AddPermission(ComplianceSystemPermissions.DocumentCategory.Default, L("Permission:DocumentCategory"));
+            DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Create, L("Permission:Create"));
+            DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Update, L("Permission:Update"));
+            DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Delete, L("Permission:Delete"));
 
             var frameworkPermission = myGroup.AddPermission(ComplianceSystemPermissions.Framework.Default, L("Permission:Framework"));
             frameworkPermission.AddChild(ComplianceSystemPermissions.Framework.Create, L("Permission:Create"));

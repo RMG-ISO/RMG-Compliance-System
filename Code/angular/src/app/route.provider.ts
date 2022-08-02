@@ -107,7 +107,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::Menu:DocumentsManagement',
         layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Category',
+        requiredPolicy:'ComplianceSystem.DocumentCategory',
       },
 
       // {
