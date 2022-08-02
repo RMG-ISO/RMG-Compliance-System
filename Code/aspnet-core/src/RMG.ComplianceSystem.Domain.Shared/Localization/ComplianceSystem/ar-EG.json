@@ -2,6 +2,8 @@
   "culture": "ar-EG",
   "texts": {
     "Menu:Home": "الرئيسية",
+    "Permission:Document": "إدارة الملفات",
+    "Permission:DocumentCategory": "تصنيف الملفات",
     "Menu:DocumentsManagement": "إدارة الوثائق",
     "Menu:Documents": "إدارة الملفات",
     "Menu:DocumentsCategories": "التصنيفات",
@@ -36,6 +38,7 @@
     "Permission:Create": "إنشاء",
     "Permission:Update": "تعديل",
     "Permission:Delete": "حذف",
+    "Permission:DownLoad": "تحميل",
     "Enum:SharedStatus:0": "غير فعال",
     "Enum:SharedStatus:1": "فعال",
     "yes": "نعم",

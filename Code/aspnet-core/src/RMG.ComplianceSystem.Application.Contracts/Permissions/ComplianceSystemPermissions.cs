@@ -20,7 +20,9 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Create = Default + ".Create";
             public const string Update = Default + ".Update";
             public const string Delete = Default + ".Delete";
+            public const string DownLoad = Default + ".DownLoad";
         }
+      
         public class DocumentCategory
         {
             public const string Default = GroupName + ".DocumentCategory";
