@@ -34,7 +34,7 @@
                             </button>
                         </div>
 
-                        <button id="create" mat-button class="add-btn mr-3"
+                        <button *abpPermission="'ComplianceSystem.Document.Create'" id="create" mat-button class="add-btn mr-3"
                             type="button" (click)="openDialog()">
                             <i class="fa fa-plus mr-2"></i>
                             <span class="line mr-2"></span>
@@ -150,11 +150,11 @@
                                 <i class="fas fa-file-download" style="font-size: 18px;"></i>
                             </button>
 
-                            <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                            <button *abpPermission="'ComplianceSystem.Document.Delete'"  mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>
 
-                            <button style="color:#4D7FF6" mat-button (click)="$event.stopPropagation();openDialog(row)">
+                            <button *abpPermission="'ComplianceSystem.Document.Update'" style="color:#4D7FF6" mat-button (click)="$event.stopPropagation();openDialog(row)">
                                 <mat-icon>edit</mat-icon>
                             </button>
                         </ng-template>
