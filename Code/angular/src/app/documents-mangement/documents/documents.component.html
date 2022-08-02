@@ -2,7 +2,7 @@
     <div class="col-3">
         <div class="cats-list">
             <h4>
-                التصنيفات
+              {{ '::Document:Categories' | abpLocalization }}
             </h4>
             <app-search (search)="getCatogries($event)"></app-search>
             <mat-selection-list [multiple]="false" (selectionChange)="selectionChange($event)">
@@ -22,7 +22,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center header-content">
                     <h3 class="card-title m-0">
-                        {{ '::الملفات' | abpLocalization }}
+                        {{ '::Document:Files' | abpLocalization }}
                     </h3>
                     <div class="pt-2 d-flex justify-content-end">
                         <div class="visible-content mr-3">
@@ -38,7 +38,7 @@
                             type="button" (click)="openDialog()">
                             <i class="fa fa-plus mr-2"></i>
                             <span class="line mr-2"></span>
-                            <span>{{ "::إضافة ملفات" | abpLocalization }}</span>
+                            <span>{{ "::Document:AddFile" | abpLocalization }}</span>
                         </button>
                         <app-search (search)="searchVal = $event; getList()"></app-search>
                     </div>
@@ -68,7 +68,7 @@
                             </mat-card-content>
                             <mat-card-actions>
                                 <div class="actions d-flex align-items-center justify-content-between mb-2">
-                                    <button mat-raised-button class="user" [style.background-color]="item['attachment'].attachmentFiles[0].color">
+                                    <button mat-raised-button class="user" [style.background-color]="item['attachment'].attachmentFiles[0]?.color">
                                         {{ item['attachment'].creator.nameAPP }}
                                     </button>
                                     <div >
@@ -83,24 +83,24 @@
                                 <div class="details d-flex align-items-center justify-content-between">
                                     <div>
                                        <p class="mb-1">
-                                        تاريخ الرفع
+                                        {{ "::Document:FileDate" | abpLocalization }}
                                        </p>
-                                        {{ item['attachment'].attachmentFiles[0].creationTime | date:'yyyy-MM-dd' }}
+                                        {{ item['attachment'].attachmentFiles[0]?.creationTime | date:'yyyy-MM-dd' }}
                                     </div>
                                     <div>
                                         <p class="mb-1 file-size-info">
                                            <span>
-                                            حجم الملف
-                                           </span>
+                                            {{ "::Document:FileSize" | abpLocalization }}
+                                          </span>
                                            <span>
-                                            {{item['attachment'].attachmentFiles[0].sizeRound}}/{{item.attachment.maxFileSize}} MB
+                                            {{item['attachment'].attachmentFiles[0]?.sizeRound}}/{{item.attachment.maxFileSize}} MB
                                            </span>
                                         </p>
-                                        <div class="progress-cont" [style.box-shadow]="'0 0 0 1px ' + item['attachment'].attachmentFiles[0].color">
+                                        <div class="progress-cont" [style.box-shadow]="'0 0 0 1px ' + item['attachment'].attachmentFiles[0]?.color">
                                             <div class="progress-bar"
                                             [ngStyle]="{
-                                                'background':item['attachment'].attachmentFiles[0].color,
-                                                'width':(item['attachment'].attachmentFiles[0].sizeRound / item.attachment.maxFileSize) * 100 + 'px'
+                                                'background':item['attachment'].attachmentFiles[0]?.color,
+                                                'width':(item['attachment'].attachmentFiles[0]?.sizeRound / item.attachment.maxFileSize) * 100 + 'px'
                                             }"> </div>
                                             <div class="text">
                                                 <span>
@@ -118,26 +118,25 @@
                         </mat-card>
                     </div>
                 </div>
-
                 <ngx-datatable [class.hide-content]="visibleContent === 'cards'" class="material fullscreen"  [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable>
 
-                    <ngx-datatable-column [name]="'::FilesManagementTitleAr' | abpLocalization" prop="titleAr"></ngx-datatable-column>
-                    <ngx-datatable-column [name]="'::FilesManagementTitleEn' | abpLocalization" prop="titleEn"> </ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::Document:FileNameAr' | abpLocalization" prop="titleAr"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::Document:FileNameEn' | abpLocalization" prop="titleEn"> </ngx-datatable-column>
 
-                    <ngx-datatable-column [name]="'::FilesManagementUploadDate' | abpLocalization" prop="attachment">
+                    <ngx-datatable-column [name]="'::Document:FileUploadDate' | abpLocalization" prop="attachment">
                         <ng-template let-value="value" ngx-datatable-cell-template>
                             {{ value.attachmentFiles[0]?.creationTime | date:'yyyy-MM-dd' }}
                         </ng-template>
                     </ngx-datatable-column>
 
 
-                    <ngx-datatable-column [name]="'::FilesManagementUploadedBy' | abpLocalization" prop="attachment">
+                    <ngx-datatable-column [name]="'::Document:FileUploadedBy' | abpLocalization" prop="attachment">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             {{ value.creator.name  }}
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column [name]="'::FileSize' | abpLocalization" prop="attachment">
+                    <ngx-datatable-column [name]="'::Document:FileSize' | abpLocalization" prop="attachment">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             {{ value.attachmentFiles[0]?.sizeRound }} MB
                         </ng-template>
@@ -169,22 +168,22 @@
 
 <abp-modal [(visible)]="isModalOpen">
     <ng-template #abpHeader>
-        <h3 class="mb-0">{{ (selected?.id ? '::EditAttachment' : '::CreateAttachment' ) | abpLocalization }}</h3>
+        <h3 class="mb-0">{{ (selected?.id ? '::Document:EditAttachment' : '::Document:CreateAttachment' ) | abpLocalization }}</h3>
     </ng-template>
 
     <ng-template #abpBody>
         <form [formGroup]="form">
             <div class="row">
                 <div class="col-md-6 form-group rtl">
-                    <label for="TitleAr">{{ '::TitleAr' | abpLocalization }}</label><span> * </span>
+                    <label for="TitleAr">{{ '::Document:FileNameAr' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="TitleAr" class="form-control" formControlName="titleAr" />
                 </div>
                 <div class="col-md-6 form-group ltr">
-                    <label for="TitleEn">{{ '::TitleEn' | abpLocalization }}</label><span> * </span>
+                    <label for="TitleEn">{{ '::Document:FileNameEn' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="TitleEn" class="form-control" formControlName="titleEn" />
                 </div>
                 <div class="col-md-12 form-group">
-                    <label >{{ '::التصنيف' | abpLocalization }}</label><span> * </span>
+                    <label >{{ '::Document:Categories' | abpLocalization }}</label><span> * </span>
                     <ng-select *ngFor="let cat of catsList" formControlName="categoryId">
                         <ng-option [value]="cat.id">
                             {{ cat | lang:'name' }}

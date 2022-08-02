@@ -30,13 +30,13 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Framework',
       },
-      {
-        path:'/document',
-        name:'::Menu:DocumentManagement',
-        iconClass: 'fa fa-cloud-upload',
-        order: 1,
-        layout: eLayoutType.application,
-      },
+      // {
+      //   path:'/document',
+      //   name:'::Menu:DocumentManagement',
+      //   iconClass: 'fa fa-cloud-upload',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      // },
       {
         path:'/assessment',
         name:'::Menu:Assessment',
@@ -98,14 +98,16 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         parentName:'::Menu:DocumentsManagement',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Document',
       },
       {
         path:'/documents-management/categories',
-        name:'::DocumentsManagementCategories',
+        name:'::Menu:DocumentsCategories',
         iconClass: 'fas fa-list',
         order: 2,
         parentName:'::Menu:DocumentsManagement',
         layout: eLayoutType.application,
+       // requiredPolicy:'ComplianceSystem.Category',
       },
 
       // {
