@@ -15,6 +15,8 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public string NameEn { get; set; }
         public int Level { get; set; }
         public string LevelName { get; set; }
+        public string CreatorUserName { get; set; }
+        public string UpdateUserName { get; set; }
 
     }
 

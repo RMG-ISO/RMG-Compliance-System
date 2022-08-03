@@ -14,7 +14,6 @@ namespace RMG.ComplianceSystem.Risks
          RiskPagedAndSortedResultRequestDto, //Used for paging/sorting
          CreateUpdateRiskDto> //Used to create/update a book
     {
-        Task<PagedResultDto<RiskDto>> GetListRiskByCategoryAsync(RiskPagedAndSortedResultRequestDto input);
-        Task<RiskDto> GetByIdAsync(Guid Id);
+        Task<PagedResultDto<RiskDto>> GetListRiskByFilterAsync(RiskPagedAndSortedResultRequestDto input);
     }
 }

@@ -20,6 +20,8 @@ using RMG.ComplianceSystem.Shared;
 using System;
 using RMG.ComplianceSystem.Documents.Dtos;
 using RMG.ComplianceSystem.Documents;
+using RMG.ComplianceSystem.Risks.Entity;
+using RMG.ComplianceSystem.Risks.Dtos;
 
 namespace RMG.ComplianceSystem
 {
@@ -42,6 +44,8 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateDocumentDto, Document>();
             CreateMap<DocumentCategory, DocumentCategoryDto>();
             CreateMap<CreateUpdateDocumentCategoryDto, DocumentCategory>();
+            CreateMap<Risk, RiskDto>();
+            CreateMap<CreateUpdateRiskDto, Risk>();
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentFile, AttachmentFileDto>();
             CreateMap<Framework, FrameworkDto>();
