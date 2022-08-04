@@ -97,9 +97,6 @@ namespace RMG.ComplianceSystem
                     options.FileSets.ReplaceEmbeddedByPhysical<ComplianceSystemDomainModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
                             $"..{Path.DirectorySeparatorChar}RMG.ComplianceSystem.Domain"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<ComplianceSystemApplicationContractsModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}RMG.ComplianceSystem.Application.Contracts"));
                     options.FileSets.ReplaceEmbeddedByPhysical<ComplianceSystemApplicationModule>(
                         Path.Combine(hostingEnvironment.ContentRootPath,
                             $"..{Path.DirectorySeparatorChar}RMG.ComplianceSystem.Application"));
@@ -141,7 +138,7 @@ namespace RMG.ComplianceSystem
                 },
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "ComplianceSystem API", Version = "v1"});
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "ComplianceSystem API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                     options.CustomSchemaIds(type => type.FullName);
                 });
@@ -175,7 +172,7 @@ namespace RMG.ComplianceSystem
         {
             context.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy( builder =>
+                options.AddDefaultPolicy(builder =>
                 {
                     builder
                         .WithOrigins(
