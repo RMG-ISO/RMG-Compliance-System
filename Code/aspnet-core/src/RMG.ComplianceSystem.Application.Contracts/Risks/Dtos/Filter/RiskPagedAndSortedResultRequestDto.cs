@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace RMG.ComplianceSystem.Documents.Dtos
+namespace RMG.ComplianceSystem.Risks.Dtos
 {
-    public class DocPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
+    public class RiskPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
         public string Search { get; set; }
-        public Guid? CategoryId { get; set; }
+        public int Level { get; set; }
     }
 }

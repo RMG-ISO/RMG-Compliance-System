@@ -4,6 +4,7 @@
     "Menu:Home": "Home",
     "Menu:DocumentsManagement": "Document Management",
     "Permission:DocumentCategory": "Document Category",
+    "Permission:Risk": "Risk",
     "Menu:Documents": "Documents",
     "Menu:DocumentsCategories": "Categories",
     "Document:Files": "Files",

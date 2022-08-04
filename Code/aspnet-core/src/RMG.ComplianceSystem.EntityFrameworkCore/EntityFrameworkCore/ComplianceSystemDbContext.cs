@@ -24,6 +24,7 @@ using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Policies;
 using RMG.ComplianceSystem.Documents;
+using RMG.ComplianceSystem.Risks.Entity;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -68,6 +69,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Book> Books { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
+        public DbSet<Risk> Risks { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -135,7 +137,14 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentCategories",
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
-            }); 
+            });
+
+            builder.Entity<Risk>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Risks",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<Author>(b =>
             {

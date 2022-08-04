@@ -66,16 +66,16 @@ namespace RMG.ComplianceSystem.Policies
             if (input.CategoryId!=null)
             {
                 //get Document By CategoryId and Filters and Pagination
-                var ListDocuments = Documentrepository.Where(x => x.CategoryId == input.CategoryId &&
-                (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+                var ListDocuments = Documentrepository.Where(x => x.CategoryId == (Guid)input.CategoryId &&x.IsDeleted==false&&
+                ((x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                  Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDocuments);
             }
             else
             {
                 //get Document By CategoryId and Filters and Pagination
-              var  ListDoc = Documentrepository.Where(x => 
-                (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+              var  ListDoc = Documentrepository.Where(x => x.IsDeleted == false &&
+                ((x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
 
                 Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDoc);
