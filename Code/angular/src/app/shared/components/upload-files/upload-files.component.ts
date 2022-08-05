@@ -69,8 +69,8 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.attachmentId = this.attachment && this.attachment.id? this.attachment.id : null;
     this.fileExtentions = this.attachment && this.attachment.fileExtentions ? this.attachment.fileExtentions : this.config.getSetting("ComplianceSystem.Attachment.FileExtentions");
-    this.isMultiple = this.attachment && this.attachment.isMultiple ? this.attachment.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
-    this.maxFileSize = this.attachment && this.attachment.maxFileSize ? this.attachment.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
+    this.isMultiple = this.attachment && this.attachment.isMultiple !== undefined ? this.attachment.isMultiple : this.config.getSetting("ComplianceSystem.Attachment.IsMultiple").toLowerCase() == 'true';
+    this.maxFileSize = this.attachment && this.attachment.maxFileSize !== undefined ? this.attachment.maxFileSize : Number(this.config.getSetting("ComplianceSystem.Attachment.MaxFileSize"));
 
     let exts = [];
     (this.fileExtentions || "").split(',').forEach(v => {
