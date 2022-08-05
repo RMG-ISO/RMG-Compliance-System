@@ -23,7 +23,10 @@
         padding-left: 6px;
         padding-right: 6px;
         padding-bottom: 32px;
+        max-height: 75vh;
+        overflow: auto;
         ::ng-deep mat-list-option  {
+            // height: auto !important;
             border-radius: 6px;
             &.mat-list-single-selected-option  {
                 .mat-list-item-content  {
