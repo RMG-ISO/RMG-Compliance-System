@@ -151,12 +151,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-            builder.Entity<RiskAndOpportunity>(b =>
-            {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Risks",
-                    ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention();
-            });
+         
 
             builder.Entity<Author>(b =>
             {
