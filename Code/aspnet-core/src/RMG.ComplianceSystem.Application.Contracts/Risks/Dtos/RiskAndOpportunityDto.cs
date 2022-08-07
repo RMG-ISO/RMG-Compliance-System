@@ -1,14 +1,15 @@
-﻿using System;
+using RMG.ComplianceSystem.Attachments.Dtos;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Identity;
 
-namespace RMG.ComplianceSystem.Risks.Entity
+namespace RMG.ComplianceSystem.Risks.Dtos
 {
-    public class RiskAndOpportunity : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
+    [Serializable]
+    public class RiskAndOpportunityDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
+        public Guid Id { get; set; }
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public string DetailsAr { get; set; }
@@ -16,15 +17,15 @@ namespace RMG.ComplianceSystem.Risks.Entity
         public string AffectDetailsAr { get; set; }
         public string AffectDetailsEn { get; set; }
         // المواصفه
-       public Guid? StandardId { get; set; }
+        public Guid? StandardId { get; set; }
         // القطاع
-       public Guid? SectorId { get; set; }
+        public Guid? SectorId { get; set; }
         //الادارة العامة
-       public Guid? GeneralDepartmentId { get; set; }
+        public Guid? GeneralDepartmentId { get; set; }
         // الادارة
-       public Guid? DepartmentId { get; set; }
-       public Guid? CategoryId { get; set; }
-       public Guid? OwnerId { get; set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? CategoryId { get; set; }
+        public Guid? OwnerId { get; set; }
         // Opportunity - Risk (Enum)
         public int? Type { get; set; }
         //  WorkFlowStages (Enum)
@@ -65,6 +66,9 @@ namespace RMG.ComplianceSystem.Risks.Entity
         public string ReviewControlAssessment { get; set; }
         public string ReviewRemarks { get; set; }
 
+
     }
 
-}
+  
+
+}      

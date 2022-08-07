@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Risks.IRepository
 {
-    public interface IRiskRepository : IRepository<RiskAndOpportunity, Guid>
+    public interface IHistoryRiskAndOpportunityRepository : IRepository<HistoryRiskAndOpportunity, Guid>
     {
     }
 }

@@ -10,7 +10,7 @@ using RMG.ComplianceSystem.Risks.IRepository;
 
 namespace RMG.ComplianceSystem.Risks
 {
-    public class RiskRepository : EfCoreRepository<ComplianceSystemDbContext, RiskAndOpportunity, Guid>, IRiskRepository
+    public class RiskRepository : EfCoreRepository<ComplianceSystemDbContext, RiskAndOpportunity, Guid>, IRiskAndOpportunityRepository
     {
         public RiskRepository(IDbContextProvider<ComplianceSystemDbContext> dbContextProvider) : base(dbContextProvider)
         {

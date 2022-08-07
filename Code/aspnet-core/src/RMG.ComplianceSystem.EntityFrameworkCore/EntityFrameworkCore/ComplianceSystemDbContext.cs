@@ -69,7 +69,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Book> Books { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
-        public DbSet<RiskAndOpportunity> RiskAndOpportunity { get; set; }
+        public DbSet<RiskAndOpportunity> RisksAndOpportunities { get; set; }
+        public DbSet<HistoryRiskAndOpportunity> HistoryRisksAndOpportunities { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -138,7 +139,18 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-
+                   builder.Entity<RiskAndOpportunity>(b =>
+                   {
+                       b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksAndOpportunities",
+                           ComplianceSystemConsts.DbSchema);
+                       b.ConfigureByConvention();
+                   });
+            builder.Entity<HistoryRiskAndOpportunity>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "HistoryRisksAndOpportunities",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
             builder.Entity<RiskAndOpportunity>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Risks",

@@ -16,34 +16,35 @@ using Volo.Abp.ObjectMapping;
 using RMG.ComplianceSystem.Attachments;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Risks.IRepository;
+using RMG.ComplianceSystem.Risks.Enums;
 
 namespace RMG.ComplianceSystem.Risks
 {
     // [Authorize(ComplianceSystemPermissions.Risk.Default)]
-    public class RiskAppService :
+    public class RiskAndOpportunityAppService :
         CrudAppService<
             RiskAndOpportunity, //The Risk entity
-            RiskDto, //Used to show Risks
+            RiskAndOpportunityDto, //Used to show Risks
             Guid, //Primary key of the Risk entity
-            RiskPagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateRiskDto>, //Used to create/update a Risk
-        IRiskAppService //implement the IRiskAppService
+            RiskOpportunityPagedAndSortedResultRequestDto, //Used for paging/sorting
+            CreateUpdateRiskAndOpportunityDto>, //Used to create/update a Risk
+        IRiskAndOpportunityAppService //implement the IRiskAppService
     {
         //   Start Permissions
         #region Start Permissions
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Risk.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Risk.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Risk.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Risk.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Risk.Delete;
+        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
+        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
+        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Create;
+        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Update;
+        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
         #endregion
         // End Permissions
         //Start Properties and Constructor RiskAppService
         #region Start Properties and Constructor RiskAppService
-        private readonly IRiskRepository Riskrepository;
+        private readonly IRiskAndOpportunityRepository Riskrepository;
         private readonly IdentityUserManager User;
 
-        public RiskAppService(IdentityUserManager _User,  IRiskRepository _repository) : base(_repository)
+        public RiskAndOpportunityAppService(IdentityUserManager _User,  IRiskAndOpportunityRepository _repository) : base(_repository)
         {
             Riskrepository = _repository;
             User = _User;
@@ -52,9 +53,9 @@ namespace RMG.ComplianceSystem.Risks
         //End Properties and Constructor RiskAppService
         //Start Methods getbyId and GetListRiskByCategory
         #region Start Methods getbyId and GetListRiskByCategory
-        public async Task<PagedResultDto<RiskDto>> GetListRiskByFilterAsync(RiskPagedAndSortedResultRequestDto input)
+        public async Task<PagedResultDto<RiskAndOpportunityDto>> GetListRiskByFilterAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
-            List<RiskDto> Risks = new List<RiskDto>();
+            List<RiskAndOpportunityDto> Risks = new List<RiskAndOpportunityDto>();
             if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
@@ -62,7 +63,7 @@ namespace RMG.ComplianceSystem.Risks
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskDto>>(ListRisks);
+                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
             }
             else
             {
@@ -71,13 +72,13 @@ namespace RMG.ComplianceSystem.Risks
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskDto>>(ListDoc);
+                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
             }
            
             // instance of List of FullRiskDto
-            List<RiskDto> RiskDtos = new List<RiskDto>();
+            List<RiskAndOpportunityDto> RiskDtos = new List<RiskAndOpportunityDto>();
             // instance of  List<RiskDto>
-            List<RiskDto> Risk=new List<RiskDto>();
+            List<RiskAndOpportunityDto> Risk=new List<RiskAndOpportunityDto>();
             // loop in Risks and get attacments by every Risk
             foreach (var item in Risks)
             {
@@ -112,17 +113,12 @@ namespace RMG.ComplianceSystem.Risks
                 }
 
                 // get object from RiskDto and Set Data
-                RiskDto riskdto = new RiskDto
+                RiskAndOpportunityDto riskdto = new RiskAndOpportunityDto
                 {
                     // RiskID 
                     Id= item.Id,    
                     NameAr = item.NameAr,
-                    NameEn = item.NameEn,
-                    Level=item.Level,
-                    LevelName =Enum.GetName(typeof(LevelRisk), item.Level),
-                    CreationTime = item.CreationTime,
-                    CreatorUserName = creatorUserDto.UserName,
-                    UpdateUserName = UpdateUserDto.UserName,
+                    NameEn = item.NameEn
 
                 };
                 // Add data of RiskDto in List of Risk
@@ -132,7 +128,7 @@ namespace RMG.ComplianceSystem.Risks
             //Get the total count with Risk
             var totalCount = Risk.Count;
             // return RiskDtos and totalCount
-            return new PagedResultDto<RiskDto>(
+            return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,
                 Risk
             );
