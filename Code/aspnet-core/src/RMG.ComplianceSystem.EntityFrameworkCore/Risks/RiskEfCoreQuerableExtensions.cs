@@ -7,7 +7,7 @@ namespace RMG.ComplianceSystem.Risks
 {
     public static class RiskEfCoreQueryableExtensions
     {
-        public static IQueryable<Risk> IncludeDetails(this IQueryable<Risk> queryable, bool include = true)
+        public static IQueryable<RiskAndOpportunity> IncludeDetails(this IQueryable<RiskAndOpportunity> queryable, bool include = true)
         {
             if (!include)
             {

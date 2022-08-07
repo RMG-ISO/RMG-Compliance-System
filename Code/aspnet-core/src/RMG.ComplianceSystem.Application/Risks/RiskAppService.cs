@@ -22,7 +22,7 @@ namespace RMG.ComplianceSystem.Risks
     // [Authorize(ComplianceSystemPermissions.Risk.Default)]
     public class RiskAppService :
         CrudAppService<
-            Risk, //The Risk entity
+            RiskAndOpportunity, //The Risk entity
             RiskDto, //Used to show Risks
             Guid, //Primary key of the Risk entity
             RiskPagedAndSortedResultRequestDto, //Used for paging/sorting
@@ -55,14 +55,14 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<PagedResultDto<RiskDto>> GetListRiskByFilterAsync(RiskPagedAndSortedResultRequestDto input)
         {
             List<RiskDto> Risks = new List<RiskDto>();
-            if (input.Level!=null)
+            if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = Riskrepository.Where(x => x.Level == input.Level &&
+                var ListRisks = Riskrepository.Where(x => x.Type == input.Type &&
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<Risk>, List<RiskDto>>(ListRisks);
+                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskDto>>(ListRisks);
             }
             else
             {
@@ -71,7 +71,7 @@ namespace RMG.ComplianceSystem.Risks
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<Risk>, List<RiskDto>>(ListDoc);
+                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskDto>>(ListDoc);
             }
            
             // instance of List of FullRiskDto

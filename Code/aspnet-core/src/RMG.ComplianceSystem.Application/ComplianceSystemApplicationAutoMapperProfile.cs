@@ -44,8 +44,8 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateDocumentDto, Document>();
             CreateMap<DocumentCategory, DocumentCategoryDto>();
             CreateMap<CreateUpdateDocumentCategoryDto, DocumentCategory>();
-            CreateMap<Risk, RiskDto>();
-            CreateMap<CreateUpdateRiskDto, Risk>();
+            CreateMap<RiskAndOpportunity, RiskDto>();
+            CreateMap<CreateUpdateRiskDto, RiskAndOpportunity>();
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentFile, AttachmentFileDto>();
             CreateMap<Framework, FrameworkDto>();
