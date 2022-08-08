@@ -1,6 +1,7 @@
 {
   "culture": "en-GB",
   "texts": {
+    "All":"All",
     "Menu:Home": "Home",
     "Menu:DocumentsManagement": "Document Management",
     "Permission:DocumentCategory": "Document Category",

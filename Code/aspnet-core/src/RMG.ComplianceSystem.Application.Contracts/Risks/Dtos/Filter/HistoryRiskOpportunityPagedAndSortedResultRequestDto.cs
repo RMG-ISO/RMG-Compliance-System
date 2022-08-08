@@ -6,9 +6,12 @@ using Volo.Abp.Application.Dtos;
 
 namespace RMG.ComplianceSystem.Risks.Dtos
 {
-    public class RiskPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
+    public class HistoryRiskOpportunityPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
         public string Search { get; set; }
-        public int Level { get; set; }
+        
+        public Guid RiskOpportunityId { get; set; }
+        public Guid? UserId { get; set; }
+        
     }
 }

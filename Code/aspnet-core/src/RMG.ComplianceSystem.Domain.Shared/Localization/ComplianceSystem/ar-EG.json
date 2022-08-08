@@ -1,6 +1,7 @@
 {
   "culture": "ar-EG",
   "texts": {
+    "All":"الكل",
     "Menu:Home": "الرئيسية",
     "Permission:Document": "إدارة الملفات",
     "Permission:DocumentCategory": "تصنيف الملفات",

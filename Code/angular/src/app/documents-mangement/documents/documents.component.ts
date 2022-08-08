@@ -76,7 +76,7 @@ export class DocumentsComponent implements OnInit {
         if(item['attachment'].attachmentFiles[0]) {
           item['attachment'].attachmentFiles[0].sizeRound = +(item['attachment'].attachmentFiles[0].size / 1000000).toFixed(1);
           item['attachment'].attachmentFiles[0].icon =  this.extensionsIcons[item['attachment'].attachmentFiles[0].extention] || 'fa-file';
-  
+
           item['attachment'].attachmentFiles[0].color = this.calcPrecent(((item['attachment'].attachmentFiles[0].size / 1000000) /  item['attachment'].maxFileSize) *  100);
         }
       });
@@ -99,7 +99,7 @@ export class DocumentsComponent implements OnInit {
     this.selectedCatId = ev.option.value;
     this.getList();
   }
-  
+
 
   delete(model: DocumentDto) {
     let title = this.localizationService.currentLang.includes('ar') ?  model.TitleAr : model.TitleEn;

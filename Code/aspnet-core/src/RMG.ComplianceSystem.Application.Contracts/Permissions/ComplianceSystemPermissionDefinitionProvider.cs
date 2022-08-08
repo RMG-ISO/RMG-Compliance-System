@@ -51,6 +51,11 @@ namespace RMG.ComplianceSystem.Permissions
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Delete, L("Permission:Delete"));
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.DownLoad, L("Permission:DownLoad"));
 
+            var RiskAndOpportunityPermission = myGroup.AddPermission(ComplianceSystemPermissions.RiskAndOpportunity.Default, L("Permission:RiskAndOpportunity"));
+            RiskAndOpportunityPermission.AddChild(ComplianceSystemPermissions.RiskAndOpportunity.Create, L("Permission:Create"));
+            RiskAndOpportunityPermission.AddChild(ComplianceSystemPermissions.RiskAndOpportunity.Update, L("Permission:Update"));
+            RiskAndOpportunityPermission.AddChild(ComplianceSystemPermissions.RiskAndOpportunity.Delete, L("Permission:Delete"));
+
             var DocumentCategoryPermission = myGroup.AddPermission(ComplianceSystemPermissions.DocumentCategory.Default, L("Permission:DocumentCategory"));
             DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Create, L("Permission:Create"));
             DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Update, L("Permission:Update"));

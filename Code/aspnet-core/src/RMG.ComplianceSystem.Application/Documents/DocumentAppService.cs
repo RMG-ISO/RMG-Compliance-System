@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Volo.Abp.Users;
-using Microsoft.AspNetCore.Authorization;
 using RMG.ComplianceSystem.Attachments.Dtos;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Documents.Dtos;
 using RMG.ComplianceSystem.Permissions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Identity;
-using Volo.Abp.ObjectMapping;
 using RMG.ComplianceSystem.Attachments;
 
 namespace RMG.ComplianceSystem.Policies
@@ -67,7 +63,7 @@ namespace RMG.ComplianceSystem.Policies
             {
                 //get Document By CategoryId and Filters and Pagination
                 var ListDocuments = Documentrepository.Where(x => x.CategoryId == (Guid)input.CategoryId &&x.IsDeleted==false&&
-                ((x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                ((x.TitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                  Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDocuments);
             }
@@ -75,7 +71,7 @@ namespace RMG.ComplianceSystem.Policies
             {
                 //get Document By CategoryId and Filters and Pagination
               var  ListDoc = Documentrepository.Where(x => x.IsDeleted == false &&
-                ((x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                ((x.TitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
 
                 Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDoc);
@@ -103,16 +99,26 @@ namespace RMG.ComplianceSystem.Policies
                     var getuser = User.GetByIdAsync((Guid)item.CreatorId).Result;
                     // Mapping IdentityUser to IdentityUserDto
                     creatorUserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
-                    //// get user by CreatorId
-                    //var getUdateuser = User.GetByIdAsync((Guid)item.LastModifierId).Result;
-                    //// Mapping IdentityUser to IdentityUserDto
-                    //UpdateUserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getUdateuser);
                 }
                 else {
                     // in case CreatorId  equal null 
                     creatorUserDto = null;
                     // in case updateId  equal null 
                     UpdateUserDto = null;
+                }
+                string UpdateUserName = string.Empty;
+                if (item.LastModifierId != null)
+                {   // get user by LastModifierId
+                    var getUdateuser = User.GetByIdAsync((Guid)item.LastModifierId).Result;
+                    // Mapping IdentityUser to IdentityUserDto
+                    UpdateUserDto = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getUdateuser);
+                    UpdateUserName = UpdateUserDto.UserName;
+                }
+                else
+                {
+                    // in case LastModifierId  equal null 
+                    UpdateUserDto = null;
+                    UpdateUserName = "";
                 }
                 // get object from DocumentDto and Set Data
                 DocumentDto docdto = new DocumentDto
@@ -128,7 +134,7 @@ namespace RMG.ComplianceSystem.Policies
                     //CategoryNameAr = DocCateDto.NameAr,
                     //CategoryNameEn = DocCateDto.NameEn,
                     CreatorUserName = creatorUserDto.UserName,
-                    UpdateUserName = UpdateUserDto.UserName,
+                    UpdateUserName = UpdateUserName,
 
                 };
                 // Add data of DocumentDto in List of document
