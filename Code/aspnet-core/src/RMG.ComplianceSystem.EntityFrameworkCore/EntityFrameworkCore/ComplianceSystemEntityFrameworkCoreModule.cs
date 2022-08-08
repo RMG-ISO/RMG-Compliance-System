@@ -52,7 +52,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddDefaultRepositories(includeAllEntities: true);
                 options.AddRepository<Attachment, AttachmentRepository>();
                 options.AddRepository<Document, DocumentRepository>();
-                options.AddRepository<RiskAndOpportunity, RiskRepository>();
+                options.AddRepository<RiskAndOpportunity, RiskAndOpportunityRepository>();
+                options.AddRepository<HistoryRiskAndOpportunity, HistoryRiskAndOpportunityRepository>();
                 options.AddRepository<DocumentCategory, DocumentCategoryRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();

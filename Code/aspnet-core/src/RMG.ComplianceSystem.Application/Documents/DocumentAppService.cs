@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Volo.Abp.Users;
-using Microsoft.AspNetCore.Authorization;
 using RMG.ComplianceSystem.Attachments.Dtos;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Documents.Dtos;
 using RMG.ComplianceSystem.Permissions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Identity;
-using Volo.Abp.ObjectMapping;
 using RMG.ComplianceSystem.Attachments;
 
 namespace RMG.ComplianceSystem.Policies
