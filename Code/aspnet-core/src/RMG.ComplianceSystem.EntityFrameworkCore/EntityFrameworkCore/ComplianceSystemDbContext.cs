@@ -25,6 +25,7 @@ using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Policies;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
+using RMG.ComplianceSystem.StaticData;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -71,6 +72,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
         public DbSet<RiskAndOpportunity> RisksAndOpportunities { get; set; }
         public DbSet<HistoryRiskAndOpportunity> HistoryRisksAndOpportunities { get; set; }
+        public DbSet<StaticDatatb> StaticDatatb { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -151,7 +153,12 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-         
+            builder.Entity<StaticDatatb>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "StaticDatatb",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<Author>(b =>
             {
