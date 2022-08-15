@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RMG.ComplianceSystem.RiskTreatments;
+using System;
+using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace RMG.ComplianceSystem.Risks.Entity
@@ -46,13 +48,17 @@ namespace RMG.ComplianceSystem.Risks.Entity
 
 
         //Risk Treatment/ Action Plan---------------------------
-        public string MitigateActionPlan { get; set; }
-        public string StandardReference { get; set; }
-        public string ObjectiveEvidence { get; set; }
-        public Guid? Responsibility { get; set; }
-        public DateTime? ByWhen { get; set; }
-        public string TreatmentRemarks { get; set; }
+        //public string MitigateActionPlan { get; set; }
+        //public string StandardReference { get; set; }
+        //public string ObjectiveEvidence { get; set; }
+        //public Guid? Responsibility { get; set; }
+        //public DateTime? ByWhen { get; set; }
+        //public string TreatmentRemarks { get; set; }
 
+
+        public virtual ICollection<RiskTreatment> RiskTreatment { get; set; }
+        // PotentialRisk (Enum)
+        public int? ReEvaluation { get; set; }
 
         //Risk Monitoring &  Review---------------------------
 
