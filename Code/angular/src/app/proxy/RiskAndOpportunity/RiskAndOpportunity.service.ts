@@ -35,7 +35,7 @@ export class documentService {
   getList = (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<RiskAndOpportunityDto>>({
       method: 'GET',
-      url: '/api/app/document/document-by-category',
+      url: '/api/app/document/document-by-historyRisk',
       params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
@@ -48,41 +48,41 @@ export class documentService {
     },
     { apiName: this.apiName });
    //////History Risk And Opportunity //////////////////
-    createCategory = (input: CreateUpdateHistoryRiskAndOpportunityDto) =>
+    createhistoryRisk = (input: CreateUpdateHistoryRiskAndOpportunityDto) =>
     this.restService.request<any, HistoryRiskAndOpportunityDto>({
       method: 'POST',
-      url: '/api/app/document-category',
+      url: '/api/app/history-risk-and-opportunity',
       body: input,
     },
     { apiName: this.apiName });
 
-  deleteCategory = (id: string) =>
+  deletehistoryRisk = (id: string) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: `/api/app/document-category/${id}`,
+      url: `/api/app/history-risk-and-opportunity/${id}`,
     },
     { apiName: this.apiName });
 
-  getCategory = (id: string) =>
+  gethistoryRisk = (id: string) =>
     this.restService.request<any, HistoryRiskAndOpportunityDto>({
       method: 'GET',
-      url: `/api/app/document-category/${id}`,
+      url: `/api/app/history-risk-and-opportunity/${id}`,
     },
     { apiName: this.apiName });
 
 
-  getListCategory = (input: HistoryRiskOpportunityPagedAndSortedResultRequestDto) =>
+  getListhistoryRisk = (input: HistoryRiskOpportunityPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<HistoryRiskOpportunityPagedAndSortedResultRequestDto>>({
       method: 'GET',
-      url: '/api/app/document-category/get-document-categories',
+      url: '/api/app/history-risk-and-opportunity/history-by-filter',
       params: { search: input.search,userId: input.userId,riskOpportunityId: input.riskOpportunityId,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
-  updateCategory = (id: string, input: CreateUpdateHistoryRiskAndOpportunityDto) =>
+  updatehistoryRisk = (id: string, input: CreateUpdateHistoryRiskAndOpportunityDto) =>
     this.restService.request<any, HistoryRiskAndOpportunityDto>({
       method: 'PUT',
-      url: `/api/app/document-category/${id}`,
+      url: `/api/app/history-risk-and-opportunity/${id}`,
       body: input,
     },
     { apiName: this.apiName });

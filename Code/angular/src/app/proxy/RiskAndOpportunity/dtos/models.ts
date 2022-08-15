@@ -67,12 +67,13 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   PotentialRisk ?:number ;
   RiskTreatmentOption ?:string ;
   //Risk Treatment/ Action Plan---------------------------
-  MitigateActionPlan ?:string ;
-  StandardReference ?:string ;
-  ObjectiveEvidence ?:string ;
-  Responsibility ?:string ;
-  ByWhen ?:Date ;
-  TreatmentRemarks ?:string ;
+  // MitigateActionPlan ?:string ;
+  // StandardReference ?:string ;
+  // ObjectiveEvidence ?:string ;
+  // Responsibility ?:string ;
+  // ByWhen ?:Date ;
+  // TreatmentRemarks ?:string ;
+  ReEvaluation ?:number ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
