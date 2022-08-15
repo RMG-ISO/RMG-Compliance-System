@@ -45,7 +45,7 @@ export class StaticDataService {
     getList = (input: StaticDataPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<StaticDataDto>>({
       method: 'GET',
-      url: '/api/app/framework',
+      url: '/api/app/static-data/by-filter',
       params: { search: input.search, type: input.Type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
