@@ -5,6 +5,6 @@ namespace RMG.ComplianceSystem.Risks.Dtos
     public class RiskOpportunityPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
         public string Search { get; set; }
-        public int Type { get; set; }
+        public int? Type { get; set; }
     }
 }

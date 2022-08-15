@@ -26,6 +26,7 @@ using RMG.ComplianceSystem.Policies;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.StaticData;
+using RMG.ComplianceSystem.RiskTreatments;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -73,6 +74,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<RiskAndOpportunity> RisksAndOpportunities { get; set; }
         public DbSet<HistoryRiskAndOpportunity> HistoryRisksAndOpportunities { get; set; }
         public DbSet<StaticDatatb> StaticDatatb { get; set; }
+        public DbSet<RiskTreatment> RiskTreatments { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -141,6 +143,12 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
+            builder.Entity<RiskTreatment>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RiskTreatments",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            }); 
                    builder.Entity<RiskAndOpportunity>(b =>
                    {
                        b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksAndOpportunities",

@@ -22,6 +22,7 @@ using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Risks;
 using RMG.ComplianceSystem.StaticData;
+using RMG.ComplianceSystem.RiskTreatments;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -56,6 +57,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddRepository<RiskAndOpportunity, RiskAndOpportunityRepository>();
                 options.AddRepository<HistoryRiskAndOpportunity, HistoryRiskAndOpportunityRepository>();
                 options.AddRepository<StaticDatatb, StaticDataRepository>();
+                options.AddRepository<RiskTreatment, RiskTreatmentRepository>();
                 options.AddRepository<DocumentCategory, DocumentCategoryRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();

@@ -1,3 +1,3 @@
 import * as Dtos from './dtos';
-export * from './StaticData.service';
+export * from './RiskTreatment.service';
 export { Dtos };
