@@ -1,8 +1,15 @@
 {
   "culture": "ar-EG",
   "texts": {
-    "All":"الكل",
+    "All": "الكل",
     "Menu:Home": "الرئيسية",
+
+    "Permission:StaticData": "إعدادات المخاطر",
+
+
+
+    "Permission:RiskAndOpportunity": "المخاطر والفرص",
+
     "Permission:Document": "إدارة الملفات",
     "Permission:DocumentCategory": "تصنيف الملفات",
     "Permission:Risk": "المخاطر",
