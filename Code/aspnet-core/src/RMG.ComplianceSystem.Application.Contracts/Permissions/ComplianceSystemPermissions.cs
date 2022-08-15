@@ -14,8 +14,15 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Edit = Default + ".Edit";
             public const string Delete = Default + ".Delete";
         }
-        
-             public static class StaticData
+
+        public static class RiskTreatment
+        {
+            public const string Default = GroupName + ".RiskTreatment";
+            public const string Create = Default + ".Create";
+            public const string Update = Default + ".Update";
+            public const string Delete = Default + ".Delete";
+        }
+        public static class StaticData
         {
             public const string Default = GroupName + ".StaticData";
             public const string Create = Default + ".Create";
@@ -30,7 +37,7 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Delete = Default + ".Delete";
             public const string DownLoad = Default + ".DownLoad";
         }
-      
+
         public class DocumentCategory
         {
             public const string Default = GroupName + ".DocumentCategory";
@@ -118,6 +125,6 @@ namespace RMG.ComplianceSystem.Permissions
             //public const string Delete = Default + ".Delete";
         }
 
-      
+
     }
 }
