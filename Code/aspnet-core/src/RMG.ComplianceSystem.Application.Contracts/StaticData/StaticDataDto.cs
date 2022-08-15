@@ -7,7 +7,6 @@ namespace RMG.ComplianceSystem.StaticData
     [Serializable]
     public class StaticDataDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
-        public Guid Id { get; set; }
         public string NameEn { get; set; }
         public string NameAr { get; set; }
         //TypeStaticData (Enum)

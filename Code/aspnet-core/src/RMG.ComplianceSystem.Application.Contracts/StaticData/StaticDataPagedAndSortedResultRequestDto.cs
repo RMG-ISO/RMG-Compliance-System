@@ -9,6 +9,6 @@ namespace RMG.ComplianceSystem.StaticData
     {
         public string Search { get; set; }
 
-        public int Type { get; set; }
+        public int? Type { get; set; }
     }
 }

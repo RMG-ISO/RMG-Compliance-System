@@ -1,4 +1,5 @@
 using RMG.ComplianceSystem.Attachments.Dtos;
+using RMG.ComplianceSystem.RiskTreatments;
 using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
@@ -9,7 +10,6 @@ namespace RMG.ComplianceSystem.Risks.Dtos
     [Serializable]
     public class RiskAndOpportunityDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
-        public Guid Id { get; set; }
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public string DetailsAr { get; set; }
@@ -51,13 +51,15 @@ namespace RMG.ComplianceSystem.Risks.Dtos
 
 
         //Risk Treatment/ Action Plan---------------------------
-        public string MitigateActionPlan { get; set; }
-        public string StandardReference { get; set; }
-        public string ObjectiveEvidence { get; set; }
-        public Guid? Responsibility { get; set; }
-        public DateTime? ByWhen { get; set; }
-        public string TreatmentRemarks { get; set; }
-
+        //public string MitigateActionPlan { get; set; }
+        //public string StandardReference { get; set; }
+        //public string ObjectiveEvidence { get; set; }
+        //public Guid? Responsibility { get; set; }
+        //public DateTime? ByWhen { get; set; }
+        //public string TreatmentRemarks { get; set; }
+        public virtual ICollection<RiskTreatmentDto> RiskTreatmentDto { get; set; }
+        // PotentialRisk (Enum)
+        public int? ReEvaluation { get; set; }
 
         //Risk Monitoring &  Review---------------------------
 
