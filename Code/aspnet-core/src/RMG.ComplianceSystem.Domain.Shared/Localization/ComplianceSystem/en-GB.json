@@ -1,8 +1,16 @@
 {
   "culture": "en-GB",
   "texts": {
-    "All":"All",
+    "All": "All",
     "Menu:Home": "Home",
+    "Permission:StaticData": "Setting Risk",
+    "Menu:StaticData": "Settings",
+
+
+    "Permission:RiskAndOpportunity": " Risks and Opportunities",
+    "Menu:RiskOpportunity": " Risks and Opportunities",
+    "Menu:RiskAndOpportunity": "Risk And Opportunity",
+
     "Menu:DocumentsManagement": "Document Management",
     "Permission:DocumentCategory": "Document Category",
     "Permission:Risk": "Risk",
