@@ -109,6 +109,30 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.DocumentCategory',
       },
+      {
+        path:'/documents-management',
+        name:'::Menu:RiskAndOpportunity',
+        iconClass: 'fas fa-th-large',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/documents-management',
+        name:'::Menu:StaticData',
+        iconClass: 'fas fa-th-large',
+        order: 1,
+        parentName:'::Menu:RiskAndOpportunity',
+        layout: eLayoutType.application,
+      },
+
+      {
+        path:'/documents-management',
+        name:'::Menu:RiskOpportunity',
+        iconClass: 'fas fa-th-large',
+        order: 1,
+        parentName:'::Menu:RiskAndOpportunity',
+        layout: eLayoutType.application,
+      },
 
       // {
       //   path:'/documents-management',

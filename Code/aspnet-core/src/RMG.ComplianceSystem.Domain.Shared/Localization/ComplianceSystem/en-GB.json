@@ -4,11 +4,11 @@
     "All": "All",
     "Menu:Home": "Home",
     "Permission:StaticData": "Setting Risk",
-
+    "Menu:StaticData": "Setting Risk and Opportunity",
 
 
     "Permission:RiskAndOpportunity": " Risk and Opportunity",
-
+    "Menu:RiskAndOpportunity": "Risk And Opportunity",
 
     "Menu:DocumentsManagement": "Document Management",
     "Permission:DocumentCategory": "Document Category",
