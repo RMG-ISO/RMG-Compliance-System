@@ -17,7 +17,7 @@ namespace RMG.ComplianceSystem.Risks.Enums
         Likely = 1, AlmostCertain = 2, Unlikely = 3, Rare = 4
     }
 
-    public enum Consequence
+    public enum Impacts
     {
         Insignificant = 1, Minor = 2, Significant = 3, Extreme = 4
     }

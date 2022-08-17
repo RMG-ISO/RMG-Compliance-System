@@ -37,8 +37,8 @@ namespace RMG.ComplianceSystem.Risks.Entity
         public int? ControlAssessment { get; set; }
         // Likelihood (Enum)
         public int? Likelihood { get; set; }
-        // Consequence (Enum)
-        public int? Consequence { get; set; }
+        // Impact (Enum)
+        public int? Impact { get; set; }
 
 
         //Evaluation---------------------------
@@ -70,3 +70,8 @@ namespace RMG.ComplianceSystem.Risks.Entity
     }
 
 }
+
+
+
+
+
