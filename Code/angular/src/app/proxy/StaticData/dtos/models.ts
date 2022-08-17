@@ -15,6 +15,12 @@ export interface StaticDataDto extends FullAuditedEntityWithUserDto<IdentityUser
   TenantId?: string;
   Type?: number;
 }
+export interface getTypeDto  {
+  Id?:number;
+  NameAr?: string;
+  NameEn?: string;
+
+}
 
 export interface StaticDataPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
