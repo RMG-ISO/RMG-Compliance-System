@@ -77,7 +77,7 @@
                             <mat-card-actions>
                                 <div class="actions d-flex align-items-center justify-content-between mb-2">
                                     <button mat-raised-button class="user" [style.background-color]="item['attachment'].attachmentFiles[0]?.color">
-                                        {{ item['attachment'].creator.nameAPP }}
+                                        {{ item['attachment'].creator.userName }}
                                     </button>
                                     <div >
                                         <button *abpPermission="'ComplianceSystem.Document.Delete'" class="del" mat-raised-button (click)="delete(item)">

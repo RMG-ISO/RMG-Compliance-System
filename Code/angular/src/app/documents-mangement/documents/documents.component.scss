@@ -182,7 +182,13 @@ mat-card {
             background-color: red;
             color: #fff;
             font-weight: bold;
-            font-size: 18px;
+            // font-size: 18px;
+
+            font-size: 14px;
+            width: auto;
+            height: auto;
+            padding-left: 3px;
+            padding-right: 3px;
         }
         .del {
             color: #FF0303;
