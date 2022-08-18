@@ -80,7 +80,18 @@ namespace RMG.ComplianceSystem.StaticData
             );
         }
 
-
+        public async Task<List<getEnumTypeStaticData>> getTypeStaticData()
+        { 
+        var Types=new List<getEnumTypeStaticData>();
+            //foreach (TypeStaticData type in (TypeStaticData[])Enum.GetValues(typeof(TypeStaticData)))
+            //{
+            
+            Types.Add(new getEnumTypeStaticData { Id=1,NameAr= "قطاعات",NameEn = "Sectors" });
+            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "إدارات", NameEn = "Managements" });
+            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "تصنيفات", NameEn = "Categories" });
+            //}
+            return Types;
+        }
         #endregion
 
 

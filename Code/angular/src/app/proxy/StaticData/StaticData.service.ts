@@ -1,4 +1,4 @@
-import type { CreateUpdateStaticDataDto, StaticDataDto, StaticDataPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateStaticDataDto, StaticDataDto, StaticDataPagedAndSortedResultRequestDto ,getTypeDto} from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -50,7 +50,12 @@ export class StaticDataService {
     },
     { apiName: this.apiName });
 
-
+    getListType = () =>
+    this.restService.request<any, PagedResultDto<getTypeDto>>({
+      method: 'GET',
+      url: '/api/app/static-data/get-type-static-data',
+    },
+    { apiName: this.apiName });
 
 
 

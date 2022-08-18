@@ -42,6 +42,12 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./documents-mangement/documents-mangement.module').then(m => m.DocumentsMangementModule)
   },
+  {
+    path:'risks-management',
+    //canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./risks-mangement/risks-mangement.module').then(m => m.RisksMangementModule)
+  },
+
   // {
   //   path: 'compliance-department',
   //   loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
