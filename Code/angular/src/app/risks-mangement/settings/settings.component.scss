@@ -58,3 +58,20 @@
         }
     }
 }
+
+.card {
+    border-radius: 10px;
+    border: none;
+    .card-header {
+        background: #fff;
+        border: none;
+        padding-bottom: 12px;
+        border-radius: 10px 10px 0 0;
+        border-bottom: none;
+        .header-content {
+            flex-wrap: wrap;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #D5D7DB;
+        }
+    }
+}
