@@ -56,7 +56,7 @@ export class settingsComponent implements OnInit {
   }
 
   searchVal
-  getList(search = null) {
+  getList() {
     const streamCreator = (query) => this.staticDataService.getList({ ...query, search: this.searchVal, Type:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;

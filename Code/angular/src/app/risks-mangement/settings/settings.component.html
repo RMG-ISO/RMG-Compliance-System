@@ -37,7 +37,7 @@
                             <span class="line mr-2"></span>
                             <span>{{ "::Document:CreateCategory" | abpLocalization }}</span>
                         </button>
-                        <app-search (search)="getList($event)"></app-search>
+                        <app-search (search)="searchVal = $event;getList()"></app-search>
                     </div>
                 </div>
             </div>
