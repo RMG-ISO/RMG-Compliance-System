@@ -13,8 +13,9 @@ namespace RMG.ComplianceSystem.Risks.Entity
         public string DetailsEn { get; set; }
         public string AffectDetailsAr { get; set; }
         public string AffectDetailsEn { get; set; }
+        public int? status { get; set; }
         // المواصفه
-       public Guid? StandardId { get; set; }
+        public Guid? StandardId { get; set; }
         // القطاع
        public Guid? SectorId { get; set; }
         //الادارة العامة
