@@ -10,6 +10,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
     {
         public Guid UserId { get; set; }
         public Guid RiskAndOpportunityId { get; set; }
+        public int? WorkFlowStages { get; set; }
         public string ActionName { get; set; }
         public DateTime ActionDate { get; set; }
     }

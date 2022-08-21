@@ -8,4 +8,8 @@ namespace RMG.ComplianceSystem.Risks.Enums
     {
         Risk,Opportunity
     }
+    public enum status
+    {
+        Open,Close
+    }
 }

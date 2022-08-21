@@ -85,10 +85,14 @@ namespace RMG.ComplianceSystem.StaticData
         var Types=new List<getEnumTypeStaticData>();
             //foreach (TypeStaticData type in (TypeStaticData[])Enum.GetValues(typeof(TypeStaticData)))
             //{
-            
-            Types.Add(new getEnumTypeStaticData { Id=1,NameAr= "قطاعات",NameEn = "Sectors" });
-            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "إدارات", NameEn = "Managements" });
-            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "تصنيفات", NameEn = "Categories" });
+            Types.Add(new getEnumTypeStaticData { Id=1,NameAr= "القطاعات",NameEn = "Sectors" });
+            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "الادارات", NameEn = "Managements" });
+            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "التصنيفات", NameEn = "Categories" });
+            Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "الاحتماليات", NameEn = "Likelihood" });
+            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = "التقيمات الضبط", NameEn = "ControlAssessment" });
+            Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = " الاحتمالات", NameEn = "Potentials" });
+            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = "التاثيرات", NameEn = "Impacts" });
+
             //}
             return Types;
         }

@@ -8,6 +8,7 @@ namespace RMG.ComplianceSystem.Risks
     public class CreateUpdateHistoryRiskAndOpportunityDto
     {
         public Guid UserId { get; set; }
+        public int? WorkFlowStages { get; set; }
         public Guid RiskAndOpportunityId { get; set; }
         public string ActionName { get; set; }
         public DateTime ActionDate { get; set; }

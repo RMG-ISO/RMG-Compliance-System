@@ -23,6 +23,7 @@ export const environment = {
   //   dummyClientSecret: '1q2w3e*',
   //   scope: 'offline_access openid profile role email phone ComplianceSystem',
   // },
+
   // apis: {
   //   default: {
   //     url: 'https://localhost:44375',
@@ -43,4 +44,5 @@ export const environment = {
       rootNamespace: 'RMG.ComplianceSystem',
     },
   },
+
 } as Environment;
