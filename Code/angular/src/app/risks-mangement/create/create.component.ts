@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-
+  activeTab = 1;
+  
   constructor() { }
 
   ngOnInit(): void {

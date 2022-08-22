@@ -31,7 +31,6 @@ export class RiskAndOpportunityService {
     },
     { apiName: this.apiName });
 
-
   getList = (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<RiskAndOpportunityDto>>({
       method: 'GET',
