@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreateComponent } from './create/create.component';
+import { FifthComponent } from './create/fifth/fifth.component';
+import { FirstComponent } from './create/first/first.component';
+import { FourthComponent } from './create/fourth/fourth.component';
+import { SecondComponent } from './create/second/second.component';
+import { ThirdComponent } from './create/third/third.component';
+import { ListComponent } from './list/list.component';
 import { settingsComponent } from './settings/settings.component';
-import { riskopportunityComponent } from './riskAndOpportunity/riskopportunity.component';
 
 const routes: Routes = [
   {
@@ -11,13 +17,20 @@ const routes: Routes = [
   },
   {
     path:'riskopportunity',
-    component:riskopportunityComponent
+    component:ListComponent
+  },
+  {
+    path:'create',
+    component:CreateComponent,
   },
   {
     path:'settings',
     component:settingsComponent
   },
-
+  {
+    path:':id/edit',
+    component:CreateComponent,
+  },
 ];
 
 @NgModule({

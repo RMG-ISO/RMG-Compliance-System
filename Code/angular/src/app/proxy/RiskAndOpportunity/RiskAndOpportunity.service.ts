@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class documentService {
+export class RiskAndOpportunityService {
   apiName = 'Default';
 
   create = (input: CreateUpdateRiskAndOpportunityDto) =>
@@ -30,7 +30,6 @@ export class documentService {
       url: `/api/app/risk-and-opportunity/${id}`,
     },
     { apiName: this.apiName });
-
 
   getList = (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<RiskAndOpportunityDto>>({
