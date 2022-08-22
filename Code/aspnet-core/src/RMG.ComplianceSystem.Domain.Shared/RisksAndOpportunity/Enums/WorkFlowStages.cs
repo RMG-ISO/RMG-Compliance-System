@@ -6,10 +6,10 @@ namespace RMG.ComplianceSystem.Risks.Enums
 {
     public enum WorkFlowStages
     {
-        Identification,
-        Analysis,
-        Evaluation,
-        Treatment,
-        Review
+        Identification=1,
+        Analysis=2,
+        Evaluation=3,
+        Treatment=4,
+        Review=5
     }
 }

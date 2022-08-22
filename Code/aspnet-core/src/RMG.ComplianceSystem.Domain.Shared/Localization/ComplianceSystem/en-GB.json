@@ -5,7 +5,12 @@
     "Menu:Home": "Home",
     "Permission:StaticData": "Setting Risk",
     "Menu:StaticData": "Settings",
-
+    "StaticData:Type": "Type",
+    "StaticData:Settings": "Settings",
+    "StaticData:Create": "Create",
+    "StaticData:Edit": "Edit ",
+    "StaticData:NameAr": "Name Arabic",
+    "StaticData:NameEn": "Name English",
 
     "Permission:RiskAndOpportunity": " Risks and Opportunities",
     "Menu:RiskManagement": " Risks Management",
