@@ -70,9 +70,6 @@ namespace RMG.ComplianceSystem.Risks
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskAndOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
             }
-                
-                
-            
             //Get the total count with Risk
             var totalCount = Risks.Count;
             // return RiskDtos and totalCount

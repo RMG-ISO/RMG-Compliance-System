@@ -38,9 +38,9 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         // ControlAssessment (Enum)
         public int? ControlAssessment { get; set; }
         // Likelihood (Enum)
-        public int? Likelihood { get; set; }
-        // Consequence (Enum)
-        public int? Consequence { get; set; }
+        public int? Likelihood { get; set; }    
+        // Impact (Enum)
+        public int? Impact { get; set; }
 
 
         //Evaluation---------------------------
