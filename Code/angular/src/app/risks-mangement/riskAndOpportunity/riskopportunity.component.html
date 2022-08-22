@@ -1,0 +1,233 @@
+<div class="row">
+    <div class="col-3">
+        <div class="cats-list">
+            <h4>
+              {{ '::Document:Categories' | abpLocalization }}
+            </h4>
+            <app-search (search)="getCatogries($event)"></app-search>
+            <mat-selection-list [multiple]="false" (selectionChange)="selectionChange($event)">
+                <mat-list-option value="" *ngIf="catsList?.length">
+                    <div>
+                        <span>
+                            {{ '::All' | abpLocalization  }}
+                        </span>
+                        <i class="fas fa-chevron-left d-none"></i>
+                    </div>
+                </mat-list-option>
+                <mat-list-option *ngFor="let cat of catsList" [value]="cat.id" [selected]="selectedCatId == cat.id">
+                    <div>
+                        <span>
+                            {{ cat | lang:'name' }}
+                        </span>
+                        <i class="fas fa-chevron-left d-none"></i>
+                    </div>
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center header-content">
+                    <h3 class="card-title m-0">
+                        {{ '::Document:Files' | abpLocalization }}
+                    </h3>
+                    <div class="pt-2 d-flex justify-content-end">
+                        <div class="visible-content mr-3">
+                            <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button mat-button (click)="visibleContent = 'grid'" [class.active]="visibleContent === 'grid'">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+
+                        <button *abpPermission="'ComplianceSystem.Document.Create'" id="create" mat-button class="add-btn mr-3"
+                            type="button" (click)="openDialog()">
+                            <i class="fa fa-plus mr-2"></i>
+                            <span class="line mr-2"></span>
+                            <span>{{ "::Document:AddFile" | abpLocalization }}</span>
+                        </button>
+                        <app-search (search)="searchVal = $event; getList()"></app-search>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row" *ngIf="visibleContent === 'cards'">
+                    <div class="col-md-4 card-cont mb-2" *ngFor="let item of items">
+                        <mat-card class="global-card">
+                            <mat-card-title class="text-center">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <button mat-button>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <button *abpPermission="'ComplianceSystem.Document.DownLoad'"  mat-button (click)="download(item)">
+                                        <i class="fas fa-file-download"></i>
+                                    </button>
+                                </div>
+                            </mat-card-title>
+                            <mat-card-content>
+                                <div>
+                                    <i class="fas" [class]="item['attachment'].attachmentFiles[0]?.icon"></i>
+                                    <p>
+                                        {{ item | lang:'title' }}
+                                    </p>
+                                </div>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <div class="actions d-flex align-items-center justify-content-between mb-2">
+                                    <button mat-raised-button class="user" [style.background-color]="item['attachment'].attachmentFiles[0]?.color">
+                                        {{ item['attachment'].creator.userName }}
+                                    </button>
+                                    <div >
+                                        <button *abpPermission="'ComplianceSystem.Document.Delete'" class="del" mat-raised-button (click)="delete(item)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button *abpPermission="'ComplianceSystem.Document.Update'" class="edit" mat-raised-button (click)="openDialog(item)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="details d-flex align-items-center justify-content-between">
+                                    <div>
+                                       <p class="mb-1">
+                                        {{ "::Document:FileDate" | abpLocalization }}
+                                       </p>
+                                        {{ item['attachment'].attachmentFiles[0]?.creationTime | date:'yyyy-MM-dd' }}
+                                    </div>
+                                    <div>
+                                        <p class="mb-1 file-size-info">
+                                           <span>
+                                            {{ "::Document:FileSize" | abpLocalization }}
+                                          </span>
+                                           <span>
+                                            {{item['attachment'].attachmentFiles[0]?.sizeRound}}/{{item.attachment.maxFileSize}} MB
+                                           </span>
+                                        </p>
+                                        <div class="progress-cont" [style.box-shadow]="'0 0 0 1px ' + item['attachment'].attachmentFiles[0]?.color">
+                                            <div class="progress-bar"
+                                            [ngStyle]="{
+                                                'background':item['attachment'].attachmentFiles[0]?.color,
+                                                'width':(item['attachment'].attachmentFiles[0]?.sizeRound / item.attachment.maxFileSize) * 100 + 'px'
+                                            }"> </div>
+                                            <div class="text">
+                                                <span>
+                                                    700 MB
+                                                </span>
+                                                <span>
+                                                    800 MB
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+                <ngx-datatable [class.hide-content]="visibleContent === 'cards'" class="material fullscreen"  [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable>
+
+                    <ngx-datatable-column [name]="'::Document:FileNameAr' | abpLocalization" prop="titleAr"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::Document:FileNameEn' | abpLocalization" prop="titleEn"> </ngx-datatable-column>
+
+                    <ngx-datatable-column [name]="'::Document:FileUploadDate' | abpLocalization" prop="attachment">
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{ value.attachmentFiles[0]?.creationTime | date:'yyyy-MM-dd' }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column [name]="'::Document:FileUploadedBy' | abpLocalization" prop="attachment">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value.creator.name  }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [name]="'::Document:FileSize' | abpLocalization" prop="attachment">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ value.attachmentFiles[0]?.sizeRound }} MB
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="180" [width]="180" [sortable]="false"
+                        cellClass="options">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button *ngIf="row.attachment.attachmentFiles[0]" style="color:#17a2b8" mat-button (click)="$event.stopPropagation();download(row)">
+                                <i class="fas fa-file-download" style="font-size: 18px;"></i>
+                            </button>
+                            <button *abpPermission="'ComplianceSystem.Document.Update'" style="color:#4D7FF6" mat-button (click)="$event.stopPropagation();openDialog(row)">
+                              <mat-icon>edit</mat-icon>
+                          </button>
+                            <button *abpPermission="'ComplianceSystem.Document.Delete'"  mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+
+
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h3 class="mb-0">{{ (selected?.id ? '::Document:EditAttachment' : '::Document:CreateAttachment' ) | abpLocalization }}</h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6 form-group rtl">
+                    <label for="TitleAr">{{ '::Document:FileNameAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="TitleAr" class="form-control" formControlName="titleAr" />
+                </div>
+                <div class="col-md-6 form-group ltr">
+                    <label for="TitleEn">{{ '::Document:FileNameEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="TitleEn" class="form-control" formControlName="titleEn" />
+                </div>
+                <div class="col-md-12 form-group">
+                    <label >{{ '::Document:Categories' | abpLocalization }}</label><span> * </span>
+                    <ng-select formControlName="categoryId">
+                        <ng-option *ngFor="let cat of catsList" [value]="cat.id">
+                            {{ cat | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-12">
+                    <!-- <app-upload-files
+                        [attachment]="{isMultiple:false}"
+                        [attachmentId]="form.controls.attachmentId.value"
+                        [disabled]="form.controls.attachmentId.disabled"
+                        (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                        (OnFileEndUpload)="OnFileEndUpload($event)">
+                    </app-upload-files> -->
+
+                    <app-table-files
+                    [attachment]="{isMultiple:false}"
+                    [attachmentId]="form.controls.attachmentId.value"
+                    [disabled]="form.controls.attachmentId.disabled"
+                    (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                    (OnFileEndUpload)="OnFileEndUpload($event)">
+                    </app-table-files>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template #abpFooter>
+        <button type="button" class="btn btn-secondary" #abpClose>
+            {{ '::Close' | abpLocalization }}
+        </button>
+
+        <!--added save button-->
+        <button class="btn btn-primary" [disabled]="form.invalid || uploading" (click)="save()">
+            <i class="fa fa-check mr-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+    </ng-template>
+</abp-modal>

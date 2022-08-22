@@ -112,7 +112,7 @@ function configureRoutes(routesService: RoutesService) {
       {
         path:'/risks-management',
         name:'::Menu:RiskManagement',
-        iconClass: 'fas fa-th-large',
+        iconClass: 'fas fa-risk',
         order: 1,
         layout: eLayoutType.application,
       },
@@ -126,7 +126,7 @@ function configureRoutes(routesService: RoutesService) {
       },
 
       {
-        path:'/risks-management/settings',
+        path:'/risks-management/riskopportunity',
         name:'::Menu:RiskOpportunity',
         iconClass: 'fas fa-th-large',
         order: 1,
