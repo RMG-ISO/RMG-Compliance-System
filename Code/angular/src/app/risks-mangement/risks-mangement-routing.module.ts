@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreateComponent } from './create/create.component';
+import { ListComponent } from './list/list.component';
 import { settingsComponent } from './settings/settings.component';
-import { riskopportunityComponent } from './riskAndOpportunity/riskopportunity.component';
 
 const routes: Routes = [
   {
@@ -11,7 +12,11 @@ const routes: Routes = [
   },
   {
     path:'riskopportunity',
-    component:riskopportunityComponent
+    component:ListComponent
+  },
+  {
+    path:'create',
+    component:CreateComponent
   },
   {
     path:'settings',
