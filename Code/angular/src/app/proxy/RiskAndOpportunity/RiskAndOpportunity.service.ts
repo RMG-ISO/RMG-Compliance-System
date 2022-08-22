@@ -12,7 +12,7 @@ export class documentService {
   create = (input: CreateUpdateRiskAndOpportunityDto) =>
     this.restService.request<any, RiskAndOpportunityDto>({
       method: 'POST',
-      url: '/api/app/document',
+      url: '/api/app/risk-and-opportunity',
       body: input,
     },
     { apiName: this.apiName });
@@ -20,14 +20,14 @@ export class documentService {
   delete = (id: string) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: `/api/app/document/${id}`,
+      url: `/api/app/risk-and-opportunity/${id}`,
     },
     { apiName: this.apiName });
 
   get = (id: string) =>
     this.restService.request<any, RiskAndOpportunityDto>({
       method: 'GET',
-      url: `/api/app/document/${id}`,
+      url: `/api/app/risk-and-opportunity/${id}`,
     },
     { apiName: this.apiName });
 
@@ -35,7 +35,7 @@ export class documentService {
   getList = (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<RiskAndOpportunityDto>>({
       method: 'GET',
-      url: '/api/app/document/document-by-historyRisk',
+      url: '/api/app/risk-and-opportunity/risk-by-filter',
       params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
@@ -43,10 +43,11 @@ export class documentService {
   update = (id: string, input: CreateUpdateRiskAndOpportunityDto) =>
     this.restService.request<any, RiskAndOpportunityDto>({
       method: 'PUT',
-      url: `/api/app/document/${id}`,
+      url: `/api/app/risk-and-opportunity/${id}`,
       body: input,
     },
     { apiName: this.apiName });
+
    //////History Risk And Opportunity //////////////////
     createhistoryRisk = (input: CreateUpdateHistoryRiskAndOpportunityDto) =>
     this.restService.request<any, HistoryRiskAndOpportunityDto>({
