@@ -14,6 +14,8 @@ import { FourthComponent } from './create/fourth/fourth.component';
 import { FifthComponent } from './create/fifth/fifth.component';
 
 
+import { MatRadioModule } from '@angular/material/radio';
+
 @NgModule({
   declarations: [
     settingsComponent,
@@ -29,7 +31,8 @@ import { FifthComponent } from './create/fifth/fifth.component';
     CommonModule,
     RisksMangementRoutingModule,
     SharedModule,
-    MatListModule
+    MatListModule,
+    MatRadioModule
   ]
 })
 export class RisksMangementModule { }

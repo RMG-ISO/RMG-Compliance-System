@@ -1,116 +1,124 @@
-<mat-card>
-    <mat-card-title>
-        المخاطر والفرص
-    </mat-card-title>
-    <mat-card-content>
-        <div class="d-flex route-actions">
-            <div [class.active]="activeTab === 1">
-                <span class="d-block circle" (click)="activeTab = 1">
-                    1
+<form [formGroup]="form">
+    <mat-card>
+        <mat-card-title>
+            المخاطر والفرص
+        </mat-card-title>
+        <mat-card-content>
+            <div class="d-flex route-actions mb-5">
+                <div [class.active]="activeTab === 1">
+                    <span class="d-block circle" (click)="activeTab = 1">
+                        1
+                    </span>
+                    <button mat-button (click)="activeTab = 1">
+                        <div>
+                            <i class="fas fa-chart-line"></i>
+                            <p>
+                                تعريف الخطر
+                            </p>
+                            <p>
+                                والفرصة
+                            </p>
+                        </div>
+                    </button>
+                </div>
+                <span class="arrow" [class.active]="activeTab === 1">
+                    <span class="line"></span>
+                    <i class="fas fa-chevron-left"></i>
                 </span>
-                <button mat-button (click)="activeTab = 1">
-                    <div>
-                        <i class="fas fa-chart-line"></i>
-                        <p>
-                            تعريف الخطر
-                        </p>
-                        <p>
-                            والفرصة
-                        </p>
-                    </div>
-                </button>
-            </div>
-            <span class="arrow" [class.active]="activeTab === 1">
-                <span class="line"></span>
-                <i class="fas fa-chevron-left"></i>
-            </span>
-
-
-             <div [class.active]="activeTab === 2">
-                <span class="d-block circle" (click)="activeTab = 2">
-                    2
+    
+    
+                 <div [class.active]="activeTab === 2">
+                    <span class="d-block circle" (click)="activeTab = 2">
+                        2
+                    </span>
+                    <button mat-button (click)="activeTab = 2">
+                        <div>
+                            <i class="fas fa-chart-line"></i>
+                            <p>
+                                التحليل
+                            </p>
+                        </div>
+                    </button>
+                </div>
+                <span class="arrow" [class.active]="activeTab === 2">
+                    <span class="line"></span>
+                    <i class="fas fa-chevron-left"></i>
                 </span>
-                <button mat-button (click)="activeTab = 2">
-                    <div>
-                        <i class="fas fa-chart-line"></i>
-                        <p>
-                            التحليل
-                        </p>
-                    </div>
-                </button>
-            </div>
-            <span class="arrow" [class.active]="activeTab === 2">
-                <span class="line"></span>
-                <i class="fas fa-chevron-left"></i>
-            </span>
-
-
-             <div [class.active]="activeTab === 3">
-                <span class="d-block circle" (click)="activeTab = 3">
-                    3
+    
+    
+                 <div [class.active]="activeTab === 3">
+                    <span class="d-block circle" (click)="activeTab = 3">
+                        3
+                    </span>
+                    <button mat-button (click)="activeTab = 3">
+                        <div>
+                            <i class="fas fa-chart-line"></i>
+                            <p>
+                                التقييم
+                            </p>
+                        </div>
+                    </button>
+                </div>
+                <span class="arrow" [class.active]="activeTab === 3">
+                    <span class="line"></span>
+                    <i class="fas fa-chevron-left"></i>
                 </span>
-                <button mat-button (click)="activeTab = 3">
-                    <div>
-                        <i class="fas fa-chart-line"></i>
-                        <p>
-                            التقييم
-                        </p>
-                    </div>
-                </button>
-            </div>
-            <span class="arrow" [class.active]="activeTab === 3">
-                <span class="line"></span>
-                <i class="fas fa-chevron-left"></i>
-            </span>
-
-             <div [class.active]="activeTab === 4">
-                <span class="d-block circle" (click)="activeTab = 4">
-                    4
+    
+                 <div [class.active]="activeTab === 4">
+                    <span class="d-block circle" (click)="activeTab = 4">
+                        4
+                    </span>
+                    <button mat-button (click)="activeTab = 4">
+                        <div>
+                            <i class="fas fa-chart-line"></i>
+                            <p>
+                                المعالجة
+                            </p>
+                        </div>
+                    </button>
+                </div>
+                <span class="arrow" [class.active]="activeTab === 4">
+                    <span class="line"></span>
+                    <i class="fas fa-chevron-left"></i>
                 </span>
-                <button mat-button (click)="activeTab = 4">
-                    <div>
-                        <i class="fas fa-chart-line"></i>
-                        <p>
-                            المعالجة
-                        </p>
-                    </div>
-                </button>
-            </div>
-            <span class="arrow" [class.active]="activeTab === 4">
-                <span class="line"></span>
-                <i class="fas fa-chevron-left"></i>
-            </span>
-
-             <div [class.active]="activeTab === 5">
-                <span class="d-block circle" (click)="activeTab = 5">
-                  5
-                </span>
-                <button mat-button (click)="activeTab = 5">
-                    <div>
-                        <i class="fas fa-file-search"></i>
-                        <p>
-                            المراجعة
-                        </p>
-                    </div>
-                </button>
+    
+                 <div [class.active]="activeTab === 5">
+                    <span class="d-block circle" (click)="activeTab = 5">
+                      5
+                    </span>
+                    <button mat-button (click)="activeTab = 5">
+                        <div>
+                            <i class="fas fa-file-search"></i>
+                            <p>
+                                المراجعة
+                            </p>
+                        </div>
+                    </button>
+                </div>
+                
             </div>
             
-        </div>
-        
-        <div [ngSwitch]="activeTab">
-            <app-first  *ngSwitchCase="1"> </app-first>
-            <app-second *ngSwitchCase="2"> </app-second>
-            <app-third  *ngSwitchCase="3"> </app-third>
-            <app-fourth *ngSwitchCase="4"> </app-fourth>
-            <app-fifth  *ngSwitchCase="5"> </app-fifth>
-            <app-first  *ngSwitchDefault> </app-first>
-        </div>
-
-
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-</mat-card>
+            <div [ngSwitch]="activeTab">
+                <app-first  *ngSwitchCase="1" [form]="form"> </app-first>
+                <app-second *ngSwitchCase="2" [form]="form"> </app-second>
+                <app-third  *ngSwitchCase="3" [form]="form"> </app-third>
+                <app-fourth *ngSwitchCase="4" [form]="form"> </app-fourth>
+                <app-fifth  *ngSwitchCase="5" [form]="form"> </app-fifth>
+                <app-first  *ngSwitchDefault  [form]="form"> </app-first>
+            </div>
+    
+    
+        </mat-card-content>
+        <mat-card-actions class="d-flex justify-content-between align-items-center">
+            <div>
+                <button mat-button *ngIf="activeTab > 1" (click)="activeTab = activeTab - 1" class="button green">رجوع</button>
+            </div>
+    
+            <div>
+                <button mat-button class="button red">إلغاء</button>
+                <button mat-button class="button blue" type="submit">إضافة</button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>
   

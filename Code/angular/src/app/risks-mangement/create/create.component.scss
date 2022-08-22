@@ -1,6 +1,13 @@
 mat-card-title {
     padding: 1rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #D5D7DB;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+mat-card-content{
+    min-height: 65vh;
 }
 
 .route-actions {
@@ -104,4 +111,8 @@ mat-card-title {
             }
         }
     }
+}
+
+mat-card mat-card-actions.mat-card-actions {
+    margin-bottom: 10px;
 }

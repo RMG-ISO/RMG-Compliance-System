@@ -27,7 +27,10 @@ const routes: Routes = [
     path:'settings',
     component:settingsComponent
   },
-
+  {
+    path:':id/edit',
+    component:CreateComponent,
+  },
 ];
 
 @NgModule({

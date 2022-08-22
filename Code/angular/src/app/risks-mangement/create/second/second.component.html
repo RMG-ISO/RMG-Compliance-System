@@ -1,1 +1,43 @@
-<p>second works!</p>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label>
+            السيطرة
+        </label>
+        <input type="text" id="TitleAr" class="form-control" />
+    </div>
+    <div class="col-md-6 form-group">
+        <label>
+            التقييم الحالى
+        </label>
+        <ng-select>
+            <ng-option *ngFor="let i of [1,2,3,4,5]">
+                التقييم الحالى
+                {{i}}
+            </ng-option>
+        </ng-select>
+    </div>
+
+
+    <div class="col-md-6 form-group">
+        <label>
+            الإحتمالية
+        </label>
+        <ng-select>
+            <ng-option *ngFor="let i of [1,2,3,4,5]">
+                الإحتمالية
+                {{i}}
+            </ng-option>
+        </ng-select>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>
+            التأثير
+        </label>
+        <ng-select>
+            <ng-option *ngFor="let i of [1,2,3,4,5]">
+                التأثير
+                {{i}}
+            </ng-option>
+        </ng-select>
+    </div>
+</div>

@@ -1,1 +1,24 @@
-<p>third works!</p>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label>
+            مستوى الخطر
+        </label>
+        <ng-select>
+            <ng-option *ngFor="let i of [1,2,3,4,5]">
+                مستوى الخطر
+                {{i}}
+            </ng-option>
+        </ng-select>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>
+            معالجة الخطر
+        </label>
+        <ng-select>
+            <ng-option *ngFor="let i of [1,2,3,4,5]">
+                معالجة الخطر
+                {{i}}
+            </ng-option>
+        </ng-select>
+    </div>
+</div>
