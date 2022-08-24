@@ -16,7 +16,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
     // [Authorize(ComplianceSystemPermissions.RiskTreatment.Default)]
     public class RiskTreatmentAppService :
         CrudAppService<
-            RiskTreatment, //The RiskTreatment entity
+            RisksTreatment, //The RiskTreatment entity
             RiskTreatmentDto, //Used to show RiskTreatments
             Guid, //Primary key of the RiskTreatment entity
             RiskTreatmentPagedAndSortedResultRequestDto, //Used for paging/sorting
@@ -53,14 +53,14 @@ namespace RMG.ComplianceSystem.RiskTreatments
                 var ListRisks = RiskTreatmentRepository.Where(x => x.RiskOpportunityId == input.RiskOpportunityId)
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
-                Risks = ObjectMapper.Map<List<RiskTreatment>, List<RiskTreatmentDto>>(ListRisks);
+                Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
             }
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
                 var ListDoc = RiskTreatmentRepository.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
-                Risks = ObjectMapper.Map<List<RiskTreatment>, List<RiskTreatmentDto>>(ListDoc);
+                Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListDoc);
             }
 
 

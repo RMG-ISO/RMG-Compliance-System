@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace RMG.ComplianceSystem.RiskTreatments
 {
-    public class RiskTreatment : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
+    public class RisksTreatment : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
     {
         public Guid RiskOpportunityId { get; set; }    
         public string MitigateActionPlan { get; set; }
@@ -15,6 +15,6 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public string TreatmentRemarks { get; set; }
         // PotentialRisk (Enum)
         public int? ReEvaluation { get; set; }
-        public virtual RiskAndOpportunity RiskAndOpportunity { get; set; }
+        public virtual RiskOpportunity RiskAndOpportunity { get; set; }
     }
 }

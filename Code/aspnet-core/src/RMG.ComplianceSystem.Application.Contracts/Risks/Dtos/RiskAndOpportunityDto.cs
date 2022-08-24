@@ -27,27 +27,30 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public Guid? DepartmentId { get; set; }
         public Guid? CategoryId { get; set; }
         public Guid? OwnerId { get; set; }
+        public string? OwnerName { get; set; }
         // Opportunity - Risk (Enum)
         public int? Type { get; set; }
         //  WorkFlowStages (Enum)
         public int? WorkFlowStages { get; set; }
         // RiskContext (Enum)
-        public int? RiskContext { get; set; }
+        public Guid? RiskContext { get; set; }
 
 
         //Analysis--------------------
         public string ExistingControl { get; set; }
         // ControlAssessment (Enum)
-        public int? ControlAssessment { get; set; }
+        public Guid? ControlAssessment { get; set; }
         // Likelihood (Enum)
-        public int? Likelihood { get; set; }
+        public Guid? Likelihood { get; set; }
         // Impact (Enum)
-        public int? Impact { get; set; }
+        public Guid? Impact { get; set; }
 
 
         //Evaluation---------------------------
         // PotentialRisk (Enum)
-        public int? PotentialRisk { get; set; }
+        public Guid? PotentialRisk { get; set; }
+        public string PotentialNameAr { get; set; }
+        public string PotentialNameEn { get; set; }
         public string RiskTreatmentOption { get; set; }
 
 

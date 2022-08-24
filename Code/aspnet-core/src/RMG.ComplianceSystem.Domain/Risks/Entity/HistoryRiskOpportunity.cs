@@ -3,7 +3,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace RMG.ComplianceSystem.Risks.Entity
 {
-    public class HistoryRiskAndOpportunity : AuditedAggregateRoot<Guid>
+    public class HistoryRiskOpportunity : AuditedAggregateRoot<Guid>
     {
         public Guid Id { get; set; }    
         public Guid UserId { get; set; }

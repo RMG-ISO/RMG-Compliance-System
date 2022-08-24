@@ -71,10 +71,10 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Book> Books { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
-        public DbSet<RiskAndOpportunity> RisksAndOpportunities { get; set; }
-        public DbSet<HistoryRiskAndOpportunity> HistoryRisksAndOpportunities { get; set; }
+        public DbSet<RiskOpportunity> RisksAndOpportunities { get; set; }
+        public DbSet<HistoryRiskOpportunity> HistoryRisksAndOpportunities { get; set; }
         public DbSet<StaticDatatb> StaticDatatb { get; set; }
-        public DbSet<RiskTreatment> RiskTreatments { get; set; }
+        public DbSet<RisksTreatment> RiskTreatments { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -143,21 +143,21 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-            builder.Entity<RiskTreatment>(b =>
+            builder.Entity<RisksTreatment>(b =>
             {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RiskTreatments",
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksTreatment",
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             }); 
-                   builder.Entity<RiskAndOpportunity>(b =>
+                   builder.Entity<RiskOpportunity>(b =>
                    {
-                       b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksAndOpportunities",
+                       b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksOpportunities",
                            ComplianceSystemConsts.DbSchema);
                        b.ConfigureByConvention();
                    });
-            builder.Entity<HistoryRiskAndOpportunity>(b =>
+            builder.Entity<HistoryRiskOpportunity>(b =>
             {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "HistoryRisksAndOpportunities",
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "HistoryRisksOpportunities",
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });

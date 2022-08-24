@@ -23,7 +23,7 @@ namespace RMG.ComplianceSystem.Risks
     // [Authorize(ComplianceSystemPermissions.Risk.Default)]
     public class HistoryRiskAndOpportunityAppService :
         CrudAppService<
-            HistoryRiskAndOpportunity, //The Risk entity
+            HistoryRiskOpportunity, //The Risk entity
             HistoryRiskAndOpportunityDto, //Used to show Risks
             Guid, //Primary key of the Risk entity
             HistoryRiskOpportunityPagedAndSortedResultRequestDto, //Used for paging/sorting
@@ -61,14 +61,14 @@ namespace RMG.ComplianceSystem.Risks
                     (x.ActionName.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                      .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<HistoryRiskAndOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
+                Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
             } else
             {
                 var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId  &&
              (x.ActionName.Contains(input.Search) || input.Search.IsNullOrEmpty()))
               .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<HistoryRiskAndOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
+                Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
             }
             //Get the total count with Risk
             var totalCount = Risks.Count;
