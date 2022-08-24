@@ -92,9 +92,8 @@
                 صاحب الخطر
             </label>
             <ng-select formControlName="ownerId">
-                <ng-option *ngFor="let i of [1,2,3,4,5]">
-                    صاحب الخطر
-                    {{i}}
+                <ng-option *ngFor="let user of users" [value]="user.id">
+                    {{user.name}}
                 </ng-option>
             </ng-select>
         </div>

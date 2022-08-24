@@ -1,3 +1,4 @@
+import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 import { Type } from '../../list/list.component';
@@ -14,16 +15,23 @@ export class FirstComponent implements OnInit {
 
   constructor(
     private staticDataService:StaticDataService,
-
+    private userService:IdentityUserService
   ) { }
 
   sectors;
   departments;
-  categories
+  categories;
+  users;
+
   ngOnInit(): void {
     this.getList(1, 'sectors');
     this.getList(2, 'departments');
     this.getList(3, 'categories');
+
+    this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
+      console.log(r);
+      this.users = r.items
+    })
   }
 
   getList(Type, key) {
