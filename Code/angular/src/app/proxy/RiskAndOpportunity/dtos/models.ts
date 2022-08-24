@@ -83,7 +83,9 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   ReviewControlAssessment ?:string ;
   ReviewRemarks ?:string ;
 }
-
+export interface UserPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  Filter?: string;
+}
 export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
   type?: number;
