@@ -1,0 +1,32 @@
+.tabs-cont {
+    span {
+        width: 50px;
+        text-align: center;
+    }
+    button {
+        background-color: #F7F7F7;
+        width: 120px;
+        color: #707070;
+        font-weight: bold;
+        &.active {
+            background-color: #F2F5FD;
+            color:#4775FD;
+            box-shadow: 0 0 5px rgba(0,0,0,.16);
+        }
+    }
+}
+
+.card {
+    background-color: #FDFDFD;
+    .card-header{
+        background-color: transparent;
+    }
+}
+
+.status {
+    color: #21D500;
+    font-weight: bold;
+    &.closed {
+        color:#FF0000;
+    }
+}

@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.RiskTreatments
 {
-    public interface IRiskTreatmentRepository : IRepository<RiskTreatment, Guid>
+    public interface IRiskTreatmentRepository : IRepository<RisksTreatment, Guid>
     {
     }
 }

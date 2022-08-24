@@ -44,7 +44,6 @@ export class DocumentsComponent implements OnInit {
 
   getCatogries(search = null) {
     this.documentsService.getListCategory({search, maxResultCount:null}).subscribe(r => {
-      console.log(r);
       this.catsList = r.items;
     })
   }
@@ -66,7 +65,6 @@ export class DocumentsComponent implements OnInit {
   }
 
   getList() {
-    console.log(this.selectedCatId);
     const streamCreator = (query) => this.documentsService.getList({ ...query, search: this.searchVal, CategoryId:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       response.items.map(item => {
@@ -82,7 +80,6 @@ export class DocumentsComponent implements OnInit {
       });
       this.items = response.items;
       this.totalCount = response.totalCount;
-      console.log(this.items);
     });
   }
 
@@ -95,7 +92,6 @@ export class DocumentsComponent implements OnInit {
 
   selectedCatId;
   selectionChange(ev) {
-    console.log(ev);
     this.selectedCatId = ev.option.value;
     this.getList();
   }

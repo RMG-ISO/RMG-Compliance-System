@@ -1,0 +1,86 @@
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center header-content mb-3">
+            <h3 class="card-title m-0">
+                {{ '::Risk And Opportunity' | abpLocalization }}
+            </h3>
+            <div class="d-flex justify-content-end">
+                <button id="create" mat-button class="add-btn mr-3" type="button" routerLink="/risks-management/create">
+                    <i class="fa fa-plus mr-2"></i>
+                    <span class="line mr-2"></span>
+                    <span>{{ "::Create" | abpLocalization }}</span>
+                </button>
+                <app-search (search)="searchVal = $event;getList()"></app-search>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center tabs-cont">
+            <button mat-button (click)="selectedType = Type.Risk; getList()" [class.active]="selectedType == Type.Risk">
+              Risk
+            </button>
+            <span>
+                |
+            </span>
+            <button mat-button (click)="selectedType = Type.Opportunity; getList()" [class.active]="selectedType == Type.Opportunity">
+              Opportunity
+            </button>
+        </div>
+        <h2>
+          Risk And Opportunity
+        </h2>
+
+    </div>
+    <div class="card-body">
+        <ngx-datatable
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        #dataTable
+        [rows]="items"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
+        >
+            <ngx-datatable-column [name]="'::Risk Name' | abpLocalization" prop="name">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'name'  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="':: Risk Owner' | abpLocalization" prop="ownerName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="':: Risk Potential' | abpLocalization" prop="potentialNameEn"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="status" [class.closed]="value == Status.Close">
+                        {{ Status[value] }}
+                    </span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::Created By' | abpLocalization" prop="creator.userName"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::Created Date' | abpLocalization" prop="creationTime">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy-MM-dd' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button  mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                        <mat-icon >delete_forever</mat-icon>
+                    </button>
+                    <a mat-button [routerLink]="['/risks-management', row.id, 'edit']">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </div>
+</div>

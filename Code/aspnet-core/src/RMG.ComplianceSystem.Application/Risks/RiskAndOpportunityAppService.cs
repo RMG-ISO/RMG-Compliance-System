@@ -15,13 +15,14 @@ using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Risks.IRepository;
 using RMG.ComplianceSystem.RiskTreatments;
 using System.Linq.Dynamic.Core;
+using RMG.ComplianceSystem.StaticData;
 
 namespace RMG.ComplianceSystem.Risks
 {
     // [Authorize(ComplianceSystemPermissions.Risk.Default)]
     public class RiskAndOpportunityAppService :
         CrudAppService<
-            RiskAndOpportunity, //The Risk entity
+            RiskOpportunity, //The Risk entity
             RiskAndOpportunityDto, //Used to show Risks
             Guid, //Primary key of the Risk entity
             RiskOpportunityPagedAndSortedResultRequestDto, //Used for paging/sorting
@@ -41,11 +42,13 @@ namespace RMG.ComplianceSystem.Risks
         #region Start Properties and Constructor RiskAppService
         private readonly IRiskAndOpportunityRepository RiskAndOpportunityRepository;
         private readonly IdentityUserManager User;
+        private readonly IStaticDataRepository StaticDatarepository;
 
-        public RiskAndOpportunityAppService(IdentityUserManager _User,  IRiskAndOpportunityRepository _RiskAndOpportunityrepository) : base(_RiskAndOpportunityrepository)
+        public RiskAndOpportunityAppService(IdentityUserManager _User, IStaticDataRepository _StaticDatarepository, IRiskAndOpportunityRepository _RiskAndOpportunityrepository) : base(_RiskAndOpportunityrepository)
         {
             RiskAndOpportunityRepository = _RiskAndOpportunityrepository;
             User = _User;
+            StaticDatarepository = _StaticDatarepository;
         }
         #endregion
         //End Properties and Constructor RiskAppService
@@ -61,7 +64,7 @@ namespace RMG.ComplianceSystem.Risks
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
-                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
             }
             else
             {
@@ -70,16 +73,37 @@ namespace RMG.ComplianceSystem.Risks
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
-                Risks = ObjectMapper.Map<List<RiskAndOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
             }
-           
-          
-            //Get the total count with Risk
-            var totalCount = Risks.Count;
+            var RisksData = new List<RiskAndOpportunityDto>();
+            foreach (var item in Risks)
+            {
+                var Risk = new RiskAndOpportunityDto();
+                Risk = item;
+                if (Risk.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)Risk.CreatorId).Result;
+                    Risk.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (Risk.OwnerId!=null) {
+                    var getuser = User.GetByIdAsync((Guid)item.OwnerId).Result;
+                    Risk.OwnerName= getuser.UserName;
+                }
+                if (Risk.PotentialRisk != null)
+                {
+                    var StaticData = StaticDatarepository.Where(t=>t.Id==(Guid)item.PotentialRisk).FirstOrDefault();
+                    Risk.PotentialNameAr= StaticData.NameAr;
+                    Risk.PotentialNameEn= StaticData.NameEn;
+                }
+                RisksData.Add(Risk);
+            }
+
+             //Get the total count with Risk
+             var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,
-                Risks
+                RisksData
             );
         }
 

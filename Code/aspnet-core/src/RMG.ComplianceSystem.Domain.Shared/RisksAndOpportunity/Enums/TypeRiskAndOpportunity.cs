@@ -6,10 +6,10 @@ namespace RMG.ComplianceSystem.Risks.Enums
 {
     public enum TypeRiskAndOpportunity
     {
-        Risk,Opportunity
+        Risk=1,Opportunity=2
     }
     public enum status
     {
-        Open,Close
+        Open=1,Close=2
     }
 }

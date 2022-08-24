@@ -93,19 +93,7 @@
     }
 }
 
-.add-btn {
-    background-color: transparent;
-    color: #4775FD;
-    border: 2px solid #4775FD;
-    padding-left: 18px;
-    padding-right: 18px;
-    font-weight: bold;
-    .line {
-        border-left: 1px solid #4775fd;
-        height: 14px;
-        display: inline-block;
-    }
-}
+
 
 .visible-content {
     button {
@@ -182,7 +170,13 @@ mat-card {
             background-color: red;
             color: #fff;
             font-weight: bold;
-            font-size: 18px;
+            // font-size: 18px;
+
+            font-size: 14px;
+            width: auto;
+            height: auto;
+            padding-left: 3px;
+            padding-right: 3px;
         }
         .del {
             color: #FF0303;

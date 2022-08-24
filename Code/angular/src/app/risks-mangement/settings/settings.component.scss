@@ -1,0 +1,77 @@
+@import "../../../styles/mixins";
+
+:host .cats-list {
+    background: #fff;
+    border-radius: 10px;
+    h4 {
+        margin: 0;
+        padding: 14px;
+        border-bottom: 1px solid #D5D7DB;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    app-search ::ng-deep {
+        input {
+            width: 100% !important;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+    }
+    mat-selection-list {
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-bottom: 32px;
+        max-height: 75vh;
+        overflow: auto;
+        ::ng-deep mat-list-option  {
+            // height: auto !important;
+            border-radius: 6px;
+            &.mat-list-single-selected-option  {
+                .mat-list-item-content  {
+                    background-color: #F6F8FF;
+                    border-radius: 6px;
+                    .mat-list-text {
+                        height: 100%;
+                        div {
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            span {
+                                font-weight: bold;
+                            }
+                            i {
+                                font-size: 14px;
+                                color: #4977FD;
+                                display: block !important;
+                                @include nb-ltr(){
+                                    transform: rotate(180deg);
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    .card-header {
+        background: #fff;
+        border: none;
+        padding-bottom: 12px;
+        border-radius: 10px 10px 0 0;
+        border-bottom: none;
+        .header-content {
+            flex-wrap: wrap;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #D5D7DB;
+        }
+    }
+}

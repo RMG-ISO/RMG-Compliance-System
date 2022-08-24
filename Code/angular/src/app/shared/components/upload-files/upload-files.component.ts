@@ -44,11 +44,7 @@ export class UploadFilesComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
-
-    console.log(this.config.getSetting("ComplianceSystem.Attachment.FileExtentions"));
-
     if (changes["attachment"]) {
-
       let att = changes["attachment"].currentValue;
       console.log('att', att);
       this.attachmentId = att ? att.id : null;
@@ -61,7 +57,6 @@ export class UploadFilesComponent implements OnInit, OnChanges {
       (this.fileExtentions || '').split(',').forEach(v => {
         exts.push(mime.getType(v));
       });
-
       this.acceptedTypes = exts.join(',');
     }
   }

@@ -1,67 +1,114 @@
-<div class="card">
-    <div class="card-header">
-        <div class="row">
-            <div class="col col-md-6">
-                <h3 class="card-title">
-                    {{ '::Document:Categories' | abpLocalization }}
-                </h3>
-            </div>
-            <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                <button *abpPermission="'ComplianceSystem.DocumentCategory.Create'"  id="create" class="btn btn-primary mr-3"
-                    type="button" (click)="openDialog(null)">
-                    <i class="fa fa-plus mr-1"></i>
-                    <span>{{ "::Document:CreateCategory" | abpLocalization }}</span>
-                </button>
-                <app-search (search)="getList($event)"></app-search>
-            </div>
+<div class="row">
+    <div class="col-3">
+        <div class="cats-list">
+            <h4>
+              {{ '::StaticData:Settings' | abpLocalization }}
+            </h4>
+            <mat-selection-list [multiple]="false" (selectionChange)="selectionChange($event)">
+                <mat-list-option value="" *ngIf="catsList?.length">
+                    <div>
+                        <span>
+                            {{ '::All' | abpLocalization  }}
+                        </span>
+                        <i class="fas fa-chevron-left d-none"></i>
+                    </div>
+                </mat-list-option>
+                <mat-list-option *ngFor="let cat of catsList" [value]="cat.id" [selected]="selectedCatId == cat.id">
+                    <div>
+                        <span>
+                            {{ cat | lang:'name' }}
+                        </span>
+                        <i class="fas fa-chevron-left d-none"></i>
+                    </div>
+                </mat-list-option>
+            </mat-selection-list>
         </div>
     </div>
-    <div class="card-body">
-        <ngx-datatable
-        class="material fullscreen"
-        columnMode="force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        #dataTable
-        [rows]="items"
-        [count]="totalCount"
-        [list]="list"
-        appNgxdatatable
-        >
-            <ngx-datatable-column [name]="'::Document:CategoryNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Document:CategoryNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center header-content">
+                    <h3 class="card-title m-0">
+                        {{ '::StaticData:Settings' | abpLocalization }}
+                    </h3>
+                    <div class="d-flex justify-content-end">
+                        <button *abpPermission="'ComplianceSystem.StaticData.Create'" id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
+                            <i class="fa fa-plus mr-2"></i>
+                            <span class="line mr-2"></span>
+                            <span>{{ "::StaticData:Create" | abpLocalization }}</span>
+                        </button>
+                        <app-search (search)="searchVal = $event;getList()"></app-search>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <ngx-datatable
+                class="material fullscreen"
+                columnMode="force"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                rowHeight="auto"
+                [scrollbarH]="true"
+                #dataTable
+                [rows]="items"
+                [count]="totalCount"
+                [list]="list"
+                appNgxdatatable
+                >
+                    <ngx-datatable-column [name]="'::StaticData:NameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+                    <ngx-datatable-column [name]="'::StaticData:NameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button  *abpPermission="'ComplianceSystem.DocumentCategory.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon >delete_forever</mat-icon>
-                    </button>
-                    <button *abpPermission="'ComplianceSystem.DocumentCategory.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
+                    <ngx-datatable-column [name]="'::StaticData:Type' | abpLocalization" prop="type">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{ catsListObj[value] | lang:'name'  }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button  *abpPermission="'ComplianceSystem.StaticData.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                                <mat-icon >delete_forever</mat-icon>
+                            </button>
+                            <button *abpPermission="'ComplianceSystem.StaticData.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+
     </div>
 </div>
 
 
+
+
 <abp-modal [(visible)]="isModalOpen">
     <ng-template #abpHeader>
-        <h3 class="mb-0">{{ (selected?.id ? '::Document:EditCategory' : '::Document:CreateCategory' ) | abpLocalization }}</h3>
+        <h3 class="mb-0">{{ (selected?.id ? '::Document:Edit' : '::Document:Create' ) | abpLocalization }}</h3>
     </ng-template>
 
     <ng-template #abpBody>
         <form [formGroup]="form">
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <label for="nameAr">{{ '::Document:CategoryNameAr' | abpLocalization }}</label><span> * </span>
+                    <label for="">
+                        التصنيف
+                    </label>
+                    <ng-select formControlName="type">
+                        <ng-option *ngFor="let cat of catsList" [value]="cat.id">
+                            {{ cat | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label for="nameAr">{{ '::StaticData:NameAr' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="nameAr" class="form-control" formControlName="nameAr" />
                 </div>
                 <div class="col-md-12 form-group">
-                    <label for="nameEn">{{ '::Document:CategoryNameEn' | abpLocalization }}</label><span> * </span>
+                    <label for="nameEn">{{ '::StaticData:NameEn' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="nameEn" class="form-control" formControlName="nameEn" />
                 </div>
             </div>

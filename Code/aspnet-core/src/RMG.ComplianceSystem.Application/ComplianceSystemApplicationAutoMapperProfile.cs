@@ -47,12 +47,12 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateDocumentDto, Document>();
             CreateMap<DocumentCategory, DocumentCategoryDto>();
             CreateMap<CreateUpdateDocumentCategoryDto, DocumentCategory>();
-            CreateMap<RiskAndOpportunity, RiskAndOpportunityDto>();
-            CreateMap<CreateUpdateRiskAndOpportunityDto, RiskAndOpportunity>();
-            CreateMap<HistoryRiskAndOpportunity, HistoryRiskAndOpportunityDto>();
-            CreateMap<CreateUpdateHistoryRiskAndOpportunityDto, HistoryRiskAndOpportunity>();
-            CreateMap<RiskTreatment, RiskTreatmentDto>();
-            CreateMap<CreateUpdateRiskTreatmentDto, RiskTreatment>();
+            CreateMap<RiskOpportunity, RiskAndOpportunityDto>();
+            CreateMap<CreateUpdateRiskAndOpportunityDto, RiskOpportunity>();
+            CreateMap<HistoryRiskOpportunity, HistoryRiskAndOpportunityDto>();
+            CreateMap<CreateUpdateHistoryRiskAndOpportunityDto, HistoryRiskOpportunity>();
+            CreateMap<RisksTreatment, RiskTreatmentDto>();
+            CreateMap<CreateUpdateRiskTreatmentDto, RisksTreatment>();
             CreateMap<StaticDatatb, StaticDataDto>();
             CreateMap<CreateUpdateStaticDataDto, StaticDatatb>();
             CreateMap<Attachment, AttachmentDto>();
