@@ -51,32 +51,45 @@ namespace RMG.ComplianceSystem.StaticData
         #region Start Methods getbyId and GetListRiskByCategory
         public async Task<PagedResultDto<StaticDataDto>> GetListByFilterAsync(StaticDataPagedAndSortedResultRequestDto input)
         {
-            List<StaticDataDto> Risks = new List<StaticDataDto>();
+            List<StaticDataDto> StaticData = new List<StaticDataDto>();
             if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = StaticDataRepository.Where(x => x.Type == input.Type &&((x.ParentId==input.ParentId)|| input.ParentId==null) &&
+                var ListRisks = StaticDataRepository.Where(x => x.Type == input.Type && x.IsDeleted == false && ((x.ParentId==input.ParentId)|| input.ParentId==null) &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<StaticDatatb>, List<StaticDataDto>>(ListRisks);
+                StaticData = ObjectMapper.Map<List<StaticDatatb>, List<StaticDataDto>>(ListRisks);
             }
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-              var  ListDoc = StaticDataRepository.Where(x => 
+              var  ListDoc = StaticDataRepository.Where(x => x.IsDeleted == false &&
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
-                Risks = ObjectMapper.Map<List<StaticDatatb>, List<StaticDataDto>>(ListDoc);
+                StaticData = ObjectMapper.Map<List<StaticDatatb>, List<StaticDataDto>>(ListDoc);
             }
-           
+            var Data = new List<StaticDataDto>();
+            foreach (var item in StaticData)
+            {
+                var stData = new StaticDataDto();
+                stData = item;
+                if (stData.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)stData.CreatorId).Result;
+                    stData.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+
+
+                Data.Add(stData);
+            }
             //Get the total count with Risk
-            var totalCount = Risks.Count;
+            var totalCount = Data.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<StaticDataDto>(
                 totalCount,
-                Risks
+                Data
             );
         }
 

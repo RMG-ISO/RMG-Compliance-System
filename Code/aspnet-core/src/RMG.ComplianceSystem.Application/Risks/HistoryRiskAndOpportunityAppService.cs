@@ -56,8 +56,8 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<PagedResultDto<HistoryRiskAndOpportunityDto>> GetListHistoryByFilterAsync(HistoryRiskOpportunityPagedAndSortedResultRequestDto input)
         {
             List<HistoryRiskAndOpportunityDto> Risks = new List<HistoryRiskAndOpportunityDto>();
-            if (input.UserId != null) {
-                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.UserId == input.UserId &&
+            if (input.WorkFlowStages != null) {
+                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages &&
                     (x.ActionName.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                      .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto

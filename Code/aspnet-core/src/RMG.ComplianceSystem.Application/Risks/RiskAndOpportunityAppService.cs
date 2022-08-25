@@ -60,7 +60,7 @@ namespace RMG.ComplianceSystem.Risks
             if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskAndOpportunityRepository.Where(x => x.Type == input.Type &&
+                var ListRisks = RiskAndOpportunityRepository.Where(x =>x.IsDeleted==false&& x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
@@ -69,8 +69,8 @@ namespace RMG.ComplianceSystem.Risks
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-              var  ListDoc = RiskAndOpportunityRepository.Where(x => 
-                (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+              var  ListDoc = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false &&
+               ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
@@ -107,11 +107,64 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
-    
+        public async Task<PagedResultDto<RiskAndOpportunityDto>> GetDeletedRiskByFilterAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            List<RiskAndOpportunityDto> Risks = new List<RiskAndOpportunityDto>();
+            if (input.Type != null)
+            {
+                //get Risk By CategoryId and Filters and Pagination
+                var ListRisks = RiskAndOpportunityRepository.Where(x => x.IsDeleted == true && x.Type == input.Type &&
+                ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                 .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                // Mapping RiskAndOpportunity to RiskAndOpportunityDto
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+            }
+            else
+            {
+                //get Risk By CategoryId and Filters and Pagination
+                var ListDoc = RiskAndOpportunityRepository.Where(x => x.IsDeleted == true &&
+                ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                   .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                // Mapping RiskAndOpportunity to RiskAndOpportunityDto
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
+            }
+            var RisksData = new List<RiskAndOpportunityDto>();
+            foreach (var item in Risks)
+            {
+                var Risk = new RiskAndOpportunityDto();
+                Risk = item;
+                if (Risk.DeleterId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)Risk.DeleterId).Result;
+                    Risk.Deleter = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (Risk.OwnerId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)item.OwnerId).Result;
+                    Risk.OwnerName = getuser.UserName;
+                }
+                if (Risk.PotentialRisk != null)
+                {
+                    var StaticData = StaticDatarepository.Where(t => t.Id == (Guid)item.PotentialRisk).FirstOrDefault();
+                    Risk.PotentialNameAr = StaticData.NameAr;
+                    Risk.PotentialNameEn = StaticData.NameEn;
+                }
+                RisksData.Add(Risk);
+            }
 
-
-            #endregion
-
-
+            //Get the total count with Risk
+            var totalCount = RisksData.Count;
+            // return RiskDtos and totalCount
+            return new PagedResultDto<RiskAndOpportunityDto>(
+                totalCount,
+                RisksData
+            );
         }
+
+
+
+        #endregion
+
+
+    }
 }

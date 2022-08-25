@@ -64,7 +64,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         //public string TreatmentRemarks { get; set; }
         public virtual ICollection<RiskTreatmentDto> RiskTreatmentDto { get; set; }
         // PotentialRisk (Enum)
-        public int? ReEvaluation { get; set; }
+        public Guid? ReEvaluation { get; set; }
 
         //Risk Monitoring &  Review---------------------------
 

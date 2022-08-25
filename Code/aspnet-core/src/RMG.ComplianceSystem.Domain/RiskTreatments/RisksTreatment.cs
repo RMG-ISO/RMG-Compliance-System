@@ -19,7 +19,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public DateTime? ByWhen { get; set; }
         public string TreatmentRemarks { get; set; }
         // PotentialRisk (Enum)
-        public int? ReEvaluation { get; set; }
+        public Guid? ReEvaluation { get; set; }
         public virtual RiskOpportunity RiskAndOpportunity { get; set; }
     }
 }

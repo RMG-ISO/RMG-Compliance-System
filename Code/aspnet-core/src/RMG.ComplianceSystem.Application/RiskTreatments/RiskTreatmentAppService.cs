@@ -52,7 +52,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
             if (input.RiskOpportunityId != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskTreatmentRepository.Where(x => x.RiskOpportunityId == input.RiskOpportunityId)
+                var ListRisks = RiskTreatmentRepository.Where(x => x.IsDeleted == false && x.RiskOpportunityId == input.RiskOpportunityId)
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
@@ -60,7 +60,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = RiskTreatmentRepository.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                var ListDoc = RiskTreatmentRepository.Where(x => x.IsDeleted == false).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListDoc);
             }
