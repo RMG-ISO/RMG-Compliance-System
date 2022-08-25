@@ -106,6 +106,7 @@ namespace RMG.ComplianceSystem.StaticData
             Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = " الاحتمالات", NameEn = "Potentials" });
             Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "التاثيرات", NameEn = "Impacts" });
             Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "خيار المعالجة", NameEn = "Treatment Option" });
+            Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = " حالة/سياق الخطر", NameEn = "Risk Context" });
             //}
             return Types;
         }
