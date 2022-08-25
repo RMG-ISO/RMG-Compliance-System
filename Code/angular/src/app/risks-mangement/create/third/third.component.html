@@ -1,24 +1,24 @@
-<div class="row">
-    <div class="col-md-6 form-group">
-        <label>
-            مستوى الخطر
-        </label>
-        <ng-select>
-            <ng-option *ngFor="let i of [1,2,3,4,5]">
+<form [formGroup]="form">
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label>
                 مستوى الخطر
-                {{i}}
-            </ng-option>
-        </ng-select>
-    </div>
-    <div class="col-md-6 form-group">
-        <label>
-            معالجة الخطر
-        </label>
-        <ng-select>
-            <ng-option *ngFor="let i of [1,2,3,4,5]">
+            </label>
+            <ng-select formControlName="potentialRisk">
+                <ng-option *ngFor="let item of potentials" [value]="item.id">
+                    {{ item | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>
                 معالجة الخطر
-                {{i}}
-            </ng-option>
-        </ng-select>
+            </label>
+            <ng-select formControlName="riskTreatmentOption">
+                <ng-option *ngFor="let item of riskTreatment" [value]="item.id">
+                    {{ item | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
     </div>
-</div>
+</form>
