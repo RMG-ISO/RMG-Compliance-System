@@ -37,7 +37,8 @@ namespace RMG.ComplianceSystem.Risks.Dtos
 
 
         //Analysis--------------------
-        public string ExistingControl { get; set; }
+        public string ExistingControlEn { get; set; }
+        public string ExistingControlAr { get; set; }
         // ControlAssessment (Enum)
         public Guid? ControlAssessment { get; set; }
         // Likelihood (Enum)
@@ -51,7 +52,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public Guid? PotentialRisk { get; set; }
         public string PotentialNameAr { get; set; }
         public string PotentialNameEn { get; set; }
-        public string RiskTreatmentOption { get; set; }
+        public Guid? RiskTreatmentOption { get; set; }
 
 
         //Risk Treatment/ Action Plan---------------------------

@@ -107,11 +107,11 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
-
-      
-
-        #endregion
+    
 
 
-    }
+            #endregion
+
+
+        }
 }

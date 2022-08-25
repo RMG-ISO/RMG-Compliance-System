@@ -55,7 +55,7 @@ namespace RMG.ComplianceSystem.StaticData
             if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = StaticDataRepository.Where(x => x.Type == input.Type &&
+                var ListRisks = StaticDataRepository.Where(x => x.Type == input.Type &&((x.ParentId==input.ParentId)|| input.ParentId==null) &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
@@ -88,11 +88,11 @@ namespace RMG.ComplianceSystem.StaticData
             Types.Add(new getEnumTypeStaticData { Id=1,NameAr= "القطاعات",NameEn = "Sectors" });
             Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "الادارات", NameEn = "Managements" });
             Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "التصنيفات", NameEn = "Categories" });
-            Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "الاحتماليات", NameEn = "Likelihood" });
-            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = "التقيمات الضبط", NameEn = "ControlAssessment" });
-            Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = " الاحتمالات", NameEn = "Potentials" });
-            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = "التاثيرات", NameEn = "Impacts" });
-
+            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = "الاحتماليات", NameEn = "Likelihood" });
+            Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = "التقيمات الضبط", NameEn = "ControlAssessment" });
+            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = " الاحتمالات", NameEn = "Potentials" });
+            Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "التاثيرات", NameEn = "Impacts" });
+            Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "خيار المعالجة", NameEn = "Treatment Option" });
             //}
             return Types;
         }

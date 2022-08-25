@@ -9,10 +9,14 @@ namespace RMG.ComplianceSystem.RiskTreatments
     public class RiskTreatmentDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
         public Guid RiskOpportunityId { get; set; }
-        public string MitigateActionPlan { get; set; }
-        public string StandardReference { get; set; }
-        public string ObjectiveEvidence { get; set; }
+        public string MitigateActionPlanEn { get; set; }
+        public string MitigateActionPlanAr { get; set; }
+        public string StandardReferenceEn { get; set; }
+        public string StandardReferenceAr { get; set; }
+        public string ObjectiveEvidenceEn { get; set; }
+        public string ObjectiveEvidenceAr { get; set; }
         public Guid? Responsibility { get; set; }
+        public string ResponsibilityName { get; set; }
         public DateTime? ByWhen { get; set; }
         public string TreatmentRemarks { get; set; }
         // PotentialRisk (Enum)
