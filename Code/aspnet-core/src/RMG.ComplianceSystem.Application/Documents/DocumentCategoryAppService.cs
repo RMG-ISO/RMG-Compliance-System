@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Documents.Dtos;
+using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.DocumentCategorys
 {
@@ -27,10 +28,12 @@ namespace RMG.ComplianceSystem.DocumentCategorys
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.DocumentCategory.Delete;
 
         private readonly IDocumentCategoryRepository DocumentCateRepository;
+        private readonly IdentityUserManager User;
 
-        public DocumentCategoryAppService(IDocumentCategoryRepository _DocumentCateRepository) : base(_DocumentCateRepository)
+        public DocumentCategoryAppService(IdentityUserManager _User,IDocumentCategoryRepository _DocumentCateRepository) : base(_DocumentCateRepository)
         {
             DocumentCateRepository = _DocumentCateRepository;
+            User= _User;    
         }
 
 
@@ -39,11 +42,27 @@ namespace RMG.ComplianceSystem.DocumentCategorys
             var DocumentCats = DocumentCateRepository.Where(x => x.IsDeleted == false && ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
              .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var DocCateDtos = ObjectMapper.Map<List<DocumentCategory>, List<DocumentCategoryDto>>(DocumentCats);
-            var totalCount = DocCateDtos.Count;
+            var categories=new List<DocumentCategoryDto>();
+            foreach (var item in DocCateDtos)
+            {
+                var cate = new DocumentCategoryDto();
+                cate = item;
+                if (cate.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)cate.CreatorId).Result;
+                    cate.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                categories.Add(cate);   
+            }
+
+
+
+
+                var totalCount = categories.Count;
 
             return new PagedResultDto<DocumentCategoryDto>(
                 totalCount,
-                DocCateDtos
+                categories
             );
         }
 
