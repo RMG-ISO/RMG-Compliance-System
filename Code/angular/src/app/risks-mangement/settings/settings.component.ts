@@ -34,7 +34,6 @@ export class settingsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.configStateService.getAll())
     this.getList();
     this.getCatogries();
   }
@@ -85,7 +84,7 @@ export class settingsComponent implements OnInit {
       nameAr: new FormControl(null, Validators.required),
       nameEn: new FormControl(null, Validators.required),
       tenantId: new FormControl('1094df5c-4bfa-4fb3-92b5-0de021aa31b1'),
-      type: new FormControl(null, Validators.required),
+      type: new FormControl(this.selectedCatId, Validators.required),
       id: new FormControl(null)
     })
     this.form.patchValue(this.selected);

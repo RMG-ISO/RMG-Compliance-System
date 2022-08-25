@@ -23,6 +23,10 @@ mat-card-content{
             box-shadow: 0 0 0 2px #21d500;
         }
     }
+    div.disabled {
+        pointer-events: none;
+        opacity: .8;
+    }
     .circle {
         font-size: 20px;
         text-align: center;
