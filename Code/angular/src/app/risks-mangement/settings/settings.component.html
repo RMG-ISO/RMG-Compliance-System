@@ -92,7 +92,7 @@
     <ng-template #abpBody>
         <form [formGroup]="form">
             <div class="row">
-                <div class="col-md-12 form-group">
+                <div class="col-md-12 form-group" *ngIf="!form.controls.type.value">
                     <label for="">
                         التصنيف
                     </label>

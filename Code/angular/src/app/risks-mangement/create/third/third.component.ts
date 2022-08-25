@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-third',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./third.component.scss']
 })
 export class ThirdComponent implements OnInit {
+  @Input('form') form;
 
   constructor() { }
 

@@ -29,7 +29,6 @@ export class FirstComponent implements OnInit {
     this.getList(3, 'categories');
 
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
-      console.log(r);
       this.users = r.items
     })
   }

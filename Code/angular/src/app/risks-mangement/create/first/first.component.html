@@ -6,7 +6,7 @@
             <label >
                 النوع
             </label>
-            <mat-radio-group aria-label="Select an option">
+            <mat-radio-group aria-label="Select an option" formControlName="type">
                 <mat-radio-button [value]="Type.Risk">مخاطر</mat-radio-button>
                 <span class="space"></span>
                 <mat-radio-button [value]="Type.Opportunity">فرصة</mat-radio-button>
@@ -37,7 +37,7 @@
             <label for="detailsEn">
                 شرح الخطر بالإنجليزى
             </label>
-            <textarea type="text" id="detailsEn" class="form-control" formControlName="detailsAr"></textarea>
+            <textarea type="text" id="detailsEn" class="form-control" formControlName="detailsEn"></textarea>
         </div>
     
     
