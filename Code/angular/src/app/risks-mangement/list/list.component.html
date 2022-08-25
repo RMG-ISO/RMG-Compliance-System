@@ -44,20 +44,20 @@
         [list]="list"
         appNgxdatatable
         >
-            <ngx-datatable-column [name]="'::Risk Name' | abpLocalization" prop="name">
+            <ngx-datatable-column [name]="'::Risk:Name' | abpLocalization" prop="name">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ row | lang:'name'  }}
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="':: Risk Owner' | abpLocalization" prop="ownerName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="':: Risk Potential' | abpLocalization" prop="potentialName">
+            <ngx-datatable-column [name]="'::Risk:Owner' | abpLocalization" prop="ownerName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Risk:Potential' | abpLocalization" prop="potentialName">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ row | lang:'potentialName'  }}
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+            <ngx-datatable-column [name]="'::Risk:Status' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="status" [class.closed]="value == Status.Close">
                         {{ Status[value] }}

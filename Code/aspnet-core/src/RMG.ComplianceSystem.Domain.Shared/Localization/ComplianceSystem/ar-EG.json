@@ -16,8 +16,11 @@
     "Permission:RiskAndOpportunity": "المخاطر والفرص",
     "Menu:RiskManagement": "إدارة المخاطر",
     "Menu:RiskOpportunity": "المخاطر والفرص",
+    "Risk:Name": "إسم الخطر",
+    "Risk:Owner": "صاحب الخطر ",
+    "Risk:Potential": "إحتمالية الخطر",
+    "Risk:Status": "حالة الخطر",
     "Create": "إنشاء",
-
     "Permission:Document": "إدارة الملفات",
     "Permission:DocumentCategory": "تصنيف الملفات",
     "Permission:Risk": "المخاطر",

@@ -17,7 +17,10 @@
     "Permission:RiskAndOpportunity": " Risks and Opportunities",
     "Menu:RiskManagement": " Risks Management",
     "Menu:RiskOpportunity": "Risk And Opportunity",
-
+    "Risk:Name"     :"Risk Name",
+    "Risk:Owner"    :"Risk Owner ",
+    "Risk:Potential":"Risk Potential",
+    "Risk:Status"   :"Risk Status",
     "Menu:DocumentsManagement": "Document Management",
     "Permission:DocumentCategory": "Document Category",
     "Permission:Risk": "Risk",
