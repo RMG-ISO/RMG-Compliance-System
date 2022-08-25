@@ -13,10 +13,15 @@ export class ThirdComponent implements OnInit {
     private staticDataService:StaticDataService
   ) { }
   
-  potentials
+  potentials;
+  riskTreatment
   ngOnInit(): void {
     this.staticDataService.getList({Type:'6', search:null, maxResultCount:null }).subscribe(r => {
       this.potentials = r.items;
+    })
+
+    this.staticDataService.getList({Type:'8', search:null, maxResultCount:null }).subscribe(r => {
+      this.riskTreatment = r.items;
     })
   }
 

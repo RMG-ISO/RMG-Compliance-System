@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { IdentityUserService } from '@abp/ng.identity';
+import { Component, Input, OnInit } from '@angular/core';
+import { Status } from '../../list/list.component';
 
 @Component({
   selector: 'app-fifth',
@@ -6,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./fifth.component.scss']
 })
 export class FifthComponent implements OnInit {
+  @Input('form') form;
+  Status = Status;
+  
+  constructor(
+    private userService:IdentityUserService
+  ) { }
 
-  constructor() { }
+  users;
 
   ngOnInit(): void {
+    this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
+      this.users = r.items
+    })
   }
 
 }

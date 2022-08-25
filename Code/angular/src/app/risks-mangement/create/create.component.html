@@ -102,8 +102,8 @@
                 <app-first  *ngSwitchCase="1" [form]="firstForm"> </app-first>
                 <app-second *ngSwitchCase="2" [form]="secondForm"> </app-second>
                 <app-third  *ngSwitchCase="3" [form]="thirdForm"> </app-third>
-                <app-fourth *ngSwitchCase="4" [form]="form"> </app-fourth>
-                <app-fifth  *ngSwitchCase="5" [form]="form"> </app-fifth>
+                <app-fourth *ngSwitchCase="4"> </app-fourth>
+                <app-fifth  *ngSwitchCase="5" [form]="fifthForm"> </app-fifth>
                 <app-first  *ngSwitchDefault  [form]="firstForm"> </app-first>
             </div>
     
@@ -111,7 +111,9 @@
         </mat-card-content>
         <mat-card-actions class="d-flex justify-content-between align-items-center">
             <div>
-                <button mat-button *ngIf="activeTab > 1" (click)="activeTab = activeTab - 1" class="button green">رجوع</button>
+                <button mat-button *ngIf="activeTab > 1" (click)="activeTab = activeTab - 1" class="button green" style="width: auto;">
+                    الخطوة السابقة
+                </button>
             </div>
     
             <div>

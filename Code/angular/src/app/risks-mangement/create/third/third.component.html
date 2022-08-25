@@ -10,11 +10,15 @@
                 </ng-option>
             </ng-select>
         </div>
-        <div class="col-md-12 form-group">
+        <div class="col-md-6 form-group">
             <label>
                 معالجة الخطر
             </label>
-            <textarea type="text" id="nameAr" class="form-control" formControlName="riskTreatmentOption"> </textarea>
+            <ng-select formControlName="riskTreatmentOption">
+                <ng-option *ngFor="let item of riskTreatment" [value]="item.id">
+                    {{ item | lang:'name' }}
+                </ng-option>
+            </ng-select>
         </div>
     </div>
 </form>

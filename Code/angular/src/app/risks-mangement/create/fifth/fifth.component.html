@@ -1,33 +1,56 @@
-<div class="row">
-    <div class="col-md-12 form-group">
-        <label >
-            الموافقة
-        </label>
-        <mat-radio-group aria-label="Select an option">
-            <mat-radio-button [value]="1">مخاطر</mat-radio-button>
-            <span class="space"></span>
-            <mat-radio-button [value]="2">فرصة</mat-radio-button>
-        </mat-radio-group>
-    </div>
-
-    <div class="col-md-6 form-group">
-        <label for="">
-            الموافقة بواسطة
-        </label>
-        <input type="text" id="TitleAr" class="form-control" />
-    </div>
-    <div class="col-md-6 form-group">
-        <label for="">
-            مراجعة حالة التقييم
-        </label>
-        <input type="text" id="TitleAr" class="form-control" />
-    </div>
+<form [formGroup]="form">
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label >
+                الموافقة
+            </label>
+            <mat-radio-group formControlName="acceptance">
+                <mat-radio-button [value]="true">نعم</mat-radio-button>
+                <span class="space"></span>
+                <mat-radio-button [value]="false">لا</mat-radio-button>
+            </mat-radio-group>
+        </div>
 
 
-    <div class="col-md-12 form-group">
-        <label for="">
-          الملاحظات
-        </label>
-        <textarea type="text" id="TitleAr" class="form-control" ></textarea>
+        <div class="col-md-6 form-group">
+            <label >
+                الحالة
+            </label>
+            <mat-radio-group formControlName="status" color="primary">
+                <mat-radio-button [value]="Status.Open" >
+                    مفتوح
+                </mat-radio-button>
+                <span class="space"></span>
+                <mat-radio-button [value]="Status.Close">
+                    مغلق    
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+
+        <div class="col-md-6 form-group">
+            <label for="acceptanceApprovedby">
+                الموافقة بواسطة
+            </label>
+            <ng-select formControlName="acceptanceApprovedby">
+                <ng-option *ngFor="let user of users" [value]="user.id">
+                    {{user.name}}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="reviewControlAssessment">
+                مراجعة حالة التقييم
+            </label>
+            <input type="text" id="reviewControlAssessment" class="form-control" formControlName="reviewControlAssessment" />
+        </div>
+    
+    
+        <div class="col-md-12 form-group">
+            <label for="reviewRemarks">
+              الملاحظات
+            </label>
+            <textarea type="text" id="reviewRemarks" class="form-control"  formControlName="reviewRemarks"></textarea>
+        </div>
     </div>
-</div>
+</form>
