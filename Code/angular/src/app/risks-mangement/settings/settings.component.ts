@@ -34,7 +34,6 @@ export class settingsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.configStateService.getAll())
     this.getList();
     this.getCatogries();
   }

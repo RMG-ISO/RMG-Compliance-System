@@ -1,14 +1,10 @@
 <form [formGroup]="form">
     <div class="row">
         <div class="col-md-6 form-group">
-            <label>
+            <label for="existingControl">
                 السيطرة
             </label>
-            <ng-select formControlName="existingControl">
-                <ng-option *ngFor="let item of potentials" [value]="item.id">
-                    {{ item | lang:'name' }}
-                </ng-option>
-            </ng-select>
+            <input type="text" id="nameEn" class="form-control" formControlName="existingControl"/>
         </div>
         <div class="col-md-6 form-group">
             <label>
@@ -36,7 +32,7 @@
             <label>
                 التأثير
             </label>
-            <ng-select formControlName="potentialRisk">
+            <ng-select formControlName="impact">
                 <ng-option *ngFor="let item of impacts" [value]="item.id">
                     {{ item | lang:'name' }}
                 </ng-option>

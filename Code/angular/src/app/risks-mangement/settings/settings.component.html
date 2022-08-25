@@ -86,7 +86,10 @@
 
 <abp-modal [(visible)]="isModalOpen">
     <ng-template #abpHeader>
-        <h3 class="mb-0">{{ (selected?.id ? '::Document:Edit' : '::Document:Create' ) | abpLocalization }}</h3>
+        <h3 class="mb-0">
+            {{ (selected?.id ? '::Edit' : '::Create' ) | abpLocalization }}
+            {{ catsListObj[selectedCatId] | lang:'name' }}
+        </h3>
     </ng-template>
 
     <ng-template #abpBody>

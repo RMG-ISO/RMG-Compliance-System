@@ -4,18 +4,17 @@
             <label>
                 مستوى الخطر
             </label>
-            <ng-select formControlName="riskContext">
-                <ng-option *ngFor="let item of  [1,2,3]">
-                    مستوى الخطر
-                    {{item}}
+            <ng-select formControlName="potentialRisk">
+                <ng-option *ngFor="let item of potentials" [value]="item.id">
+                    {{ item | lang:'name' }}
                 </ng-option>
             </ng-select>
         </div>
-        <div class="col-md-6 form-group">
+        <div class="col-md-12 form-group">
             <label>
                 معالجة الخطر
             </label>
-            <input type="text" id="nameAr" class="form-control" formControlName="riskTreatmentOption" />
+            <textarea type="text" id="nameAr" class="form-control" formControlName="riskTreatmentOption"> </textarea>
         </div>
     </div>
 </form>

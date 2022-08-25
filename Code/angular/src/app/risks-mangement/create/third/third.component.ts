@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { StaticDataService } from '@proxy/StaticData';
 
 @Component({
   selector: 'app-third',
@@ -8,9 +9,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ThirdComponent implements OnInit {
   @Input('form') form;
 
-  constructor() { }
-
+  constructor(
+    private staticDataService:StaticDataService
+  ) { }
+  
+  potentials
   ngOnInit(): void {
+    this.staticDataService.getList({Type:'6', search:null, maxResultCount:null }).subscribe(r => {
+      this.potentials = r.items;
+    })
   }
 
 }

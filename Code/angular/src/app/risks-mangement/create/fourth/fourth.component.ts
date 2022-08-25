@@ -77,7 +77,7 @@ export class FourthComponent implements OnInit {
       reEvaluation: new FormControl(0),
     })
     this.form.patchValue(this.selected);
-    this.form.controls.byWhen.patchValue(new Date( this.selected.byWhen || null));
+    this.form.controls.byWhen.patchValue( this.selected?.byWhen ? new Date( this.selected?.byWhen ) : new Date());
   }
 
 

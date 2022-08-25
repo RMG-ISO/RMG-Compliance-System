@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { Status } from '../list/list.component';
 
 @Component({
   selector: 'app-create',
@@ -17,8 +18,6 @@ export class CreateComponent implements OnInit {
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
     private route: ActivatedRoute,
-    private router:Router,
-    private zone:NgZone,
     private location:Location
   ) { }
 
@@ -57,6 +56,8 @@ export class CreateComponent implements OnInit {
       departmentId:  new FormControl(null, [Validators.required]),
       categoryId:  new FormControl(null, [Validators.required]),
       ownerId:  new FormControl(null, [Validators.required]),
+      status:  new FormControl(Status.Open),
+      riskContext: new FormControl('4E696007-0968-42CD-B16F-4A11E83BEA3B', [Validators.required]),
     });
     
 
@@ -64,12 +65,12 @@ export class CreateComponent implements OnInit {
       existingControl:  new FormControl(null, [Validators.required]),
       controlAssessment:  new FormControl(null, [Validators.required]),
       likelihood:  new FormControl(null, [Validators.required]),
-      potentialRisk:  new FormControl(null, [Validators.required]),
+      impact:  new FormControl(null, [Validators.required]),
     });
 
     this.thirdForm = new FormGroup({
-      riskContext:  new FormControl(null, [Validators.required]),
-      riskTreatmentOption:  new FormControl(null, [Validators.required]),
+      potentialRisk:  new FormControl(null, [Validators.required]),
+      riskTreatmentOption:  new FormControl('4E696007-0968-42CD-B16F-4A11E83BEA3B', [Validators.required]),
     });
 
     this.id = this.route.snapshot.params.id;
@@ -91,6 +92,7 @@ export class CreateComponent implements OnInit {
   submit() {
     if(this.activeTab == 1) this.submitFirst();
     else if(this.activeTab == 2) this.submitSecond();
+    else if (this.activeTab == 3) this.submitThird();
   }
 
   submitFirst() {
@@ -116,6 +118,14 @@ export class CreateComponent implements OnInit {
     if(this.secondForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, this.secondForm.value).subscribe(r => {
       this.activeTab = 3
+    })
+  }
+  submitThird() {
+    console.log(this.thirdForm);
+    this.thirdForm.markAllAsTouched();
+    if(this.thirdForm.invalid) return;
+    this.riskAndOpportunityService.update(this.id, this.thirdForm.value).subscribe(r => {
+      this.activeTab = 4
     })
   }
 }
