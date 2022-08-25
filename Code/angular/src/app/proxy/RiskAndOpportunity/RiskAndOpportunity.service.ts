@@ -1,7 +1,8 @@
-import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto, RiskOpportunityPagedAndSortedResultRequestDto,HistoryRiskAndOpportunityDto,CreateUpdateHistoryRiskAndOpportunityDto,HistoryRiskOpportunityPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto, RiskOpportunityPagedAndSortedResultRequestDto,HistoryRiskAndOpportunityDto,UserPagedAndSortedResultRequestDto,CreateUpdateHistoryRiskAndOpportunityDto,HistoryRiskOpportunityPagedAndSortedResultRequestDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import { IdentityUserDto } from '@abp/ng.account';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,13 @@ export class RiskAndOpportunityService {
       method: 'GET',
       url: '/api/app/risk-and-opportunity/risk-by-filter',
       params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+    getListUser = (input: UserPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<IdentityUserDto>>({
+      method: 'GET',
+      url: '/api/identity/users',
+      params: { Filter: input.Filter,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

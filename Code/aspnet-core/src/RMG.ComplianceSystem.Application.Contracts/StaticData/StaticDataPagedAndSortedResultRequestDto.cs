@@ -9,6 +9,7 @@ namespace RMG.ComplianceSystem.StaticData
     {
         public string Search { get; set; }
 
+        public Guid? ParentId { get; set; }
         public int? Type { get; set; }
     }
 }

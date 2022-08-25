@@ -17,22 +17,27 @@ export interface CreateUpdateRiskAndOpportunityDto {
   // Opportunity - Risk (Enum)
   Type ?:number ;
   WorkFlowStages ?:number ;
-  RiskContext ?:number ;
+  RiskContext ?:string ;
   //Analysis--------------------
-  ExistingControl ?:string ;
-  ControlAssessment ?:number ;
-  Likelihood ?:number ;
-  Consequence ?:number ;
+  ExistingControlEn ?:string ;
+  ExistingControlAr?:string ;
+  ControlAssessment ?:string ;
+  Likelihood ?:string ;
+  Impact ?:string ;
   //Evaluation---------------------------
-  PotentialRisk ?:number ;
+  PotentialRisk ?:string ;
+  OwnerName?:string ;
+  PotentialNameAr?:string ;
+  PotentialNameEn?:string ;
   RiskTreatmentOption ?:string ;
   //Risk Treatment/ Action Plan---------------------------
-  MitigateActionPlan ?:string ;
-  StandardReference ?:string ;
-  ObjectiveEvidence ?:string ;
-  Responsibility ?:string ;
-  ByWhen ?:Date ;
-  TreatmentRemarks ?:string ;
+  // MitigateActionPlan ?:string ;
+  // StandardReference ?:string ;
+  // ObjectiveEvidence ?:string ;
+  // Responsibility ?:string ;
+  // ByWhen ?:Date ;
+  // TreatmentRemarks ?:string ;
+  ReEvaluation ?:string ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
@@ -57,14 +62,15 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   // Opportunity - Risk (Enum)
   Type ?:number ;
   WorkFlowStages ?:number ;
-  RiskContext ?:number ;
+  RiskContext ?:string ;
   //Analysis--------------------
-  ExistingControl ?:string ;
-  ControlAssessment ?:number ;
-  Likelihood ?:number ;
-  Consequence ?:number ;
+  ExistingControlEn ?:string ;
+  ExistingControlAr?:string ;
+  ControlAssessment ?:string ;
+  Likelihood ?:string ;
+  Impact ?:string ;
   //Evaluation---------------------------
-  PotentialRisk ?:number ;
+  PotentialRisk ?:string ;
   OwnerName?:string ;
   PotentialNameAr?:string ;
   PotentialNameEn?:string ;
@@ -76,14 +82,16 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   // Responsibility ?:string ;
   // ByWhen ?:Date ;
   // TreatmentRemarks ?:string ;
-  ReEvaluation ?:number ;
+  ReEvaluation ?:string ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
   ReviewControlAssessment ?:string ;
   ReviewRemarks ?:string ;
 }
-
+export interface UserPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  Filter?: string;
+}
 export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
   type?: number;

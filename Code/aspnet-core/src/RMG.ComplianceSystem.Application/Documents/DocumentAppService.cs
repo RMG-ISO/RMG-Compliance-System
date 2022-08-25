@@ -62,7 +62,7 @@ namespace RMG.ComplianceSystem.Policies
             if (input.CategoryId!=null)
             {
                 //get Document By CategoryId and Filters and Pagination
-                var ListDocuments = Documentrepository.Where(x => x.CategoryId == (Guid)input.CategoryId &&x.IsDeleted==false&&
+                var ListDocuments = Documentrepository.Where(x => x.IsDeleted == false && x.CategoryId == (Guid)input.CategoryId &&x.IsDeleted==false&&
                 ((x.TitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                  Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDocuments);

@@ -36,7 +36,7 @@ namespace RMG.ComplianceSystem.DocumentCategorys
 
         public async Task<ListResultDto<DocumentCategoryDto>> getDocumentCategories(DocCategoryPagedAndSortedResultRequestDto input)
         {
-            var DocumentCats = DocumentCateRepository.Where(x => (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+            var DocumentCats = DocumentCateRepository.Where(x => x.IsDeleted == false && ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
              .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var DocCateDtos = ObjectMapper.Map<List<DocumentCategory>, List<DocumentCategoryDto>>(DocumentCats);
             var totalCount = DocCateDtos.Count;
