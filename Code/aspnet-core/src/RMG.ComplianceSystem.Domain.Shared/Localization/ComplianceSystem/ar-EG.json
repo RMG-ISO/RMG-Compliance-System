@@ -13,6 +13,10 @@
     "StaticData:NameEn": " الإسم باللغه الانجليزية",
     "CreatedBy": "إنشاء بواسطة",
     "CreatedDate": "تاريخ الانشاء",
+
+    "RiskAndOpportunity": "المخاطر والفرص",
+    "Risk": "مخاطر",
+    "Opportunity": "فرصة",
     "Permission:RiskAndOpportunity": "المخاطر والفرص",
     "Menu:RiskManagement": "إدارة المخاطر",
     "Menu:RiskOpportunity": "المخاطر والفرص",
