@@ -7,6 +7,6 @@ namespace RMG.ComplianceSystem.RiskTreatments.Dtos
 {
     public class RiskTreatmentPagedAndSortedResultRequestDto : PagedAndSortedResultRequestDto
     {
-        public Guid? RiskOpportunityId { get; set; }
+        public Guid RiskOpportunityId { get; set; }
     }
 }

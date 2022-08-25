@@ -4,6 +4,7 @@ import { IdentityUserDto } from '@abp/ng.account';
 export interface CreateUpdateStaticDataDto {
   NameAr?: string;
   NameEn?: string;
+  ParentId?: string;
   TenantId?: string;
   Type?: number;
 
@@ -12,6 +13,7 @@ export interface CreateUpdateStaticDataDto {
 export interface StaticDataDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   NameAr?: string;
   NameEn?: string;
+  ParentId?: string;
   TenantId?: string;
   Type?: number;
 }
@@ -24,5 +26,6 @@ export interface getTypeDto  {
 
 export interface StaticDataPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
+  ParentId?: string;
   Type?: string;
 }

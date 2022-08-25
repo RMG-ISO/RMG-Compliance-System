@@ -39,7 +39,6 @@ export class RiskAndOpportunityService {
       params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
-
     getListUser = (input: UserPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<IdentityUserDto>>({
       method: 'GET',

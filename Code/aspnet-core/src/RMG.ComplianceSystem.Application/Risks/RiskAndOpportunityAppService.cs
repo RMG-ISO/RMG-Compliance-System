@@ -60,7 +60,7 @@ namespace RMG.ComplianceSystem.Risks
             if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskAndOpportunityRepository.Where(x => x.Type == input.Type &&
+                var ListRisks = RiskAndOpportunityRepository.Where(x =>x.IsDeleted==false&& x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
@@ -69,8 +69,8 @@ namespace RMG.ComplianceSystem.Risks
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-              var  ListDoc = RiskAndOpportunityRepository.Where(x => 
-                (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+              var  ListDoc = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false &&
+               ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
@@ -107,8 +107,8 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
+     
 
-      
 
         #endregion
 

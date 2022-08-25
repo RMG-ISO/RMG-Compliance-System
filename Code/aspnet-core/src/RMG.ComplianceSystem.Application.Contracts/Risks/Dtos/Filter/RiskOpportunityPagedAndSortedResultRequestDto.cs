@@ -7,4 +7,5 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public string Search { get; set; }
         public int? Type { get; set; }
     }
+    
 }

@@ -35,10 +35,12 @@ namespace RMG.ComplianceSystem.RiskTreatments
         //Start Properties and Constructor RiskTreatmentAppService
         #region Start Properties and Constructor RiskTreatmentAppService
         private readonly IRiskTreatmentRepository RiskTreatmentRepository;
+        private readonly IdentityUserManager User;
 
-        public RiskTreatmentAppService(IRiskTreatmentRepository _RiskTreatmentRepository) : base(_RiskTreatmentRepository)
+        public RiskTreatmentAppService(IdentityUserManager _User, IRiskTreatmentRepository _RiskTreatmentRepository) : base(_RiskTreatmentRepository)
         {
             RiskTreatmentRepository = _RiskTreatmentRepository;
+            User = _User;
         }
         #endregion
         //End Properties and Constructor RiskTreatmentAppService
@@ -50,7 +52,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
             if (input.RiskOpportunityId != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskTreatmentRepository.Where(x => x.RiskOpportunityId == input.RiskOpportunityId)
+                var ListRisks = RiskTreatmentRepository.Where(x => x.IsDeleted == false && x.RiskOpportunityId == input.RiskOpportunityId)
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
@@ -58,18 +60,35 @@ namespace RMG.ComplianceSystem.RiskTreatments
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = RiskTreatmentRepository.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                var ListDoc = RiskTreatmentRepository.Where(x => x.IsDeleted == false).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListDoc);
             }
 
-
+            var RisksData = new List<RiskTreatmentDto>();
+            foreach (var item in Risks)
+            {
+                var RiskTreatment = new RiskTreatmentDto();
+                RiskTreatment = item;
+                if (RiskTreatment.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)RiskTreatment.CreatorId).Result;
+                    RiskTreatment.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (RiskTreatment.Responsibility != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)item.Responsibility).Result;
+                    RiskTreatment.ResponsibilityName = getuser.UserName;
+                }
+               
+                RisksData.Add(RiskTreatment);
+            }
             //Get the total count with Risk
-            var totalCount = Risks.Count;
+            var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskTreatmentDto>(
                 totalCount,
-                Risks
+                RisksData
             );
         }
 
