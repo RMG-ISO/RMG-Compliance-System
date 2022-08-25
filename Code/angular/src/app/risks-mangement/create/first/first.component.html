@@ -2,7 +2,7 @@
 
 <form [formGroup]="form">
     <div class="row">
-        <div class="col-md-12 form-group">
+        <div class="col-md-6 form-group">
             <label >
                 النوع
             </label>
@@ -13,6 +13,17 @@
             </mat-radio-group>
         </div>
     
+        <div class="col-md-6 form-group">
+            <label>
+                سياق الخطر
+            </label>
+            <ng-select formControlName="categoryId">
+                <ng-option *ngFor="let category of riskContext" [value]="category.id">
+                    {{ category | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+
         <div class="col-md-6 form-group">
             <label for="nameAr">
                 الخطر بالعربى

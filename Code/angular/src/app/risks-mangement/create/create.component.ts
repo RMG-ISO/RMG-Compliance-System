@@ -42,20 +42,20 @@ export class CreateComponent implements OnInit {
       workFlowStages:  new FormControl(null, [Validators.required]),
     });
 
-    this.firstForm = new FormGroup({
-      nameAr:  new FormControl(null, [Validators.required]),
-      nameEn:  new FormControl(null, [Validators.required]),
-      detailsAr:  new FormControl(null, [Validators.required]),
-      detailsEn:  new FormControl(null, [Validators.required]),
-      affectDetailsAr:  new FormControl(null, [Validators.required]),
-      affectDetailsEn:  new FormControl(null, [Validators.required]),
-      type:  new FormControl(null, [Validators.required]),
-      sectorId:  new FormControl(null, [Validators.required]),
-      departmentId:  new FormControl(null, [Validators.required]),
-      categoryId:  new FormControl(null, [Validators.required]),
-      ownerId:  new FormControl(null, [Validators.required]),
-      status:  new FormControl(Status.Open),
-      riskContext: new FormControl('4E696007-0968-42CD-B16F-4A11E83BEA3B', [Validators.required]),
+    this.firstForm =   new FormGroup({
+      nameAr:          new FormControl(null, [Validators.required]),
+      nameEn:          new FormControl(null, [Validators.required]),
+      detailsAr:       new FormControl(null, [Validators.required]),
+      detailsEn:       new FormControl(null, [Validators.required]),
+      affectDetailsAr: new FormControl(null, [Validators.required]),
+      affectDetailsEn: new FormControl(null, [Validators.required]),
+      type:            new FormControl(null, [Validators.required]),
+      sectorId:        new FormControl(null, [Validators.required]),
+      departmentId:    new FormControl(null, [Validators.required]),
+      categoryId:      new FormControl(null, [Validators.required]),
+      ownerId:         new FormControl(null, [Validators.required]),
+      status:          new FormControl(Status.Open),
+      riskContext:     new FormControl(null, [Validators.required]),
     });
     
 
