@@ -5,7 +5,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace RMG.ComplianceSystem.Risks.Entity
 {
-    public class RiskAndOpportunity : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
+    public class RiskOpportunity : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
     { 
         public string NameAr { get; set; }
         public string NameEn { get; set; }
@@ -29,22 +29,22 @@ namespace RMG.ComplianceSystem.Risks.Entity
         //  WorkFlowStages (Enum)
         public int? WorkFlowStages { get; set; }
         // RiskContext (Enum)
-        public int? RiskContext { get; set; }
+        public Guid? RiskContext { get; set; }
 
 
         //Analysis--------------------
         public string ExistingControl { get; set; }
         // ControlAssessment (Enum)
-        public int? ControlAssessment { get; set; }
+        public Guid? ControlAssessment { get; set; }
         // Likelihood (Enum)
-        public int? Likelihood { get; set; }
+        public Guid? Likelihood { get; set; }
         // Impact (Enum)
-        public int? Impact { get; set; }
+        public Guid? Impact { get; set; }
 
 
         //Evaluation---------------------------
         // PotentialRisk (Enum)
-        public int? PotentialRisk { get; set; }
+        public Guid? PotentialRisk { get; set; }
         public string RiskTreatmentOption { get; set; }
 
 
@@ -57,13 +57,13 @@ namespace RMG.ComplianceSystem.Risks.Entity
         //public string TreatmentRemarks { get; set; }
 
 
-        public virtual ICollection<RiskTreatment> RiskTreatment { get; set; }
+        public virtual ICollection<RisksTreatment> RiskTreatment { get; set; }
         // PotentialRisk (Enum)
         public int? ReEvaluation { get; set; }
 
         //Risk Monitoring &  Review---------------------------
 
-        public bool Acceptance { get; set; } = false;
+        public bool? Acceptance { get; set; } = false;
         public Guid? AcceptanceApprovedby { get; set; }
         public string ReviewControlAssessment { get; set; }
         public string ReviewRemarks { get; set; }

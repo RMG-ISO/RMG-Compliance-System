@@ -899,7 +899,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.ToTable("AppFrameworks");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RiskTreatment", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -959,9 +959,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid?>("Responsibility")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RiskAndOpportunityId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("RiskOpportunityId")
                         .HasColumnType("uniqueidentifier");
 
@@ -979,12 +976,12 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.HasIndex("RiskAndOpportunityId");
+                    b.HasIndex("RiskOpportunityId");
 
-                    b.ToTable("AppRiskTreatments");
+                    b.ToTable("AppRisksTreatment");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.HistoryRiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.HistoryRiskOpportunity", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -1032,10 +1029,10 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppHistoryRisksAndOpportunities");
+                    b.ToTable("AppHistoryRisksOpportunities");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -1061,8 +1058,8 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
-                    b.Property<int?>("ControlAssessment")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ControlAssessment")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
@@ -1099,8 +1096,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid?>("GeneralDepartmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Impact")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("Impact")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1116,8 +1113,8 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<int?>("Likelihood")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("Likelihood")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NameAr")
                         .HasColumnType("nvarchar(max)");
@@ -1128,8 +1125,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("PotentialRisk")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PotentialRisk")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("ReEvaluation")
                         .HasColumnType("int");
@@ -1140,8 +1137,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("ReviewRemarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RiskContext")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("RiskContext")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RiskTreatmentOption")
                         .HasColumnType("nvarchar(max)");
@@ -1158,7 +1155,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<int?>("WorkFlowStages")
                         .HasColumnType("int");
 
-                    b.Property<int>("status")
+                    b.Property<int?>("status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1169,7 +1166,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppRisksAndOpportunities");
+                    b.ToTable("AppRisksOpportunities");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.StaticData.StaticDatatb", b =>
@@ -3468,7 +3465,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RiskTreatment", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
                         .WithMany()
@@ -3482,9 +3479,11 @@ namespace RMG.ComplianceSystem.Migrations
                         .WithMany()
                         .HasForeignKey("LastModifierId");
 
-                    b.HasOne("RMG.ComplianceSystem.Risks.Entity.RiskAndOpportunity", "RiskAndOpportunity")
+                    b.HasOne("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", "RiskAndOpportunity")
                         .WithMany("RiskTreatment")
-                        .HasForeignKey("RiskAndOpportunityId");
+                        .HasForeignKey("RiskOpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Creator");
 
@@ -3495,7 +3494,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("RiskAndOpportunity");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
                         .WithMany()
@@ -3862,7 +3861,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("Domains");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
                 {
                     b.Navigation("RiskTreatment");
                 });

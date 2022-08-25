@@ -7,19 +7,19 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace RMG.ComplianceSystem.RiskTreatments
 {
-    public class RiskTreatmentRepository : EfCoreRepository<ComplianceSystemDbContext, RiskTreatment, Guid>, IRiskTreatmentRepository
+    public class RiskTreatmentRepository : EfCoreRepository<ComplianceSystemDbContext, RisksTreatment, Guid>, IRiskTreatmentRepository
     {
         public RiskTreatmentRepository(IDbContextProvider<ComplianceSystemDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
-        public override async Task<IQueryable<RiskTreatment>> WithDetailsAsync()
+        public override async Task<IQueryable<RisksTreatment>> WithDetailsAsync()
         {
             return (await GetQueryableAsync()).IncludeDetails();
         }
 
         [Obsolete]
-        public override IQueryable<RiskTreatment> WithDetails()
+        public override IQueryable<RisksTreatment> WithDetails()
         {
             return GetQueryable().IncludeDetails();
         }

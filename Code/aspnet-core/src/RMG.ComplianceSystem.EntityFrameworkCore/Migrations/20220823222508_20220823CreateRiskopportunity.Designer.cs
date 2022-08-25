@@ -11,8 +11,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace RMG.ComplianceSystem.Migrations
 {
     [DbContext(typeof(ComplianceSystemDbContext))]
-    [Migration("20220807221601_20220808CreateRisksAndOpportunityAndHistory")]
-    partial class _20220808CreateRisksAndOpportunityAndHistory
+    [Migration("20220823222508_20220823CreateRiskopportunity")]
+    partial class _20220823CreateRiskopportunity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -901,7 +901,89 @@ namespace RMG.ComplianceSystem.Migrations
                     b.ToTable("AppFrameworks");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.HistoryRiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ByWhen")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("MitigateActionPlan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ObjectiveEvidence")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReEvaluation")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("Responsibility")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RiskOpportunityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("StandardReference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TreatmentRemarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("LastModifierId");
+
+                    b.HasIndex("RiskOpportunityId");
+
+                    b.ToTable("AppRisksTreatment");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.HistoryRiskOpportunity", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -944,12 +1026,15 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("WorkFlowStages")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("AppHistoryRisksAndOpportunities");
+                    b.ToTable("AppHistoryRisksOpportunities");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -966,9 +1051,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("AffectDetailsEn")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ByWhen")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -978,11 +1060,8 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
-                    b.Property<int?>("Consequence")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ControlAssessment")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ControlAssessment")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
@@ -1019,6 +1098,9 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid?>("GeneralDepartmentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("Impact")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -1033,11 +1115,8 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<int?>("Likelihood")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MitigateActionPlan")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("Likelihood")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("NameAr")
                         .HasColumnType("nvarchar(max)");
@@ -1045,17 +1124,14 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("NameEn")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ObjectiveEvidence")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("PotentialRisk")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("Responsibility")
+                    b.Property<Guid?>("PotentialRisk")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ReEvaluation")
+                        .HasColumnType("int");
 
                     b.Property<string>("ReviewControlAssessment")
                         .HasColumnType("nvarchar(max)");
@@ -1063,8 +1139,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("ReviewRemarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RiskContext")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("RiskContext")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RiskTreatmentOption")
                         .HasColumnType("nvarchar(max)");
@@ -1075,16 +1151,13 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid?>("StandardId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("StandardReference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TreatmentRemarks")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("Type")
                         .HasColumnType("int");
 
                     b.Property<int?>("WorkFlowStages")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1095,7 +1168,75 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppRisks");
+                    b.ToTable("AppRisksOpportunities");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.StaticData.StaticDatatb", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("NameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("LastModifierId");
+
+                    b.ToTable("AppStaticDatatb");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -3326,7 +3467,57 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskAndOpportunity", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.HasOne("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", "RiskAndOpportunity")
+                        .WithMany("RiskTreatment")
+                        .HasForeignKey("RiskOpportunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("LastModifier");
+
+                    b.Navigation("RiskAndOpportunity");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("LastModifier");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.StaticData.StaticDatatb", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
                         .WithMany()
@@ -3670,6 +3861,11 @@ namespace RMG.ComplianceSystem.Migrations
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.Framework", b =>
                 {
                     b.Navigation("Domains");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
+                {
+                    b.Navigation("RiskTreatment");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

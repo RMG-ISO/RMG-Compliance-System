@@ -10,19 +10,19 @@ using RMG.ComplianceSystem.Risks.IRepository;
 
 namespace RMG.ComplianceSystem.Risks
 {
-    public class RiskAndOpportunityRepository : EfCoreRepository<ComplianceSystemDbContext, RiskAndOpportunity, Guid>, IRiskAndOpportunityRepository
+    public class RiskAndOpportunityRepository : EfCoreRepository<ComplianceSystemDbContext, RiskOpportunity, Guid>, IRiskAndOpportunityRepository
     {
         public RiskAndOpportunityRepository(IDbContextProvider<ComplianceSystemDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
 
-        public override async Task<IQueryable<RiskAndOpportunity>> WithDetailsAsync()
+        public override async Task<IQueryable<RiskOpportunity>> WithDetailsAsync()
         {
             return (await GetQueryableAsync()).IncludeDetails();
         }
 
         [Obsolete]
-        public override IQueryable<RiskAndOpportunity> WithDetails()
+        public override IQueryable<RiskOpportunity> WithDetails()
         {
             return GetQueryable().IncludeDetails();
         }

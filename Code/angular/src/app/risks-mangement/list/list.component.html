@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center header-content mb-3">
             <h3 class="card-title m-0">
-                {{ '::StaticData:Settings' | abpLocalization }}
+                {{ '::Risk And Opportunity' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
                 <button id="create" mat-button class="add-btn mr-3" type="button" routerLink="/risks-management/create">
@@ -16,17 +16,17 @@
 
         <div class="d-flex justify-content-center align-items-center tabs-cont">
             <button mat-button (click)="selectedType = Type.Risk; getList()" [class.active]="selectedType == Type.Risk">
-                المخاطر
+              Risk
             </button>
             <span>
                 |
             </span>
             <button mat-button (click)="selectedType = Type.Opportunity; getList()" [class.active]="selectedType == Type.Opportunity">
-                الفرص
+              Opportunity
             </button>
         </div>
         <h2>
-            المخاطر والفرص
+          Risk And Opportunity
         </h2>
 
     </div>
@@ -44,27 +44,30 @@
         [list]="list"
         appNgxdatatable
         >
-            <ngx-datatable-column [name]="'::اسم الخطر' | abpLocalization" prop="name">
+            <ngx-datatable-column [name]="'::Risk Name' | abpLocalization" prop="name">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ row | lang:'name'  }}
                 </ng-template>
             </ngx-datatable-column>
-        
-            <ngx-datatable-column [name]="'::صاحب الخطر' | abpLocalization" prop="ownerId"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::مستوى الخطر' | abpLocalization" prop="potentialRisk"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::الحالة' | abpLocalization" prop="status">
+            <ngx-datatable-column [name]="':: Risk Owner' | abpLocalization" prop="ownerName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="':: Risk Potential' | abpLocalization" prop="potentialName">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'potentialName'  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="status" [class.closed]="value == Status.Close">
                         {{ Status[value] }}
-                        fddfdf
                     </span>
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::انشئ بواسطة' | abpLocalization" prop="creator"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Created By' | abpLocalization" prop="creator.userName"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::تاريخ الإنشاء' | abpLocalization" prop="creationTime">
+            <ngx-datatable-column [name]="'::Created Date' | abpLocalization" prop="creationTime">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{ value | date:'yyyy-MM-dd' }}
                 </ng-template>

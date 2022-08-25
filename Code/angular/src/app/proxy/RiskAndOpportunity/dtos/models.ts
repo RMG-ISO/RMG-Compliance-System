@@ -65,6 +65,9 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   Consequence ?:number ;
   //Evaluation---------------------------
   PotentialRisk ?:number ;
+  OwnerName?:string ;
+  PotentialNameAr?:string ;
+  PotentialNameEn?:string ;
   RiskTreatmentOption ?:string ;
   //Risk Treatment/ Action Plan---------------------------
   // MitigateActionPlan ?:string ;
@@ -80,7 +83,9 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   ReviewControlAssessment ?:string ;
   ReviewRemarks ?:string ;
 }
-
+export interface UserPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  Filter?: string;
+}
 export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
   type?: number;

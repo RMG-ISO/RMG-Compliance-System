@@ -7,7 +7,7 @@ namespace RMG.ComplianceSystem.Risks
 {
     public static class HistoryRiskEfCoreQuerableExtensions
     {
-        public static IQueryable<HistoryRiskAndOpportunity> IncludeDetails(this IQueryable<HistoryRiskAndOpportunity> queryable, bool include = true)
+        public static IQueryable<HistoryRiskOpportunity> IncludeDetails(this IQueryable<HistoryRiskOpportunity> queryable, bool include = true)
         {
                 return queryable;
           

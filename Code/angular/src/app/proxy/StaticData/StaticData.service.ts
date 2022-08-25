@@ -31,8 +31,6 @@ export class StaticDataService {
     },
     { apiName: this.apiName });
 
-
-
   update = (id: string, input: CreateUpdateStaticDataDto) =>
     this.restService.request<any, StaticDataDto>({
       method: 'PUT',
