@@ -17,7 +17,7 @@
             <label>
                 سياق الخطر
             </label>
-            <ng-select formControlName="categoryId">
+            <ng-select formControlName="riskContext">
                 <ng-option *ngFor="let category of riskContext" [value]="category.id">
                     {{ category | lang:'name' }}
                 </ng-option>
