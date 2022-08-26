@@ -1,3 +1,4 @@
+import { ListService } from '@abp/ng.core';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -18,7 +19,8 @@ export class CreateComponent implements OnInit {
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
     private route: ActivatedRoute,
-    private location:Location
+    private location:Location,
+    public readonly list: ListService,
   ) { }
 
   firstForm:FormGroup;
@@ -81,7 +83,7 @@ export class CreateComponent implements OnInit {
 
     this.id = this.route.snapshot.params.id;
 
-    if(this.id) this.getData()
+    if(this.id) this.getData();
   }
 
   itemData;
@@ -94,7 +96,19 @@ export class CreateComponent implements OnInit {
       this.thirdForm.patchValue(r);
       this.fifthForm.patchValue(r);
       // this.firstForm.patchValue(r);
-    })
+    });
+
+    this.getHistory();
+  }
+
+  historyChanges;
+  totalCount
+  getHistory() {
+    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({search:null, riskOpportunityId:this.id, maxResultCount:null, ...query});
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      this.historyChanges = response.items;
+      this.totalCount = response.totalCount;
+    });
   }
 
 
@@ -114,6 +128,7 @@ export class CreateComponent implements OnInit {
       this.location.replaceState(`/risks-management/${r.id}/edit`);
       if(!this.id) this.activeTab = 2;
       this.id = r.id;
+      this.getHistory();
     })
   }
 
@@ -122,7 +137,8 @@ export class CreateComponent implements OnInit {
     this.secondForm.markAllAsTouched();
     if(this.secondForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.secondForm.value}).subscribe(r => {
-      this.activeTab = 3
+      this.activeTab = 3;
+      this.getHistory();
     })
   }
   submitThird() {
@@ -130,7 +146,8 @@ export class CreateComponent implements OnInit {
     this.thirdForm.markAllAsTouched();
     if(this.thirdForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
-      this.activeTab = 4
+      this.activeTab = 4;
+      this.getHistory();
     })
   }
 }

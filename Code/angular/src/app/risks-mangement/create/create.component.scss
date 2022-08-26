@@ -6,8 +6,11 @@ mat-card-title {
     font-size: 20px;
 }
 
-mat-card-content{
-    min-height: 65vh;
+.form-card{
+    margin-bottom: 16px;
+    mat-card-content{
+        min-height: 65vh;
+    }
 }
 
 .route-actions {

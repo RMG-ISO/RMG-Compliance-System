@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-    <mat-card>
+    <mat-card class="form-card">
         <mat-card-title>
             المخاطر والفرص
         </mat-card-title>
@@ -129,3 +129,35 @@
     </mat-card>
 </form>
 
+<mat-card *ngIf="id">
+    <mat-card-title>
+        سجل التغيير
+    </mat-card-title>
+    <mat-card-content>
+        <mat-card-content>
+            <ngx-datatable
+            class="material fullscreen"
+            columnMode="force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            rowHeight="auto"
+            [scrollbarH]="true"
+            #dataTable
+            [rows]="historyChanges"
+            [count]="totalCount"
+            [list]="list"
+            appNgxdatatable
+            >
+                <ngx-datatable-column [name]="'::actionName' | abpLocalization" prop="actionName"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'::actionDate' | abpLocalization" prop="actionDate">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{ value | date:'yyyy-MM-dd' }}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [name]="'::creatorName' | abpLocalization" prop="creatorName"></ngx-datatable-column>
+                <ngx-datatable-column [name]="'::workFlowStages' | abpLocalization" prop="workFlowStagesUser"></ngx-datatable-column>
+            </ngx-datatable>
+    
+        </mat-card-content>
+    </mat-card-content>
+</mat-card>
