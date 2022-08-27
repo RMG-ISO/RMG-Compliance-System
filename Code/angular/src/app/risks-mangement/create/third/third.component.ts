@@ -1,3 +1,4 @@
+import { Type } from './../../module.enums';
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 
@@ -8,7 +9,8 @@ import { StaticDataService } from '@proxy/StaticData';
 })
 export class ThirdComponent implements OnInit {
   @Input('form') form;
-
+  @Input('itemData') itemData;
+  Type = Type
   constructor(
     private staticDataService:StaticDataService
   ) { }

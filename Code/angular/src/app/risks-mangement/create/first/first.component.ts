@@ -12,7 +12,6 @@ export class FirstComponent implements OnInit {
   @Input('form') form;
   Type = Type;
   
-
   constructor(
     private staticDataService:StaticDataService,
     private userService:IdentityUserService

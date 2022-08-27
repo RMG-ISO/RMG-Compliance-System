@@ -102,7 +102,7 @@
         <div [ngSwitch]="activeTab">
             <app-first  *ngSwitchCase="WorkFlowStages.DefineRiskAndOpportunity" [form]="firstForm"> </app-first>
             <app-second *ngSwitchCase="WorkFlowStages.Analysis" [form]="secondForm"> </app-second>
-            <app-third  *ngSwitchCase="WorkFlowStages.Evaluation" [form]="thirdForm"> </app-third>
+            <app-third  *ngSwitchCase="WorkFlowStages.Evaluation" [form]="thirdForm" [itemData]="itemData"> </app-third>
             <app-fourth *ngSwitchCase="WorkFlowStages.Processing" [itemData]="itemData" (updateProcessing)="updateHistory($event, WorkFlowStages.Processing)"> </app-fourth>
             <app-fifth  *ngSwitchCase="WorkFlowStages.Review" [form]="fifthForm"> </app-fifth>
             <app-first  *ngSwitchDefault  [form]="firstForm"> </app-first>

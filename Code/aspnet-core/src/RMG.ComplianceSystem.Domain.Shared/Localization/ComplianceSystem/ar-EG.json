@@ -36,7 +36,7 @@
     "Risk:Context":"سياق الخطر",
     "Risk:ExplainAr":"شرح الخطر بالعربى",
     "Risk:ExplainEn":"شرح الخطر بالإنجليزى",
-    "Risk:DescriptionAR":"وصف تأثير الخطر بالعربى",
+    "Risk:DescriptionAr":"وصف تأثير الخطر بالعربى",
     "Risk:DescriptionEn":"وصف تأثير الخطر بالإنجليزى",
     "Risk:Level":"مستوى الخطر",
     "Risk:Treatment":"معالجة الخطر",
@@ -46,7 +46,7 @@
     "Opportunity:Context":"سياق الفرصة",
     "Opportunity:ExplainAr":"شرح الفرصة بالعربى",
     "Opportunity:ExplainEn":"شرح الفرصة بالإنجليزى",
-    "Opportunity:DescriptionAR":"وصف تأثير الفرصة بالعربى",
+    "Opportunity:DescriptionAr":"وصف تأثير الفرصة بالعربى",
     "Opportunity:DescriptionEn":"وصف تأثير الفرصة بالإنجليزى",
     "Opportunity:Level":"مستوى الفرصة",
     "Opportunity:Treatment":"معالجة الفرصة",
@@ -87,7 +87,9 @@
     "WorkFlowStages:Evaluation":"التقييم",
     "WorkFlowStages:Processing":"المعالجة",
     "WorkFlowStages:Review":"المراجعة",
-
+    "WorkFlowStages:DefineRisk":"تعريف الخطر",
+    "WorkFlowStages:AndOpportunity":"والفرصة",
+    "ReEvaluation":"إعادة التقييم",
 
     "Create": "إنشاء",
     "Permission:Document": "إدارة الملفات",
