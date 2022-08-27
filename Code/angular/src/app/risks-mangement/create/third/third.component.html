@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 form-group">
             <label>
-                مستوى الخطر
+                {{ ('::' + Type[itemData.type] + ':Level') | abpLocalization }}
             </label>
             <ng-select formControlName="potentialRisk">
                 <ng-option *ngFor="let item of potentials" [value]="item.id">
@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-6 form-group">
             <label>
-                معالجة الخطر
+                {{ ('::' + Type[itemData.type] + ':Treatment') | abpLocalization }}
             </label>
             <ng-select formControlName="riskTreatmentOption">
                 <ng-option *ngFor="let item of riskTreatment" [value]="item.id">

@@ -1,11 +1,14 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { RiskTreatmentDto } from '@proxy/RiskTreatments/dtos';
 import { ActivatedRoute } from '@angular/router';
 import { IdentityUserService } from '@abp/ng.identity';
+import { StaticDataService } from '@proxy/StaticData';
+import { HistoryAction } from '../../module.enums';
+import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
 @Component({
   selector: 'app-fourth',
@@ -13,6 +16,8 @@ import { IdentityUserService } from '@abp/ng.identity';
   styleUrls: ['./fourth.component.scss']
 })
 export class FourthComponent implements OnInit {
+  @Output('updateProcessing') updateProcessing = new EventEmitter();
+  @Input('itemData') itemData;
 
   constructor(
     private riskTreatmentService:RiskTreatmentService,
@@ -20,15 +25,22 @@ export class FourthComponent implements OnInit {
     private localizationService:LocalizationService,
     private confirmation: ConfirmationService,
     private route: ActivatedRoute,
-    private userService:IdentityUserService
+    private userService:IdentityUserService,
+    private staticDataService:StaticDataService,
+    private riskAndOpportunityService:RiskAndOpportunityService
   ) { }
 
   users;
-
+  potentials;
   ngOnInit(): void {
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items
+    });
+
+    this.staticDataService.getList({Type:'7', search:null, maxResultCount:null }).subscribe(r => {
+      this.potentials = r.items;
     })
+
 
     this.getList();
   }
@@ -36,7 +48,7 @@ export class FourthComponent implements OnInit {
   items;
   totalCount;
   getList() {
-    const streamCreator = (query) => this.riskTreatmentService.getList({ ...query});
+    const streamCreator = (query) => this.riskTreatmentService.getList({ RiskOpportunityId :this.route.snapshot.params.id , ...query});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -49,10 +61,17 @@ export class FourthComponent implements OnInit {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.riskTreatmentService.delete(model.id).subscribe(() => this.list.get());
+        this.update(HistoryAction.DeletePlanAction);
       }
     });
   }
 
+  reEvaluate(value) {
+    console.log(value);
+    this.riskAndOpportunityService.update(this.route.snapshot.params.id, {...this.itemData, reEvaluation: value }).subscribe(r => {
+      console.log(r);
+    })
+  }
 
   selected
   isModalOpen
@@ -68,13 +87,17 @@ export class FourthComponent implements OnInit {
     this.form = new FormGroup({
       id: new FormControl(null),
       riskOpportunityId: new FormControl(this.route.snapshot.params.id),
-      mitigateActionPlan: new FormControl(null, Validators.required),
-      standardReference: new FormControl(null, Validators.required),
-      objectiveEvidence: new FormControl(null, Validators.required),
       responsibility: new FormControl(null, Validators.required),
       byWhen: new FormControl( null , Validators.required),
       treatmentRemarks: new FormControl(null, Validators.required),
-      reEvaluation: new FormControl(0),
+      reEvaluation: new FormControl(null),
+
+      mitigateActionPlanAr: new FormControl(null, Validators.required),
+      mitigateActionPlanEn: new FormControl(null, Validators.required),
+      objectiveEvidenceAr: new FormControl(null, Validators.required),
+      objectiveEvidenceEn: new FormControl(null, Validators.required),
+      standardReferenceAr: new FormControl(null, Validators.required),
+      standardReferenceEn: new FormControl(null, Validators.required),
     });
     this.form.patchValue(this.selected);
     this.form.controls.byWhen.patchValue( this.selected?.byWhen ? new Date( this.selected?.byWhen ) : new Date());
@@ -89,7 +112,11 @@ export class FourthComponent implements OnInit {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();
+      this.update(this.selected?.id ? HistoryAction.UpdatePlanAction : HistoryAction.CreatePlanAction );
     });
   }
 
+  update(action) {
+    this.updateProcessing.emit(action);
+  }
 }

@@ -51,6 +51,8 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Update = Default + ".Update";
             public const string Create = Default + ".Create";
             public const string Delete = Default + ".Delete";
+            public const string ReEvaluation = Default + ".ReEvaluation";
+            public const string History = Default + ".History";
         }
 
         public static class Authors

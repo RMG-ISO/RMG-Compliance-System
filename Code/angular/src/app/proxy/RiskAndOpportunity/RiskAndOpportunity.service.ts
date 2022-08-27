@@ -83,7 +83,7 @@ export class RiskAndOpportunityService {
     this.restService.request<any, PagedResultDto<HistoryRiskOpportunityPagedAndSortedResultRequestDto>>({
       method: 'GET',
       url: '/api/app/history-risk-and-opportunity/history-by-filter',
-      params: { search: input.search,userId: input.userId,riskOpportunityId: input.riskOpportunityId,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { search: input.search,workFlowStages: input.workFlowStages,riskOpportunityId: input.riskOpportunityId,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

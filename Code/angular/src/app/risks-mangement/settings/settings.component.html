@@ -101,7 +101,7 @@
             <div class="row">
                 <div class="col-md-12 form-group" *ngIf="!form.controls.type.value">
                     <label for="">
-                        التصنيف
+                        {{ '::Category' | abpLocalization }}
                     </label>
                     <ng-select formControlName="type">
                         <ng-option *ngFor="let cat of catsList" [value]="cat.id">
