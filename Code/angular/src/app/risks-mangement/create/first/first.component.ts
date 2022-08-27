@@ -1,7 +1,7 @@
 import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
-import { Type } from '../../list/list.component';
+import { Type } from '../../module.enums';
 
 @Component({
   selector: 'app-first',

@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { RiskTreatmentDto } from '@proxy/RiskTreatments/dtos';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,8 @@ import { IdentityUserService } from '@abp/ng.identity';
   styleUrls: ['./fourth.component.scss']
 })
 export class FourthComponent implements OnInit {
-
+  @Output('updateProcessing') updateProcessing = new EventEmitter();
+  
   constructor(
     private riskTreatmentService:RiskTreatmentService,
     public readonly list: ListService,
@@ -49,6 +50,7 @@ export class FourthComponent implements OnInit {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.riskTreatmentService.delete(model.id).subscribe(() => this.list.get());
+        this.update();
       }
     });
   }
@@ -89,7 +91,11 @@ export class FourthComponent implements OnInit {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();
+      this.update();
     });
   }
 
+  update() {
+    this.updateProcessing.emit(true);
+  }
 }

@@ -1,17 +1,10 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
-
-export enum Type {
-  Risk = 1,
-  Opportunity = 2
-};
-export enum Status {
-  Open = 1,
-  Close = 2
-};
+import { Type, Status, HistoryAction } from '../module.enums';
+import * as moment from 'moment';
 
 
 @Component({
@@ -29,6 +22,7 @@ export class ListComponent implements OnInit {
     public dialog: MatDialog,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
+    private configState:ConfigStateService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +47,20 @@ export class ListComponent implements OnInit {
 
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.riskAndOpportunityService.delete(model.id).subscribe(() => this.list.get());
+        this.riskAndOpportunityService.delete(model.id).subscribe(() => {
+          this.list.get();
+
+          let obj:any = {
+            actionDate:moment().toISOString(),
+            actionName: HistoryAction.Delete,
+            riskAndOpportunityId: model.id,
+            userId: this.configState.getAll().currentUser.id,
+            workFlowStages: null,
+          }
+      
+          // this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => { })
+
+        });
       }
     });
   }

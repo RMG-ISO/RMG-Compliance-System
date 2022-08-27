@@ -1,6 +1,6 @@
 import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Input, OnInit } from '@angular/core';
-import { Status } from '../../list/list.component';
+import { Status } from '../../module.enums';
 
 @Component({
   selector: 'app-fifth',
