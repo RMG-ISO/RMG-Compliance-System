@@ -14,9 +14,7 @@
                         <p>
                             {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
                         </p>
-                        <p>
-                            {{ '::WorkFlowStages:AndOpportunity' | abpLocalization }}
-                        </p>
+
                     </div>
                 </button>
             </div>
@@ -70,7 +68,7 @@
                 </span>
                 <button mat-button (click)="changeTab(WorkFlowStages.Processing)">
                     <div>
-                        <i class="fa fa-arrows-spin"></i>
+                        <i class="fas fa-chart-line"></i>
                         <p>
                             {{ '::WorkFlowStages:Processing' | abpLocalization }}
                         </p>
@@ -88,7 +86,7 @@
                 </span>
                 <button mat-button (click)="changeTab(WorkFlowStages.Review)">
                     <div>
-                        <i class="fas fa-file-search"></i>
+                        <i class="fa fa-file"></i>
                         <p>
                             {{ '::WorkFlowStages:Review' | abpLocalization }}
                         </p>
