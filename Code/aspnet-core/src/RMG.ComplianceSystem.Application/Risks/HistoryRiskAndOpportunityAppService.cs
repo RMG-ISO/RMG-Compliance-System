@@ -70,12 +70,27 @@ namespace RMG.ComplianceSystem.Risks
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
             }
+
+
+            var RisksData = new List<HistoryRiskAndOpportunityDto>();
+            foreach (var item in Risks)
+            {
+                var Risk = new HistoryRiskAndOpportunityDto();
+                Risk = item;
+                if (Risk.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)Risk.CreatorId).Result;
+                    Risk.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+               
+                RisksData.Add(Risk);
+            }
             //Get the total count with Risk
-            var totalCount = Risks.Count;
+            var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<HistoryRiskAndOpportunityDto>(
                 totalCount,
-                Risks
+                RisksData
             );
         }
 
