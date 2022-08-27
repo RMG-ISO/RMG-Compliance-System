@@ -115,5 +115,5 @@ export interface HistoryRiskAndOpportunityDto extends FullAuditedEntityWithUserD
 export interface HistoryRiskOpportunityPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
   riskOpportunityId?:string;
-  userId?:string;
+  workFlowStages?:string;
 }

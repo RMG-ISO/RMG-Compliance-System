@@ -1,9 +1,11 @@
+import { ListService, ConfigStateService } from '@abp/ng.core';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
-import { Status } from '../list/list.component';
+import { HistoryAction, Status, Type, WorkFlowStages } from '../module.enums';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create',
@@ -11,14 +13,19 @@ import { Status } from '../list/list.component';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-  activeTab = 1;
+  activeTab = WorkFlowStages.DefineRiskAndOpportunity;
   id;
-  form:FormGroup;
+  HistoryAction = HistoryAction;
+
+  WorkFlowStages = WorkFlowStages;
+  
 
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
     private route: ActivatedRoute,
-    private location:Location
+    private location:Location,
+    public readonly list: ListService,
+    private configState:ConfigStateService
   ) { }
 
   firstForm:FormGroup;
@@ -27,35 +34,20 @@ export class CreateComponent implements OnInit {
   fifthForm:FormGroup;
 
   ngOnInit(): void {
-
-    this.form = new FormGroup({
-      byWhen:  new FormControl(null, [Validators.required]),
-      consequence:  new FormControl(null, [Validators.required]),
-      generalDepartmentId:  new FormControl(null, [Validators.required]),
-      mitigateActionPlan:  new FormControl(null, [Validators.required]),
-      objectiveEvidence:  new FormControl(null, [Validators.required]),
-      responsibility:  new FormControl(null, [Validators.required]),
-      standardId:  new FormControl(null, [Validators.required]),
-      standardReference:  new FormControl(null, [Validators.required]),
-      status:  new FormControl(null, [Validators.required]),
-      treatmentRemarks:  new FormControl(null, [Validators.required]),
-      workFlowStages:  new FormControl(null, [Validators.required]),
-    });
-
-    this.firstForm = new FormGroup({
-      nameAr:  new FormControl(null, [Validators.required]),
-      nameEn:  new FormControl(null, [Validators.required]),
-      detailsAr:  new FormControl(null, [Validators.required]),
-      detailsEn:  new FormControl(null, [Validators.required]),
-      affectDetailsAr:  new FormControl(null, [Validators.required]),
-      affectDetailsEn:  new FormControl(null, [Validators.required]),
-      type:  new FormControl(null, [Validators.required]),
-      sectorId:  new FormControl(null, [Validators.required]),
-      departmentId:  new FormControl(null, [Validators.required]),
-      categoryId:  new FormControl(null, [Validators.required]),
-      ownerId:  new FormControl(null, [Validators.required]),
-      status:  new FormControl(Status.Open),
-      riskContext: new FormControl('4E696007-0968-42CD-B16F-4A11E83BEA3B', [Validators.required]),
+    this.firstForm =    new FormGroup({
+      nameAr          : new FormControl(null,       [Validators.required]),
+      nameEn          : new FormControl(null,       [Validators.required]),
+      detailsAr       : new FormControl(null,       [Validators.required]),
+      detailsEn       : new FormControl(null,       [Validators.required]),
+      affectDetailsAr : new FormControl(null,       [Validators.required]),
+      affectDetailsEn : new FormControl(null,       [Validators.required]),
+      type            : new FormControl(Type.Risk,  [Validators.required]),
+      sectorId        : new FormControl(null,       [Validators.required]),
+      departmentId    : new FormControl(null,       [Validators.required]),
+      categoryId      : new FormControl(null,       [Validators.required]),
+      ownerId         : new FormControl(null,       [Validators.required]),
+      status          : new FormControl(Status.Open                      ),
+      riskContext     : new FormControl(null,       [Validators.required]),
     });
     
 
@@ -81,7 +73,7 @@ export class CreateComponent implements OnInit {
 
     this.id = this.route.snapshot.params.id;
 
-    if(this.id) this.getData()
+    if(this.id) this.getData();
   }
 
   itemData;
@@ -93,27 +85,63 @@ export class CreateComponent implements OnInit {
       this.secondForm.patchValue(r);
       this.thirdForm.patchValue(r);
       this.fifthForm.patchValue(r);
-      // this.firstForm.patchValue(r);
-    })
+    });
+
+    this.getHistory();
+  }
+
+  historyChanges;
+  totalCount
+  getHistory() {
+    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({
+      search:null,
+      riskOpportunityId:this.id,
+      maxResultCount:null,
+      workFlowStages:this.activeTab,
+      ...query
+    });
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      this.historyChanges = response.items;
+      this.totalCount = response.totalCount;
+    });
   }
 
 
   submit() {
-    if(this.activeTab == 1) this.submitFirst();
-    else if(this.activeTab == 2) this.submitSecond();
-    else if (this.activeTab == 3) this.submitThird();
+    if(this.activeTab == WorkFlowStages.DefineRiskAndOpportunity) this.submitFirst();
+    else if(this.activeTab == WorkFlowStages.Analysis) this.submitSecond();
+    else if (this.activeTab == WorkFlowStages.Evaluation) this.submitThird();
+    else this.submitFifth();
   }
 
   submitFirst() {
-    console.log(this.firstForm)
     this.firstForm.markAllAsTouched();
     if(this.firstForm.invalid) return;
     (this.id ? this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.firstForm.value}): this.riskAndOpportunityService.create(this.firstForm.value)).subscribe(r => {
       console.log(r);
       this.itemData = r;
       this.location.replaceState(`/risks-management/${r.id}/edit`);
-      if(!this.id) this.activeTab = 2;
+      let stage = HistoryAction.Update;
+      if(!this.id) {
+        this.activeTab = WorkFlowStages.Analysis;
+        stage = HistoryAction.Create;
+      }
       this.id = r.id;
+      this.updateHistory(stage, WorkFlowStages.DefineRiskAndOpportunity);
+    })
+  }
+
+  updateHistory(action, stage = this.activeTab) {
+    let obj:any = {
+      actionDate:moment().toISOString(),
+      actionName: action,
+      riskAndOpportunityId: this.id,
+      userId: this.configState.getAll().currentUser.id,
+      workFlowStages: stage,
+    }
+
+    this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => {
+      this.getHistory();
     })
   }
 
@@ -122,15 +150,33 @@ export class CreateComponent implements OnInit {
     this.secondForm.markAllAsTouched();
     if(this.secondForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.secondForm.value}).subscribe(r => {
-      this.activeTab = 3
+      this.activeTab = WorkFlowStages.Evaluation;
+      this.updateHistory(HistoryAction.Update);
+      this.itemData = r;
     })
   }
+
   submitThird() {
-    console.log(this.thirdForm);
     this.thirdForm.markAllAsTouched();
     if(this.thirdForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
-      this.activeTab = 4
+      this.activeTab = WorkFlowStages.Processing;
+      this.updateHistory(HistoryAction.Update);
+      this.itemData = r;
     })
+  }
+  submitFifth() {
+    this.fifthForm.markAllAsTouched();
+    if(this.fifthForm.invalid) return;
+    this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.fifthForm.value}).subscribe(r => {
+      // this.activeTab = WorkFlowStages.Processing;
+      this.updateHistory(HistoryAction.Update);
+      this.itemData = r;
+    })
+  }
+
+  changeTab(tab) {
+    this.activeTab = tab;
+    this.getHistory();
   }
 }

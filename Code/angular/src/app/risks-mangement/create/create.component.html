@@ -1,132 +1,172 @@
-<form [formGroup]="form">
-    <mat-card>
-        <mat-card-title>
-            المخاطر والفرص
-        </mat-card-title>
-        <mat-card-content>
-            <div class="d-flex route-actions mb-5">
-                <div [class.active]="activeTab === 1">
-                    <span class="d-block circle" (click)="activeTab = 1">
-                        1
-                    </span>
-                    <button mat-button (click)="activeTab = 1">
-                        <div>
-                            <!-- <i class="fas fa-chart-line"></i> -->
-                            <i class="fa fa-file"></i>
-                            <p>
-                                تعريف الخطر
-                            </p>
-                            <p>
-                                والفرصة
-                            </p>
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === 1">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
+<mat-card class="form-card">
+    <mat-card-title>
+        {{ '::RiskAndOpportunity' | abpLocalization }}
+    </mat-card-title>
+    <mat-card-content>
+        <div class="d-flex route-actions mb-5">
+            <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
+                <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
+                   {{WorkFlowStages.DefineRiskAndOpportunity}}
                 </span>
-
-
-                 <div [ngClass]="{ disabled: !id, active: activeTab === 2 }">
-                    <span class="d-block circle" (click)="activeTab = 2">
-                        2
-                    </span>
-                    <button mat-button (click)="activeTab = 2">
-                        <div>
-                            <i class="fas fa-chart-line"></i>
-
-                            <p>
-                                التحليل
-                            </p>
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === 2">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-
-
-                 <div [ngClass]="{ disabled: !id, active: activeTab === 3 }">
-                    <span class="d-block circle" (click)="activeTab = 3">
-                        3
-                    </span>
-                    <button mat-button (click)="activeTab = 3">
-                        <div>
-                            <!-- <i class="fas fa-chart-line"></i> -->
-                            <i class="fa fa-dna"></i>
-                            <p>
-                                التقييم
-                            </p>
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === 3">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-
-                 <div [ngClass]="{ disabled: !id, active: activeTab === 4 }">
-                    <span class="d-block circle" (click)="activeTab = 4">
-                        4
-                    </span>
-                    <button mat-button (click)="activeTab = 4">
-                        <div>
-                          <i class="fa fa-arrows-spin"></i>
-                            <!-- <i class="fas fa-chart-line"></i> -->
-                            <p>
-                                المعالجة
-                            </p>
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === 4">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-
-                 <div [ngClass]="{ disabled: !id, active: activeTab === 5 }">
-                    <span class="d-block circle" (click)="activeTab = 5">
-                      5
-                    </span>
-                    <button mat-button (click)="activeTab = 5">
-                        <div>
-                           <i class="fas fa-file-search"></i>
-                            <p>
-                                المراجعة
-                            </p>
-                        </div>
-                    </button>
-                </div>
-
+                <button mat-button (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
+                    <div>
+                        <i class="fa fa-file"></i>
+                        <p>
+                            {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
+                        </p>
+                        <p>
+                            {{ '::WorkFlowStages:AndOpportunity' | abpLocalization }}
+                        </p>
+                    </div>
+                </button>
             </div>
+            <span class="arrow" [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
+                <span class="line"></span>
+                <i class="fas fa-chevron-left"></i>
+            </span>
 
-            <div [ngSwitch]="activeTab">
-                <app-first  *ngSwitchCase="1" [form]="firstForm"> </app-first>
-                <app-second *ngSwitchCase="2" [form]="secondForm"> </app-second>
-                <app-third  *ngSwitchCase="3" [form]="thirdForm"> </app-third>
-                <app-fourth *ngSwitchCase="4"> </app-fourth>
-                <app-fifth  *ngSwitchCase="5" [form]="fifthForm"> </app-fifth>
-                <app-first  *ngSwitchDefault  [form]="firstForm"> </app-first>
+
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Analysis }">
+                <span class="d-block circle" (click)="changeTab(WorkFlowStages.Analysis)">
+                    {{WorkFlowStages.Analysis}}
+                </span>
+                <button mat-button (click)="changeTab(WorkFlowStages.Analysis)">
+                    <div>
+                        <i class="fas fa-chart-line"></i>
+
+                        <p>
+                            {{ '::WorkFlowStages:Analysis' | abpLocalization }}
+                        </p>
+                    </div>
+                </button>
             </div>
+            <span class="arrow" [class.active]="activeTab === WorkFlowStages.Analysis">
+                <span class="line"></span>
+                <i class="fas fa-chevron-left"></i>
+            </span>
 
 
-        </mat-card-content>
-        <mat-card-actions class="d-flex justify-content-between align-items-center">
-            <div>
-                <button mat-button *ngIf="activeTab > 1" (click)="activeTab = activeTab - 1" class="button green" style="width: auto;">
-                    الخطوة السابقة
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Evaluation }">
+                <span class="d-block circle" (click)="changeTab(WorkFlowStages.Evaluation)">
+                    {{WorkFlowStages.Evaluation}}
+                </span>
+                <button mat-button (click)="changeTab(WorkFlowStages.Evaluation)">
+                    <div>
+                        <i class="fa fa-dna"></i>
+                        <p>
+                            {{ '::WorkFlowStages:Evaluation' | abpLocalization }}
+                        </p>
+                    </div>
+                </button>
+            </div>
+            <span class="arrow" [class.active]="activeTab === WorkFlowStages.Evaluation">
+                <span class="line"></span>
+                <i class="fas fa-chevron-left"></i>
+            </span>
+
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing }">
+                <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
+                    {{WorkFlowStages.Processing}}
+                </span>
+                <button mat-button (click)="changeTab(WorkFlowStages.Processing)">
+                    <div>
+                        <i class="fa fa-arrows-spin"></i>
+                        <p>
+                            {{ '::WorkFlowStages:Processing' | abpLocalization }}
+                        </p>
+                    </div>
+                </button>
+            </div>
+            <span class="arrow" [class.active]="activeTab === WorkFlowStages.Processing">
+                <span class="line"></span>
+                <i class="fas fa-chevron-left"></i>
+            </span>
+
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review }">
+                <span class="d-block circle" (click)="changeTab(WorkFlowStages.Review)">
+                    {{WorkFlowStages.Review}}
+                </span>
+                <button mat-button (click)="changeTab(WorkFlowStages.Review)">
+                    <div>
+                        <i class="fas fa-file-search"></i>
+                        <p>
+                            {{ '::WorkFlowStages:Review' | abpLocalization }}
+                        </p>
+                    </div>
                 </button>
             </div>
 
-            <div>
-                <button mat-button class="button red" routerLink="/risks-management/riskopportunity">إلغاء</button>
-                <button mat-button class="button blue" type="submit" (click)="submit()">
-                    {{ id ? 'حفظ' : 'إضافة'}}
-                </button>
-            </div>
-        </mat-card-actions>
-    </mat-card>
-</form>
+        </div>
 
+
+        <div [ngSwitch]="activeTab">
+            <app-first  *ngSwitchCase="WorkFlowStages.DefineRiskAndOpportunity" [form]="firstForm"> </app-first>
+            <app-second *ngSwitchCase="WorkFlowStages.Analysis" [form]="secondForm"> </app-second>
+            <app-third  *ngSwitchCase="WorkFlowStages.Evaluation" [form]="thirdForm" [itemData]="itemData"> </app-third>
+            <app-fourth *ngSwitchCase="WorkFlowStages.Processing" [itemData]="itemData" (updateProcessing)="updateHistory($event, WorkFlowStages.Processing)"> </app-fourth>
+            <app-fifth  *ngSwitchCase="WorkFlowStages.Review" [form]="fifthForm"> </app-fifth>
+            <app-first  *ngSwitchDefault  [form]="firstForm"> </app-first>
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions class="d-flex justify-content-between align-items-center">
+        <div>
+            <button mat-button *ngIf="activeTab > WorkFlowStages.DefineRiskAndOpportunity" (click)="changeTab(activeTab - 1)" class="button green" style="width: auto;">
+               {{ '::PreviousStep' | abpLocalization }}
+            </button>
+        </div>
+
+        <div>
+            <button mat-button class="button red" routerLink="/risks-management/riskopportunity">إلغاء</button>
+            <button mat-button class="button blue" type="submit" (click)="submit()" *ngIf="activeTab !== WorkFlowStages.Processing">
+                {{ (id ? '::Save' : '::Create') | abpLocalization}}
+            </button>
+        </div>
+    </mat-card-actions>
+</mat-card>
+
+
+<mat-accordion *ngIf="id">
+    <mat-expansion-panel opened>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ '::Changelog' | abpLocalization }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ngx-datatable
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        #dataTable
+        [rows]="historyChanges"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
+        >
+            <ngx-datatable-column [name]="'::ActionName' | abpLocalization" prop="actionName">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ ('::' + HistoryAction[value] ) | abpLocalization  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::ActionDate' | abpLocalization" prop="actionDate">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy-MM-dd' }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::CreatorName' | abpLocalization" prop="creator.name"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::WorkFlowStage' | abpLocalization" prop="workFlowStages">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ ('::WorkFlowStages:' + WorkFlowStages[value] ) | abpLocalization  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </mat-expansion-panel>
+</mat-accordion>
