@@ -57,15 +57,13 @@ namespace RMG.ComplianceSystem.Risks
         {
             List<HistoryRiskAndOpportunityDto> Risks = new List<HistoryRiskAndOpportunityDto>();
             if (input.WorkFlowStages != null) {
-                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages &&
-                    (x.ActionName.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages )
                      .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
             } else
             {
-                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId  &&
-             (x.ActionName.Contains(input.Search) || input.Search.IsNullOrEmpty()))
+                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId)
               .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
