@@ -27,7 +27,7 @@ export class FirstComponent implements OnInit {
     this.getList(1, 'sectors');
     this.getList(2, 'departments');
     this.getList(3, 'categories');
-    this.getList(8, 'riskContext');
+    this.getList(10, 'riskContext');
 
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items

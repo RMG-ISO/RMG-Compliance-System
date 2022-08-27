@@ -70,6 +70,14 @@
     "Responsibles":"المسؤلين",
     "EndDate":"تاريخ الإنتهاء",
 
+    "ActionName":"الفعل",
+    "ActionDate":"التاريخ",
+    "creatorName":"المنشئ",
+    "WorkFlowStage":"المرحلة",
+    "Changelog":"سجل النشاطات",
+    "PreviousStep":"الخطوة السابقة",
+
+
 
     "Create": "إنشاء",
     "Permission:Document": "إدارة الملفات",

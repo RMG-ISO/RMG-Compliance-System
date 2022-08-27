@@ -8,15 +8,18 @@ export enum Status {
 };
   
 export enum HistoryAction {
-    Create = 0,
-    Update = 1,
-    Delete = 3
+    Create = 1,
+    Update = 2,
+    Delete = 3,
+    CreatePlanAction = 4,
+    UpdatePlanAction = 5,
+    DeletePlanAction = 6
 }
 
 export enum WorkFlowStages {
-    DefineRiskAndOpportunity = 0,
-    Analysis = 1,
-    Evaluation = 2,
-    Processing = 3,
-    Review = 4
+    DefineRiskAndOpportunity = 1,
+    Analysis = 2,
+    Evaluation = 3,
+    Processing = 4,
+    Review = 5
 }

@@ -93,7 +93,13 @@ export class CreateComponent implements OnInit {
   historyChanges;
   totalCount
   getHistory() {
-    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({search:null, riskOpportunityId:this.id, maxResultCount:null, ...query});
+    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({
+      search:null,
+      riskOpportunityId:this.id,
+      maxResultCount:null,
+      workFlowStages:this.activeTab,
+      ...query
+    });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.historyChanges = response.items;
       this.totalCount = response.totalCount;
@@ -105,6 +111,7 @@ export class CreateComponent implements OnInit {
     if(this.activeTab == WorkFlowStages.DefineRiskAndOpportunity) this.submitFirst();
     else if(this.activeTab == WorkFlowStages.Analysis) this.submitSecond();
     else if (this.activeTab == WorkFlowStages.Evaluation) this.submitThird();
+    else this.submitFifth();
   }
 
   submitFirst() {
@@ -145,9 +152,9 @@ export class CreateComponent implements OnInit {
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.secondForm.value}).subscribe(r => {
       this.activeTab = WorkFlowStages.Evaluation;
       this.updateHistory(HistoryAction.Update);
-
     })
   }
+
   submitThird() {
     this.thirdForm.markAllAsTouched();
     if(this.thirdForm.invalid) return;
@@ -155,5 +162,18 @@ export class CreateComponent implements OnInit {
       this.activeTab = WorkFlowStages.Processing;
       this.updateHistory(HistoryAction.Update);
     })
+  }
+  submitFifth() {
+    this.fifthForm.markAllAsTouched();
+    if(this.fifthForm.invalid) return;
+    this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.fifthForm.value}).subscribe(r => {
+      // this.activeTab = WorkFlowStages.Processing;
+      this.updateHistory(HistoryAction.Update);
+    })
+  }
+
+  changeTab(tab) {
+    this.activeTab = tab;
+    this.getHistory();
   }
 }

@@ -3,11 +3,23 @@
         <h4>
             خطط العمل
         </h4>
-        <button id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
-            <i class="fa fa-plus mr-2"></i>
-            <span class="line mr-2"></span>
-            <span>{{ "::Create" | abpLocalization }}</span>
-        </button>
+        <div class="d-flex justify-content-between align-items-center">
+            <button id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
+                <i class="fa fa-plus mr-2"></i>
+                <span class="line mr-2"></span>
+                <span>{{ "::Create" | abpLocalization }}</span>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="re-btn">
+                إعادة التقييم
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
+                  {{ item | lang:'name' }}
+                </button>
+            </mat-menu>
+        </div>
+       
     </mat-card-title>
     <mat-card-content>
         <ngx-datatable
@@ -23,10 +35,27 @@
         [list]="list"
         appNgxdatatable
         >
-            <ngx-datatable-column [name]="'::mitigateActionPlan' | abpLocalization" prop="mitigateActionPlan"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::standardReference' | abpLocalization" prop="standardReference"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::objectiveEvidence' | abpLocalization" prop="objectiveEvidence"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::responsibility' | abpLocalization" prop="responsibilityUser"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::MitigateActionPlan' | abpLocalization" prop="mitigateActionPlan">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'mitigateActionPlan' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::StandardReference' | abpLocalization" prop="standardReference">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'standardReference' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::ObjectiveEvidence' | abpLocalization" prop="objectiveEvidence">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'objectiveEvidence' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::responsibility' | abpLocalization" prop="responsibilityName"></ngx-datatable-column>
 
             <ngx-datatable-column [name]="'::byWhen' | abpLocalization" prop="byWhen">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -60,22 +89,50 @@
     <ng-template #abpBody>
         <form [formGroup]="form">
             <div class="row">
-                <div class="col-md-12 form-group">
-                    <label for="mitigateActionPlan">{{ '::mitigateActionPlan' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="mitigateActionPlan" class="form-control" formControlName="mitigateActionPlan" />
+                <div class="col-md-6 form-group">
+                    <label for="mitigateActionPlanAr">{{ '::mitigateActionPlanAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="mitigateActionPlanAr" class="form-control" formControlName="mitigateActionPlanAr" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="mitigateActionPlanEn">{{ '::mitigateActionPlanEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="mitigateActionPlanEn" class="form-control" formControlName="mitigateActionPlanEn" />
                 </div>
 
-                <div class="col-md-12 form-group">
-                    <label for="standardReference">{{ '::standardReference' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="standardReference" class="form-control" formControlName="standardReference" />
+
+                <div class="col-md-6 form-group">
+                    <label for="standardReferenceAr">{{ '::standardReferenceAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="standardReferenceAr" class="form-control" formControlName="standardReferenceAr" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="standardReferenceEn">{{ '::standardReferenceEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="standardReferenceEn" class="form-control" formControlName="standardReferenceEn" />
                 </div>
 
-                <div class="col-md-12 form-group">
-                    <label for="objectiveEvidence">{{ '::objectiveEvidence' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="objectiveEvidence" class="form-control" formControlName="objectiveEvidence" />
+
+                <div class="col-md-6 form-group">
+                    <label for="objectiveEvidenceAr">{{ '::objectiveEvidenceAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="objectiveEvidenceAr" class="form-control" formControlName="objectiveEvidenceAr" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="objectiveEvidenceEn">{{ '::objectiveEvidenceEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="objectiveEvidenceEn" class="form-control" formControlName="objectiveEvidenceEn" />
                 </div>
 
-                <div class="col-md-12 form-group">
+                <div class="col-md-6 form-group">
+                    <label>
+                        reEvaluation
+                    </label>
+
+                    <ng-select formControlName="reEvaluation">
+                        <ng-option *ngFor="let item of potentials" [value]="item.id">
+                            {{ item | lang:'name' }}
+                         </ng-option>
+                    </ng-select>
+                </div>
+
+
+
+                <div class="col-md-6 form-group">
                     <label>
                         responsibility
                     </label>
