@@ -1,13 +1,14 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { RiskTreatmentDto } from '@proxy/RiskTreatments/dtos';
 import { ActivatedRoute } from '@angular/router';
 import { IdentityUserService } from '@abp/ng.identity';
 import { StaticDataService } from '@proxy/StaticData';
 import { HistoryAction } from '../../module.enums';
+import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
 @Component({
   selector: 'app-fourth',
@@ -16,7 +17,8 @@ import { HistoryAction } from '../../module.enums';
 })
 export class FourthComponent implements OnInit {
   @Output('updateProcessing') updateProcessing = new EventEmitter();
-  
+  @Input('itemData') itemData;
+
   constructor(
     private riskTreatmentService:RiskTreatmentService,
     public readonly list: ListService,
@@ -24,7 +26,8 @@ export class FourthComponent implements OnInit {
     private confirmation: ConfirmationService,
     private route: ActivatedRoute,
     private userService:IdentityUserService,
-    private staticDataService:StaticDataService
+    private staticDataService:StaticDataService,
+    private riskAndOpportunityService:RiskAndOpportunityService
   ) { }
 
   users;
@@ -63,8 +66,11 @@ export class FourthComponent implements OnInit {
     });
   }
 
-  reEvaluate(id) {
-    console.log(id)
+  reEvaluate(value) {
+    console.log(value);
+    this.riskAndOpportunityService.update(this.route.snapshot.params.id, {...this.itemData, reEvaluation: value }).subscribe(r => {
+      console.log(r);
+    })
   }
 
   selected

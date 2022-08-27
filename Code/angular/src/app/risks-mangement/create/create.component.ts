@@ -152,6 +152,7 @@ export class CreateComponent implements OnInit {
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.secondForm.value}).subscribe(r => {
       this.activeTab = WorkFlowStages.Evaluation;
       this.updateHistory(HistoryAction.Update);
+      this.itemData = r;
     })
   }
 
@@ -161,6 +162,7 @@ export class CreateComponent implements OnInit {
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
       this.activeTab = WorkFlowStages.Processing;
       this.updateHistory(HistoryAction.Update);
+      this.itemData = r;
     })
   }
   submitFifth() {
@@ -169,6 +171,7 @@ export class CreateComponent implements OnInit {
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.fifthForm.value}).subscribe(r => {
       // this.activeTab = WorkFlowStages.Processing;
       this.updateHistory(HistoryAction.Update);
+      this.itemData = r;
     })
   }
 
