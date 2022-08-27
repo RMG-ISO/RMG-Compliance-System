@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center header-content mb-3">
             <h3 class="card-title m-0">
-                {{ '::Risk And Opportunity' | abpLocalization }}
+                {{ '::RiskAndOpportunity' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
                 <button id="create" mat-button class="add-btn mr-3" type="button" routerLink="/risks-management/create">
@@ -16,18 +16,15 @@
 
         <div class="d-flex justify-content-center align-items-center tabs-cont">
             <button mat-button (click)="selectedType = Type.Risk; getList()" [class.active]="selectedType == Type.Risk">
-              Risk
+              {{ '::Risk' | abpLocalization }}
             </button>
             <span>
                 |
             </span>
             <button mat-button (click)="selectedType = Type.Opportunity; getList()" [class.active]="selectedType == Type.Opportunity">
-              Opportunity
+              {{ '::Opportunity' | abpLocalization }}
             </button>
         </div>
-        <h2>
-          Risk And Opportunity
-        </h2>
 
     </div>
     <div class="card-body">
@@ -44,20 +41,20 @@
         [list]="list"
         appNgxdatatable
         >
-            <ngx-datatable-column [name]="'::Risk Name' | abpLocalization" prop="name">
+            <ngx-datatable-column [name]="'::Risk:Name' | abpLocalization" prop="name">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ row | lang:'name'  }}
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="':: Risk Owner' | abpLocalization" prop="ownerName"></ngx-datatable-column>
-            <ngx-datatable-column [name]="':: Risk Potential' | abpLocalization" prop="potentialName">
+            <ngx-datatable-column [name]="'::Risk:Owner' | abpLocalization" prop="ownerName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Risk:Potential' | abpLocalization" prop="potentialName">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ row | lang:'potentialName'  }}
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+            <ngx-datatable-column [name]="'::Risk:Status' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="status" [class.closed]="value == Status.Close">
                         {{ Status[value] }}
