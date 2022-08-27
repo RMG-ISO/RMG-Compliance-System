@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
-import { Status } from '../list/list.component';
+import { Status, Type } from '../list/list.component';
 
 @Component({
   selector: 'app-create',
@@ -44,20 +44,21 @@ export class CreateComponent implements OnInit {
       workFlowStages:  new FormControl(null, [Validators.required]),
     });
 
-    this.firstForm =   new FormGroup({
-      nameAr:          new FormControl(null, [Validators.required]),
-      nameEn:          new FormControl(null, [Validators.required]),
-      detailsAr:       new FormControl(null, [Validators.required]),
-      detailsEn:       new FormControl(null, [Validators.required]),
-      affectDetailsAr: new FormControl(null, [Validators.required]),
-      affectDetailsEn: new FormControl(null, [Validators.required]),
-      type:            new FormControl(null, [Validators.required]),
-      sectorId:        new FormControl(null, [Validators.required]),
-      departmentId:    new FormControl(null, [Validators.required]),
-      categoryId:      new FormControl(null, [Validators.required]),
-      ownerId:         new FormControl(null, [Validators.required]),
-      status:          new FormControl(Status.Open),
-      riskContext:     new FormControl(null, [Validators.required]),
+    this.firstForm =    new FormGroup({
+      nameAr          : new FormControl(null,   [Validators.required]),
+      nameEn          : new FormControl(null,   [Validators.required]),
+      detailsAr       : new FormControl(null,   [Validators.required]),
+      detailsEn       : new FormControl(null,   [Validators.required]),
+      affectDetailsAr : new FormControl(null,   [Validators.required]),
+      affectDetailsEn : new FormControl(null,   [Validators.required]),
+      type            : new FormControl(Type.Risk, [Validators.required]),
+      sectorId        : new FormControl(null,   [Validators.required]),
+      departmentId    : new FormControl(null,   [Validators.required]),
+      categoryId      : new FormControl(null,   [Validators.required]),
+      ownerId         : new FormControl(null,     [Validators.required]),
+      status          : new FormControl(Status.Open),
+      riskContext     : new FormControl(null,   [Validators.required]),
+      actionName      : new FormControl(null,   [Validators.required]),
     });
     
 
