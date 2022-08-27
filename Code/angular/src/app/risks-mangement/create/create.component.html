@@ -10,13 +10,12 @@
                 </span>
                 <button mat-button (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                     <div>
-                        <!-- <i class="fas fa-chart-line"></i> -->
                         <i class="fa fa-file"></i>
                         <p>
-                            تعريف الخطر
+                            {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
                         </p>
                         <p>
-                            والفرصة
+                            {{ '::WorkFlowStages:AndOpportunity' | abpLocalization }}
                         </p>
                     </div>
                 </button>
@@ -36,7 +35,7 @@
                         <i class="fas fa-chart-line"></i>
 
                         <p>
-                            التحليل
+                            {{ '::WorkFlowStages:Analysis' | abpLocalization }}
                         </p>
                     </div>
                 </button>
@@ -53,10 +52,9 @@
                 </span>
                 <button mat-button (click)="changeTab(WorkFlowStages.Evaluation)">
                     <div>
-                        <!-- <i class="fas fa-chart-line"></i> -->
                         <i class="fa fa-dna"></i>
                         <p>
-                            التقييم
+                            {{ '::WorkFlowStages:Evaluation' | abpLocalization }}
                         </p>
                     </div>
                 </button>
@@ -73,9 +71,8 @@
                 <button mat-button (click)="changeTab(WorkFlowStages.Processing)">
                     <div>
                         <i class="fa fa-arrows-spin"></i>
-                        <!-- <i class="fas fa-chart-line"></i> -->
                         <p>
-                            المعالجة
+                            {{ '::WorkFlowStages:Processing' | abpLocalization }}
                         </p>
                     </div>
                 </button>
@@ -93,7 +90,7 @@
                     <div>
                         <i class="fas fa-file-search"></i>
                         <p>
-                            المراجعة
+                            {{ '::WorkFlowStages:Review' | abpLocalization }}
                         </p>
                     </div>
                 </button>

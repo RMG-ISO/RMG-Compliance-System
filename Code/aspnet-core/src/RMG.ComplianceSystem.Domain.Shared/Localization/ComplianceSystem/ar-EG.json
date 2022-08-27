@@ -76,7 +76,17 @@
     "WorkFlowStage":"المرحلة",
     "Changelog":"سجل النشاطات",
     "PreviousStep":"الخطوة السابقة",
-
+    "HistoryAction:Create":"إضافة",
+    "HistoryAction:Update":"تعديل",
+    "HistoryAction:Delete":"حذف",
+    "HistoryAction:CreatePlanAction":"إضافة خطة عمل",
+    "HistoryAction:UpdatePlanAction":"تعديل خطة عمل",
+    "HistoryAction:DeletePlanAction":"حذف حطة عمل",
+    "WorkFlowStages:DefineRiskAndOpportunity":"تعريف الخطر والفرصة",
+    "WorkFlowStages:Analysis":"التحليل",
+    "WorkFlowStages:Evaluation":"التقييم",
+    "WorkFlowStages:Processing":"المعالجة",
+    "WorkFlowStages:Review":"المراجعة",
 
 
     "Create": "إنشاء",
