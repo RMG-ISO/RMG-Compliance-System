@@ -10,11 +10,11 @@ namespace RMG.ComplianceSystem.Risks.Dtos
     public class HistoryRiskAndOpportunityDto:AuditedEntityDto<Guid>
     {
         public Guid UserId { get; set; }
-        public IdentityUserDto Creator { get; set; }
         public Guid RiskAndOpportunityId { get; set; }
         public int? WorkFlowStages { get; set; }
         public string ActionName { get; set; }
         public DateTime ActionDate { get; set; }
+        public IdentityUserDto Creator { get; set; }
     }
   
 }
