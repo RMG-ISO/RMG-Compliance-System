@@ -38,7 +38,13 @@ namespace RMG.ComplianceSystem.Risks
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
         protected string ReEvaluationPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.ReEvaluation;
         protected string HistoryPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.History;
-        
+
+        protected string DefinitionPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Definition;
+        protected string AnalysisPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Analysis;
+        protected string EvaluationPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Evaluation;
+        protected string TreatmentPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Treatment;
+        protected string ReviewPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Review;
+
         #endregion
         // End Permissions
         //Start Properties and Constructor RiskAppService
