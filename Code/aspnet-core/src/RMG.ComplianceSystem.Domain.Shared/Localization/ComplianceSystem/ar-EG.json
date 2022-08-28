@@ -90,7 +90,11 @@
     "WorkFlowStages:DefineRisk": "تعريف الخطر",
     "WorkFlowStages:AndOpportunity": "والفرصة",
     "ReEvaluation": "إعادة التقييم",
-
+    "Permission:Definition": "مرحلة التعريف",
+    "Permission:Analysis": "مرحلة التحليل",
+    "Permission:Evaluation": "مرحلة التقييم",
+    "Permission:Treatment": "مرحلة المعالجه",
+    "Permission:Review": "مرحلة المراجعه",
     "Create": "إنشاء",
     "Permission:Document": "إدارة الملفات",
     "Permission:DocumentCategory": "تصنيف الملفات",
