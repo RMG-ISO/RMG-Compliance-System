@@ -33,14 +33,15 @@ export class ListComponent implements OnInit {
   items
   totalCount;
   selectedType = Type.Risk;
+  activeTabName;
   getList() {
+    this.activeTabName = '::' +  Type[this.selectedType] + ':';
     const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
-
 
   delete(model: any) {
     let title = this.localizationService.currentLang.includes('ar') ?  model['nameAr'] : model['nameEn'];

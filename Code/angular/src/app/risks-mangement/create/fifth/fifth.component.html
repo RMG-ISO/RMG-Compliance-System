@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 form-group">
             <label >
-                الموافقة
+                {{ '::Acceptance' | abpLocalization }}
             </label>
             <mat-radio-group formControlName="acceptance">
                 <mat-radio-button [value]="true">نعم</mat-radio-button>
@@ -14,15 +14,15 @@
 
         <div class="col-md-6 form-group">
             <label >
-                الحالة
+                {{ '::Status' | abpLocalization }}
             </label>
             <mat-radio-group formControlName="status" color="primary">
                 <mat-radio-button [value]="Status.Open" >
-                    مفتوح
+                    {{ '::Status:Open' | abpLocalization }}
                 </mat-radio-button>
                 <span class="space"></span>
                 <mat-radio-button [value]="Status.Close">
-                    مغلق    
+                    {{ '::Status:Close' | abpLocalization }}
                 </mat-radio-button>
             </mat-radio-group>
         </div>
@@ -30,7 +30,7 @@
 
         <div class="col-md-6 form-group">
             <label for="acceptanceApprovedby">
-                الموافقة بواسطة
+                {{ '::AcceptedBy' | abpLocalization }}
             </label>
             <ng-select formControlName="acceptanceApprovedby">
                 <ng-option *ngFor="let user of users" [value]="user.id">
@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-6 form-group">
             <label for="reviewControlAssessment">
-                مراجعة حالة التقييم
+                {{ '::EvaluationStatusReview' | abpLocalization }}
             </label>
             <input type="text" id="reviewControlAssessment" class="form-control" formControlName="reviewControlAssessment" />
         </div>
@@ -48,7 +48,7 @@
     
         <div class="col-md-12 form-group">
             <label for="reviewRemarks">
-              الملاحظات
+              {{ '::Notes' | abpLocalization }}
             </label>
             <textarea type="text" id="reviewRemarks" class="form-control"  formControlName="reviewRemarks"></textarea>
         </div>
