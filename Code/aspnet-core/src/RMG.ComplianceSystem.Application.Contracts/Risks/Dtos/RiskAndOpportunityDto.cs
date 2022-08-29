@@ -31,7 +31,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         // Opportunity - Risk (Enum)
         public int? Type { get; set; }
         //  WorkFlowStages (Enum)
-        public int? WorkFlowStages { get; set; }
+        public int? WorkFlowStages { get; set; } 
         // RiskContext (Enum)
         public Guid? RiskContext { get; set; }
 

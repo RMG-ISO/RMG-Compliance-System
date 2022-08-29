@@ -11,7 +11,7 @@
             </button>
 
             <button mat-icon-button [matMenuTriggerFor]="menu" class="re-btn">
-                
+
                 {{ '::ReEvaluation' | abpLocalization }}
 
             </button>
@@ -21,7 +21,7 @@
                 </button>
             </mat-menu>
         </div>
-       
+
     </mat-card-title>
     <mat-card-content>
         <ngx-datatable
@@ -136,7 +136,7 @@
 
                 <div class="col-md-6 form-group">
                     <label>
-                        responsibility
+                        {{ '::responsibility' | abpLocalization }}
                     </label>
                     <ng-select formControlName="responsibility">
                         <ng-option *ngFor="let user of users" [value]="user.id">
