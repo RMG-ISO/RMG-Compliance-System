@@ -69,9 +69,6 @@ namespace RMG.ComplianceSystem.Permissions
             RiskAndOpportunityPermission.AddChild(ComplianceSystemPermissions.RiskAndOpportunity.Review, L("Permission:Review"));
 
 
-
-
-
             var DocumentCategoryPermission = myGroup.AddPermission(ComplianceSystemPermissions.DocumentCategory.Default, L("Permission:DocumentCategory"));
             DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Create, L("Permission:Create"));
             DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Update, L("Permission:Update"));

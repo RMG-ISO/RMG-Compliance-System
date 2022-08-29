@@ -4,11 +4,11 @@
     </mat-card-title>
     <mat-card-content>
         <div class="d-flex route-actions mb-5">
-            <div   [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity"    >
+            <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity"   *abpPermission="'ComplianceSystem.RiskAndOpportunity.Definition'" >
                 <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                    {{WorkFlowStages.DefineRiskAndOpportunity}}
                 </span>
-                <button  mat-button (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
+                <button mat-button (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                     <div>
                         <i class="fa fa-file"></i>
                         <p>
@@ -25,7 +25,7 @@
 
 
 
-                <div  [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Analysis }"   >
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Analysis }"  *abpPermission="'ComplianceSystem.RiskAndOpportunity.Analysis'" >
                 <span class="d-block circle" (click)="changeTab(WorkFlowStages.Analysis)">
                     {{WorkFlowStages.Analysis}}
                 </span>
@@ -46,7 +46,7 @@
             </div>
 
 
-                <div  [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Evaluation }"   >
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Evaluation }"  *abpPermission="'ComplianceSystem.RiskAndOpportunity.Evaluation'" >
                 <span class="d-block circle" (click)="changeTab(WorkFlowStages.Evaluation)">
                     {{WorkFlowStages.Evaluation}}
                 </span>
@@ -65,7 +65,7 @@
             </div>
 
 
-                <div  [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing }"  >
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing }"  *abpPermission="'ComplianceSystem.RiskAndOpportunity.Treatment'" >
                 <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
                     {{WorkFlowStages.Processing}}
                 </span>
@@ -84,7 +84,7 @@
               </div>
 
 
-                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review }"  >
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review }"  *abpPermission="'ComplianceSystem.RiskAndOpportunity.Review'" >
                 <span class="d-block circle" (click)="changeTab(WorkFlowStages.Review)">
                     {{WorkFlowStages.Review}}
                 </span>
