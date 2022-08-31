@@ -3,12 +3,14 @@
         <div class="col-md-6 form-group">
             <label for="existingControl">
                 {{ '::TheControl' | abpLocalization }}
+                <span> * </span>
             </label>
             <input type="text" id="nameEn" class="form-control" formControlName="existingControl"/>
         </div>
         <div class="col-md-6 form-group">
             <label>
                 {{ '::ControlAssessment' | abpLocalization }}
+                <span> * </span>
             </label>
             <ng-select formControlName="controlAssessment">
                 <ng-option *ngFor="let item of controlAssesment" [value]="item.id">
@@ -21,6 +23,7 @@
         <div class="col-md-6 form-group">
             <label>
                 {{ '::Probability' | abpLocalization }}
+                <span> * </span>
             </label>
             <ng-select formControlName="likelihood">
                 <ng-option *ngFor="let item of likelihood" [value]="item.id">
@@ -31,6 +34,7 @@
         <div class="col-md-6 form-group">
             <label>
                 {{ '::Impact' | abpLocalization }}
+                <span> * </span>
             </label>
             <ng-select formControlName="impact">
                 <ng-option *ngFor="let item of impacts" [value]="item.id">

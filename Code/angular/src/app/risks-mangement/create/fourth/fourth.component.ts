@@ -37,7 +37,7 @@ export class FourthComponent implements OnInit {
       this.users = r.items
     });
 
-    this.staticDataService.getList({Type:'7', search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({Type:'3', search:null, maxResultCount:null }).subscribe(r => {
       this.potentials = r.items;
     })
 
@@ -91,7 +91,6 @@ export class FourthComponent implements OnInit {
       byWhen: new FormControl( null , Validators.required),
       treatmentRemarks: new FormControl(null, Validators.required),
       reEvaluation: new FormControl(null),
-
       mitigateActionPlanAr: new FormControl(null, Validators.required),
       mitigateActionPlanEn: new FormControl(null, Validators.required),
       objectiveEvidenceAr: new FormControl(null, Validators.required),

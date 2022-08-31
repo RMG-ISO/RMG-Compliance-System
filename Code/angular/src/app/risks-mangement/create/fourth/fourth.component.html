@@ -92,7 +92,10 @@
         <form [formGroup]="form">
             <div class="row">
                 <div class="col-md-6 form-group">
-                    <label for="mitigateActionPlanAr">{{ '::mitigateActionPlanAr' | abpLocalization }}</label><span> * </span>
+                    <label for="mitigateActionPlanAr">
+                        {{ '::mitigateActionPlanAr' | abpLocalization }}
+                    </label>
+                    <span> * </span>
                     <input type="text" id="mitigateActionPlanAr" class="form-control" formControlName="mitigateActionPlanAr" />
                 </div>
                 <div class="col-md-6 form-group">
@@ -138,6 +141,7 @@
                     <label>
                         {{ '::responsibility' | abpLocalization }}
                     </label>
+                    <span> * </span>
                     <ng-select formControlName="responsibility">
                         <ng-option *ngFor="let user of users" [value]="user.id">
                             {{user.name}}

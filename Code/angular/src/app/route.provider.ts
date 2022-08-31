@@ -7,6 +7,7 @@ export const APP_ROUTE_PROVIDER = [
 
 function configureRoutes(routesService: RoutesService) {
   return () => {
+    routesService.remove(['AbpUiNavigation::Menu:Administration'])
     routesService.add([
       {
         path:'/dashboard',
@@ -130,6 +131,35 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Employee',
       },
+
+      {
+        path:'/identity',
+        name:'::Permissions',
+        iconClass: 'fa fa-wrench',
+        parentName:'::Menu:ComplianceSystemSettings',
+        layout: eLayoutType.application,
+        order: 1,
+      },
+      {
+        path:'/identity/users',
+        name:'AbpIdentity::Users',
+        iconClass: 'fas fa-users',
+        order: 2,
+        parentName:'::Permissions',
+        layout: eLayoutType.application,
+        // requiredPolicy:'ComplianceSystem.Employee',
+      },
+      {
+        path:'/identity/roles',
+        name:'AbpIdentity::Roles',
+        iconClass: 'fas fa-user-tag',
+        order: 2,
+        parentName:'::Permissions',
+        layout: eLayoutType.application,
+        // requiredPolicy:'ComplianceSystem.Employee',
+      },
+
+
       // {
       //   path:'/documents-management',
       //   name:'::DocumentManagement',
