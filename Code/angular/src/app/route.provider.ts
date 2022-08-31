@@ -15,13 +15,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
-      {
-        path: '/home',
-        name: '::Menu:Home',
-        iconClass: 'fas fa-home',
-        order: 1,
-        layout: eLayoutType.application,
-      },
+      // {
+      //   path: '/home',
+      //   name: '::Menu:Home',
+      //   iconClass: 'fas fa-home',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      // },
       {
         path:'/framework',
         name:'::Menu:Framework',
