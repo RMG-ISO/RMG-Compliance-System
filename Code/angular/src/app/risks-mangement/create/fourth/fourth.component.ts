@@ -37,7 +37,7 @@ export class FourthComponent implements OnInit {
       this.users = r.items
     });
 
-    this.staticDataService.getList({Type:'7', search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({Type:'3', search:null, maxResultCount:null }).subscribe(r => {
       this.potentials = r.items;
     })
 

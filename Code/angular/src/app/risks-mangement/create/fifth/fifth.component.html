@@ -6,9 +6,9 @@
                 <span> * </span>
             </label>
             <mat-radio-group formControlName="acceptance">
-                <mat-radio-button [value]="true">نعم</mat-radio-button>
+                <mat-radio-button [value]="true">{{ '::yes' }}</mat-radio-button>
                 <span class="space"></span>
-                <mat-radio-button [value]="false">لا</mat-radio-button>
+                <mat-radio-button [value]="false">{{ '::no' }}</mat-radio-button>
             </mat-radio-group>
         </div>
 

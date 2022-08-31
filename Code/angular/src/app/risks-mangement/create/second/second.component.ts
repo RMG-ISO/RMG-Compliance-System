@@ -14,10 +14,10 @@ export class SecondComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getList(5, 'likelihood');
-    this.getList(6, 'controlAssesment');
+    this.getList(2, 'likelihood');
+    this.getList(5, 'controlAssesment');
     // this.getList(6, 'potentials');
-    this.getList(8, 'impacts');
+    this.getList(4, 'impacts');
   }
 
   // potentials;
