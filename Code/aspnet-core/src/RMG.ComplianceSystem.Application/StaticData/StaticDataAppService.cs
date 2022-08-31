@@ -108,7 +108,9 @@ namespace RMG.ComplianceSystem.StaticData
             Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = " ضوابط الخطر", NameEn = "ControlAssessment" });
             Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = "معالجة الخطر", NameEn = "Treatment Option" });
             Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = " سياق الخطر", NameEn = "Risk Context" });
-          
+            Types.Add(new getEnumTypeStaticData { Id = 9, NameAr = " إطار العمل المرجعي", NameEn = "Standard Reference" });
+            
+
             //}
             return Types;
         }

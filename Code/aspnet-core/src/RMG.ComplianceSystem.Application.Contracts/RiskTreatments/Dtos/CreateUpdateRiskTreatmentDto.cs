@@ -14,6 +14,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public string StandardReferenceAr { get; set; }
         public string ObjectiveEvidenceEn { get; set; }
         public string ObjectiveEvidenceAr { get; set; }
+        public Guid? StandardReference { get; set; }
         public Guid? Responsibility { get; set; }
         public DateTime? ByWhen { get; set; }
         public string TreatmentRemarks { get; set; }
