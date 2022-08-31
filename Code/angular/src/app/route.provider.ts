@@ -45,6 +45,32 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Assessment',
       },
+      ,
+      {
+        path:'/risks-management',
+        name:'::Menu:RiskManagement',
+        iconClass: 'fas fa-asterisk',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/risks-management/settings',
+        name:'::Menu:StaticData',
+        iconClass: 'fas fa-cogs',
+        order: 1,
+        parentName:'::Menu:RiskManagement',
+        layout: eLayoutType.application,
+      },
+
+      {
+        path:'/risks-management/riskopportunity',
+        name:'::Menu:RiskOpportunity',
+        iconClass: 'fas fa-asterisk',
+        order: 1,
+        parentName:'::Menu:RiskManagement',
+        layout: eLayoutType.application,
+      },
+
       // {
       //   path:'/design-guide',
       //   name:'::design-guide',
@@ -53,36 +79,6 @@ function configureRoutes(routesService: RoutesService) {
       //   layout: eLayoutType.application,
       //   requiredPolicy:'ComplianceSystem.Department',
       // },
-
-      {
-        path:'/department',
-        name:'::Menu:ComplianceSystemSettings',
-        iconClass: 'fas fa-cogs',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path:'/department',
-        name:'::Menu:Department',
-        iconClass: 'fas fa-building',
-        order: 1,
-        parentName:'::Menu:ComplianceSystemSettings',
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Department',
-      },
-      {
-        path:'/employee',
-        name:'::Menu:Employee',
-        iconClass: 'fas fa-users',
-        order: 2,
-        parentName:'::Menu:ComplianceSystemSettings',
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Employee',
-      },
-
-
-
-
 
       {
         path:'/documents-management',
@@ -110,30 +106,30 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.DocumentCategory',
       },
       {
-        path:'/risks-management',
-        name:'::Menu:RiskManagement',
-        iconClass: 'fas fa-asterisk',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path:'/risks-management/settings',
-        name:'::Menu:StaticData',
+        path:'/department',
+        name:'::Menu:ComplianceSystemSettings',
         iconClass: 'fas fa-cogs',
         order: 1,
-        parentName:'::Menu:RiskManagement',
         layout: eLayoutType.application,
       },
-
       {
-        path:'/risks-management/riskopportunity',
-        name:'::Menu:RiskOpportunity',
-        iconClass: 'fas fa-asterisk',
+        path:'/department',
+        name:'::Menu:Department',
+        iconClass: 'fas fa-building',
         order: 1,
-        parentName:'::Menu:RiskManagement',
+        parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Department',
       },
-
+      {
+        path:'/employee',
+        name:'::Menu:Employee',
+        iconClass: 'fas fa-users',
+        order: 2,
+        parentName:'::Menu:ComplianceSystemSettings',
+        layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Employee',
+      },
       // {
       //   path:'/documents-management',
       //   name:'::DocumentManagement',

@@ -98,15 +98,15 @@ namespace RMG.ComplianceSystem.StaticData
         var Types=new List<getEnumTypeStaticData>();
             //foreach (TypeStaticData type in (TypeStaticData[])Enum.GetValues(typeof(TypeStaticData)))
             //{
-            Types.Add(new getEnumTypeStaticData { Id=1,NameAr= "القطاعات",NameEn = "Sectors" });
-            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "الادارات", NameEn = "Managements" });
-            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "التصنيفات", NameEn = "Categories" });
-            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = "الاحتماليات", NameEn = "Likelihood" });
-            Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = "التقيمات الضبط", NameEn = "ControlAssessment" });
-            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = " الاحتمالات", NameEn = "Potentials" });
-            Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "التاثيرات", NameEn = "Impacts" });
-            Types.Add(new getEnumTypeStaticData { Id = 9, NameAr = "خيار المعالجة", NameEn = "Treatment Option" });
-            Types.Add(new getEnumTypeStaticData { Id = 10, NameAr = " حالة/سياق الخطر", NameEn = "Risk Context" });
+            //Types.Add(new getEnumTypeStaticData { Id=1,NameAr= "القطاعات",NameEn = "Sectors" });
+            //Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "الادارات", NameEn = "Managements" });
+            Types.Add(new getEnumTypeStaticData { Id = 1, NameAr = "تصنيفات الخطر", NameEn = "Categories" });
+            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "إحتمالات الخطر", NameEn = "Likelihood" });
+            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = " شدة الخطر", NameEn = "Potentials" });
+            Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "تأثير الخطر", NameEn = "Impacts" });
+            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = " الضوابط", NameEn = "ControlAssessment" });
+            Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = "معالجة الخطر", NameEn = "Treatment Option" });
+            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = " سياق الخطر", NameEn = "Risk Context" });
             //}
             return Types;
         }
