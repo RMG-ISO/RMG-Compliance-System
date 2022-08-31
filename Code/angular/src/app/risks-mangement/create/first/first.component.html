@@ -1,6 +1,3 @@
-
-
-
 <form [formGroup]="form">
     <div class="row">
         <div class="col-md-6 form-group">
@@ -9,9 +6,9 @@
                 <span> * </span>
             </label>
             <mat-radio-group aria-label="Select an option" formControlName="type">
-                <mat-radio-button [value]="Type.Risk">مخاطر</mat-radio-button>
+                <mat-radio-button [value]="Type.Risk">{{ '::Risk' | abpLocalization }}</mat-radio-button>
                 <span class="space"></span>
-                <mat-radio-button [value]="Type.Opportunity">فرصة</mat-radio-button>
+                <mat-radio-button [value]="Type.Opportunity">{{ '::Opportunity' | abpLocalization }}</mat-radio-button>
             </mat-radio-group>
         </div>
 
