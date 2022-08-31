@@ -1,6 +1,7 @@
 import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
+import { DepartmentService } from '@proxy/departments';
 import { Type } from '../../module.enums';
 
 @Component({
@@ -11,9 +12,10 @@ import { Type } from '../../module.enums';
 export class FirstComponent implements OnInit {
   @Input('form') form;
   Type = Type;
-  
+
   constructor(
     private staticDataService:StaticDataService,
+    private departmentService:DepartmentService,
     private userService:IdentityUserService
   ) { }
 
@@ -24,7 +26,7 @@ export class FirstComponent implements OnInit {
   riskContext;
   ngOnInit(): void {
     this.getList(1, 'sectors');
-    this.getList(2, 'departments');
+    this.getListdepartments( 'departments');
     this.getList(3, 'categories');
     this.getList(10, 'riskContext');
 
@@ -35,6 +37,12 @@ export class FirstComponent implements OnInit {
 
   getList(Type, key) {
     this.staticDataService.getList({Type:Type, search:null, maxResultCount:null }).subscribe(r => {
+      this[key] = r.items;
+    })
+  }
+  getListdepartments( key) {
+    this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+      debugger;
       this[key] = r.items;
     })
   }

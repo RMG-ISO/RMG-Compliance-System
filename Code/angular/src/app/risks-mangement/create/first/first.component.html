@@ -13,7 +13,7 @@
                 <mat-radio-button [value]="Type.Opportunity">فرصة</mat-radio-button>
             </mat-radio-group>
         </div>
-    
+
         <div class="col-md-6 form-group">
             <label>
                 {{ ('::' + Type[form.controls.type.value] + ':Context') | abpLocalization }}
@@ -37,8 +37,8 @@
             </label>
             <input type="text" id="nameEn" class="form-control" formControlName="nameEn"/>
         </div>
-    
-    
+
+
         <div class="col-md-6 form-group">
             <label for="detailsAr">
                 {{ ('::' + Type[form.controls.type.value] + ':ExplainAr') | abpLocalization }}
@@ -51,9 +51,9 @@
             </label>
             <textarea type="text" id="detailsEn" class="form-control" formControlName="detailsEn"></textarea>
         </div>
-    
-    
-    
+
+
+
         <div class="col-md-6 form-group">
             <label for="affectDetailsAr">
                 {{ ('::' + Type[form.controls.type.value] + ':DescriptionAr') | abpLocalization }}
@@ -66,7 +66,7 @@
             </label>
             <textarea type="text" id="affectDetailsEn" class="form-control" formControlName="affectDetailsEn"></textarea>
         </div>
-    
+
         <div class="col-md-6 form-group">
             <label>
                 {{ '::Sector' | abpLocalization }}
@@ -83,12 +83,12 @@
             </label>
             <ng-select formControlName="departmentId">
                 <ng-option *ngFor="let department of departments" [value]="department.id">
-                    {{ department | lang:'name' }}
+                    {{ department.name }}
                  </ng-option>
             </ng-select>
         </div>
-    
-    
+
+
         <div class="col-md-6 form-group">
             <label>
                 {{ '::Category' | abpLocalization }}
@@ -109,7 +109,7 @@
                 </ng-option>
             </ng-select>
         </div>
-    
-    
+
+
     </div>
 </form>
