@@ -38,7 +38,6 @@ namespace RMG.ComplianceSystem.Risks
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
         protected string ReEvaluationPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.ReEvaluation;
         protected string HistoryPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.History;
-
         protected string DefinitionPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Definition;
         protected string AnalysisPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Analysis;
         protected string EvaluationPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Evaluation;
@@ -116,9 +115,52 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
+
+        public async Task<PagedResultDto<RiskAndOpportunityDto>> GetRisksByFilterAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            List<RiskAndOpportunityDto> Risks = new List<RiskAndOpportunityDto>();
+            
+                //get Risk By CategoryId and Filters and Pagination
+                var ListRisks = RiskAndOpportunityRepository.Where(x =>  x.Type == input.Type)
+                 .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                // Mapping RiskAndOpportunity to RiskAndOpportunityDto
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+            
+            var RisksData = new List<RiskAndOpportunityDto>();
+            foreach (var item in Risks)
+            {
+                var Risk = new RiskAndOpportunityDto();
+                Risk = item;
+                if (Risk.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)Risk.CreatorId).Result;
+                    Risk.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (Risk.OwnerId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)item.OwnerId).Result;
+                    Risk.OwnerName = getuser.UserName;
+                }
+                if (Risk.PotentialRisk != null)
+                {
+                    var StaticData = StaticDatarepository.Where(t => t.Id == (Guid)item.PotentialRisk).FirstOrDefault();
+                    Risk.PotentialNameAr = StaticData.NameAr;
+                    Risk.PotentialNameEn = StaticData.NameEn;
+                }
+                RisksData.Add(Risk);
+            }
+            MessagingHub messagingHub = new MessagingHub();
+            messagingHub.SendMessage("", RisksData);
+            //Get the total count with Risk
+            var totalCount = RisksData.Count;
+            // return RiskDtos and totalCount
+            return new PagedResultDto<RiskAndOpportunityDto>(
+                totalCount,
+                RisksData
+            );
+        }
+
      
-
-
         #endregion
 
 

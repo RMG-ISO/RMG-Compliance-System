@@ -1,3 +1,4 @@
+import { PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
@@ -12,19 +13,35 @@ const routes: Routes = [
   },
   {
     path:'riskopportunity',
-    component:ListComponent
+    component:ListComponent,
+    canActivate:[PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.RiskAndOpportunity',
+    },
   },
   {
     path:'create',
     component:CreateComponent,
+    canActivate:[PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.RiskAndOpportunity.Create',
+    },
   },
   {
     path:'settings',
-    component:settingsComponent
+    component:settingsComponent,
+    canActivate:[PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.StaticData',
+    },
   },
   {
     path:':id/edit',
     component:CreateComponent,
+    canActivate:[PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.RiskAndOpportunity.Update',
+    },
   },
 ];
 

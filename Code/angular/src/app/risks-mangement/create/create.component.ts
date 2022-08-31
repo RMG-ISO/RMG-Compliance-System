@@ -16,9 +16,8 @@ export class CreateComponent implements OnInit {
   activeTab = WorkFlowStages.DefineRiskAndOpportunity;
   id;
   HistoryAction = HistoryAction;
-
   WorkFlowStages = WorkFlowStages;
-  
+
 
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
@@ -49,7 +48,7 @@ export class CreateComponent implements OnInit {
       status          : new FormControl(Status.Open                      ),
       riskContext     : new FormControl(null,       [Validators.required]),
     });
-    
+
 
     this.secondForm = new FormGroup({
       existingControl:  new FormControl(null, [Validators.required]),
