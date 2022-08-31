@@ -80,6 +80,9 @@ export class CreateComponent implements OnInit {
       reviewControlAssessment:  new FormControl(null, [Validators.required]),
       reviewRemarks:  new FormControl(null),
       status:  new FormControl(Status.Open),
+      likelihood:  new FormControl(null, [Validators.required]),
+      impact:  new FormControl(null, [Validators.required]),
+      potentialRisk:  new FormControl(null, [Validators.required]),
     });
 
     this.id = this.route.snapshot.params.id;
