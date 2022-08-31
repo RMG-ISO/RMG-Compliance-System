@@ -4,7 +4,7 @@
     </mat-card-title>
     <mat-card-content>
         <div class="d-flex route-actions mb-5">
-            <ng-container  *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
+            <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
                 <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
                     <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                        {{ WorkFlowStages.DefineRiskAndOpportunity }}

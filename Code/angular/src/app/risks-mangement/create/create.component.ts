@@ -77,7 +77,7 @@ export class CreateComponent implements OnInit {
       acceptance: new FormControl(null, [Validators.required]),
       acceptanceApprovedby:  new FormControl(null, [Validators.required]),
       reviewControlAssessment:  new FormControl(null, [Validators.required]),
-      reviewRemarks:  new FormControl(null, [Validators.required]),
+      reviewRemarks:  new FormControl(null),
       status:  new FormControl(Status.Open),
     });
 
@@ -85,8 +85,15 @@ export class CreateComponent implements OnInit {
 
     if(this.id) this.getData();
 
+    let isSetted = false;
     for(let key in this.permissions) {
-      this.permissionsAuth[key] = this.permissionService.getGrantedPolicy(this.permissions[key]);
+      if(this.permissionService.getGrantedPolicy(this.permissions[key])) {
+        if(this.id && !isSetted) {
+          isSetted = true;
+          this.activeTab = +key;
+        }
+        this.permissionsAuth[key] = true;
+      } else this.permissionsAuth[key] = false;
     }
   }
 

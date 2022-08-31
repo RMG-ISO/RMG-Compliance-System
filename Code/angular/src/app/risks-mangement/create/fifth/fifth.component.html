@@ -1,8 +1,9 @@
 <form [formGroup]="form">
     <div class="row">
         <div class="col-md-6 form-group">
-            <label >
+            <label>
                 {{ '::Acceptance' | abpLocalization }}
+                <span> * </span>
             </label>
             <mat-radio-group formControlName="acceptance">
                 <mat-radio-button [value]="true">نعم</mat-radio-button>
@@ -13,8 +14,9 @@
 
 
         <div class="col-md-6 form-group">
-            <label >
+            <label>
                 {{ '::Status' | abpLocalization }}
+                <span> * </span>
             </label>
             <mat-radio-group formControlName="status" color="primary">
                 <mat-radio-button [value]="Status.Open" >
@@ -22,7 +24,7 @@
                 </mat-radio-button>
                 <span class="space"></span>
                 <mat-radio-button [value]="Status.Close">
-                    {{ '::Status:Close' | abpLocalization }}
+                    {{ '::Status:Closed' | abpLocalization }}
                 </mat-radio-button>
             </mat-radio-group>
         </div>
@@ -31,6 +33,7 @@
         <div class="col-md-6 form-group">
             <label for="acceptanceApprovedby">
                 {{ '::AcceptedBy' | abpLocalization }}
+                <span> * </span>
             </label>
             <ng-select formControlName="acceptanceApprovedby">
                 <ng-option *ngFor="let user of users" [value]="user.id">
@@ -41,6 +44,7 @@
         <div class="col-md-6 form-group">
             <label for="reviewControlAssessment">
                 {{ '::EvaluationStatusReview' | abpLocalization }}
+                <span> * </span>
             </label>
             <input type="text" id="reviewControlAssessment" class="form-control" formControlName="reviewControlAssessment" />
         </div>
