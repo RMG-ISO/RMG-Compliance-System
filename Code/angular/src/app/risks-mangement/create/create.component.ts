@@ -1,4 +1,4 @@
-import { ListService, ConfigStateService } from '@abp/ng.core';
+import { ListService, ConfigStateService, PermissionService } from '@abp/ng.core';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -24,13 +24,24 @@ export class CreateComponent implements OnInit {
     private route: ActivatedRoute,
     private location:Location,
     public readonly list: ListService,
-    private configState:ConfigStateService
+    private configState:ConfigStateService,
+    private permissionService:PermissionService
   ) { }
 
   firstForm:FormGroup;
   secondForm:FormGroup;
   thirdForm:FormGroup
   fifthForm:FormGroup;
+
+  permissions = {
+    1:'ComplianceSystem.RiskAndOpportunityDefinition',
+    2:'ComplianceSystem.RiskAndOpportunityAnalysis',
+    3:'ComplianceSystem.RiskAndOpportunityEvaluation',
+    4:'ComplianceSystem.RiskAndOpportunityTreatment',
+    5:'ComplianceSystem.RiskAndOpportunityReview',
+  }
+  permissionsAuth = {};
+
 
   ngOnInit(): void {
     this.firstForm =    new FormGroup({
@@ -68,11 +79,15 @@ export class CreateComponent implements OnInit {
       reviewControlAssessment:  new FormControl(null, [Validators.required]),
       reviewRemarks:  new FormControl(null, [Validators.required]),
       status:  new FormControl(Status.Open),
-    })
+    });
 
     this.id = this.route.snapshot.params.id;
 
     if(this.id) this.getData();
+
+    for(let key in this.permissions) {
+      this.permissionsAuth[key] = this.permissionService.getGrantedPolicy(this.permissions[key]);
+    }
   }
 
   itemData;
