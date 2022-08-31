@@ -18,6 +18,7 @@ export class CreateComponent implements OnInit {
   HistoryAction = HistoryAction;
   WorkFlowStages = WorkFlowStages;
 
+  Status = Status;
 
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
@@ -102,10 +103,18 @@ export class CreateComponent implements OnInit {
     this.riskAndOpportunityService.get(this.id).subscribe(r => {
       console.log(r);
       this.itemData = r;
+
       this.firstForm.patchValue(r);
       this.secondForm.patchValue(r);
       this.thirdForm.patchValue(r);
       this.fifthForm.patchValue(r);
+
+      // if(r['status'] == Status.Close ) {
+      //   this.firstForm.disable();
+      //   this.secondForm.disable();
+      //   this.thirdForm.disable();
+      //   this.fifthForm.disable();
+      // }
     });
 
     this.getHistory();
@@ -193,6 +202,7 @@ export class CreateComponent implements OnInit {
       // this.activeTab = WorkFlowStages.Processing;
       this.updateHistory(HistoryAction.Update);
       this.itemData = r;
+      this.getData();
     })
   }
 
