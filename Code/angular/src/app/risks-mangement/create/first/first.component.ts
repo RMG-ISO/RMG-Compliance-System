@@ -42,7 +42,7 @@ export class FirstComponent implements OnInit {
   }
   getListdepartments( key) {
     this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
-      debugger;
+      // debugger;
       this[key] = r.items;
     })
   }
