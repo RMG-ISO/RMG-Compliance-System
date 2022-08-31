@@ -25,10 +25,10 @@ export class FirstComponent implements OnInit {
   users;
   riskContext;
   ngOnInit(): void {
-    this.getList(1, 'sectors');
+    this.getList(8, 'sectors');
     this.getListdepartments( 'departments');
-    this.getList(3, 'categories');
-    this.getList(10, 'riskContext');
+    this.getList(1, 'categories');
+    this.getList(7, 'riskContext');
 
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items
@@ -42,7 +42,7 @@ export class FirstComponent implements OnInit {
   }
   getListdepartments( key) {
     this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
-      debugger;
+      // debugger;
       this[key] = r.items;
     })
   }
