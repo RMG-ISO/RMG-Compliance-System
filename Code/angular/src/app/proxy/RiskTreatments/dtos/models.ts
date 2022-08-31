@@ -9,6 +9,7 @@ export interface CreateUpdateRiskTreatmentDto {
   MitigateActionPlanAr?: string;
   StandardReferenceAr?: string;
   ObjectiveEvidenceAr?: string;
+  StandardReference?: string;
   Responsibility?: string;
   ByWhen?: Date;
   ReEvaluation?: number;
@@ -22,6 +23,7 @@ export interface RiskTreatmentDto extends FullAuditedEntityWithUserDto<IdentityU
   MitigateActionPlanAr?: string;
   StandardReferenceAr?: string;
   ObjectiveEvidenceAr?: string;
+  StandardReference?: string;
   Responsibility?: string;
   ResponsibilityName?:string;
   ByWhen?: Date;

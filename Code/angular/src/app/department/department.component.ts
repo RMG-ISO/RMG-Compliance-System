@@ -1,5 +1,5 @@
 import { DepartmentService } from '../proxy/departments/department.service';
-import { ListService } from '@abp/ng.core';
+import { ListService, LocalizationService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from '../shared/interfaces/form-mode';

@@ -7,7 +7,7 @@ import { RiskTreatmentDto } from '@proxy/RiskTreatments/dtos';
 import { ActivatedRoute } from '@angular/router';
 import { IdentityUserService } from '@abp/ng.identity';
 import { StaticDataService } from '@proxy/StaticData';
-import { HistoryAction } from '../../module.enums';
+import { HistoryAction, Status } from '../../module.enums';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
 @Component({
@@ -18,6 +18,8 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 export class FourthComponent implements OnInit {
   @Output('updateProcessing') updateProcessing = new EventEmitter();
   @Input('itemData') itemData;
+
+  Status = Status;
 
   constructor(
     private riskTreatmentService:RiskTreatmentService,
@@ -32,13 +34,17 @@ export class FourthComponent implements OnInit {
 
   users;
   potentials;
+  standards
   ngOnInit(): void {
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items
     });
 
-    this.staticDataService.getList({Type:'7', search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({Type:'3', search:null, maxResultCount:null }).subscribe(r => {
       this.potentials = r.items;
+    })
+    this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
+      this.standards = r.items;
     })
 
 
@@ -67,9 +73,7 @@ export class FourthComponent implements OnInit {
   }
 
   reEvaluate(value) {
-    console.log(value);
-    this.riskAndOpportunityService.update(this.route.snapshot.params.id, {...this.itemData, reEvaluation: value }).subscribe(r => {
-      console.log(r);
+    this.riskAndOpportunityService.update(this.route.snapshot.params.id, {...this.itemData, reEvaluation: value, potentialRisk: value }).subscribe(r => {
     })
   }
 
@@ -91,13 +95,13 @@ export class FourthComponent implements OnInit {
       byWhen: new FormControl( null , Validators.required),
       treatmentRemarks: new FormControl(null, Validators.required),
       reEvaluation: new FormControl(null),
-
       mitigateActionPlanAr: new FormControl(null, Validators.required),
       mitigateActionPlanEn: new FormControl(null, Validators.required),
       objectiveEvidenceAr: new FormControl(null, Validators.required),
       objectiveEvidenceEn: new FormControl(null, Validators.required),
-      standardReferenceAr: new FormControl(null, Validators.required),
-      standardReferenceEn: new FormControl(null, Validators.required),
+      standardReferenceAr: new FormControl(null),
+      standardReferenceEn: new FormControl(null),
+      standardReference: new FormControl(null, Validators.required),
     });
     this.form.patchValue(this.selected);
     this.form.controls.byWhen.patchValue( this.selected?.byWhen ? new Date( this.selected?.byWhen ) : new Date());

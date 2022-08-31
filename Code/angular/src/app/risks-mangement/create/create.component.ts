@@ -18,6 +18,7 @@ export class CreateComponent implements OnInit {
   HistoryAction = HistoryAction;
   WorkFlowStages = WorkFlowStages;
 
+  Status = Status;
 
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
@@ -77,16 +78,26 @@ export class CreateComponent implements OnInit {
       acceptance: new FormControl(null, [Validators.required]),
       acceptanceApprovedby:  new FormControl(null, [Validators.required]),
       reviewControlAssessment:  new FormControl(null, [Validators.required]),
-      reviewRemarks:  new FormControl(null, [Validators.required]),
+      reviewRemarks:  new FormControl(null),
       status:  new FormControl(Status.Open),
+      likelihood:  new FormControl(null, [Validators.required]),
+      impact:  new FormControl(null, [Validators.required]),
+      potentialRisk:  new FormControl(null, [Validators.required]),
     });
 
     this.id = this.route.snapshot.params.id;
 
     if(this.id) this.getData();
 
+    let isSetted = false;
     for(let key in this.permissions) {
-      this.permissionsAuth[key] = this.permissionService.getGrantedPolicy(this.permissions[key]);
+      if(this.permissionService.getGrantedPolicy(this.permissions[key])) {
+        if(this.id && !isSetted) {
+          isSetted = true;
+          this.activeTab = +key;
+        }
+        this.permissionsAuth[key] = true;
+      } else this.permissionsAuth[key] = false;
     }
   }
 
@@ -95,10 +106,18 @@ export class CreateComponent implements OnInit {
     this.riskAndOpportunityService.get(this.id).subscribe(r => {
       console.log(r);
       this.itemData = r;
+
       this.firstForm.patchValue(r);
       this.secondForm.patchValue(r);
       this.thirdForm.patchValue(r);
       this.fifthForm.patchValue(r);
+
+      // if(r['status'] == Status.Close ) {
+      //   this.firstForm.disable();
+      //   this.secondForm.disable();
+      //   this.thirdForm.disable();
+      //   this.fifthForm.disable();
+      // }
     });
 
     this.getHistory();
@@ -186,6 +205,7 @@ export class CreateComponent implements OnInit {
       // this.activeTab = WorkFlowStages.Processing;
       this.updateHistory(HistoryAction.Update);
       this.itemData = r;
+      this.getData();
     })
   }
 

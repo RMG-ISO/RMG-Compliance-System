@@ -4,7 +4,7 @@
     </mat-card-title>
     <mat-card-content>
         <div class="d-flex route-actions mb-5">
-            <ng-container  *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
+            <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
                 <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
                     <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                        {{ WorkFlowStages.DefineRiskAndOpportunity }}
@@ -123,7 +123,7 @@
                 <app-fourth *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'" [itemData]="itemData" (updateProcessing)="updateHistory($event, WorkFlowStages.Processing)"> </app-fourth>
             </ng-container>
             <ng-container *ngSwitchCase="WorkFlowStages.Review">
-                <app-fifth *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" [form]="fifthForm"> </app-fifth>
+                <app-fifth *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" [form]="fifthForm" [itemData]="itemData" > </app-fifth>
             </ng-container>
             <ng-container *ngSwitchDefault>
                 <app-first *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" [form]="firstForm"> </app-first>

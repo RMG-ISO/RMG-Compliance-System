@@ -10,11 +10,12 @@
                 <span>{{ "::Create" | abpLocalization }}</span>
             </button>
 
-            <button mat-icon-button [matMenuTriggerFor]="menu" class="re-btn">
-
-                {{ '::ReEvaluation' | abpLocalization }}
-
-            </button>
+           
+            <!-- <ng-container *ngIf="itemData.status == Status.Open"> -->
+                <button  mat-icon-button [matMenuTriggerFor]="menu" class="re-btn" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
+                    {{ '::ReEvaluation' | abpLocalization }}
+                </button>
+            <!-- </ng-container> -->
             <mat-menu #menu="matMenu">
                 <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
                   {{ item | lang:'name' }}
@@ -92,7 +93,10 @@
         <form [formGroup]="form">
             <div class="row">
                 <div class="col-md-6 form-group">
-                    <label for="mitigateActionPlanAr">{{ '::mitigateActionPlanAr' | abpLocalization }}</label><span> * </span>
+                    <label for="mitigateActionPlanAr">
+                        {{ '::mitigateActionPlanAr' | abpLocalization }}
+                    </label>
+                    <span> * </span>
                     <input type="text" id="mitigateActionPlanAr" class="form-control" formControlName="mitigateActionPlanAr" />
                 </div>
                 <div class="col-md-6 form-group">
@@ -101,14 +105,14 @@
                 </div>
 
 
-                <div class="col-md-6 form-group">
+                <!-- <div class="col-md-6 form-group">
                     <label for="standardReferenceAr">{{ '::standardReferenceAr' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="standardReferenceAr" class="form-control" formControlName="standardReferenceAr" />
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="standardReferenceEn">{{ '::standardReferenceEn' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="standardReferenceEn" class="form-control" formControlName="standardReferenceEn" />
-                </div>
+                </div> -->
 
 
                 <div class="col-md-6 form-group">
@@ -119,7 +123,7 @@
                     <label for="objectiveEvidenceEn">{{ '::objectiveEvidenceEn' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="objectiveEvidenceEn" class="form-control" formControlName="objectiveEvidenceEn" />
                 </div>
-
+<!-- 
                 <div class="col-md-6 form-group">
                     <label>
                         {{ '::ReEvaluation' | abpLocalization }}
@@ -130,14 +134,27 @@
                             {{ item | lang:'name' }}
                          </ng-option>
                     </ng-select>
-                </div>
+                </div> -->
 
+
+                <div class="col-md-6 form-group">
+                    <label>
+                        {{ '::StandardReference' | abpLocalization }}
+                    </label>
+
+                    <ng-select formControlName="standardReference">
+                        <ng-option *ngFor="let item of standards" [value]="item.id">
+                            {{ item | lang:'name' }}
+                         </ng-option>
+                    </ng-select>
+                </div> 
 
 
                 <div class="col-md-6 form-group">
                     <label>
                         {{ '::responsibility' | abpLocalization }}
                     </label>
+                    <span> * </span>
                     <ng-select formControlName="responsibility">
                         <ng-option *ngFor="let user of users" [value]="user.id">
                             {{user.name}}
@@ -145,6 +162,7 @@
                     </ng-select>
                 </div>
 
+                
                 <div class="col-md-12 form-group">
                     <label for="byWhen">{{ '::byWhen' | abpLocalization }}</label><span> * </span>
                     <input #datepicker="ngbDatepicker" class="form-control" id="byWhen" name="datepicker" formControlName="byWhen"
