@@ -1,4 +1,7 @@
-﻿using Volo.Abp.Account;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using Volo.Abp.Account;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -17,15 +20,32 @@ namespace RMG.ComplianceSystem
         typeof(AbpPermissionManagementApplicationModule),
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
-        typeof(AbpSettingManagementApplicationModule)
+        typeof(AbpSettingManagementApplicationModule),
+        typeof(AbpAspNetCoreSignalRModule) 
         )]
     public class ComplianceSystemApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<ComplianceSystemApplicationModule>();
+            });
+            Configure<AbpSignalROptions>(options =>
+            {
+                options.Hubs.AddOrUpdate(
+                    typeof(MessagingHub), //Hub type
+                    config => //Additional configuration
+        {
+                        config.RoutePattern = "/Dashboard"; //override the default route
+            config.ConfigureActions.Add(hubOptions =>
+                        {
+                //Additional options
+                hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
+                        });
+                    }
+                );
             });
         }
     }
