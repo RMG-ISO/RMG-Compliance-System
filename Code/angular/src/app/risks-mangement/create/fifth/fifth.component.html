@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" *ngIf="itemData">
     <div class="row">
         <div class="col-md-6 form-group">
             <label>
@@ -49,6 +49,44 @@
             <input type="text" id="reviewControlAssessment" class="form-control" formControlName="reviewControlAssessment" />
         </div>
     
+
+
+        <div class="col-md-6 form-group">
+            <label>
+                {{ '::Probability' | abpLocalization }}
+                <span> * </span>
+            </label>
+            <ng-select formControlName="likelihood">
+                <ng-option *ngFor="let item of likelihood" [value]="item.id">
+                    {{ item | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>
+                {{ '::Impact' | abpLocalization }}
+                <span> * </span>
+            </label>
+            <ng-select formControlName="impact">
+                <ng-option *ngFor="let item of impacts" [value]="item.id">
+                    {{ item | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+
+
+        <div class="col-md-6 form-group">
+            <label>
+                {{ ('::' + Type[itemData.type] + ':Level') | abpLocalization }}
+                <span> * </span>
+            </label>
+            <ng-select formControlName="potentialRisk">
+                <ng-option *ngFor="let item of potentials" [value]="item.id">
+                    {{ item | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+
     
         <div class="col-md-12 form-group">
             <label for="reviewRemarks">
