@@ -43,7 +43,6 @@ export class CreateComponent implements OnInit {
   }
   permissionsAuth = {};
 
-
   ngOnInit(): void {
     this.firstForm =    new FormGroup({
       nameAr          : new FormControl(null,       [Validators.required]),
