@@ -12,7 +12,11 @@ export interface CreateUpdateRiskTreatmentDto {
   StandardReference?: string;
   Responsibility?: string;
   ByWhen?: Date;
-  ReEvaluation?: number;
+  ReEvaluation?: string;
+  ChangeStatus?: string;
+  Likelihood ?:string ;
+  Impact ?:string ;
+  PotentialRisk ?:string ;
 }
 
 export interface RiskTreatmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
@@ -27,7 +31,11 @@ export interface RiskTreatmentDto extends FullAuditedEntityWithUserDto<IdentityU
   Responsibility?: string;
   ResponsibilityName?:string;
   ByWhen?: Date;
-  ReEvaluation?: number;
+  ReEvaluation?: string;
+  ChangeStatus?: string;
+  Likelihood ?:string ;
+  Impact ?:string ;
+  PotentialRisk ?:string ;
 }
 
 export interface RiskTreatmentPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
