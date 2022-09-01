@@ -15,6 +15,10 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public string ObjectiveEvidenceEn { get; set; }
         public string ObjectiveEvidenceAr { get; set; }
         public Guid? StandardReference { get; set; }
+        public Guid? ChangeStatus { get; set; }
+        public Guid? Likelihood { get; set; }
+        public Guid? Impact { get; set; }
+        public Guid? Potential { get; set; }
         public Guid? Responsibility { get; set; }
         public DateTime? ByWhen { get; set; }
         public string TreatmentRemarks { get; set; }

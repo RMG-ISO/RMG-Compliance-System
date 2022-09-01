@@ -104,13 +104,13 @@ namespace RMG.ComplianceSystem.StaticData
             Types.Add(new getEnumTypeStaticData { Id = 1, NameAr = "تصنيف الخطر", NameEn = "Categories" });
             Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "إحتمال الخطر", NameEn = "Likelihood" });
             Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "تأثير الخطر", NameEn = "Impacts" });
-            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = " شدة الخطر", NameEn = "Potentials" });
-            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = " ضوابط الخطر", NameEn = "ControlAssessment" });
+            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "شدة الخطر", NameEn = "Potentials" });
+            Types.Add(new getEnumTypeStaticData { Id = 5, NameAr = "ضوابط الخطر", NameEn = "ControlAssessment" });
             Types.Add(new getEnumTypeStaticData { Id = 6, NameAr = "معالجة الخطر", NameEn = "Treatment Option" });
-            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = " سياق الخطر", NameEn = "Risk Context" });
-            Types.Add(new getEnumTypeStaticData { Id = 9, NameAr = " إطار العمل المرجعي", NameEn = "Standard Reference" });
-            
-
+            Types.Add(new getEnumTypeStaticData { Id = 7, NameAr = "سياق الخطر", NameEn = "Risk Context" });
+            Types.Add(new getEnumTypeStaticData { Id = 9, NameAr = "إطار العمل المرجعي", NameEn = "Standard Reference" });
+            Types.Add(new getEnumTypeStaticData { Id = 10, NameAr = "حالات معالجة الخطر", NameEn = "Status Treatment" });
+            Types.Add(new getEnumTypeStaticData { Id = 11, NameAr = "إعادة التقييم", NameEn = "ReEvaluation" });
             //}
             return Types;
         }
