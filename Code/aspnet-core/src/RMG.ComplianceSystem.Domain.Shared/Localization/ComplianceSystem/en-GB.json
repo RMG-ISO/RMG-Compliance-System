@@ -58,7 +58,7 @@
     "Acceptance": "Acceptance",
     "Status": "Status",
     "Status:Open": "Open",
-    "Status:Closed": "Closed",
+    "Status:Close": "Close",
     "AcceptedBy": "Accepted By",
     "EvaluationStatusReview": "Evaluation Status Review",
     "Notes": "Notes",
