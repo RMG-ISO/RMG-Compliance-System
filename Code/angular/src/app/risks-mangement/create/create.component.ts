@@ -62,15 +62,19 @@ export class CreateComponent implements OnInit {
 
 
     this.secondForm = new FormGroup({
-      existingControl:  new FormControl(null, [Validators.required]),
+      // existingControl:  new FormControl(null),
       controlAssessment:  new FormControl(null, [Validators.required]),
+      numberMatrix:  new FormControl(null, [Validators.required]),
       likelihood:  new FormControl(null, [Validators.required]),
       impact:  new FormControl(null, [Validators.required]),
+      potential:  new FormControl(null, [Validators.required]),
     });
 
     this.thirdForm = new FormGroup({
-      potentialRisk:  new FormControl(null, [Validators.required]),
-      riskTreatmentOption:  new FormControl(null, [Validators.required]),
+      numberMatrix:  new FormControl(null),
+      potential:  new FormControl(null),
+      likelihood:  new FormControl(),
+      isTreatment:  new FormControl(null, [Validators.required]),
     });
 
     this.fifthForm = new FormGroup({

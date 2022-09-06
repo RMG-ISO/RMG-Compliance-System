@@ -14,5 +14,10 @@ namespace RMG.ComplianceSystem.StaticData
         public string NameEn { get; set; }
         public string NameAr { get; set; }
     }
+   public class getMatrix
+    {
+        public List<getEnumTypeStaticData> likehood { get; set; }
+        public List<getEnumTypeStaticData> Impact { get; set; }
+    }
 
 }

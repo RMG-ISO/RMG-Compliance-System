@@ -97,12 +97,12 @@ namespace RMG.ComplianceSystem.Risks
                     var getuser = User.GetByIdAsync((Guid)item.OwnerId).Result;
                     Risk.OwnerName= getuser.UserName;
                 }
-                if (Risk.PotentialRisk != null)
-                {
-                    var StaticData = StaticDatarepository.Where(t=>t.Id==(Guid)item.PotentialRisk).FirstOrDefault();
-                    Risk.PotentialNameAr= StaticData.NameAr;
-                    Risk.PotentialNameEn= StaticData.NameEn;
-                }
+                //if (Risk.PotentialRisk != null)
+                //{
+                //    var StaticData = StaticDatarepository.Where(t=>t.Id==(Guid)item.PotentialRisk).FirstOrDefault();
+                //    Risk.PotentialNameAr= StaticData.NameAr;
+                //    Risk.PotentialNameEn= StaticData.NameEn;
+                //}
                 RisksData.Add(Risk);
             }
 
@@ -118,6 +118,29 @@ namespace RMG.ComplianceSystem.Risks
 
         #endregion
 
+        public async Task<getMatrix> getMatrix(int matrix)
+        {
+            var getdata = new getMatrix();
+            var Types = new List<getEnumTypeStaticData>();
+            Types.Add(new getEnumTypeStaticData { Id = 1, NameAr = "تقريبا متأكد", NameEn = "Almost certain" });
+            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "محتمل", NameEn = "likely" });
+            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "غير محتمل", NameEn = "Unlikely" });
+            Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "نادر", NameEn = "Rare" });
+
+            var Impacts = new List<getEnumTypeStaticData>();
+            Impacts.Add(new getEnumTypeStaticData { Id = 1, NameAr = "ضئيل", NameEn = "Insignificant" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 2, NameAr = "ثانوي", NameEn = "Minor" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 3, NameAr = "هام", NameEn = "Significant" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 4, NameAr = "شديد", NameEn = "Extreme" });
+
+            var likehood = Types.Take(matrix);
+            var Impact = Impacts.Take(matrix);
+            getdata.Impact= Impact.ToList();
+            getdata.likehood = likehood.ToList();
+            return getdata;
+        }
+      
+        
 
     }
 }
