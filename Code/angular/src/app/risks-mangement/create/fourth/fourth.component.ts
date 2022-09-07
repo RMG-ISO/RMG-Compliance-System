@@ -9,7 +9,7 @@ import { IdentityUserService } from '@abp/ng.identity';
 import { StaticDataService } from '@proxy/StaticData';
 import { HistoryAction, Status } from '../../module.enums';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
-
+import { SignalrService } from '@proxy/signalrService';
 @Component({
   selector: 'app-fourth',
   templateUrl: './fourth.component.html',
@@ -29,7 +29,8 @@ export class FourthComponent implements OnInit {
     private route: ActivatedRoute,
     private userService:IdentityUserService,
     private staticDataService:StaticDataService,
-    private riskAndOpportunityService:RiskAndOpportunityService
+    private riskAndOpportunityService:RiskAndOpportunityService,
+    private signalrService:SignalrService,
   ) { }
 
   users;
@@ -45,8 +46,10 @@ export class FourthComponent implements OnInit {
     })
     this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
-    })
-
+    });
+    debugger;
+this.signalrService.startConnection();
+this.signalrService.addTreatmentRisksListener();
 
     this.getList();
   }
@@ -86,25 +89,23 @@ export class FourthComponent implements OnInit {
   }
 
   form:FormGroup;
-  
+
   buildForm() {
     this.form = new FormGroup({
       id: new FormControl(null),
       riskOpportunityId: new FormControl(this.route.snapshot.params.id),
       responsibility: new FormControl(null, Validators.required),
-      byWhen: new FormControl( null , Validators.required),
-      treatmentRemarks: new FormControl(null, Validators.required),
-      reEvaluation: new FormControl(null),
+      dueDate: new FormControl( null , Validators.required),
       mitigateActionPlanAr: new FormControl(null, Validators.required),
       mitigateActionPlanEn: new FormControl(null, Validators.required),
-      objectiveEvidenceAr: new FormControl(null, Validators.required),
-      objectiveEvidenceEn: new FormControl(null, Validators.required),
-      standardReferenceAr: new FormControl(null),
-      standardReferenceEn: new FormControl(null),
-      standardReference: new FormControl(null, Validators.required),
+      actionDetailsAr: new FormControl(null, Validators.required),
+      actionDetailsEn: new FormControl(null, Validators.required),
+      startDate:new FormControl(null),
+      achievementPercentage:new FormControl(null),
+      status: new FormControl(1),
     });
     this.form.patchValue(this.selected);
-    this.form.controls.byWhen.patchValue( this.selected?.byWhen ? new Date( this.selected?.byWhen ) : new Date());
+    this.form.controls.dueDate.patchValue( this.selected?.dueDate ? new Date( this.selected?.dueDate ) : new Date());
   }
 
 

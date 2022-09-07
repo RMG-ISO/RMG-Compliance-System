@@ -65,10 +65,10 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<PagedResultDto<RiskAndOpportunityDto>> GetListRiskByFilterAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             List<RiskAndOpportunityDto> Risks = new List<RiskAndOpportunityDto>();
-            if (input.Type!=null)
+            if (input.Type != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskAndOpportunityRepository.Where(x =>x.IsDeleted==false&& x.Type == input.Type &&
+                var ListRisks = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false && x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
@@ -77,9 +77,9 @@ namespace RMG.ComplianceSystem.Risks
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-              var  ListDoc = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false &&
-               ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
-                 .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                var ListDoc = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false &&
+                ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                   .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
             }
@@ -93,21 +93,21 @@ namespace RMG.ComplianceSystem.Risks
                     var getuser = User.GetByIdAsync((Guid)Risk.CreatorId).Result;
                     Risk.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
                 }
-                if (Risk.OwnerId!=null) {
+                if (Risk.OwnerId != null)
+                {
                     var getuser = User.GetByIdAsync((Guid)item.OwnerId).Result;
-                    Risk.OwnerName= getuser.UserName;
+                    Risk.OwnerName = getuser.UserName;
                 }
-                //if (Risk.PotentialRisk != null)
-                //{
-                //    var StaticData = StaticDatarepository.Where(t=>t.Id==(Guid)item.PotentialRisk).FirstOrDefault();
-                //    Risk.PotentialNameAr= StaticData.NameAr;
-                //    Risk.PotentialNameEn= StaticData.NameEn;
-                //}
+                if (Risk.Potential != null)
+                {
+                    Risk.PotentialNameAr = getPotentialName(Risk.Potential).Result.NameAr;
+                    Risk.PotentialNameEn = getPotentialName(Risk.Potential).Result.NameEn;
+                }
                 RisksData.Add(Risk);
             }
 
-             //Get the total count with Risk
-             var totalCount = RisksData.Count;
+            //Get the total count with Risk
+            var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,
@@ -115,9 +115,29 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
+        public async Task<getEnumTypeStaticData> getPotentialName(int? Potential)
+        {
+            var Potentials = new List<getEnumTypeStaticData>();
+            Potentials.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Medium", NameAr = "متوسط" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 8, NameEn = "High", NameAr = "عالي" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 12, NameEn = "Very High", NameAr = "عالي جدا" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 16, NameEn = "Very High", NameAr = "عالي جدا" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 3, NameEn = "Low", NameAr = "ضعيف" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Medium", NameAr = "متوسط" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 9, NameEn = "High", NameAr = "عالي" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 16, NameEn = "Very High", NameAr = "عالي جدا" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Low", NameAr = "ضعيف" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Medium", NameAr = "متوسط" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Medium", NameAr = "متوسط" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 8, NameEn = "High", NameAr = "عالي" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 1, NameEn = "very Low", NameAr = "ضعيف جدا" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Low", NameAr = "ضعيف" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 3, NameEn = "Low", NameAr = "ضعيف" });
+            Potentials.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Medium", NameAr = "متوسط" });
+            var PotentialData = Potentials.FirstOrDefault(t=>t.Id==Potential);
+            return PotentialData;
 
-        #endregion
-
+        }
         public async Task<getMatrix> getMatrix(int matrix)
         {
             var getdata = new getMatrix();
@@ -135,12 +155,16 @@ namespace RMG.ComplianceSystem.Risks
 
             var likehood = Types.Take(matrix);
             var Impact = Impacts.Take(matrix);
-            getdata.Impact= Impact.ToList();
+            getdata.Impact = Impact.ToList();
             getdata.likehood = likehood.ToList();
             return getdata;
         }
-      
-        
+
+
+        #endregion
+
+
+
 
     }
 }

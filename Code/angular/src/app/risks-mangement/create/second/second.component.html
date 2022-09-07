@@ -73,7 +73,7 @@
             <div *ngFor="let item of potentials">
               <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let child of item">
 
-                <button [ngClass]="{'veryHigh':child.levelNum==4, 'High':child.levelNum==3,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}" (click)="setValue(child.likelihood,child.impact,child.Potential)"  style="width:150px">
+                <button [ngClass]="{'veryHigh':child.levelNum==4, 'High':child.levelNum==3,'Selected':child.Potential==Potential&&child.likelihood==likelihood,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}" (click)="setValue(child.likelihood,child.impact,child.Potential)"  style="width:150px">
                    {{ child | lang:'level' }}
                 </button>
 
@@ -103,6 +103,11 @@
 .Verylow{
   background-color: rgb(3, 160, 8);
   color: white;
+}
+.Selected{
+  border-color: rgb(10, 10, 10);
+  border-radius: 9px;
+  color:rgb(37, 10, 241)
 }
 
 </style>

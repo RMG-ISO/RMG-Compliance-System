@@ -10,7 +10,7 @@
                 <span>{{ "::Create" | abpLocalization }}</span>
             </button>
 
-           
+
             <!-- <ng-container *ngIf="itemData.status == Status.Open"> -->
                 <button  mat-icon-button [matMenuTriggerFor]="menu" class="re-btn" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
                     {{ '::ReEvaluation' | abpLocalization }}
@@ -45,28 +45,19 @@
             </ngx-datatable-column>
 
 
-            <ngx-datatable-column [name]="'::StandardReference' | abpLocalization" prop="standardReference">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ row | lang:'standardReference' }}
-                </ng-template>
-            </ngx-datatable-column>
-
-
-            <ngx-datatable-column [name]="'::ObjectiveEvidence' | abpLocalization" prop="objectiveEvidence">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ row | lang:'objectiveEvidence' }}
-                </ng-template>
-            </ngx-datatable-column>
-
             <ngx-datatable-column [name]="'::responsibility' | abpLocalization" prop="responsibilityName"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::byWhen' | abpLocalization" prop="byWhen">
+            <ngx-datatable-column [name]="'::DueDate' | abpLocalization" prop="dueDate">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | date:'yyyy-MM-dd' }}
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::treatmentRemarks' | abpLocalization" prop="treatmentRemarks"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::StatusName' | abpLocalization" prop="StatusName">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ row | lang:'statusName' }}
+            </ng-template>
+            </ngx-datatable-column>
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -105,49 +96,14 @@
                 </div>
 
 
-                <!-- <div class="col-md-6 form-group">
-                    <label for="standardReferenceAr">{{ '::standardReferenceAr' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="standardReferenceAr" class="form-control" formControlName="standardReferenceAr" />
+                <div class="col-md-6 form-group">
+                    <label for="actionDetailsAr">{{ '::ActionDetailsAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="actionDetailsAr" class="form-control" formControlName="actionDetailsAr" />
                 </div>
                 <div class="col-md-6 form-group">
-                    <label for="standardReferenceEn">{{ '::standardReferenceEn' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="standardReferenceEn" class="form-control" formControlName="standardReferenceEn" />
-                </div> -->
-
-
-                <div class="col-md-6 form-group">
-                    <label for="objectiveEvidenceAr">{{ '::objectiveEvidenceAr' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="objectiveEvidenceAr" class="form-control" formControlName="objectiveEvidenceAr" />
+                    <label for="actionDetailsEn">{{ '::ActionDetailsEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="actionDetailsEn" class="form-control" formControlName="actionDetailsEn" />
                 </div>
-                <div class="col-md-6 form-group">
-                    <label for="objectiveEvidenceEn">{{ '::objectiveEvidenceEn' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="objectiveEvidenceEn" class="form-control" formControlName="objectiveEvidenceEn" />
-                </div>
-<!-- 
-                <div class="col-md-6 form-group">
-                    <label>
-                        {{ '::ReEvaluation' | abpLocalization }}
-                    </label>
-
-                    <ng-select formControlName="reEvaluation">
-                        <ng-option *ngFor="let item of potentials" [value]="item.id">
-                            {{ item | lang:'name' }}
-                         </ng-option>
-                    </ng-select>
-                </div> -->
-
-
-                <div class="col-md-6 form-group">
-                    <label>
-                        {{ '::StandardReference' | abpLocalization }}
-                    </label>
-
-                    <ng-select formControlName="standardReference">
-                        <ng-option *ngFor="let item of standards" [value]="item.id">
-                            {{ item | lang:'name' }}
-                         </ng-option>
-                    </ng-select>
-                </div> 
 
 
                 <div class="col-md-6 form-group">
@@ -162,18 +118,21 @@
                     </ng-select>
                 </div>
 
-                
-                <div class="col-md-12 form-group">
-                    <label for="byWhen">{{ '::byWhen' | abpLocalization }}</label><span> * </span>
-                    <input #datepicker="ngbDatepicker" class="form-control" id="byWhen" name="datepicker" formControlName="byWhen"
+                <div class="col-md-6 form-group">
+                    <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
+                    <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
                     ngbDatepicker (click)="datepicker.toggle()" />
                 </div>
+                <div class="col-md-6 form-group">
+                  <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
+                  <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
+              </div>
+                <div class="col-md-6 form-group">
+                  <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
+                  <input #datepicker="ngbDatepicker" disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate"
+                  ngbDatepicker (click)="datepicker.toggle()" />
+              </div>
 
-
-                <div class="col-md-12 form-group">
-                    <label for="treatmentRemarks">{{ '::treatmentRemarks' | abpLocalization }}</label><span> * </span>
-                    <textarea class="form-control"  id="treatmentRemarks" formControlName="treatmentRemarks"></textarea>
-                </div>
 
             </div>
         </form>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RMG.ComplianceSystem.DashBoards;
 using System;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
@@ -35,7 +36,7 @@ namespace RMG.ComplianceSystem
             Configure<AbpSignalROptions>(options =>
             {
                 options.Hubs.AddOrUpdate(
-                    typeof(MessagingHub), //Hub type
+                    typeof(Dashboard), //Hub type
                     config => //Additional configuration
         {
                         config.RoutePattern = "/Dashboard"; //override the default route
