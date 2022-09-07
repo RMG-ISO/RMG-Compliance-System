@@ -1,4 +1,5 @@
 ﻿using RMG.ComplianceSystem.Risks.Dtos;
+using RMG.ComplianceSystem.Attachments.Dtos;
 using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
@@ -11,21 +12,18 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public Guid RiskOpportunityId { get; set; }
         public string MitigateActionPlanEn { get; set; }
         public string MitigateActionPlanAr { get; set; }
-        public string StandardReferenceEn { get; set; }
-        public string StandardReferenceAr { get; set; }
-        public string ObjectiveEvidenceEn { get; set; }
-        public string ObjectiveEvidenceAr { get; set; }
-        public Guid? ChangeStatus { get; set; }
-        public Guid? Likelihood { get; set; }
-        public Guid? Impact { get; set; }
-        public Guid? Potential { get; set; }
-        public Guid? StandardReference { get; set; }
+        public string ActionDetailsEn { get; set; }
+        public string ActionDetailsAr { get; set; }
         public Guid? Responsibility { get; set; }
         public string ResponsibilityName { get; set; }
-        public DateTime? ByWhen { get; set; }
-        public string TreatmentRemarks { get; set; }
-        // PotentialRisk (Enum)
-        public Guid? ReEvaluation { get; set; }
-        public virtual RiskAndOpportunityDto RiskAndOpportunityDto { get; set; }
+        public int? Status { get; set; } 
+        public string StatusNameEn { get; set; }
+        public string StatusNameAr { get; set; }
+        public DateTime? DueDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public decimal? AchievementPercentage { get; set; }
+        public Guid? AttachmentId { get; set; }
+        public virtual AttachmentDto Attachment { get; set; }
+        public virtual RiskAndOpportunityDto RiskAndOpportunity { get; set; }
     }
 }

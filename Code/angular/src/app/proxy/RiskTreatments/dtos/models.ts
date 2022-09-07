@@ -1,41 +1,37 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { IdentityUserDto } from '@abp/ng.account';
+import { AttachmentDto } from '@proxy/attachments/dtos';
 
 export interface CreateUpdateRiskTreatmentDto {
   RiskOpportunityId?: string;
   MitigateActionPlanEn?: string;
-  StandardReferenceEn?: string;
-  ObjectiveEvidenceEn?: string;
   MitigateActionPlanAr?: string;
-  StandardReferenceAr?: string;
-  ObjectiveEvidenceAr?: string;
-  StandardReference?: string;
+  ActionDetailsAr?:string;
+  ActionDetailsEn?:string;
   Responsibility?: string;
-  ByWhen?: Date;
-  ReEvaluation?: string;
-  ChangeStatus?: string;
-  Likelihood ?:string ;
-  Impact ?:string ;
-  PotentialRisk ?:string ;
+  DueDate?:Date;
+  StartWhen?: Date;
+  Status?: number;
+  AchievementPercentage?:number;
+  AttachmentId?: string;
 }
 
 export interface RiskTreatmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   RiskOpportunityId?: string;
   MitigateActionPlanEn?: string;
-  StandardReferenceEn?: string;
-  ObjectiveEvidenceEn?: string;
   MitigateActionPlanAr?: string;
-  StandardReferenceAr?: string;
-  ObjectiveEvidenceAr?: string;
-  StandardReference?: string;
+  ActionDetailsAr?:string;
+  ActionDetailsEn?:string;
   Responsibility?: string;
-  ResponsibilityName?:string;
-  ByWhen?: Date;
-  ReEvaluation?: string;
-  ChangeStatus?: string;
-  Likelihood ?:string ;
-  Impact ?:string ;
-  PotentialRisk ?:string ;
+  ResponsibilityName:string;
+  DueDate?:Date;
+  StartWhen?: Date;
+  Status?: number;
+  StatusNameEn?:string;
+  StatusNameAr?:string;
+  AchievementPercentage?:number;
+  AttachmentId?: string;
+  AttachmentDto?: AttachmentDto;
 }
 
 export interface RiskTreatmentPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

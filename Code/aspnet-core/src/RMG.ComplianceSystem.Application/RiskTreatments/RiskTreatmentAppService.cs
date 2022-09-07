@@ -10,6 +10,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Identity;
 using RMG.ComplianceSystem.Attachments;
+using RMG.ComplianceSystem.StaticData;
 
 namespace RMG.ComplianceSystem.RiskTreatments
 {
@@ -80,7 +81,12 @@ namespace RMG.ComplianceSystem.RiskTreatments
                     var getuser = User.GetByIdAsync((Guid)item.Responsibility).Result;
                     RiskTreatment.ResponsibilityName = getuser.UserName;
                 }
-               
+                if (RiskTreatment.Status != null)
+                {
+                    RiskTreatment.StatusNameEn = getStatusName(RiskTreatment.Status).Result.NameEn;
+                    RiskTreatment.StatusNameAr = getStatusName(RiskTreatment.Status).Result.NameAr;
+                }
+
                 RisksData.Add(RiskTreatment);
             }
             //Get the total count with Risk
@@ -91,7 +97,31 @@ namespace RMG.ComplianceSystem.RiskTreatments
                 RisksData
             );
         }
+        public async Task<List<getEnumTypeStaticData>> getStatus()
+        {
+            var status = new List<getEnumTypeStaticData>();
+            status.Add(new getEnumTypeStaticData { Id = 1, NameEn = "Waiting ", NameAr = "قيد الانتظار " });
+            status.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Started ", NameAr = "تم البدء" });
+            status.Add(new getEnumTypeStaticData { Id = 3, NameEn = "In Progress", NameAr = "في تقدم" });
+            status.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Completed ", NameAr = "تمت" });
+            status.Add(new getEnumTypeStaticData { Id = 5, NameEn = "Late", NameAr = "متاخر" });
+            status.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Canceled ", NameAr = "تم الالغاء" });
+            return status;  
+        }
+        public async Task<getEnumTypeStaticData> getStatusName(int? statusId)
+        {
+            var status = new List<getEnumTypeStaticData>();
 
+            status.Add(new getEnumTypeStaticData { Id = 1, NameEn = "Waiting ", NameAr = "قيد الانتظار " });
+            status.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Started ", NameAr = "تم البدء" });
+            status.Add(new getEnumTypeStaticData { Id = 3, NameEn = "In Progress", NameAr = "في تقدم" });
+            status.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Completed ", NameAr = "تمت" });
+            status.Add(new getEnumTypeStaticData { Id = 5, NameEn = "Late", NameAr = "متاخر" });
+            status.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Canceled ", NameAr = "تم الالغاء" });
+            var statusName = status.FirstOrDefault(t=>t.Id==statusId);
+            return statusName;
+;
+        }
         #endregion
 
 
