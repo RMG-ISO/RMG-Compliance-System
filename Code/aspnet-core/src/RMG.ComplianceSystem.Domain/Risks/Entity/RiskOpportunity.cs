@@ -37,15 +37,14 @@ namespace RMG.ComplianceSystem.Risks.Entity
         public string ExistingControlAr { get; set; }
         // ControlAssessment (Enum)
         public Guid? ControlAssessment { get; set; }
-        // Likelihood (Enum)
-        public Guid? Likelihood { get; set; }
-        // Impact (Enum)
-        public Guid? Impact { get; set; }
-
+        public int? NumberMatrix { get; set; }
+        public int? Likelihood { get; set; }
+        public int? Impact { get; set; }
 
         //Evaluation---------------------------
         // PotentialRisk (Enum)
-        public Guid? PotentialRisk { get; set; }
+        public int? Potential { get; set; }
+        public bool? IsTreatment { get; set; }
         public Guid? RiskTreatmentOption { get; set; }
 
 

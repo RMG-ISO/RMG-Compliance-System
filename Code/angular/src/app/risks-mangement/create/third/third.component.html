@@ -1,6 +1,6 @@
 <form [formGroup]="form" *ngIf="itemData">
     <div class="row">
-        <div class="col-md-6 form-group">
+        <!-- <div class="col-md-6 form-group">
             <label>
                 {{ ('::' + Type[itemData.type] + ':Level') | abpLocalization }}
                 <span> * </span>
@@ -10,17 +10,78 @@
                     {{ item | lang:'name' }}
                 </ng-option>
             </ng-select>
-        </div>
+        </div> -->
         <div class="col-md-6 form-group">
             <label>
-                {{ ('::' + Type[itemData.type] + ':Treatment') | abpLocalization }}
+               Is Treatment
                 <span> * </span>
             </label>
-            <ng-select formControlName="riskTreatmentOption">
-                <ng-option *ngFor="let item of riskTreatment" [value]="item.id">
-                    {{ item | lang:'name' }}
-                </ng-option>
+            <ng-select formControlName="isTreatment">
+              <ng-option *ngFor="let item of Treatments" [value]="item.id">
+                {{ item | lang:'name' }}
+            </ng-option>
             </ng-select>
         </div>
+        <div class="col-md-12 form-group" style="padding-left: 174px;">
+          Risk Management Matrix
+           </div>
+           <div style="display:inline-flex;min-width:850px;">
+             <div style="min-width:150px;padding-left: 49px;">
+               <div *ngFor="let item of impacts" style="padding-top: 10px;">
+                 <span [ngClass]="{'hide':item == 'null'}" style="width:150px">  {{ item | lang:'name' }} </span>
+               </div>
+             </div>
+
+             <div style="min-width:700px">
+               <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
+                 <span [ngClass]="{'hide':item == 'null'}" style="width:150px;padding-left: 45px;">
+                   {{ item | lang:'name' }}
+                 </span>
+               </div>
+
+               <div *ngFor="let item of potentials">
+                 <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let child of item">
+
+                   <button [ngClass]="{'veryHigh':child.levelNum==4,'Selected':child.Potential==Potential&&child.likelihood==likelihood, 'High':child.levelNum==3,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}"   style="width:150px">
+                      {{ child | lang:'level' }}
+                   </button>
+
+                 </div>
+               </div>
+             </div>
+           </div>
     </div>
 </form>
+<style>
+  .veryHigh {
+  background-color: rgb(162, 3, 3);
+  color: white;
+  border-color: rgb(216, 214, 214);
+}
+.High {
+  background-color: rgb(243, 161, 8);
+  color: white;
+  border-color: rgb(216, 214, 214);
+}
+.Medium {
+  background-color: rgb(240, 226, 27);
+  color: white;
+ border-color: rgb(216, 214, 214);
+}
+.low {
+  background-color: rgb(7, 113, 11);
+  color: white;
+ border-color: rgb(216, 214, 214);
+}
+.Verylow{
+  background-color: rgb(3, 160, 8);
+  color: white;
+ border-color: rgb(216, 214, 214);
+}
+.Selected{
+  border-color: rgb(10, 10, 10);
+  border-radius: 9px;
+  color:rgb(37, 10, 241)
+}
+
+</style>

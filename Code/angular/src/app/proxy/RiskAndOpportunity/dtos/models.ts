@@ -22,10 +22,12 @@ export interface CreateUpdateRiskAndOpportunityDto {
   ExistingControlEn ?:string ;
   ExistingControlAr?:string ;
   ControlAssessment ?:string ;
-  Likelihood ?:string ;
-  Impact ?:string ;
+  NumberMatrix ?:number ;
+  Likelihood ?:number ;
+  Impact ?:number ;
   //Evaluation---------------------------
-  PotentialRisk ?:string ;
+  Potential ?:number ;
+  IsTreatment ?:boolean ;
   OwnerName?:string ;
   PotentialNameAr?:string ;
   PotentialNameEn?:string ;
@@ -45,7 +47,25 @@ export interface CreateUpdateRiskAndOpportunityDto {
   ReviewRemarks ?:string ;
 
 }
+export interface getTypeDto  {
+  Id?:number;
+  NameAr?: string;
+  NameEn?: string;
 
+}
+export interface matrixModel{
+  NumberMatrix?:number;
+}
+export interface getMatrix  {
+  likehood :getTypeDto[];
+  impact :getTypeDto[];
+}
+export interface levelMatrix{
+  likelihood?:number;
+  impact?:number;
+  Potential?:number;
+  level?:string;
+}
 export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   NameAr ?:string ;
   NameEn ?:string ;
@@ -67,10 +87,12 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   ExistingControlEn ?:string ;
   ExistingControlAr?:string ;
   ControlAssessment ?:string ;
-  Likelihood ?:string ;
-  Impact ?:string ;
+  NumberMatrix ?:number ;
+  Likelihood ?:number ;
+  Impact ?:number ;
   //Evaluation---------------------------
-  PotentialRisk ?:string ;
+  Potential ?:number ;
+  IsTreatment ?:boolean ;
   OwnerName?:string ;
   PotentialNameAr?:string ;
   PotentialNameEn?:string ;

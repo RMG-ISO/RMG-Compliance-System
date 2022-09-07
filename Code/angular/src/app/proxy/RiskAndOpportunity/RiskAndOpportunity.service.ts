@@ -1,4 +1,4 @@
-import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto, RiskOpportunityPagedAndSortedResultRequestDto,HistoryRiskAndOpportunityDto,UserPagedAndSortedResultRequestDto,CreateUpdateHistoryRiskAndOpportunityDto,HistoryRiskOpportunityPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto,matrixModel,getMatrix, RiskOpportunityPagedAndSortedResultRequestDto,HistoryRiskAndOpportunityDto,UserPagedAndSortedResultRequestDto,CreateUpdateHistoryRiskAndOpportunityDto,HistoryRiskOpportunityPagedAndSortedResultRequestDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -54,6 +54,15 @@ export class RiskAndOpportunityService {
       body: input,
     },
     { apiName: this.apiName });
+
+    getMatrixType = (matrix:matrixModel) =>
+    this.restService.request<any, getMatrix>({
+      method: 'GET',
+      url: '/api/app/risk-and-opportunity/get-matrix',
+      params: {matrix:matrix.NumberMatrix},
+    },
+    { apiName: this.apiName });
+
 
    //////History Risk And Opportunity //////////////////
     createhistoryRisk = (input: CreateUpdateHistoryRiskAndOpportunityDto) =>
