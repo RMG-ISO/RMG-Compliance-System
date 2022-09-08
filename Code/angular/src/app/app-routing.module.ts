@@ -47,6 +47,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./risks-mangement/risks-mangement.module').then(m => m.RisksMangementModule)
   },
+  {
+    path:'notifications',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
+  },
 
   // {
   //   path: 'compliance-department',
