@@ -28,6 +28,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using RMG.ComplianceSystem.DashBoards;
 
 namespace RMG.ComplianceSystem
 {
@@ -237,6 +238,7 @@ namespace RMG.ComplianceSystem
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
             app.UseConfiguredEndpoints();
+            
         }
     }
 }
