@@ -11,7 +11,22 @@
                 </ng-option>
             </ng-select>
         </div> -->
+
+
         <div class="col-md-6 form-group">
+          <label>
+              {{ '::IsTreatment' | abpLocalization }}
+              <span> * </span>
+          </label>
+          <mat-radio-group formControlName="isTreatment" color="primary">
+            <mat-radio-button [value]="true">{{ '::yes' | abpLocalization }}</mat-radio-button>
+            <span class="space"></span>
+            <mat-radio-button [value]="false">{{ '::no' | abpLocalization }}</mat-radio-button>
+          </mat-radio-group>
+      </div> 
+
+
+        <!-- <div class="col-md-6 form-group">
             <label>
                Is Treatment
                 <span> * </span>
@@ -19,11 +34,14 @@
             <ng-select formControlName="isTreatment">
               <ng-option *ngFor="let item of Treatments" [value]="item.id">
                 {{ item | lang:'name' }}
-            </ng-option>
+              </ng-option>
             </ng-select>
-        </div>
+        </div> -->
+
+
+
         <div class="col-md-12 form-group" style="padding-left: 174px;">
-          Risk Management Matrix
+          {{ '::RiskManagementMatrix' | abpLocalization }}
            </div>
            <div style="display:inline-flex;min-width:850px;">
              <div style="min-width:150px;padding-left: 49px;">
@@ -52,36 +70,3 @@
            </div>
     </div>
 </form>
-<style>
-  .veryHigh {
-  background-color: rgb(162, 3, 3);
-  color: white;
-  border-color: rgb(216, 214, 214);
-}
-.High {
-  background-color: rgb(243, 161, 8);
-  color: white;
-  border-color: rgb(216, 214, 214);
-}
-.Medium {
-  background-color: rgb(240, 226, 27);
-  color: white;
- border-color: rgb(216, 214, 214);
-}
-.low {
-  background-color: rgb(7, 113, 11);
-  color: white;
- border-color: rgb(216, 214, 214);
-}
-.Verylow{
-  background-color: rgb(3, 160, 8);
-  color: white;
- border-color: rgb(216, 214, 214);
-}
-.Selected{
-  border-color: rgb(10, 10, 10);
-  border-radius: 9px;
-  color:rgb(37, 10, 241)
-}
-
-</style>

@@ -196,7 +196,8 @@ export class CreateComponent implements OnInit {
     this.thirdForm.markAllAsTouched();
     if(this.thirdForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
-      this.activeTab = WorkFlowStages.Processing;
+      if(this.thirdForm.value.isTreatment) this.activeTab = WorkFlowStages.Processing;
+      else this.activeTab = WorkFlowStages.Review;
       this.updateHistory(HistoryAction.Update);
       this.itemData = r;
     })
