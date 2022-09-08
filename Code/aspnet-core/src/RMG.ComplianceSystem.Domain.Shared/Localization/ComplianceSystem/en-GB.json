@@ -85,6 +85,9 @@
     "StatusName": "Status Name",
     "treatmentRemarks": "Remarks",
     "DueDate": "Due Date",
+    "objectiveEvidence": "Objective Evidence",
+    "IsTreatment":"Is Treatment",
+
     "ActionName": "Action Name",
     "ActionDate": "Action Date",
     "creatorName": "creator Name",

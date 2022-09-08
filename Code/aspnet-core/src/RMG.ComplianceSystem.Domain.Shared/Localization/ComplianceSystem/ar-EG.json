@@ -85,6 +85,9 @@
     "ObjectiveEvidence": "الأدلة",
     "Responsibles": "المسؤلين",
     "EndDate": "تاريخ الإنتهاء",
+    "objectiveEvidence": "أدلة موضوعية",
+    "IsTreatment":"قابلة للمعالجة",
+    "RiskManagementMatrix":"مصفوفة إدارة المخاطر",
 
     "ActionName": "الفعل",
     "ActionDate": "التاريخ",

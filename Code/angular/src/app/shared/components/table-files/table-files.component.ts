@@ -11,6 +11,8 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./table-files.component.scss']
 })
 export class TableFilesComponent implements OnInit {
+  @Input('title') title = '::Attachments';
+  
   items: AttachmentFileDto[] = [];
   totalCount: number;
   @Input() attachmentId: string;
