@@ -48,9 +48,9 @@ export class FourthComponent implements OnInit {
       this.standards = r.items;
     });
 
-    debugger;
-    this.signalrService.startConnection();
-    this.signalrService.addTreatmentRisksListener();
+    // debugger;
+    // this.signalrService.startConnection();
+    // this.signalrService.addTreatmentRisksListener();
 
     this.getList();
   }
