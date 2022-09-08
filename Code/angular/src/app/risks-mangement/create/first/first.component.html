@@ -34,6 +34,7 @@
         <div class="col-md-6 form-group">
             <label for="nameEn">
                 {{ ('::' + Type[form.controls.type.value] + ':NameEn') | abpLocalization }}
+                <span> * </span>
             </label>
             <input type="text" id="nameEn" class="form-control" formControlName="nameEn"/>
         </div>
@@ -49,6 +50,7 @@
         <div class="col-md-6 form-group">
             <label for="detailsEn">
                 {{ ('::' + Type[form.controls.type.value] + ':ExplainEn') | abpLocalization }}
+                <span> * </span>
             </label>
             <textarea type="text" id="detailsEn" class="form-control" formControlName="detailsEn"></textarea>
         </div>
@@ -65,6 +67,7 @@
         <div class="col-md-6 form-group">
             <label for="affectDetailsEn">
                 {{ ('::' + Type[form.controls.type.value] + ':DescriptionEn') | abpLocalization }}
+                <span> * </span>
             </label>
             <textarea type="text" id="affectDetailsEn" class="form-control" formControlName="affectDetailsEn"></textarea>
         </div>
