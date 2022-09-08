@@ -27,6 +27,7 @@ using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.RiskTreatments;
+using RMG.ComplianceSystem.Notifications;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -75,6 +76,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<HistoryRiskOpportunity> HistoryRisksAndOpportunities { get; set; }
         public DbSet<StaticDatatb> StaticDatatb { get; set; }
         public DbSet<RisksTreatment> RiskTreatments { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -161,13 +163,19 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
+            builder.Entity<Notification>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Notifications",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
             builder.Entity<StaticDatatb>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "StaticDatatb",
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-
+            
             builder.Entity<Author>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Authors",

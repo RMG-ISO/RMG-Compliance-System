@@ -51,6 +51,10 @@ export class FourthComponent implements OnInit {
 this.signalrService.startConnection();
 this.signalrService.addTreatmentRisksListener();
 
+debugger;
+
+
+
     this.getList();
   }
 

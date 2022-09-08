@@ -23,6 +23,7 @@ using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Risks;
 using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.RiskTreatments;
+using RMG.ComplianceSystem.Notifications;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -61,6 +62,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddRepository<DocumentCategory, DocumentCategoryRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();
+                options.AddRepository<Notification, NotificationRepository>();
                 options.AddRepository<Department, DepartmentRepository>();
                 options.AddRepository<Employee, EmployeeRepository>();
                 options.AddRepository<Domain, DomainRepository>();
