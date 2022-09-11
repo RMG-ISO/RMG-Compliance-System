@@ -123,16 +123,28 @@
                     <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
                     ngbDatepicker (click)="datepicker.toggle()" />
                 </div>
+
                 <div class="col-md-6 form-group">
                   <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
                   <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
-              </div>
-                <div class="col-md-6 form-group">
-                  <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
-                  <input #datepicker="ngbDatepicker" disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate"
-                  ngbDatepicker (click)="datepicker.toggle()" />
-              </div>
+                </div>
 
+                <div class="col-md-6 form-group">
+                    <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
+                    <input #datepicker="ngbDatepicker1" disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startWhen"
+                    ngbDatepicker1 (click)="datepicker.toggle()" />
+                </div>
+
+                <!-- أدلة موضوعية -->
+
+                <app-table-files
+                title="::objectiveEvidence"
+                [attachment]="{isMultiple:false}"
+                [attachmentId]="form.controls.attachmentId.value"
+                [disabled]="form.controls.attachmentId.disabled"
+                (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                (OnFileEndUpload)="OnFileEndUpload($event)">
+                </app-table-files>
 
             </div>
         </form>
@@ -144,7 +156,7 @@
         </button>
 
         <!--added save button-->
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading">
             <i class="fa fa-check mr-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>

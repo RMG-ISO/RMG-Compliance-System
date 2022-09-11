@@ -47,12 +47,10 @@ export class FourthComponent implements OnInit {
     this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
     });
-    debugger;
-this.signalrService.connection;
 
-debugger;
-
-
+    // debugger;
+    // this.signalrService.startConnection();
+    // this.signalrService.addTreatmentRisksListener();
 
     this.getList();
   }
@@ -99,6 +97,7 @@ debugger;
       riskOpportunityId: new FormControl(this.route.snapshot.params.id),
       responsibility: new FormControl(null, Validators.required),
       dueDate: new FormControl( null , Validators.required),
+      startWhen: new FormControl( null , Validators.required),
       mitigateActionPlanAr: new FormControl(null, Validators.required),
       mitigateActionPlanEn: new FormControl(null, Validators.required),
       actionDetailsAr: new FormControl(null, Validators.required),
@@ -106,12 +105,26 @@ debugger;
       startDate:new FormControl(null),
       achievementPercentage:new FormControl(null),
       status: new FormControl(1),
+      attachmentId:new FormControl(null),
     });
     this.form.patchValue(this.selected);
     this.form.controls.dueDate.patchValue( this.selected?.dueDate ? new Date( this.selected?.dueDate ) : new Date());
   }
 
 
+  OnFileUploaded(attachmentId: string) {
+    this.form.controls["attachmentId"].patchValue(attachmentId);
+  }
+
+  uploading
+  OnFileBeginUpload(beginUpload: boolean) {
+    this.uploading = true;
+  }
+
+  OnFileEndUpload(endUpload: boolean) {
+    this.uploading = false;
+  }
+  
   save() {
     if (this.form.invalid) return;
 

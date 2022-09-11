@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center">
   <span class="header-pipe">
-    {{ '::Attachments' | abpLocalization }}
+    {{ title | abpLocalization }}
   </span>
   <app-upload-files *ngIf="!disabled" [attachment]="attachment" (OnUpload)="OnUploaded($event)"
     (OnBeginUpload)="OnBeginUpload($event)" (OnEndUpload)="OnEndUpload($event)"></app-upload-files>

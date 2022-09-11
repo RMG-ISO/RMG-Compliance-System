@@ -46,7 +46,14 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Assessment',
       },
-      ,
+      {
+        path:'/notifications',
+        name:'::Menu:Notifications',
+        iconClass: 'fas fa-bell',
+        order: 1,
+        invisible:true,
+        layout: eLayoutType.application,
+      },
       {
         path:'/risks-management',
         name:'::Menu:RiskManagement',

@@ -17,22 +17,45 @@
   </button>
 </ng-template>
 
-<button
-  style="font-size: 16px;"
-  mat-button
-  
-  *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn"
-  [matMenuTriggerFor]="menu">
-  <small *ngIf="(selectedTenant$ | async)?.name as tenantName">
-    <i>{{ tenantName }}</i>
-    \
-  </small>
 
-  <strong>{{ (currentUser$ | async)?.userName }}</strong>
-  <span class="as-avatar">
-    {{ (currentUser$ | async)?.userName[0] }}
-  </span>
-</button>
+
+
+
+
+
+<ng-container *ngIf="(currentUser$ | async)?.isAuthenticated">
+  <button style="font-size: 16px;" mat-button [matMenuTriggerFor]="notificationsMenu">
+    <i class="fas fa-bell"></i>
+  </button>
+
+  <button style="font-size: 16px;" mat-button *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn"
+    [matMenuTriggerFor]="menu">
+    <small *ngIf="(selectedTenant$ | async)?.name as tenantName">
+      <i>{{ tenantName }}</i>
+      \
+    </small>
+
+    <strong>{{ (currentUser$ | async)?.userName }}</strong>
+    <span class="as-avatar">
+      {{ (currentUser$ | async)?.userName[0] }}
+    </span>
+  </button>
+</ng-container>
+
+<mat-menu #notificationsMenu="matMenu" class="noti-menu">
+  <h4 class="noti-title">
+    التنبيهات
+  </h4>
+  <div class="noti-cont">
+    <a *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" mat-menu-item>
+      التنبيه  - {{1}}
+    </a>
+  </div>
+  <a mat-menu-item class="show-all" [routerLink]="['/notifications']" >
+    عرض كل التنبيهات
+  </a>
+</mat-menu>
+
 
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="navigateToManageProfile()">
