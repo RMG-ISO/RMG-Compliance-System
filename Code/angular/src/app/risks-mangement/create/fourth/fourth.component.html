@@ -131,21 +131,21 @@
 
                 <div class="col-md-6 form-group">
                     <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
-                    <input #datepicker="ngbDatepicker1" disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startWhen"
-                    ngbDatepicker1 (click)="datepicker.toggle()" />
+                    <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
                 </div>
 
                 <!-- أدلة موضوعية -->
+                <div class="col-md-12 form-group">
 
+                  <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
                 <app-table-files
-                title="::objectiveEvidence"
                 [attachment]="{isMultiple:false}"
                 [attachmentId]="form.controls.attachmentId.value"
                 [disabled]="form.controls.attachmentId.disabled"
                 (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
                 (OnFileEndUpload)="OnFileEndUpload($event)">
                 </app-table-files>
-
+                </div>
             </div>
         </form>
     </ng-template>
@@ -156,7 +156,7 @@
         </button>
 
         <!--added save button-->
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading">
+        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading" >
             <i class="fa fa-check mr-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
