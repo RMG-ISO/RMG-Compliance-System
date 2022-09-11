@@ -85,10 +85,6 @@
     "StatusName": "Status Name",
     "treatmentRemarks": "Remarks",
     "DueDate": "Due Date",
-    "objectiveEvidence": "Objective Evidence",
-    "IsTreatment":"Is Treatment",
-    "RiskManagementMatrix":"Risk Management Matrix",
-
     "ActionName": "Action Name",
     "ActionDate": "Action Date",
     "creatorName": "creator Name",
