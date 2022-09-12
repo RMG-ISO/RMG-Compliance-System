@@ -1,83 +1,196 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
-using RMG.ComplianceSystem.Permissions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
+using RMG.ComplianceSystem.EmailTemplates;
+using RMG.ComplianceSystem.Notifications.Dtos;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Identity;
-using RMG.ComplianceSystem.StaticData;
+using Volo.Abp.Emailing;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.Users;
 
 namespace RMG.ComplianceSystem.Notifications
 {
-    // [Authorize(ComplianceSystemPermissions.Notification.Default)]
-    public class NotificationAppService :
-        CrudAppService<
-            Notification, //The Notification entity
-            NotificationDto, //Used to show Notifications
-            Guid, //Primary key of the Notification entity
-            NotificationPagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateNotificationDto>, //Used to create/update a Notification
-        INotificationAppService //implement the INotificationAppService
+    public class NotificationAppService : CrudAppService<Notification, NotificationDto, Guid, NotificationPagedAndSortedResultRequestDto, CreateUpdateNotificationDto, CreateUpdateNotificationDto>,
+        INotificationAppService
     {
-        //   Start Permissions
-        #region Start Permissions
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
-        #endregion
-        // End Permissions
-        //Start Properties and Constructor NotificationAppService
-        #region Start Properties and Constructor NotificationAppService
-        private readonly INotificationRepository NotificationRepository;
-        private readonly IdentityUserManager User;
+        //protected override string GetPolicyName { get; set; } = ISOPermissions.Notification.Default;
+        //protected override string GetListPolicyName { get; set; } = ISOPermissions.Notification.Default;
+        //protected override string CreatePolicyName { get; set; } = ISOPermissions.Notification.Create;
+        //protected override string UpdatePolicyName { get; set; } = ISOPermissions.Notification.Update;
+        //protected override string DeletePolicyName { get; set; } = ISOPermissions.Notification.Delete;
 
-        public NotificationAppService(IdentityUserManager _User, INotificationRepository _NotificationRepository) : base(_NotificationRepository)
+        private readonly INotificationRepository _repository;
+        private readonly IEmailSender _emailSender;
+        private readonly IHubContext<NotificationHub> _notificationHubContext;
+        private readonly ICurrentUser _currentUser;
+       // private readonly IEmailTemplateRepository _emailTemplateRepository;
+
+        public NotificationAppService(
+                                        INotificationRepository repository
+                                       , IEmailSender emailSender
+                                       , ILogger<NotificationAppService> logger
+                                       , IHubContext<NotificationHub> notificationHubContext
+                                       , ICurrentUser currentUser
+                                       //, IEmailTemplateRepository emailTemplateRepository
+            ) : base(repository)
         {
-            NotificationRepository = _NotificationRepository;
-            User = _User;
+            _repository = repository;
+            _emailSender = emailSender;
+            _notificationHubContext = notificationHubContext;
+            _currentUser = currentUser;
+           // _emailTemplateRepository = emailTemplateRepository;
         }
-        #endregion
-        //End Properties and Constructor NotificationAppService
-        //Start Methods getbyId and GetListNotificationBy
-        #region Start Methods getbyId and 
-        public async Task<PagedResultDto<NotificationDto>> GetListRiskByFilterAsync(NotificationPagedAndSortedResultRequestDto input)
-        {
-            List<NotificationDto> Risks = new List<NotificationDto>();
-            
-                //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = NotificationRepository.Where(x => x.IsDeleted == false )
-                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
-                // Mapping Notification to NotificationDto
-                Risks = ObjectMapper.Map<List<Notification>, List<NotificationDto>>(ListRisks);
-           
-            var RisksData = new List<NotificationDto>();
-            foreach (var item in Risks)
-            {
-                var Notification = new NotificationDto();
-                Notification = item;
-                if (Notification.CreatorId != null)
-                {
-                    var getuser = User.GetByIdAsync((Guid)Notification.CreatorId).Result;
-                    Notification.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
-                }
-               
 
-                RisksData.Add(Notification);
+        /// <summary>
+        /// Send Notifications by mail
+        /// </summary>
+        /// <returns></returns>
+       // [RemoteService(false)]
+        [AllowAnonymous]
+        public async Task SendNotifications()
+        {
+            var notificationsTobeSent = _repository.Where(N => N.Status == Status.Created).ToList();
+
+            foreach (var item in notificationsTobeSent)
+            {
+                if (item.Type == NotificationType.Email)
+                {
+                    try
+                    {
+                        //var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
+                        //var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
+                        ////var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
+                        ////var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
+                        //string _body = hearder.Body;
+                        //_body += item.Body;
+                        //_body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
+
+                        //MailMessage mailMessage = new MailMessage
+                        //{
+                        //    Subject = item.Subject,
+                        //    Body = _body,
+                        //    IsBodyHtml = item.IsHTML
+                        //};
+                        //mailMessage.To.Add(item.To);
+                        //if (!string.IsNullOrEmpty(item.CC))
+                        //    mailMessage.CC.Add(item.CC);
+                        //await _emailSender.SendAsync(mailMessage);
+
+                        //item.Status = Status.Success;
+                    }
+                    catch (Exception ex)
+                    {
+                        item.Status = Status.Fail;
+
+                        Logger.LogError(ex.ToString());
+                    }
+
+                    await _repository.UpdateAsync(item);
+                }
+                else if (item.Type == NotificationType.Push)
+                {
+
+                }
+                else if (item.Type == NotificationType.SMS)
+                {
+
+                }
             }
-            //Get the total count with Risk
-            var totalCount = RisksData.Count;
-            // return RiskDtos and totalCount
+        }
+
+        [RemoteService(false)]
+        public async Task NotifyUser(Guid userToNotify)
+        {
+            string userId = userToNotify.ToString();
+            var userNotifications = Repository.Where(t => t.To == userId);
+            var Notifications = new NotifyUserDto
+            {
+                UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
+                Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).Take(6).Select(t => new NotifyUserNotificationDto
+                {
+                    Id = t.Id,
+                    Title = t.Body,
+                    Status = t.Status,
+                    Url = t.Url
+                }).ToList()
+            };
+
+            await _notificationHubContext.Clients
+                .User(userId)
+                .SendAsync("ReceiveNotification", Notifications);
+        }
+        public async Task MarkAsSeen(Guid id)
+        {
+            var notification = await Repository.GetAsync(id);
+            notification.Status = Status.Seen;
+            await Repository.UpdateAsync(notification);
+            await CurrentUnitOfWork.SaveChangesAsync();
+            if (_currentUser.IsAuthenticated)
+                await NotifyUser(_currentUser.Id.Value);
+        }
+        public async Task<NotifyUserDto> GetCurrentUserNotificationAsync()
+        {
+            string userId = _currentUser.Id.ToString();
+            var userNotifications = Repository.Where(t => t.To == userId);
+            var Notifications = new NotifyUserDto
+            {
+                UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
+                Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).OrderByDescending(v => v.CreationTime).Take(6).Select(t => new NotifyUserNotificationDto
+                {
+                    Id = t.Id,
+                    Title = t.Body,
+                    Status = t.Status,
+                    Url = t.Url
+                }).ToList()
+            };
+            return Notifications;
+
+        }
+
+        protected async override Task<IQueryable<Notification>> CreateFilteredQueryAsync(NotificationPagedAndSortedResultRequestDto input)
+        {
+            await CheckGetListPolicyAsync();
+            return (await Repository.WithDetailsAsync())
+               .WhereIf(!input.Body.IsNullOrEmpty(), t => t.Body.Contains(input.Body))
+               .WhereIf(input.CreationTime.HasValue, t => t.CreationTime.Date == input.CreationTime.Value.Date);
+        }
+
+        public async Task<PagedResultDto<NotificationDto>> GetListCurrentUserNotificationsAsync(NotificationPagedAndSortedResultRequestDto input)
+        {
+
+            await CheckGetListPolicyAsync();
+
+            var query = (await Repository.GetQueryableAsync())
+               .WhereIf(!input.Body.IsNullOrEmpty(), t => t.Body.Contains(input.Body))
+               .WhereIf(input.Source.HasValue, t => t.Source == input.Source)
+               .WhereIf(input.CreationTime.HasValue, t => t.CreationTime.Date == input.CreationTime.Value.Date).Where(t => t.Type == NotificationType.Push && t.To == _currentUser.Id.ToString());
+
+            var totalCount = await AsyncExecuter.CountAsync(query);
+
+            query = ApplySorting(query, input);
+            query = ApplyPaging(query, input);
+
+            var entities = await AsyncExecuter.ToListAsync(query);
+
+            var entityDtos = await MapToGetListOutputDtosAsync(entities);
+
+
             return new PagedResultDto<NotificationDto>(
                 totalCount,
-                RisksData
+                entityDtos
             );
+
         }
-   
-        #endregion
 
-
+        public Task<PagedResultDto<NotificationDto>> GetListRiskByFilterAsync(NotificationPagedAndSortedResultRequestDto input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

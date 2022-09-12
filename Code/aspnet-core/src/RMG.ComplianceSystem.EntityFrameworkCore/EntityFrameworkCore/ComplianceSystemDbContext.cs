@@ -28,6 +28,7 @@ using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.RiskTreatments;
 using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.EmailTemplates;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -77,6 +78,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<StaticDatatb> StaticDatatb { get; set; }
         public DbSet<RisksTreatment> RiskTreatments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
+        
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -124,7 +127,13 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
-
+            
+                 builder.Entity<EmailTemplate>(b =>
+                 {
+                     b.ToTable(ComplianceSystemConsts.DbTablePrefix + "EmailTemplates",
+                         ComplianceSystemConsts.DbSchema);
+                     b.ConfigureByConvention();
+                 });
             builder.Entity<Book>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Books",

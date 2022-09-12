@@ -1,8 +1,8 @@
-import { Type } from './../../module.enums';
+import { Type,WorkFlowStages } from './../../module.enums';
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
-
+import { CreateComponent } from './../../create/create.component';
 @Component({
   selector: 'app-third',
   templateUrl: './third.component.html',
@@ -14,6 +14,7 @@ export class ThirdComponent implements OnInit {
   Type = Type;
   constructor(
     private staticDataService: StaticDataService,
+    private createComponent:CreateComponent,
     private riskAndOpportunityService: RiskAndOpportunityService
   ) {}
 
@@ -28,7 +29,6 @@ export class ThirdComponent implements OnInit {
     this.likelihood = this.form.value.likelihood;
     this.changeMatrix(NumberMatrix);
   }
-
   ListMatrix = [];
   NumberMatrix = 4;
   controlAssesment;
@@ -178,10 +178,16 @@ export class ThirdComponent implements OnInit {
       );
     }
   }
+  isTreatment;
   getListMatrix(Matrix) {
     this.riskAndOpportunityService.getMatrixType({ NumberMatrix: Matrix }).subscribe(r => {
       this.likehood = r?.likehood;
       this.impacts = r?.impact;
     });
   }
+  IsTreatement(Treatment){
+    debugger;
+    this.isTreatment=Treatment.value;
+  }
+
 }

@@ -26,6 +26,9 @@ using RMG.ComplianceSystem.Risks;
 using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.RiskTreatments;
 using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.Notifications.Dtos;
+using RMG.ComplianceSystem.EmailTemplates;
+using RMG.ComplianceSystem.EmailTemplates.Dtos;
 
 namespace RMG.ComplianceSystem
 {
@@ -54,6 +57,8 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateHistoryRiskAndOpportunityDto, HistoryRiskOpportunity>();
             CreateMap<Notification, NotificationDto>();
             CreateMap<CreateUpdateNotificationDto, Notification>();
+            CreateMap<EmailTemplate, EmailTemplateDto>();
+            CreateMap<CreateUpdateEmailTemplateDto, EmailTemplate>();
             CreateMap<RisksTreatment, RiskTreatmentDto>();
             CreateMap<CreateUpdateRiskTreatmentDto, RisksTreatment>();
             CreateMap<StaticDatatb, StaticDataDto>();

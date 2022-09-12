@@ -15,7 +15,7 @@
                             <p>
                                 {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
                             </p>
-    
+
                         </div>
                     </button>
                 </div>
@@ -69,8 +69,8 @@
             </ng-container>
 
 
-            <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'" >
-                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing }">
+            <ng-container  *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'"   >
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing,hide:IsTreat==true }">
                     <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
                         {{WorkFlowStages.Processing}}
                     </span>
@@ -83,15 +83,15 @@
                         </div>
                     </button>
                 </div>
-                <span class="arrow" [class.active]="activeTab === WorkFlowStages.Processing">
+                <span class="arrow"  [class.active]="activeTab === WorkFlowStages.Processing">
                     <span class="line"></span>
                     <i class="fas fa-chevron-left"></i>
                 </span>
             </ng-container>
-            
 
 
-            <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review }" *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" >
+
+            <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review}" *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" >
                 <span class="d-block circle" (click)="changeTab(WorkFlowStages.Review)">
                     {{ WorkFlowStages.Review }}
                 </span>
@@ -106,8 +106,6 @@
             </div>
 
         </div>
-
-
 
         <div [ngSwitch]="activeTab">
             <ng-container *ngSwitchCase="WorkFlowStages.DefineRiskAndOpportunity" >
@@ -192,3 +190,4 @@
         </ngx-datatable>
     </mat-expansion-panel>
 </mat-accordion>
+
