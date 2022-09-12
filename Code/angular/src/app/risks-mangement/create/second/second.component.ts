@@ -81,7 +81,7 @@ export class SecondComponent implements OnInit {
   }
   setValue(likelihood:any,impact:any,potential:any)
   {
-    debugger;
+    // debugger;
     this.form.patchValue({
       likelihood:likelihood,
       impact:impact,

@@ -17,6 +17,7 @@ import { FifthComponent } from './create/fifth/fifth.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
+import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-modal/risk-treatment-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatMenuModule } from '@angular/material/menu';
     ThirdComponent,
     FourthComponent,
     FifthComponent,
+    RiskTreatmentModalComponent,
   ],
   imports: [
     CommonModule,

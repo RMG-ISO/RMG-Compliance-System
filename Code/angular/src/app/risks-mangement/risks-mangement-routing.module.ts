@@ -2,6 +2,7 @@ import { PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
+import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-modal/risk-treatment-modal.component';
 import { ListComponent } from './list/list.component';
 import { settingsComponent } from './settings/settings.component';
 
@@ -36,6 +37,14 @@ const routes: Routes = [
     },
   },
   {
+    path:'risk-treatment/:treatmentId',
+    component:RiskTreatmentModalComponent,
+    canActivate:[PermissionGuard],
+    data: {
+      requiredPolicy: 'ComplianceSystem.RiskAndOpportunity.ReEvaluation',
+    },
+  },
+  {
     path:':id/edit',
     component:CreateComponent,
     canActivate:[PermissionGuard],
@@ -43,6 +52,7 @@ const routes: Routes = [
       requiredPolicy: 'ComplianceSystem.RiskAndOpportunity.Update',
     },
   },
+ 
 ];
 
 @NgModule({

@@ -35,7 +35,17 @@ h4.noti-title {
     button {
         border-bottom: 1px solid #ddd;
     }
+    a {
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .not-seen {
+        color: #007bff;
+        font-size: 15px;
+    }
 }
 .show-all {
     margin-bottom: -8px;
 }
+
