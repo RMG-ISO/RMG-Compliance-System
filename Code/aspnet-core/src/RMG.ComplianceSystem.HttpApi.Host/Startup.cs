@@ -13,14 +13,23 @@ namespace RMG.ComplianceSystem
         {
             services.AddApplication<ComplianceSystemHttpApiHostModule>();
 
-            services.AddTransient<Dashboard>();
-            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             
             app.InitializeApplication();
+            app.Use(async (context, next) =>
+            {
+              var AccessToken= context.Request.Query["access-token"];
+                var path = context.Request.Path;
+                if (!string.IsNullOrEmpty(AccessToken)&&(path.StartsWithSegments("/signalr-hubs/notification-hub")))
+                {
+                    context.Request.Headers["Authorization"] = "Bearer " + AccessToken;
+                }
+                await next();
+            });
+
         }
     }
 }

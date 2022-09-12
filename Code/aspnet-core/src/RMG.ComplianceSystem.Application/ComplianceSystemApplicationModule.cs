@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RMG.ComplianceSystem.DashBoards;
+using RMG.ComplianceSystem.Notifications;
 using System;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
@@ -36,14 +36,14 @@ namespace RMG.ComplianceSystem
             Configure<AbpSignalROptions>(options =>
             {
                 options.Hubs.AddOrUpdate(
-                    typeof(Dashboard), //Hub type
+                    typeof(NotificationHub), //Hub type
                     config => //Additional configuration
         {
-                        config.RoutePattern = "/Dashboard"; //override the default route
+                        config.RoutePattern = "/signalr-hubs/notification-hub"; //override the default route
             config.ConfigureActions.Add(hubOptions =>
                         {
                 //Additional options
-                hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
+                //hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
                         });
                     }
                 );

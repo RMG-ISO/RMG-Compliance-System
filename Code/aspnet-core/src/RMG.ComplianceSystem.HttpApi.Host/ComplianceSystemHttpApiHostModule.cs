@@ -28,7 +28,8 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using RMG.ComplianceSystem.DashBoards;
+using RMG.ComplianceSystem.Notifications;
+using Volo.Abp.AspNetCore.SignalR;
 
 namespace RMG.ComplianceSystem
 {
@@ -42,7 +43,8 @@ namespace RMG.ComplianceSystem
         typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpAccountWebIdentityServerModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule)
+        typeof(AbpSwashbuckleModule),
+        typeof(AbpAspNetCoreSignalRModule)
     )]
     public class ComplianceSystemHttpApiHostModule : AbpModule
     {
@@ -50,7 +52,7 @@ namespace RMG.ComplianceSystem
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-
+            context.Services.AddTransient<NotificationHub>();
             ConfigureBundles();
             ConfigureUrls(configuration);
             ConfigureConventionalControllers();
