@@ -113,7 +113,7 @@ namespace RMG.ComplianceSystem.Notifications
                 Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).Take(6).Select(t => new NotifyUserNotificationDto
                 {
                     Id = t.Id,
-                    Title = t.Body,
+                    Title = t.Subject,
                     Status = t.Status,
                     Url = t.Url
                 }).ToList()
@@ -142,7 +142,7 @@ namespace RMG.ComplianceSystem.Notifications
                 Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).OrderByDescending(v => v.CreationTime).Take(6).Select(t => new NotifyUserNotificationDto
                 {
                     Id = t.Id,
-                    Title = t.Body,
+                    Title = t.Subject,
                     Status = t.Status,
                     Url = t.Url
                 }).ToList()
