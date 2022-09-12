@@ -29,7 +29,7 @@ namespace RMG.ComplianceSystem.Notifications
         private readonly IEmailSender _emailSender;
         private readonly IHubContext<NotificationHub> _notificationHubContext;
         private readonly ICurrentUser _currentUser;
-       // private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
 
         public NotificationAppService(
                                         INotificationRepository repository
@@ -37,8 +37,7 @@ namespace RMG.ComplianceSystem.Notifications
                                        , ILogger<NotificationAppService> logger
                                        , IHubContext<NotificationHub> notificationHubContext
                                        , ICurrentUser currentUser
-                                       //, IEmailTemplateRepository emailTemplateRepository
-            ) : base(repository)
+                                       , IEmailTemplateRepository emailTemplateRepository) : base(repository)
         {
             _repository = repository;
             _emailSender = emailSender;
@@ -63,26 +62,25 @@ namespace RMG.ComplianceSystem.Notifications
                 {
                     try
                     {
-                        //var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
-                        //var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
-                        ////var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
-                        ////var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
-                        //string _body = hearder.Body;
-                        //_body += item.Body;
-                        //_body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
-                        //MailMessage mailMessage = new MailMessage
-                        //{
-                        //    Subject = item.Subject,
-                        //    Body = _body,
-                        //    IsBodyHtml = item.IsHTML
-                        //};
-                        //mailMessage.To.Add(item.To);
-                        //if (!string.IsNullOrEmpty(item.CC))
-                        //    mailMessage.CC.Add(item.CC);
-                        //await _emailSender.SendAsync(mailMessage);
+                        var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
+                        var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
+                        string _body = hearder.Body;
+                        _body += item.Body;
+                        _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
-                        //item.Status = Status.Success;
+                        MailMessage mailMessage = new MailMessage
+                        {
+                            Subject = item.Subject,
+                            Body = _body,
+                            IsBodyHtml = item.IsHTML
+                        };
+                        mailMessage.To.Add(item.To);
+                        if (!string.IsNullOrEmpty(item.CC))
+                            mailMessage.CC.Add(item.CC);
+                        await _emailSender.SendAsync(mailMessage);
+
+                        item.Status = Status.Success;
                     }
                     catch (Exception ex)
                     {
