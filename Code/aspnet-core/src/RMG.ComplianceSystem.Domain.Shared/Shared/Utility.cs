@@ -67,7 +67,7 @@ namespace RMG.ComplianceSystem.Shared
             {
                
                 case NotificationSource.RiskTreatment:
-                    return $"pages/filtered-tasks/RiskTreatments/{id}";
+                    return $"/risks-management/{id}/edit";
                    
                 default:
                     break;
