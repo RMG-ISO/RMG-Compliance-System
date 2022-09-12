@@ -47,14 +47,12 @@ export class FourthComponent implements OnInit {
     this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
     });
-
-    // debugger;
-    // this.signalrService.startConnection();
-    // this.signalrService.addTreatmentRisksListener();
+    debugger;
+this.signalrService.initiateSignalrConnection();
 
     this.getList();
   }
-
+  data=[];
   items;
   totalCount;
   getList() {
@@ -97,7 +95,6 @@ export class FourthComponent implements OnInit {
       riskOpportunityId: new FormControl(this.route.snapshot.params.id),
       responsibility: new FormControl(null, Validators.required),
       dueDate: new FormControl( null , Validators.required),
-      startWhen: new FormControl( null , Validators.required),
       mitigateActionPlanAr: new FormControl(null, Validators.required),
       mitigateActionPlanEn: new FormControl(null, Validators.required),
       actionDetailsAr: new FormControl(null, Validators.required),
@@ -111,7 +108,6 @@ export class FourthComponent implements OnInit {
     this.form.controls.dueDate.patchValue( this.selected?.dueDate ? new Date( this.selected?.dueDate ) : new Date());
   }
 
-
   OnFileUploaded(attachmentId: string) {
     this.form.controls["attachmentId"].patchValue(attachmentId);
   }
@@ -124,7 +120,7 @@ export class FourthComponent implements OnInit {
   OnFileEndUpload(endUpload: boolean) {
     this.uploading = false;
   }
-  
+
   save() {
     if (this.form.invalid) return;
 

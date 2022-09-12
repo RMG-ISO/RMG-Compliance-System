@@ -76,8 +76,6 @@
     "mitigateActionPlanEn": "Action Name English",
     "standardReferenceAr": "Standard Reference Arabic",
     "standardReferenceEn": "Standard Reference English",
-    "objectiveEvidenceAr": "Objective Evidence Arabic",
-    "objectiveEvidenceEn": "Objective Evidence English",
     "EndDate": "EndDate",
     "ControlAssessment": "Control Assessment",
     "responsibility": "responsibility",
@@ -85,10 +83,6 @@
     "StatusName": "Status Name",
     "treatmentRemarks": "Remarks",
     "DueDate": "Due Date",
-    "objectiveEvidence": "Objective Evidence",
-    "IsTreatment":"Is Treatment",
-    "RiskManagementMatrix":"Risk Management Matrix",
-
     "ActionName": "Action Name",
     "ActionDate": "Action Date",
     "creatorName": "creator Name",
@@ -109,7 +103,6 @@
     "WorkFlowStages:DefineRisk": "Definition",
     "WorkFlowStages:AndOpportunity": "And Opportunity",
     "ReEvaluation": "ReEvaluation",
-
     "Menu:DocumentsManagement": "Document Management",
     "Permission:DocumentCategory": "Document Category",
     "Permission:Risk": "Risk",
