@@ -47,8 +47,8 @@
     التنبيهات
   </h4>
   <div class="noti-cont">
-    <a *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" mat-menu-item>
-      التنبيه  - {{1}}
+    <a *ngFor="let item of notificationItems; index as i" (click)="markAsRead(item, i)" mat-menu-item [class-not-seen]="item.status == Status.NotSeen">
+      {{item.title}}
     </a>
   </div>
   <a mat-menu-item class="show-all" [routerLink]="['/notifications']" >

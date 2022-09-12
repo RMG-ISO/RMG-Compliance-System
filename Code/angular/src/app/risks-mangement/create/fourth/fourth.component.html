@@ -75,7 +75,7 @@
 </mat-card>
 
 
-<abp-modal [(visible)]="isModalOpen">
+<!-- <abp-modal [(visible)]="isModalOpen">
     <ng-template #abpHeader>
         <h3 class="mb-0">{{ (selected?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}</h3>
     </ng-template>
@@ -134,7 +134,6 @@
                     <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
                 </div>
 
-                <!-- أدلة موضوعية -->
                 <div class="col-md-12 form-group">
 
                   <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
@@ -155,10 +154,13 @@
             {{ '::Close' | abpLocalization }}
         </button>
 
-        <!--added save button-->
         <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading" >
             <i class="fa fa-check mr-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
     </ng-template>
-</abp-modal>
+</abp-modal> -->
+
+<ng-template #dialogRef let-data let-ref="dialogRef">
+    <app-risk-treatment-modal [data]="data" [ref]="ref"></app-risk-treatment-modal>
+</ng-template>

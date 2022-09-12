@@ -186,7 +186,7 @@ export class ThirdComponent implements OnInit {
     });
   }
   IsTreatement(Treatment){
-    debugger;
+    // debugger;
     this.isTreatment=Treatment.value;
   }
 

@@ -1,0 +1,90 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-title>
+            {{ (data.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}
+        </mat-card-title>
+        <mat-card-content>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="mitigateActionPlanAr">
+                        {{ '::mitigateActionPlanAr' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <input type="text" id="mitigateActionPlanAr" class="form-control" formControlName="mitigateActionPlanAr" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="mitigateActionPlanEn">{{ '::mitigateActionPlanEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="mitigateActionPlanEn" class="form-control" formControlName="mitigateActionPlanEn" />
+                </div>
+    
+    
+                <div class="col-md-6 form-group">
+                    <label for="actionDetailsAr">{{ '::ActionDetailsAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="actionDetailsAr" class="form-control" formControlName="actionDetailsAr" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="actionDetailsEn">{{ '::ActionDetailsEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="actionDetailsEn" class="form-control" formControlName="actionDetailsEn" />
+                </div>
+    
+    
+                <div class="col-md-6 form-group">
+                    <label>
+                        {{ '::responsibility' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select formControlName="responsibility">
+                        <ng-option *ngFor="let user of users" [value]="user.id">
+                            {{user.name}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+    
+                <div class="col-md-6 form-group">
+                    <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
+                    <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
+                    ngbDatepicker (click)="datepicker.toggle()" />
+                </div>
+    
+                <div class="col-md-6 form-group">
+                <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
+                <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
+                </div>
+    
+                <div class="col-md-6 form-group">
+                    <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
+                    <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="">
+                        {{ '::Status' | abpLocalization }}
+                    </label>
+                    <p>
+                        {{ Status[form.controls.status.value] | lang:'name' }}
+                    </p>
+                </div>
+    
+                <div class="col-md-12 form-group">
+                    <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
+                    <app-table-files
+                    [attachment]="{isMultiple:false}"
+                    [attachmentId]="form.controls.attachmentId.value"
+                    [disabled]="form.controls.attachmentId.disabled"
+                    (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                    (OnFileEndUpload)="OnFileEndUpload($event)">
+                    </app-table-files>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" mat-button class="btn-secondary" (click)="close()">
+                    {{ '::Close' | abpLocalization }}
+                </button>
+                <button mat-button class="btn-primary">
+                    <i class="fa fa-check mr-1"></i>
+                    {{ '::Save' | abpLocalization }}
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>
