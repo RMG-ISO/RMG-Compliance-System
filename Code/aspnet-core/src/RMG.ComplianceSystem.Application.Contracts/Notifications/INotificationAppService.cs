@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMG.ComplianceSystem.Notifications.Dtos;
+using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -13,5 +14,7 @@ namespace RMG.ComplianceSystem.Notifications
          CreateUpdateNotificationDto> //Used to create/update a book
     {
         Task<PagedResultDto<NotificationDto>> GetListRiskByFilterAsync(NotificationPagedAndSortedResultRequestDto input);
+        Task SendNotifications();
+        Task NotifyUser(Guid userToNotify);
     }
 }

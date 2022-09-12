@@ -18,12 +18,12 @@
               {{ '::IsTreatment' | abpLocalization }}
               <span> * </span>
           </label>
-          <mat-radio-group formControlName="isTreatment" color="primary">
+          <mat-radio-group formControlName="isTreatment" (change)="IsTreatement($event)"  color="primary">
             <mat-radio-button [value]="true">{{ '::yes' | abpLocalization }}</mat-radio-button>
             <span class="space"></span>
             <mat-radio-button [value]="false">{{ '::no' | abpLocalization }}</mat-radio-button>
           </mat-radio-group>
-      </div> 
+      </div>
 
 
         <!-- <div class="col-md-6 form-group">

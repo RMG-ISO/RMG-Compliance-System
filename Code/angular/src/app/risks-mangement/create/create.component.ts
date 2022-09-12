@@ -102,8 +102,10 @@ export class CreateComponent implements OnInit {
         this.permissionsAuth[key] = true;
       } else this.permissionsAuth[key] = false;
     }
+    debugger;
+    this.IsTreat=this.thirdForm.value.isTreatment;
   }
-
+  IsTreat;
   itemData;
   getData() {
     this.riskAndOpportunityService.get(this.id).subscribe(r => {
@@ -196,11 +198,15 @@ export class CreateComponent implements OnInit {
     this.thirdForm.markAllAsTouched();
     if(this.thirdForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
-      if(this.thirdForm.value.isTreatment) this.activeTab = WorkFlowStages.Processing;
-      else this.activeTab = WorkFlowStages.Review;
+      debugger;
+      this.IsTreat=this.thirdForm.value.isTreatment;
+      if(this.thirdForm.value.isTreatment){ this.activeTab = WorkFlowStages.Processing;}
+      else {this.activeTab = WorkFlowStages.Review;}
+
       this.updateHistory(HistoryAction.Update);
       this.itemData = r;
     })
+
   }
   submitFifth() {
     this.fifthForm.markAllAsTouched();

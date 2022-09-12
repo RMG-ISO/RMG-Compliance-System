@@ -9,4 +9,17 @@ namespace RMG.ComplianceSystem.Shared
         Inactive,
         Active,
     }
+    public enum NotificationSource 
+    {
+        RiskTreatment,
+    }
+     public enum Status
+    {
+        Due,
+        Delayed,
+        Closed,
+        Soon,
+        Future
+    }
+
 }

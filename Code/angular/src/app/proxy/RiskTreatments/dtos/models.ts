@@ -10,7 +10,7 @@ export interface CreateUpdateRiskTreatmentDto {
   ActionDetailsEn?:string;
   Responsibility?: string;
   DueDate?:Date;
-  StartWhen?: Date;
+  StartDate?: Date;
   Status?: number;
   AchievementPercentage?:number;
   AttachmentId?: string;
@@ -25,7 +25,7 @@ export interface RiskTreatmentDto extends FullAuditedEntityWithUserDto<IdentityU
   Responsibility?: string;
   ResponsibilityName:string;
   DueDate?:Date;
-  StartWhen?: Date;
+  StartDate?: Date;
   Status?: number;
   StatusNameEn?:string;
   StatusNameAr?:string;
