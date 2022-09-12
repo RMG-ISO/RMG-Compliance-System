@@ -11,7 +11,7 @@ using Volo.Abp.AspNetCore.SignalR;
 namespace RMG.ComplianceSystem.DashBoards
 {
     [HubRoute("/Dashboard")]
-    public class Dashboard:Hub
+    public class Dashboard: AbpHub
     {
 
         private readonly IRiskAndOpportunityRepository RiskAndOpportunityRepository;
