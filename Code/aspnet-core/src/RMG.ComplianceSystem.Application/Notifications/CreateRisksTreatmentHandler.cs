@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 using RMG.ComplianceSystem.EmailTemplates;
-using RMG.ComplianceSystem.EmailTemplates.Dtos;
 using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Localization;
 using RMG.ComplianceSystem.Risks.IRepository;
