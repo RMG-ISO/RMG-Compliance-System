@@ -1,7 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="save()">
     <mat-card>
         <mat-card-title>
-            {{ (data?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}
+            <!-- {{ (data?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }} -->
+            {{ '::ActionPlan' |  abpLocalization }}
         </mat-card-title>
         <mat-card-content>
             <div class="row">
@@ -53,7 +54,7 @@
                   </label>
                   <span> * </span>
                   <ng-select formControlName="status">
-                      <ng-option *ngFor="let status of StatusArr" [value]="status.id">
+                      <ng-option *ngFor="let status of StatusArr" [value]="status.id" [disabled]="status.isDisabled">
                           {{status | lang:'name' }}
                       </ng-option>
                   </ng-select>
@@ -61,18 +62,21 @@
 
                 <div class="col-md-6 form-group">
                     <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
-                    <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
+                    <input #datepicker1="ngbDatepicker" class="form-control" id="startDate" name="datepicker1" formControlName="startDate"
+                    ngbDatepicker (click)="datepicker1.toggle()" />
+
+                    <!-- <input class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" /> -->
                 </div>
 
                 <div class="col-md-6 form-group">
-                  <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
-                  <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
+                  <label for="achievementPercentage">{{ '::AchievementPercentage' | abpLocalization }}</label><span>%</span>
+                  <input type="number" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
                   </div>
 
                 <div class="col-md-6 form-group">
-                  <label for="completionDateDate">{{ '::completionDate' | abpLocalization }}</label>
-                  <input #datepicker="ngbDatepicker" class="form-control" id="completionDate" name="datepicker1" formControlName="completionDate"
-                  ngbDatepicker (click)="datepicker.toggle()" />
+                  <label for="completionDateDate">{{ '::CompletionDate' | abpLocalization }}</label>
+                  <input #datepicker2="ngbDatepicker" class="form-control" id="completionDate" name="datepicker2" formControlName="completionDate"
+                  ngbDatepicker (click)="datepicker2.toggle()" />
               </div>
 
 
@@ -88,12 +92,16 @@
                 </div>
             </div>
             <div class="actions">
-                <button type="button" mat-button class="btn-secondary" (click)="close()">
+                <button type="button" mat-button class="secondary" (click)="close()">
                     {{ '::Close' | abpLocalization }}
                 </button>
-                <button mat-button class="btn-primary">
+                <button mat-button class="primary" [disabled]="uploading">
                     <i class="fa fa-check mr-1"></i>
                     {{ '::Save' | abpLocalization }}
+                </button>
+                <button mat-button class="send" *ngIf="form.controls.achievementPercentage.value == 100" type="button">
+                    <i class="fas fa-paper-plane mr-1"></i>
+                    {{ '::SendRequest' | abpLocalization }}
                 </button>
             </div>
         </mat-card-content>
