@@ -105,34 +105,50 @@
                   <input type="text" id="actionDetailsEn" class="form-control" formControlName="actionDetailsEn" />
               </div>
 
+              <div class="col-md-6 form-group">
+                <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
+                <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
+                ngbDatepicker (click)="datepicker.toggle()" />
+            </div>
+
 
               <div class="col-md-6 form-group">
-                  <label>
-                      {{ '::responsibility' | abpLocalization }}
-                  </label>
-                  <span> * </span>
-                  <ng-select formControlName="responsibility">
-                      <ng-option *ngFor="let user of users" [value]="user.id">
-                          {{user.name}}
-                      </ng-option>
-                  </ng-select>
-              </div>
+                <label>
+                    {{ '::Status' | abpLocalization }}
+                </label>
+                <span> * </span>
+                <ng-select formControlName="status">
+                    <ng-option *ngFor="let status of ListStatus" [value]="status.id">
+                        {{status | lang:'name' }}
+                    </ng-option>
+                </ng-select>
+            </div>
 
-              <div class="col-md-6 form-group">
-                  <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
-                  <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
-                  ngbDatepicker (click)="datepicker.toggle()" />
-              </div>
+            <div class="col-md-6 form-group" >
+              <label>
+                  {{ '::responsibility' | abpLocalization }}
+              </label>
+              <span> * </span>
+              <ng-select formControlName="responsibility"   >
+                  <ng-option *ngFor="let user of users" [value]="user.id">
+                      {{user.name}}
+                  </ng-option>
+              </ng-select>
+          </div>
 
               <div class="col-md-6 form-group">
                 <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
-                <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
+                <input disabled type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
               </div>
 
               <div class="col-md-6 form-group">
                   <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
                   <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
               </div>
+              <div class="col-md-6 form-group">
+                <label for="completionDateDate">{{ '::completionDate' | abpLocalization }}</label>
+                <input  disabled class="form-control" id="completionDate" name="completionDateDatepicker" formControlName="completionDate" (click)="datepicker.toggle()" />
+            </div>
 
               <div class="col-md-12 form-group">
 

@@ -1,4 +1,4 @@
-import type { CreateUpdateRiskTreatmentDto, RiskTreatmentDto, RiskTreatmentPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateRiskTreatmentDto, RiskTreatmentDto, RiskTreatmentPagedAndSortedResultRequestDto ,StatusActionDto} from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -50,7 +50,12 @@ export class RiskTreatmentService {
     },
     { apiName: this.apiName });
 
-
+    getListStatus = () =>
+    this.restService.request<any, PagedResultDto<StatusActionDto>>({
+      method: 'GET',
+      url: 'api/app/risk-treatment/get-status',
+    },
+    { apiName: this.apiName });
 
 
 

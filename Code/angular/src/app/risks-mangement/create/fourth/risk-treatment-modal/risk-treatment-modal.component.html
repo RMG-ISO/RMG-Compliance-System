@@ -46,10 +46,18 @@
                     ngbDatepicker (click)="datepicker.toggle()" />
                 </div>
 
+
                 <div class="col-md-6 form-group">
-                <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
-                <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
-                </div>
+                  <label>
+                      {{ '::Status' | abpLocalization }}
+                  </label>
+                  <span> * </span>
+                  <ng-select formControlName="status">
+                      <ng-option *ngFor="let status of StatusArr" [value]="status.id">
+                          {{status | lang:'name' }}
+                      </ng-option>
+                  </ng-select>
+              </div>
 
                 <div class="col-md-6 form-group">
                     <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
@@ -57,13 +65,16 @@
                 </div>
 
                 <div class="col-md-6 form-group">
-                    <label for="">
-                        {{ '::Status' | abpLocalization }}
-                    </label>
-                    <p>
-                        {{ StatusArr[statusValue] | lang:'name' }}
-                    </p>
-                </div>
+                  <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
+                  <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
+                  </div>
+
+                <div class="col-md-6 form-group">
+                  <label for="completionDateDate">{{ '::completionDate' | abpLocalization }}</label>
+                  <input #datepicker="ngbDatepicker" class="form-control" id="completionDate" name="datepicker1" formControlName="completionDate"
+                  ngbDatepicker (click)="datepicker.toggle()" />
+              </div>
+
 
                 <div class="col-md-12 form-group">
                     <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
