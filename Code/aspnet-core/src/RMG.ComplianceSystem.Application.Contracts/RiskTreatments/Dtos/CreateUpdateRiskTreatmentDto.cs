@@ -19,6 +19,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public int? Status { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime? StartDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
         public decimal? AchievementPercentage { get; set; }
         public Guid? AttachmentId { get; set; }
         public virtual AttachmentDto Attachment { get; set; }

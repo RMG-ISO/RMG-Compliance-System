@@ -159,7 +159,31 @@ namespace RMG.ComplianceSystem.EmailTemplates
 
             }
         }
+        public async Task OnAddRiskTreatmentSendToRiskTreatment()
+        {
+            var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == "RisksTreatmentCreated");
+            var existingRisksTreatment =  _notificationRepository.Where(t=>t.Status== Status.NotSeen &&t.Type==NotificationType.Email).ToList();
 
-      
+            foreach (var item in existingRisksTreatment)
+            {
+
+           
+            NotificationDto RisksTreatmentCreatedModel = new NotificationDto
+            {
+
+                Subject = item.Subject,
+                Body = item.Body,
+                To = item.To,
+                Url = item.Url
+            };
+
+            var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentCreatedModel);
+            var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RisksTreatmentCreated", expandoData);
+            }
+
+
+        }
+
+
     }
 }
