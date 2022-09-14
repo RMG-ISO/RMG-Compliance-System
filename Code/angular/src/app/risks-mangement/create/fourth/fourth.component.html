@@ -1,166 +1,166 @@
 <mat-card>
-    <mat-card-title class="d-flex justify-content-between align-items-center">
-        <h4>
-           {{ '::ActionPlans' | abpLocalization }}
-        </h4>
-        <div class="d-flex justify-content-between align-items-center">
-            <button id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
-                <i class="fa fa-plus mr-2"></i>
-                <span class="line mr-2"></span>
-                <span>{{ "::Create" | abpLocalization }}</span>
-            </button>
+  <mat-card-title class="d-flex justify-content-between align-items-center">
+      <h4>
+         {{ '::ActionPlans' | abpLocalization }}
+      </h4>
+      <div class="d-flex justify-content-between align-items-center">
+          <button id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
+              <i class="fa fa-plus mr-2"></i>
+              <span class="line mr-2"></span>
+              <span>{{ "::Create" | abpLocalization }}</span>
+          </button>
 
 
-            <!-- <ng-container *ngIf="itemData.status == Status.Open"> -->
-                <button  mat-icon-button [matMenuTriggerFor]="menu" class="re-btn" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
-                    {{ '::ReEvaluation' | abpLocalization }}
-                </button>
-            <!-- </ng-container> -->
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
-                  {{ item | lang:'name' }}
-                </button>
-            </mat-menu>
-        </div>
+          <!-- <ng-container *ngIf="itemData.status == Status.Open"> -->
+              <button  mat-icon-button [matMenuTriggerFor]="menu" class="re-btn" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
+                  {{ '::ReEvaluation' | abpLocalization }}
+              </button>
+          <!-- </ng-container> -->
+          <mat-menu #menu="matMenu">
+              <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
+                {{ item | lang:'name' }}
+              </button>
+          </mat-menu>
+      </div>
 
-    </mat-card-title>
-    <mat-card-content>
-        <ngx-datatable
-        class="material fullscreen"
-        columnMode="force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        #dataTable
-        [rows]="items"
-        [count]="totalCount"
-        [list]="list"
-        appNgxdatatable
-        >
-            <ngx-datatable-column [name]="'::MitigateActionPlan' | abpLocalization" prop="mitigateActionPlan">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ row | lang:'mitigateActionPlan' }}
-                </ng-template>
-            </ngx-datatable-column>
-
-
-            <ngx-datatable-column [name]="'::responsibility' | abpLocalization" prop="responsibilityName"></ngx-datatable-column>
-
-            <ngx-datatable-column [name]="'::DueDate' | abpLocalization" prop="dueDate">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ value | date:'yyyy-MM-dd' }}
-                </ng-template>
-            </ngx-datatable-column>
-
-            <ngx-datatable-column [name]="'::StatusName' | abpLocalization" prop="StatusName">
+  </mat-card-title>
+  <mat-card-content>
+      <ngx-datatable
+      class="material fullscreen"
+      columnMode="force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [scrollbarH]="true"
+      #dataTable
+      [rows]="items"
+      [count]="totalCount"
+      [list]="list"
+      appNgxdatatable
+      >
+          <ngx-datatable-column [name]="'::MitigateActionPlan' | abpLocalization" prop="mitigateActionPlan">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ row | lang:'statusName' }}
-            </ng-template>
-            </ngx-datatable-column>
+                  {{ row | lang:'mitigateActionPlan' }}
+              </ng-template>
+          </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button  *abpPermission="'ComplianceSystem.StaticData.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon >delete_forever</mat-icon>
-                    </button>
-                    <button *abpPermission="'ComplianceSystem.StaticData.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
 
-    </mat-card-content>
+          <ngx-datatable-column [name]="'::responsibility' | abpLocalization" prop="responsibilityName"></ngx-datatable-column>
+
+          <ngx-datatable-column [name]="'::DueDate' | abpLocalization" prop="dueDate">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  {{ value | date:'yyyy-MM-dd' }}
+              </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [name]="'::StatusName' | abpLocalization" prop="StatusName">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              {{ row | lang:'statusName' }}
+          </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                  <button  *abpPermission="'ComplianceSystem.StaticData.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                      <mat-icon >delete_forever</mat-icon>
+                  </button>
+                  <button *abpPermission="'ComplianceSystem.StaticData.Update'" mat-button (click)="$event.stopPropagation();openDialog(row)">
+                      <mat-icon>edit</mat-icon>
+                  </button>
+              </ng-template>
+          </ngx-datatable-column>
+      </ngx-datatable>
+
+  </mat-card-content>
 </mat-card>
 
 
-<!-- <abp-modal [(visible)]="isModalOpen">
-    <ng-template #abpHeader>
-        <h3 class="mb-0">{{ (selected?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}</h3>
-    </ng-template>
+<abp-modal [(visible)]="isModalOpen">
+  <ng-template #abpHeader>
+      <h3 class="mb-0">{{ (selected?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}</h3>
+  </ng-template>
 
-    <ng-template #abpBody>
-        <form [formGroup]="form">
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="mitigateActionPlanAr">
-                        {{ '::mitigateActionPlanAr' | abpLocalization }}
-                    </label>
-                    <span> * </span>
-                    <input type="text" id="mitigateActionPlanAr" class="form-control" formControlName="mitigateActionPlanAr" />
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="mitigateActionPlanEn">{{ '::mitigateActionPlanEn' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="mitigateActionPlanEn" class="form-control" formControlName="mitigateActionPlanEn" />
-                </div>
-
-
-                <div class="col-md-6 form-group">
-                    <label for="actionDetailsAr">{{ '::ActionDetailsAr' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="actionDetailsAr" class="form-control" formControlName="actionDetailsAr" />
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="actionDetailsEn">{{ '::ActionDetailsEn' | abpLocalization }}</label><span> * </span>
-                    <input type="text" id="actionDetailsEn" class="form-control" formControlName="actionDetailsEn" />
-                </div>
+  <ng-template #abpBody>
+      <form [formGroup]="form">
+          <div class="row">
+              <div class="col-md-6 form-group">
+                  <label for="mitigateActionPlanAr">
+                      {{ '::mitigateActionPlanAr' | abpLocalization }}
+                  </label>
+                  <span> * </span>
+                  <input type="text" id="mitigateActionPlanAr" class="form-control" formControlName="mitigateActionPlanAr" />
+              </div>
+              <div class="col-md-6 form-group">
+                  <label for="mitigateActionPlanEn">{{ '::mitigateActionPlanEn' | abpLocalization }}</label><span> * </span>
+                  <input type="text" id="mitigateActionPlanEn" class="form-control" formControlName="mitigateActionPlanEn" />
+              </div>
 
 
-                <div class="col-md-6 form-group">
-                    <label>
-                        {{ '::responsibility' | abpLocalization }}
-                    </label>
-                    <span> * </span>
-                    <ng-select formControlName="responsibility">
-                        <ng-option *ngFor="let user of users" [value]="user.id">
-                            {{user.name}}
-                        </ng-option>
-                    </ng-select>
-                </div>
+              <div class="col-md-6 form-group">
+                  <label for="actionDetailsAr">{{ '::ActionDetailsAr' | abpLocalization }}</label><span> * </span>
+                  <input type="text" id="actionDetailsAr" class="form-control" formControlName="actionDetailsAr" />
+              </div>
+              <div class="col-md-6 form-group">
+                  <label for="actionDetailsEn">{{ '::ActionDetailsEn' | abpLocalization }}</label><span> * </span>
+                  <input type="text" id="actionDetailsEn" class="form-control" formControlName="actionDetailsEn" />
+              </div>
 
-                <div class="col-md-6 form-group">
-                    <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
-                    <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
-                    ngbDatepicker (click)="datepicker.toggle()" />
-                </div>
 
-                <div class="col-md-6 form-group">
-                  <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
-                  <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
-                </div>
+              <div class="col-md-6 form-group">
+                  <label>
+                      {{ '::responsibility' | abpLocalization }}
+                  </label>
+                  <span> * </span>
+                  <ng-select formControlName="responsibility">
+                      <ng-option *ngFor="let user of users" [value]="user.id">
+                          {{user.name}}
+                      </ng-option>
+                  </ng-select>
+              </div>
 
-                <div class="col-md-6 form-group">
-                    <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
-                    <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
-                </div>
+              <div class="col-md-6 form-group">
+                  <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
+                  <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
+                  ngbDatepicker (click)="datepicker.toggle()" />
+              </div>
 
-                <div class="col-md-12 form-group">
+              <div class="col-md-6 form-group">
+                <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
+                <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
+              </div>
 
-                  <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
-                <app-table-files
-                [attachment]="{isMultiple:false}"
-                [attachmentId]="form.controls.attachmentId.value"
-                [disabled]="form.controls.attachmentId.disabled"
-                (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
-                (OnFileEndUpload)="OnFileEndUpload($event)">
-                </app-table-files>
-                </div>
-            </div>
-        </form>
-    </ng-template>
+              <div class="col-md-6 form-group">
+                  <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
+                  <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
+              </div>
 
-    <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" #abpClose>
-            {{ '::Close' | abpLocalization }}
-        </button>
+              <div class="col-md-12 form-group">
 
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading" >
-            <i class="fa fa-check mr-1"></i>
-            {{ '::Save' | abpLocalization }}
-        </button>
-    </ng-template>
-</abp-modal> -->
+                <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
+              <app-table-files
+              [attachment]="{isMultiple:false}"
+              [attachmentId]="form.controls.attachmentId.value"
+              [disabled]="form.controls.attachmentId.disabled"
+              (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+              (OnFileEndUpload)="OnFileEndUpload($event)">
+              </app-table-files>
+              </div>
+          </div>
+      </form>
+  </ng-template>
 
+  <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" #abpClose>
+          {{ '::Close' | abpLocalization }}
+      </button>
+
+      <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading" >
+          <i class="fa fa-check mr-1"></i>
+          {{ '::Save' | abpLocalization }}
+      </button>
+  </ng-template>
+</abp-modal>
+<!--
 <ng-template #dialogRef let-data let-ref="dialogRef">
-    <app-risk-treatment-modal [data]="data" [ref]="ref"></app-risk-treatment-modal>
-</ng-template>
+  <app-risk-treatment-modal [data]="data" [ref]="ref"></app-risk-treatment-modal>
+</ng-template> -->

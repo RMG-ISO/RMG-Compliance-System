@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="save()">
     <mat-card>
         <mat-card-title>
-            {{ (data.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}
+            {{ (data?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }}
         </mat-card-title>
         <mat-card-content>
             <div class="row">
@@ -16,8 +16,8 @@
                     <label for="mitigateActionPlanEn">{{ '::mitigateActionPlanEn' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="mitigateActionPlanEn" class="form-control" formControlName="mitigateActionPlanEn" />
                 </div>
-    
-    
+
+
                 <div class="col-md-6 form-group">
                     <label for="actionDetailsAr">{{ '::ActionDetailsAr' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="actionDetailsAr" class="form-control" formControlName="actionDetailsAr" />
@@ -26,8 +26,8 @@
                     <label for="actionDetailsEn">{{ '::ActionDetailsEn' | abpLocalization }}</label><span> * </span>
                     <input type="text" id="actionDetailsEn" class="form-control" formControlName="actionDetailsEn" />
                 </div>
-    
-    
+
+
                 <div class="col-md-6 form-group">
                     <label>
                         {{ '::responsibility' | abpLocalization }}
@@ -35,22 +35,22 @@
                     <span> * </span>
                     <ng-select formControlName="responsibility">
                         <ng-option *ngFor="let user of users" [value]="user.id">
-                            {{user.name}}
+                            {{user?.name}}
                         </ng-option>
                     </ng-select>
                 </div>
-    
+
                 <div class="col-md-6 form-group">
                     <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
                     <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
                     ngbDatepicker (click)="datepicker.toggle()" />
                 </div>
-    
+
                 <div class="col-md-6 form-group">
                 <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
                 <input type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
                 </div>
-    
+
                 <div class="col-md-6 form-group">
                     <label for="startDate">{{ '::StartDate' | abpLocalization }}</label>
                     <input  disabled class="form-control" id="startDate" name="startDatepicker" formControlName="startDate" (click)="datepicker.toggle()" />
@@ -61,10 +61,10 @@
                         {{ '::Status' | abpLocalization }}
                     </label>
                     <p>
-                        {{ Status[form.controls.status.value] | lang:'name' }}
+                        {{ StatusArr[statusValue] | lang:'name' }}
                     </p>
                 </div>
-    
+
                 <div class="col-md-12 form-group">
                     <label >{{ '::ObjectiveEvidence' | abpLocalization }}</label>
                     <app-table-files

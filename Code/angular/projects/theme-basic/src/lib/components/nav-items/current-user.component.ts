@@ -26,7 +26,7 @@ export class CurrentUserComponent implements OnInit {
   Status = Status;
   get smallScreen(): boolean {
     return window.innerWidth < 992;
-  } 
+  }
 
   constructor(
     @Inject(NAVIGATE_TO_MANAGE_PROFILE) public navigateToManageProfile,
@@ -45,6 +45,7 @@ export class CurrentUserComponent implements OnInit {
 
     this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
       console.log(result);
+      debugger;
       this.notificationItems = result.notifications;
       this.notificationItemsCount = result.unReadNotifications;
       // this.bellIconByNotificationsCount(result.unReadNotifications);
