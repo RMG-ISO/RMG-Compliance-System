@@ -184,7 +184,7 @@ namespace RMG.ComplianceSystem.Notifications
         public async Task HandleEventAsync(EntityUpdatedEventData<RisksTreatment> eventData)
         {
             List<Notification> notificationList = new List<Notification>();
-            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksTreatment");
+            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksTreatmentCreated");
             var existingRisksTreatment = await _RisksTreatmentRepository.GetAsync(eventData.Entity.Id);
 
             if (existingRisksTreatment.Responsibility !=null)//User has changed revision date, so insert a new record into notification table
@@ -206,7 +206,7 @@ namespace RMG.ComplianceSystem.Notifications
                 };
 
                 var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentCreatedModel);
-                var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RisksTreatment", expandoData);
+                var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RisksTreatmentCreated", expandoData);
 
                 var notification = new Notification(_guidGenerator.Create(),
                     "ComplianceSystem", null,
@@ -236,7 +236,7 @@ namespace RMG.ComplianceSystem.Notifications
                     DueDate = eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd"),
                 };
                 var expandoDataNotification = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentNotificationDto);
-                var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("RisksTreatmentNewTemplates", expandoDataNotification);
+                var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("RisksTreatmentCreated", expandoDataNotification);
 
                 var PushNotification = new Notification(
                     _guidGenerator.Create(),
