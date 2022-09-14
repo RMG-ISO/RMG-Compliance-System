@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { StaticDataService } from '@proxy/StaticData';
+//import { Console } from 'console';
 import { HistoryAction } from 'src/app/risks-mangement/module.enums';
 
 @Component({
@@ -66,6 +67,8 @@ export class RiskTreatmentModalComponent implements OnInit {
   standards;
 
   ngOnInit(): void {
+
+    console.log(this.data);
     this.form = new FormGroup({
       id: new FormControl(null),
       riskOpportunityId: new FormControl(this.data.riskOpportunityId),
@@ -80,7 +83,6 @@ export class RiskTreatmentModalComponent implements OnInit {
       status: new FormControl(1),
       attachmentId:new FormControl(null),
     });
-
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items
     });
@@ -100,19 +102,19 @@ export class RiskTreatmentModalComponent implements OnInit {
       this.form.controls.achievementPercentage.enable();
       this.form.controls.attachmentId.enable();
     }
-
+    this.statusValue=this.form.controls.status.value;
     for(let status of this.StatusArr) {
       this.Status[status.id] = status
     }
 
   }
-
+  statusValue;
   getTreatmentData(id) {
     this.riskTreatmentService.get(id).subscribe( (r:any) => {
       this.data = r;
       this.form.patchValue(r);
       this.form.controls.dueDate.patchValue( r.dueDate ? new Date( r.dueDate ) : new Date());
-      
+
       if(this.activatedRoute.snapshot.params.treatmentId) {
         if(!r.startDate) this.form.controls.startDate.setValue(new Date())
         if(r.status == 1) this.form.controls.status.setValue(2);
@@ -121,7 +123,7 @@ export class RiskTreatmentModalComponent implements OnInit {
 
   }
 
-  
+
   OnFileUploaded(attachmentId: string) {
     this.form.controls["attachmentId"].patchValue(attachmentId);
   }
@@ -148,5 +150,5 @@ export class RiskTreatmentModalComponent implements OnInit {
     if(this.ref) this.ref.close(action);
     else this.router.navigate(['/risks-management/riskopportunity'])
   }
-  
+
 }
