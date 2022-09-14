@@ -30,6 +30,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
+import { VALIDATION_BLUEPRINTS } from '@ngx-validate/core';
+import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
+
 
 @NgModule({
   imports: [
@@ -61,7 +64,21 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
   providers: [
     APP_ROUTE_PROVIDER,
     ListService,
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    {
+      provide: VALIDATION_BLUEPRINTS,
+      useValue: {
+        ...DEFAULT_VALIDATION_BLUEPRINTS,
+        minLength: "::Validations:MinLength[{{ minLength }}]",
+        maxLength: "::Validations:MaxLength[{{ maxLength }}]",
+        minToday: '::Validations:MinDateToday',
+        minDate:'::Validations:MinDate[{{ minDate }}]',
+        maxDate:'::Validations:MaxDate[{{ maxDate }}]',
+        lessThanStart: '::Validations:DueDateLessThanStart',
+        min: "::Validations:Min[{{ min }}]",
+        max: "::Validations:Max[{{ max }}]",
+      },
+    },
   ],
   bootstrap: [AppComponent],
 })

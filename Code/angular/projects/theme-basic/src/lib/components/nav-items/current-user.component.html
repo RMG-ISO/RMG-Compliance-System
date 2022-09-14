@@ -24,8 +24,14 @@
 
 
 <ng-container *ngIf="(currentUser$ | async)?.isAuthenticated">
-  <button style="font-size: 16px;" mat-button [matMenuTriggerFor]="notificationsMenu">
-    <i class="fas fa-bell"></i>
+  <button class="noti-btn" [class.active]="notificationItemsCount" mat-button [matMenuTriggerFor]="notificationsMenu">
+    <img src="assets/icons/bell.svg" *ngIf="notificationItemsCount; else showIcon">
+    <ng-template #showIcon>
+      <i class="fas fa-bell"></i>
+    </ng-template>
+    <span class="count ml-1" *ngIf="notificationItemsCount">
+      {{ notificationItemsCount }}
+    </span>
   </button>
 
   <button style="font-size: 16px;" mat-button *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn"

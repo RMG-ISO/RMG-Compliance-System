@@ -4,7 +4,7 @@
          {{ '::ActionPlans' | abpLocalization }}
       </h4>
       <div class="d-flex justify-content-between align-items-center">
-          <button id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
+          <button id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog()">
               <i class="fa fa-plus mr-2"></i>
               <span class="line mr-2"></span>
               <span>{{ "::Create" | abpLocalization }}</span>
@@ -137,7 +137,7 @@
           </div>
 
               <div class="col-md-6 form-group">
-                <label for="achievementPercentage">{{ '::achievementPercentage' | abpLocalization }}</label><span>%</span>
+                <label for="achievementPercentage">{{ '::AchievementPercentage' | abpLocalization }}</label><span>%</span>
                 <input disabled type="text" id="achievementPercentage" class="form-control" formControlName="achievementPercentage" />
               </div>
 
@@ -176,7 +176,7 @@
       </button>
   </ng-template>
 </abp-modal>
-<!--
+
 <ng-template #dialogRef let-data let-ref="dialogRef">
   <app-risk-treatment-modal [data]="data" [ref]="ref"></app-risk-treatment-modal>
-</ng-template> -->
+</ng-template>

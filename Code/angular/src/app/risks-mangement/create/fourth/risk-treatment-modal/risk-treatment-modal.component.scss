@@ -29,17 +29,22 @@ mat-card-title {
     align-items: center;
     justify-content: end;
     button {
-        width: 90px;
+        min-width: 100px;
         margin: 0 10px;
-        &.btn-secondary {
+        &.secondary {
             color: #fff;
             background-color: #5a6268;
             border-color: #545b62;
         }
-        &.btn-primary {
+        &.primary {
             color: #fff;
             background-color: #0069d9;
             border-color: #0062cc;
+        }
+        &.send {
+            color: #fff;
+            background-color: #00897b;
+            border-color: #0a9688;
         }
     }
 }

@@ -6,6 +6,9 @@ import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { StaticDataService } from '@proxy/StaticData';
 //import { Console } from 'console';
 import { HistoryAction } from 'src/app/risks-mangement/module.enums';
+import { DateValidators } from 'src/app/shared/validators/date-validator';
+import { parseISO } from 'date-fns';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-risk-treatment-modal',
@@ -18,39 +21,7 @@ export class RiskTreatmentModalComponent implements OnInit {
 
   form:FormGroup;
 
-  StatusArr = [
-    {
-      "id": 1,
-      "nameEn": "Waiting ",
-      "nameAr": "قيد الانتظار "
-    },
-    {
-      "id": 2,
-      "nameEn": "Started ",
-      "nameAr": "تم البدء"
-    },
-    {
-      "id": 3,
-      "nameEn": "In Progress",
-      "nameAr": "في تقدم"
-    },
-    {
-      "id": 4,
-      "nameEn": "Completed ",
-      "nameAr": "تمت"
-    },
-    {
-      "id": 5,
-      "nameEn": "Late",
-      "nameAr": "متاخر"
-    },
-    {
-      "id": 6,
-      "nameEn": "Canceled ",
-      "nameAr": "تم الالغاء"
-    }
-  ];
-  Status = {};
+  StatusArr
 
   constructor(
     private riskTreatmentService:RiskTreatmentService,
@@ -67,8 +38,6 @@ export class RiskTreatmentModalComponent implements OnInit {
   standards;
 
   ngOnInit(): void {
-
-    console.log(this.data);
     this.form = new FormGroup({
       id: new FormControl(null),
       riskOpportunityId: new FormControl(this.data.riskOpportunityId),
@@ -82,7 +51,9 @@ export class RiskTreatmentModalComponent implements OnInit {
       achievementPercentage:new FormControl(null),
       status: new FormControl(1),
       attachmentId:new FormControl(null),
+      completionDate:new FormControl(null),
     });
+
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items
     });
@@ -94,33 +65,90 @@ export class RiskTreatmentModalComponent implements OnInit {
       this.standards = r.items;
     });
 
-    let id = this.activatedRoute.snapshot.params.treatmentId || this.data.id
+    let id = this.activatedRoute.snapshot.params.treatmentId || this.data.id;
+    this.StatusArr = [
+      {
+        "id": 1,
+        "nameEn": "Waiting",
+        "nameAr": "قيد الانتظار ",
+        isDisabled: id && !this.activatedRoute.snapshot.params.treatmentId
+      },
+      {
+        "id": 2,
+        "nameEn": "Started",
+        "nameAr": "تم البدء",
+        isDisabled:id && !this.activatedRoute.snapshot.params.treatmentId
+      },
+      {
+        "id": 3,
+        "nameEn": "In Progress",
+        "nameAr": "في تقدم",
+         isDisabled:id && !this.activatedRoute.snapshot.params.treatmentId
+      },
+      {
+        "id": 4,
+        "nameEn": "Completed",
+        "nameAr": "تمت"
+      },
+      {
+        "id": 5,
+        "nameEn": "Late",
+        "nameAr": "متاخر",
+         isDisabled:id && !this.activatedRoute.snapshot.params.treatmentId
+      },
+      {
+        "id": 6,
+        "nameEn": "Canceled",
+        "nameAr": "تم الالغاء"
+      },
+    ];
+
     if(id) this.getTreatmentData(id);
+
     if(this.activatedRoute.snapshot.params.treatmentId) {
       this.form.disable();
-
       this.form.controls.achievementPercentage.enable();
       this.form.controls.attachmentId.enable();
-    }
-    this.statusValue=this.form.controls.status.value;
-    for(let status of this.StatusArr) {
-      this.Status[status.id] = status
+      this.form.controls.status.enable();
+      this.form.controls.completionDate.enable();
+      this.form.controls.startDate.enable();
+    } else {
+      this.form.controls.startDate.disable();
+      this.form.controls.completionDate.disable();
+      this.form.controls.achievementPercentage.disable();
+
+      if(!id) this.form.controls.status.disable();
     }
 
   }
-  statusValue;
+
   getTreatmentData(id) {
     this.riskTreatmentService.get(id).subscribe( (r:any) => {
+      r.startDate = r.startDate ? parseISO(r.startDate) : null;
+      r.dueDate = r.dueDate ? parseISO(r.dueDate) : null;
+      r.completionDate = r.completionDate ? parseISO(r.completionDate) : null;
       this.data = r;
+      if(r.startDate) {
+        this.form.controls.startDate.disable();
+        this.form.controls.responsibility.disable();
+      }
+
       this.form.patchValue(r);
-      this.form.controls.dueDate.patchValue( r.dueDate ? new Date( r.dueDate ) : new Date());
 
       if(this.activatedRoute.snapshot.params.treatmentId) {
-        if(!r.startDate) this.form.controls.startDate.setValue(new Date())
-        if(r.status == 1) this.form.controls.status.setValue(2);
+
+        this.form.controls.completionDate.setValidators(Validators.required);
+        this.form.controls.startDate.setValidators(Validators.required);
+        this.form.controls.achievementPercentage.setValidators([Validators.min(0), Validators.max(100)] )
+
+        this.form.controls.completionDate.updateValueAndValidity();
+        this.form.controls.startDate.updateValueAndValidity();
+        this.form.controls.achievementPercentage.updateValueAndValidity();
+
+        this.form.setValidators([ DateValidators.ValidateTwoDates('startDate', 'completionDate') ]);
+        this.form.updateValueAndValidity();
       }
     });
-
   }
 
 
@@ -139,7 +167,13 @@ export class RiskTreatmentModalComponent implements OnInit {
 
   save() {
     if (this.form.invalid) return;
-    const request = this.data.id ? this.riskTreatmentService.update(this.data.id, this.form.getRawValue()) : this.riskTreatmentService.create(this.form.getRawValue());
+    let value = this.form.getRawValue();
+
+    value.startDate = value.startDate ? moment(value.startDate).utc(true).toDate() : null;
+    value.dueDate = value.dueDate ? moment(value.dueDate).utc(true).toDate() : null;
+    value.completionDate = value.completionDate ? moment(value.completionDate).utc(true).toDate() : null;
+
+    const request = this.data.id ? this.riskTreatmentService.update(this.data.id, value) : this.riskTreatmentService.create(value);
     request.subscribe(() => {
       this.close(this.data.id ? HistoryAction.UpdatePlanAction : HistoryAction.CreatePlanAction );
     });
