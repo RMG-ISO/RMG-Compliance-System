@@ -47,11 +47,43 @@ export class FourthComponent implements OnInit {
     this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
     });
-    debugger;
-this.signalrService.initiateSignalrConnection();
 
+
+//this.signalrService.initiateSignalrConnection();
     this.getList();
   }
+  ListStatus=[
+    {
+      "id": 1,
+      "nameEn": "Waiting ",
+      "nameAr": "قيد الانتظار "
+    },
+    {
+      "id": 2,
+      "nameEn": "Started ",
+      "nameAr": "تم البدء"
+    },
+    {
+      "id": 3,
+      "nameEn": "In Progress",
+      "nameAr": "في تقدم"
+    },
+    {
+      "id": 4,
+      "nameEn": "Completed ",
+      "nameAr": "تمت"
+    },
+    {
+      "id": 5,
+      "nameEn": "Late",
+      "nameAr": "متاخر"
+    },
+    {
+      "id": 6,
+      "nameEn": "Canceled ",
+      "nameAr": "تم الالغاء"
+    }
+  ];
   data=[];
   items;
   totalCount;
@@ -79,8 +111,8 @@ this.signalrService.initiateSignalrConnection();
     })
   }
 
-  selected
-  isModalOpen
+  selected;
+  isModalOpen;
   openDialog(data: RiskTreatmentDto) {
     this.selected = data;
     this.buildForm();
@@ -100,6 +132,7 @@ this.signalrService.initiateSignalrConnection();
       actionDetailsAr: new FormControl(null, Validators.required),
       actionDetailsEn: new FormControl(null, Validators.required),
       startDate:new FormControl(null),
+      completionDate:new FormControl(null),
       achievementPercentage:new FormControl(null),
       status: new FormControl(1),
       attachmentId:new FormControl(null),
