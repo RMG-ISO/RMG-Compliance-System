@@ -92,7 +92,7 @@ namespace RMG.ComplianceSystem.Notifications
                 }
                 else if (item.Type == NotificationType.Push)
                 {
-
+                   
                 }
                 else if (item.Type == NotificationType.SMS)
                 {
@@ -104,6 +104,26 @@ namespace RMG.ComplianceSystem.Notifications
 
         [RemoteService(false)]
         public async Task NotifyUser(Guid userToNotify)
+        {
+            string userId = userToNotify.ToString();
+            var userNotifications = Repository.Where(t => t.To == userId);
+            var Notifications = new NotifyUserDto
+            {
+                UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
+                Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).Take(6).Select(t => new NotifyUserNotificationDto
+                {
+                    Id = t.Id,
+                    Title = t.Subject,
+                    Status = t.Status,
+                    Url = t.Url
+                }).ToList()
+            };
+
+            await _notificationHubContext.Clients
+                .User(userId)
+                .SendAsync("ReceiveNotification", Notifications);
+        }
+        public async Task NotifictionUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();
             var userNotifications = Repository.Where(t => t.To == userId);

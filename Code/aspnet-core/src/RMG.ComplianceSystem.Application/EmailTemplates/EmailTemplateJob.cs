@@ -44,7 +44,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         /// <returns></returns>
         public async override Task Execute(IJobExecutionContext context)
         {
-     //       await _emailTemplateManager.OnAddRiskTreatmentSendToRiskTreatment();
+          await _emailTemplateManager.OnAddRiskTreatmentSendToRiskTreatment();
         }
     }
 }
