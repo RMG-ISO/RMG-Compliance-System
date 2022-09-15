@@ -11,6 +11,6 @@ namespace RMG.ComplianceSystem.EmailTemplates
      
         string GetURI();
        Task OnAddRiskTreatmentSendToRiskTreatment(EntityCreatedEventData<RisksTreatment> eventData, string hostName);
-      
+        Task OnAddRiskTreatmentSendToRiskTreatment();
     }
 }
