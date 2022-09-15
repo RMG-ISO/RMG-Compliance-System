@@ -12,16 +12,5 @@ namespace RMG.ComplianceSystem.EmailTemplates
         public EmailTemplateRepository(IDbContextProvider<ComplianceSystemDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
-
-        public override async Task<IQueryable<EmailTemplate>> WithDetailsAsync()
-        {
-            return (await GetQueryableAsync()).IncludeDetails();
-        }
-
-        [Obsolete]
-        public override IQueryable<EmailTemplate> WithDetails()
-        {
-            return GetQueryable().IncludeDetails();
-        }
     }
 }

@@ -43,7 +43,7 @@ namespace RMG.ComplianceSystem.Notifications
             _emailSender = emailSender;
             _notificationHubContext = notificationHubContext;
             _currentUser = currentUser;
-           // _emailTemplateRepository = emailTemplateRepository;
+            _emailTemplateRepository = emailTemplateRepository;
         }
 
         /// <summary>
@@ -62,7 +62,6 @@ namespace RMG.ComplianceSystem.Notifications
                 {
                     try
                     {
-
                         var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
@@ -100,6 +99,7 @@ namespace RMG.ComplianceSystem.Notifications
 
                 }
             }
+
         }
 
         [RemoteService(false)]
