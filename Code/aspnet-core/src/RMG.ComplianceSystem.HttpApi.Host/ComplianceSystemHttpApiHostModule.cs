@@ -28,7 +28,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using RMG.ComplianceSystem.Notifications;
 using Volo.Abp.AspNetCore.SignalR;
 
 namespace RMG.ComplianceSystem
@@ -52,7 +51,7 @@ namespace RMG.ComplianceSystem
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-            context.Services.AddTransient<NotificationHub>();
+
             ConfigureBundles();
             ConfigureUrls(configuration);
             ConfigureConventionalControllers();
@@ -61,6 +60,8 @@ namespace RMG.ComplianceSystem
             ConfigureVirtualFileSystem(context);
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context, configuration);
+
+            context.Services.AddTransient<Notifications.NotificationHub>();
         }
 
         private void ConfigureBundles()

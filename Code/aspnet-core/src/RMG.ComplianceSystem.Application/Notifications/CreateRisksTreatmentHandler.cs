@@ -89,16 +89,8 @@ namespace RMG.ComplianceSystem.Notifications
                 mailTo = string.Join(',', _managerEmails);
 
             }
-            var EmailTem = new EmailTemplate
-            (new Guid(),"RisksTreatmentCreated",eventData.Entity.MitigateActionPlanAr,
-                 eventData.Entity.MitigateActionPlanAr + eventData.Entity.ActionDetailsAr+ eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd"),
-              eventData.Entity.MitigateActionPlanAr + eventData.Entity.ActionDetailsAr + eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd")
-       );
-            
-            _emailTemplatesRepository.InsertAsync(EmailTem,true);
-
            
-            //var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksTreatmentCreated");
+            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "TreatementNewTemplate");
 
             RisksTreatmentCreatedHandlerDto RisksTreatmentCreatedModel = new RisksTreatmentCreatedHandlerDto
             {
@@ -111,7 +103,7 @@ namespace RMG.ComplianceSystem.Notifications
             };
 
             var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentCreatedModel);
-            //var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RisksTreatmentCreated", expandoData);
+            var emailTemplateData = await _emailTemplateAppService.RenderTemplate("TreatementNewTemplate", expandoData);
 
             var notification = new Notification(
                 _guidGenerator.Create(),
@@ -120,11 +112,11 @@ namespace RMG.ComplianceSystem.Notifications
                 mailTo,
                 null,
                 null,
-                EmailTem.Subject,
+                emailTemplate.Subject,
                 Priority.Normal,
                 NotificationType.Email, Status.Created,
                 _clock.Now,
-                EmailTem.Body,
+                emailTemplateData.Body,
                 true,
                 true,
                 null,
@@ -143,7 +135,7 @@ namespace RMG.ComplianceSystem.Notifications
                 DueDate = eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd")
             };
             var expandoDataNotification = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentNotificationDto);
-            //var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("RisksTreatmentNewTemplates", expandoDataNotification);
+            var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("TreatementNewTemplate", expandoDataNotification);
 
             var PushNotification = new Notification(
                 _guidGenerator.Create(),
@@ -152,12 +144,12 @@ namespace RMG.ComplianceSystem.Notifications
                 _currentUser.Id.ToString(),
                 null,
                 null,
-                EmailTem.Subject,
+                emailTemplate.Subject,
                 Priority.Normal,
                 NotificationType.Push,
                 Notifications.Status.NotSeen,
                 _clock.Now,
-                EmailTem.NotificationBody,
+                NotificationTemplateData.NotificationBody,
                 true,
                 true,
                 null,

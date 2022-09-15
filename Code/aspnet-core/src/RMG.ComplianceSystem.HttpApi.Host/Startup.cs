@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Abp.AspNetCore.SignalR.Hubs;
-using RMG.ComplianceSystem.DashBoards;
 
 namespace RMG.ComplianceSystem
 {
@@ -19,14 +17,17 @@ namespace RMG.ComplianceSystem
         {
             
             app.InitializeApplication();
-            app.Use(async (context, next) =>
+            app.Use(async (httpContext, next) =>
             {
-              var AccessToken= context.Request.Query["access-token"];
-                var path = context.Request.Path;
-                if (!string.IsNullOrEmpty(AccessToken)&&(path.StartsWithSegments("/signalr-hubs/notification-hub")))
+                var accessToken = httpContext.Request.Query["access_token"];
+
+                var path = httpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    (path.StartsWithSegments("/signalr-hubs/notification-hub")))
                 {
-                    context.Request.Headers["Authorization"] = "Bearer " + AccessToken;
+                    httpContext.Request.Headers["Authorization"] = "Bearer " + accessToken;
                 }
+
                 await next();
             });
 

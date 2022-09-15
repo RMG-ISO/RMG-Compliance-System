@@ -16,10 +16,10 @@ using RMG.ComplianceSystem.EmailTemplates;
 namespace RMG.ComplianceSystem.EmailTemplates
 {
     public class EmailTemplateAppService : CrudAppService<EmailTemplate, EmailTemplateDto, Guid, EmailTemplatePagedAndSortedResultRequestDto, CreateUpdateEmailTemplateDto, CreateUpdateEmailTemplateDto>,
-        IEmailTemplateAppService
+          IEmailTemplateAppService
     {
         protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
+        protected override string GetListPolicyName { get; set; } =ComplianceSystemPermissions.EmailTemplate.Default;
         protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Create;
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Delete;
@@ -43,7 +43,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         {
             await CheckGetListPolicyAsync();
 
-            //Temporary disable the ComplianceSystemftDelete filter
+            //Temporary disable the ISoftDelete filter
             using (_dataFilter.Disable<ISoftDelete>())
             {
                 var query = await CreateFilteredQueryAsync(input);
@@ -141,4 +141,6 @@ namespace RMG.ComplianceSystem.EmailTemplates
             return entityDto;
         }
     }
+
+
 }
