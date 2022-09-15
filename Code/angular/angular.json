@@ -37,6 +37,11 @@
                 "bundleName": "fontawesome-all.min"
               },
               {
+                "input": "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
+                "inject": true,
+                "bundleName": "fontawesome-solid.min"
+              },
+              {
                 "input": "node_modules/@fortawesome/fontawesome-free/css/v4-shims.min.css",
                 "inject": true,
                 "bundleName": "fontawesome-v4-shims.min"

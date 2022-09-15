@@ -49,3 +49,24 @@ h4.noti-title {
     margin-bottom: -8px;
 }
 
+
+
+.noti-btn {
+    font-size: 16px;
+    img {
+        width: 18px;
+    }
+    .count {
+        font-size: 12px;
+        margin-top: -10px;
+        display: inline-block;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+    i {
+        font-size: 18px;
+    }
+    &.active {
+        color: #4b74ff;
+    }
+}
