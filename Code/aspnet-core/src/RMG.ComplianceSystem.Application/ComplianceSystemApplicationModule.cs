@@ -33,19 +33,19 @@ namespace RMG.ComplianceSystem
             {
                 options.AddMaps<ComplianceSystemApplicationModule>();
             });
+
             Configure<AbpSignalROptions>(options =>
             {
-                options.Hubs.AddOrUpdate(
-                    typeof(NotificationHub), //Hub type
-                    config => //Additional configuration
-        {
-                        config.RoutePattern = "/signalr-hubs/notification-hub"; //override the default route
-            config.ConfigureActions.Add(hubOptions =>
+                options.Hubs.Add(
+                    new HubConfig(
+                        typeof(NotificationHub), //Hub type
+                        "/signalr-hubs/notification-hub", //Hub route (URL)
+                        hubOptions =>
                         {
-                //Additional options
-                //hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
-                        });
-                    }
+                            //Additional options
+                            //hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
+                        }
+                    )
                 );
             });
         }
