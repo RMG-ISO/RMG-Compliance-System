@@ -36,7 +36,7 @@
     "standardReferenceAr": "إطار العمل المرجعي باللغة العربية",
     "standardReferenceEn": "إطار العمل المرجعي باللغة الانجليزية",
     "standardReference": "إطار العمل المرجعي",
-    "completionDate":"تاريخ الإنجاز",
+    "CompletionDate":"تاريخ الإنجاز",
     "RiskAndOpportunity": "المخاطر والفرص",
     "Matrix": "نوع المصفوفة",
     "Risk": "مخاطر",
@@ -368,8 +368,9 @@
     "Dashboard:TotalRequirements": "المتطلبات الإجمالية",
     "Dashboard:RequirementsGapAnalysis": "تحليل فجوة متطلبات NCA-ECC",
 
-    "DocumentDeletionConfirmationMessage": "هل أنت متأكد من حذف الملف {0}؟"
+    "DocumentDeletionConfirmationMessage": "هل أنت متأكد من حذف الملف {0}؟",
 
-
+    "SendRequest":"إرسال الطلب",
+    "IsTreatment":"هل قابل للمعالجه؟"
   }
 }
