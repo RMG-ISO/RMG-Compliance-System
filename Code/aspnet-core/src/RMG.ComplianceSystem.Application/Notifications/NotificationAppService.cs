@@ -43,7 +43,7 @@ namespace RMG.ComplianceSystem.Notifications
             _emailSender = emailSender;
             _notificationHubContext = notificationHubContext;
             _currentUser = currentUser;
-           // _emailTemplateRepository = emailTemplateRepository;
+            _emailTemplateRepository = emailTemplateRepository;
         }
 
         /// <summary>
@@ -62,7 +62,6 @@ namespace RMG.ComplianceSystem.Notifications
                 {
                     try
                     {
-
                         var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
@@ -93,17 +92,38 @@ namespace RMG.ComplianceSystem.Notifications
                 }
                 else if (item.Type == NotificationType.Push)
                 {
-
+                   
                 }
                 else if (item.Type == NotificationType.SMS)
                 {
 
                 }
             }
+
         }
 
         [RemoteService(false)]
         public async Task NotifyUser(Guid userToNotify)
+        {
+            string userId = userToNotify.ToString();
+            var userNotifications = Repository.Where(t => t.To == userId);
+            var Notifications = new NotifyUserDto
+            {
+                UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
+                Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).Take(6).Select(t => new NotifyUserNotificationDto
+                {
+                    Id = t.Id,
+                    Title = t.Subject,
+                    Status = t.Status,
+                    Url = t.Url
+                }).ToList()
+            };
+
+            await _notificationHubContext.Clients
+                .User(userId)
+                .SendAsync("ReceiveNotification", Notifications);
+        }
+        public async Task NotifictionUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();
             var userNotifications = Repository.Where(t => t.To == userId);

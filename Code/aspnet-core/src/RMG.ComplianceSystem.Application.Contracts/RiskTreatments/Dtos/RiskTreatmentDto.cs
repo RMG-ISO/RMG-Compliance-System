@@ -16,7 +16,9 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public string ActionDetailsAr { get; set; }
         public Guid? Responsibility { get; set; }
         public string ResponsibilityName { get; set; }
-        public int? Status { get; set; } 
+        public int? Status { get; set; }
+
+        public DateTime? CompletionDate { get; set; }
         public string StatusNameEn { get; set; }
         public string StatusNameAr { get; set; }
         public DateTime? DueDate { get; set; }

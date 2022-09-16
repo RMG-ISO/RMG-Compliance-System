@@ -14,7 +14,7 @@ using Volo.Abp.Users;
 using Microsoft.AspNetCore.Http;
 using RMG.ComplianceSystem.RiskTreatments;
 using Volo.Abp.Domain.Entities.Events;
-using Abp;
+using Volo.Abp.Guids;
 
 namespace RMG.ComplianceSystem.EmailTemplates
 {
@@ -78,12 +78,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
             var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == "RisksTreatment");
             var existingRisksTreatment = await _riskTreatmentRepository.GetAsync(eventData.Entity.Id);
 
-            if (existingRisksTreatment.Responsibility != null)//User has changed revision date, so insert a new record into notification table
-            {
-
-
-
-            }
+          
 
             RisksTreatmentCreatedHandlerDto RisksTreatmentCreatedModel = new RisksTreatmentCreatedHandlerDto
             {
@@ -159,7 +154,14 @@ namespace RMG.ComplianceSystem.EmailTemplates
 
             }
         }
+        public async Task OnAddRiskTreatmentSendToRiskTreatment()
+        {
+            var notificationList = _notificationRepository.Where(t => t.Type == NotificationType.Push).ToList();
+            foreach (var notificatio in notificationList)
+            {
+                await _notificationAppService.NotifyUser(Guid.Parse(notificatio.To));
+            }
+        }
 
-      
     }
 }

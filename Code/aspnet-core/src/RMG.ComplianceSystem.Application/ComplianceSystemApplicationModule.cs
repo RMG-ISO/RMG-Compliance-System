@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RMG.ComplianceSystem.Notifications;
-using System;
+﻿using RMG.ComplianceSystem.Notifications;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.BackgroundWorkers.Quartz;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
+using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.TextTemplating;
+using Volo.Abp.VirtualFileSystem;
 
 namespace RMG.ComplianceSystem
 {
@@ -22,7 +24,9 @@ namespace RMG.ComplianceSystem
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
         typeof(AbpSettingManagementApplicationModule),
-        typeof(AbpAspNetCoreSignalRModule) 
+        typeof(AbpBackgroundWorkersQuartzModule),
+        typeof(AbpTextTemplatingModule),
+        typeof(AbpLocalizationModule)
         )]
     public class ComplianceSystemApplicationModule : AbpModule
     {
@@ -33,19 +37,22 @@ namespace RMG.ComplianceSystem
             {
                 options.AddMaps<ComplianceSystemApplicationModule>();
             });
+            Configure<AbpVirtualFileSystemOptions>(options =>
+            {
+                options.FileSets.AddEmbedded<ComplianceSystemApplicationModule>("Compliance.ISO");
+            });
             Configure<AbpSignalROptions>(options =>
             {
-                options.Hubs.AddOrUpdate(
-                    typeof(NotificationHub), //Hub type
-                    config => //Additional configuration
-        {
-                        config.RoutePattern = "/signalr-hubs/notification-hub"; //override the default route
-            config.ConfigureActions.Add(hubOptions =>
+                options.Hubs.Add(
+                    new HubConfig(
+                        typeof(NotificationHub), //Hub type
+                        "/signalr-hubs/notification-hub", //Hub route (URL)
+                        hubOptions =>
                         {
-                //Additional options
-                //hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
-                        });
-                    }
+                            //Additional options
+                            //hubOptions.LongPolling.PollTimeout = TimeSpan.FromSeconds(30);
+                        }
+                    )
                 );
             });
         }

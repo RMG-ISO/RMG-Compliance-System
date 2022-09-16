@@ -50,6 +50,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
         public async Task<PagedResultDto<RiskTreatmentDto>> GetListRiskByFilterAsync(RiskTreatmentPagedAndSortedResultRequestDto input)
         {
             List<RiskTreatmentDto> Risks = new List<RiskTreatmentDto>();
+            int totalCount = 0;
             if (input.RiskOpportunityId != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
@@ -57,6 +58,8 @@ namespace RMG.ComplianceSystem.RiskTreatments
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
+                var ListRisk = RiskTreatmentRepository.Where(x => x.IsDeleted == false && x.RiskOpportunityId == input.RiskOpportunityId).ToList();
+                totalCount = ListRisk.Count;  
             }
             else
             {
@@ -64,7 +67,10 @@ namespace RMG.ComplianceSystem.RiskTreatments
                 var ListDoc = RiskTreatmentRepository.Where(x => x.IsDeleted == false).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListDoc);
+                var ListRisk = RiskTreatmentRepository.Where(x => x.IsDeleted == false).ToList();
+                totalCount = ListRisk.Count;
             }
+
 
             var RisksData = new List<RiskTreatmentDto>();
             foreach (var item in Risks)
@@ -89,8 +95,6 @@ namespace RMG.ComplianceSystem.RiskTreatments
 
                 RisksData.Add(RiskTreatment);
             }
-            //Get the total count with Risk
-            var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskTreatmentDto>(
                 totalCount,
