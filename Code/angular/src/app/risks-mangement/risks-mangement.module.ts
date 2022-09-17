@@ -18,6 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-modal/risk-treatment-modal.component';
+import { MatrixComponent } from './create/matrix/matrix.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-moda
     FourthComponent,
     FifthComponent,
     RiskTreatmentModalComponent,
+    MatrixComponent,
   ],
   imports: [
     CommonModule,

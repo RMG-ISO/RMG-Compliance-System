@@ -14,7 +14,7 @@
         align-items: center;
         justify-content: center;
         box-shadow: 0 0 0 2px rgb(0 0 0 / 16%);
-        background-color: #4b74ff;
+        background-color: var(--main-color);
         color: #fff;
        
     }
@@ -67,6 +67,6 @@ h4.noti-title {
         font-size: 18px;
     }
     &.active {
-        color: #4b74ff;
+        color: var(--main-color);
     }
 }

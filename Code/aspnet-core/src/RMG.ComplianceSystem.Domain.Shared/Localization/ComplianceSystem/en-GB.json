@@ -366,7 +366,8 @@
     "Dashboard:RequirementsGapAnalysis": "NCA-ECC Requirements Gap Analysis",
     "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?",
     "SendRequest":"Send Request",
-    "IsTreatment":"Is it treatable?"
+    "IsTreatment":"Is it treatable?",
+    "RiskManagementMatrix":"Risk Management Matrix"
 
   }
 }

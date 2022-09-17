@@ -52,7 +52,6 @@ export class CurrentUserComponent implements OnInit {
 
     this.notificationService.getCurrentUserNotification().subscribe((result: NotifyUserDto) => {
       console.log("result of getCurrentUserNotification",result);
-      debugger;
       this.notificationItems = result.notifications;
       this.notificationItemsCount = result.unReadNotifications;
     });
