@@ -9,6 +9,7 @@ import { StaticDataService } from '@proxy/StaticData';
 import { HistoryAction, Status } from '../../module.enums';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { MatDialog } from '@angular/material/dialog';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
   selector: 'app-fourth',
@@ -18,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class FourthComponent implements OnInit {
   @Output('updateProcessing') updateProcessing = new EventEmitter();
   @Input('itemData') itemData;
-
+  FormMode = FormMode;
   Status = Status;
 
   users;
@@ -116,10 +117,10 @@ export class FourthComponent implements OnInit {
 
 
   @ViewChild('dialogRef') dialogRef;
-  openDialog(data = {riskOpportunityId : this.route.snapshot.params.id }) {
-    let ref = this.dialog.open(this.dialogRef, { data, maxHeight:'80vh' });
+  openDialog(data = {riskOpportunityId : this.route.snapshot.params.id }, mode = FormMode.Create) {
+    data['mode'] = mode;
+    let ref = this.dialog.open(this.dialogRef, {  data, maxHeight:'80vh' });
     ref.afterClosed().subscribe(r => {
-      console.log('ss', r)
       if(r) this.update(r);
     })
   }

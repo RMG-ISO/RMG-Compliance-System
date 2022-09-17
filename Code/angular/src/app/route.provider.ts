@@ -140,10 +140,10 @@ function configureRoutes(routesService: RoutesService) {
       },
       {
         path:'/settings/email-templates',
-        name:'::Menu:Emails',
+        name:'::EmailTemplate:Page:Title',
         iconClass: 'fas fa-envelope',
         order: 2,
-        parentName:'::EmailTemplate:Page:Title',
+        parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
         // requiredPolicy:'ComplianceSystem.Employee',
       },
