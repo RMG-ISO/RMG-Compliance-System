@@ -17,16 +17,8 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule)
   },
-  {
-    path:'department',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./department/department.module').then(m => m.DepartmentModule)
-  },
-  {
-    path:'employee',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule)
-  },
+
+
   {
     path:'dashboard',
     canActivate: [AuthGuard, PermissionGuard],
@@ -65,10 +57,7 @@ const routes: Routes = [
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
   },
-  {
-    path: 'identity',
-    loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
-  },
+
   {
     path: 'tenant-management',
     loadChildren: () =>
@@ -86,6 +75,10 @@ const routes: Routes = [
   {
     path:'design-guide',
     loadChildren:() => import('./design-guide/design-guide.module').then(m => m.DesignGuideModule)
+  },
+  {
+    path:'settings',
+    loadChildren:() => import('./settings/settings.module').then(m => m.SettingsModule)
   },
   {
     path:'',

@@ -121,7 +121,7 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path:'/department',
+        path:'/settings/department',
         name:'::Menu:Department',
         iconClass: 'fas fa-building',
         order: 1,
@@ -130,7 +130,7 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Department',
       },
       {
-        path:'/employee',
+        path:'/settings/employee',
         name:'::Menu:Employee',
         iconClass: 'fas fa-users',
         order: 2,
@@ -138,9 +138,18 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Employee',
       },
+      {
+        path:'/settings/email-templates',
+        name:'::Menu:Emails',
+        iconClass: 'fas fa-envelope',
+        order: 2,
+        parentName:'::EmailTemplate:Page:Title',
+        layout: eLayoutType.application,
+        // requiredPolicy:'ComplianceSystem.Employee',
+      },
 
       {
-        path:'/identity',
+        path:'/settings/identity',
         name:'::Permissions',
         iconClass: 'fa fa-wrench',
         parentName:'::Menu:ComplianceSystemSettings',
@@ -148,7 +157,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
       },
       {
-        path:'/identity/users',
+        path:'/settings/identity/users',
         name:'AbpIdentity::Users',
         iconClass: 'fas fa-users',
         order: 2,
@@ -157,7 +166,7 @@ function configureRoutes(routesService: RoutesService) {
         // requiredPolicy:'ComplianceSystem.Employee',
       },
       {
-        path:'/identity/roles',
+        path:'/settings/identity/roles',
         name:'AbpIdentity::Roles',
         iconClass: 'fas fa-user-tag',
         order: 2,

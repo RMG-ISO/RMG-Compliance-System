@@ -1,0 +1,55 @@
+<mat-card class="form-card">
+    <mat-card-title>
+        {{ '::EmailTemplate:Page:Title' | abpLocalization }}
+    </mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="col-md-12 form-group">
+                <label for="Key">
+                    {{ '::Email:Key' | abpLocalization }}
+                    <span> * </span>
+                </label>
+                <input type="text" id="Key" class="form-control" formControlName="key" />
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="Subject">
+                    {{ '::Email:Subject' | abpLocalization }}
+                    <span> * </span>
+                </label>
+                <input type="text" id="Subject" class="form-control" formControlName="subject" />
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="NotificationBody">
+                    {{ '::Email:NotificationBody' | abpLocalization }}
+                    <span> * </span>
+                </label>
+                <input type="text" id="NotificationBody" class="form-control" formControlName="notificationBody" />
+            </div>
+
+            <div class="col-md-12 form-group mb-3">
+                <label for="">
+                    {{ '::Email:Body' | abpLocalization }}
+                </label>
+                <ckeditor
+                formControlName="body"
+                fullWidth
+                #myckeditor
+                id="myckeditor"
+                name="myckeditor"
+                required
+                [config]="ckeConfig"
+                debounce="500"
+                [disabled]="mode === FormMode.View"
+                [editor]="Editor"
+              >
+              </ckeditor>
+            </div>
+            <div class="col-md-12 d-flex justify-content-end">
+                <button mat-button class="button red m-1" routerLink="/settings/email-templates/list"> {{ '::Back' | abpLocalization }} </button>
+                <button mat-button class="button blue m-1" type="submit" >
+                    {{ '::Save' | abpLocalization}}
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

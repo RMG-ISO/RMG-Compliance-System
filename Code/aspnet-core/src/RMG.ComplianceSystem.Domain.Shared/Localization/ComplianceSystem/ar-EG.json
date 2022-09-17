@@ -372,7 +372,14 @@
 
     "SendRequest":"إرسال الطلب",
     "IsTreatment":"هل قابل للمعالجه؟",
-    "RiskManagementMatrix":"مصفوفة إدارة المخاطر"
+    "RiskManagementMatrix":"مصفوفة إدارة المخاطر",
+
+    "Email:Body": "النص",
+    "Email:Subject": "الموضوع",
+    "Email:Key": "مفتاح",
+    "Email:NotificationBody": "قالب الاشعارات",
+    "EmailTemplate:Page:Title": "قوالب البريد الألكتروني"
+
 
   }
 }
