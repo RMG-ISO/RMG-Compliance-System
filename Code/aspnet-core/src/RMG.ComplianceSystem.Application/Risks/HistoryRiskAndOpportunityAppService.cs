@@ -56,20 +56,29 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<PagedResultDto<HistoryRiskAndOpportunityDto>> GetListHistoryByFilterAsync(HistoryRiskOpportunityPagedAndSortedResultRequestDto input)
         {
             List<HistoryRiskAndOpportunityDto> Risks = new List<HistoryRiskAndOpportunityDto>();
+            int totalCount=0;   
             if (input.WorkFlowStages != null) {
                 var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages )
                      .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
+                var risk = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages).ToList();
+                totalCount = risk.Count;
             } else
             {
                 var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId)
               .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
+                var risk = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId).ToList();
+                totalCount = risk.Count;
             }
 
-
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(HistoryRiskAndOpportunityDto).GetProperty(input.Sorting);
+                Risks.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
             var RisksData = new List<HistoryRiskAndOpportunityDto>();
             foreach (var item in Risks)
             {
@@ -84,7 +93,7 @@ namespace RMG.ComplianceSystem.Risks
                 RisksData.Add(Risk);
             }
             //Get the total count with Risk
-            var totalCount = RisksData.Count;
+            //var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<HistoryRiskAndOpportunityDto>(
                 totalCount,

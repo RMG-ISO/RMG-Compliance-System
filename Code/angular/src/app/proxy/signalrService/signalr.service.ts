@@ -20,12 +20,12 @@ export class SignalrService {
 
         this.configureConnection(this.connection);
       // this.connection
-      //   .start()
-      //   .then(() => {
-      //     resolve(true);
+      //   .stop()
+      //   .then((xc) => {
+      //     console.log(xc)
       //   })
       //   .catch((error) => {
-      //     reject();
+      //     console.log(error)
       //   });
 
     });

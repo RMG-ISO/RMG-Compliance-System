@@ -87,7 +87,7 @@
     "mitigateActionPlanEn": "Action Name English",
     "standardReferenceAr": "Standard Reference Arabic",
     "standardReferenceEn": "Standard Reference English",
-    "completionDate":"Completion Date",
+    "CompletionDate":"Completion Date",
     "EndDate": "EndDate",
     "ControlAssessment": "Control Assessment",
     "responsibility": "responsibility",
@@ -364,7 +364,10 @@
     "Dashboard:TotalRequirementsMaturityLevel": "Total Requirements Maturity Level",
     "Dashboard:TotalRequirements": "Total Requirements",
     "Dashboard:RequirementsGapAnalysis": "NCA-ECC Requirements Gap Analysis",
-    "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?"
+    "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?",
+    "SendRequest":"Send Request",
+    "IsTreatment":"Is it treatable?",
+    "RiskManagementMatrix":"Risk Management Matrix"
 
   }
 }

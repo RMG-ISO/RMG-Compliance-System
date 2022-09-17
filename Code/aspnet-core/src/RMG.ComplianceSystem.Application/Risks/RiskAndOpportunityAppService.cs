@@ -65,6 +65,7 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<PagedResultDto<RiskAndOpportunityDto>> GetListRiskByFilterAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             List<RiskAndOpportunityDto> Risks = new List<RiskAndOpportunityDto>();
+            int totalCount = 0;
             if (input.Type != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
@@ -73,6 +74,8 @@ namespace RMG.ComplianceSystem.Risks
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+                var risk= RiskAndOpportunityRepository.Where(x => x.Type == input.Type ).ToList();
+                totalCount = risk.Count;
             }
             else
             {
@@ -82,6 +85,13 @@ namespace RMG.ComplianceSystem.Risks
                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
+                var risk = RiskAndOpportunityRepository.ToList();
+                totalCount = risk.Count;
+            }
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(RiskAndOpportunityDto).GetProperty(input.Sorting);
+                Risks.OrderBy(p => propertyInfo.GetValue(p, null));
             }
             var RisksData = new List<RiskAndOpportunityDto>();
             foreach (var item in Risks)
@@ -107,7 +117,7 @@ namespace RMG.ComplianceSystem.Risks
             }
 
             //Get the total count with Risk
-            var totalCount = RisksData.Count;
+            //var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,

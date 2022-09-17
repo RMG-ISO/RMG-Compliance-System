@@ -15,7 +15,7 @@
         box-shadow: none;
         text-decoration: none;
         &:hover, &.active {
-            background-color: #4B74FF;
+            background-color: var(--main-color);
             color: #fff;;
             i {
                 color: #fff;

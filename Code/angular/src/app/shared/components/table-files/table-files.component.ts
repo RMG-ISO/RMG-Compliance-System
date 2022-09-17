@@ -1,6 +1,6 @@
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 // import { AttachmentDto, AttachmentFileDto } from './../../proxy/attachments/dtos/models';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { AttachmentService } from '@proxy/attachments';
 import { AttachmentDto, AttachmentFileDto } from '@proxy/attachments/dtos/models';
 import { saveAs } from 'file-saver';
@@ -10,7 +10,7 @@ import { saveAs } from 'file-saver';
   templateUrl: './table-files.component.html',
   styleUrls: ['./table-files.component.scss']
 })
-export class TableFilesComponent implements OnInit {
+export class TableFilesComponent implements OnInit, OnChanges {
   @Input('title') title = '::Attachments';
   
   items: AttachmentFileDto[] = [];
@@ -29,9 +29,17 @@ export class TableFilesComponent implements OnInit {
     private attachmentService: AttachmentService,
     private confirmation: ConfirmationService
   ) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    if(changes.attachmentId) {
+      if(changes.attachmentId.currentValue !== changes.attachmentId.previousValue && changes.attachmentId.currentValue !== null) {
+        this.getAttachment();
+      }
+    }
+  }
 
   ngOnInit(): void {
-    if (this.attachmentId) this.getAttachment();
+    
   }
 
   OnUploaded(attachmentId: string) {

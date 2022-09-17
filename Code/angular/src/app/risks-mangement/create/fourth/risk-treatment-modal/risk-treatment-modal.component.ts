@@ -36,7 +36,7 @@ export class RiskTreatmentModalComponent implements OnInit {
   users;
   potentials;
   standards;
-
+  oldStatus;
   ngOnInit(): void {
     this.form = new FormGroup({
       id: new FormControl(null),
@@ -148,6 +148,8 @@ export class RiskTreatmentModalComponent implements OnInit {
         this.form.setValidators([ DateValidators.ValidateTwoDates('startDate', 'completionDate') ]);
         this.form.updateValueAndValidity();
       }
+      if(r.status == 4 || r.status == 6) this.form.disable();
+      this.oldStatus = r.status;
     });
   }
 
@@ -182,7 +184,14 @@ export class RiskTreatmentModalComponent implements OnInit {
 
   close(action = null) {
     if(this.ref) this.ref.close(action);
-    else this.router.navigate(['/risks-management/riskopportunity'])
+    // else this.router.navigate(['/risks-management/riskopportunity'])
   }
 
+  changeDate(event) {
+    console.log(event);
+    if(!this.activatedRoute.snapshot.params.treatmentId) return;
+    if(new Date(this.form.controls.completionDate.value) > new Date(this.form.controls.dueDate.value)) {
+      this.form.controls.status.setValue(5)
+    } else this.form.controls.status.setValue(this.oldStatus)
+  }
 }

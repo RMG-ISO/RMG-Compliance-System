@@ -59,6 +59,9 @@ namespace RMG.ComplianceSystem.Policies
             //// Mapping DocumentCategory to DocumentCategoryDto
             //var DocCateDto = ObjectMapper.Map<DocumentCategory, DocumentCategoryDto>(DocCate);
             List<DocumentDto> Documents = new List<DocumentDto>();
+            
+            
+            int totalCount = 0;
             if (input.CategoryId!=null)
             {
                 //get Document By CategoryId and Filters and Pagination
@@ -66,6 +69,8 @@ namespace RMG.ComplianceSystem.Policies
                 ((x.TitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                  Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDocuments);
+                var ListDocument = Documentrepository.Where(x => x.CategoryId == (Guid)input.CategoryId).ToList();
+                totalCount = ListDocument.Count;   
             }
             else
             {
@@ -75,8 +80,14 @@ namespace RMG.ComplianceSystem.Policies
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
 
                 Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDoc);
+                var ListDocument = Documentrepository.ToList();
+                totalCount = ListDocument.Count;
             }
-           
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(DocumentDto).GetProperty(input.Sorting);
+                Documents.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
             // instance of List of FullDocumentDto
             List<DocumentDto> DocumentDtos = new List<DocumentDto>();
             // instance of  List<DocumentDto>
@@ -142,7 +153,7 @@ namespace RMG.ComplianceSystem.Policies
                 
             }
             //Get the total count with document
-            var totalCount = document.Count;
+          //  var totalCount = document.Count;
             // return DocumentDtos and totalCount
             return new PagedResultDto<DocumentDto>(
                 totalCount,

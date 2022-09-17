@@ -3,48 +3,16 @@
 }
 
 label {
-    display: block;
-    font-size: 16px;
-    span{
-        color: red;
-        font-weight: bold;
-    }
+  display: block;
+  font-size: 16px;
+  span{
+      color: red;
+      font-weight: bold;
+  }
 }
 input {
-    height: 44px;
+  height: 44px;
 }
 textarea {
-    height: 74px;
+  height: 74px;
 }
-
-
-.veryHigh {
-    background-color: rgb(162, 3, 3);
-    color: white;
-    border-color: rgb(216, 214, 214);
-  }
-  .High {
-    background-color: rgb(243, 161, 8);
-    color: white;
-    border-color: rgb(216, 214, 214);
-  }
-  .Medium {
-    background-color: rgb(240, 226, 27);
-    color: white;
-   border-color: rgb(216, 214, 214);
-  }
-  .low {
-    background-color: rgb(7, 113, 11);
-    color: white;
-   border-color: rgb(216, 214, 214);
-  }
-  .Verylow{
-    background-color: rgb(3, 160, 8);
-    color: white;
-   border-color: rgb(216, 214, 214);
-  }
-  .Selected{
-    border-color: rgb(10, 10, 10);
-    border-radius: 9px;
-    color:rgb(37, 10, 241)
-  }
