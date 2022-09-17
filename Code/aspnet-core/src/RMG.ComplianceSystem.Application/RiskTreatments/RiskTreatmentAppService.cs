@@ -58,7 +58,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
-                var ListRisk = RiskTreatmentRepository.Where(x => x.IsDeleted == false && x.RiskOpportunityId == input.RiskOpportunityId).ToList();
+                var ListRisk = RiskTreatmentRepository.Where(x => x.RiskOpportunityId == input.RiskOpportunityId).ToList();
                 totalCount = ListRisk.Count;  
             }
             else
@@ -67,11 +67,15 @@ namespace RMG.ComplianceSystem.RiskTreatments
                 var ListDoc = RiskTreatmentRepository.Where(x => x.IsDeleted == false).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListDoc);
-                var ListRisk = RiskTreatmentRepository.Where(x => x.IsDeleted == false).ToList();
+                var ListRisk = RiskTreatmentRepository.ToList();
                 totalCount = ListRisk.Count;
             }
 
-
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(RiskTreatmentDto).GetProperty(input.Sorting);
+                Risks.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
             var RisksData = new List<RiskTreatmentDto>();
             foreach (var item in Risks)
             {

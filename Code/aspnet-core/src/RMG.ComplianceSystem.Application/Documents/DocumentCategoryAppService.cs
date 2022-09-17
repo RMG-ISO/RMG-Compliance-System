@@ -39,10 +39,20 @@ namespace RMG.ComplianceSystem.DocumentCategorys
 
         public async Task<ListResultDto<DocumentCategoryDto>> getDocumentCategories(DocCategoryPagedAndSortedResultRequestDto input)
         {
+            int totalCount=0;  
             var DocumentCats = DocumentCateRepository.Where(x => x.IsDeleted == false && ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
              .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var DocCateDtos = ObjectMapper.Map<List<DocumentCategory>, List<DocumentCategoryDto>>(DocumentCats);
             var categories=new List<DocumentCategoryDto>();
+
+            var Categories = DocumentCateRepository.ToList();
+            totalCount = DocCateDtos.Count;
+
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(DocumentCategoryDto).GetProperty(input.Sorting);
+                DocCateDtos.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
             foreach (var item in DocCateDtos)
             {
                 var cate = new DocumentCategoryDto();
@@ -58,7 +68,7 @@ namespace RMG.ComplianceSystem.DocumentCategorys
 
 
 
-                var totalCount = categories.Count;
+               // var totalCount = categories.Count;
 
             return new PagedResultDto<DocumentCategoryDto>(
                 totalCount,
