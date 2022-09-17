@@ -41,22 +41,19 @@ export class CurrentUserComponent implements OnInit {
   notificationItems;
   notificationItemsCount = 0;
   ngOnInit(): void {
-
-    this.signalrService.initiateSignalrConnection();
-    this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
-      console.log("result of ReceiveNotification",result);
-      this.notificationItems = result.notifications;
-      this.notificationItemsCount = result.unReadNotifications;
-     // this.bellIconByNotificationsCount(result.unReadNotifications);
-    });
-
+    this.signalrService.initiateSignalrConnection().then(x => {
+      this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
+        this.notificationItems = result.notifications;
+        this.notificationItemsCount = result.unReadNotifications;
+      });
+    })
+    // this.signalrService.configureConnection()
+ 
 
     this.notificationService.getCurrentUserNotification().subscribe((result: NotifyUserDto) => {
       console.log("result of getCurrentUserNotification",result);
-      debugger;
       this.notificationItems = result.notifications;
       this.notificationItemsCount = result.unReadNotifications;
-      // this.bellIconByNotificationsCount(result.unReadNotifications);
     });
   }
 

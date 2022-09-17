@@ -43,7 +43,7 @@ div.precentage-cont {
         fill: transparent;
         transform-origin: center center;
         transition: stroke-dashoffset 225ms linear 0s;
-        stroke: #4b74ff;
+        stroke: var(--main-color);
         stroke-width: 12%;
         stroke-dasharray: 282.743, 282.743;
     }
@@ -56,7 +56,7 @@ div.precentage-cont {
     font-size: 13px;
     text-align: center;
     font-weight: bold !important;
-    color: #4b74ff;
+    color: var(--main-color);
 
 
     margin: 0;

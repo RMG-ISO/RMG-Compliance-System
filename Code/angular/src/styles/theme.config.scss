@@ -1,9 +1,26 @@
+:root{
+    --main-color:#4b74ff;
+}
 
 body[dir="rtl"] {
     .abp-toast-close-button {
         left: 0;
         right: auto !important;
     }
+
+    ngb-datepicker-navigation {
+        .ngb-dp-arrow{
+            .ngb-dp-navigation-chevron {
+                transform: rotate(45deg);
+            }
+            &.right {
+                .ngb-dp-navigation-chevron {
+                    transform: rotate(225deg);
+                }
+            }
+        }
+    }
+
 }
 
 nav.app-nav {
@@ -179,10 +196,10 @@ mat-card {
 
 //Colors
 button.mat-raised-button.mat-primary {
-    background-color: #4B74FF;
+    background-color: var(--main-color);
 }
 button.mat-button.mat-primary {
-    color: #4B74FF;
+    color: var(--main-color);
 }
 
 mat-dialog-container.mat-dialog-container {
@@ -249,13 +266,13 @@ ng-select.ng-select.ng-select-multiple{
     }
 
     .ng-select-container .ng-value-container .ng-value {
-        border: 1px solid #4B74FF;
+        border: 1px solid var(--main-color);
         background-color: transparent;
         color: #558BED;
         border-radius: 100px;
         padding: 7px 14px;
         .ng-value-icon {
-            color: #4B74FF !important;
+            color: var(--main-color) !important;
             font-size: 20px;
         }
     }
@@ -348,5 +365,13 @@ button.button {
     }
     &.green {
         background-color: #43a047;
+    }
+}
+
+ngb-datepicker-navigation {
+    .ngb-dp-arrow{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

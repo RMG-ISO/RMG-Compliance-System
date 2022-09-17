@@ -44,7 +44,7 @@
                 <div class="col-md-6 form-group">
                     <label for="dueDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
                     <input #datepicker="ngbDatepicker" class="form-control" id="dueDate" name="datepicker" formControlName="dueDate"
-                    ngbDatepicker (click)="datepicker.toggle()" />
+                    ngbDatepicker (click)="datepicker.toggle()" (change)="changeDate($event)" />
                 </div>
 
 
@@ -76,7 +76,7 @@
                 <div class="col-md-6 form-group">
                   <label for="completionDateDate">{{ '::CompletionDate' | abpLocalization }}</label>
                   <input #datepicker2="ngbDatepicker" class="form-control" id="completionDate" name="datepicker2" formControlName="completionDate"
-                  ngbDatepicker (click)="datepicker2.toggle()" />
+                  ngbDatepicker (click)="datepicker2.toggle()" (ngModelChange)="changeDate($event)" />
               </div>
 
 
@@ -93,16 +93,21 @@
             </div>
             <div class="actions">
                 <button type="button" mat-button class="secondary" (click)="close()">
-                    {{ '::Close' | abpLocalization }}
+                    {{ '::Back' | abpLocalization }}
                 </button>
-                <button mat-button class="primary" [disabled]="uploading">
-                    <i class="fa fa-check mr-1"></i>
-                    {{ '::Save' | abpLocalization }}
-                </button>
-                <button mat-button class="send" *ngIf="form.controls.achievementPercentage.value == 100" type="button">
-                    <i class="fas fa-paper-plane mr-1"></i>
-                    {{ '::SendRequest' | abpLocalization }}
-                </button>
+
+                <ng-container *ngIf="!form.disabled">
+                    <ng-template #showOther>
+                        <button mat-button class="primary" [disabled]="uploading">
+                            <i class="fa fa-check mr-1"></i>
+                            {{ '::Save' | abpLocalization }}
+                        </button>
+                    </ng-template>
+                    <button mat-button class="send" *ngIf="form.controls.achievementPercentage.value == 100; else showOther" type="button">
+                        <i class="fas fa-paper-plane mr-1"></i>
+                        {{ '::SendRequest' | abpLocalization }}
+                    </button>
+                </ng-container>
             </div>
         </mat-card-content>
     </mat-card>

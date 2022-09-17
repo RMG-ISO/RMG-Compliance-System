@@ -24,9 +24,9 @@
             }
         
             &.active {
-                color: #4B74FF;
+                color: var(--main-color);
                 span.index {
-                    border-color: #4B74FF !important;
+                    border-color: var(--main-color) !important;
                 }
             }
             span {
