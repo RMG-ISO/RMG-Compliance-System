@@ -1,10 +1,10 @@
 import { MatCardModule } from '@angular/material/card';
-import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DepartmentComponent } from './department.component';
 import { DepartmentRoutingModule } from './department-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { DepartmentComponent } from './department.component';
 
 
 @NgModule({

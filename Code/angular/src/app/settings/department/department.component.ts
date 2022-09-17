@@ -1,14 +1,13 @@
-import { DepartmentService } from '../proxy/departments/department.service';
-import { ListService, LocalizationService } from '@abp/ng.core';
+import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormMode } from '../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentDto } from '@proxy/departments/dtos';
+import { DepartmentService } from '@proxy/departments';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
   selector: 'app-department',
