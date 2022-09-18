@@ -179,12 +179,6 @@ namespace RMG.ComplianceSystem.Notifications
             var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksTreatmentCreated");
             var existingRisksTreatment = await _RisksTreatmentRepository.GetAsync(eventData.Entity.Id);
 
-            if (existingRisksTreatment.Responsibility !=null)//User has changed revision date, so insert a new record into notification table
-            {
-
-                
-
-                }
               
                 RisksTreatmentCreatedHandlerDto RisksTreatmentCreatedModel = new RisksTreatmentCreatedHandlerDto
                 {

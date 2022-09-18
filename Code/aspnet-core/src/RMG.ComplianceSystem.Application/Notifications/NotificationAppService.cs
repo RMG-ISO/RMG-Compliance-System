@@ -66,6 +66,7 @@ namespace RMG.ComplianceSystem.Notifications
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
                         _body += item.Body;
+                        _body += item.Url;
                         _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
                         MailMessage mailMessage = new MailMessage
