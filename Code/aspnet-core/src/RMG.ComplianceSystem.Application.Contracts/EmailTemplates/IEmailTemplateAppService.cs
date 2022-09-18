@@ -12,12 +12,11 @@ namespace RMG.ComplianceSystem.EmailTemplates
             EmailTemplateDto,
             Guid,
             EmailTemplatePagedAndSortedResultRequestDto,
-            CreateUpdateEmailTemplateDto,
             CreateUpdateEmailTemplateDto>
     {
         Task<EmailTemplateDto> RenderTemplate(string TemplateKey, ExpandoObject data);
         Task<EmailTemplateDto> RenderTemplateNotification(string TemplateKey, ExpandoObject data);
         Task<PagedResultDto<EmailTemplateDto>> GetListDeletedAsync(EmailTemplatePagedAndSortedResultRequestDto input);
-
+       
     }
 }

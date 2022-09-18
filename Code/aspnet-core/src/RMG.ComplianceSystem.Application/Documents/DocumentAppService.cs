@@ -53,13 +53,7 @@ namespace RMG.ComplianceSystem.Policies
         #region Start Methods getbyId and GetListDocumentByCategory
         public async Task<PagedResultDto<DocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input)
         {
-
-            //// get Document Category By CategoryId
-            //var DocCate = _DocCateRepository.GetAsync(input.CategoryId).Result;
-            //// Mapping DocumentCategory to DocumentCategoryDto
-            //var DocCateDto = ObjectMapper.Map<DocumentCategory, DocumentCategoryDto>(DocCate);
             List<DocumentDto> Documents = new List<DocumentDto>();
-            
             
             int totalCount = 0;
             if (input.CategoryId!=null)
