@@ -9,6 +9,7 @@ import { HistoryAction } from 'src/app/risks-mangement/module.enums';
 import { DateValidators } from 'src/app/shared/validators/date-validator';
 import { parseISO } from 'date-fns';
 import * as moment from 'moment';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
   selector: 'app-risk-treatment-modal',
@@ -18,6 +19,7 @@ import * as moment from 'moment';
 export class RiskTreatmentModalComponent implements OnInit {
   @Input('data') data = {} as any;
   @Input('ref') ref;
+  @Input('mode') mode;
 
   form:FormGroup;
 
@@ -148,7 +150,8 @@ export class RiskTreatmentModalComponent implements OnInit {
         this.form.setValidators([ DateValidators.ValidateTwoDates('startDate', 'completionDate') ]);
         this.form.updateValueAndValidity();
       }
-      if(r.status == 4 || r.status == 6) this.form.disable();
+      console.log(this.mode);
+      if(r.status == 4 || r.status == 6 || this.mode == FormMode.View) this.form.disable();
       this.oldStatus = r.status;
     });
   }

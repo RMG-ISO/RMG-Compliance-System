@@ -1,8 +1,8 @@
-import { DepartmentService } from './../proxy/departments/department.service';
-import { EmployeeService } from './../proxy/employees/employee.service';
+import { DepartmentService } from '../../proxy/departments/department.service';
+import { EmployeeService } from '../../proxy/employees/employee.service';
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormMode } from '../shared/interfaces/form-mode';
+import { FormMode } from '../../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Router } from '@angular/router';
 import { DatatableComponent } from '@swimlane/ngx-datatable';

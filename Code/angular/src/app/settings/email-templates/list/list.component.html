@@ -1,0 +1,49 @@
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center header-content mb-3">
+            <h3 class="card-title m-0">
+                {{ '::EmailTemplate:Page:Title' | abpLocalization }}
+            </h3>
+            <div class="d-flex justify-content-end">
+                <button  id="create" mat-button class="add-btn mr-3" type="button" routerLink="/settings/email-templates/create">
+                    <i class="fa fa-plus mr-2"></i>
+                    <span class="line mr-2"></span>
+                    <span>{{ "::Create" | abpLocalization }}</span>
+                </button>
+                <app-search (search)="searchVal = $event;getList()"></app-search>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <ngx-datatable
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        #dataTable
+        [rows]="items"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
+        >
+            <ngx-datatable-column [name]=" 'Email:Key' | abpLocalization" prop="key"></ngx-datatable-column>
+            <ngx-datatable-column [name]=" 'Email:Subject' | abpLocalization" prop="subject"></ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150"  cellClass="options">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                        <mat-icon >delete_forever</mat-icon>
+                    </button>
+                    <a mat-button [routerLink]="['/settings/email-templates', row.id, 'edit']">
+                        <mat-icon>edit</mat-icon>
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </div>
+</div>

@@ -367,7 +367,13 @@
     "DocumentDeletionConfirmationMessage": "Are you sure to delete the ducument {0}?",
     "SendRequest":"Send Request",
     "IsTreatment":"Is it treatable?",
-    "RiskManagementMatrix":"Risk Management Matrix"
+    "RiskManagementMatrix":"Risk Management Matrix",
+    "Email:Body": "Body",
+    "Email:Subject": "Subject",
+    "Email:Key": "Key",
+    "Email:Key:P": "Key",
+    "Email:NotificationBody": "Notification Body",
+    "EmailTemplate:Page:Title": "Email Templates"
 
   }
 }

@@ -4,6 +4,7 @@ using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.EmailTemplates.Dtos
 {
+    [Serializable]
     public class EmailTemplateDto :FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
         public string Key { get; set; }

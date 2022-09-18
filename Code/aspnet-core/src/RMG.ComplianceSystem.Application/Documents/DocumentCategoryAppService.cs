@@ -64,11 +64,8 @@ namespace RMG.ComplianceSystem.DocumentCategorys
                 }
                 categories.Add(cate);   
             }
-
-
-
-
-               // var totalCount = categories.Count;
+          
+            // var totalCount = categories.Count;
 
             return new PagedResultDto<DocumentCategoryDto>(
                 totalCount,

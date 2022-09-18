@@ -15,22 +15,26 @@ using RMG.ComplianceSystem.EmailTemplates;
 
 namespace RMG.ComplianceSystem.EmailTemplates
 {
-    public class EmailTemplateAppService : CrudAppService<EmailTemplate, EmailTemplateDto, Guid, EmailTemplatePagedAndSortedResultRequestDto, CreateUpdateEmailTemplateDto, CreateUpdateEmailTemplateDto>,
+    public class EmailTemplateAppService : CrudAppService<
+        EmailTemplate,
+        EmailTemplateDto, 
+        Guid, EmailTemplatePagedAndSortedResultRequestDto,
+        CreateUpdateEmailTemplateDto>,
           IEmailTemplateAppService
     {
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
-        protected override string GetListPolicyName { get; set; } =ComplianceSystemPermissions.EmailTemplate.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Delete;
+        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
+        //protected override string GetListPolicyName { get; set; } =ComplianceSystemPermissions.EmailTemplate.Default;
+        //protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Create;
+        //protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Update;
+        //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Delete;
 
-        private readonly IEmailTemplateRepository _repository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IDataFilter _dataFilter;
 
-        public EmailTemplateAppService(IEmailTemplateRepository repository
-                                        , IDataFilter dataFilter) : base(repository)
+        public EmailTemplateAppService(IEmailTemplateRepository emailTemplateRepository
+                                        , IDataFilter dataFilter) : base(emailTemplateRepository)
         {
-            _repository = repository;
+            _emailTemplateRepository = emailTemplateRepository;
             _dataFilter = dataFilter;
         }
 
@@ -41,7 +45,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         /// <returns></returns>
         public async Task<PagedResultDto<EmailTemplateDto>> GetListDeletedAsync(EmailTemplatePagedAndSortedResultRequestDto input)
         {
-            await CheckGetListPolicyAsync();
+           // await CheckGetListPolicyAsync();
 
             //Temporary disable the ISoftDelete filter
             using (_dataFilter.Disable<ISoftDelete>())
@@ -73,7 +77,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         /// <returns></returns>
         protected async override Task<IQueryable<EmailTemplate>> CreateFilteredQueryAsync(EmailTemplatePagedAndSortedResultRequestDto input)
         {
-            await CheckGetListPolicyAsync();
+          //  await CheckGetListPolicyAsync();
 
             return await Task.FromResult(Repository.GetListAsync().Result.Where(x =>
                                           (string.IsNullOrEmpty(input.Key) || input.Key == x.Key) &&
@@ -89,7 +93,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         /// <returns></returns>
         protected override async Task<EmailTemplate> GetEntityByIdAsync(Guid id)
         {
-            await CheckGetPolicyAsync();
+           // await CheckGetPolicyAsync();
 
             using (_dataFilter.Disable<ISoftDelete>())
             {

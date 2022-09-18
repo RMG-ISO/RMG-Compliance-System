@@ -19,7 +19,6 @@ export class ListComponent implements OnInit {
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
     public readonly list: ListService,
-    public dialog: MatDialog,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
     private configState:ConfigStateService
