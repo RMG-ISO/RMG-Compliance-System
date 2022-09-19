@@ -63,7 +63,7 @@ import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
   ],
   providers: [
     APP_ROUTE_PROVIDER,
-    ListService,
+    // ListService,
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
     {
       provide: VALIDATION_BLUEPRINTS,

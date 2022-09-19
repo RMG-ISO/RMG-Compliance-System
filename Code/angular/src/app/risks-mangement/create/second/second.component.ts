@@ -22,16 +22,12 @@ export class SecondComponent implements OnInit {
     // this.getList(6, 'potentials');
     this.getListMatrix(this.NumberMatrix);
     let NumMatrix = this.form.value.numberMatrix;
-    if(NumMatrix)
-    {
-      debugger;
+    if(NumMatrix) {
       this.changeMatrix(NumMatrix);
     }
-    else
-    {
+    else {
       this.changeMatrix(4);
     }
-    debugger;
     this.Potential= this.form.value.potential;
     this.likelihood= this.form.value.likelihood;
   }

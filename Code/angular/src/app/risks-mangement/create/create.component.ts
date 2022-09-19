@@ -1,18 +1,25 @@
 import { ListService, ConfigStateService, PermissionService } from '@abp/ng.core';
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { HistoryAction, Status, Type, WorkFlowStages } from '../module.enums';
+import { ToasterService } from "@abp/ng.theme.shared";
+
 import * as moment from 'moment';
+import { FourthComponent } from './fourth/fourth.component';
+import { RiskTreatmentService } from '@proxy/RiskTreatments';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  styleUrls: ['./create.component.scss'],
+  providers:[ListService]
 })
 export class CreateComponent implements OnInit {
+  @ViewChild('processingComponent') processingComponent:FourthComponent;
+
   activeTab = WorkFlowStages.DefineRiskAndOpportunity;
   id;
   HistoryAction = HistoryAction;
@@ -25,13 +32,17 @@ export class CreateComponent implements OnInit {
     private route: ActivatedRoute,
     private location:Location,
     public readonly list: ListService,
+    public readonly historyList: ListService,
     private configState:ConfigStateService,
-    private permissionService:PermissionService
+    private permissionService:PermissionService,
+    private toasterService:ToasterService,
+    private riskTreatmentService:RiskTreatmentService,
   ) { }
 
   firstForm:FormGroup;
   secondForm:FormGroup;
   thirdForm:FormGroup
+  fourthForm:FormGroup
   fifthForm:FormGroup;
 
   permissions = {
@@ -40,6 +51,13 @@ export class CreateComponent implements OnInit {
     3:'ComplianceSystem.RiskAndOpportunityEvaluation',
     4:'ComplianceSystem.RiskAndOpportunityTreatment',
     5:'ComplianceSystem.RiskAndOpportunityReview',
+  }
+  forms = {
+    1:'firstForm',
+    2:'secondForm',
+    3:'thirdForm',
+    4:'fourthForm',
+    5:'fifthForm',
   }
   permissionsAuth = {};
 
@@ -62,7 +80,6 @@ export class CreateComponent implements OnInit {
 
 
     this.secondForm = new FormGroup({
-      // existingControl:  new FormControl(null),
       controlAssessment:  new FormControl(null, [Validators.required]),
       numberMatrix:  new FormControl(null, [Validators.required]),
       likelihood:  new FormControl(null, [Validators.required]),
@@ -77,17 +94,17 @@ export class CreateComponent implements OnInit {
       isTreatment:  new FormControl(null, [Validators.required]),
     });
 
+    this.fourthForm = new FormGroup({ });
+
     this.fifthForm = new FormGroup({
       acceptance: new FormControl(null, [Validators.required]),
       acceptanceApprovedby:  new FormControl(null, [Validators.required]),
       reviewControlAssessment:  new FormControl(null, [Validators.required]),
       reviewRemarks:  new FormControl(null),
       status:  new FormControl(Status.Open),
-      likelihood:  new FormControl(null, [Validators.required]),
-      impact:  new FormControl(null, [Validators.required]),
-      potentialRisk:  new FormControl(null, [Validators.required]),
     });
 
+    this.activeForm = this.firstForm;
     this.id = this.route.snapshot.params.id;
 
     if(this.id) this.getData();
@@ -102,16 +119,12 @@ export class CreateComponent implements OnInit {
         this.permissionsAuth[key] = true;
       } else this.permissionsAuth[key] = false;
     }
-    // debugger;
-    this.IsTreat=this.thirdForm.value.isTreatment;
   }
-  IsTreat;
+
   itemData;
   getData() {
     this.riskAndOpportunityService.get(this.id).subscribe(r => {
-      console.log(r);
       this.itemData = r;
-
       this.firstForm.patchValue(r);
       this.secondForm.patchValue(r);
       this.thirdForm.patchValue(r);
@@ -124,52 +137,39 @@ export class CreateComponent implements OnInit {
       //   this.fifthForm.disable();
       // }
     });
-
-    this.getHistory();
+    this.getTreatments();
   }
-
-  historyChanges;
-  totalCount
-  getHistory() {
-    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({
-      search:null,
-      riskOpportunityId:this.id,
-      maxResultCount:null,
-      workFlowStages:this.activeTab,
-      ...query
-    });
-    this.list.hookToQuery(streamCreator).subscribe((response) => {
-      this.historyChanges = response.items;
-      this.totalCount = response.totalCount;
-    });
-  }
-
 
   submit() {
-    if(this.activeTab == WorkFlowStages.DefineRiskAndOpportunity) this.submitFirst();
-    else if(this.activeTab == WorkFlowStages.Analysis) this.submitSecond();
-    else if (this.activeTab == WorkFlowStages.Evaluation) this.submitThird();
-    else this.submitFifth();
-  }
-
-  submitFirst() {
-    this.firstForm.markAllAsTouched();
-    if(this.firstForm.invalid) return;
-    (this.id ? this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.firstForm.value}): this.riskAndOpportunityService.create(this.firstForm.value)).subscribe(r => {
-      console.log(r);
+    this.activeForm.markAllAsTouched();
+    if(this.activeTab == WorkFlowStages.Processing) return;
+    if(this.activeForm.invalid) return;
+    if(this.activeTab == WorkFlowStages.Review ) {
+      if(!this.riskTreatmentsLength && this.itemData.isTreatment) {
+        this.toasterService.error("::TreatmentLengthError", "");
+        return;
+      }
+    }
+    (this.id ? this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.activeForm.value}): this.riskAndOpportunityService.create(this.firstForm.value)).subscribe(r => {
       this.itemData = r;
-      this.location.replaceState(`/risks-management/${r.id}/edit`);
+
       let stage = HistoryAction.Update;
       if(!this.id) {
-        this.activeTab = WorkFlowStages.Analysis;
+        this.location.replaceState(`/risks-management/${r.id}/edit`);
         stage = HistoryAction.Create;
       }
+      this.updateHistory(stage, this.activeTab);
+      if(this.activeTab == WorkFlowStages.Evaluation && !this.activeForm.value.isTreatment) this.activeTab = WorkFlowStages.Review;
+      else if(this.activeTab == WorkFlowStages.Review) {} 
+      else this.activeTab = this.activeTab += 1;
+
+      this.changeTab(this.activeTab);
       this.id = r.id;
-      this.updateHistory(stage, WorkFlowStages.DefineRiskAndOpportunity);
     })
   }
 
   updateHistory(action, stage = this.activeTab) {
+    this.toasterService.success("::SuccessfullySaved", "");
     let obj:any = {
       actionDate:moment().toISOString(),
       actionName: action,
@@ -178,48 +178,22 @@ export class CreateComponent implements OnInit {
       workFlowStages: stage,
     }
 
-    this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => {
-      this.getHistory();
-    })
+    this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => { });
+
+    this.getTreatments();
   }
 
-  submitSecond() {
-    console.log(this.secondForm);
-    this.secondForm.markAllAsTouched();
-    if(this.secondForm.invalid) return;
-    this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.secondForm.value}).subscribe(r => {
-      this.activeTab = WorkFlowStages.Evaluation;
-      this.updateHistory(HistoryAction.Update);
-      this.itemData = r;
-    })
+  riskTreatmentsLength;
+  getTreatments() {
+    this.riskTreatmentService.getList({ RiskOpportunityId : this.route.snapshot.params.id || this.itemData.id} as any).subscribe(r => this.riskTreatmentsLength = r.items.length )
   }
 
-  submitThird() {
-    this.thirdForm.markAllAsTouched();
-    if(this.thirdForm.invalid) return;
-    this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
-      this.IsTreat=this.thirdForm.value.isTreatment;
-      if(this.thirdForm.value.isTreatment) this.activeTab = WorkFlowStages.Processing
-      else this.activeTab = WorkFlowStages.Review;
-
-      this.updateHistory(HistoryAction.Update);
-      this.itemData = r;
-    })
-
-  }
-  submitFifth() {
-    this.fifthForm.markAllAsTouched();
-    if(this.fifthForm.invalid) return;
-    this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.fifthForm.value}).subscribe(r => {
-      // this.activeTab = WorkFlowStages.Processing;
-      this.updateHistory(HistoryAction.Update);
-      this.itemData = r;
-      this.getData();
-    })
-  }
-
+  activeForm;
   changeTab(tab) {
+    if(tab == WorkFlowStages.Processing && !this.itemData.isTreatment) tab = tab - 1;
+    if(tab == WorkFlowStages.Evaluation) this.thirdForm.patchValue(this.itemData);
     this.activeTab = tab;
-    this.getHistory();
+    this.activeForm = this[this.forms[tab]];
   }
+
 }

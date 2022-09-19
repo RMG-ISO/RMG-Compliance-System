@@ -18,3 +18,34 @@ textarea {
 }
 
 
+
+.veryHigh {
+    background-color: rgb(162, 3, 3);
+    color: white;
+}
+
+.High {
+    background-color: rgb(243, 161, 8);
+    color: white;
+}
+
+.Medium {
+    background-color: rgb(240, 226, 27);
+    color: white;
+}
+
+.low {
+    background-color: rgb(7, 113, 11);
+    color: white;
+}
+
+.Verylow {
+    background-color: rgb(3, 160, 8);
+    color: white;
+}
+
+.Selected {
+    border-color: rgb(10, 10, 10);
+    border-radius: 9px;
+    color: rgb(37, 10, 241)
+}

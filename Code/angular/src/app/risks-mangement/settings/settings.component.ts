@@ -11,7 +11,8 @@ import { StaticDataDto } from '@proxy/StaticData/dtos';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
+  providers:[ListService]
 })
 export class settingsComponent implements OnInit {
   FormMode = FormMode;

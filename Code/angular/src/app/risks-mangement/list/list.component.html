@@ -10,18 +10,18 @@
                     <span class="line mr-2"></span>
                     <span>{{ "::Create" | abpLocalization }}</span>
                 </button>
-                <app-search (search)="searchVal = $event;getList()"></app-search>
+                <app-search (search)="searchVal = $event;list.get()"></app-search>
             </div>
         </div>
 
         <div class="d-flex justify-content-center align-items-center tabs-cont">
-            <button mat-button (click)="selectedType = Type.Risk; getList()" [class.active]="selectedType == Type.Risk">
+            <button mat-button (click)="changeTab(Type.Risk)" [class.active]="selectedType == Type.Risk">
               {{ '::Risk' | abpLocalization }}
             </button>
             <span>
                 |
             </span>
-            <button mat-button (click)="selectedType = Type.Opportunity; getList()" [class.active]="selectedType == Type.Opportunity">
+            <button mat-button (click)="changeTab(Type.Opportunity)" [class.active]="selectedType == Type.Opportunity">
               {{ '::Opportunity' | abpLocalization }}
             </button>
         </div>
