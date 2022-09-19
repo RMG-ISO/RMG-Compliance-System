@@ -1,155 +1,157 @@
-<mat-card class="form-card">
-    <mat-card-title>
-        {{ '::RiskAndOpportunity' | abpLocalization }}
-    </mat-card-title>
-    <mat-card-content>
-        <div class="d-flex route-actions mb-5">
-            <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
-                <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
-                    <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
-                       {{ WorkFlowStages.DefineRiskAndOpportunity }}
-                    </span>
-                    <button mat-button (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
-                        <div>
-                            <i class="fa fa-file"></i>
-                            <p>
-                                {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
-                            </p>
-
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-            </ng-container>
-
-
-            <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" >
-                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Analysis }">
-                    <span class="d-block circle" (click)="changeTab(WorkFlowStages.Analysis)">
-                        {{WorkFlowStages.Analysis}}
-                    </span>
-                    <button mat-button (click)="changeTab(WorkFlowStages.Analysis)">
-                        <div>
-                            <i class="fas fa-chart-line"></i>
-
-                            <p>
-                                {{ '::WorkFlowStages:Analysis' | abpLocalization }}
-                            </p>
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === WorkFlowStages.Analysis">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-            </ng-container>
-
-            <ng-container  *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" >
-
-                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Evaluation }">
-                    <span class="d-block circle" (click)="changeTab(WorkFlowStages.Evaluation)">
-                        {{WorkFlowStages.Evaluation}}
-                    </span>
-                    <button mat-button (click)="changeTab(WorkFlowStages.Evaluation)">
-                        <div>
-                            <i class="fa fa-dna"></i>
-                            <p>
-                                {{ '::WorkFlowStages:Evaluation' | abpLocalization }}
-                            </p>
-                        </div>
-                    </button>
-                </div>
-                <span class="arrow" [class.active]="activeTab === WorkFlowStages.Evaluation">
-                    <span class="line"></span>
-                    <i class="fas fa-chevron-left"></i>
-                </span>
-            </ng-container>
-
-
-            <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'"   >
-                <ng-container *ngIf="itemData?.isTreatment">
-                    <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing,hide:IsTreat==true }">
-                        <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
-                            {{WorkFlowStages.Processing}}
+<form [formGroup]="activeForm" (ngSubmit)="submit()">
+    <mat-card class="form-card">
+        <mat-card-title>
+            {{ '::RiskAndOpportunity' | abpLocalization }}
+        </mat-card-title>
+        <mat-card-content>
+            <div class="d-flex route-actions mb-5">
+                <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
+                    <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
+                        <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
+                           {{ WorkFlowStages.DefineRiskAndOpportunity }}
                         </span>
-                        <button mat-button (click)="changeTab(WorkFlowStages.Processing)">
+                        <button mat-button type="button" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                             <div>
-                                <i class="fas fa-chart-line"></i>
+                                <i class="fa fa-file"></i>
                                 <p>
-                                    {{ '::WorkFlowStages:Processing' | abpLocalization }}
+                                    {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
                                 </p>
+    
                             </div>
                         </button>
                     </div>
-                    <span class="arrow"  [class.active]="activeTab === WorkFlowStages.Processing">
+                    <span class="arrow" [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
                         <span class="line"></span>
                         <i class="fas fa-chevron-left"></i>
                     </span>
                 </ng-container>
-                
-            </ng-container>
-
-
-
-            <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review}" *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" >
-                <span class="d-block circle" (click)="changeTab(WorkFlowStages.Review)">
-                    {{ itemData?.isTreatment ?  WorkFlowStages.Review : 4  }}
-                </span>
-                <button mat-button (click)="changeTab(WorkFlowStages.Review)">
-                    <div>
-                        <i class="fa fa-file"></i>
-                        <p>
-                            {{ '::WorkFlowStages:Review' | abpLocalization }}
-                        </p>
+    
+    
+                <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" >
+                    <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Analysis }">
+                        <span class="d-block circle" (click)="changeTab(WorkFlowStages.Analysis)">
+                            {{WorkFlowStages.Analysis}}
+                        </span>
+                        <button mat-button type="button" (click)="changeTab(WorkFlowStages.Analysis)">
+                            <div>
+                                <i class="fas fa-chart-line"></i>
+    
+                                <p>
+                                    {{ '::WorkFlowStages:Analysis' | abpLocalization }}
+                                </p>
+                            </div>
+                        </button>
                     </div>
+                    <span class="arrow" [class.active]="activeTab === WorkFlowStages.Analysis">
+                        <span class="line"></span>
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                </ng-container>
+    
+                <ng-container  *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" >
+    
+                    <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Evaluation }">
+                        <span class="d-block circle" (click)="changeTab(WorkFlowStages.Evaluation)">
+                            {{WorkFlowStages.Evaluation}}
+                        </span>
+                        <button mat-button type="button" (click)="changeTab(WorkFlowStages.Evaluation)">
+                            <div>
+                                <i class="fa fa-dna"></i>
+                                <p>
+                                    {{ '::WorkFlowStages:Evaluation' | abpLocalization }}
+                                </p>
+                            </div>
+                        </button>
+                    </div>
+                    <span class="arrow" [class.active]="activeTab === WorkFlowStages.Evaluation">
+                        <span class="line"></span>
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                </ng-container>
+    
+    
+                <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'"   >
+                    <ng-container *ngIf="itemData?.isTreatment">
+                        <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing,hide:IsTreat==true }">
+                            <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
+                                {{WorkFlowStages.Processing}}
+                            </span>
+                            <button mat-button type="button" (click)="changeTab(WorkFlowStages.Processing)">
+                                <div>
+                                    <i class="fas fa-chart-line"></i>
+                                    <p>
+                                        {{ '::WorkFlowStages:Processing' | abpLocalization }}
+                                    </p>
+                                </div>
+                            </button>
+                        </div>
+                        <span class="arrow"  [class.active]="activeTab === WorkFlowStages.Processing">
+                            <span class="line"></span>
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </ng-container>
+                    
+                </ng-container>
+    
+    
+    
+                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review}" *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" >
+                    <span class="d-block circle" (click)="changeTab(WorkFlowStages.Review)">
+                        {{ itemData?.isTreatment ?  WorkFlowStages.Review : 4  }}
+                    </span>
+                    <button mat-button type="button" (click)="changeTab(WorkFlowStages.Review)">
+                        <div>
+                            <i class="fa fa-file"></i>
+                            <p>
+                                {{ '::WorkFlowStages:Review' | abpLocalization }}
+                            </p>
+                        </div>
+                    </button>
+                </div>
+    
+            </div>
+    
+            <div [ngSwitch]="activeTab">
+                <ng-container *ngSwitchCase="WorkFlowStages.DefineRiskAndOpportunity" >
+                    <app-first *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" [form]="firstForm"> </app-first>
+                </ng-container>
+                <ng-container *ngSwitchCase="WorkFlowStages.Analysis">
+                    <app-second *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" [form]="secondForm"> </app-second>
+                </ng-container>
+                <ng-container *ngSwitchCase="WorkFlowStages.Evaluation">
+                    <app-third *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" [form]="thirdForm" [itemData]="itemData"> </app-third>
+                </ng-container>
+                <ng-container *ngSwitchCase="WorkFlowStages.Processing">
+                    <app-fourth *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'" [itemData]="itemData" (updateProcessing)="updateHistory($event, WorkFlowStages.Processing)"> </app-fourth>
+                </ng-container>
+                <ng-container *ngSwitchCase="WorkFlowStages.Review">
+                    <app-fifth *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" [form]="fifthForm" [itemData]="itemData" > </app-fifth>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <app-first *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" [form]="firstForm"> </app-first>
+                </ng-container>
+            </div>
+    
+        </mat-card-content>
+        <mat-card-actions class="d-flex justify-content-between align-items-center">
+            <div>
+                <button mat-button type="button" *ngIf="activeTab > WorkFlowStages.DefineRiskAndOpportunity" (click)="changeTab(activeTab - 1)" class="button green" style="width: auto;">
+                   {{ '::PreviousStep' | abpLocalization }}
                 </button>
             </div>
-
-        </div>
-
-        <div [ngSwitch]="activeTab">
-            <ng-container *ngSwitchCase="WorkFlowStages.DefineRiskAndOpportunity" >
-                <app-first *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" [form]="firstForm"> </app-first>
-            </ng-container>
-            <ng-container *ngSwitchCase="WorkFlowStages.Analysis">
-                <app-second *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" [form]="secondForm"> </app-second>
-            </ng-container>
-            <ng-container *ngSwitchCase="WorkFlowStages.Evaluation">
-                <app-third *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" [form]="thirdForm" [itemData]="itemData"> </app-third>
-            </ng-container>
-            <ng-container *ngSwitchCase="WorkFlowStages.Processing">
-                <app-fourth *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'" [itemData]="itemData" (updateProcessing)="updateHistory($event, WorkFlowStages.Processing)"> </app-fourth>
-            </ng-container>
-            <ng-container *ngSwitchCase="WorkFlowStages.Review">
-                <app-fifth *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" [form]="fifthForm" [itemData]="itemData" > </app-fifth>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-                <app-first *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" [form]="firstForm"> </app-first>
-            </ng-container>
-        </div>
-
-    </mat-card-content>
-    <mat-card-actions class="d-flex justify-content-between align-items-center">
-        <div>
-            <button mat-button *ngIf="activeTab > WorkFlowStages.DefineRiskAndOpportunity" (click)="changeTab(activeTab - 1)" class="button green" style="width: auto;">
-               {{ '::PreviousStep' | abpLocalization }}
-            </button>
-        </div>
-
-        <div>
-            <button mat-button class="button red" routerLink="/risks-management/riskopportunity"> {{ '::Back' | abpLocalization }} </button>
-            <button mat-button class="button blue" type="submit" (click)="submit()" *ngIf="activeTab !== WorkFlowStages.Processing && permissionsAuth[activeTab]">
-                {{ (id ? '::Save' : '::Create') | abpLocalization}}
-            </button>
-        </div>
-    </mat-card-actions>
-</mat-card>
+    
+            <div>
+                <button mat-button type="button" class="button red" routerLink="/risks-management/riskopportunity"> {{ '::Back' | abpLocalization }} </button>
+                <button mat-button type="submit" class="button blue" type="submit"  *ngIf="activeTab !== WorkFlowStages.Processing && permissionsAuth[activeTab]">
+                    {{ (id ? '::Save' : '::Create') | abpLocalization}}
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>
 
 
-<mat-accordion *ngIf="id" >
+<!-- <mat-accordion *ngIf="id" >
     <mat-expansion-panel opened>
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -167,12 +169,14 @@
         #dataTable
         [rows]="historyChanges"
         [count]="totalCount"
-        [list]="list"
+        [list]="historyList"
         appNgxdatatable
+        (sort)="sortItem()"
+        id="history"
         >
             <ngx-datatable-column [name]="'::ActionName' | abpLocalization" prop="actionName">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ ('::' + HistoryAction[value] ) | abpLocalization  }}
+                    {{ ('::HistoryAction:' + HistoryAction[value] ) | abpLocalization  }}
                 </ng-template>
             </ngx-datatable-column>
 
@@ -192,5 +196,6 @@
 
         </ngx-datatable>
     </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
 
+<app-history [activeTab]="activeTab" [id]="id"></app-history>

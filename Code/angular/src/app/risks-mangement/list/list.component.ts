@@ -10,7 +10,8 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  providers:[ListService]
 })
 export class ListComponent implements OnInit {
   Type = Type;
@@ -63,6 +64,12 @@ export class ListComponent implements OnInit {
         });
       }
     });
+  }
+
+  changeTab(tab) {
+    this.selectedType = tab;
+    this.activeTabName = '::' +  Type[this.selectedType] + ':';
+    this.list.get();
   }
 
 }

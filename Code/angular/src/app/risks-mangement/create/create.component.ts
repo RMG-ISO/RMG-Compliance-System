@@ -10,7 +10,8 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  styleUrls: ['./create.component.scss'],
+  providers:[ListService]
 })
 export class CreateComponent implements OnInit {
   activeTab = WorkFlowStages.DefineRiskAndOpportunity;
@@ -25,6 +26,7 @@ export class CreateComponent implements OnInit {
     private route: ActivatedRoute,
     private location:Location,
     public readonly list: ListService,
+    public readonly historyList: ListService,
     private configState:ConfigStateService,
     private permissionService:PermissionService
   ) { }
@@ -32,6 +34,7 @@ export class CreateComponent implements OnInit {
   firstForm:FormGroup;
   secondForm:FormGroup;
   thirdForm:FormGroup
+  fourthForm:FormGroup
   fifthForm:FormGroup;
 
   permissions = {
@@ -40,6 +43,13 @@ export class CreateComponent implements OnInit {
     3:'ComplianceSystem.RiskAndOpportunityEvaluation',
     4:'ComplianceSystem.RiskAndOpportunityTreatment',
     5:'ComplianceSystem.RiskAndOpportunityReview',
+  }
+  forms = {
+    1:'firstForm',
+    2:'secondForm',
+    3:'thirdForm',
+    4:'fourthForm',
+    5:'fifthForm',
   }
   permissionsAuth = {};
 
@@ -62,7 +72,6 @@ export class CreateComponent implements OnInit {
 
 
     this.secondForm = new FormGroup({
-      // existingControl:  new FormControl(null),
       controlAssessment:  new FormControl(null, [Validators.required]),
       numberMatrix:  new FormControl(null, [Validators.required]),
       likelihood:  new FormControl(null, [Validators.required]),
@@ -77,6 +86,8 @@ export class CreateComponent implements OnInit {
       isTreatment:  new FormControl(null, [Validators.required]),
     });
 
+    this.fourthForm = new FormGroup({ });
+
     this.fifthForm = new FormGroup({
       acceptance: new FormControl(null, [Validators.required]),
       acceptanceApprovedby:  new FormControl(null, [Validators.required]),
@@ -85,9 +96,9 @@ export class CreateComponent implements OnInit {
       status:  new FormControl(Status.Open),
       likelihood:  new FormControl(null, [Validators.required]),
       impact:  new FormControl(null, [Validators.required]),
-      potentialRisk:  new FormControl(null, [Validators.required]),
     });
 
+    this.activeForm = this.firstForm;
     this.id = this.route.snapshot.params.id;
 
     if(this.id) this.getData();
@@ -102,7 +113,6 @@ export class CreateComponent implements OnInit {
         this.permissionsAuth[key] = true;
       } else this.permissionsAuth[key] = false;
     }
-    // debugger;
     this.IsTreat=this.thirdForm.value.isTreatment;
   }
   IsTreat;
@@ -125,27 +135,10 @@ export class CreateComponent implements OnInit {
       // }
     });
 
-    this.getHistory();
   }
-
-  historyChanges;
-  totalCount
-  getHistory() {
-    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({
-      search:null,
-      riskOpportunityId:this.id,
-      maxResultCount:null,
-      workFlowStages:this.activeTab,
-      ...query
-    });
-    this.list.hookToQuery(streamCreator).subscribe((response) => {
-      this.historyChanges = response.items;
-      this.totalCount = response.totalCount;
-    });
-  }
-
 
   submit() {
+    if(this.activeTab == WorkFlowStages.Processing) return;
     if(this.activeTab == WorkFlowStages.DefineRiskAndOpportunity) this.submitFirst();
     else if(this.activeTab == WorkFlowStages.Analysis) this.submitSecond();
     else if (this.activeTab == WorkFlowStages.Evaluation) this.submitThird();
@@ -156,12 +149,11 @@ export class CreateComponent implements OnInit {
     this.firstForm.markAllAsTouched();
     if(this.firstForm.invalid) return;
     (this.id ? this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.firstForm.value}): this.riskAndOpportunityService.create(this.firstForm.value)).subscribe(r => {
-      console.log(r);
       this.itemData = r;
       this.location.replaceState(`/risks-management/${r.id}/edit`);
       let stage = HistoryAction.Update;
+      this.activeTab = WorkFlowStages.Analysis;
       if(!this.id) {
-        this.activeTab = WorkFlowStages.Analysis;
         stage = HistoryAction.Create;
       }
       this.id = r.id;
@@ -179,18 +171,18 @@ export class CreateComponent implements OnInit {
     }
 
     this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => {
-      this.getHistory();
+      this.itemData = r;
+      // this.historyList.get();
     })
   }
 
   submitSecond() {
-    console.log(this.secondForm);
     this.secondForm.markAllAsTouched();
     if(this.secondForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.secondForm.value}).subscribe(r => {
+      this.itemData = r;
       this.activeTab = WorkFlowStages.Evaluation;
       this.updateHistory(HistoryAction.Update);
-      this.itemData = r;
     })
   }
 
@@ -198,12 +190,11 @@ export class CreateComponent implements OnInit {
     this.thirdForm.markAllAsTouched();
     if(this.thirdForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.thirdForm.value}).subscribe(r => {
+      this.itemData = r;
       this.IsTreat=this.thirdForm.value.isTreatment;
       if(this.thirdForm.value.isTreatment) this.activeTab = WorkFlowStages.Processing
       else this.activeTab = WorkFlowStages.Review;
-
       this.updateHistory(HistoryAction.Update);
-      this.itemData = r;
     })
 
   }
@@ -212,14 +203,18 @@ export class CreateComponent implements OnInit {
     if(this.fifthForm.invalid) return;
     this.riskAndOpportunityService.update(this.id, {...this.itemData, ...this.fifthForm.value}).subscribe(r => {
       // this.activeTab = WorkFlowStages.Processing;
-      this.updateHistory(HistoryAction.Update);
       this.itemData = r;
+      this.updateHistory(HistoryAction.Update);
       this.getData();
     })
   }
 
+  activeForm;
   changeTab(tab) {
+    if(tab == WorkFlowStages.Processing && !this.itemData.isTreatment) tab = tab - 1;
     this.activeTab = tab;
-    this.getHistory();
+    this.activeForm = this[this.forms[tab]];
+    // this.historyList.get();
   }
+
 }

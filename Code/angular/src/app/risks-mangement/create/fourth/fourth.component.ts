@@ -14,7 +14,8 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 @Component({
   selector: 'app-fourth',
   templateUrl: './fourth.component.html',
-  styleUrls: ['./fourth.component.scss']
+  styleUrls: ['./fourth.component.scss'],
+  providers:[ListService]
 })
 export class FourthComponent implements OnInit {
   @Output('updateProcessing') updateProcessing = new EventEmitter();
