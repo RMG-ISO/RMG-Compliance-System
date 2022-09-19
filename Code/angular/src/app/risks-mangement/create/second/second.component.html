@@ -1,113 +1,58 @@
 <form [formGroup]="form">
   <div class="row">
-      <!-- <div class="col-md-6 form-group">
-          <label for="existingControl">
-              {{ '::TheControl' | abpLocalization }}
-              <span> * </span>
-          </label>
-          <input type="text" id="nameEn" class="form-control" formControlName="existingControl"/>
-      </div>-->
-      <div class="col-md-6 form-group">
+    <div class="col-md-6 form-group">
+      <label>
+          {{ '::Matrix' | abpLocalization }}
+          <span> * </span>
+      </label>
+      <ng-select (change)="changeMatrix($event)" [formControl]="form.controls.numberMatrix">
+          <ng-option *ngFor="let item of ListMatrix" [value]="item.id">
+              {{ item | lang:'name' }}
+          </ng-option>
+      </ng-select>
+  </div>
+    <div class="col-md-6 form-group">
         <label>
-            {{ '::Matrix' | abpLocalization }}
+            {{ '::ControlAssessment' | abpLocalization }}
             <span> * </span>
         </label>
-        <ng-select  (change)="changeMatrix($event)" formControlName="numberMatrix">
-            <ng-option *ngFor="let item of ListMatrix" [value]="item.id">
+        <ng-select [formControl]="form.controls.controlAssessment">
+            <ng-option *ngFor="let item of controlAssesment" [value]="item.id">
                 {{ item | lang:'name' }}
             </ng-option>
         </ng-select>
     </div>
-      <div class="col-md-6 form-group">
-          <label>
-              {{ '::ControlAssessment' | abpLocalization }}
-              <span> * </span>
-          </label>
-          <ng-select formControlName="controlAssessment">
-              <ng-option *ngFor="let item of controlAssesment" [value]="item.id">
-                  {{ item | lang:'name' }}
-              </ng-option>
-          </ng-select>
+   
+    <div class="col-md-12 form-group" style="padding-left: 174px;">
+   {{ '::RiskManagementMatrix' | abpLocalization }}
+    </div>
+    <div style="display:inline-flex;min-width:850px;">
+      <div style="min-width:150px;padding-left: 49px;">
+        <div *ngFor="let item of impacts" style="padding-top: 10px;">
+          <span [ngClass]="{'hide':item == 'null'}" style="width:150px">  {{ item | lang:'name' }} </span>
+        </div>
       </div>
 
-
-      <!-- <div class="col-md-6 form-group">
-          <label>
-              {{ '::Probability' | abpLocalization }}
-              <span> * </span>
-          </label>
-          <ng-select formControlName="likelihood">
-              <ng-option *ngFor="let item of likehood" [value]="item.id">
-                  {{ item | lang:'name' }}
-              </ng-option>
-          </ng-select>
-      </div>
-      <div class="col-md-6 form-group">
-          <label>
-              {{ '::Impact' | abpLocalization }}
-              <span> * </span>
-          </label>
-          <ng-select formControlName="impact">
-              <ng-option *ngFor="let item of impacts" [value]="item.id">
-                  {{ item | lang:'name' }}
-              </ng-option>
-          </ng-select>
-      </div> -->
-      <div class="col-md-12 form-group" style="padding-left: 174px;">
-     Risk Management Matrix
-      </div>
-      <div style="display:inline-flex;min-width:850px;">
-        <div style="min-width:150px;padding-left: 49px;">
-          <div *ngFor="let item of impacts" style="padding-top: 10px;">
-            <span [ngClass]="{'hide':item == 'null'}" style="width:150px">  {{ item | lang:'name' }} </span>
-          </div>
+      <div style="min-width:700px">
+        <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
+          <span [ngClass]="{'hide':item == 'null'}" style="width:150px;padding-left: 45px;">
+            {{ item | lang:'name' }}
+          </span>
         </div>
 
-        <div style="min-width:700px">
-          <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
-            <span [ngClass]="{'hide':item == 'null'}" style="width:150px;padding-left: 45px;">
-              {{ item | lang:'name' }}
-            </span>
-          </div>
+        <div *ngFor="let item of potentials">
+          <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let child of item">
 
-          <div *ngFor="let item of potentials">
-            <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let child of item">
-
-              <button [ngClass]="{'veryHigh':child.levelNum==4, 'High':child.levelNum==3,'Selected':child.Potential==Potential&&child.likelihood==likelihood,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}" (click)="setValue(child.likelihood,child.impact,child.Potential)"  style="width:150px">
-                 {{ child | lang:'level' }}
-              </button>
-
-            </div>
+            <button type="button" [ngClass]="{'veryHigh':child.levelNum==4, 'High':child.levelNum==3,'Selected':child.Potential==Potential&&child.likelihood==likelihood,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}" (click)="setValue(child.likelihood,child.impact,child.Potential)"  style="width:150px">
+               {{ child | lang:'level' }}
+            </button>
           </div>
         </div>
       </div>
-  </div>
+    </div>
+
+    <div class="invalid-feedback d-block" *ngIf="form.controls.likelihood.toouched && form.controls.likelihood.invalid">
+      {{ 'RequiredRiskManagementMatrix' | abpLocalization }}
+    </div>
+</div>
 </form>
-<style>
-.veryHigh {
-background-color: rgb(162, 3, 3);
-color: white;
-}
-.High {
-background-color: rgb(243, 161, 8);
-color: white;
-}
-.Medium {
-background-color: rgb(240, 226, 27);
-color: white;
-}
-.low {
-background-color: rgb(7, 113, 11);
-color: white;
-}
-.Verylow{
-background-color: rgb(3, 160, 8);
-color: white;
-}
-.Selected{
-border-color: rgb(10, 10, 10);
-border-radius: 9px;
-color:rgb(37, 10, 241)
-}
-
-</style>

@@ -169,6 +169,7 @@
     "Permission:SytemPermissions": "Sytem Permissions",
     "Permissions": "Permissions",
     "SuccessfullyDeleted": "Successfully deleted",
+    "SuccessfullySaved": "Successfully Saved",
     "Creator": "Responsible",
     "Deleter": "Responsible",
     "LastModifier": "Responsible",
@@ -368,6 +369,9 @@
     "SendRequest":"Send Request",
     "IsTreatment":"Is it treatable?",
     "RiskManagementMatrix":"Risk Management Matrix",
+    "RequiredRiskManagementMatrix":"Please Add Risk Management Matrix Value",
+    "TreatmentLengthError":"Please add atleast one treatment.",
+
     "Email:Body": "Body",
     "Email:Subject": "Subject",
     "Email:Key": "Key",

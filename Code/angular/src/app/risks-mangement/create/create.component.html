@@ -16,7 +16,6 @@
                                 <p>
                                     {{ '::WorkFlowStages:DefineRisk' | abpLocalization }}
                                 </p>
-    
                             </div>
                         </button>
                     </div>
@@ -72,12 +71,13 @@
     
                 <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'"   >
                     <ng-container *ngIf="itemData?.isTreatment">
-                        <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing,hide:IsTreat==true }">
+                        <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing}">
                             <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
                                 {{WorkFlowStages.Processing}}
                             </span>
                             <button mat-button type="button" (click)="changeTab(WorkFlowStages.Processing)">
                                 <div>
+                                    <i *ngIf="itemData?.isTreatment && !riskTreatmentsLength " class="fas fa-exclamation"></i>
                                     <i class="fas fa-chart-line"></i>
                                     <p>
                                         {{ '::WorkFlowStages:Processing' | abpLocalization }}

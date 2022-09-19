@@ -178,16 +178,14 @@ export class ThirdComponent implements OnInit {
       );
     }
   }
-  isTreatment;
+
   getListMatrix(Matrix) {
     this.riskAndOpportunityService.getMatrixType({ NumberMatrix: Matrix }).subscribe(r => {
       this.likehood = r?.likehood;
       this.impacts = r?.impact;
     });
   }
-  
-  IsTreatement(Treatment){
-    this.isTreatment=Treatment.value;
-  }
+
+
 
 }

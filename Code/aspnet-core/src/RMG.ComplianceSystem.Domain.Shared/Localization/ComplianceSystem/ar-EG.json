@@ -172,6 +172,7 @@
     "Permission:SytemPermissions": "صلاحيات النظام",
     "Permissions": "الصلاحيات",
     "SuccessfullyDeleted": "تم الحذف بنجاح",
+    "SuccessfullySaved": "تم الحفظ بنجاح",
     "Creator": "الشخص المسؤول",
     "Deleter": "الشخص المسؤول",
     "LastModifier": "الشخص المسؤول",
@@ -373,6 +374,8 @@
     "SendRequest":"إرسال الطلب",
     "IsTreatment":"هل قابل للمعالجه؟",
     "RiskManagementMatrix":"مصفوفة إدارة المخاطر",
+    "RequiredRiskManagementMatrix":"برجاء إضافة قيمة مصفوفة إدارة المخاطر",
+    "TreatmentLengthError":"من فضلك قم بإضافة معالجة واحدة على الأقل.",
 
     "Email:Body": "النص",
     "Email:Subject": "الموضوع",
