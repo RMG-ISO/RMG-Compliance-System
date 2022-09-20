@@ -2,7 +2,6 @@
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.BackgroundWorkers.Quartz;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
@@ -24,7 +23,6 @@ namespace RMG.ComplianceSystem
         typeof(AbpTenantManagementApplicationModule),
         typeof(AbpFeatureManagementApplicationModule),
         typeof(AbpSettingManagementApplicationModule),
-        typeof(AbpBackgroundWorkersQuartzModule),
         typeof(AbpTextTemplatingModule),
         typeof(AbpLocalizationModule)
         )]
