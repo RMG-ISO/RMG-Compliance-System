@@ -32,7 +32,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         private readonly IDataFilter _dataFilter;
 
         public EmailTemplateAppService(IEmailTemplateRepository emailTemplateRepository
-                                        , IDataFilter dataFilter) : base(emailTemplateRepository)
+                                        , IDataFilter dataFilter) : base(emailTemplateRepository) 
         {
             _emailTemplateRepository = emailTemplateRepository;
             _dataFilter = dataFilter;
