@@ -369,21 +369,17 @@
     "Dashboard:TotalRequirementsMaturityLevel": "إجمالي مستوى نضج المتطلبات",
     "Dashboard:TotalRequirements": "المتطلبات الإجمالية",
     "Dashboard:RequirementsGapAnalysis": "تحليل فجوة متطلبات NCA-ECC",
-
     "DocumentDeletionConfirmationMessage": "هل أنت متأكد من حذف الملف {0}؟",
-
     "SendRequest": "إرسال الطلب",
     "IsTreatment": "هل قابل للمعالجه؟",
     "RiskManagementMatrix": "مصفوفة إدارة المخاطر",
     "RequiredRiskManagementMatrix": "برجاء إضافة قيمة مصفوفة إدارة المخاطر",
     "TreatmentLengthError": "من فضلك قم بإضافة معالجة واحدة على الأقل.",
-
     "Email:Body": "النص",
     "Email:Subject": "الموضوع",
     "Email:Key": "مفتاح",
     "Email:NotificationBody": "قالب الاشعارات",
     "EmailTemplate:Page:Title": "قوالب البريد الألكتروني"
-
 
   }
 }

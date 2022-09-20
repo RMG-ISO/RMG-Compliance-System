@@ -372,11 +372,9 @@
     "RiskManagementMatrix": "Risk Management Matrix",
     "RequiredRiskManagementMatrix": "Please Add Risk Management Matrix Value",
     "TreatmentLengthError": "Please add atleast one treatment.",
-
     "Email:Body": "Body",
     "Email:Subject": "Subject",
     "Email:Key": "Key",
-    "Email:Key:P": "Key",
     "Email:NotificationBody": "Notification Body",
     "EmailTemplate:Page:Title": "Email Templates"
 
