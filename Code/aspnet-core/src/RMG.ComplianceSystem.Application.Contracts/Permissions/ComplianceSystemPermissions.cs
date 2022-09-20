@@ -9,7 +9,7 @@ namespace RMG.ComplianceSystem.Permissions
         
              public static class EmailTemplate
         {
-            public const string Default = GroupName + ".Books";
+            public const string Default = GroupName + ".EmailTemplate";
             public const string Create = Default + ".Create";
             public const string Update = Default + ".Update";
             public const string Delete = Default + ".Delete";

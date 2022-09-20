@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using RMG.ComplianceSystem.EmailTemplates;
@@ -30,19 +31,21 @@ namespace RMG.ComplianceSystem.Notifications
         private readonly IHubContext<NotificationHub> _notificationHubContext;
         private readonly ICurrentUser _currentUser;
         private readonly IEmailTemplateRepository _emailTemplateRepository;
-
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly HttpContext _httpContext;
         public NotificationAppService(
                                         INotificationRepository repository
                                        , IEmailSender emailSender
                                        , ILogger<NotificationAppService> logger
                                        , IHubContext<NotificationHub> notificationHubContext
-                                       , ICurrentUser currentUser
+                                       , ICurrentUser currentUser, IHttpContextAccessor httpContextAccessor
                                        , IEmailTemplateRepository emailTemplateRepository) : base(repository)
         {
             _repository = repository;
             _emailSender = emailSender;
             _notificationHubContext = notificationHubContext;
             _currentUser = currentUser;
+            _httpContextAccessor= httpContextAccessor;
             _emailTemplateRepository = emailTemplateRepository;
         }
 
@@ -66,7 +69,7 @@ namespace RMG.ComplianceSystem.Notifications
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
                         _body += item.Body;
-                        _body += item.Url;
+                        _body +=GetURI() + item.Url;
                         _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
                         MailMessage mailMessage = new MailMessage
@@ -210,6 +213,13 @@ namespace RMG.ComplianceSystem.Notifications
         public Task<PagedResultDto<NotificationDto>> GetListRiskByFilterAsync(NotificationPagedAndSortedResultRequestDto input)
         {
             throw new NotImplementedException();
+        }
+        public string GetURI()
+        {
+            var httpContext = _httpContextAccessor.HttpContext ?? _httpContext;
+            string url = httpContext?.Request?.Scheme + "://" + httpContext?.Request?.Host;//.Headers?["Referer"];
+            //url.Substring(url.IndexOf("swagger"));
+            return url;
         }
     }
 }

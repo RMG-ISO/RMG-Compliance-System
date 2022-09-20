@@ -56,6 +56,11 @@ namespace RMG.ComplianceSystem.Permissions
             StaticDataPermission.AddChild(ComplianceSystemPermissions.StaticData.Update, L("Permission:Update"));
             StaticDataPermission.AddChild(ComplianceSystemPermissions.StaticData.Delete, L("Permission:Delete"));
 
+            var EmailTemplatePermission = myGroup.AddPermission(ComplianceSystemPermissions.EmailTemplate.Default, L("Permission:EmailTemplate"));
+            EmailTemplatePermission.AddChild(ComplianceSystemPermissions.EmailTemplate.Create, L("Permission:Create"));
+            EmailTemplatePermission.AddChild(ComplianceSystemPermissions.EmailTemplate.Update, L("Permission:Update"));
+            EmailTemplatePermission.AddChild(ComplianceSystemPermissions.EmailTemplate.Delete, L("Permission:Delete"));
+
             var RiskAndOpportunityPermission = myGroup.AddPermission(ComplianceSystemPermissions.RiskAndOpportunity.Default, L("Permission:RiskAndOpportunity"));
             RiskAndOpportunityPermission.AddChild(ComplianceSystemPermissions.RiskAndOpportunity.Create, L("Permission:Create"));
             RiskAndOpportunityPermission.AddChild(ComplianceSystemPermissions.RiskAndOpportunity.Update, L("Permission:Update"));

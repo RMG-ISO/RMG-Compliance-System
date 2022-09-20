@@ -164,7 +164,7 @@ namespace RMG.ComplianceSystem.Notifications
             foreach (var notificatio in notificationList.Where(t => t.Type == NotificationType.Push))
             {
                 await _notificationAppService.NotifyUser(Guid.Parse(notificatio.To));
-
+                await _notificationAppService.SendNotifications();
             }
         }
 
@@ -251,8 +251,9 @@ namespace RMG.ComplianceSystem.Notifications
                 foreach (var notificatio in notificationList.Where(t => t.Type == NotificationType.Push))
                 {
                     await _notificationAppService.NotifyUser(Guid.Parse(notificatio.To));
+                await _notificationAppService.SendNotifications();
 
-                }
+            }
             }
         }
     }
