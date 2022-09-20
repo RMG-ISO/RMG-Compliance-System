@@ -22,11 +22,11 @@ namespace RMG.ComplianceSystem.EmailTemplates
         CreateUpdateEmailTemplateDto>,
           IEmailTemplateAppService
     {
-        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
-        //protected override string GetListPolicyName { get; set; } =ComplianceSystemPermissions.EmailTemplate.Default;
-        //protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Create;
-        //protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Update;
-        //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Delete;
+        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
+        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Default;
+        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Create;
+        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Update;
+        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.EmailTemplate.Delete;
 
         private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IDataFilter _dataFilter;

@@ -12,7 +12,8 @@ import { AttachmentService } from '@proxy/attachments';
 @Component({
   selector: 'app-files-management',
   templateUrl: './files-management.component.html',
-  styleUrls: ['./files-management.component.scss']
+  styleUrls: ['./files-management.component.scss'],
+  providers:[ListService]
 })
 export class FilesManagementComponent implements OnInit {
   FormMode = FormMode;

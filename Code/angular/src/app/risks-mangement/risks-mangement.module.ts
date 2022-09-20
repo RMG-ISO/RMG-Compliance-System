@@ -19,6 +19,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-modal/risk-treatment-modal.component';
 import { MatrixComponent } from './create/matrix/matrix.component';
+import { HistoryComponent } from './create/history/history.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatrixComponent } from './create/matrix/matrix.component';
     FifthComponent,
     RiskTreatmentModalComponent,
     MatrixComponent,
+    HistoryComponent,
   ],
   imports: [
     CommonModule,

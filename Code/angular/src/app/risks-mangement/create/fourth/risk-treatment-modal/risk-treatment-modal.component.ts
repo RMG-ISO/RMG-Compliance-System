@@ -158,15 +158,20 @@ export class RiskTreatmentModalComponent implements OnInit {
 
 
   OnFileUploaded(attachmentId: string) {
+    console.log('OnFileUploaded')
     this.form.controls["attachmentId"].patchValue(attachmentId);
   }
 
   uploading
   OnFileBeginUpload(beginUpload: boolean) {
+    console.log('OnFileBeginUpload')
+
     this.uploading = true;
   }
 
   OnFileEndUpload(endUpload: boolean) {
+    console.log('OnFileEndUpload')
+
     this.uploading = false;
   }
 

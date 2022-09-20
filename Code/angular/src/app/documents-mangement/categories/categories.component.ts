@@ -11,7 +11,8 @@ import { LocalizationService } from '@abp/ng.core';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss']
+  styleUrls: ['./categories.component.scss'],
+  providers:[ListService]
 })
 export class CategoriesComponent implements OnInit {
   FormMode = FormMode;

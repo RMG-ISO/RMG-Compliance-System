@@ -38,7 +38,7 @@ namespace RMG.ComplianceSystem.Contexts
         /// <returns></returns>
         public override async Task Execute(IJobExecutionContext context)
         {
-            await _notificationAppService.SendNotifications();
+         //   await _notificationAppService.SendNotifications();
         }
     }
 }

@@ -12,7 +12,8 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
-  styleUrls: ['./department.component.scss']
+  styleUrls: ['./department.component.scss'],
+  providers:[ListService]
 })
 export class DepartmentComponent implements OnInit {
   FormMode = FormMode;

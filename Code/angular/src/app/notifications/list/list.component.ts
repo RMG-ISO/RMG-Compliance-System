@@ -8,7 +8,8 @@ import { NotificationService, Status } from '@proxy/notifications';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  providers:[ListService]
 })
 export class ListComponent {
   Status = Status;

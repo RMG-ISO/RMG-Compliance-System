@@ -133,3 +133,18 @@ mat-card-title {
 mat-card mat-card-actions.mat-card-actions {
     margin-bottom: 10px;
 }
+
+.fa-exclamation {
+    position: absolute;
+    left: -5px;
+    top: 0px;
+    font-size: 15px !important;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    background: #e91e63;
+    border-radius: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

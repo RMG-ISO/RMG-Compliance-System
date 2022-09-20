@@ -19,6 +19,7 @@ const routes: Routes = [
   },
   {
     path:'email-templates',
+    canActivate: [AuthGuard, PermissionGuard],
     loadChildren:() => import('./email-templates/email-templates.module').then(m => m.EmailTemplatesModule)
   }
 ];

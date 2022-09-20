@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ListService, LocalizationService } from '@abp/ng.core';
-import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,8 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 @Component({
   selector: 'app-fourth',
   templateUrl: './fourth.component.html',
-  styleUrls: ['./fourth.component.scss']
+  styleUrls: ['./fourth.component.scss'],
+  providers:[ListService]
 })
 export class FourthComponent implements OnInit {
   @Output('updateProcessing') updateProcessing = new EventEmitter();
@@ -70,7 +71,8 @@ export class FourthComponent implements OnInit {
     private userService:IdentityUserService,
     private staticDataService:StaticDataService,
     private riskAndOpportunityService:RiskAndOpportunityService,
-    private dialog:MatDialog
+    private dialog:MatDialog,
+    private toasterService:ToasterService
   ) { }
 
 
@@ -92,7 +94,7 @@ export class FourthComponent implements OnInit {
 
 
   getList() {
-    const streamCreator = (query) => this.riskTreatmentService.getList({ RiskOpportunityId :this.route.snapshot.params.id, sorting: 'creationtime asc', ...query});
+    const streamCreator = (query) => this.riskTreatmentService.getList({ RiskOpportunityId :this.route.snapshot.params.id || this.itemData.id, sorting: 'creationtime desc', ...query});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -117,7 +119,7 @@ export class FourthComponent implements OnInit {
 
 
   @ViewChild('dialogRef') dialogRef;
-  openDialog(data = {riskOpportunityId : this.route.snapshot.params.id }, mode = FormMode.Create) {
+  openDialog(data = {riskOpportunityId : this.route.snapshot.params.id || this.itemData.id }, mode = FormMode.Create) {
     data['mode'] = mode;
     let ref = this.dialog.open(this.dialogRef, {  data, maxHeight:'80vh' });
     ref.afterClosed().subscribe(r => {
@@ -125,64 +127,10 @@ export class FourthComponent implements OnInit {
     })
   }
   
-  selected;
-  isModalOpen;
-  // openDialog(data: RiskTreatmentDto) {
-  //   this.selected = data;
-  //   this.buildForm();
-  //   this.isModalOpen = true;
-  // }
-
-  form:FormGroup;
-
-  buildForm() {
-    this.form = new FormGroup({
-      id: new FormControl(null),
-      riskOpportunityId: new FormControl(this.route.snapshot.params.id),
-      responsibility: new FormControl(null, Validators.required),
-      dueDate: new FormControl( null , Validators.required),
-      mitigateActionPlanAr: new FormControl(null, Validators.required),
-      mitigateActionPlanEn: new FormControl(null, Validators.required),
-      actionDetailsAr: new FormControl(null, Validators.required),
-      actionDetailsEn: new FormControl(null, Validators.required),
-      startDate:new FormControl(null),
-      completionDate:new FormControl(null),
-      achievementPercentage:new FormControl(null),
-      status: new FormControl(1),
-      attachmentId:new FormControl(null),
-    });
-    this.form.patchValue(this.selected);
-    this.form.controls.dueDate.patchValue( this.selected?.dueDate ? new Date( this.selected?.dueDate ) : new Date());
-  }
-
-  OnFileUploaded(attachmentId: string) {
-    this.form.controls["attachmentId"].patchValue(attachmentId);
-  }
-
-  uploading
-  OnFileBeginUpload(beginUpload: boolean) {
-    this.uploading = true;
-  }
-
-  OnFileEndUpload(endUpload: boolean) {
-    this.uploading = false;
-  }
-
-  save() {
-    if (this.form.invalid) return;
-
-    const request = this.selected?.id ? this.riskTreatmentService.update(this.selected.id, this.form.value) : this.riskTreatmentService.create(this.form.value);
-    request.subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.list.get();
-      this.update(this.selected?.id ? HistoryAction.UpdatePlanAction : HistoryAction.CreatePlanAction );
-    });
-  }
 
   update(action) {
     this.updateProcessing.emit(action);
-    this.getList();
+    this.list.get();
     console.log('this.getin list')
   }
 }

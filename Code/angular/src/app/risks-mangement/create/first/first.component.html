@@ -1,11 +1,11 @@
-<form [formGroup]="form">
+<!-- <form [formGroup]="form"> -->
     <div class="row">
         <div class="col-md-6 form-group">
             <label >
                 {{ '::Type' | abpLocalization }}
                 <span> * </span>
             </label>
-            <mat-radio-group aria-label="Select an option" formControlName="type">
+            <mat-radio-group aria-label="Select an option" [formControl]="form.controls.type">
                 <mat-radio-button [value]="Type.Risk">{{ '::Risk' | abpLocalization }}</mat-radio-button>
                 <span class="space"></span>
                 <mat-radio-button [value]="Type.Opportunity">{{ '::Opportunity' | abpLocalization }}</mat-radio-button>
@@ -17,7 +17,7 @@
                 {{ ('::' + Type[form.controls.type.value] + ':Context') | abpLocalization }}
                 <span> * </span>
             </label>
-            <ng-select formControlName="riskContext">
+            <ng-select [formControl]="form.controls.riskContext">
                 <ng-option *ngFor="let category of riskContext" [value]="category.id">
                     {{ category | lang:'name' }}
                 </ng-option>
@@ -29,14 +29,14 @@
                 {{ ('::' + Type[form.controls.type.value] + ':NameAr') | abpLocalization }}
                 <span> * </span>
             </label>
-            <input type="text" id="nameAr" class="form-control" formControlName="nameAr" />
+            <input type="text" id="nameAr" class="form-control" [formControl]="form.controls.nameAr" />
         </div>
         <div class="col-md-6 form-group">
             <label for="nameEn">
                 {{ ('::' + Type[form.controls.type.value] + ':NameEn') | abpLocalization }}
                 <span> * </span>
             </label>
-            <input type="text" id="nameEn" class="form-control" formControlName="nameEn"/>
+            <input type="text" id="nameEn" class="form-control" [formControl]="form.controls.nameEn"/>
         </div>
 
 
@@ -45,14 +45,14 @@
                 {{ ('::' + Type[form.controls.type.value] + ':ExplainAr') | abpLocalization }}
                 <span> * </span>
             </label>
-            <textarea type="text" id="detailsAr" class="form-control" formControlName="detailsAr"></textarea>
+            <textarea type="text" id="detailsAr" class="form-control" [formControl]="form.controls.detailsAr"></textarea>
         </div>
         <div class="col-md-6 form-group">
             <label for="detailsEn">
                 {{ ('::' + Type[form.controls.type.value] + ':ExplainEn') | abpLocalization }}
                 <span> * </span>
             </label>
-            <textarea type="text" id="detailsEn" class="form-control" formControlName="detailsEn"></textarea>
+            <textarea type="text" id="detailsEn" class="form-control" [formControl]="form.controls.detailsEn"></textarea>
         </div>
 
 
@@ -62,14 +62,14 @@
                 {{ ('::' + Type[form.controls.type.value] + ':DescriptionAr') | abpLocalization }}
                 <span> * </span>
             </label>
-            <textarea type="text" id="affectDetailsAr" class="form-control" formControlName="affectDetailsAr" ></textarea>
+            <textarea type="text" id="affectDetailsAr" class="form-control" [formControl]="form.controls.affectDetailsAr" ></textarea>
         </div>
         <div class="col-md-6 form-group">
             <label for="affectDetailsEn">
                 {{ ('::' + Type[form.controls.type.value] + ':DescriptionEn') | abpLocalization }}
                 <span> * </span>
             </label>
-            <textarea type="text" id="affectDetailsEn" class="form-control" formControlName="affectDetailsEn"></textarea>
+            <textarea type="text" id="affectDetailsEn" class="form-control" [formControl]="form.controls.affectDetailsEn"></textarea>
         </div>
 
         <div class="col-md-6 form-group">
@@ -77,7 +77,7 @@
                 {{ '::Sector' | abpLocalization }}
                 <span> * </span>
             </label>
-            <ng-select formControlName="sectorId">
+            <ng-select [formControl]="form.controls.sectorId">
                 <ng-option *ngFor="let sector of sectors" [value]="sector.id">
                    {{ sector | lang:'name' }}
                 </ng-option>
@@ -88,7 +88,7 @@
                 {{ '::Department' | abpLocalization }}
                 <span> * </span>
             </label>
-            <ng-select formControlName="departmentId">
+            <ng-select [formControl]="form.controls.departmentId">
                 <ng-option *ngFor="let department of departments" [value]="department.id">
                     {{ department.name }}
                  </ng-option>
@@ -101,7 +101,7 @@
                 {{ '::Category' | abpLocalization }}
                 <span> * </span>
             </label>
-            <ng-select formControlName="categoryId">
+            <ng-select [formControl]="form.controls.categoryId">
                 <ng-option *ngFor="let category of categories" [value]="category.id">
                     {{ category | lang:'name' }}
                 </ng-option>
@@ -112,7 +112,7 @@
                 {{ ('::' + Type[form.controls.type.value] + ':User') | abpLocalization }}
                 <span> * </span>
             </label>
-            <ng-select formControlName="ownerId">
+            <ng-select [formControl]="form.controls.ownerId">
                 <ng-option *ngFor="let user of users" [value]="user.id">
                     {{user.name}}
                 </ng-option>
@@ -121,4 +121,4 @@
 
 
     </div>
-</form>
+<!-- </form> -->

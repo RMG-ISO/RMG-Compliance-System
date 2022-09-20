@@ -1,0 +1,45 @@
+<mat-accordion *ngIf="id" >
+    <mat-expansion-panel opened>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ '::Changelog' | abpLocalization }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ngx-datatable *abpPermission="'ComplianceSystem.RiskAndOpportunity.History'"
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        #dataTable
+        [rows]="historyChanges"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
+        default
+        >
+            <ngx-datatable-column [name]="'::ActionName' | abpLocalization" prop="actionName">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ ('::HistoryAction:' + HistoryAction[value] ) | abpLocalization  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::ActionDate' | abpLocalization" prop="actionDate">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy-MM-dd' }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="creator.name"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::WorkFlowStage' | abpLocalization" prop="workFlowStages">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ ('::WorkFlowStages:' + WorkFlowStages[value] ) | abpLocalization  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </mat-expansion-panel>
+</mat-accordion>

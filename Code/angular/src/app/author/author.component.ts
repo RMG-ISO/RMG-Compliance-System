@@ -15,10 +15,7 @@ import { ConfirmationDialogComponent } from "../shared/components/confirmation-d
   templateUrl: './author.component.html',
   styleUrls: ['./author.component.scss'],
   providers: [ListService],
-
 })
-
-
 export class AuthorComponent implements OnInit {
   author = { items: [], totalCount: 0 } as PagedResultDto<AuthorDto>;
 

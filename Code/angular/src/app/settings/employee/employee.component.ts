@@ -13,7 +13,8 @@ import { DepartmentDto } from '@proxy/departments/dtos';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.scss']
+  styleUrls: ['./employee.component.scss'],
+  providers:[ListService]
 })
 export class EmployeeComponent implements OnInit {
   FormMode = FormMode;
