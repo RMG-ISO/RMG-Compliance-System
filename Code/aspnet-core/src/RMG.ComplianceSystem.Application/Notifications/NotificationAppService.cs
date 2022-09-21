@@ -51,7 +51,7 @@ namespace RMG.ComplianceSystem.Notifications
         }
 
 
-        public void Test()
+        public async Task Test()
         {
             var fromAddress = new MailAddress("testnicauto@outlook.com", "From Name");
             var toAddress = new MailAddress("a.nabih@rmg-sa.com", "To Name");
