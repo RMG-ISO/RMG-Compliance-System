@@ -123,7 +123,6 @@ namespace RMG.ComplianceSystem.Notifications
                             Body = _body,
                             IsBodyHtml = item.IsHTML
                         };
-                        item.To = "a.nabih@rmg-sa.com";
                         mailMessage.To.Add(item.To);
                         if (!string.IsNullOrEmpty(item.CC))
                             mailMessage.CC.Add(item.CC);
