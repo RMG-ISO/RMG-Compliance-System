@@ -116,8 +116,6 @@ namespace RMG.ComplianceSystem.Risks
                 RisksData.Add(Risk);
             }
 
-            //Get the total count with Risk
-            //var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,
