@@ -47,6 +47,14 @@ export class RiskAndOpportunityService {
     },
     { apiName: this.apiName });
 
+    getListDashboard = (input: UserPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<IdentityUserDto>>({
+      method: 'GET',
+      url: '/api/identity/users',
+      params: { Filter: input.Filter,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
   update = (id: string, input: CreateUpdateRiskAndOpportunityDto) =>
     this.restService.request<any, RiskAndOpportunityDto>({
       method: 'PUT',

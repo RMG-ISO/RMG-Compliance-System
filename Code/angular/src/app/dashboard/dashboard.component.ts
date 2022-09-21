@@ -1,18 +1,47 @@
-import { LocalizationService } from '@abp/ng.core';
+import { LocalizationService,ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
+
+import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { SignalrService } from '@proxy/signalrService';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  providers:[ListService]
 })
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private localizationService:LocalizationService
+    private localizationService:LocalizationService,
+    private signalrService:SignalrService,
+    private riskAndOpportunityService:RiskAndOpportunityService,
+    public readonly list: ListService,
   ) { }
 
   ngOnInit(): void {
+debugger;
+    this.signalrService.initiateSignalrConnection().then(x => {
+      this.signalrService.connection.on('RisksOpportunities', (result: any) => {
+        console.log("RisksOpportunities",result);
+      });
+    })
+    this.signalrService.connection.on('RisksOpportunities', (result: any) => {
+      console.log("RisksOpportunities",result);
+    });
+
+    this.getListRisks();
+    this.getListOpportunities();
+  }
+  getListRisks() {
+    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: '', type:1 });
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      this.itemsRisk = response.items;
+      console.log("RisksOpportunities",this.itemsRisk);
+      this.totalCountRisk = response.totalCount;
+      this.getPotentialsLevels();
+
+
     this.setChartOneOptions();
     this.setChartTwoOptions();
     this.setChartThreeOptions();
@@ -21,9 +50,69 @@ export class DashboardComponent implements OnInit {
     this.setChartSixOptions();
     this.setChartSevenOptions();
     this.setChartEightOptions()
+    });
+  }
+  getListOpportunities() {
+    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: '', type:2 });
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      this.itemsOpportunity = response.items;
+      this.totalCountOpportunity = response.totalCount;
+    });
+  }
+  itemsRisk=[];
+  totalCountRisk;
+  itemsOpportunity=[];
+  totalCountOpportunity;
+
+getPotentialsLevels(){
+  this.potentials.push(
+    [{likelihood:4,impact:1,Potential:4,levelNum:2,levelEn:'Medium',levelAr:'متوسط'},{likelihood:4,impact:2,Potential:8,levelNum:3,levelEn:'High',levelAr:'عالي'},{likelihood:4,impact:3,Potential:12,levelNum:4,levelEn:'Very High',levelAr:'عالي جدا'},{likelihood:4,impact:4,Potential:16,levelNum:4,levelEn:'Very High',levelAr:'عالي جدا'}],
+    [{likelihood:3,impact:1,Potential:3,levelNum:1,levelEn:'Low',levelAr:'ضعيف'},{likelihood:3,impact:2,Potential:6,levelNum:2,levelEn:'Medium',levelAr:'متوسط'},{likelihood:3,impact:3,Potential:9,levelNum:3,levelEn:'High',levelAr:'عالي'},{likelihood:3,impact:4,Potential:12,levelNum:4,levelEn:'Very High',levelAr:'عالي جدا'}],
+    [{likelihood:2,impact:1,Potential:2,levelNum:1,levelEn:'Low',levelAr:'ضعيف'},{likelihood:2,impact:2,Potential:4,levelNum:2,levelEn:'Medium',levelAr:'متوسط'},{likelihood:2,impact:3,Potential:6,levelNum:2,levelEn:'Medium',levelAr:'متوسط'},{likelihood:2,impact:4,Potential:8,levelNum:3,levelEn:'High',levelAr:'عالي'}],
+    [{likelihood:1,impact:1,Potential:1,levelNum:0,levelEn:'very Low',levelAr:'ضعيف جدا'},{likelihood:1,impact:2,Potential:2,levelNum:1,levelEn:'Low',levelAr:'ضعيف'},{likelihood:1,impact:3,Potential:3,levelNum:1,levelEn:'Low',levelAr:'ضعيف'},{likelihood:1,impact:4,Potential:4,levelNum:2,levelEn:'Medium',levelAr:'متوسط'}],);
+
+  this.itemsRisk.forEach((item,i)=>{
+debugger;
+let levelVeryHigh=this.potentials.filter(t=>t.levelNum==4&&t.Potential==item.potential&&t.likelihood==item.likelihood&&t.impact==item.impact);
+  if(levelVeryHigh.length>0)
+  {
+    debugger;
+    this.VeryHigh.push({levelEn:levelVeryHigh.pop().levelEn,levelAr:levelVeryHigh.pop().levelAr})
   }
 
-  chartOneOptions
+  let levelHigh=this.potentials.filter(t=>t.levelNum==3&&t.Potential==item.potential&&t.likelihood==item.likelihood&&t.impact==item.impact);
+  if(levelHigh.length>0)
+  {
+    this.High.push({levelEn:levelHigh.pop().levelEn,levelAr:levelHigh.pop().levelAr})
+  }
+  let levelMedium=this.potentials.filter(t=>t.levelNum==2&&t.Potential==item.potential&&t.likelihood==item.likelihood&&t.impact==item.impact);
+  if(levelMedium.length>0)
+  {
+    this.Medium.push({levelEn:levelMedium.pop().levelEn,levelAr:levelMedium.pop().levelAr})
+  }
+  let levelLow=this.potentials.filter(t=>t.levelNum==1&&t.Potential==item.potential&&t.likelihood==item.likelihood&&t.impact==item.impact);
+  if(levelLow.length>0)
+  {
+    this.Low.push({levelEn:levelLow.pop().levelEn,levelAr:levelLow.pop().levelAr})
+  }
+  let levelveryLow=this.potentials.filter(t=>t.levelNum==0&&t.Potential==item.potential&&t.likelihood==item.likelihood&&t.impact==item.impact);
+  if(levelveryLow.length>0)
+  {
+    this.veryLow.push({levelEn:levelveryLow.pop().levelEn,levelAr:levelveryLow.pop().levelAr})
+  }
+  console.log(this.VeryHigh,this.High,this.Medium,this.Low,this.veryLow);
+
+  });
+}
+potentials=[];
+VeryHigh=[];
+High=[];
+Medium=[];
+Low=[];
+veryLow=[];
+
+
+  chartOneOptions;
   setChartOneOptions() {
     this.chartOneOptions = {
       title: {
@@ -141,7 +230,7 @@ export class DashboardComponent implements OnInit {
   setChartTwoOptions() {
     this.chartTwoOptions = {
       title: {
-        text: this.localizationService.instant('::Dashboard:TotalRequirements'),
+        text: this.localizationService.instant('::Risk:Status'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -162,7 +251,7 @@ export class DashboardComponent implements OnInit {
       },
       series: [
         {
-          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
+          name: this.localizationService.instant('::Risk:Status'),
           type: 'pie',
           // radius: [50, 250],
           center: ['50%', '50%'],
@@ -171,11 +260,8 @@ export class DashboardComponent implements OnInit {
             borderRadius: 8
           },
           data: [
-            { value: 40, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 38, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 32, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 30, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 28, name: this.localizationService.instant('::Dashboard:Optimizing') },
+            { value: this.itemsRisk.filter(t=>t.status==1).length, name: this.localizationService.instant('::Risk:Open') },
+            { value: this.itemsRisk.filter(t=>t.status==2).length, name: this.localizationService.instant('::Risk:Close') },
           ]
         }
       ]
