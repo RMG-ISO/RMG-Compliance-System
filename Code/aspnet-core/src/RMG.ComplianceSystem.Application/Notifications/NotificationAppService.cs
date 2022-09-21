@@ -113,9 +113,9 @@ namespace RMG.ComplianceSystem.Notifications
                         var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
-                        _body += GetURI() + item.Url;
+                        _body += "<p>"+GetURI() + item.Url+"</p>";
                         _body += item.Body;
-                        //_body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
+                        _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
                         MailMessage mailMessage = new MailMessage
                         {
@@ -123,6 +123,7 @@ namespace RMG.ComplianceSystem.Notifications
                             Body = _body,
                             IsBodyHtml = item.IsHTML
                         };
+                        item.To = "a.nabih@rmg-sa.com";
                         mailMessage.To.Add(item.To);
                         if (!string.IsNullOrEmpty(item.CC))
                             mailMessage.CC.Add(item.CC);

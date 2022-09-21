@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using RMG.ComplianceSystem.MultiTenancy;
+using System;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.BlobStoring;
@@ -53,9 +55,14 @@ namespace RMG.ComplianceSystem
                     });
                 });
             });
+            //Check validation of token every 10 seconds
+            Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromSeconds(10);
+            });
 
 #if DEBUG
-            context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
+          //  context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
 #endif
         }
     }
