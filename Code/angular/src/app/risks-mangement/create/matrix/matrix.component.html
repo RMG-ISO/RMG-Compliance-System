@@ -1,31 +1,33 @@
 <div class="col-md-12 form-group">
-  {{ '::RiskManagementMatrix' | abpLocalization }}
-</div>
-<div style="display: flex; justify-content: center; width: 100%;">
-  <div style="min-width:110px">
-    <div style="height: 30px"></div>
-    <div *ngFor="let item of impacts; index as i" style="text-align: center;">
-      <span [ngClass]="{'hide':item == 'null'}" style="width:150px;height: 38px; line-height: 38px;"> {{ item |
-        lang:'name' }} </span>
+  <label for="">
+    {{ '::RiskManagementMatrix' | abpLocalization }}
+  </label>
+  <div style="display: flex; justify-content: center; width: 100%;">
+    <div style="min-width:110px">
+      <div style="height: 30px"></div>
+      <div *ngFor="let item of impacts; index as i" style="text-align: center;">
+        <span [ngClass]="{'hide':item == 'null'}" style="width:150px;height: 38px; line-height: 38px;"> {{ item |
+          lang:'name' }} </span>
+      </div>
     </div>
-  </div>
-
-  <div>
-    <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
-      <span [ngClass]="{'hide':item == 'null'}" style="width: 150px; text-align: center; margin-bottom: 10px;">
-        {{ item | lang:'name' }}
-      </span>
-    </div>
-
-    <div *ngFor="let item of potentials">
-      <div style="display:inline-flex;width:150px;min-width:150px; margin: 1px;" *ngFor="let child of item">
-        <button mat-raised-button type="button"
-          [ngClass]="{'veryHigh':child.levelNum==4,'Selected':child.Potential== form.controls.potential.value && child.likelihood==form.controls.likelihood.value, 'High':child.levelNum==3,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}"
-          style="width:150px" (click)="setValue(child.likelihood,child.impact,child.Potential)">
-          {{ child | lang:'level' }}
-        </button>
-
+  
+    <div>
+      <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
+        <span [ngClass]="{'hide':item == 'null'}" style="width: 150px; text-align: center; margin-bottom: 10px;">
+          {{ item | lang:'name' }}
+        </span>
+      </div>
+  
+      <div *ngFor="let item of potentials">
+        <div style="display:inline-flex;width:150px;min-width:150px; margin: 1px;" *ngFor="let child of item">
+          <button mat-raised-button type="button"
+            [ngClass]="{'veryHigh':child.levelNum==4,'Selected':child.Potential== form.controls.potential.value && child.likelihood==form.controls.likelihood.value, 'High':child.levelNum==3,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}"
+            style="width:150px" (click)="setValue(child.likelihood,child.impact,child.Potential)">
+            {{ child | lang:'level' }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+

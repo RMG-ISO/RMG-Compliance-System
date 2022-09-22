@@ -1,10 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="save()">
+<form  [formGroup]="form" (ngSubmit)="save()">
     <mat-card>
         <mat-card-title>
             <!-- {{ (data?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }} -->
             {{ '::ActionPlan' |  abpLocalization }}
         </mat-card-title>
-        <mat-card-content>
+        <mat-card-content *ngIf="showContent">
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="mitigateActionPlanAr">
