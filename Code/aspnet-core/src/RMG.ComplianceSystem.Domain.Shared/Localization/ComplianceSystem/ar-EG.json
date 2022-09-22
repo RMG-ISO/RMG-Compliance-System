@@ -379,7 +379,11 @@
     "Email:Subject": "الموضوع",
     "Email:Key": "مفتاح",
     "Email:NotificationBody": "قالب الاشعارات",
-    "EmailTemplate:Page:Title": "قوالب البريد الألكتروني"
+    "EmailTemplate:Page:Title": "قوالب البريد الألكتروني",
+    "Notifications":"الإشعارات",
+    "Seen":"قرأت",
+    "NotSeen":"لم تقرأ"
+
 
   }
 }

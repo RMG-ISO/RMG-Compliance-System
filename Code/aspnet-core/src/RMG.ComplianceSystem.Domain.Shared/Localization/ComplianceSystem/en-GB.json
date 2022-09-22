@@ -376,7 +376,10 @@
     "Email:Subject": "Subject",
     "Email:Key": "Key",
     "Email:NotificationBody": "Notification Body",
-    "EmailTemplate:Page:Title": "Email Templates"
+    "EmailTemplate:Page:Title": "Email Templates",
+    "Notifications":"Notifications",
+    "Seen":"Seen",
+    "NotSeen":"Unseen"
 
   }
 }
