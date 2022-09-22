@@ -1,13 +1,13 @@
-import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { MatChipsModule } from '@angular/material/chips';
-import { SharedModule } from '../shared/shared.module';
 
+import { NgxEchartsModule } from 'ngx-echarts';
+import { SharedModule } from 'src/app/shared/shared.module';
+
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -20,8 +20,7 @@ import { SharedModule } from '../shared/shared.module';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
-    MatChipsModule,
-    MatCardModule
+    MatChipsModule
   ]
 })
 export class DashboardModule { }
