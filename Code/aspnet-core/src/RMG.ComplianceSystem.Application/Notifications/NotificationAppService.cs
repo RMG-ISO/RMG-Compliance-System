@@ -51,10 +51,10 @@ namespace RMG.ComplianceSystem.Notifications
         }
 
 
-        public void Test()
+        public async Task Test()
         {
             var fromAddress = new MailAddress("testnicauto@outlook.com", "From Name");
-            var toAddress = new MailAddress("a.nabih@rmg-sa.com", "To Name");
+            var toAddress = new MailAddress("compliancesystem51@gmail.com", "To Name");
             const string fromPassword = "Shakerm123";
             const string subject = "Subject";
             const string body = "Body";
