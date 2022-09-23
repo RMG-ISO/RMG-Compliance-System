@@ -11,6 +11,7 @@
     "Validations:MinDate": "This date must be at least {0}",
     "Validations:MaxDate": "This date must be before {0}",
     "Validations:DueDateLessThanStart": "Due date is less than start date",
+    "DeletionConfirmationMessage": "Are you sure to delete this record?",
 
     "All": "All",
     "Menu:Home": "Home",

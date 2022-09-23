@@ -11,6 +11,7 @@
     "Validations:MinDate": "لا يجب أن يكون هذا التاريخ قبل {0} ",
     "Validations:MaxDate": "لا يجب أن يكون هذا التاريخ بعد {0} ",
     "Validations:DueDateLessThanStart": "لا يجب ان يكون تاريخ الإنتهاء قبل تاريخ البدء",
+    "DeletionConfirmationMessage": "هل أنت متأكد من حذف هذا التسجيل؟",
 
     "All": "الكل",
     "Menu:Home": "الرئيسية",
@@ -190,7 +191,7 @@
     "Type": "النوع",
     "Price": "السعر",
     "CreationTime": "تاريخ الإنشاء",
-    "AreYouSure": "ها أنت متأكد؟",
+    "AreYouSure": "هل أنت متأكد؟",
     "Enum:BookType:0": "غير معرف",
     "Enum:BookType:1": "مغامرات",
     "Enum:BookType:2": "سيرة ذاتية",

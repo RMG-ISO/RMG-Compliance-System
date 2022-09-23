@@ -104,7 +104,7 @@ export class FourthComponent implements OnInit {
 
   delete(model: any) {
     let title = this.localizationService.currentLang.includes('ar') ?  model['nameAr'] : model['nameEn'];
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
+    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.riskTreatmentService.delete(model.id).subscribe(() => this.list.get());
         this.update(HistoryAction.DeletePlanAction);
