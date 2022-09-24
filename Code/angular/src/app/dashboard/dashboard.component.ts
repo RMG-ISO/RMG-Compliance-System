@@ -1,5 +1,6 @@
 import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
+import { DepartmentService } from '@proxy/departments';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
 @Component({
@@ -12,21 +13,35 @@ export class DashboardComponent implements OnInit {
   constructor(
     private localizationService:LocalizationService,
     private riskAndOpportunityService:RiskAndOpportunityService,
+    private departmentService:DepartmentService,
   ) { }
 
+  departments = {};
   ngOnInit(): void {
     this.getListRisks();
     this.getListOpportunities();
+    
   }
 
   itemsRisk;
   totalCountRisk;
 
   risksChart;
+  
   getListRisks() {
     this.riskAndOpportunityService.getList({ search: '', type:1, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
+
+      this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+        r.items.map(item => this.departments[item.id] = item);
+        let risksByDepartments = {};
+        for(let item of response.items) {
+          if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].push(item);
+          else risksByDepartments[item['departmentId']] = [item];
+        }
+      })
+      
       this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Risk')
     });
   }

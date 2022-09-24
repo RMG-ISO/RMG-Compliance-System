@@ -43,6 +43,7 @@ export class CurrentUserComponent implements OnInit {
   ngOnInit(): void {
     this.signalrService.initiateSignalrConnection().then(x => {
       this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
+        debugger;
         console.log("ReceiveNotification",result);
         this.notificationItems = result.notifications;
         this.notificationItemsCount = result.unReadNotifications;
