@@ -18,9 +18,14 @@ export class DashboardComponent implements OnInit {
 
   departments = {};
   ngOnInit(): void {
-    this.getListRisks();
-    this.getListOpportunities();
-    
+    this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+      this.getListRisks();
+      this.getListOpportunities();
+      r.items.map(item => {
+        this.departments[item.id] = item;
+      });
+      
+    })
   }
 
   itemsRisk;
@@ -33,17 +38,72 @@ export class DashboardComponent implements OnInit {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
-      this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
-        r.items.map(item => this.departments[item.id] = item);
+      // this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+      //   r.items.map(item => {
+      //     this.departments[item.id] = item;
+      //   });
         let risksByDepartments = {};
         for(let item of response.items) {
-          if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].push(item);
-          else risksByDepartments[item['departmentId']] = [item];
+          if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].items.push(item);
+          else risksByDepartments[item['departmentId']] = {
+            items:[item],
+            name:this.departments[item['departmentId']].name
+          };
         }
-      })
+        this.createChartBars('riskBarsOptions',risksByDepartments, '::المخاطر بالإدارات')
+      // })
       
       this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Risk')
     });
+  }
+
+  riskBarsOptions;
+  opportunitiesBarsOptions;
+  createChartBars(key, departments, title ) {
+    let names = [],
+        values = [];
+    for(let key in departments) {
+      names.push(departments[key].name);
+      values.push(departments[key].items.length)
+    }
+    
+    this[key] = {
+      title: {
+        text: this.localizationService.instant(title),
+        left: 'center',
+        bottom: 25,
+        textStyle: {
+          color: '#000000',
+          fontSize:'14px',
+          fontWeight:'normal'
+        }
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          saveAsImage: { show: true }
+        }
+      },
+      legend: {
+        left: '10%',
+        bottom:'0%'
+      },
+      tooltip: {},
+      xAxis: {
+        type: 'category',
+        data: names
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: values,
+          type: 'bar'
+        }
+      ]
+    };
+    
   }
 
   itemsOpportunity;
@@ -54,6 +114,17 @@ export class DashboardComponent implements OnInit {
       this.itemsOpportunity = response.items;
       this.totalCountOpportunity = response.totalCount;
       this.opportunitiesChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Opportunity')
+    
+    
+      let oppByDepartments = {};
+      for(let item of response.items) {
+        if(oppByDepartments[item['departmentId']]) oppByDepartments[item['departmentId']].items.push(item);
+        else oppByDepartments[item['departmentId']] = {
+          items:[item],
+          name:this.departments[item['departmentId']].name
+        };
+      }
+      this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::الفرص بالإدارات')
     });
   }
 
