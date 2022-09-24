@@ -12,7 +12,7 @@ export class LangPipe implements PipeTransform {
   }
 
   transform(value: unknown, ...args: unknown[]): unknown {
-    return value[args[0] + this.langKey];
+    return value ? value[args[0] + this.langKey] : null;
   }
 
 }

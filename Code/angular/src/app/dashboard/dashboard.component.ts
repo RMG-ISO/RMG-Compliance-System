@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
 
   createRisksOppChart(opened,closed, title) {
     return {
@@ -50,14 +51,14 @@ export class DashboardComponent implements OnInit {
           // subtext: '',
           left: 'center',
           textStyle:{
-            fontFamily:'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+            fontFamily:this.fontFamily
           }
         },
         tooltip: {
           trigger: 'item',
           formatter: '{b} : {c} ({d}%)',
           textStyle:{
-            fontFamily:'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+            fontFamily:this.fontFamily
           }
         },
         legend: {
@@ -65,7 +66,7 @@ export class DashboardComponent implements OnInit {
           left: 'center',
           data: [this.localizationService.instant('::Status:Open'), this.localizationService.instant('::Status:Close')],
           textStyle:{
-            fontFamily:'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+            fontFamily:this.fontFamily
           }
         },
         series: [
@@ -102,7 +103,7 @@ export class DashboardComponent implements OnInit {
               // position: 'inside',
               fontSize:16,
               fontWeight:'bold',
-              fontFamily:'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+              fontFamily:this.fontFamily
             },
           }
         ]
