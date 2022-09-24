@@ -1,3 +1,4 @@
+import { ToasterService } from '@abp/ng.theme.shared';
 import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -31,7 +32,7 @@ export class RiskTreatmentModalComponent implements OnInit {
     private staticDataService:StaticDataService,
     private activatedRoute:ActivatedRoute,
     private router:Router,
-
+    private toasterService:ToasterService
 
   ) { }
 
@@ -122,7 +123,12 @@ export class RiskTreatmentModalComponent implements OnInit {
       if(!id) this.form.controls.status.disable();
     }
 
+    setTimeout(() => {
+      this.showContent = true
+    }, 100)
+
   }
+  showContent = false;
 
   getTreatmentData(id) {
     this.riskTreatmentService.get(id).subscribe( (r:any) => {
@@ -158,20 +164,15 @@ export class RiskTreatmentModalComponent implements OnInit {
 
 
   OnFileUploaded(attachmentId: string) {
-    console.log('OnFileUploaded')
     this.form.controls["attachmentId"].patchValue(attachmentId);
   }
 
   uploading
   OnFileBeginUpload(beginUpload: boolean) {
-    console.log('OnFileBeginUpload')
-
     this.uploading = true;
   }
 
   OnFileEndUpload(endUpload: boolean) {
-    console.log('OnFileEndUpload')
-
     this.uploading = false;
   }
 
@@ -185,6 +186,7 @@ export class RiskTreatmentModalComponent implements OnInit {
 
     const request = this.data.id ? this.riskTreatmentService.update(this.data.id, value) : this.riskTreatmentService.create(value);
     request.subscribe(() => {
+      if(!this.ref) this.toasterService.success("::SuccessfullySaved", "");
       this.close(this.data.id ? HistoryAction.UpdatePlanAction : HistoryAction.CreatePlanAction );
     });
   }
@@ -192,7 +194,7 @@ export class RiskTreatmentModalComponent implements OnInit {
 
   close(action = null) {
     if(this.ref) this.ref.close(action);
-    // else this.router.navigate(['/risks-management/riskopportunity'])
+    else this.router.navigate(['/notifications'])
   }
 
   changeDate(event) {
@@ -202,4 +204,5 @@ export class RiskTreatmentModalComponent implements OnInit {
       this.form.controls.status.setValue(5)
     } else this.form.controls.status.setValue(this.oldStatus)
   }
+
 }

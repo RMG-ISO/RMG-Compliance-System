@@ -50,7 +50,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   delete(model: DepartmentDto) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
+    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.departmentService.delete(model.id).subscribe(() => this.list.get());
       }

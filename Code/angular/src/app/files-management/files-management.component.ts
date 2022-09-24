@@ -106,7 +106,7 @@ export class FilesManagementComponent implements OnInit {
 
   delete(model: DocumentDto) {
     let title = this.localizationService.currentLang.includes('ar') ?  model.TitleAr : model.TitleEn;
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [title] }).subscribe((status) => {
+    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [title] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.documentsService.delete(model.id).subscribe(() => this.list.get());
       }

@@ -1,7 +1,6 @@
 import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { Type, Status, HistoryAction } from '../module.enums';
 import * as moment from 'moment';
@@ -46,7 +45,7 @@ export class ListComponent implements OnInit {
   delete(model: any) {
     let title = this.localizationService.currentLang.includes('ar') ?  model['nameAr'] : model['nameEn'];
 
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
+    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.riskAndOpportunityService.delete(model.id).subscribe(() => {
           this.list.get();

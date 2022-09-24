@@ -12,8 +12,8 @@
       </div> -->
       <div class="col-md-6 form-group">
         <label>
-            {{ '::IsTreatment' | abpLocalization }}
-            <span> * </span>
+          {{ '::IsTreatment' | abpLocalization }}
+          <span> * </span>
         </label>
         <mat-radio-group [formControl]="form.controls.isTreatment" color="primary">
           <mat-radio-button [value]="true">{{ '::yes' | abpLocalization }}</mat-radio-button>
@@ -23,34 +23,36 @@
     </div>
 
 
-      <div class="col-md-12 form-group" style="padding-left: 174px;">
+    <app-matrix [matrixNumber]="form.controls.numberMatrix.value" [form]="form" view="true" ></app-matrix>
+
+      <!-- <div class="col-md-12 form-group" style="padding-left: 174px;">
         {{ '::RiskManagementMatrix' | abpLocalization }}
-         </div>
-         <div style="display:inline-flex;min-width:850px;">
-           <div style="min-width:150px;padding-left: 49px;">
-             <div *ngFor="let item of impacts" style="padding-top: 10px;">
-               <span [ngClass]="{'hide':item == 'null'}" style="width:150px">  {{ item | lang:'name' }} </span>
-             </div>
-           </div>
+      </div>
+      <div style="display:inline-flex;min-width:850px;">
+        <div style="min-width:150px;padding-left: 49px;">
+          <div *ngFor="let item of impacts" style="padding-top: 10px;">
+            <span [ngClass]="{'hide':item == 'null'}" style="width:150px">  {{ item | lang:'name' }} </span>
+          </div>
+        </div>
 
-           <div style="min-width:700px">
-             <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
-               <span [ngClass]="{'hide':item == 'null'}" style="width:150px;padding-left: 45px;">
-                 {{ item | lang:'name' }}
-               </span>
-             </div>
+        <div style="min-width:700px">
+          <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let item of likehood">
+            <span [ngClass]="{'hide':item == 'null'}" style="width:150px;padding-left: 45px;">
+              {{ item | lang:'name' }}
+            </span>
+          </div>
 
-             <div *ngFor="let item of potentials">
-               <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let child of item">
+          <div *ngFor="let item of potentials">
+            <div style="display:inline-flex;width:150px;min-width:150px" *ngFor="let child of item">
 
-                 <button  type="button"  [ngClass]="{'veryHigh':child.levelNum==4,'Selected':child.Potential==Potential&&child.likelihood==likelihood, 'High':child.levelNum==3,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}"   style="width:150px">
-                    {{ child | lang:'level' }}
-                 </button>
+              <button  type="button"  [ngClass]="{'veryHigh':child.levelNum==4,'Selected':child.Potential==Potential&&child.likelihood==likelihood, 'High':child.levelNum==3,'Medium':child.levelNum==2,'low':child.levelNum==1,'Verylow':child.levelNum==0}"   style="width:150px">
+                {{ child | lang:'level' }}
+              </button>
 
-               </div>
-             </div>
-           </div>
-         </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
   </div>
 
 <style>

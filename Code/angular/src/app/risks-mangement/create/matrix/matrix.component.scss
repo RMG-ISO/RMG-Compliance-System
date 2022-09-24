@@ -1,6 +1,6 @@
 
 .veryHigh {
-  background-color: rgb(162, 3, 3);
+  background-color:#b62e2e ;
   color: white;
   border-color: rgb(216, 214, 214);
 }
@@ -10,28 +10,87 @@
   border-color: rgb(216, 214, 214);
 }
 .Medium {
-  background-color: rgb(240, 226, 27);
+  background-color:#efe338;
   // color: white;
   color: #000;
   border-color: rgb(216, 214, 214);
 }
 .low {
-  background-color: rgb(7, 113, 11);
+  background-color: #26872a;
   color: white;
   border-color: rgb(216, 214, 214);
 }
+
 .Verylow{
   background-color: rgb(3, 160, 8);
   color: white;
   border-color: rgb(216, 214, 214);
 }
-.Selected{
-  border-color: rgb(10, 10, 10);
-  border-radius: 9px;
-  color:rgb(37, 10, 241)
+
+.low.Selected, .Verylow.Selected {
+  background-color:  rgb(7, 113, 11);
 }
+
+.Medium.Selected {
+  background-color:  #f4e50d;
+}
+
+.High.Selected {
+  background-color: #ef6c00;
+}
+
+.veryHigh.Selected {
+  background-color:  #a20303;
+}
+
+.Selected {
+  animation: shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  border: 1px solid #000;
+  border-radius: 100px;
+}
+
+@keyframes shadow-inset-center {
+  0% {
+    -webkit-box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: inset 0 0 14px 2px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 0 14px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+
+
+button {
+  transition: all .5s ease-in-out;
+  border: 1px solid #fff;
+  
+}
+// button {
+//   border: 1px solid #fff !important;
+//   box-shadow: 0 0 0 2px #fff !important;
+//   // margin: 2px;
+//   &.Selected  {
+//     border: 1px solid #fff !important;
+//     box-shadow: 0 0 0 2px #607d8b !important;
+//     // margin: 2px;
+//   }
+// }
+
+
+
+// .Selected{
+//   border-color: rgb(10, 10, 10);
+//   border-radius: 9px;
+//   color:rgb(37, 10, 241)
+// }
 
 :host {
   width: 100%;
   display: block;
+}
+
+label {
+  display: block;
+  font-size: 16px;
 }
