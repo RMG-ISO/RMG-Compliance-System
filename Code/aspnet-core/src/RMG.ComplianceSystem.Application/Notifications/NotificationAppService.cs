@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -49,6 +50,50 @@ namespace RMG.ComplianceSystem.Notifications
             _emailTemplateRepository = emailTemplateRepository;
         }
 
+
+        public async Task Test()
+        {
+            var fromAddress = new MailAddress("testnicauto@outlook.com", "From Name");
+            var toAddress = new MailAddress("compliancesystem51@gmail.com", "To Name");
+            const string fromPassword = "Shakerm123";
+            const string subject = "Subject";
+            const string body = "Body";
+            try
+            {
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp-mail.outlook.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    // UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+
+
+
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+            }
+            catch (Exception ex)
+            {
+
+
+
+                throw;
+            }
+
+
+
+        }
+
+
         /// <summary>
         /// Send Notifications by mail
         /// </summary>
@@ -68,8 +113,8 @@ namespace RMG.ComplianceSystem.Notifications
                         var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
+                        _body += "<p>"+GetURI() + item.Url+"</p>";
                         _body += item.Body;
-                        _body +=GetURI() + item.Url;
                         _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
                         MailMessage mailMessage = new MailMessage

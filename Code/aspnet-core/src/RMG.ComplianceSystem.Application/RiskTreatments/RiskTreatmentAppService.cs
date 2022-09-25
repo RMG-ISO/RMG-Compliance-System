@@ -47,6 +47,32 @@ namespace RMG.ComplianceSystem.RiskTreatments
         //End Properties and Constructor RiskTreatmentAppService
         //Start Methods getbyId and GetListRiskTreatmentBy
         #region Start Methods getbyId and 
+     
+        public async Task<getEnumTypeStaticData> getStatusName(int? statusId)
+        {
+            var status = new List<getEnumTypeStaticData>();
+
+            status.Add(new getEnumTypeStaticData { Id = 1, NameEn = "Waiting ", NameAr = "قيد الانتظار " });
+            status.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Started ", NameAr = "تم البدء" });
+            status.Add(new getEnumTypeStaticData { Id = 3, NameEn = "In Progress", NameAr = "في تقدم" });
+            status.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Completed ", NameAr = "تمت" });
+            status.Add(new getEnumTypeStaticData { Id = 5, NameEn = "Late", NameAr = "متاخر" });
+            status.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Canceled ", NameAr = "تم الالغاء" });
+            var statusName = status.FirstOrDefault(t=>t.Id==statusId);
+            return statusName;
+;
+        }
+        public async Task<List<getEnumTypeStaticData>> getStatus()
+        {
+            var status = new List<getEnumTypeStaticData>();
+            status.Add(new getEnumTypeStaticData { Id = 1, NameEn = "Waiting ", NameAr = "قيد الانتظار " });
+            status.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Started ", NameAr = "تم البدء" });
+            status.Add(new getEnumTypeStaticData { Id = 3, NameEn = "In Progress", NameAr = "في تقدم" });
+            status.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Completed ", NameAr = "تمت" });
+            status.Add(new getEnumTypeStaticData { Id = 5, NameEn = "Late", NameAr = "متاخر" });
+            status.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Canceled ", NameAr = "تم الالغاء" });
+            return status;
+        }
         public async Task<PagedResultDto<RiskTreatmentDto>> GetListRiskByFilterAsync(RiskTreatmentPagedAndSortedResultRequestDto input)
         {
             List<RiskTreatmentDto> Risks = new List<RiskTreatmentDto>();
@@ -59,7 +85,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
                 var ListRisk = RiskTreatmentRepository.Where(x => x.RiskOpportunityId == input.RiskOpportunityId).ToList();
-                totalCount = ListRisk.Count;  
+                totalCount = ListRisk.Count;
             }
             else
             {
@@ -105,31 +131,7 @@ namespace RMG.ComplianceSystem.RiskTreatments
                 RisksData
             );
         }
-        public async Task<List<getEnumTypeStaticData>> getStatus()
-        {
-            var status = new List<getEnumTypeStaticData>();
-            status.Add(new getEnumTypeStaticData { Id = 1, NameEn = "Waiting ", NameAr = "قيد الانتظار " });
-            status.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Started ", NameAr = "تم البدء" });
-            status.Add(new getEnumTypeStaticData { Id = 3, NameEn = "In Progress", NameAr = "في تقدم" });
-            status.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Completed ", NameAr = "تمت" });
-            status.Add(new getEnumTypeStaticData { Id = 5, NameEn = "Late", NameAr = "متاخر" });
-            status.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Canceled ", NameAr = "تم الالغاء" });
-            return status;  
-        }
-        public async Task<getEnumTypeStaticData> getStatusName(int? statusId)
-        {
-            var status = new List<getEnumTypeStaticData>();
 
-            status.Add(new getEnumTypeStaticData { Id = 1, NameEn = "Waiting ", NameAr = "قيد الانتظار " });
-            status.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Started ", NameAr = "تم البدء" });
-            status.Add(new getEnumTypeStaticData { Id = 3, NameEn = "In Progress", NameAr = "في تقدم" });
-            status.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Completed ", NameAr = "تمت" });
-            status.Add(new getEnumTypeStaticData { Id = 5, NameEn = "Late", NameAr = "متاخر" });
-            status.Add(new getEnumTypeStaticData { Id = 6, NameEn = "Canceled ", NameAr = "تم الالغاء" });
-            var statusName = status.FirstOrDefault(t=>t.Id==statusId);
-            return statusName;
-;
-        }
         #endregion
 
 

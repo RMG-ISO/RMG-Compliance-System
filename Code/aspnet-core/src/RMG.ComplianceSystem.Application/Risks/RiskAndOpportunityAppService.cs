@@ -74,7 +74,7 @@ namespace RMG.ComplianceSystem.Risks
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
-                var risk= RiskAndOpportunityRepository.Where(x => x.Type == input.Type ).ToList();
+                var risk = RiskAndOpportunityRepository.Where(x => x.Type == input.Type).ToList();
                 totalCount = risk.Count;
             }
             else
@@ -116,13 +116,20 @@ namespace RMG.ComplianceSystem.Risks
                 RisksData.Add(Risk);
             }
 
-            //Get the total count with Risk
-            //var totalCount = RisksData.Count;
             // return RiskDtos and totalCount
             return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,
                 RisksData
             );
+        }
+        public async Task<PagedResultDto<RiskAndOpportunityDto>> AllRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            var ListRisks = RiskAndOpportunityRepository.Where(t=>t.Type== input.Type).ToList();
+            var Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+            return new PagedResultDto<RiskAndOpportunityDto>(
+              ListRisks.Count,
+              Risks
+          );
         }
 
         public async Task<getEnumTypeStaticData> getPotentialName(int? Potential)
@@ -144,7 +151,7 @@ namespace RMG.ComplianceSystem.Risks
             Potentials.Add(new getEnumTypeStaticData { Id = 2, NameEn = "Low", NameAr = "ضعيف" });
             Potentials.Add(new getEnumTypeStaticData { Id = 3, NameEn = "Low", NameAr = "ضعيف" });
             Potentials.Add(new getEnumTypeStaticData { Id = 4, NameEn = "Medium", NameAr = "متوسط" });
-            var PotentialData = Potentials.FirstOrDefault(t=>t.Id==Potential);
+            var PotentialData = Potentials.FirstOrDefault(t => t.Id == Potential);
             return PotentialData;
 
         }

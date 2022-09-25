@@ -145,7 +145,6 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
-        // requiredPolicy:'ComplianceSystem.Employee',
       },
 
       {

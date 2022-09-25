@@ -29,8 +29,8 @@
         [list]="list"
         appNgxdatatable
         >
-            <ngx-datatable-column [name]=" 'Email:Key' | abpLocalization" prop="key"></ngx-datatable-column>
-            <ngx-datatable-column [name]=" 'Email:Subject' | abpLocalization" prop="subject"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Email:Key' | abpLocalization"  prop="key"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Email:Subject' | abpLocalization"  prop="subject"></ngx-datatable-column>
 
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150"  cellClass="options">

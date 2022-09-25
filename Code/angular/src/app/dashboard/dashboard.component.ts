@@ -1,5 +1,7 @@
 import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
+import { DepartmentService } from '@proxy/departments';
+import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,25 +11,65 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private localizationService:LocalizationService
+    private localizationService:LocalizationService,
+    private riskAndOpportunityService:RiskAndOpportunityService,
+    private departmentService:DepartmentService,
   ) { }
 
+  departments = {};
   ngOnInit(): void {
-    this.setChartOneOptions();
-    this.setChartTwoOptions();
-    this.setChartThreeOptions();
-    this.setchartFourOptions();
-    this.setChartFiveOptions();
-    this.setChartSixOptions();
-    this.setChartSevenOptions();
-    this.setChartEightOptions()
+    this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+      this.getListRisks();
+      this.getListOpportunities();
+      r.items.map(item => {
+        this.departments[item.id] = item;
+      });
+      
+    })
   }
 
-  chartOneOptions
-  setChartOneOptions() {
-    this.chartOneOptions = {
+  itemsRisk;
+  totalCountRisk;
+
+  risksChart;
+  
+  getListRisks() {
+    this.riskAndOpportunityService.getList({ search: '', type:1, maxResultCount:null }).subscribe((response) => {
+      this.itemsRisk = response.items;
+      this.totalCountRisk = response.totalCount;
+
+      // this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+      //   r.items.map(item => {
+      //     this.departments[item.id] = item;
+      //   });
+        let risksByDepartments = {};
+        for(let item of response.items) {
+          if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].items.push(item);
+          else risksByDepartments[item['departmentId']] = {
+            items:[item],
+            name:this.departments[item['departmentId']].name
+          };
+        }
+        this.createChartBars('riskBarsOptions',risksByDepartments, '::المخاطر بالإدارات')
+      // })
+      
+      this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Risk')
+    });
+  }
+
+  riskBarsOptions;
+  opportunitiesBarsOptions;
+  createChartBars(key, departments, title ) {
+    let names = [],
+        values = [];
+    for(let key in departments) {
+      names.push(departments[key].name);
+      values.push(departments[key].items.length)
+    }
+    
+    this[key] = {
       title: {
-        text: this.localizationService.instant('::Dashboard:TotalRequirementsMaturityLevel'),
+        text: this.localizationService.instant(title),
         left: 'center',
         bottom: 25,
         textStyle: {
@@ -47,451 +89,111 @@ export class DashboardComponent implements OnInit {
         bottom:'0%'
       },
       tooltip: {},
-      xAxis:[
-        {
-          type: 'category',
-          boundaryGap: true,
-        },
-        {
-          type: 'category',
-          boundaryGap: true,
-        },
-        {
-          type: 'category',
-          boundaryGap: true,
-        },
-        {
-          type: 'category',
-          boundaryGap: true,
-        },
-        {
-          type: 'category',
-          boundaryGap: true,
-        }
-      ],
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:Initial'),
-          type: 'bar',
-          data: [72],
-          itemStyle: {
-            color: '#ED7D31'
-          },
-          label: {
-            show: true,
-            position: 'top'
-          }
-        },
-        {
-          name: this.localizationService.instant('::Dashboard:Managed'),
-          data: [12],
-          type: 'bar',
-          itemStyle: {
-            color: '#FF0000'
-          },
-          label: {
-            show: true,
-            position: 'top'
-          }
-        },
-        {
-          data: [89],
-          name: this.localizationService.instant('::Dashboard:Defined'),
-          type: 'bar',
-          itemStyle: {
-            color: '#FFC000'
-          },
-          label: {
-            show: true,
-            position: 'top'
-          }
-        },
-        {
-          name: this.localizationService.instant('::Dashboard:QuantitativelyManaged'),
-          data: [1],
-          type: 'bar',
-          itemStyle: {
-            color: '#FDFD79'
-          },
-          label: {
-            show: true,
-            position: 'top'
-          }
-        },
-        {
-          data: [5],
-          type: 'bar',
-          name: this.localizationService.instant('::Dashboard:Optimizing'),
-          itemStyle: {
-            color: '#00B050'
-          },
-          label: {
-            show: true,
-            position: 'top'
-          }
-        }
-      ]
-    };
-  }
-
-  chartTwoOptions
-  setChartTwoOptions() {
-    this.chartTwoOptions = {
-      title: {
-        text: this.localizationService.instant('::Dashboard:TotalRequirements'),
-        left: 'center',
-        top: 10,
-        textStyle: {
-          color: '#000000',
-          fontSize:'14px',
-          fontWeight:'normal'
-        }
-      },
-      tooltip:{},
-      legend: {
-        top: 'bottom'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
-          type: 'pie',
-          // radius: [50, 250],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 40, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 38, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 32, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 30, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 28, name: this.localizationService.instant('::Dashboard:Optimizing') },
-          ]
-        }
-      ]
-    };
-  }
-
-
-  chartThreeOptions
-  setChartThreeOptions() {
-    this.chartThreeOptions = {
-      title: {
-        text: this.localizationService.instant('::Dashboard:CybersecurityGovernance'),
-        left: 'center',
-        top: 10,
-        textStyle: {
-          color: '#000000',
-          fontSize:'14px',
-          fontWeight:'normal'
-        }
-      },
-      tooltip:{},
-      legend: {
-        top: 'bottom'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:CybersecurityGovernance'),
-          type: 'pie',
-          // radius: [50, 250],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 40, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 38, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 32, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 30, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 28, name: this.localizationService.instant('::Dashboard:Optimizing') },
-          ]
-        }
-      ]
-    };
-  }
-
-  chartFourOptions
-  setchartFourOptions() {
-    this.chartFourOptions = {
-      legend: {
-        data: [this.localizationService.instant('::Dashboard:RecommendedLevel'), this.localizationService.instant('::Dashboard:AsIsStatus')],
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      tooltip:{},
-      radar: {
-        // shape: 'circle',
-        indicator: [
-          { name: this.localizationService.instant('::Dashboard:CybersecurityGovernance'), max: 100 },
-          { name: this.localizationService.instant('::Dashboard:IndustrialControl'), max: 100 },
-          { name: this.localizationService.instant('::Dashboard:ThirdParty'), max: 100 },
-          { name: this.localizationService.instant('::Dashboard:CybersecurityResilience'), max: 100 },
-          { name: this.localizationService.instant('::Dashboard:CybersecurityDefense'), max: 100 },
-        ]
-      },
-      series: [
-        {
-          // name: 'Budget vs spending',
-          type: 'radar',
-          label: {
-            show: true,
-            // formatter: function (params) {
-            //   return params.value;
-            // }
-          },
-          data: [
-            {
-              value: [100, 100, 100, 100, 100],
-              name: this.localizationService.instant('::Dashboard:RecommendedLevel')
-            },
-            {
-              value: [60, 0, 50, 20, 40],
-              name: this.localizationService.instant('::Dashboard:AsIsStatus'),
-            }
-          ]
-        }
-      ]
-    };
-  }
-
-  chartFiveOptions
-  setChartFiveOptions() {
-    this.chartFiveOptions = {
-      legend: {},
-      tooltip: {},
-
       xAxis: {
         type: 'category',
-        axisTick: { show: false },
-        data: [
-          {
-            value:'Cybersecurity',
-            textStyle:{
-              fontSize:11
-            }
-          },
-          {
-            value:this.localizationService.instant('::Dashboard:CybersecurityDefense'),
-            textStyle:{
-              fontSize:11
-            }
-          },
-          {
-            value:this.localizationService.instant('::Dashboard:CybersecurityResilience'),
-            textStyle:{
-              fontSize:11
-            }
-          },
-          {
-            value:`Third-Party and Cloud Computing Cybersecurity`,
-            textStyle:{
-              fontSize:11
-            }
-          },
-          {
-            value:this.localizationService.instant('::Dashboard:IndustrialControl'),
-            textStyle:{
-              fontSize:11
-            }
-          }
-        ],
-        axisLabel:{
-          rotate:5
-        }
-       },
+        data: names
+      },
       yAxis: {
         type: 'value'
       },
-
       series: [
-
         {
-          name: this.localizationService.instant('::Dashboard:AsIsStatus'),
-          type: 'bar',
-          barGap: 0,
-          itemStyle: {
-            color: '#C10000'
-          },
+          data: values,
+          type: 'bar'
+        }
+      ]
+    };
+    
+  }
 
-          data: [59, 37, 20, 54, 0]
+  itemsOpportunity;
+  totalCountOpportunity;
+  opportunitiesChart;
+  getListOpportunities() {
+    this.riskAndOpportunityService.getList({  search: '', type:2,  maxResultCount:null }).subscribe((response) => {
+      this.itemsOpportunity = response.items;
+      this.totalCountOpportunity = response.totalCount;
+      this.opportunitiesChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Opportunity')
+    
+    
+      let oppByDepartments = {};
+      for(let item of response.items) {
+        if(oppByDepartments[item['departmentId']]) oppByDepartments[item['departmentId']].items.push(item);
+        else oppByDepartments[item['departmentId']] = {
+          items:[item],
+          name:this.departments[item['departmentId']].name
+        };
+      }
+      this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::الفرص بالإدارات')
+    });
+  }
+
+  fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
+
+  createRisksOppChart(opened,closed, title) {
+    return {
+      title: {
+          text: this.localizationService.instant(title),
+          // subtext: '',
+          left: 'center',
+          textStyle:{
+            fontFamily:this.fontFamily
+          }
         },
-        {
-          name: this.localizationService.instant('::Dashboard:RecommendedLevel'),
-          type: 'bar',
-          barGap: 0,
-          itemStyle: {
-            color: '#262D36'
-          },
-
-          data: [100, 100, 100, 100, 100]
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b} : {c} ({d}%)',
+          textStyle:{
+            fontFamily:this.fontFamily
+          }
         },
-      ]
-
-    };
+        legend: {
+          bottom: 10,
+          left: 'center',
+          data: [this.localizationService.instant('::Status:Open'), this.localizationService.instant('::Status:Close')],
+          textStyle:{
+            fontFamily:this.fontFamily
+          }
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: '65%',
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            data: [
+              { 
+                value: opened,
+                name: this.localizationService.instant('::Status:Open'),
+                itemStyle:{
+                 color:'#32ba94' 
+                }
+              },
+              {
+                value: closed,
+                name: this.localizationService.instant('::Status:Close'),
+                itemStyle: {
+                 color:'#FF0000' 
+                },
+              },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 20,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            },
+           label: {
+              formatter: '{b}  \n \n {d}%',
+              // position: 'inside',
+              fontSize:16,
+              fontWeight:'bold',
+              fontFamily:this.fontFamily
+            },
+          }
+        ]
+    }
   }
-
-
-  chartSixOptions
-  setChartSixOptions() {
-    this.chartSixOptions = {
-      title: {
-        text: this.localizationService.instant('::Dashboard:CybersecurityResilience'),
-        left: 'center',
-        top: 10,
-        textStyle: {
-          color: '#000000',
-          fontSize:'14px',
-          fontWeight:'normal'
-        }
-      },
-      legend: {
-        top: 'bottom'
-      },
-      tooltip:{},
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:CybersecurityGovernance'),
-          type: 'pie',
-          // radius: [50, 250],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 0, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 6, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 0, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 0, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 0, name: this.localizationService.instant('::Dashboard:Optimizing') },
-          ]
-        }
-      ]
-    };
-  }
-
-
-  chartSevenOptions
-  setChartSevenOptions() {
-    this.chartSevenOptions = {
-      title: {
-        text: this.localizationService.instant('::Dashboard:CybersecurityDefense'),
-        left: 'center',
-        top: 10,
-        textStyle: {
-          color: '#000000',
-          fontSize:'14px',
-          fontWeight:'normal'
-        }
-      },
-      tooltip:{},
-      legend: {
-        top: 'bottom'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
-          type: 'pie',
-          // radius: [50, 250],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 56, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 12, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 42, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 0, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 20, name: this.localizationService.instant('::Dashboard:Optimizing') },
-          ]
-        }
-      ]
-    };
-  }
-
-
-  chartEightOptions
-  setChartEightOptions() {
-    this.chartEightOptions = {
-      title: {
-        text: this.localizationService.instant('::Dashboard:ThirdParty'),
-        left: 'center',
-        top: 10,
-        textStyle: {
-          color: '#000000',
-          fontSize:'14px',
-          fontWeight:'normal'
-        }
-      },
-      tooltip:{},
-      legend: {
-        top: 'bottom'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
-          type: 'pie',
-          // radius: [50, 250],
-          radius: '50%',
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 0, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 2, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 11, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 0, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 0, name: this.localizationService.instant('::Dashboard:Optimizing') },
-          ]
-        }
-      ]
-    };
-  }
-
-
-
 
 }

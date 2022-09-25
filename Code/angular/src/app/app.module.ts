@@ -8,7 +8,7 @@ import { SettingManagementConfigModule } from '@abp/ng.setting-management/config
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
 import { ThemeBasicModule } from '@abp/ng.theme.basic';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
@@ -32,6 +32,9 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 
 import { VALIDATION_BLUEPRINTS } from '@ngx-validate/core';
 import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
+
+
+// export let AppInjector: Injector;
 
 
 @NgModule({
@@ -82,4 +85,8 @@ import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  // constructor(private injector: Injector) {
+  //   AppInjector = this.injector;
+  // }
+}

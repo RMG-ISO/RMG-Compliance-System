@@ -41,6 +41,7 @@
                 debounce="500"
                 [disabled]="mode === FormMode.View"
                 [editor]="Editor"
+                (ready)="onReady($event)"
               >
               </ckeditor>
             </div>

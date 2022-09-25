@@ -24,7 +24,7 @@
         [list]="list"
         appNgxdatatable
         >
-            <ngx-datatable-column [name]=" 'Title' | abpLocalization" prop="title">
+            <ngx-datatable-column [name]=" '::Title' | abpLocalization " prop="title">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template let-index>
                     <a class="link-url" (click)="markAsRead(row, index)" [class-not-seen]="row.status == Status.NotSeen">
                         {{ row.subject }}
@@ -33,9 +33,9 @@
             </ngx-datatable-column>
 
             
-            <ngx-datatable-column [name]="'Status' | abpLocalization" prop="status">
+            <ngx-datatable-column [name]=" '::Status' | abpLocalization " prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ Status[row.status]  }}
+                    {{ ('::' + Status[row.status]) | abpLocalization  }}
                 </ng-template>
             </ngx-datatable-column>
 
