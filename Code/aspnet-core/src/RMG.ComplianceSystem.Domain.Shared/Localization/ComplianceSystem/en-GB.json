@@ -381,8 +381,22 @@
     "NotSeen": "Unseen",
     "Status:Treatement": "Mitigation",
     "Status:TreatementNo": "No Need Mitigation",
+    "VeryLow":"Very low",
+    "Low":"Low",
+    "Medium":"Medium",
+    "High":"High",
+    "VeryHigh":"Very High",
+    "RisksInDepartments":"Risks In Departments",
+    "OpportunitiesInDepartments":"Opportunities In Departments",
     "CountOfOpportunities": "Count Of Opportunities",
-    "CountOfRisks": "Count Of Risks"
+    "CountOfRisks": "Count Of Risks",
+    "Opportunities": "Opportunities",
+    "Risks": "Risks",
+    "TreatmentsStatus":"Treatments' Status",
+    "BeforeMitigation":"Before Mitigation",
+    "AfterMitigation":"After Mitigation"
+
+
 
   }
 }

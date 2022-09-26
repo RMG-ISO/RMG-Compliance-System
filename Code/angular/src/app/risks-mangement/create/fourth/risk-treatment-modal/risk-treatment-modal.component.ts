@@ -11,6 +11,7 @@ import { DateValidators } from 'src/app/shared/validators/date-validator';
 import { parseISO } from 'date-fns';
 import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
 @Component({
   selector: 'app-risk-treatment-modal',
@@ -32,7 +33,9 @@ export class RiskTreatmentModalComponent implements OnInit {
     private staticDataService:StaticDataService,
     private activatedRoute:ActivatedRoute,
     private router:Router,
-    private toasterService:ToasterService
+    private toasterService:ToasterService,
+    private riskAndOpportunityService:RiskAndOpportunityService,
+
 
   ) { }
 
@@ -129,7 +132,7 @@ export class RiskTreatmentModalComponent implements OnInit {
 
   }
   showContent = false;
-
+  riskOppData;
   getTreatmentData(id) {
     this.riskTreatmentService.get(id).subscribe( (r:any) => {
       r.startDate = r.startDate ? parseISO(r.startDate) : null;
@@ -159,6 +162,7 @@ export class RiskTreatmentModalComponent implements OnInit {
       console.log(this.mode);
       if(r.status == 4 || r.status == 6 || this.mode == FormMode.View) this.form.disable();
       this.oldStatus = r.status;
+      this.riskAndOpportunityService.get(r.riskOpportunityId).subscribe(res => this.riskOppData = res)
     });
   }
 

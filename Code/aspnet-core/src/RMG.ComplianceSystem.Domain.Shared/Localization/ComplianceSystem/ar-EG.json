@@ -383,8 +383,22 @@
     "NotSeen": "لم تقرأ",
     "Status:Treatement": "تحتاج معالجة",
     "Status:TreatementNo": "لا تحتاج معالجة",
+    "VeryLow":"منخفض جدا",
+    "Low":"منخفض",
+    "Medium":"متوسط",
+    "High":"عالى",
+    "VeryHigh":"عالى جدا",
+    "RisksInDepartments":"المخاطر بالإدارات",
+    "OpportunitiesInDepartments":"الفرص بالإدارات",
+
     "CountOfOpportunities": "عدد الفرص",
-    "CountOfRisks": "عدد المخاطر"
+    "CountOfRisks": "عدد المخاطر",
+    "Opportunities": "الفرص",
+    "Risks": "المخاطر",
+    "TreatmentsStatus":"حالات المعالجة",
+    "BeforeMitigation":"قبل المعالجة",
+    "AfterMitigation":"بعد المعالجة"
+
 
   }
 }

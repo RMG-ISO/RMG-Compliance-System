@@ -1,6 +1,10 @@
 <form  [formGroup]="form" (ngSubmit)="save()">
     <mat-card>
         <mat-card-title>
+            <span *ngIf="riskOppData">
+                {{riskOppData | lang:'name'}}
+                -
+            </span>
             <!-- {{ (data?.id ? '::HistoryAction:UpdatePlanAction' : '::HistoryAction:CreatePlanAction' ) | abpLocalization }} -->
             {{ '::ActionPlan' |  abpLocalization }}
         </mat-card-title>
