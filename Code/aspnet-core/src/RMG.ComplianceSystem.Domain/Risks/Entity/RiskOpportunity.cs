@@ -59,7 +59,7 @@ namespace RMG.ComplianceSystem.Risks.Entity
 
         public virtual ICollection<RisksTreatment> RiskTreatment { get; set; }
         // PotentialRisk (Enum)
-        public Guid? ReEvaluation { get; set; }
+        public int? ReEvaluation { get; set; }
 
         //Risk Monitoring &  Review---------------------------
 

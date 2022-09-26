@@ -12,7 +12,6 @@
     "Validations:MaxDate": "This date must be before {0}",
     "Validations:DueDateLessThanStart": "Due date is less than start date",
     "DeletionConfirmationMessage": "Are you sure to delete this record?",
-
     "All": "All",
     "Menu:Home": "Home",
     "Permission:StaticData": "Setting Risk",
@@ -344,7 +343,6 @@
     "Enum:EffectiveType:1": "Partial",
     "Enum:EffectiveType:2": "Yes",
     "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?",
-
     "Dashboard:Title": "Dashboard",
     "Dashboard:Applicable": "Applicable",
     "Dashboard:NotApplicable": "Not Applicable",
@@ -382,7 +380,9 @@
     "Seen": "Seen",
     "NotSeen": "Unseen",
     "Status:Treatement": "Mitigation",
-    "Status:TreatementNo": "No Need Mitigation"
+    "Status:TreatementNo": "No Need Mitigation",
+    "CountOfOpportunities": "Count Of Opportunities",
+    "CountOfRisks": "Count Of Risks"
 
   }
 }
