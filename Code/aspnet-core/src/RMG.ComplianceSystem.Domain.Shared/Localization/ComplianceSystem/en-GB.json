@@ -382,7 +382,14 @@
     "Seen": "Seen",
     "NotSeen": "Unseen",
     "Status:Treatement": "Mitigation",
-    "Status:TreatementNo": "No Need Mitigation"
+    "Status:TreatementNo": "No Need Mitigation",
+    "VeryLow":"Very low",
+    "Low":"Low",
+    "Medium":"Medium",
+    "High":"High",
+    "VeryHigh":"Very High",
+    "RisksInDepartments":"Risks In Departments",
+    "OpportunitiesInDepartments":"Opportunities In Departments"
 
   }
 }

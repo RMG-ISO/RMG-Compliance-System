@@ -38,23 +38,35 @@ export class DashboardComponent implements OnInit {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
-     let  riskitem=[];
-     let names=[];
+      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+          names = [
+            { name: 'VeryLow' },
+            { name: 'Low' },
+            { name: 'Medium' },
+            { name: 'High' },
+            { name: 'VeryHigh' },
+          ];
+    response.items.map(x => {
+      if(x['potential'] == 1)                               riskitem[0].value += 1;
+      else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
+      else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
+      else if(x['potential'] == 8)                          riskitem[3].value += 1;
+      else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+    });
 
+    //  riskitem.push({value:response.items.filter(x => x['potential'] == 1).length});
+    //  riskitem.push({value:response.items.filter(x => x['potential'] == 2||x['potential'] == 3).length});
+    //  riskitem.push({value:response.items.filter(x => x['potential'] == 4||x['potential'] == 6).length});
+    //  riskitem.push({value:response.items.filter(x => x['potential'] == 8).length});
+    //  riskitem.push({value:response.items.filter(x => x['potential'] == 12||x['potential'] == 16).length});
 
-     riskitem.push({value:response.items.filter(x => x['potential'] == 1).length});
-     riskitem.push({value:response.items.filter(x => x['potential'] == 2||x['potential'] == 3).length});
-     riskitem.push({value:response.items.filter(x => x['potential'] == 4||x['potential'] == 6).length});
-     riskitem.push({value:response.items.filter(x => x['potential'] == 8).length});
-     riskitem.push({value:response.items.filter(x => x['potential'] == 12||x['potential'] == 16).length});
+      // names.push({name:'Very low'});
+      // names.push({name:'Low'});
+      // names.push({name:'Medium'});
+      // names.push({name:'High'});
+      // names.push({name:'Very High'});
 
-      names.push({name:'Very low'});
-      names.push({name:'Low'});
-      names.push({name:'Medium'});
-      names.push({name:'High'});
-      names.push({name:'Very High'});
-
-      this.createChartPotentialBars('riskBarsPotentials',names,riskitem, '::Potentials');
+      this.createChartPotentialBars('riskBarsPotentials',names,riskitem, '::Risk:Potential');
 
        let risksByDepartments = {};
         for(let item of response.items) {
@@ -64,7 +76,7 @@ export class DashboardComponent implements OnInit {
             name:this.departments[item['departmentId']].name
           };
         }
-        this.createChartBars('riskBarsOptions',risksByDepartments, '::المخاطر بالإدارات')
+        this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
 
       this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Risk');
       this.treatmentRisksChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::Risk');
@@ -122,12 +134,12 @@ export class DashboardComponent implements OnInit {
   createChartPotentialBars(key, PotentialName,PotentialValue, title ) {
     let names = [],
         values = [];
-        debugger;
+        // debugger;
     for(let key in PotentialValue) {
       values.push(PotentialValue[key].value)
     }
     for(let key in PotentialName) {
-      names.push(PotentialName[key].name);
+      names.push(this.localizationService.instant(PotentialName[key].name));
     }
 
     this[key] = {
@@ -181,22 +193,39 @@ export class DashboardComponent implements OnInit {
       this.opportunitiesChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Opportunity');
       this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::Opportunity');
 
-     let  riskitem=[];
-     let  names=[];
+    //  let  riskitem=[];
+    //  let  names=[];
 
-          riskitem.push({value:response.items.filter(x => x['potential'] == 1).length});
-          riskitem.push({value:response.items.filter(x => x['potential'] == 2||x['potential'] == 3).length});
-          riskitem.push({value:response.items.filter(x => x['potential'] == 4||x['potential'] == 6).length});
-          riskitem.push({value:response.items.filter(x => x['potential'] == 8).length});
-          riskitem.push({value:response.items.filter(x => x['potential'] == 12||x['potential'] == 16).length});
+    //       riskitem.push({value:response.items.filter(x => x['potential'] == 1).length});
+    //       riskitem.push({value:response.items.filter(x => x['potential'] == 2||x['potential'] == 3).length});
+    //       riskitem.push({value:response.items.filter(x => x['potential'] == 4||x['potential'] == 6).length});
+    //       riskitem.push({value:response.items.filter(x => x['potential'] == 8).length});
+    //       riskitem.push({value:response.items.filter(x => x['potential'] == 12||x['potential'] == 16).length});
 
-      names.push({name:'Very low'});
-      names.push({name:'Low'});
-      names.push({name:'Medium'});
-      names.push({name:'High'});
-      names.push({name:'Very High'});
+    //   names.push({name:'Very low'});
+    //   names.push({name:'Low'});
+    //   names.push({name:'Medium'});
+    //   names.push({name:'High'});
+    //   names.push({name:'Very High'});
 
-      this.createChartPotentialBars('riskBarsOpportunityPotentials',names,riskitem, '::Potentials');
+      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+          names = [
+            { name: 'VeryLow' },
+            { name: 'Low' },
+            { name: 'Medium' },
+            { name: 'High' },
+            { name: 'VeryHigh' },
+          ];
+      response.items.map(x => {
+      if(x['potential'] == 1)                               riskitem[0].value += 1;
+      else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
+      else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
+      else if(x['potential'] == 8)                          riskitem[3].value += 1;
+      else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+      });
+
+
+      this.createChartPotentialBars('riskBarsOpportunityPotentials',names,riskitem, '::Opportunity:Potential');
 
 
       let oppByDepartments = {};
@@ -207,7 +236,7 @@ export class DashboardComponent implements OnInit {
           name:this.departments[item['departmentId']].name
         };
       }
-      this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::الفرص بالإدارات')
+      this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::OpportunitiesInDepartments')
     });
   }
 
