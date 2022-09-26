@@ -391,7 +391,11 @@
     "CountOfOpportunities": "Count Of Opportunities",
     "CountOfRisks": "Count Of Risks",
     "Opportunities": "Opportunities",
-    "Risks": "Risks"
+    "Risks": "Risks",
+    "TreatmentsStatus":"Treatments' Status",
+    "BeforeMitigation":"Before Mitigation",
+    "AfterMitigation":"After Mitigation"
+
 
 
   }

@@ -17,7 +17,42 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   departments = {};
+  likelihoodConditions;
+
   ngOnInit(): void {
+    this.likelihoodConditions = [
+      {
+        value: this.localizationService.instant('VeryLow'),
+        itemStyle:{
+          color:'#03a008'
+        }
+      },
+      {
+        value: this.localizationService.instant('Low'),
+        itemStyle:{
+          color:'#26872a'
+        }
+      },
+      {
+        value: this.localizationService.instant('Medium'),
+        itemStyle:{
+          color:'#efe338'
+        } 
+      },
+      { 
+        value: this.localizationService.instant('High'),
+        itemStyle:{
+          color:'#f3a108'
+        } 
+     },
+      {
+        value: this.localizationService.instant('VeryHigh'),
+        itemStyle:{
+          color:'#b62e2e'
+        } 
+      },
+    ];
+
     this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
       this.getListRisks();
       this.getListOpportunities();
@@ -27,7 +62,7 @@ export class DashboardComponent implements OnInit {
 
     });
     this.riskAndOpportunityService.getOpenClose({ search:'', type:1, maxResultCount:null }).subscribe((response) => {
-      debugger;
+      // debugger;
     console.log(response);
     });
 
@@ -43,39 +78,7 @@ export class DashboardComponent implements OnInit {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
-      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
-          names = [
-            {
-              value: this.localizationService.instant('VeryLow'),
-              itemStyle:{
-                color:'#03a008'
-              }
-            },
-            {
-              value: this.localizationService.instant('Low'),
-              itemStyle:{
-                color:'#26872a'
-              }
-            },
-            {
-              value: this.localizationService.instant('Medium'),
-              itemStyle:{
-                color:'#efe338'
-              } 
-            },
-            { 
-              value: this.localizationService.instant('High'),
-              itemStyle:{
-                color:'#f3a108'
-              } 
-           },
-            {
-              value: this.localizationService.instant('VeryHigh'),
-              itemStyle:{
-                color:'#b62e2e'
-              } 
-            },
-          ];
+      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
     response.items.map(x => {
       if(x['potential'] == 1)                               riskitem[0].value += 1;
       else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
@@ -85,7 +88,7 @@ export class DashboardComponent implements OnInit {
     });
 
 
-      this.createChartPotentialBars('riskBarsPotentials',names,riskitem, '::Risk:Potential');
+      this.createChartPotentialBars('riskBarsPotentials', this.likelihoodConditions ,riskitem, '::Risk:Potential');
 
        let risksByDepartments = {};
         for(let item of response.items) {
@@ -97,8 +100,8 @@ export class DashboardComponent implements OnInit {
         }
         this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
 
-      this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Risk');
-      this.treatmentRisksChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::Risk');
+      this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Status');
+      this.treatmentRisksChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::TreatmentsStatus');
     });
   }
   riskBarsPotentials;
@@ -219,52 +222,25 @@ export class DashboardComponent implements OnInit {
     this.riskAndOpportunityService.getList({  search: '', type:2,  maxResultCount:null }).subscribe((response) => {
       this.itemsOpportunity = response.items;
       this.totalCountOpportunity = response.totalCount;
-      this.opportunitiesChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Opportunity');
-      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::Opportunity');
+      this.opportunitiesChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Status');
+      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::TreatmentsStatus');
 
-      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
-          names = [
-            {
-              value: this.localizationService.instant('VeryLow'),
-              itemStyle:{
-                color:'#03a008'
-              }
-            },
-            {
-              value: this.localizationService.instant('Low'),
-              itemStyle:{
-                color:'#26872a'
-              }
-            },
-            {
-              value: this.localizationService.instant('Medium'),
-              itemStyle:{
-                color:'#efe338'
-              } 
-            },
-            { 
-              value: this.localizationService.instant('High'),
-              itemStyle:{
-                color:'#f3a108'
-              } 
-           },
-            {
-              value: this.localizationService.instant('VeryHigh'),
-              itemStyle:{
-                color:'#b62e2e'
-              } 
-            },
-          ];
+      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+          
       response.items.map(x => {
-      if(x['potential'] == 1)                               riskitem[0].value += 1;
-      else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
-      else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-      else if(x['potential'] == 8)                          riskitem[3].value += 1;
-      else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+        if(x['reEvaluation'] == null) {
+          if(x['potential'] == 1)                               riskitem[0].value += 1;
+          else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
+          else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
+          else if(x['potential'] == 8)                          riskitem[3].value += 1;
+          else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+        } else {
+
+        }
       });
 
 
-      this.createChartPotentialBars('riskBarsOpportunityPotentials',names,riskitem, '::Opportunity:Potential');
+      this.createChartPotentialBars('riskBarsOpportunityPotentials', this.likelihoodConditions ,riskitem, '::Opportunity:Potential');
 
 
       let oppByDepartments = {};
@@ -283,14 +259,14 @@ export class DashboardComponent implements OnInit {
 
   createRisksOppChart(opened,closed, title) {
     return {
-      // title: {
-      //     text: this.localizationService.instant(title),
-      //     // subtext: '',
-      //     left: 'center',
-      //     textStyle:{
-      //       fontFamily:this.fontFamily
-      //     }
-      //   },
+      title: {
+          text: this.localizationService.instant(title),
+          // subtext: '',
+          left: 'center',
+          textStyle:{
+            fontFamily:this.fontFamily
+          }
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{b} : {c} ({d}%)',
@@ -324,7 +300,7 @@ export class DashboardComponent implements OnInit {
                 value: closed,
                 name: this.localizationService.instant('::Status:Close'),
                 itemStyle: {
-                 color:'#FF0000'
+                 color:'#a5d6a7'
                 },
               },
             ],
@@ -353,14 +329,13 @@ export class DashboardComponent implements OnInit {
 
   TreatementRisksOppChart(Treatement,TreatementNo, title) {
     return {
-      // title: {
-      //     text: this.localizationService.instant(title),
-      //     // subtext: '',
-      //     left: 'center',
-      //     textStyle:{
-      //       fontFamily:this.fontFamily
-      //     }
-      //   },
+      title: {
+          text: this.localizationService.instant(title),
+          left: 'center',
+          textStyle:{
+            fontFamily:this.fontFamily
+          }
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{b} : {c} ({d}%)',
@@ -387,14 +362,14 @@ export class DashboardComponent implements OnInit {
                 value: Treatement,
                 name: this.localizationService.instant('::Status:Treatement'),
                 itemStyle:{
-                 color:'#32ba94'
+                 color:getComputedStyle(document.body).getPropertyValue('--main-color')
                 }
               },
               {
                 value: TreatementNo,
                 name: this.localizationService.instant('::Status:TreatementNo'),
                 itemStyle: {
-                 color:'#FF0000'
+                 color:'#90caf9'
                 },
               },
             ],
@@ -418,3 +393,13 @@ export class DashboardComponent implements OnInit {
   }
 
 }
+
+
+// let potentials = [
+//   { id: 1 },
+//   { id: 2 },
+//   { id: 4},
+//   { id: 8 },
+//   { id: 12 },
+// ];
+

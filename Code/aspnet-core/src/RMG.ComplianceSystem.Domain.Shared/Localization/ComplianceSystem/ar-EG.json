@@ -394,7 +394,11 @@
     "CountOfOpportunities": "عدد الفرص",
     "CountOfRisks": "عدد المخاطر",
     "Opportunities": "الفرص",
-    "Risks": "المخاطر"
+    "Risks": "المخاطر",
+    "TreatmentsStatus":"حالات المعالجة",
+    "BeforeMitigation":"قبل المعالجة",
+    "AfterMitigation":"بعد المعالجة"
+
 
   }
 }
