@@ -9,7 +9,7 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  potentials = [1,2,4,8,12];
   constructor(
     private localizationService:LocalizationService,
     private riskAndOpportunityService:RiskAndOpportunityService,
@@ -73,22 +73,43 @@ export class DashboardComponent implements OnInit {
 
   risksChart;
   treatmentRisksChart;
+  AfterTreatmentRiskBarsPotentials
   getListRisks() {
     this.riskAndOpportunityService.getList({ search: '', type:1, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
       let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
+    // response.items.map(x => {
+    //   if(x['potential'] == 1)                               riskitem[0].value += 1;
+    //   else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
+    //   else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
+    //   else if(x['potential'] == 8)                          riskitem[3].value += 1;
+    //   else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+    // });
+
+    let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+      
     response.items.map(x => {
-      if(x['potential'] == 1)                               riskitem[0].value += 1;
-      else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
-      else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-      else if(x['potential'] == 8)                          riskitem[3].value += 1;
-      else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+      if(x['reEvaluation'] == null) {
+        if(x['potential'] == 1)                               riskitem[0].value += 1;
+        else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
+        else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
+        else if(x['potential'] == 8)                          riskitem[3].value += 1;
+        else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+      } else {
+        if(x['potential'] == 1) reEvaluationitem[0].value += 1;
+        else if(x['potential'] == 2) reEvaluationitem[1].value += 1;
+        else if(x['potential'] == 4) reEvaluationitem[2].value += 1;
+        else if(x['potential'] == 8) reEvaluationitem[3].value += 1;
+        else if(x['potential'] == 12) reEvaluationitem[4].value += 1;
+      }
     });
 
 
+
       this.createChartPotentialBars('riskBarsPotentials', this.likelihoodConditions ,riskitem, '::Risk:Potential');
+      this.createChartPotentialBars('AfterTreatmentRiskBarsPotentials', this.likelihoodConditions ,reEvaluationitem, '::Risk:Potential');
 
        let risksByDepartments = {};
         for(let item of response.items) {
@@ -218,6 +239,7 @@ export class DashboardComponent implements OnInit {
   opportunitiesChart;
   treatmentOpportunitiesChart;
   riskBarsOpportunityPotentials;
+  AfterTreatmentRiskBarsOpportunityPotentials
   getListOpportunities() {
     this.riskAndOpportunityService.getList({  search: '', type:2,  maxResultCount:null }).subscribe((response) => {
       this.itemsOpportunity = response.items;
@@ -226,7 +248,8 @@ export class DashboardComponent implements OnInit {
       this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::TreatmentsStatus');
 
       let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-          
+      let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+      
       response.items.map(x => {
         if(x['reEvaluation'] == null) {
           if(x['potential'] == 1)                               riskitem[0].value += 1;
@@ -235,12 +258,25 @@ export class DashboardComponent implements OnInit {
           else if(x['potential'] == 8)                          riskitem[3].value += 1;
           else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
         } else {
+          if(x['potential'] == 1) reEvaluationitem[0].value += 1;
+          else if(x['potential'] == 2) reEvaluationitem[1].value += 1;
+          else if(x['potential'] == 4) reEvaluationitem[2].value += 1;
+          else if(x['potential'] == 8) reEvaluationitem[3].value += 1;
+          else if(x['potential'] == 12) reEvaluationitem[4].value += 1;
 
+          // let potentials = [
+          //   { id: 1 },
+          //   { id: 2 },
+          //   { id: 4},
+          //   { id: 8 },
+          //   { id: 12 },
+          // ];
         }
       });
 
 
       this.createChartPotentialBars('riskBarsOpportunityPotentials', this.likelihoodConditions ,riskitem, '::Opportunity:Potential');
+      this.createChartPotentialBars('AfterTreatmentRiskBarsOpportunityPotentials', this.likelihoodConditions ,reEvaluationitem, '::Opportunity:Potential');
 
 
       let oppByDepartments = {};
@@ -395,11 +431,5 @@ export class DashboardComponent implements OnInit {
 }
 
 
-// let potentials = [
-//   { id: 1 },
-//   { id: 2 },
-//   { id: 4},
-//   { id: 8 },
-//   { id: 12 },
-// ];
+
 
