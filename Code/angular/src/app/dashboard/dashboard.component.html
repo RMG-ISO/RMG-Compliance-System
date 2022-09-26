@@ -7,8 +7,8 @@
             <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
             <mat-card-content>
               <p>
-                
-              </p>
+                {{totalCountRisk}}
+              </p><p>Count Of Risks </p>
             </mat-card-content>
         </mat-card>
     </div>
@@ -19,7 +19,9 @@
             </mat-card-title>
             <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
             <mat-card-content>
-              <p>This card indeterminates progress bar.</p>
+              <p>
+                {{totalCountOpportunity}}
+              </p><p>Count Of Opportunities </p>
             </mat-card-content>
         </mat-card>
     </div>
@@ -35,11 +37,23 @@
                 <div echarts [options]="opportunitiesChart"></div>
             </div>
             <div class="col-md-6">
+              <div echarts [options]="riskBarsPotentials"></div>
+          </div>
+          <div class="col-md-6">
+              <div echarts [options]="riskBarsOpportunityPotentials"></div>
+          </div>
+            <div class="col-md-6">
                 <div echarts [options]="riskBarsOptions"></div>
             </div>
             <div class="col-md-6">
                 <div echarts [options]="opportunitiesBarsOptions"></div>
             </div>
+            <div class="col-md-6">
+              <div echarts [options]="treatmentRisksChart"></div>
+          </div>
+          <div class="col-md-6">
+              <div echarts [options]="treatmentOpportunitiesChart"></div>
+          </div>
         </div>
     </mat-card-content>
 </mat-card>
