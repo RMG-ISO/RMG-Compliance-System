@@ -16,6 +16,8 @@ using RMG.ComplianceSystem.Risks.IRepository;
 using RMG.ComplianceSystem.RiskTreatments;
 using System.Linq.Dynamic.Core;
 using RMG.ComplianceSystem.StaticData;
+using RMG.ComplianceSystem.Risks.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RMG.ComplianceSystem.Risks
 {
@@ -123,15 +125,7 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
-        public async Task<PagedResultDto<RiskAndOpportunityDto>> AllRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
-        {
-            var ListRisks = RiskAndOpportunityRepository.Where(t=>t.Type== input.Type).ToList();
-            var Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
-            return new PagedResultDto<RiskAndOpportunityDto>(
-              ListRisks.Count,
-              Risks
-          );
-        }
+        
 
         public async Task<getEnumTypeStaticData> getPotentialName(int? Potential)
         {
@@ -176,6 +170,33 @@ namespace RMG.ComplianceSystem.Risks
             getdata.Impact = Impact.ToList();
             getdata.likehood = likehood.ToList();
             return getdata;
+        }
+
+
+
+        [HttpGet]
+        public async Task<PagedResultDto<RiskAndOpportunityDto>> AllRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            var ListRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
+            var Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+            return new PagedResultDto<RiskAndOpportunityDto>(
+              ListRisks.Count,
+              Risks
+          );
+
+        }
+        [HttpGet]
+        public async Task<Dictionary<string,int>> OpenCloseRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+            {
+            var openClose = new Dictionary<string, int>();
+            var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
+            var OpenRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type &&t.status== 1).ToList();
+            var CloseRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.status == 2).ToList();
+            openClose.Add("Total", AllRisks.Count);
+            openClose.Add("Open", OpenRisks.Count);
+            openClose.Add("Close", CloseRisks.Count);
+            return openClose;   
+
         }
 
 

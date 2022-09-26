@@ -25,7 +25,12 @@ export class DashboardComponent implements OnInit {
         this.departments[item.id] = item;
       });
 
-    })
+    });
+    this.riskAndOpportunityService.getOpenClose({ search:'', type:1, maxResultCount:null }).subscribe((response) => {
+      debugger;
+    console.log(response);
+    });
+
   }
 
   itemsRisk;
@@ -40,14 +45,11 @@ export class DashboardComponent implements OnInit {
 
      let  riskitem=[];
      let names=[];
-
-
      riskitem.push({value:response.items.filter(x => x['potential'] == 1).length});
      riskitem.push({value:response.items.filter(x => x['potential'] == 2||x['potential'] == 3).length});
      riskitem.push({value:response.items.filter(x => x['potential'] == 4||x['potential'] == 6).length});
      riskitem.push({value:response.items.filter(x => x['potential'] == 8).length});
      riskitem.push({value:response.items.filter(x => x['potential'] == 12||x['potential'] == 16).length});
-
       names.push({name:'Very low'});
       names.push({name:'Low'});
       names.push({name:'Medium'});
