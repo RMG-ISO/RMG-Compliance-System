@@ -12,7 +12,6 @@
     "Validations:MaxDate": "This date must be before {0}",
     "Validations:DueDateLessThanStart": "Due date is less than start date",
     "DeletionConfirmationMessage": "Are you sure to delete this record?",
-
     "All": "All",
     "Menu:Home": "Home",
     "Permission:StaticData": "Setting Risk",
@@ -344,7 +343,6 @@
     "Enum:EffectiveType:1": "Partial",
     "Enum:EffectiveType:2": "Yes",
     "AssessmentDeletionConfirmationMessage": "Are you sure to delete the assessment {0}?",
-
     "Dashboard:Title": "Dashboard",
     "Dashboard:Applicable": "Applicable",
     "Dashboard:NotApplicable": "Not Applicable",
@@ -389,7 +387,9 @@
     "High":"High",
     "VeryHigh":"Very High",
     "RisksInDepartments":"Risks In Departments",
-    "OpportunitiesInDepartments":"Opportunities In Departments"
+    "OpportunitiesInDepartments":"Opportunities In Departments",
+    "CountOfOpportunities": "Count Of Opportunities",
+    "CountOfRisks": "Count Of Risks"
 
   }
 }

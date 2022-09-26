@@ -122,6 +122,7 @@ namespace RMG.ComplianceSystem.Risks
                 RisksData
             );
         }
+
         public async Task<PagedResultDto<RiskAndOpportunityDto>> AllRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var ListRisks = RiskAndOpportunityRepository.Where(t=>t.Type== input.Type).ToList();

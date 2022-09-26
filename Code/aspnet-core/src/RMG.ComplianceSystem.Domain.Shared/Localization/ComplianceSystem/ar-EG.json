@@ -12,7 +12,6 @@
     "Validations:MaxDate": "لا يجب أن يكون هذا التاريخ بعد {0} ",
     "Validations:DueDateLessThanStart": "لا يجب ان يكون تاريخ الإنتهاء قبل تاريخ البدء",
     "DeletionConfirmationMessage": "هل أنت متأكد من حذف هذا التسجيل؟",
-
     "All": "الكل",
     "Menu:Home": "الرئيسية",
     "Permission:StaticData": "إعدادات المخاطر",
@@ -98,7 +97,6 @@
     "ObjectiveEvidence": " الادلة الموضوعية",
     "Responsibles": "المسؤلين",
     "EndDate": "تاريخ الإنتهاء",
-
     "ActionName": "الفعل",
     "ActionDate": "التاريخ",
     "creatorName": "المنشئ",
@@ -347,7 +345,6 @@
     "Enum:EffectiveType:1": "جزئي",
     "Enum:EffectiveType:2": "نعم",
     "AssessmentDeletionConfirmationMessage": "هل أنت متأكد من حذف الإمتثال {0}؟",
-
     "Dashboard:Title": "لوحة التحكم",
     "Dashboard:Applicable": "ينطبق",
     "Dashboard:NotApplicable": "لا ينطبق",
@@ -392,8 +389,10 @@
     "High":"عالى",
     "VeryHigh":"عالى جدا",
     "RisksInDepartments":"المخاطر بالإدارات",
-    "OpportunitiesInDepartments":"الفرص بالإدارات"
+    "OpportunitiesInDepartments":"الفرص بالإدارات",
 
+    "CountOfOpportunities": "عدد الفرص",
+    "CountOfRisks": "عدد المخاطر"
 
   }
 }
