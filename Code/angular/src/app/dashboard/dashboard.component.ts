@@ -25,7 +25,12 @@ export class DashboardComponent implements OnInit {
         this.departments[item.id] = item;
       });
 
-    })
+    });
+    this.riskAndOpportunityService.getOpenClose({ search:'', type:1, maxResultCount:null }).subscribe((response) => {
+      debugger;
+    console.log(response);
+    });
+
   }
 
   itemsRisk;

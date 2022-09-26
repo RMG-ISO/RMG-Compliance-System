@@ -39,7 +39,7 @@ export interface CreateUpdateRiskAndOpportunityDto {
   // Responsibility ?:string ;
   // ByWhen ?:Date ;
   // TreatmentRemarks ?:string ;
-  ReEvaluation ?:string ;
+  ReEvaluation?:number ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
@@ -104,7 +104,7 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   // Responsibility ?:string ;
   // ByWhen ?:Date ;
   // TreatmentRemarks ?:string ;
-  ReEvaluation ?:string ;
+  ReEvaluation ?:number ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
@@ -118,7 +118,10 @@ export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndS
   search?: string;
   type?: number;
 }
-
+export interface OpenCloseRiskAndOpportunityDto {
+id?:string;
+Value:number;
+}
 // ////Document Category//////
 export interface CreateUpdateHistoryRiskAndOpportunityDto {
   UserId ?: string;

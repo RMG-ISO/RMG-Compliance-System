@@ -1,8 +1,9 @@
-import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto,matrixModel,getMatrix, RiskOpportunityPagedAndSortedResultRequestDto,HistoryRiskAndOpportunityDto,UserPagedAndSortedResultRequestDto,CreateUpdateHistoryRiskAndOpportunityDto,HistoryRiskOpportunityPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto,matrixModel,getMatrix,OpenCloseRiskAndOpportunityDto, RiskOpportunityPagedAndSortedResultRequestDto,HistoryRiskAndOpportunityDto,UserPagedAndSortedResultRequestDto,CreateUpdateHistoryRiskAndOpportunityDto,HistoryRiskOpportunityPagedAndSortedResultRequestDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import { IdentityUserDto } from '@abp/ng.account';
+import { List } from 'echarts';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,14 @@ export class RiskAndOpportunityService {
       method: 'GET',
       url: '/api/identity/users',
       params: { Filter: input.Filter,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+    getOpenClose= (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, Array<OpenCloseRiskAndOpportunityDto>>({
+      method: 'GET',
+      url: '/api/app/risk-and-opportunity/open-close-risks-and-opportunities',
+      params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

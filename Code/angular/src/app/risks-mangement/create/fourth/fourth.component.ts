@@ -81,9 +81,7 @@ export class FourthComponent implements OnInit {
       this.users = r.items
     });
 
-    this.staticDataService.getList({Type:'3', search:null, maxResultCount:null }).subscribe(r => {
-      this.potentials = r.items;
-    })
+      this.potentials =[{id:1,nameEn:'Very Low',nameAr:'ضعيف جدا'},{id:2,nameEn:'Low',nameAr:'ضعيف '},{id:4,nameEn:'Medium',nameAr:'متوسط'},{id:8,nameEn:'High',nameAr:'عالي'},{id:12,nameEn:'very High',nameAr:'عالي جدا'}];
     this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
     });
@@ -126,7 +124,7 @@ export class FourthComponent implements OnInit {
       if(r) this.update(r);
     })
   }
-  
+
 
   update(action) {
     this.updateProcessing.emit(action);
