@@ -381,10 +381,11 @@
     "Email:Key": "مفتاح",
     "Email:NotificationBody": "قالب الاشعارات",
     "EmailTemplate:Page:Title": "قوالب البريد الألكتروني",
-    "Notifications":"الإشعارات",
-    "Seen":"قرأت",
-    "NotSeen":"لم تقرأ"
-
+    "Notifications": "الإشعارات",
+    "Seen": "قرأت",
+    "NotSeen": "لم تقرأ",
+    "Status:Treatement": "تحتاج معالجة",
+    "Status:TreatementNo": "لا تحتاج معالجة",
 
   }
 }

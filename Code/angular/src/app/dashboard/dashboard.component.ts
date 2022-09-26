@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
         this.createChartBars('riskBarsOptions',risksByDepartments, '::المخاطر بالإدارات')
 
       this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Risk');
-      this.treatmentRisksChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::Opportunity');
+      this.treatmentRisksChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::Risk');
     });
   }
   riskBarsPotentials;
