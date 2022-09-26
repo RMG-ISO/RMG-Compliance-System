@@ -56,7 +56,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         //public Guid? Responsibility { get; set; }
         //public DateTime? ByWhen { get; set; }
         //public string TreatmentRemarks { get; set; }
-        public Guid? ReEvaluation { get; set; }
+        public int? ReEvaluation { get; set; }
 
         //Risk Monitoring &  Review---------------------------
 
