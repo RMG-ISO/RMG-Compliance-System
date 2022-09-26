@@ -118,7 +118,10 @@ export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndS
   search?: string;
   type?: number;
 }
-
+export interface OpenCloseRiskAndOpportunityDto {
+id?:string;
+Value:number;
+}
 // ////Document Category//////
 export interface CreateUpdateHistoryRiskAndOpportunityDto {
   UserId ?: string;
