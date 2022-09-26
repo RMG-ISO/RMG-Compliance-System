@@ -11,11 +11,11 @@
           </button>
 
 
-          <!-- <ng-container *ngIf="itemData.status == Status.Open"> -->
-              <!-- <button  mat-icon-button [matMenuTriggerFor]="menu" class="re-btn" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
+          <ng-container *ngIf="itemData.status == Status.Open">
+              <button  mat-icon-button [matMenuTriggerFor]="menu" class="re-btn" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
                   {{ '::ReEvaluation' | abpLocalization }}
-              </button> -->
-          <!-- </ng-container> -->
+              </button>
+          </ng-container>
           <mat-menu #menu="matMenu">
               <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
                 {{ item | lang:'name' }}

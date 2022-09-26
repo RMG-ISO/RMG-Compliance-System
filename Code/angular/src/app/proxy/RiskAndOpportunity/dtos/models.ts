@@ -39,7 +39,7 @@ export interface CreateUpdateRiskAndOpportunityDto {
   // Responsibility ?:string ;
   // ByWhen ?:Date ;
   // TreatmentRemarks ?:string ;
-  ReEvaluation ?:string ;
+  ReEvaluation?:number ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
@@ -104,7 +104,7 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   // Responsibility ?:string ;
   // ByWhen ?:Date ;
   // TreatmentRemarks ?:string ;
-  ReEvaluation ?:string ;
+  ReEvaluation ?:number ;
   //Risk Monitoring &  Review---------------------------
   Acceptance ?:boolean ;
   AcceptanceApprovedby ?:string ;
