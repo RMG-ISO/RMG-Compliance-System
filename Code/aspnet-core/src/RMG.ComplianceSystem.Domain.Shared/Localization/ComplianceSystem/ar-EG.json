@@ -392,7 +392,9 @@
     "OpportunitiesInDepartments":"الفرص بالإدارات",
 
     "CountOfOpportunities": "عدد الفرص",
-    "CountOfRisks": "عدد المخاطر"
+    "CountOfRisks": "عدد المخاطر",
+    "Opportunities": "الفرص",
+    "Risks": "المخاطر"
 
   }
 }

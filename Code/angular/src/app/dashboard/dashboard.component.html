@@ -7,14 +7,8 @@
                     {{totalCountRisk}}
                 </h3>
             </mat-card-title>
-            <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
             <mat-card-content>
-              <!-- <p>
-                Count Of Risks
-              </p>
-              <h4>
-                    {{totalCountRisk}}
-                </h4> -->
+             
             </mat-card-content>
         </mat-card>
     </div>
@@ -26,45 +20,98 @@
                     {{totalCountOpportunity}}
                 </h3>
             </mat-card-title>
-            <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
             <mat-card-content>
-              <!-- <p>
-                Count Of Opportunities
-              </p> -->
-             
-              <!-- <p>Count Of Opportunities </p> -->
             </mat-card-content>
         </mat-card>
     </div>
 </div>
 
-<mat-card>
+<mat-card class="main-card">
     <mat-card-content>
         <div class="row">
+            <div class="col-md-6 row p-0 m-0">
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        {{ '::Risks' | abpLocalization }}
+                    </h3>
+                </div>
+                <div class="col-md-6 p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="risksChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6 p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="treatmentRisksChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+           <div class="col-md-6 row p-0 m-0">
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        {{ '::Opportunities' | abpLocalization }}
+                    </h3>
+                </div>
+                <div class="col-md-6  p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="opportunitiesChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6  p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="treatmentOpportunitiesChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+           </div>
+
+           
             <div class="col-md-6">
-                <div echarts [options]="risksChart"></div>
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="riskBarsOptions"></div>
+                    </mat-card-content>
+                </mat-card>
             </div>
             <div class="col-md-6">
-                <div echarts [options]="opportunitiesChart"></div>
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="opportunitiesBarsOptions"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+           
+
+
+
+            <div class="col-md-12">
+                <h3 class="text-center">
+                    before Mitigation
+                </h3>
+           </div>
+
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="riskBarsPotentials"></div>
+                    </mat-card-content>
+                </mat-card>
             </div>
             <div class="col-md-6">
-              <div echarts [options]="riskBarsPotentials"></div>
-          </div>
-          <div class="col-md-6">
-              <div echarts [options]="riskBarsOpportunityPotentials"></div>
-          </div>
-            <div class="col-md-6">
-                <div echarts [options]="riskBarsOptions"></div>
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="riskBarsOpportunityPotentials"></div>
+                    </mat-card-content>
+                </mat-card>
             </div>
-            <div class="col-md-6">
-                <div echarts [options]="opportunitiesBarsOptions"></div>
-            </div>
-            <div class="col-md-6">
-              <div echarts [options]="treatmentRisksChart"></div>
-          </div>
-          <div class="col-md-6">
-              <div echarts [options]="treatmentOpportunitiesChart"></div>
-          </div>
+
         </div>
     </mat-card-content>
 </mat-card>

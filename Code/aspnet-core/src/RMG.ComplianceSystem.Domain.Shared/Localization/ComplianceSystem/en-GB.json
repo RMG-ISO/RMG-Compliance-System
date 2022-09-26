@@ -389,7 +389,10 @@
     "RisksInDepartments":"Risks In Departments",
     "OpportunitiesInDepartments":"Opportunities In Departments",
     "CountOfOpportunities": "Count Of Opportunities",
-    "CountOfRisks": "Count Of Risks"
+    "CountOfRisks": "Count Of Risks",
+    "Opportunities": "Opportunities",
+    "Risks": "Risks"
+
 
   }
 }
