@@ -64,8 +64,11 @@ export class ListComponent {
 
   markAsRead(row, index) {
     console.log(index)
+    console.log(row)
+    console.log(Status)
     if(row.status == Status.NotSeen) this.notificationService.markAsSeenById(row.id).subscribe(r => {
-      row.status = Status.Seen
+      row.status = Status.Seen;
+      console.log('seem')
     });
     this.router.navigate([row.url]);
   }
