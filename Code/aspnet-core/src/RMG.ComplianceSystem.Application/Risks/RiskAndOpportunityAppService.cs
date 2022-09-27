@@ -195,8 +195,19 @@ namespace RMG.ComplianceSystem.Risks
             openClose.Add("Total", AllRisks.Count);
             openClose.Add("Open", OpenRisks.Count);
             openClose.Add("Close", CloseRisks.Count);
-            return openClose;   
-
+            return openClose; 
+        }
+        [HttpGet]
+        public async Task<Dictionary<string, int>> TreatmentRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            var Treatment = new Dictionary<string, int>();
+            var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
+            var treatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment == true).ToList();
+            var NotreatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment ==false).ToList();
+            Treatment.Add("Total", AllRisks.Count);
+            Treatment.Add("treatmentRisks", treatmentRisks.Count);
+            Treatment.Add("NotreatmentRisks", NotreatmentRisks.Count);
+            return Treatment;
         }
 
 

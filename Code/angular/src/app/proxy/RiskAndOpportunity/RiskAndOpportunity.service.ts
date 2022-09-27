@@ -64,6 +64,14 @@ export class RiskAndOpportunityService {
     },
     { apiName: this.apiName });
 
+    getTreatmentsDashboard= (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, Array<OpenCloseRiskAndOpportunityDto>>({
+      method: 'GET',
+      url: '/api/app/risk-and-opportunity/treatment-risks-and-opportunities',
+      params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
   update = (id: string, input: CreateUpdateRiskAndOpportunityDto) =>
     this.restService.request<any, RiskAndOpportunityDto>({
       method: 'PUT',
