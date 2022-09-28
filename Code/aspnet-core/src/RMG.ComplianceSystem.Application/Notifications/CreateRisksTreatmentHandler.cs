@@ -120,9 +120,9 @@ namespace RMG.ComplianceSystem.Notifications
                 true,
                 true,
                 null,
-                null,
-                null,
-                null,
+                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
+                 NotySource.RiskTreatment,
+                eventData.Entity.Id,
                 false
                 );
             notificationList.Add(notification);

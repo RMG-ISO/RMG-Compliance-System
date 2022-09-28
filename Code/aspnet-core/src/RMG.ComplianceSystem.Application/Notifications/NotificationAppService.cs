@@ -51,31 +51,33 @@ namespace RMG.ComplianceSystem.Notifications
         }
 
 
-        public async Task Test()
+        public async Task SendMail(string MailTo,string subject,string body,bool IsHTML)
         {
-            var fromAddress = new MailAddress("testnicauto@outlook.com", "From Name");
-            var toAddress = new MailAddress("compliancesystem51@gmail.com", "To Name");
-            const string fromPassword = "Shakerm123";
-            const string subject = "Subject";
-            const string body = "Body";
+            var fromAddress = new MailAddress("complaincesystem@outlook.com", "From Name");
+            var toAddress = new MailAddress(MailTo, "To Name");
+            const string fromPassword = "Amr@123#qwe";
+            //const string subject = "Subject";
+            //const string body = "Body";
             try
             {
                 var smtp = new SmtpClient
                 {
                     Host = "smtp-mail.outlook.com",
+                    //Host= "smtp.office365.com",
                     Port = 587,
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                    // UseDefaultCredentials = false,
+                    UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                 };
-
-
-
+//                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
+//SecurityProtocolType.Tls11 |
+//SecurityProtocolType.Tls12;
                 using (var message = new MailMessage(fromAddress, toAddress)
                 {
                     Subject = subject,
-                    Body = body
+                    Body = body,
+                    IsBodyHtml =IsHTML
                 })
                 {
                     smtp.Send(message);
@@ -110,13 +112,13 @@ namespace RMG.ComplianceSystem.Notifications
                 {
                     try
                     {
-                        //var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
-                        //var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
-                        string _body =String.Empty;
-                        //_body = hearder.Body;
-                        _body += "<p>"+GetURI() + item.Url+"</p>";
+                        var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
+                        var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
+                        string _body = hearder.Body;
+                        _body += "<p>لديك فعل متخذ جديد إضغط هنا </p>";
+                        _body += "<br/><p>" + item.Url+"</p>";
                         _body += item.Body;
-                       // _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
+                        _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
                         MailMessage mailMessage = new MailMessage
                         {
@@ -124,10 +126,12 @@ namespace RMG.ComplianceSystem.Notifications
                             Body = _body,
                             IsBodyHtml = item.IsHTML
                         };
-                        mailMessage.To.Add(item.To);
-                        if (!string.IsNullOrEmpty(item.CC))
-                            mailMessage.CC.Add(item.CC);
-                        await _emailSender.SendAsync(mailMessage);
+                       string To= item.To.Split(',')[0];    
+                        SendMail(To, item.Subject, _body, item.IsHTML);
+                        //mailMessage.To.Add(item.To);
+                        //if (!string.IsNullOrEmpty(item.CC))
+                        //    mailMessage.CC.Add(item.CC);
+                        //await _emailSender.SendAsync(mailMessage);
 
                         item.Status = Status.Success;
                     }
