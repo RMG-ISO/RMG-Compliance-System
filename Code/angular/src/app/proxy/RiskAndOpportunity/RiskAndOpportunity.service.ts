@@ -37,7 +37,7 @@ export class RiskAndOpportunityService {
     this.restService.request<any, PagedResultDto<RiskAndOpportunityDto>>({
       method: 'GET',
       url: '/api/app/risk-and-opportunity/risk-by-filter',
-      params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { search: input.search, type: input.type,DepartmentId:input.DepartmentId,UserId:input.UserId,Potential:input.Potential,Status:input.Status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
     getListUser = (input: UserPagedAndSortedResultRequestDto) =>
@@ -57,9 +57,17 @@ export class RiskAndOpportunityService {
     { apiName: this.apiName });
 
     getOpenClose= (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
-    this.restService.request<any, Array<OpenCloseRiskAndOpportunityDto>>({
+    this.restService.request<any, any>({
       method: 'GET',
       url: '/api/app/risk-and-opportunity/open-close-risks-and-opportunities',
+      params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+    getTreatmentsDashboard= (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, any>({
+      method: 'GET',
+      url: '/api/app/risk-and-opportunity/treatment-risks-and-opportunities',
       params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });

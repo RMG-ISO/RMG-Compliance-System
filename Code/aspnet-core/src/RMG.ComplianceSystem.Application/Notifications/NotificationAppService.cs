@@ -110,12 +110,13 @@ namespace RMG.ComplianceSystem.Notifications
                 {
                     try
                     {
-                        var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
-                        var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
-                        string _body = hearder.Body;
+                        //var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
+                        //var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
+                        string _body =String.Empty;
+                        //_body = hearder.Body;
                         _body += "<p>"+GetURI() + item.Url+"</p>";
                         _body += item.Body;
-                        _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
+                       // _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
 
                         MailMessage mailMessage = new MailMessage
                         {
@@ -151,7 +152,6 @@ namespace RMG.ComplianceSystem.Notifications
 
         }
 
-        [RemoteService(false)]
         public async Task NotifyUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();

@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Application.Dtos;
+﻿using System;
+using Volo.Abp.Application.Dtos;
 
 namespace RMG.ComplianceSystem.Risks.Dtos
 {
@@ -6,6 +7,10 @@ namespace RMG.ComplianceSystem.Risks.Dtos
     {
         public string Search { get; set; }
         public int? Type { get; set; }
+        public int? Potential { get; set; }
+        public int? Status { get; set; }
+        public Guid? UserId { get; set; }
+        public Guid? DepartmentId { get; set; }
     }
     
 }
