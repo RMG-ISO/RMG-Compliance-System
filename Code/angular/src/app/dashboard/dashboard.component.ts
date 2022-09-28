@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
   likelihoodConditions;
 
   ngOnInit(): void {
-    console.log(this.localizationService.instant('::OpportunitiesInDepartments'));
     this.likelihoodConditions = [
       {
         value: this.localizationService.instant('::VeryLow'),
@@ -87,7 +86,7 @@ export class DashboardComponent implements OnInit {
 
   risksChart;
   treatmentRisksChart;
-  AfterTreatmentRiskBarsPotentials
+  AfterTreatmentRiskBarsPotentials;
   getListRisks() {
     this.riskAndOpportunityService.getList({ search: '', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
