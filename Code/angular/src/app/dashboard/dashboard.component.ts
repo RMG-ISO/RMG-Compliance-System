@@ -81,12 +81,19 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onChartClick(ev){
+    console.log(ev);
+    // + '?=name' + encodeURI(ev.name)
+    window.open('/risks-management/dashboard-report' + ev.data.groupId  , "_blank");
+  }
+
   itemsRisk;
   totalCountRisk;
 
   risksChart;
   treatmentRisksChart;
   AfterTreatmentRiskBarsPotentials;
+  
   getListRisks() {
     this.riskAndOpportunityService.getList({ search: '', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
@@ -119,7 +126,8 @@ export class DashboardComponent implements OnInit {
         if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].items.push(item);
         else risksByDepartments[item['departmentId']] = {
           items:[item],
-          name:this.departments[item['departmentId']].name
+          name:this.departments[item['departmentId']].name,
+          id:'/1/'+this.departments[item['departmentId']].id
         };
       }
       this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
@@ -132,8 +140,13 @@ export class DashboardComponent implements OnInit {
     let names  = [],
         values = [];
     for(let key in departments) {
-      names.push(departments[key].name);
-      values.push(departments[key].items.length)
+      names.push({
+        value:departments[key].name,
+      });
+      values.push({
+        value:departments[key].items.length,
+        groupId:departments[key].id
+      })
     }
 
     this[key] = {
@@ -272,7 +285,8 @@ export class DashboardComponent implements OnInit {
         if(oppByDepartments[item['departmentId']]) oppByDepartments[item['departmentId']].items.push(item);
         else oppByDepartments[item['departmentId']] = {
           items:[item],
-          name:this.departments[item['departmentId']].name
+          name:this.departments[item['departmentId']].name,
+          id:'/2/'+this.departments[item['departmentId']].id
         };
       }
       this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::OpportunitiesInDepartments')
