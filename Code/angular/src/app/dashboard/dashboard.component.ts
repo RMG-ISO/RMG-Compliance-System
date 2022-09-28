@@ -37,19 +37,19 @@ export class DashboardComponent implements OnInit {
         value: this.localizationService.instant('Medium'),
         itemStyle:{
           color:'#efe338'
-        } 
+        }
       },
-      { 
+      {
         value: this.localizationService.instant('High'),
         itemStyle:{
           color:'#f3a108'
-        } 
+        }
      },
       {
         value: this.localizationService.instant('VeryHigh'),
         itemStyle:{
           color:'#b62e2e'
-        } 
+        }
       },
     ];
 
@@ -61,13 +61,28 @@ export class DashboardComponent implements OnInit {
       });
 
     });
-    this.riskAndOpportunityService.getOpenClose({ search:'', type:1, maxResultCount:null }).subscribe((response) => {
-      // debugger;
-    console.log(response);
+    this.riskAndOpportunityService.getOpenClose({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
+    let value=response;
+    this.risksChart = this.createRisksOppChart(value.Open,value.Close,'::Status');
     });
+    this.riskAndOpportunityService.getOpenClose({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
+      let value=response;
+      this.opportunitiesChart = this.createRisksOppChart(value.Open,value.Close,'::Status');
+      });
+
+      this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
+        let value=response;
+
+      this.treatmentRisksChart = this.TreatementRisksOppChart(value.treatmentRisks,value.NotreatmentRisks,'::TreatmentsStatus');
+        });
+        this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
+          let value=response;
+
+      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(value.treatmentRisks,value.NotreatmentRisks,'::TreatmentsStatus');
+          });
+
 
   }
-
   itemsRisk;
   totalCountRisk;
 
@@ -75,7 +90,7 @@ export class DashboardComponent implements OnInit {
   treatmentRisksChart;
   AfterTreatmentRiskBarsPotentials
   getListRisks() {
-    this.riskAndOpportunityService.getList({ search: '', type:1, maxResultCount:null }).subscribe((response) => {
+    this.riskAndOpportunityService.getList({ search: '', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
@@ -89,7 +104,7 @@ export class DashboardComponent implements OnInit {
     // });
 
     let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-      
+
     response.items.map(x => {
       if(x['reEvaluation'] == null) {
         if(x['potential'] == 1)                               riskitem[0].value += 1;
@@ -98,12 +113,14 @@ export class DashboardComponent implements OnInit {
         else if(x['potential'] == 8)                          riskitem[3].value += 1;
         else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
       } else {
-        if(x['potential'] == 1) reEvaluationitem[0].value += 1;
-        else if(x['potential'] == 2) reEvaluationitem[1].value += 1;
-        else if(x['potential'] == 4) reEvaluationitem[2].value += 1;
-        else if(x['potential'] == 8) reEvaluationitem[3].value += 1;
-        else if(x['potential'] == 12) reEvaluationitem[4].value += 1;
+        if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
+        else if(x['reEvaluation'] == 2) reEvaluationitem[1].value += 1;
+        else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
+        else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
+        else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
+
       }
+
     });
 
 
@@ -121,8 +138,7 @@ export class DashboardComponent implements OnInit {
         }
         this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
 
-      this.risksChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Status');
-      this.treatmentRisksChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::TreatmentsStatus');
+
     });
   }
   riskBarsPotentials;
@@ -241,15 +257,13 @@ export class DashboardComponent implements OnInit {
   riskBarsOpportunityPotentials;
   AfterTreatmentRiskBarsOpportunityPotentials
   getListOpportunities() {
-    this.riskAndOpportunityService.getList({  search: '', type:2,  maxResultCount:null }).subscribe((response) => {
+    this.riskAndOpportunityService.getList({  search: '', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null,  maxResultCount:null }).subscribe((response) => {
       this.itemsOpportunity = response.items;
       this.totalCountOpportunity = response.totalCount;
-      this.opportunitiesChart = this.createRisksOppChart(response.items.filter(x => x['status'] == 1).length, response.items.filter(x => x['status'] == 2).length,'::Status');
-      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.items.filter(x => x['isTreatment'] == 1).length, response.items.filter(x => x['isTreatment'] == 0).length,'::TreatmentsStatus');
 
       let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
       let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-      
+
       response.items.map(x => {
         if(x['reEvaluation'] == null) {
           if(x['potential'] == 1)                               riskitem[0].value += 1;
@@ -258,19 +272,12 @@ export class DashboardComponent implements OnInit {
           else if(x['potential'] == 8)                          riskitem[3].value += 1;
           else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
         } else {
-          if(x['potential'] == 1) reEvaluationitem[0].value += 1;
-          else if(x['potential'] == 2) reEvaluationitem[1].value += 1;
-          else if(x['potential'] == 4) reEvaluationitem[2].value += 1;
-          else if(x['potential'] == 8) reEvaluationitem[3].value += 1;
-          else if(x['potential'] == 12) reEvaluationitem[4].value += 1;
+          if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
+          else if(x['reEvaluation'] == 2) reEvaluationitem[1].value += 1;
+          else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
+          else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
+          else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
 
-          // let potentials = [
-          //   { id: 1 },
-          //   { id: 2 },
-          //   { id: 4},
-          //   { id: 8 },
-          //   { id: 12 },
-          // ];
         }
       });
 
@@ -336,7 +343,7 @@ export class DashboardComponent implements OnInit {
                 value: closed,
                 name: this.localizationService.instant('::Status:Close'),
                 itemStyle: {
-                 color:'#a5d6a7'
+                 color:'red'
                 },
               },
             ],

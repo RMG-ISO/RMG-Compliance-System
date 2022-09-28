@@ -71,7 +71,12 @@ namespace RMG.ComplianceSystem.Risks
             if (input.Type != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false && x.Type == input.Type &&
+                var ListRisks = RiskAndOpportunityRepository
+                    .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
+                    .WhereIf(input.Status != null, t => t.status == input.Status)
+                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential)
+                    .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
+                    .Where(x => x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
@@ -82,7 +87,12 @@ namespace RMG.ComplianceSystem.Risks
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = RiskAndOpportunityRepository.Where(x => x.IsDeleted == false &&
+                var ListDoc = RiskAndOpportunityRepository
+                    .WhereIf(input.DepartmentId!=null, t => t.DepartmentId == input.DepartmentId)
+                    .WhereIf(input.Status != null, t => t.status == input.Status)
+                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential)
+                    .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
+                    .Where(x => 
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
@@ -198,7 +208,7 @@ namespace RMG.ComplianceSystem.Risks
             return openClose; 
         }
         [HttpGet]
-        public async Task<Dictionary<string, int>> TreatmentRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        public async Task<Dictionary<string,int>> TreatmentRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var Treatment = new Dictionary<string, int>();
             var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();

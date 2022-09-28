@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { Type, Status, HistoryAction } from '../module.enums';
 import * as moment from 'moment';
+import { IdentityUserService } from '@abp/ng.identity';
+import { DepartmentService } from '@proxy/departments';
 
 
 @Component({
@@ -21,21 +23,28 @@ export class ListComponent implements OnInit {
     public readonly list: ListService,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
-    private configState:ConfigStateService
+    private configState:ConfigStateService,
+    private departmentService:DepartmentService,
+    private userService:IdentityUserService
   ) { }
 
   ngOnInit(): void {
+    this.getDataFilter();
     this.getList();
+
   }
 
   searchVal
   items
   totalCount;
+  DepartmentId;
+  UserId;
+  Potential;
   selectedType = Type.Risk;
   activeTabName;
   getList() {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
-    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType });
+    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType,DepartmentId:null,UserId:null,Potential:null,Status:null });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -57,7 +66,7 @@ export class ListComponent implements OnInit {
             userId: this.configState.getAll().currentUser.id,
             workFlowStages: null,
           }
-      
+
           // this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => { })
 
         });
@@ -70,5 +79,18 @@ export class ListComponent implements OnInit {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
     this.list.get();
   }
-
+  departments;
+  users;
+  Potentials;
+  Statusdrop;
+getDataFilter(){
+  this.Statusdrop=[{id:1,nameAr:'مفتوح',nameEn:'Open'},{id:2,nameAr:'مغلق',nameEn:'Close'}];
+  this.Potentials=[{id:1,nameAr:'ضعيف جدا',nameEn:'Very Low'},{id:6,nameEn:'Medium',nameAr:'متوسط'},{id:9,nameEn:'High',nameAr:'عالي'},{id:12,nameEn:'Very High',nameAr:'عالي جدا'}];
+  this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+    this.departments = r.items;
+  })
+  this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
+    this.users = r.items
+  });
+}
 }

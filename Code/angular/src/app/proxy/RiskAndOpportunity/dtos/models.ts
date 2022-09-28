@@ -117,6 +117,10 @@ export interface UserPagedAndSortedResultRequestDto extends PagedAndSortedResult
 export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
   type?: number;
+  DepartmentId:string;
+  UserId:string;
+  Potential:number;
+  Status:number;
 }
 export interface OpenCloseRiskAndOpportunityDto {
 id?:string;
