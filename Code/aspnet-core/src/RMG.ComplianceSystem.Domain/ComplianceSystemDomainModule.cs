@@ -17,6 +17,7 @@ using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
+using Volo.Abp.Timing;
 
 namespace RMG.ComplianceSystem
 {
@@ -42,6 +43,10 @@ namespace RMG.ComplianceSystem
             {
                 options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
+            Configure<AbpClockOptions>(options =>
+            {
+                options.Kind = DateTimeKind.Utc;
+            });
 
             Configure<AbpBlobStoringOptions>(options =>
             {
@@ -49,12 +54,14 @@ namespace RMG.ComplianceSystem
                 {
                     container.UseFileSystem(fileSystem =>
                     {
+                        //fileSystem.BasePath = "C:\\my-files";
                         fileSystem.BasePath = "ComplianceSystem-Files";
                         fileSystem.AppendContainerNameToBasePath = true;
 
                     });
                 });
             });
+
             //Check validation of token every 10 seconds
             Configure<SecurityStampValidatorOptions>(options =>
             {
@@ -62,8 +69,10 @@ namespace RMG.ComplianceSystem
             });
 
 #if DEBUG
-          //  context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
+            //context.Services.Replace(ServiceDescriptor.Scoped<IEmailSender, NullEmailSender>());
 #endif
         }
+
+
     }
 }
