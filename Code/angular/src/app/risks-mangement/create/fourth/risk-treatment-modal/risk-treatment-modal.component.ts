@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/operators';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Input, OnInit } from '@angular/core';
@@ -107,6 +108,7 @@ export class RiskTreatmentModalComponent implements OnInit {
         "nameEn": "Canceled",
         "nameAr": "تم الالغاء"
       },
+      
     ];
 
     if(id) this.getTreatmentData(id);
@@ -180,6 +182,7 @@ export class RiskTreatmentModalComponent implements OnInit {
     this.uploading = false;
   }
 
+  isSaving = false;
   save() {
     if (this.form.invalid) return;
     let value = this.form.getRawValue();
@@ -189,7 +192,11 @@ export class RiskTreatmentModalComponent implements OnInit {
     value.completionDate = value.completionDate ? moment(value.completionDate).utc(true).toDate() : null;
 
     const request = this.data.id ? this.riskTreatmentService.update(this.data.id, value) : this.riskTreatmentService.create(value);
-    request.subscribe(() => {
+    this.isSaving = true;
+    request
+    .pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe(() => {
       if(!this.ref) this.toasterService.success("::SuccessfullySaved", "");
       this.close(this.data.id ? HistoryAction.UpdatePlanAction : HistoryAction.CreatePlanAction );
     });
