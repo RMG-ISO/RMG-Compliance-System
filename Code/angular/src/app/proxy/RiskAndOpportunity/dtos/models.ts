@@ -110,6 +110,7 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   AcceptanceApprovedby ?:string ;
   ReviewControlAssessment ?:string ;
   ReviewRemarks ?:string ;
+  DepartmentName?:string;
 }
 export interface UserPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   Filter?: string;
