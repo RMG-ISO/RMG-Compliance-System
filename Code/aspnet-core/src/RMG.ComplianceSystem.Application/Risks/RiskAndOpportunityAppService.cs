@@ -18,6 +18,7 @@ using System.Linq.Dynamic.Core;
 using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.Risks.Enums;
 using Microsoft.AspNetCore.Mvc;
+using RMG.ComplianceSystem.Departments;
 
 namespace RMG.ComplianceSystem.Risks
 {
@@ -53,12 +54,13 @@ namespace RMG.ComplianceSystem.Risks
         private readonly IRiskAndOpportunityRepository RiskAndOpportunityRepository;
         private readonly IdentityUserManager User;
         private readonly IStaticDataRepository StaticDatarepository;
-
-        public RiskAndOpportunityAppService(IdentityUserManager _User, IStaticDataRepository _StaticDatarepository, IRiskAndOpportunityRepository _RiskAndOpportunityrepository) : base(_RiskAndOpportunityrepository)
+        private readonly IDepartmentRepository departmentRepository;
+        public RiskAndOpportunityAppService(IdentityUserManager _User, IStaticDataRepository _StaticDatarepository, IDepartmentRepository DepartmentRepository, IRiskAndOpportunityRepository _RiskAndOpportunityrepository) : base(_RiskAndOpportunityrepository)
         {
             RiskAndOpportunityRepository = _RiskAndOpportunityrepository;
             User = _User;
             StaticDatarepository = _StaticDatarepository;
+            departmentRepository = DepartmentRepository;
         }
         #endregion
         //End Properties and Constructor RiskAppService
@@ -124,6 +126,10 @@ namespace RMG.ComplianceSystem.Risks
                 {
                     Risk.PotentialNameAr = getPotentialName(Risk.Potential).Result.NameAr;
                     Risk.PotentialNameEn = getPotentialName(Risk.Potential).Result.NameEn;
+                }
+                if(Risk.DepartmentId!=null)
+                {
+                    Risk.DepartmentName= departmentRepository.FirstOrDefault(t=>t.Id==Risk.DepartmentId).Name;
                 }
                 RisksData.Add(Risk);
             }

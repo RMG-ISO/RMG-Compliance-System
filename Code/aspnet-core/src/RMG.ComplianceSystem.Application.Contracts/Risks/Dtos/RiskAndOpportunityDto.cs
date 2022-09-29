@@ -72,9 +72,11 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public string ReviewControlAssessment { get; set; }
         public string ReviewRemarks { get; set; }
 
+        public string DepartmentName { get; set; }
+
 
     }
 
-  
+
 
 }
