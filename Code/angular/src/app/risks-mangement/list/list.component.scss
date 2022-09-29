@@ -1,17 +1,37 @@
-.tabs-cont {
-    span {
-        width: 50px;
-        text-align: center;
-    }
-    button {
-        background-color: #F7F7F7;
-        width: 120px;
-        color: #707070;
-        font-weight: bold;
-        &.active {
-            background-color: #F2F5FD;
-            color:#4775FD;
-            box-shadow: 0 0 5px rgba(0,0,0,.16);
+@import "../../../styles/mixins";
+
+:host {
+    .tabs-cont {
+        span {
+            width: 50px;
+            text-align: center;
+        }
+        button {
+            background-color: #F7F7F7;
+            width: 120px;
+            color: #707070;
+            font-weight: bold;
+            &.active {
+                background-color: #F2F5FD;
+                color:#4775FD;
+                box-shadow: 0 0 5px rgba(0,0,0,.16);
+            }
+            &.filter-btn{
+                position: absolute;
+                width: 20px;
+                border: 1px solid #707070;
+                height: 36px;
+                display: block;
+                right: 1rem;
+                &.show {
+                    color: #4775FD;
+                    border-color: #4775FD;
+                }
+                @include nb-ltr(){
+                    left: 1rem;
+                    right:auto
+                }
+            }
         }
     }
 }
@@ -28,5 +48,20 @@
     font-weight: bold;
     &.closed {
         color:#FF0000;
+    }
+}
+
+.filter-row {
+    // overflow: hidden;
+    // transition: max-height .3s ease-out, opacity 0.3s ease 0.5;
+    transition: all .3s ease;
+    transition-property: max-height, opacity;
+
+    margin-top: 1rem;
+    opacity: 0;
+    max-height: 0;
+    &.show {
+        opacity: 1;
+        max-height: 700px;
     }
 }

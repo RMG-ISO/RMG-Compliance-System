@@ -1,3 +1,4 @@
+import { DashboardReportComponent } from './dashboard-report/dashboard-report.component';
 import { PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -46,6 +47,10 @@ const routes: Routes = [
     },
   },
   {
+    path:'dashboard-report/:typeId/:departmentId',
+    component:DashboardReportComponent
+  },
+  {
     path:':id/edit',
     component:CreateComponent,
     canActivate:[PermissionGuard],
@@ -61,6 +66,7 @@ const routes: Routes = [
       requiredPolicy: 'ComplianceSystem.RiskAndOpportunity.Update',
     },
   },
+
   // {
   //   path:':id/view',
   //   component:CreateComponent,

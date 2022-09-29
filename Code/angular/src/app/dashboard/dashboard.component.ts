@@ -22,31 +22,31 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.likelihoodConditions = [
       {
-        value: this.localizationService.instant('VeryLow'),
+        value: this.localizationService.instant('::VeryLow'),
         itemStyle:{
           color:'#03a008'
         }
       },
       {
-        value: this.localizationService.instant('Low'),
+        value: this.localizationService.instant('::Low'),
         itemStyle:{
           color:'#26872a'
         }
       },
       {
-        value: this.localizationService.instant('Medium'),
+        value: this.localizationService.instant('::Medium'),
         itemStyle:{
           color:'#efe338'
         }
       },
       {
-        value: this.localizationService.instant('High'),
+        value: this.localizationService.instant('::High'),
         itemStyle:{
           color:'#f3a108'
         }
      },
       {
-        value: this.localizationService.instant('VeryHigh'),
+        value: this.localizationService.instant('::VeryHigh'),
         itemStyle:{
           color:'#b62e2e'
         }
@@ -59,97 +59,94 @@ export class DashboardComponent implements OnInit {
       r.items.map(item => {
         this.departments[item.id] = item;
       });
+    });
 
+    this.riskAndOpportunityService.getOpenClose({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+    .subscribe((response) => {
+      this.risksChart = this.createRisksOppChart(response.Open,response.Close,'::Status');
     });
-    this.riskAndOpportunityService.getOpenClose({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
-    let value=response;
-    this.risksChart = this.createRisksOppChart(value.Open,value.Close,'::Status');
-    });
+
     this.riskAndOpportunityService.getOpenClose({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
-      let value=response;
-      this.opportunitiesChart = this.createRisksOppChart(value.Open,value.Close,'::Status');
-      });
+      this.opportunitiesChart = this.createRisksOppChart(response.Open,response.Close,'::Status');
+    });
 
-      this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
-        let value=response;
+    this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+    .subscribe((response) => {
+      this.treatmentRisksChart = this.TreatementRisksOppChart(response.treatmentRisks,response.NotreatmentRisks,'::TreatmentsStatus');
+    });
 
-      this.treatmentRisksChart = this.TreatementRisksOppChart(value.treatmentRisks,value.NotreatmentRisks,'::TreatmentsStatus');
-        });
-        this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
-          let value=response;
-
-      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(value.treatmentRisks,value.NotreatmentRisks,'::TreatmentsStatus');
-          });
-
-
+    this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+    .subscribe((response) => {
+      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.treatmentRisks,response.NotreatmentRisks,'::TreatmentsStatus');
+    });
   }
+
+  onChartClick(ev){
+    console.log(ev);
+    // + '?=name' + encodeURI(ev.name)
+    window.open('/risks-management/dashboard-report' + ev.data.groupId  , "_blank");
+  }
+
   itemsRisk;
   totalCountRisk;
 
   risksChart;
   treatmentRisksChart;
-  AfterTreatmentRiskBarsPotentials
+  AfterTreatmentRiskBarsPotentials;
+  
   getListRisks() {
     this.riskAndOpportunityService.getList({ search: '', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
       let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
-    // response.items.map(x => {
-    //   if(x['potential'] == 1)                               riskitem[0].value += 1;
-    //   else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
-    //   else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-    //   else if(x['potential'] == 8)                          riskitem[3].value += 1;
-    //   else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
-    // });
+      let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
 
-    let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-
-    response.items.map(x => {
-      if(x['reEvaluation'] == null) {
-        if(x['potential'] == 1)                               riskitem[0].value += 1;
-        else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
-        else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-        else if(x['potential'] == 8)                          riskitem[3].value += 1;
-        else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
-      } else {
-        if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
-        else if(x['reEvaluation'] == 2) reEvaluationitem[1].value += 1;
-        else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
-        else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
-        else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
-
-      }
-
-    });
-
-
+      response.items.map(x => {
+        if(x['reEvaluation'] == null) {
+          if(x['potential'] == 1)                               riskitem[0].value += 1;
+          else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
+          else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
+          else if(x['potential'] == 8)                          riskitem[3].value += 1;
+          else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
+        } else {
+          if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
+          else if(x['reEvaluation'] == 2) reEvaluationitem[1].value += 1;
+          else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
+          else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
+          else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
+        }
+      });
 
       this.createChartPotentialBars('riskBarsPotentials', this.likelihoodConditions ,riskitem, '::Risk:Potential');
       this.createChartPotentialBars('AfterTreatmentRiskBarsPotentials', this.likelihoodConditions ,reEvaluationitem, '::Risk:Potential');
 
-       let risksByDepartments = {};
-        for(let item of response.items) {
-          if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].items.push(item);
-          else risksByDepartments[item['departmentId']] = {
-            items:[item],
-            name:this.departments[item['departmentId']].name
-          };
-        }
-        this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
-
-
+      let risksByDepartments = {};
+      for(let item of response.items) {
+        if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].items.push(item);
+        else risksByDepartments[item['departmentId']] = {
+          items:[item],
+          name:this.departments[item['departmentId']].name,
+          id:'/1/'+this.departments[item['departmentId']].id
+        };
+      }
+      this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
     });
   }
   riskBarsPotentials;
   riskBarsOptions;
   opportunitiesBarsOptions;
   createChartBars(key, departments, title ) {
-    let names = [],
+    let names  = [],
         values = [];
     for(let key in departments) {
-      names.push(departments[key].name);
-      values.push(departments[key].items.length)
+      names.push({
+        value:departments[key].name,
+      });
+      values.push({
+        value:departments[key].items.length,
+        groupId:departments[key].id
+      })
     }
 
     this[key] = {
@@ -193,18 +190,15 @@ export class DashboardComponent implements OnInit {
 
   }
   createChartPotentialBars(key, PotentialName,PotentialValue, title ) {
-    let names = [],
+    let names  = [],
         values = [];
-        // debugger;
-        for(let i = 0; i < PotentialValue.length; i++) {
-          values.push({
-            value:PotentialValue[i].value,
-            itemStyle:PotentialName[i].itemStyle
-          })
-        }
-      // for(let key in PotentialValue) {
-      //   values.push(PotentialValue[key].value)
-      // }
+    for(let i = 0; i < PotentialValue.length; i++) {
+      values.push({
+        value:PotentialValue[i].value,
+        itemStyle:PotentialName[i].itemStyle
+      })
+    }
+   
     for(let key in PotentialName) {
       names.push(this.localizationService.instant(PotentialName[key].value));
     }
@@ -291,7 +285,8 @@ export class DashboardComponent implements OnInit {
         if(oppByDepartments[item['departmentId']]) oppByDepartments[item['departmentId']].items.push(item);
         else oppByDepartments[item['departmentId']] = {
           items:[item],
-          name:this.departments[item['departmentId']].name
+          name:this.departments[item['departmentId']].name,
+          id:'/2/'+this.departments[item['departmentId']].id
         };
       }
       this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::OpportunitiesInDepartments')

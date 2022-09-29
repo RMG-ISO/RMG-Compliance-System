@@ -20,6 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-modal/risk-treatment-modal.component';
 import { MatrixComponent } from './create/matrix/matrix.component';
 import { HistoryComponent } from './create/history/history.component';
+import { DashboardReportComponent } from './dashboard-report/dashboard-report.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { HistoryComponent } from './create/history/history.component';
     RiskTreatmentModalComponent,
     MatrixComponent,
     HistoryComponent,
+    DashboardReportComponent,
   ],
   imports: [
     CommonModule,
