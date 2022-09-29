@@ -59,3 +59,9 @@ mat-card-title {
 //         }
 //     }
 // }
+
+mat-spinner.mat-progress-spinner ::ng-deep {
+    circle {
+        stroke: #fff;
+    }
+}

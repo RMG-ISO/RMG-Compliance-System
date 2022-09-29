@@ -102,8 +102,10 @@
 
                 <ng-container *ngIf="!form.disabled">
                     <ng-template #showOther>
+                        <!-- <mat-spinner diameter="30" [strokeWidth]="2"></mat-spinner> -->
                         <button [disabled]="isSaving" mat-button class="primary" [disabled]="uploading">
-                            <i class="fa fa-check mr-1"></i>
+                            <!-- <i class="fa fa-check mr-1"></i> -->
+                            <mat-spinner diameter="15" [strokeWidth]="2"></mat-spinner>
                             {{ '::Save' | abpLocalization }}
                         </button>
                     </ng-template>

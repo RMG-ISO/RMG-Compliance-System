@@ -106,7 +106,7 @@ export class FourthComponent implements OnInit {
     this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.riskTreatmentService.delete(model.id).subscribe(() => this.list.get());
-        this.update(HistoryAction.DeletePlanAction);
+        this.update(HistoryAction.DeletePlanAction, true);
       }
     });
   }
@@ -127,8 +127,8 @@ export class FourthComponent implements OnInit {
   }
 
 
-  update(action) {
-    this.updateProcessing.emit(action);
+  update(action, isDelete = false) {
+    this.updateProcessing.emit({action:action, isDelete});
     this.list.get();
     console.log('this.getin list')
   }
