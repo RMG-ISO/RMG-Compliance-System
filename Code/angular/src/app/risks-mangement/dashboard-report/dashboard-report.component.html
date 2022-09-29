@@ -1,0 +1,78 @@
+<mat-card class="global-card">
+    <mat-card-title class="d-flex align-items-center justify-content-between">
+        <h4>
+            تقرير - إدارة كذا
+        </h4>
+        <button mat-button (click)="exportexcel()">
+            <i class="fas fa-file-excel"></i>
+        </button>
+    </mat-card-title>
+    <mat-card-content>
+        <ngx-datatable
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        #dataTable
+        [rows]="items"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
+        >
+            <ngx-datatable-column [name]=" (activeTabName + 'Name') | abpLocalization" prop="name">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'name'  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" (activeTabName +'Owner') | abpLocalization" prop="ownerName"></ngx-datatable-column>
+            <ngx-datatable-column [name]=" (activeTabName +'Potential') | abpLocalization" prop="potentialName">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ row | lang:'potentialName'  }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" (activeTabName +'Status') | abpLocalization" prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="status" [class.closed]="value == Status.Close">
+                        {{ ( '::Status:' + Status[value] ) | abpLocalization }}
+                    </span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="creator.userName"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="departmentName"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::CreatedDate' | abpLocalization" prop="creationTime">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy-MM-dd' }}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </mat-card-content>
+</mat-card>
+
+
+<table id="excel-table" class="table">
+    <tr>
+        <th>{{ (activeTabName + 'Name') | abpLocalization  }}</th>
+        <th>{{ (activeTabName +'Owner') | abpLocalization }}</th>
+        <th> {{ (activeTabName +'Potential') | abpLocalization }} </th>
+        <th> {{ (activeTabName +'Status') | abpLocalization }} </th>
+        <th> {{ '::CreatedBy' | abpLocalization }} </th>
+        <th> {{ '::DepartmentName' | abpLocalization }} </th>
+        <th> {{ '::CreatedDate' | abpLocalization }} </th>
+    </tr>
+    <tr *ngFor="let row of items">
+        <td> {{ row | lang:'name'  }}</td>
+        <td> {{ row.ownerName }} </td>
+        <td> {{ row | lang:'potentialName' }} </td>
+        <td> {{  ( '::Status:' + Status[row.status] ) | abpLocalization  }} </td>
+        <td> {{ row.creator.userName  }} </td>
+        <td> {{ row.departmentName }} </td>
+        <td> {{ row.creationTime | date:'yyyy-MM-dd' }} </td>
+    </tr>
+  </table>
+  

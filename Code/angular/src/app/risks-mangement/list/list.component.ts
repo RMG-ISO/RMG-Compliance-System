@@ -31,7 +31,6 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.getDataFilter();
     this.getList();
-
   }
 
   searchVal
@@ -44,7 +43,7 @@ export class ListComponent implements OnInit {
   activeTabName;
   getList() {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
-    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType,DepartmentId:null,UserId:null,Potential:null,Status:null });
+    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -79,18 +78,32 @@ export class ListComponent implements OnInit {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
     this.list.get();
   }
+
   departments;
   users;
   Potentials;
   Statusdrop;
-getDataFilter(){
-  this.Statusdrop=[{id:1,nameAr:'مفتوح',nameEn:'Open'},{id:2,nameAr:'مغلق',nameEn:'Close'}];
-  this.Potentials=[{id:1,nameAr:'ضعيف جدا',nameEn:'Very Low'},{id:6,nameEn:'Medium',nameAr:'متوسط'},{id:9,nameEn:'High',nameAr:'عالي'},{id:12,nameEn:'Very High',nameAr:'عالي جدا'}];
-  this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
-    this.departments = r.items;
-  })
-  this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
-    this.users = r.items
-  });
-}
+  showFilters = false;
+  filter = {}
+  getDataFilter(){
+    this.Statusdrop=[{id:1,nameAr:'مفتوح',nameEn:'Open'},{id:2,nameAr:'مغلق',nameEn:'Close'}];
+    this.Potentials = [
+      {id:1,nameAr:'ضعيف جدا',nameEn:'Very Low'},
+      {id:6,nameEn:'Medium',nameAr:'متوسط'},
+      {id:9,nameEn:'High',nameAr:'عالي'},
+      {id:12,nameEn:'Very High',nameAr:'عالي جدا'}
+    ];
+    
+    this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
+      this.departments = r.items;
+    })
+    this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
+      this.users = r.items
+    });
+  }
+
+  changeFilter(val) {
+    this.filter = {...this.filter, ...val};
+    this.list.get();
+  }
 }
