@@ -102,7 +102,7 @@
 
                 <ng-container *ngIf="!form.disabled">
                     <ng-template #showOther>
-                        <button mat-button class="primary" [disabled]="uploading">
+                        <button [disabled]="isSaving" mat-button class="primary" [disabled]="uploading">
                             <i class="fa fa-check mr-1"></i>
                             {{ '::Save' | abpLocalization }}
                         </button>
