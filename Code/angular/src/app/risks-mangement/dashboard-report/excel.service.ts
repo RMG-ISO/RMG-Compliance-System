@@ -48,7 +48,7 @@ export class ExcelService {
 
     // Create workbook and worksheet
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet(this.localizationService.instant('::Report') + departmentName, {
+    const worksheet = workbook.addWorksheet(this.localizationService.instant('::Report') + ' '  + departmentName, {
       pageSetup:{
         horizontalCentered:true,
         verticalCentered:true
@@ -57,7 +57,7 @@ export class ExcelService {
     worksheet.properties.defaultRowHeight = 25;
 
 // Add Row and formatting
-    const titleRow = worksheet.addRow([this.localizationService.instant('::Report') + departmentName]);
+    const titleRow = worksheet.addRow([this.localizationService.instant('::Report') + ' ' + departmentName]);
     titleRow.font = { name: 'Arial', family: 4, size: 16, underline: 'double', bold: true };
     worksheet.addRow([]);
     worksheet.addRow([]);
@@ -163,7 +163,7 @@ data.forEach(d => {
 // Generate Excel File with given name
     workbook.xlsx.writeBuffer().then((data: any) => {
   const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  fs.saveAs(blob, 'CarData.xlsx');
+  fs.saveAs(blob, this.localizationService.instant('::Report') + ' ' + departmentName + '.xlsx');
 });
 
   }
