@@ -60,8 +60,11 @@ mat-card-title {
 //     }
 // }
 
-mat-spinner.mat-progress-spinner ::ng-deep {
-    circle {
-        stroke: #fff;
+mat-spinner.mat-progress-spinner {
+    margin: 0 8px;
+    ::ng-deep {
+        circle {
+            stroke: #fff;
+        }
     }
 }
