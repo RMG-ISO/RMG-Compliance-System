@@ -209,11 +209,31 @@ export class RiskTreatmentModalComponent implements OnInit {
   }
 
   changeDate(event) {
-    console.log(event);
     if(!this.activatedRoute.snapshot.params.treatmentId) return;
-    if(new Date(this.form.controls.completionDate.value) > new Date(this.form.controls.dueDate.value)) {
-      this.form.controls.status.setValue(5)
-    } else this.form.controls.status.setValue(this.oldStatus)
+    if(this.createDate(this.form.controls.completionDate.value) > this.createDate(this.form.controls.dueDate.value)) {
+      this.form.controls.status.setValue(5);
+      console.log('yeah large')
+    } else {
+      if(this.form.controls.status.value == 5) this.form.controls.status.setValue(null);
+    }
+  }
+
+  changeStatus(status) {
+    let  completionDate = this.createDate(this.form.controls.completionDate.value);
+    let  dueDate = this.createDate(this.form.controls.dueDate.value);
+    if(status === 5 && completionDate <= dueDate) {
+      this.form.controls.completionDate.setValue(null)
+    } else if( !(status == 5 || status == 3) && completionDate > dueDate ) {
+      this.form.controls.completionDate.setValue(null)
+    }
+  }
+
+  createDate(d) {
+    let date = new Date(d);
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    return date
   }
 
 }

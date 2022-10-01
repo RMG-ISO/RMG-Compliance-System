@@ -43,7 +43,6 @@ export class CurrentUserComponent implements OnInit {
   ngOnInit(): void {
     this.signalrService.initiateSignalrConnection();
     this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
-      debugger;
       console.log("ReceiveNotification",result);
       this.notificationItems = result.notifications;
       this.notificationItemsCount = result.unReadNotifications;
@@ -51,7 +50,6 @@ export class CurrentUserComponent implements OnInit {
 
     this.signalrService.initiateSignalrConnection().then(x => {
       this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
-        debugger;
         console.log("ReceiveNotification",result);
         this.notificationItems = result.notifications;
         this.notificationItemsCount = result.unReadNotifications;
@@ -70,7 +68,8 @@ export class CurrentUserComponent implements OnInit {
 
   markAsRead(item, index) {
     if(item.status == Status.NotSeen) this.notificationService.markAsSeenById(item.id).subscribe(r => {
-      this.notificationItems[index].status = Status.Seen
+      this.notificationItems[index].status = Status.Seen;
+      --this.notificationItemsCount;
     })
     this.router.navigate([item.url])
   }

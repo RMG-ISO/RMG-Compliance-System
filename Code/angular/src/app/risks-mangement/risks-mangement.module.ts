@@ -21,6 +21,7 @@ import { RiskTreatmentModalComponent } from './create/fourth/risk-treatment-moda
 import { MatrixComponent } from './create/matrix/matrix.component';
 import { HistoryComponent } from './create/history/history.component';
 import { DashboardReportComponent } from './dashboard-report/dashboard-report.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DashboardReportComponent } from './dashboard-report/dashboard-report.co
     MatListModule,
     MatRadioModule,
     MatExpansionModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ]
 })
 export class RisksMangementModule { }
