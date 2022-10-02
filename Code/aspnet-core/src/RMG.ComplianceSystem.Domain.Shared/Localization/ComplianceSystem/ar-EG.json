@@ -397,7 +397,8 @@
     "Risks": "المخاطر",
     "TreatmentsStatus":"حالات المعالجة",
     "BeforeMitigation":"قبل المعالجة",
-    "AfterMitigation":"بعد المعالجة"
+    "AfterMitigation":"بعد المعالجة",
+    "Report":"تقرير"
 
 
   }

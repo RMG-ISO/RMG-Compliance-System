@@ -122,7 +122,9 @@
                     <app-third *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" [form]="thirdForm" [itemData]="itemData"> </app-third>
                 </ng-container>
                 <ng-container *ngSwitchCase="WorkFlowStages.Processing">
-                    <app-fourth *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'" [itemData]="itemData" (updateProcessing)="updateHistory($event, WorkFlowStages.Processing)"> </app-fourth>
+                    <app-fourth
+                    *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'" [itemData]="itemData"
+                    (updateProcessing)="updateHistory($event.action, WorkFlowStages.Processing, $event.isDelete)"> </app-fourth>
                 </ng-container>
                 <ng-container *ngSwitchCase="WorkFlowStages.Review">
                     <app-fifth *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" [form]="fifthForm" [itemData]="itemData" > </app-fifth>

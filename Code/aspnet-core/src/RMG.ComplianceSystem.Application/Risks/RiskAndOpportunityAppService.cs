@@ -134,7 +134,6 @@ namespace RMG.ComplianceSystem.Risks
                 RisksData.Add(Risk);
             }
 
-            // return RiskDtos and totalCount
             return new PagedResultDto<RiskAndOpportunityDto>(
                 totalCount,
                 RisksData

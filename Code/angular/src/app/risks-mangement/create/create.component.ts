@@ -168,8 +168,8 @@ export class CreateComponent implements OnInit {
     })
   }
 
-  updateHistory(action, stage = this.activeTab) {
-    this.toasterService.success("::SuccessfullySaved", "");
+  updateHistory(action, stage = this.activeTab, isDelete = false) {
+    this.toasterService.success(isDelete ? '::SuccessfullyDeleted' : "::SuccessfullySaved", "");
     let obj:any = {
       actionDate:moment().toISOString(),
       actionName: action,
