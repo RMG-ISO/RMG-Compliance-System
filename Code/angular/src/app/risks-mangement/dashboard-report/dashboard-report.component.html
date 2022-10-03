@@ -5,12 +5,12 @@
             - 
             {{ departmentName }}
         </h4>
-        <button mat-button (click)="exportexcel()">
+        <button *ngIf="rows.length" mat-button (click)="exportexcel()">
             <i class="fas fa-file-excel"></i>
         </button>
     </mat-card-title>
     <mat-card-content>
-        <ngx-datatable
+        <ngx-datatable 
         class="material fullscreen"
         columnMode="force"
         [headerHeight]="50"
