@@ -4,7 +4,6 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { Type, Status } from '../module.enums';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { ExcelService } from './excel.service';
-// import * as XLSX from 'xlsx';
 import { LangPipe } from 'src/app/shared/pipe/lang.pipe';
 import { parseISO } from 'date-fns';
 
@@ -12,7 +11,11 @@ import { parseISO } from 'date-fns';
   selector: 'app-dashboard-report',
   templateUrl: './dashboard-report.component.html',
   styleUrls: ['./dashboard-report.component.scss'],
-  providers:[ListService, ExcelService, LangPipe]
+  providers:[
+    ListService,
+    ExcelService,
+    LangPipe
+  ]
 })
 export class DashboardReportComponent implements OnInit {
 
@@ -30,7 +33,6 @@ export class DashboardReportComponent implements OnInit {
 
   selectedType;
   ngOnInit(): void {
-    console.log(this.route.snapshot);
     this.selectedType = this.route.snapshot.params.typeId;
 
     this.getList();
@@ -43,7 +45,12 @@ export class DashboardReportComponent implements OnInit {
   rows;
   getList() {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
-    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, type:this.selectedType,DepartmentId: this.route.snapshot.params.departmentId, maxResultCount:null  });
+    const streamCreator = (query) => this.riskAndOpportunityService.getList({
+      ...query,
+      type:this.selectedType,
+      DepartmentId: this.route.snapshot.params.departmentId,
+      maxResultCount:null
+    });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       if(response.items[0]) this.departmentName = response.items[0]['departmentName'];
       this.items = response.items;
@@ -57,11 +64,6 @@ export class DashboardReportComponent implements OnInit {
           row.creator.userName,
           row['departmentName'],
           parseISO(row['creationTime'] as any)
-
-          // <td> {{  }} </td>
-          // <td> {{  | date:'yyyy-MM-dd' }} </td>
-
-          
         ]
       })
     });
