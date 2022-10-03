@@ -1,0 +1,144 @@
+<h3 class="mt-4">
+     المخاطر والفرص
+</h3>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <mat-card class="risks-card">
+            <mat-card-title>
+                {{ '::Risk' | abpLocalization }}
+                <h3>
+                    {{totalCountRisk}}
+                </h3>
+            </mat-card-title>
+            <mat-card-content>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-md-6">
+        <mat-card class="oppo-card">
+            <mat-card-title>
+                {{ '::Opportunity' | abpLocalization }}
+                <h3>
+                    {{totalCountOpportunity}}
+                </h3>
+            </mat-card-title>
+            <mat-card-content>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<mat-card class="main-card">
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-6 row p-0 m-0">
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        {{ '::Risks' | abpLocalization }}
+                    </h3>
+                </div>
+                <div class="col-md-6 p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="risksChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6 p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="treatmentRisksChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+           <div class="col-md-6 row p-0 m-0">
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        {{ '::Opportunities' | abpLocalization }}
+                    </h3>
+                </div>
+                <div class="col-md-6  p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="opportunitiesChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6  p-0">
+                    <mat-card class="pie-chart mb-4">
+                        <mat-card-content>
+                            <div echarts class="pie-chart-cont" [options]="treatmentOpportunitiesChart"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+           </div>
+
+
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="riskBarsOptions" (chartClick)="onChartClick($event)"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="opportunitiesBarsOptions" (chartClick)="onChartClick($event)"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+
+
+
+            <div class="col-md-12">
+                <h3 class="text-center">
+                    {{ '::BeforeMitigation' | abpLocalization }}
+                </h3>
+           </div>
+
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="riskBarsPotentials"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="riskBarsOpportunityPotentials"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-md-12">
+                <h3 class="text-center">
+                    {{ '::AfterMitigation' | abpLocalization }}
+                </h3>
+           </div>
+
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="AfterTreatmentRiskBarsPotentials"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-6">
+                <mat-card class="mb-4">
+                    <mat-card-content>
+                        <div echarts [options]="AfterTreatmentRiskBarsOpportunityPotentials"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+
+        </div>
+    </mat-card-content>
+</mat-card>
+

@@ -7,11 +7,16 @@ import { DashboardComponent } from './dashboard.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MatChipsModule } from '@angular/material/chips';
 import { SharedModule } from '../shared/shared.module';
+import { NgxPrintModule } from 'ngx-print';
+import { RisksOpportsComponent } from './risks-opports/risks-opports.component';
+import { FrameworksComponent } from './frameworks/frameworks.component';
 
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    RisksOpportsComponent,
+    FrameworksComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +26,8 @@ import { SharedModule } from '../shared/shared.module';
       echarts: () => import('echarts'),
     }),
     MatChipsModule,
-    MatCardModule
+    MatCardModule,
+    NgxPrintModule
   ]
 })
 export class DashboardModule { }
