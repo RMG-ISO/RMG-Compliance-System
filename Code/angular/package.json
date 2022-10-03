@@ -40,6 +40,7 @@
     "file-saver": "^2.0.5",
     "mime": "^3.0.0",
     "ngx-echarts": "^8.0.0",
+    "ngx-print": "^1.2.1",
     "pace-js": "^1.2.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
