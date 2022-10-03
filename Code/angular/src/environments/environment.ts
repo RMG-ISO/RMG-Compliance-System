@@ -24,12 +24,14 @@ export const environment = {
   //   scope: 'offline_access openid profile role email phone ComplianceSystem',
   // },
 
-  apis: {
-    default: {
-      url: 'https://localhost:44375',
-      rootNamespace: 'RMG.ComplianceSystem',
-    },
-  },
+  // apis: {
+  //   default: {
+  //     url: 'https://localhost:44375',
+  //     rootNamespace: 'RMG.ComplianceSystem',
+  //   },
+  // },
+
+  
   oAuthConfig: {
     issuer: 'https://iso.digitaltransformationinstitute.org:11000',
     clientId: 'ComplianceSystem_App',
@@ -38,11 +40,11 @@ export const environment = {
   },
 
 
-  // apis: {
-  //   default: {
-  //     url: 'https://iso.digitaltransformationinstitute.org:11000',
-  //     rootNamespace: 'RMG.ComplianceSystem',
-  //   },
-  // },
+  apis: {
+    default: {
+      url: 'https://iso.digitaltransformationinstitute.org:11000',
+      rootNamespace: 'RMG.ComplianceSystem',
+    },
+  },
 
 } as Environment;
