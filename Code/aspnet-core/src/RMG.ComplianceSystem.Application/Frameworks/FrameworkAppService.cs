@@ -71,20 +71,18 @@ namespace RMG.ComplianceSystem.Frameworks
 
         public async Task<List<ComplainceDto>> GetFrameWorkData()
         {
-            //var Applicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.Applicable).Count();
-            //var NotApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.NotApplicable).Count();
             var listComplaince = new List<ComplainceDto>();
-
+            var Complaince = new ComplainceDto();
+            Complaince.TotalApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.Applicable).Count();
+            Complaince.TotalNotApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.NotApplicable).Count();
             var framworks = _repository.ToList();
+            var ListFramework = new List<FrameworkData>();
+            
             foreach (var item in framworks)
             {
-
-                var Complaince = new ComplainceDto();
+                var FrameworkDt = new FrameworkData();
                 var DomainsDta = new DomainsDta();
-                var FrameworkDt=new FrameworkData();
-
-                FrameworkDt.FrameworkDto=ObjectMapper.Map<Framework, FrameworkDto>(item);
-
+                FrameworkDt.FrameworkDto = ObjectMapper.Map<Framework, FrameworkDto>(item);
                 var domainsWithChild = _domainRepository.Where(c => c.FrameworkId == item.Id).ToList();
                 foreach (var domains in domainsWithChild)
                 {
@@ -93,8 +91,8 @@ namespace RMG.ComplianceSystem.Frameworks
                         foreach (var domain in domains.Children)
                         {
                             var domainDto = ObjectMapper.Map<Domain, DomainDto>(domain);
-                           DomainsDta.subdomain= domainDto;
-                            var ControlsDto =new List<ControlsDto>();
+                            DomainsDta.subdomain = domainDto;
+                            var ControlsDto = new List<ControlsDto>();
                             var controlsWithChild = _controlRepository.Where(e => e.DomainId == domain.Id).ToList();
                             foreach (var control in controlsWithChild)
                             {
@@ -102,23 +100,29 @@ namespace RMG.ComplianceSystem.Frameworks
                                 if (control.Children != null)
                                     foreach (var ctrl in control.Children)
                                     {
-                                        Ctrol.subControl=ObjectMapper.Map<Control, ControlDto>(ctrl);
+                                        Ctrol.subControl = ObjectMapper.Map<Control, ControlDto>(ctrl);
                                         Ctrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(_assessmentRepository.Where(u => u.ControlId == ctrl.Id).FirstOrDefault());
-                                       if(Ctrol.AssessmentDto.Applicable== ApplicableType.Applicable)
-                                        Complaince.Applicable +=1 ;
-                                        if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
-                                            Complaince.NotApplicable +=1;
+                                        if (Ctrol.AssessmentDto != null)
+                                        {
+                                            if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
+                                                FrameworkDt.Applicable += 1;
+                                            if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
+                                                FrameworkDt.NotApplicable += 1;
+                                        }
                                     }
-                                ControlsDto.Add(Ctrol); 
+                                ControlsDto.Add(Ctrol);
                             }
                             DomainsDta.ChildrenControls = ControlsDto;
                         }
                     ListDomains.Add(DomainsDta);
                     FrameworkDt.DomaindDta = ListDomains;
-                    Complaince.FrameworkData = FrameworkDt;
+                    
                 }
-                listComplaince.Add(Complaince);
+                ListFramework.Add(FrameworkDt);
+
             };
+            Complaince.FrameworkData = ListFramework;
+            listComplaince.Add(Complaince);
 
             return listComplaince;
         }
