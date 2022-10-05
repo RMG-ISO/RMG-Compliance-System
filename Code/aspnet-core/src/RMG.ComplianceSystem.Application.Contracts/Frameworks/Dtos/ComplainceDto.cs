@@ -7,13 +7,15 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
 {
     public class ComplainceDto
     {
-        public int Applicable { get; set; }
-        public int NotApplicable { get; set; }
-        public FrameworkData FrameworkData { get; set; }
+        public int TotalApplicable { get; set; }
+        public int TotalNotApplicable { get; set; }
+        public List<FrameworkData> FrameworkData { get; set; }
 
     }
     public class FrameworkData
     {
+        public int Applicable { get; set; }
+        public int NotApplicable { get; set; }
         public FrameworkDto FrameworkDto { get; set; }
         public List<DomainsDta> DomaindDta { get; set; }
     }
@@ -26,6 +28,15 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
     {
         public ControlDto subControl { get; set; }
         public AssessmentDto AssessmentDto { get; set; }
+    }
+
+
+    public class FrameworkDetailDto
+    {
+        public int TotalApplicable { get; set; }
+        public int TotalNotApplicable { get; set; }
+        public FrameworkData FrameworkData { get; set; }
+
     }
 
 }
