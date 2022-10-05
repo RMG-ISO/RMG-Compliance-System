@@ -1,5 +1,6 @@
 import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
+import { FrameworkService } from '@proxy/frameworks/framework.service';
 
 @Component({
   selector: 'app-frameworks',
@@ -9,10 +10,18 @@ import { Component, OnInit } from '@angular/core';
 export class FrameworksComponent implements OnInit {
 
   constructor(
+    private frameworkService:FrameworkService,
     private localizationService:LocalizationService
   ) { }
 
   ngOnInit(): void {
+debugger;
+    this.frameworkService.getListFrameWorkDashBoard().subscribe((response) => {
+      debugger;
+      this.TotalApplicable=response[0].totalApplicable;
+      this.TotalNotApplicable=response[0].totalNotApplicable;
+      console.log(response);
+    });
     this.setChartOneOptions();
     this.setChartTwoOptions();
     this.setChartThreeOptions();
@@ -22,8 +31,9 @@ export class FrameworksComponent implements OnInit {
     this.setChartSevenOptions();
     this.setChartEightOptions()
   }
-
-  chartOneOptions
+  TotalApplicable;
+  TotalNotApplicable;
+  chartOneOptions;
   setChartOneOptions() {
     this.chartOneOptions = {
       title: {

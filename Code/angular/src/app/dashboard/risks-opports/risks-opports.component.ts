@@ -94,7 +94,7 @@ export class RisksOpportsComponent implements OnInit {
   risksChart;
   treatmentRisksChart;
   AfterTreatmentRiskBarsPotentials;
-  
+
   getListRisks() {
     this.riskAndOpportunityService.getList({ search: '', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
       this.itemsRisk = response.items;
@@ -102,19 +102,18 @@ export class RisksOpportsComponent implements OnInit {
 
       let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
       let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-
       response.items.map(x => {
         if(x['reEvaluation'] == null) {
           if(x['potential'] == 1)                               riskitem[0].value += 1;
           else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
           else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-          else if(x['potential'] == 8)                          riskitem[3].value += 1;
+          else if(x['potential'] == 8 || x['potential'] == 9)   riskitem[3].value += 1;
           else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
         } else {
-          if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
-          else if(x['reEvaluation'] == 2) reEvaluationitem[1].value += 1;
-          else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
-          else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
+          if(x['reEvaluation'] == 1)       reEvaluationitem[0].value += 1;
+          else if(x['reEvaluation'] == 2)  reEvaluationitem[1].value += 1;
+          else if(x['reEvaluation'] == 4)  reEvaluationitem[2].value += 1;
+          else if(x['reEvaluation'] == 8)  reEvaluationitem[3].value += 1;
           else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
         }
       });
@@ -199,7 +198,7 @@ export class RisksOpportsComponent implements OnInit {
         itemStyle:PotentialName[i].itemStyle
       })
     }
-   
+
     for(let key in PotentialName) {
       names.push(this.localizationService.instant(PotentialName[key].value));
     }

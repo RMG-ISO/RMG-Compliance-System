@@ -1,4 +1,4 @@
-import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedResultRequestDto,ComplainceDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -53,6 +53,15 @@ export class FrameworkService {
       body: input,
     },
     { apiName: this.apiName });
+
+
+    getListFrameWorkDashBoard = () =>
+    this.restService.request<any, ComplainceDto>({
+      method: 'GET',
+      url: '/api/app/framework/frame-work-data',
+    },
+    { apiName: this.apiName });
+
 
   constructor(private restService: RestService) {}
 }
