@@ -398,7 +398,8 @@
     "TreatmentsStatus":"حالات المعالجة",
     "BeforeMitigation":"قبل المعالجة",
     "AfterMitigation":"بعد المعالجة",
-    "Report":"تقرير"
+    "Report":"تقرير",
+    "Print":"طباعة"
 
 
   }
