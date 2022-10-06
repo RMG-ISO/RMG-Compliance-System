@@ -63,6 +63,13 @@ export class RiskAndOpportunityService {
       params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
+    getmitigation= (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, any>({
+      method: 'GET',
+      url: '​/api​/app​/risk-and-opportunity​/mitigation-risks-and-opportunities',
+      params: { search: input.search, type: input.type, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
 
     getTreatmentsDashboard= (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
     this.restService.request<any, any>({
