@@ -1,29 +1,40 @@
 <mat-card>
-  <mat-card-title class="d-flex justify-content-between align-items-center">
-      <h4>
-         {{ '::ActionPlans' | abpLocalization }}
-      </h4>
-      <div class="d-flex justify-content-between align-items-center">
-          <button id="create" mat-button class="add-btn" type="button" (click)="openDialog()">
-              <i class="fa fa-plus mr-2"></i>
-              <span class="line mr-2"></span>
-              <span>{{ "::Create" | abpLocalization }}</span>
-          </button>
+    <mat-card-title class="d-flex justify-content-between align-items-center">
+        <h4>
+            {{ '::ActionPlans' | abpLocalization }}
+        </h4>
+        <div class="d-flex justify-content-between align-items-center">
+            <button id="create" mat-button class="add-btn" type="button" (click)="openDialog()">
+                <i class="fa fa-plus mr-2"></i>
+                <span class="line mr-2"></span>
+                <span>{{ "::Create" | abpLocalization }}</span>
+            </button>
 
 
-          <ng-container *ngIf="itemData.status == Status.Open">
-                <button mat-button [matMenuTriggerFor]="menu" class="re-btn ml-3" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
-                    {{ '::ReEvaluation' | abpLocalization }}
+            <ng-container *ngIf="itemData.status == Status.Open">
+                <ng-select
+                [(ngModel)]="itemData.reEvaluation" class="ml-3"
+                *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'"
+                [placeholder]="'::ReEvaluation' | abpLocalization" (change)="reEvaluate($event)">
+                    <ng-option *ngFor="let item of potentials" [value]="item.id">
+                        {{ item | lang:'name' }}
+                    </ng-option>
+                </ng-select>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="itemData.status == Status.Open">
+                    <button mat-button [matMenuTriggerFor]="menu" class="re-btn ml-3" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
+                        {{ '::ReEvaluation' | abpLocalization }}
+                    </button>
+            </ng-container>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
+                    {{ item | lang:'name' }}
                 </button>
-          </ng-container>
-          <mat-menu #menu="matMenu">
-              <button mat-menu-item *ngFor="let item of potentials" (click)="reEvaluate(item.id)">
-                {{ item | lang:'name' }}
-              </button>
-          </mat-menu>
-      </div>
+            </mat-menu> -->
+        </div>
 
-  </mat-card-title>
+    </mat-card-title>
     <mat-card-content>
         <ngx-datatable
         class="material fullscreen"

@@ -47,7 +47,12 @@ const routes: Routes = [
     },
   },
   {
-    path:'dashboard-report/:typeId/:departmentId',
+    path:'dashboard-report/:typeId/department/:departmentId',
+    component:DashboardReportComponent
+  },
+  {
+    // /1/low/after
+    path:'dashboard-report/:typeId/:potintial/:period',
     component:DashboardReportComponent
   },
   {
