@@ -306,13 +306,9 @@ export class RisksOpportsComponent implements OnInit {
             },
            label: {
               formatter: '{b}  \n \n {d}%',
-              // position: 'inside',
               fontSize:12,
               fontWeight:'bold',
               fontFamily:this.fontFamily,
-              // overflow:'break',
-              // position :'outer',
-              // alignTo: 'none',
             },
           }
         ]
@@ -375,7 +371,6 @@ export class RisksOpportsComponent implements OnInit {
             },
            label: {
               formatter: '{b}  \n \n {d}%',
-              // position: 'inside',
               fontSize:12,
               fontWeight:'bold',
               fontFamily:this.fontFamily
