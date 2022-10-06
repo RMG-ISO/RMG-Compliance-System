@@ -88,12 +88,21 @@ export class ListComponent implements OnInit {
   getDataFilter(){
     this.Statusdrop=[{id:1,nameAr:'مفتوح',nameEn:'Open'},{id:2,nameAr:'مغلق',nameEn:'Close'}];
     this.Potentials = [
-      {id:1,nameAr:'ضعيف جدا',nameEn:'Very Low'},
-      {id:6,nameEn:'Medium',nameAr:'متوسط'},
-      {id:9,nameEn:'High',nameAr:'عالي'},
-      {id:12,nameEn:'Very High',nameAr:'عالي جدا'}
+      { id: 1, value: 0, name:'VeryLow' },
+      { id: 2, value: 3, name:'Low' },
+      { id: 6, value: 4, name: 'Medium' },
+      { id: 9, value: 8, name: 'High' },
+      { id: 12, value: 16, name: 'VeryHigh' },
     ];
     
+    // [
+    //   { id: 1, nameEn: 'Very Low', nameAr: 'ضعيف جدا' },
+    //   { id: 2, nameEn: 'Low', nameAr: 'ضعيف ' },
+    //   { id: 4, nameEn: 'Medium', nameAr: 'متوسط' },
+    //   { id: 8, nameEn: 'High', nameAr: 'عالي' },
+    //   { id: 12, nameEn: 'very High', nameAr: 'عالي جدا' },
+    // ];
+
     this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
       this.departments = r.items;
     })
@@ -103,6 +112,7 @@ export class ListComponent implements OnInit {
   }
 
   changeFilter(val) {
+    console.log(val);
     this.filter = {...this.filter, ...val};
     this.list.get();
   }

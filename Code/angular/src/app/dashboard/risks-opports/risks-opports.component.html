@@ -106,14 +106,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsPotentials" (chartInit)="onChartInit('chart7', $event)"></div>
+                        <div echarts [options]="riskBarsPotentials" (chartInit)="onChartInit('chart7', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsOpportunityPotentials" (chartInit)="onChartInit('chart8', $event)"></div>
+                        <div echarts [options]="riskBarsOpportunityPotentials" (chartInit)="onChartInit('chart8', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -127,14 +127,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="AfterTreatmentRiskBarsPotentials" (chartInit)="onChartInit('chart9', $event)"></div>
+                        <div echarts [options]="AfterTreatmentRiskBarsPotentials" (chartInit)="onChartInit('chart9', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="AfterTreatmentRiskBarsOpportunityPotentials" (chartInit)="onChartInit('chart10', $event)"></div>
+                        <div echarts [options]="AfterTreatmentRiskBarsOpportunityPotentials" (chartInit)="onChartInit('chart10', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
