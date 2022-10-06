@@ -33,8 +33,6 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
 
     public class FrameworkDetailDto
     {
-        public int TotalApplicable { get; set; }
-        public int TotalNotApplicable { get; set; }
         public FrameworkData FrameworkData { get; set; }
 
     }

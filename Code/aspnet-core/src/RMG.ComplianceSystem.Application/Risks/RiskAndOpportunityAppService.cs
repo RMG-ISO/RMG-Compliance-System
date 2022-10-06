@@ -76,7 +76,7 @@ namespace RMG.ComplianceSystem.Risks
                 var ListRisks = RiskAndOpportunityRepository
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
-                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential)
+                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential|| t.Potential == input.PotentialValue ||t.ReEvaluation == input.Potential)
                     .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
                     .Where(x => x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
@@ -90,11 +90,11 @@ namespace RMG.ComplianceSystem.Risks
             {
                 //get Risk By CategoryId and Filters and Pagination
                 var ListDoc = RiskAndOpportunityRepository
-                    .WhereIf(input.DepartmentId!=null, t => t.DepartmentId == input.DepartmentId)
+                    .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
-                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential)
+                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential || t.Potential == input.PotentialValue || t.ReEvaluation == input.Potential)
                     .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
-                    .Where(x => 
+                    .Where(x =>
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
@@ -127,9 +127,9 @@ namespace RMG.ComplianceSystem.Risks
                     Risk.PotentialNameAr = getPotentialName(Risk.Potential).Result.NameAr;
                     Risk.PotentialNameEn = getPotentialName(Risk.Potential).Result.NameEn;
                 }
-                if(Risk.DepartmentId!=null)
+                if (Risk.DepartmentId != null)
                 {
-                    Risk.DepartmentName= departmentRepository.FirstOrDefault(t=>t.Id==Risk.DepartmentId).Name;
+                    Risk.DepartmentName = departmentRepository.FirstOrDefault(t => t.Id == Risk.DepartmentId).Name;
                 }
                 RisksData.Add(Risk);
             }
@@ -140,7 +140,7 @@ namespace RMG.ComplianceSystem.Risks
             );
         }
 
-        
+
 
         public async Task<getEnumTypeStaticData> getPotentialName(int? Potential)
         {
@@ -187,7 +187,7 @@ namespace RMG.ComplianceSystem.Risks
             return getdata;
         }
 
-
+        #region Dahboard
 
         [HttpGet]
         public async Task<PagedResultDto<RiskAndOpportunityDto>> AllRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
@@ -198,33 +198,84 @@ namespace RMG.ComplianceSystem.Risks
               ListRisks.Count,
               Risks
           );
-
         }
-        [HttpGet]
-        public async Task<Dictionary<string,int>> OpenCloseRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
-            {
+
+
+        public async Task<Dictionary<string, int>> GetMitigationRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
             var openClose = new Dictionary<string, int>();
             var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
-            var OpenRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type &&t.status== 1).ToList();
+            openClose.Add("Total", AllRisks.Count);
+
+            int riskItemVeryLow = 0;
+            int riskItemLow = 0;
+            int riskItemMeduim = 0;
+            int riskItemHigh = 0;
+            int riskItemVeryHigh = 0;
+            int reEvaluationVeryLow = 0;
+            int reEvaluationLow = 0;
+            int reEvaluationMeduim = 0;
+            int reEvaluationHigh = 0;
+            int reEvaluationVeryHigh = 0;
+            foreach (var item in AllRisks)
+            {
+                if (item.ReEvaluation == null)
+                {
+                    if (item.Potential == 1) riskItemVeryLow += 1;
+                    else if (item.Potential == 2 || item.Potential == 3) riskItemLow += 1;
+                    else if (item.Potential == 4 || item.Potential == 6) riskItemMeduim += 1;
+                    else if (item.Potential == 8 || item.Potential == 9) riskItemHigh += 1;
+                    else if (item.Potential == 12 || item.Potential == 16) riskItemVeryHigh += 1;
+                }
+                else
+                {
+                    if (item.ReEvaluation == 1) reEvaluationVeryLow += 1;
+                    else if (item.ReEvaluation == 2) reEvaluationLow += 1;
+                    else if (item.ReEvaluation == 4) reEvaluationMeduim += 1;
+                    else if (item.ReEvaluation == 8) reEvaluationHigh += 1;
+                    else if (item.ReEvaluation == 12) reEvaluationVeryHigh += 1;
+                }
+            }
+            openClose.Add("riskItemVeryLow", riskItemVeryLow);
+            openClose.Add("riskItemLow", riskItemLow);
+            openClose.Add("riskItemMeduim", riskItemMeduim);
+            openClose.Add("riskItemHigh", riskItemHigh);
+            openClose.Add("riskItemVeryHigh", riskItemVeryHigh);
+            openClose.Add("reEvaluationVeryLow", reEvaluationVeryLow);
+            openClose.Add("reEvaluationLow", reEvaluationLow);
+            openClose.Add("reEvaluationMeduim", reEvaluationMeduim);
+            openClose.Add("reEvaluationHigh", reEvaluationHigh);
+            openClose.Add("reEvaluationVeryHigh", reEvaluationVeryHigh);
+            return openClose;
+        }
+
+        [HttpGet]
+        public async Task<Dictionary<string, int>> OpenCloseRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            var openClose = new Dictionary<string, int>();
+            var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
+            var OpenRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.status == 1).ToList();
             var CloseRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.status == 2).ToList();
             openClose.Add("Total", AllRisks.Count);
             openClose.Add("Open", OpenRisks.Count);
             openClose.Add("Close", CloseRisks.Count);
-            return openClose; 
+            return openClose;
         }
+
         [HttpGet]
-        public async Task<Dictionary<string,int>> TreatmentRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
+        public async Task<Dictionary<string, int>> TreatmentRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var Treatment = new Dictionary<string, int>();
             var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
             var treatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment == true).ToList();
-            var NotreatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment ==false).ToList();
+            var NotreatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment == false).ToList();
             Treatment.Add("Total", AllRisks.Count);
             Treatment.Add("treatmentRisks", treatmentRisks.Count);
             Treatment.Add("NotreatmentRisks", NotreatmentRisks.Count);
             return Treatment;
         }
 
+        #endregion
 
         #endregion
 
