@@ -44,14 +44,14 @@
                 <div class="col-md-6 p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="risksChart" (chartInit)="onChartInit('chart1', $event)"></div>
+                            <div echarts class="pie-chart-cont" [options]="risksStatusChart" (chartInit)="onChartInit('chart1', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6 p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="treatmentRisksChart" (chartInit)="onChartInit('chart2', $event)"></div>
+                            <div echarts class="pie-chart-cont" [options]="risksTreatmentChart" (chartInit)="onChartInit('chart2', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -65,14 +65,14 @@
                 <div class="col-md-6  p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="opportunitiesChart" (chartInit)="onChartInit('chart3', $event)"></div>
+                            <div echarts class="pie-chart-cont" [options]="opportunitiesStatusChart" (chartInit)="onChartInit('chart3', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6  p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="treatmentOpportunitiesChart" (chartInit)="onChartInit('chart4', $event)"></div>
+                            <div echarts class="pie-chart-cont" [options]="opportunitiesTreatmentChart" (chartInit)="onChartInit('chart4', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -82,14 +82,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsOptions" (chartClick)="onChartClick($event)" (chartInit)="onChartInit('chart5', $event)"></div>
+                        <div echarts [options]="risksDepartmentChart" (chartClick)="onChartClick($event)" (chartInit)="onChartInit('chart5', $event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="opportunitiesBarsOptions" (chartClick)="onChartClick($event)" (chartInit)="onChartInit('chart6', $event)"></div>
+                        <div echarts [options]="opportunitiesDepartmentChart" (chartClick)="onChartClick($event)" (chartInit)="onChartInit('chart6', $event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -106,14 +106,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsPotentials" (chartInit)="onChartInit('chart7', $event)" (chartClick)="onChartClick($event)"></div>
+                        <div echarts [options]="risksTreatmentPotentialsBefore" (chartInit)="onChartInit('chart7', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsOpportunityPotentials" (chartInit)="onChartInit('chart8', $event)" (chartClick)="onChartClick($event)"></div>
+                        <div echarts [options]="opportunitiesTreatmentPotentialsBefore" (chartInit)="onChartInit('chart8', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -127,14 +127,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="AfterTreatmentRiskBarsPotentials" (chartInit)="onChartInit('chart9', $event)" (chartClick)="onChartClick($event)"></div>
+                        <div echarts [options]="risksTreatmentPotentialsAfter" (chartInit)="onChartInit('chart9', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="AfterTreatmentRiskBarsOpportunityPotentials" (chartInit)="onChartInit('chart10', $event)" (chartClick)="onChartClick($event)"></div>
+                        <div echarts [options]="opportunitiesTreatmentPotentialsAfter" (chartInit)="onChartInit('chart10', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
