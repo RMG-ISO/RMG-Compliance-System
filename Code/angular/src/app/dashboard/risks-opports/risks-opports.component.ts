@@ -10,8 +10,8 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 })
 export class RisksOpportsComponent implements OnInit {
   @Output('printEle') printEle = new EventEmitter();
+  fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
 
-  potentials = [1,2,4,8,12];
   constructor(
     private localizationService:LocalizationService,
     private riskAndOpportunityService:RiskAndOpportunityService,
@@ -22,15 +22,6 @@ export class RisksOpportsComponent implements OnInit {
   likelihoodConditions;
 
   ngOnInit(): void {
-
-
-    debugger;
-    this.riskAndOpportunityService.getmitigation({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
-    .subscribe((response) => {
-      debugger;
-      console.log(response);
-    });
-
     this.likelihoodConditions = [
       {
         value: this.localizationService.instant('::VeryLow'),
@@ -70,98 +61,88 @@ export class RisksOpportsComponent implements OnInit {
     ];
 
     this.departmentService.getList({search:null, maxResultCount:null }).subscribe(r => {
-      this.getListRisks();
-      this.getListOpportunities();
       r.items.map(item => {
         this.departments[item.id] = item;
       });
+      
+      this.getItemsByStatus(1,'risks')
+      this.getItemsByStatus(2,'opportunities')
     });
+  }
 
-    this.riskAndOpportunityService.getOpenClose({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+
+
+  risksStatusChart;
+  opportunitiesStatusChart;
+  getItemsByStatus(type = 1, key) {
+    this.riskAndOpportunityService.getOpenClose({ search:'', type,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
     .subscribe((response) => {
-      console.log(response);
-      this.risksChart = this.createRisksOppChart(response.Open,response.Close,'::Status');
+      this[key + 'StatusChart'] = this.createStatusChart(response.Open, response.Close,'::Status');
+      this.getItemsByTreatment(type, key);
     });
+  }
 
-    this.riskAndOpportunityService.getOpenClose({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
-      this.opportunitiesChart = this.createRisksOppChart(response.Open,response.Close,'::Status');
-    });
-
-    this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+  risksTreatmentChart;
+  opportunitiesTreatmentChart;
+  getItemsByTreatment(type, key) {
+    this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
     .subscribe((response) => {
-      this.treatmentRisksChart = this.TreatementRisksOppChart(response.treatmentRisks,response.NotreatmentRisks,'::TreatmentsStatus');
+      this[key + 'TreatmentChart'] = this.CreateTreatementChart(response.treatmentRisks,response.NotreatmentRisks,'::TreatmentsStatus');
+      this.getItemsByDepartment(type, key);
     });
+  }
 
-    this.riskAndOpportunityService.getTreatmentsDashboard({ search:'', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+  risksDepartmentChart;
+  opportunitiesDepartmentChart;
+  getItemsByDepartment(type, key) {
+    this.riskAndOpportunityService.getList({ search: '', type,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
+      let itemsByDepartment = {};
+      for(let item of response.items) {
+        if(itemsByDepartment[item['departmentId']]) itemsByDepartment[item['departmentId']].items.push(item);
+        else itemsByDepartment[item['departmentId']] = {
+          items:[item],
+          name:this.departments[item['departmentId']].name,
+          id:'/' + type + '/department/'+this.departments[item['departmentId']].id
+        };
+      }
+      this.createDepartmentChart(key + 'DepartmentChart' , itemsByDepartment, key == 'risks' ?  '::RisksInDepartments' : '::OpportunitiesInDepartments');
+      this.getItemsTreatmentPotentials(type, key);
+    });
+  }
+
+
+  risksTreatmentPotentialsBefore;
+  risksTreatmentPotentialsAfter;
+  opportunitiesTreatmentPotentialsBefore;
+  opportunitiesTreatmentPotentialsAfter;
+  getItemsTreatmentPotentials(type, key) {
+    this.riskAndOpportunityService.getmitigation({ search:'', type,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
     .subscribe((response) => {
-      this.treatmentOpportunitiesChart = this.TreatementRisksOppChart(response.treatmentRisks,response.NotreatmentRisks,'::TreatmentsStatus');
+      let riskitem = [
+        { value: response.riskItemVeryLow, id: '1_0' },
+        { value: response.riskItemLow, id: '2_3' },
+        { value: response.riskItemMeduim, id: '6_4' },
+        { value: response.riskItemHigh, id: '9_8' },
+        { value: response.riskItemVeryHigh, id: '12_16' },
+      ];
+      let reEvaluationitem = [
+        { value: response.reEvaluationVeryLow, id: '1' },
+        { value: response.reEvaluationLow, id: '2' },
+        { value: response.reEvaluationMeduim, id: '4' },
+        { value: response.reEvaluationHigh, id: '8' },
+        { value: response.reEvaluationVeryHigh, id: '12' },
+      ];
+
+      this.createPotentialChart(key + 'TreatmentPotentialsBefore' , riskitem        , type == 'risks' ? '::Risk:Potential' : '::Opportunity:Potential', type , 'BeforeMitigation');
+      this.createPotentialChart(key + 'TreatmentPotentialsAfter' , reEvaluationitem, type == 'risks' ? '::Risk:Potential' : '::Opportunity:Potential', type , 'AfterMitigation');
     });
   }
 
   onChartClick(ev){
-    console.log(ev);
-    // + '?=name' + encodeURI(ev.name)
     window.open('/risks-management/dashboard-report' + ev.data.groupId  , "_blank");
   }
 
-  itemsRisk;
-  totalCountRisk;
-
-  risksChart;
-  treatmentRisksChart;
-  AfterTreatmentRiskBarsPotentials;
-
-  getListRisks() {
-    this.riskAndOpportunityService.getList({ search: '', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null }).subscribe((response) => {
-      this.itemsRisk = response.items;
-      this.totalCountRisk = response.totalCount;
-
-      /*
-
-       { id: 1, value: 0, name:'VeryLow' },
-      { id: 2, value: 3, name:'Low' },
-      { id: 6, value: 4, name: 'Medium' },
-      { id: 9, value: 8, name: 'High' },
-      { id: 12, value: 16, name: 'VeryHigh' },
-      */
-
-      let riskitem = [{ value: 0, id:'1_0' }, { value: 0, id:'2_3' }, { value: 0, id:'6_4' }, { value: 0, id:'9_8' }, { value: 0, id:'12_16' }]
-      let reEvaluationitem = [{ value: 0, id:'1' }, { value: 0, id:'2' }, { value: 0, id:'4' }, { value: 0, id:'8' }, { value: 0, id:'12' }];
-      response.items.map(x => {
-        if(x['reEvaluation'] == null) {
-          if(x['potential'] == 1)                               riskitem[0].value += 1;
-          else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
-          else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-          else if(x['potential'] == 8 || x['potential'] == 9)   riskitem[3].value += 1;
-          else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
-        } else {
-          if(x['reEvaluation'] == 1)       reEvaluationitem[0].value += 1;
-          else if(x['reEvaluation'] == 2)  reEvaluationitem[1].value += 1;
-          else if(x['reEvaluation'] == 4)  reEvaluationitem[2].value += 1;
-          else if(x['reEvaluation'] == 8)  reEvaluationitem[3].value += 1;
-          else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
-        }
-      });
-
-      this.createChartPotentialBars('riskBarsPotentials' , riskitem, '::Risk:Potential',1 , 'BeforeMitigation');
-      this.createChartPotentialBars('AfterTreatmentRiskBarsPotentials' ,reEvaluationitem, '::Risk:Potential', 1 , 'AfterMitigation');
-
-      let risksByDepartments = {};
-      for(let item of response.items) {
-        if(risksByDepartments[item['departmentId']]) risksByDepartments[item['departmentId']].items.push(item);
-        else risksByDepartments[item['departmentId']] = {
-          items:[item],
-          name:this.departments[item['departmentId']].name,
-          id:'/1/department/'+this.departments[item['departmentId']].id
-        };
-      }
-      this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
-    });
-  }
-  riskBarsPotentials;
-  riskBarsOptions;
-  opportunitiesBarsOptions;
-  createChartBars(key, departments, title ) {
+  createDepartmentChart(key, departments, title ) {
     let names  = [],
         values = [];
     for(let key in departments) {
@@ -212,9 +193,9 @@ export class RisksOpportsComponent implements OnInit {
         }
       ]
     };
-
   }
-  createChartPotentialBars(key,PotentialValue, title, type, period ) {
+
+  createPotentialChart(key,PotentialValue, title, type, period ) {
     let names  = [],
         values = [];
     for(let i = 0; i < PotentialValue.length; i++) {
@@ -270,58 +251,10 @@ export class RisksOpportsComponent implements OnInit {
 
   }
 
-  itemsOpportunity;
-  totalCountOpportunity;
-  opportunitiesChart;
-  treatmentOpportunitiesChart;
-  riskBarsOpportunityPotentials;
-  AfterTreatmentRiskBarsOpportunityPotentials
-  getListOpportunities() {
-    this.riskAndOpportunityService.getList({  search: '', type:2,DepartmentId:null,UserId:null,Potential:null,Status:null,  maxResultCount:null }).subscribe((response) => {
-      this.itemsOpportunity = response.items;
-      this.totalCountOpportunity = response.totalCount;
-
-      let riskitem = [{ value: 0, id:'1_0' }, { value: 0, id:'2_3' }, { value: 0, id:'6_4' }, { value: 0, id:'9_8' }, { value: 0, id:'12_16' }]
-      let reEvaluationitem = [{ value: 0, id:'1' }, { value: 0, id:'2' }, { value: 0, id:'4' }, { value: 0, id:'8' }, { value: 0, id:'12' }];
-      // let reEvaluationitem = [{ value: 0, id:1, val:0 }, { value: 0, id:2, val:3 }, { value: 0, id:6, val:4 }, { value: 0, id:9, val:8 }, { value: 0, id:12, val:16 }];
-
-      response.items.map(x => {
-        if(x['reEvaluation'] == null) {
-          if(x['potential'] == 1)                               riskitem[0].value += 1;
-          else if(x['potential'] == 2  || x['potential'] == 3)   riskitem[1].value += 1;
-          else if(x['potential'] == 4  || x['potential'] == 6)   riskitem[2].value += 1;
-          else if(x['potential'] == 8  || x['potential'] == 9)                          riskitem[3].value += 1;
-          else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
-        } else {
-          if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
-          else if(x['reEvaluation'] == 2) reEvaluationitem[1].value += 1;
-          else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
-          else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
-          else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
-        }
-      });
-      this.createChartPotentialBars('riskBarsOpportunityPotentials' ,riskitem, '::Opportunity:Potential', 2, 'BeforeMitigation');
-      this.createChartPotentialBars('AfterTreatmentRiskBarsOpportunityPotentials' ,reEvaluationitem, '::Opportunity:Potential',2, 'AfterMitigation');
-      let oppByDepartments = {};
-      for(let item of response.items) {
-        if(oppByDepartments[item['departmentId']]) oppByDepartments[item['departmentId']].items.push(item);
-        else oppByDepartments[item['departmentId']] = {
-          items:[item],
-          name:this.departments[item['departmentId']].name,
-          id:'/2/department/'+this.departments[item['departmentId']].id
-        };
-      }
-      this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::OpportunitiesInDepartments')
-    });
-  }
-
-  fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
-
-  createRisksOppChart(opened,closed, title) {
+  createStatusChart(opened,closed, title) {
     return {
       title: {
           text: this.localizationService.instant(title),
-          // subtext: '',
           left: 'center',
           textStyle:{
             fontFamily:this.fontFamily
@@ -387,7 +320,7 @@ export class RisksOpportsComponent implements OnInit {
   }
 
 
-  TreatementRisksOppChart(Treatement,TreatementNo, title) {
+  CreateTreatementChart(Treatement,TreatementNo, title) {
     return {
       title: {
           text: this.localizationService.instant(title),

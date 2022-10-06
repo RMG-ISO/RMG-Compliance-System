@@ -15,11 +15,13 @@ export class FrameworksComponent implements OnInit {
     private localizationService:LocalizationService
   ) { }
 
+  data;
   ngOnInit(): void {
     this.frameworkService.getListFrameWorkDashBoard().subscribe((response) => {
-      this.TotalApplicable=response[0].totalApplicable;
-      this.TotalNotApplicable=response[0].totalNotApplicable;
-      console.log(response);
+      this.TotalApplicable= response[0].totalApplicable;
+      this.TotalNotApplicable= response[0].totalNotApplicable;
+      console.log('responseresponse', response);
+      this.data = response[0];
     });
     this.setChartOneOptions();
     this.setChartTwoOptions();
@@ -502,7 +504,6 @@ export class FrameworksComponent implements OnInit {
 
   charts = {};
   onChartInit(key, ev) {
-    console.log(ev);
     this.charts[key] = {};
     this.charts[key]['chart'] = ev;
     this.charts[key]['img'] = ev.getDataURL({
@@ -513,15 +514,12 @@ export class FrameworksComponent implements OnInit {
 
 
   doPrint() {
-    console.log(this.charts)
-    let date = +new Date();
     for(let key in this.charts) {
       this.charts[key].img = this.charts[key].chart.getDataURL({
         pixelRatio: 2,
         backgroundColor: '#fff'
       });
     }
-    console.log(+new Date() - date);
     setTimeout(() => {
       this.printEle.emit(document.getElementsByClassName('print-section-1')[0].innerHTML);
     }, 100)
