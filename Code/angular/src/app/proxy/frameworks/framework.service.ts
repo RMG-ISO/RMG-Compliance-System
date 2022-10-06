@@ -58,7 +58,7 @@ export class FrameworkService {
     getListFrameWorkDashBoard = () =>
     this.restService.request<any, ComplainceDto>({
       method: 'GET',
-      url: '/api/app/framework/frame-work-data',
+      url: '/api/app/framework/frame-work-with-assesment-data',
     },
     { apiName: this.apiName });
 

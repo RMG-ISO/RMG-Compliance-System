@@ -22,6 +22,15 @@ export class RisksOpportsComponent implements OnInit {
   likelihoodConditions;
 
   ngOnInit(): void {
+
+
+    debugger;
+    this.riskAndOpportunityService.getmitigation({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
+    .subscribe((response) => {
+      debugger;
+      console.log(response);
+    });
+
     this.likelihoodConditions = [
       {
         value: this.localizationService.instant('::VeryLow'),
@@ -70,6 +79,7 @@ export class RisksOpportsComponent implements OnInit {
 
     this.riskAndOpportunityService.getOpenClose({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
     .subscribe((response) => {
+      console.log(response);
       this.risksChart = this.createRisksOppChart(response.Open,response.Close,'::Status');
     });
 
@@ -107,7 +117,7 @@ export class RisksOpportsComponent implements OnInit {
       this.totalCountRisk = response.totalCount;
 
       /*
-      
+
        { id: 1, value: 0, name:'VeryLow' },
       { id: 2, value: 3, name:'Low' },
       { id: 6, value: 4, name: 'Medium' },
