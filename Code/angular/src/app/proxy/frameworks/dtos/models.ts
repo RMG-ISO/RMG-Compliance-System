@@ -39,8 +39,11 @@ export interface ComplainceDto{
   FrameworkData?:FrameworkData[];
 }
 export interface FrameworkData{
-  Applicable?:number;
-  NotApplicable?:number;
+  levelOne?: number;
+       levelTwo?: number;
+       levelThree ?: number;
+       levelfour ?: number;
+       levelFive ?: number;
   FrameworkDto?:FrameworkDto;
   DomainsDta?:DomainsDta[];
 }

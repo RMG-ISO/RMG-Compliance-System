@@ -200,7 +200,7 @@ namespace RMG.ComplianceSystem.Risks
           );
         }
 
-
+        [HttpGet]
         public async Task<Dictionary<string, int>> GetMitigationRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var openClose = new Dictionary<string, int>();
