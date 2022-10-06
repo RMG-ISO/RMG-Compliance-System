@@ -437,7 +437,6 @@ export class FrameworksComponent implements OnInit {
         {
           name: this.localizationService.instant('::Dashboard:TotalRequirements'),
           type: 'pie',
-          // radius: [50, 250],
           center: ['50%', '50%'],
           roseType: 'area',
           itemStyle: {
@@ -483,7 +482,6 @@ export class FrameworksComponent implements OnInit {
         {
           name: this.localizationService.instant('::Dashboard:TotalRequirements'),
           type: 'pie',
-          // radius: [50, 250],
           radius: '50%',
           center: ['50%', '50%'],
           roseType: 'area',
