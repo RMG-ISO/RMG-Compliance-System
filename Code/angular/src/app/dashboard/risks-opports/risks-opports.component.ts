@@ -34,31 +34,36 @@ export class RisksOpportsComponent implements OnInit {
         value: this.localizationService.instant('::VeryLow'),
         itemStyle:{
           color:'#03a008'
-        }
+        },
+        id:'VeryLow'
       },
       {
         value: this.localizationService.instant('::Low'),
         itemStyle:{
           color:'#26872a'
-        }
+        },
+        id:'Low'
       },
       {
         value: this.localizationService.instant('::Medium'),
         itemStyle:{
           color:'#efe338'
-        }
+        },
+        id:'Medium'
       },
       {
         value: this.localizationService.instant('::High'),
         itemStyle:{
           color:'#f3a108'
-        }
+        },
+        id:'High'
      },
       {
         value: this.localizationService.instant('::VeryHigh'),
         itemStyle:{
           color:'#b62e2e'
-        }
+        },
+        id:'VeryHigh'
       },
     ];
 
@@ -108,8 +113,17 @@ export class RisksOpportsComponent implements OnInit {
       this.itemsRisk = response.items;
       this.totalCountRisk = response.totalCount;
 
-      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }]
-      let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+      /*
+      
+       { id: 1, value: 0, name:'VeryLow' },
+      { id: 2, value: 3, name:'Low' },
+      { id: 6, value: 4, name: 'Medium' },
+      { id: 9, value: 8, name: 'High' },
+      { id: 12, value: 16, name: 'VeryHigh' },
+      */
+
+      let riskitem = [{ value: 0, id:'1_0' }, { value: 0, id:'2_3' }, { value: 0, id:'6_4' }, { value: 0, id:'9_8' }, { value: 0, id:'12_16' }]
+      let reEvaluationitem = [{ value: 0, id:'1' }, { value: 0, id:'2' }, { value: 0, id:'4' }, { value: 0, id:'8' }, { value: 0, id:'12' }];
       response.items.map(x => {
         if(x['reEvaluation'] == null) {
           if(x['potential'] == 1)                               riskitem[0].value += 1;
@@ -126,8 +140,8 @@ export class RisksOpportsComponent implements OnInit {
         }
       });
 
-      this.createChartPotentialBars('riskBarsPotentials', this.likelihoodConditions ,riskitem, '::Risk:Potential');
-      this.createChartPotentialBars('AfterTreatmentRiskBarsPotentials', this.likelihoodConditions ,reEvaluationitem, '::Risk:Potential');
+      this.createChartPotentialBars('riskBarsPotentials' , riskitem, '::Risk:Potential',1 , 'BeforeMitigation');
+      this.createChartPotentialBars('AfterTreatmentRiskBarsPotentials' ,reEvaluationitem, '::Risk:Potential', 1 , 'AfterMitigation');
 
       let risksByDepartments = {};
       for(let item of response.items) {
@@ -135,7 +149,7 @@ export class RisksOpportsComponent implements OnInit {
         else risksByDepartments[item['departmentId']] = {
           items:[item],
           name:this.departments[item['departmentId']].name,
-          id:'/1/'+this.departments[item['departmentId']].id
+          id:'/1/department/'+this.departments[item['departmentId']].id
         };
       }
       this.createChartBars('riskBarsOptions',risksByDepartments, '::RisksInDepartments')
@@ -197,18 +211,19 @@ export class RisksOpportsComponent implements OnInit {
     };
 
   }
-  createChartPotentialBars(key, PotentialName,PotentialValue, title ) {
+  createChartPotentialBars(key,PotentialValue, title, type, period ) {
     let names  = [],
         values = [];
     for(let i = 0; i < PotentialValue.length; i++) {
       values.push({
         value:PotentialValue[i].value,
-        itemStyle:PotentialName[i].itemStyle
+        itemStyle:this.likelihoodConditions[i].itemStyle,
+        groupId:`/${type}/${PotentialValue[i].id}/${period}`
       })
     }
 
-    for(let key in PotentialName) {
-      names.push(this.localizationService.instant(PotentialName[key].value));
+    for(let key in this.likelihoodConditions) {
+      names.push(this.localizationService.instant(this.likelihoodConditions[key].value));
     }
 
     this[key] = {
@@ -263,15 +278,16 @@ export class RisksOpportsComponent implements OnInit {
       this.itemsOpportunity = response.items;
       this.totalCountOpportunity = response.totalCount;
 
-      let riskitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-      let reEvaluationitem = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+      let riskitem = [{ value: 0, id:'1_0' }, { value: 0, id:'2_3' }, { value: 0, id:'6_4' }, { value: 0, id:'9_8' }, { value: 0, id:'12_16' }]
+      let reEvaluationitem = [{ value: 0, id:'1' }, { value: 0, id:'2' }, { value: 0, id:'4' }, { value: 0, id:'8' }, { value: 0, id:'12' }];
+      // let reEvaluationitem = [{ value: 0, id:1, val:0 }, { value: 0, id:2, val:3 }, { value: 0, id:6, val:4 }, { value: 0, id:9, val:8 }, { value: 0, id:12, val:16 }];
 
       response.items.map(x => {
         if(x['reEvaluation'] == null) {
           if(x['potential'] == 1)                               riskitem[0].value += 1;
-          else if(x['potential'] == 2 || x['potential'] == 3)   riskitem[1].value += 1;
-          else if(x['potential'] == 4 || x['potential'] == 6)   riskitem[2].value += 1;
-          else if(x['potential'] == 8)                          riskitem[3].value += 1;
+          else if(x['potential'] == 2  || x['potential'] == 3)   riskitem[1].value += 1;
+          else if(x['potential'] == 4  || x['potential'] == 6)   riskitem[2].value += 1;
+          else if(x['potential'] == 8  || x['potential'] == 9)                          riskitem[3].value += 1;
           else if(x['potential'] == 12 || x['potential'] == 16) riskitem[4].value += 1;
         } else {
           if(x['reEvaluation'] == 1) reEvaluationitem[0].value += 1;
@@ -279,22 +295,17 @@ export class RisksOpportsComponent implements OnInit {
           else if(x['reEvaluation'] == 4) reEvaluationitem[2].value += 1;
           else if(x['reEvaluation'] == 8) reEvaluationitem[3].value += 1;
           else if(x['reEvaluation'] == 12) reEvaluationitem[4].value += 1;
-
         }
       });
-
-
-      this.createChartPotentialBars('riskBarsOpportunityPotentials', this.likelihoodConditions ,riskitem, '::Opportunity:Potential');
-      this.createChartPotentialBars('AfterTreatmentRiskBarsOpportunityPotentials', this.likelihoodConditions ,reEvaluationitem, '::Opportunity:Potential');
-
-
+      this.createChartPotentialBars('riskBarsOpportunityPotentials' ,riskitem, '::Opportunity:Potential', 2, 'BeforeMitigation');
+      this.createChartPotentialBars('AfterTreatmentRiskBarsOpportunityPotentials' ,reEvaluationitem, '::Opportunity:Potential',2, 'AfterMitigation');
       let oppByDepartments = {};
       for(let item of response.items) {
         if(oppByDepartments[item['departmentId']]) oppByDepartments[item['departmentId']].items.push(item);
         else oppByDepartments[item['departmentId']] = {
           items:[item],
           name:this.departments[item['departmentId']].name,
-          id:'/2/'+this.departments[item['departmentId']].id
+          id:'/2/department/'+this.departments[item['departmentId']].id
         };
       }
       this.createChartBars('opportunitiesBarsOptions', oppByDepartments, '::OpportunitiesInDepartments')
