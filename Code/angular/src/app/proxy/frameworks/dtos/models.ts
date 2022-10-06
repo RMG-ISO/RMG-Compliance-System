@@ -1,6 +1,10 @@
 import type { SharedStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { IdentityUserDto } from '@abp/ng.account';
+import type { DomainDto } from '../../domains/dtos/models';
+import type { ControlDto } from '../../controls/dtos/models';
+import type { AssessmentDto } from '../../assessments/dtos/models';
+
 
 export interface CreateUpdateFrameworkDto {
   nameAr?: string;
@@ -11,6 +15,7 @@ export interface CreateUpdateFrameworkDto {
   descriptionEn?: string;
   status: SharedStatus;
 }
+
 
 export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
@@ -25,4 +30,26 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   search?: string;
   status?: SharedStatus;
+}
+
+
+export interface ComplainceDto{
+  totalApplicable?:number;
+  totalNotApplicable?:number;
+  FrameworkData?:FrameworkData[];
+}
+export interface FrameworkData{
+  Applicable?:number;
+  NotApplicable?:number;
+  FrameworkDto?:FrameworkDto;
+  DomainsDta?:DomainsDta[];
+}
+export interface DomainsDta{
+  subdomain?:DomainDto;
+  ChildrenControls?:ControlsDto[];
+}
+export interface ControlsDto{
+  subControl?:ControlDto;
+  AssessmentDto?:AssessmentDto;
+
 }
