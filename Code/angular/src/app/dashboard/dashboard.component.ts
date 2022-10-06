@@ -10,7 +10,6 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 })
 export class DashboardComponent {
 
-
 }
 
 
