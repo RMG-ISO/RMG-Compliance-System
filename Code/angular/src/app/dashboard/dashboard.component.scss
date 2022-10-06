@@ -1,4 +1,16 @@
+
+button {
+    color: #fff !important;;
+    min-width: 100px;
+
+}
 // @import "../../styles.scss" print;
 @import "./risks-opports/risks-opports.component.scss" print;
 @import "./frameworks/frameworks.component.scss" print;
 
+@media print {
+    body{
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
+} 

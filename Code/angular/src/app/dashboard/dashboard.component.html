@@ -1,10 +1,23 @@
 
-<div class="mb-2">
-    <button color="primary" mat-raised-button printSectionId="print-section" ngxPrint [useExistingCss]="true">
-        print
+<div class="mb-4 d-flex justify-content-end">
+    <button style="display: none;" #printBtn printSectionId="print-section" ngxPrint [useExistingCss]="true"> </button>
+    <button color="primary" mat-raised-button (click)="generatePrint(frameWorks,risks, printBtn)">
+        <i class="fas fa-print"></i>
+        {{ '::Print' | abpLocalization }}
     </button>
 </div>
-<div id="print-section"> 
-    <app-frameworks></app-frameworks>
-    <app-risks-opports></app-risks-opports>
+<div > 
+    <app-frameworks #frameWorks (printEle)="frameworksGenerate($event)"></app-frameworks>
+    <app-risks-opports #risks (printEle)="risksGenerate($event)"></app-risks-opports>
+</div>
+
+<div style="display:none;">
+    <div id="print-section">
+        <div [innerHtml]="frameworksElements">
+    
+        </div>
+        <div [innerHtml]="risksElements">
+    
+        </div>
+    </div>
 </div>

@@ -1,5 +1,5 @@
 import { LocalizationService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DepartmentService } from '@proxy/departments';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 
@@ -9,6 +9,7 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
   styleUrls: ['./risks-opports.component.scss'],
 })
 export class RisksOpportsComponent implements OnInit {
+  @Output('printEle') printEle = new EventEmitter();
 
   potentials = [1,2,4,8,12];
   constructor(
@@ -429,4 +430,32 @@ export class RisksOpportsComponent implements OnInit {
         ]
     }
   }
+
+
+
+
+
+  charts = {};
+  onChartInit(key, ev) {
+    this.charts[key] = {};
+    this.charts[key]['chart'] = ev;
+    this.charts[key]['img'] = ev.getDataURL({
+      pixelRatio: 2,
+      backgroundColor: '#fff'
+    });
+  }
+
+
+  doPrint() {
+    for(let key in this.charts) {
+      this.charts[key].img = this.charts[key].chart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+      });
+    }
+    setTimeout(() => {
+      this.printEle.emit(document.getElementsByClassName('print-section-2')[0].innerHTML);
+    }, 100)
+  }
+
 }
