@@ -23,12 +23,13 @@ export class RisksOpportsComponent implements OnInit {
 
   ngOnInit(): void {
 
-
+    console.log('111111')
 
     this.riskAndOpportunityService.getmitigation({ search:'', type:1,DepartmentId:null,UserId:null,Potential:null,Status:null, maxResultCount:null })
     .subscribe((response) => {
-      console.log(response);
+      console.log('getmitigation', response);
     });
+
     this.likelihoodConditions = [
       {
         value: this.localizationService.instant('::VeryLow'),
