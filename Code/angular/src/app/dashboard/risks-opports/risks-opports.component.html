@@ -1,34 +1,36 @@
-<h3 class="mt-4">
-     المخاطر والفرص
-</h3>
-
-<div class="row mb-4">
-    <div class="col-md-6">
-        <mat-card class="risks-card">
-            <mat-card-title>
-                {{ '::Risk' | abpLocalization }}
-                <h3>
-                    {{totalCountRisk}}
-                </h3>
-            </mat-card-title>
-            <mat-card-content>
-
-            </mat-card-content>
-        </mat-card>
+<ng-template #content1 [ngIf]="true">
+    <h3 class="mt-4">
+        {{ '::RiskAndOpportunity' | abpLocalization }}
+    </h3>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <mat-card class="risks-card">
+                <mat-card-title>
+                    {{ '::Risk' | abpLocalization }}
+                    <h3>
+                        {{totalCountRisk}}
+                    </h3>
+                </mat-card-title>
+                <mat-card-content>
+    
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-6">
+            <mat-card class="oppo-card">
+                <mat-card-title>
+                    {{ '::Opportunity' | abpLocalization }}
+                    <h3>
+                        {{totalCountOpportunity}}
+                    </h3>
+                </mat-card-title>
+                <mat-card-content>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
-    <div class="col-md-6">
-        <mat-card class="oppo-card">
-            <mat-card-title>
-                {{ '::Opportunity' | abpLocalization }}
-                <h3>
-                    {{totalCountOpportunity}}
-                </h3>
-            </mat-card-title>
-            <mat-card-content>
-            </mat-card-content>
-        </mat-card>
-    </div>
-</div>
+</ng-template>
 
 <mat-card class="main-card">
     <mat-card-content>
@@ -42,14 +44,14 @@
                 <div class="col-md-6 p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="risksChart"></div>
+                            <div echarts class="pie-chart-cont" [options]="risksChart" (chartInit)="onChartInit('chart1', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6 p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="treatmentRisksChart"></div>
+                            <div echarts class="pie-chart-cont" [options]="treatmentRisksChart" (chartInit)="onChartInit('chart2', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -63,14 +65,14 @@
                 <div class="col-md-6  p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="opportunitiesChart"></div>
+                            <div echarts class="pie-chart-cont" [options]="opportunitiesChart" (chartInit)="onChartInit('chart3', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6  p-0">
                     <mat-card class="pie-chart mb-4">
                         <mat-card-content>
-                            <div echarts class="pie-chart-cont" [options]="treatmentOpportunitiesChart"></div>
+                            <div echarts class="pie-chart-cont" [options]="treatmentOpportunitiesChart" (chartInit)="onChartInit('chart4', $event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -80,14 +82,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsOptions" (chartClick)="onChartClick($event)"></div>
+                        <div echarts [options]="riskBarsOptions" (chartClick)="onChartClick($event)" (chartInit)="onChartInit('chart5', $event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="opportunitiesBarsOptions" (chartClick)="onChartClick($event)"></div>
+                        <div echarts [options]="opportunitiesBarsOptions" (chartClick)="onChartClick($event)" (chartInit)="onChartInit('chart6', $event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -104,14 +106,14 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsPotentials"></div>
+                        <div echarts [options]="riskBarsPotentials" (chartInit)="onChartInit('chart7', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="riskBarsOpportunityPotentials"></div>
+                        <div echarts [options]="riskBarsOpportunityPotentials" (chartInit)="onChartInit('chart8', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -125,20 +127,133 @@
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="AfterTreatmentRiskBarsPotentials"></div>
+                        <div echarts [options]="AfterTreatmentRiskBarsPotentials" (chartInit)="onChartInit('chart9', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
             <div class="col-md-6">
                 <mat-card class="mb-4">
                     <mat-card-content>
-                        <div echarts [options]="AfterTreatmentRiskBarsOpportunityPotentials"></div>
+                        <div echarts [options]="AfterTreatmentRiskBarsOpportunityPotentials" (chartInit)="onChartInit('chart10', $event)" (chartClick)="onChartClick($event)"></div>
                     </mat-card-content>
                 </mat-card>
             </div>
-
-
         </div>
     </mat-card-content>
 </mat-card>
 
+
+<div class="print-section-2" style="display: none">
+    <ng-template [ngTemplateOutlet]="content1"></ng-template>
+
+    <mat-card class="main-card">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-md-6 row p-0 m-0">
+                    <div class="col-md-12">
+                        <h3 class="text-center">
+                            {{ '::Risks' | abpLocalization }}
+                        </h3>
+                    </div>
+                    <div class="col-md-6 p-0">
+                        <mat-card class="pie-chart mb-4">
+                            <mat-card-content>
+                                <img [src]="charts['chart1']?.img" style="width: 100%;">
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-md-6 p-0">
+                        <mat-card class="pie-chart mb-4">
+                            <mat-card-content>
+                                <img [src]="charts['chart2']?.img" style="width: 100%;">
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+               <div class="col-md-6 row p-0 m-0">
+                    <div class="col-md-12">
+                        <h3 class="text-center">
+                            {{ '::Opportunities' | abpLocalization }}
+                        </h3>
+                    </div>
+                    <div class="col-md-6  p-0">
+                        <mat-card class="pie-chart mb-4">
+                            <mat-card-content>
+                                <img [src]="charts['chart3']?.img" style="width: 100%;">
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="col-md-6  p-0">
+                        <mat-card class="pie-chart mb-4">
+                            <mat-card-content>
+                                <img [src]="charts['chart4']?.img" style="width: 100%;">
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+               </div>
+    
+    
+                <div class="col-md-6">
+                    <mat-card class="mb-4">
+                        <mat-card-content>
+                            <img [src]="charts['chart5']?.img" style="width: 100%;">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="mb-4">
+                        <mat-card-content>
+                            <img [src]="charts['chart6']?.img" style="width: 100%;">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+    
+    
+    
+    
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        {{ '::BeforeMitigation' | abpLocalization }}
+                    </h3>
+               </div>
+    
+                <div class="col-md-6">
+                    <mat-card class="mb-4">
+                        <mat-card-content>
+                            <img [src]="charts['chart7']?.img" style="width: 100%;">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="mb-4">
+                        <mat-card-content>
+                            <img [src]="charts['chart8']?.img" style="width: 100%;">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+    
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        {{ '::AfterMitigation' | abpLocalization }}
+                    </h3>
+               </div>
+    
+                <div class="col-md-6">
+                    <mat-card class="mb-4">
+                        <mat-card-content>
+                            <img [src]="charts['chart9']?.img" style="width: 100%;">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-card class="mb-4">
+                        <mat-card-content>
+                            <img [src]="charts['chart10']?.img" style="width: 100%;">
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>

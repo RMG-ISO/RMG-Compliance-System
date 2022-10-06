@@ -45,9 +45,9 @@
                 <label>
                     {{ (activeTabName +'Potential') | abpLocalization }}
                 </label>
-                <ng-select (change)="changeFilter({'Potential': $event || null})">
-                    <ng-option *ngFor="let Potential of Potentials" [value]="Potential.id">
-                        {{ Potential | lang:'name' }}
+                <ng-select (change)="changeFilter({'Potential': $event.id || null, 'value':$event.value})">
+                    <ng-option *ngFor="let Potential of Potentials" [value]="Potential">
+                        {{ ('::' + Potential.name)  | abpLocalization }}
                     </ng-option>
                 </ng-select>
             </div>

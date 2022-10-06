@@ -174,8 +174,7 @@ namespace RMG.ComplianceSystem.Frameworks
             return listComplaince;
         }
 
-
-
+       
 
     }
 }

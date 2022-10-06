@@ -170,7 +170,6 @@ table {
             td {
                 border-left: 1px solid #262D36;
                 border-right: 1px solid #262D36;
-                // border-bottom: 1px solid #262D36;
                 &:first-of-type, &:last-of-type {
                     border: none;
                 }
@@ -199,4 +198,9 @@ table {
             background-color: #262D36;
         }
     }
+}
+
+
+.print-section-1 {
+    display: none;
 }

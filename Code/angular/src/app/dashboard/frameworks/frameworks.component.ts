@@ -1,5 +1,5 @@
 import { LocalizationService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FrameworkService } from '@proxy/frameworks/framework.service';
 
 @Component({
@@ -8,6 +8,7 @@ import { FrameworkService } from '@proxy/frameworks/framework.service';
   styleUrls: ['./frameworks.component.scss']
 })
 export class FrameworksComponent implements OnInit {
+  @Output('printEle') printEle = new EventEmitter();
 
   constructor(
     private frameworkService:FrameworkService,
@@ -15,9 +16,7 @@ export class FrameworksComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-debugger;
     this.frameworkService.getListFrameWorkDashBoard().subscribe((response) => {
-      debugger;
       this.TotalApplicable=response[0].totalApplicable;
       this.TotalNotApplicable=response[0].totalNotApplicable;
       console.log(response);
@@ -501,6 +500,31 @@ debugger;
     };
   }
 
+  charts = {};
+  onChartInit(key, ev) {
+    console.log(ev);
+    this.charts[key] = {};
+    this.charts[key]['chart'] = ev;
+    this.charts[key]['img'] = ev.getDataURL({
+      pixelRatio: 2,
+      backgroundColor: '#fff'
+    });
+  }
 
+
+  doPrint() {
+    console.log(this.charts)
+    let date = +new Date();
+    for(let key in this.charts) {
+      this.charts[key].img = this.charts[key].chart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+      });
+    }
+    console.log(+new Date() - date);
+    setTimeout(() => {
+      this.printEle.emit(document.getElementsByClassName('print-section-1')[0].innerHTML);
+    }, 100)
+  }
 
 }
