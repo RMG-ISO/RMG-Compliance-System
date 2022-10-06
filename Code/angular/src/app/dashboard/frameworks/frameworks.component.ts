@@ -15,11 +15,13 @@ export class FrameworksComponent implements OnInit {
     private localizationService:LocalizationService
   ) { }
 
+  data;
   ngOnInit(): void {
     this.frameworkService.getListFrameWorkDashBoard().subscribe((response) => {
-      this.TotalApplicable=response[0].totalApplicable;
-      this.TotalNotApplicable=response[0].totalNotApplicable;
-      console.log(response);
+      this.TotalApplicable= response[0].totalApplicable;
+      this.TotalNotApplicable= response[0].totalNotApplicable;
+      console.log('responseresponse', response);
+      this.data = response[0];
     });
     this.setChartOneOptions();
     this.setChartTwoOptions();
