@@ -47,8 +47,8 @@ table {
                     color: #fff;
                     &.applicable{
                         background-color: #fff;
-                        min-width: 400px;
-                        width: 400px;
+                        min-width: 350px;
+                        width: 350px;
                         font-weight: bold;
                         font-size: 18px;
                         div {
@@ -122,6 +122,14 @@ table {
                         border-bottom: none;
                         span {
                             border-radius: 0 0 8px 8px;
+                        }
+                    }
+                }
+                &:first-of-type {
+                    td {
+                        span {
+                            background-color: #f0f0f0;
+                            color: #262D36;
                         }
                     }
                 }
