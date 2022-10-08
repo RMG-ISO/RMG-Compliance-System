@@ -101,8 +101,10 @@
                     </tr> -->
     
                     <tr *ngFor="let framerowk of data.frameworkData">
-                        <td style="background-color: #262D36;">
-                            {{ framerowk.frameworkDto | lang:'name'}}
+                        <td>
+                            <span class="d-block">
+                                {{ framerowk.frameworkDto | lang:'name'}}
+                            </span>
                         </td>
                         <td>
                             {{ framerowk.levelOne }}

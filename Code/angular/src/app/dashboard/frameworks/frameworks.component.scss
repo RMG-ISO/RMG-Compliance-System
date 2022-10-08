@@ -105,16 +105,24 @@ table {
             tr {
                td {
                 border-bottom: 1px solid #F3F1F1;
+                padding:0;
+                span {
+                    padding: 12px;
+                }
                 &:first-of-type {
-                    background-color: #262D36;
-                    color: #fff;
+                    span {
+                        background-color: #262D36;
+                        color: #fff;
+                    }
                 }
                }
                 &:last-of-type {
                     border-bottom:none;
                     td {
                         border-bottom: none;
-                        border-radius: 0 0 8px 8px;
+                        span {
+                            border-radius: 0 0 8px 8px;
+                        }
                     }
                 }
             }
