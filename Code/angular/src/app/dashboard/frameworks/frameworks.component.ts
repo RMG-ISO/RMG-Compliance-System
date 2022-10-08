@@ -9,6 +9,7 @@ import { FrameworkService } from '@proxy/frameworks/framework.service';
 })
 export class FrameworksComponent implements OnInit {
   @Output('printEle') printEle = new EventEmitter();
+  fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
 
   constructor(
     private frameworkService:FrameworkService,
@@ -16,24 +17,282 @@ export class FrameworksComponent implements OnInit {
   ) { }
 
   data;
+  TotalApplicable;
+  TotalNotApplicable;
+
+  pieCharts = [];
+  maturityChart;
+  maturityChartImg = {
+
+  };
   ngOnInit(): void {
     this.frameworkService.getListFrameWorkDashBoard().subscribe((response) => {
       this.TotalApplicable= response[0].totalApplicable;
       this.TotalNotApplicable= response[0].totalNotApplicable;
       console.log('responseresponse', response);
+      console.log(this.localizationService.currentLang)
       this.data = response[0];
+
+      let maturity = {
+        levelFive: 0,
+        levelOne: 0,
+        levelThree: 0,
+        levelTwo: 0,
+        levelfour: 0,
+        frameworkDto: {
+          nameAr:'مستوى النضج',
+          nameEn:'Maturity Level'
+        }
+      }
+
+      let pieCharts: any = [
+       
+      ];
+      for(let framework of this.data['frameworkData']) {
+        maturity.levelOne += framework.levelOne;
+        maturity.levelTwo += framework.levelTwo;
+        maturity.levelThree += framework.levelThree;
+        maturity.levelfour += framework.levelfour;
+        maturity.levelFive += framework.levelFive;
+        pieCharts.push(this.setPieChartOptions(framework));
+      }
+      this.data['frameworkData'].unshift(maturity);
+      this.pieCharts = pieCharts;
+      this.maturityChart = this.setBarChart(maturity);
     });
-    this.setChartOneOptions();
-    this.setChartTwoOptions();
-    this.setChartThreeOptions();
-    this.setchartFourOptions();
-    this.setChartFiveOptions();
-    this.setChartSixOptions();
-    this.setChartSevenOptions();
-    this.setChartEightOptions()
+
   }
-  TotalApplicable;
-  TotalNotApplicable;
+
+  
+  setPieChartOptions(framework) {
+    return {
+      title: {
+        text: this.localizationService.currentLang == 'en-GB' ? framework.frameworkDto.nameEn : framework.frameworkDto.nameAr,
+        left: 'center',
+        top: 10,
+        textStyle: {
+          color: '#000000',
+          fontSize: '14px',
+          fontWeight: 'normal',
+          fontFamily:this.fontFamily
+        },
+      },
+      tooltip: {},
+      legend: {
+        // top: 'middle',
+        // orient: 'vertical',
+        right: 10,
+        bottom:0
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          saveAsImage: { show: true },
+        },
+      },
+      series: [
+        {
+          name:
+            this.localizationService.currentLang == 'en-GB' ? framework.frameworkDto.nameEn : framework.frameworkDto.nameAr,
+          type: 'pie',
+          // radius: [50, 250],
+          radius: [1, '50%'],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 8,
+          },
+          data: [
+            { 
+              value: framework.levelOne,
+              name: this.localizationService.instant('::Ad-hoc'),
+              itemStyle : {
+                color:'#B00606'
+              }
+            },
+            {
+              value: framework.levelTwo,
+              name: this.localizationService.instant('::RepeatableInformal'),
+              itemStyle : {
+                color:'#E30303'
+              }
+            },
+            {
+              value: framework.levelThree,
+              name: this.localizationService.instant('::StructuredFormalized'),
+              itemStyle : {
+                color:'#F8D90E'
+              }
+            },
+            {
+              value: framework.levelfour,
+              name: this.localizationService.instant('::ManagedMeasurable'),
+              itemStyle : {
+                color:'#FFCC00'
+              }
+            },
+            { 
+              value: framework.levelFive,
+              name: this.localizationService.instant('::Adaptive'),
+              itemStyle : {
+                color:'#00E355'
+              }
+            },
+          ],
+          label: {
+            formatter: '{b}  \n \n {c}',
+            fontSize:12,
+            fontWeight:'bold',
+            fontFamily:this.fontFamily
+          },
+        },
+      ],
+    };
+  }
+
+  setBarChart(framework) {
+    return {
+      // xAxis: {
+      //   type: 'category',
+      //   data: [
+      //     this.localizationService.instant('::Ad-hoc'),
+      //     this.localizationService.instant('::RepeatableInformal'),
+      //     this.localizationService.instant('::StructuredFormalized'),
+      //     this.localizationService.instant('::ManagedMeasurable'),
+      //     this.localizationService.instant('::Adaptive'),
+      //   ]
+      // },
+      title: {
+        text: this.localizationService.currentLang == 'en-GB' ? framework.frameworkDto.nameEn : framework.frameworkDto.nameAr,
+        left: 'center',
+        top: 10,
+        textStyle: {
+          color: '#000000',
+          fontSize: '14px',
+          fontWeight: 'normal',
+          fontFamily:this.fontFamily
+        },
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b} : {c} ({d}%)',
+        textStyle:{
+          fontFamily:this.fontFamily
+        }
+      },
+      xAxis: {
+        data: [
+          this.localizationService.instant('::Ad-hoc'),
+          this.localizationService.instant('::RepeatableInformal'),
+          this.localizationService.instant('::StructuredFormalized'),
+          this.localizationService.instant('::ManagedMeasurable'),
+          this.localizationService.instant('::Adaptive'),
+        ],
+        axisLabel: {
+          inside: true,
+          color: '#fff',
+          rotate:90,
+          fontFamily:this.fontFamily
+        },
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false
+        },
+        z: 10
+      },
+      yAxis: {
+        type: 'value'
+      },
+      grid: {
+        left: '3%',
+        right: '3%',
+        bottom: '1%',
+        containLabel: true
+      },
+      series: [
+        {
+          data: [
+            { 
+              value: framework.levelOne,
+              itemStyle : {
+                color:'#B00606'
+              }
+            },
+            {
+              value: framework.levelTwo,
+              itemStyle : {
+                color:'#E30303'
+              }
+            },
+            {
+              value: framework.levelThree,
+              itemStyle : {
+                color:'#F8D90E'
+              }
+            },
+            {
+              value: framework.levelfour,
+              itemStyle : {
+                color:'#FFCC00'
+              }
+            },
+            { 
+              value: framework.levelFive,
+              itemStyle : {
+                color:'#00E355'
+              }
+            },
+          ],
+          type: 'bar'
+        }
+      ]
+    };
+  }
+
+
+  chartsAfterInit = [];
+  onChartInit(key, ev) {
+    if(key == null ) {
+      console.log(ev);
+      this.maturityChartImg['chart'] = ev;
+      this.maturityChartImg['img'] = ev.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+      })
+      console.log('maturityChartImg', !!this.maturityChartImg)
+      return;
+    }
+    this.chartsAfterInit[key] = {};
+    this.chartsAfterInit[key]['chart'] = ev;
+    this.chartsAfterInit[key]['img'] = ev.getDataURL({
+      pixelRatio: 2,
+      backgroundColor: '#fff'
+    });
+  }
+
+
+  doPrint() {
+    this.maturityChartImg['img'] = this.maturityChartImg['chart'].getDataURL({
+      pixelRatio: 2,
+      backgroundColor: '#fff'
+    });
+    for(let key in this.chartsAfterInit) {
+      this.chartsAfterInit[key].img = this.chartsAfterInit[key].chart.getDataURL({
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+      });
+    }
+    setTimeout(() => {
+      this.printEle.emit(document.getElementsByClassName('print-section-1')[0].innerHTML);
+    }, 100)
+  }
+}
+
+
+/*
+
   chartOneOptions;
   setChartOneOptions() {
     this.chartOneOptions = {
@@ -148,52 +407,8 @@ export class FrameworksComponent implements OnInit {
     };
   }
 
-  chartTwoOptions
-  setChartTwoOptions() {
-    this.chartTwoOptions = {
-      title: {
-        text: this.localizationService.instant('::Dashboard:TotalRequirements'),
-        left: 'center',
-        top: 10,
-        textStyle: {
-          color: '#000000',
-          fontSize:'14px',
-          fontWeight:'normal'
-        }
-      },
-      tooltip:{},
-      legend: {
-        top: 'bottom'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: this.localizationService.instant('::Dashboard:TotalRequirements'),
-          type: 'pie',
-          // radius: [50, 250],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 40, name: this.localizationService.instant('::Dashboard:Initial') },
-            { value: 38, name: this.localizationService.instant('::Dashboard:Managed') },
-            { value: 32, name: this.localizationService.instant('::Dashboard:Defined') },
-            { value: 30, name: this.localizationService.instant('::Dashboard:QuantitativelyManaged') },
-            { value: 28, name: this.localizationService.instant('::Dashboard:Optimizing') },
-          ]
-        }
-      ]
-    };
-  }
 
-
+  
   chartThreeOptions
   setChartThreeOptions() {
     this.chartThreeOptions = {
@@ -500,27 +715,4 @@ export class FrameworksComponent implements OnInit {
     };
   }
 
-  charts = {};
-  onChartInit(key, ev) {
-    this.charts[key] = {};
-    this.charts[key]['chart'] = ev;
-    this.charts[key]['img'] = ev.getDataURL({
-      pixelRatio: 2,
-      backgroundColor: '#fff'
-    });
-  }
-
-
-  doPrint() {
-    for(let key in this.charts) {
-      this.charts[key].img = this.charts[key].chart.getDataURL({
-        pixelRatio: 2,
-        backgroundColor: '#fff'
-      });
-    }
-    setTimeout(() => {
-      this.printEle.emit(document.getElementsByClassName('print-section-1')[0].innerHTML);
-    }, 100)
-  }
-
-}
+*/

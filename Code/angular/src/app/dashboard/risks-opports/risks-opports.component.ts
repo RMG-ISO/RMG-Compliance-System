@@ -254,64 +254,70 @@ export class RisksOpportsComponent implements OnInit {
   createStatusChart(opened,closed, title) {
     return {
       title: {
-          text: this.localizationService.instant(title),
-          left: 'center',
-          textStyle:{
-            fontFamily:this.fontFamily
-          }
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{b} : {c} ({d}%)',
-          textStyle:{
-            fontFamily:this.fontFamily
-          }
-        },
-        legend: {
-          bottom: 0,
-          left: 'center',
-          data: [this.localizationService.instant('::Status:Open'), this.localizationService.instant('::Status:Close')],
-          textStyle:{
-            fontFamily:this.fontFamily
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '70%',
-            center: ['50%', '50%'],
-            selectedMode: 'single',
-            data: [
-              {
-                value: opened,
-                name: this.localizationService.instant('::Status:Open'),
-                itemStyle:{
-                 color:'#32ba94'
-                }
-              },
-              {
-                value: closed,
-                name: this.localizationService.instant('::Status:Close'),
-                itemStyle: {
-                 color:'red'
-                },
-              },
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 20,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+        text: this.localizationService.instant(title),
+        left: 'center',
+        textStyle:{
+          fontFamily:this.fontFamily
+        }
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b} : {c} ({d}%)',
+        textStyle:{
+          fontFamily:this.fontFamily
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '3%',
+        bottom: '3%',
+        containLabel: true
+      },
+      legend: {
+        bottom: 0,
+        left: 'center',
+        data: [this.localizationService.instant('::Status:Open'), this.localizationService.instant('::Status:Close')],
+        textStyle:{
+          fontFamily:this.fontFamily
+        }
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: '70%',
+          center: ['50%', '50%'],
+          selectedMode: 'single',
+          data: [
+            {
+              value: opened,
+              name: this.localizationService.instant('::Status:Open'),
+              itemStyle:{
+                color:'#32ba94'
               }
             },
-           label: {
-              formatter: '{b}  \n \n {d}%',
-              fontSize:12,
-              fontWeight:'bold',
-              fontFamily:this.fontFamily,
+            {
+              value: closed,
+              name: this.localizationService.instant('::Status:Close'),
+              itemStyle: {
+                color:'red'
+              },
             },
-          }
-        ]
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 20,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          label: {
+            formatter: '{b}  \n \n {d}%',
+            fontSize:12,
+            fontWeight:'bold',
+            fontFamily:this.fontFamily,
+          },
+        }
+      ]
     }
   }
 

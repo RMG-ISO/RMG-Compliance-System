@@ -49,8 +49,6 @@ export class DashboardReportComponent implements OnInit {
 
 
   period;
-  // '::Risk:Potential'
-  // '::Opportunity:Potential'
   getList() {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
     let params = this.route.snapshot.params;

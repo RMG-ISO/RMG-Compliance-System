@@ -1,6 +1,7 @@
 {
   "culture": "en-GB",
   "texts": {
+    "Compliance":"Compliance",
     "Validations:MinLength": "This field length can't be less than {0} characters",
     "Validations:MaxLength": "This field length can't be more than {0} characters",
     "Validations:WordMaxLength": "This field length can't contain a word with length more than {0} characters",
@@ -396,7 +397,12 @@
     "BeforeMitigation":"Before Mitigation",
     "AfterMitigation":"After Mitigation",
     "Report":"Report",
-    "Print":"Print"
+    "Print":"Print",
+    "Ad-hoc":"Ad-hoc",
+    "RepeatableInformal":"Repeatable but informal",
+    "StructuredFormalized":"Structured and formalized",
+    "ManagedMeasurable":"Managed and measurable",
+    "Adaptive":"Adaptive"
 
 
 

@@ -12,5 +12,20 @@ button {
     body{
         -webkit-print-color-adjust:exact !important;
         print-color-adjust:exact !important;
+        background: #EFEFEF !important;
+    }
+
+    img { 
+        page-break-before: auto; 
+        page-break-after: auto; 
+        page-break-inside: avoid; 
+    }
+    h3 {
+        page-break-before: auto; 
+        page-break-after: avoid;
+        font-size: 16px;
+    }
+    mat-card {
+        background-color: #ddd !important;
     }
 } 

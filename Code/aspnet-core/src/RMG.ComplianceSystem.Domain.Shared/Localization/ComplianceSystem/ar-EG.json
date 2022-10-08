@@ -1,6 +1,7 @@
 {
   "culture": "ar-EG",
   "texts": {
+    "Compliance":"امتثال",
     "Validations:MinLength": "لا يجب أن يقل طول قيمة هذا الحقل عن {0}",
     "Validations:MaxLength": "لا يجب أن يزيد طول قيمة هذا الحقل عن {0}",
     "Validations:WordMaxLength": "لا يجب أن يحتوى هذا الحقل على كلمة بطول {0} حرف",
@@ -399,7 +400,13 @@
     "BeforeMitigation":"قبل المعالجة",
     "AfterMitigation":"بعد المعالجة",
     "Report":"تقرير",
-    "Print":"طباعة"
+    "Print":"طباعة",
+    "Ad-hoc":"مخصصة",
+    "RepeatableInformal":"قابل للتكرار لكن غير رسمى",
+    "StructuredFormalized":"منظم ورسمى",
+    "ManagedMeasurable":"مُدار وقابل للقياس",
+    "Adaptive":"مُتكيف"
+
 
 
   }
