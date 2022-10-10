@@ -404,11 +404,11 @@
     "ManagedMeasurable":"Managed and measurable",
     "Adaptive":"Adaptive",
 
-    "FrameworkName":"Framework Name",
-    "MainDomainName":"Main Domain Name",
-    "SubDomainName":"Sub Domain Name",
-    "MainControlName":"Main Control Name",
-    "SubControlName":"Sub Control Name"
+    "FrameworkName":"Framework",
+    "MainDomainName":"Main Domain",
+    "SubDomainName":"Sub Domain",
+    "MainControlName":"Main Control",
+    "SubControlName":"Sub Control"
 
 
 
