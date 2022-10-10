@@ -156,6 +156,7 @@ namespace RMG.ComplianceSystem.Notifications
 
         }
 
+        [RemoteService(false)]
         public async Task NotifyUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();
@@ -166,7 +167,7 @@ namespace RMG.ComplianceSystem.Notifications
                 Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).Take(6).Select(t => new NotifyUserNotificationDto
                 {
                     Id = t.Id,
-                    Title = t.Subject,
+                    Title = t.Body,
                     Status = t.Status,
                     Url = t.Url
                 }).ToList()
@@ -176,6 +177,7 @@ namespace RMG.ComplianceSystem.Notifications
                 .User(userId)
                 .SendAsync("ReceiveNotification", Notifications);
         }
+
         public async Task NotifictionUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();

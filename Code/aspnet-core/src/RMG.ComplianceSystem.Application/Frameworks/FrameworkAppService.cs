@@ -69,173 +69,81 @@ namespace RMG.ComplianceSystem.Frameworks
             return new ListResultDto<FrameworkDto>(ObjectMapper.Map<List<Framework>, List<FrameworkDto>>(data));
         }
 
-        public async Task<List<ComplainceDto>> GetFrameWorkData()
+      
+        public async Task<FrameworkData> GetFrameWorkWithAssesmentBYId(getFrameworkDto input)
         {
-            var listComplaince = new List<ComplainceDto>();
-            var Complaince = new ComplainceDto();
-            Complaince.TotalApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.Applicable).Count();
-            Complaince.TotalNotApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.NotApplicable).Count();
-            var framworks = _repository.ToList();
-            var ListFramework = new List<FrameworkData>();
-            foreach (var item in framworks)
-            {
-                var FrameworkDt = new FrameworkData();
-                var DomainsDta = new DomainsDta();
-                FrameworkDt.FrameworkDto = ObjectMapper.Map<Framework, FrameworkDto>(item);
-                var domainsWithChild = _domainRepository.Where(c => c.FrameworkId == item.Id).ToList();
-                foreach (var domains in domainsWithChild)
-                {
-                    var ListDomains = new List<DomainsDta>();
-                    if (domains.Children != null)
-                        foreach (var domain in domains.Children)
-                        {
-                            var domainDto = ObjectMapper.Map<Domain, DomainDto>(domain);
-                            DomainsDta.subdomain = domainDto;
-                            var ControlsDto = new List<ControlsDto>();
-                            var controlsWithChild = _controlRepository.Where(e => e.DomainId == domain.Id).ToList();
-                            foreach (var control in controlsWithChild)
-                            {
-                                var Ctrol = new ControlsDto();
-                                if (control.Children != null)
-                                    foreach (var ctrl in control.Children)
-                                    {
-                                        Ctrol.subControl = ObjectMapper.Map<Control, ControlDto>(ctrl);
-                                        Ctrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(_assessmentRepository.Where(u => u.ControlId == ctrl.Id).FirstOrDefault());
-                                        if (Ctrol.AssessmentDto != null)
-                                        {
-                                            //if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
-                                            //    FrameworkDt.Applicable += 1;
-                                            //if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
-                                            //    FrameworkDt.NotApplicable += 1;
-                                        }
-                                    }
-                                ControlsDto.Add(Ctrol);
-                            }
-                            DomainsDta.ChildrenControls = ControlsDto;
-                        }
-                    ListDomains.Add(DomainsDta);
-                    FrameworkDt.DomaindDta = ListDomains;
-                }
-                ListFramework.Add(FrameworkDt);
-            };
-            Complaince.FrameworkData = ListFramework;
-            listComplaince.Add(Complaince);
-
-            return listComplaince;
-        }
-
-        public async Task<List<FrameworkDetailDto>> GetFrameWorkDetail(Guid id)
-        {
-            var listComplaince = new List<FrameworkDetailDto>();
-            var Complaince = new FrameworkDetailDto();
-            //Complaince.TotalApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.Applicable).Count();
-            //Complaince.TotalNotApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.NotApplicable).Count();
-            var item = _repository.FirstOrDefault(t => t.Id == id);
             var FrameworkDt = new FrameworkData();
-            var DomainsDta = new DomainsDta();
-            FrameworkDt.FrameworkDto = ObjectMapper.Map<Framework, FrameworkDto>(item);
-            var domainsWithChild = _domainRepository.Where(c => c.FrameworkId == item.Id).ToList();
-            foreach (var domains in domainsWithChild)
+            var item = _repository.Where(t => t.Id == input.FrameworkId).FirstOrDefault();
+            if (item != null)
             {
-                var ListDomains = new List<DomainsDta>();
-                if (domains.Children != null)
-                    foreach (var domain in domains.Children)
-                    {
-                        var domainDto = ObjectMapper.Map<Domain, DomainDto>(domain);
-                        DomainsDta.subdomain = domainDto;
-                        var ControlsDto = new List<ControlsDto>();
-                        var controlsWithChild = _controlRepository.Where(e => e.DomainId == domain.Id).ToList();
-                        foreach (var control in controlsWithChild)
-                        {
-                            var Ctrol = new ControlsDto();
-                            if (control.Children != null)
-                                foreach (var ctrl in control.Children)
-                                {
-                                    Ctrol.subControl = ObjectMapper.Map<Control, ControlDto>(ctrl);
-                                    Ctrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(_assessmentRepository.Where(u => u.ControlId == ctrl.Id).FirstOrDefault());
-                                    if (Ctrol.AssessmentDto != null)
-                                    {
-                                        //if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
-                                        //    FrameworkDt.Applicable += 1;
-                                        //if (Ctrol.AssessmentDto.Applicable == ApplicableType.Applicable)
-                                        //    FrameworkDt.NotApplicable += 1;
-                                    }
-                                }
-                            ControlsDto.Add(Ctrol);
-                        }
-                        DomainsDta.ChildrenControls = ControlsDto;
-                    }
-                ListDomains.Add(DomainsDta);
-                FrameworkDt.DomaindDta = ListDomains;
-                Complaince.FrameworkData = FrameworkDt;
-            }
-            listComplaince.Add(Complaince);
-
-            return listComplaince;
-        }
-
-
-        public async Task<List<ComplainceDto>> GetFrameWorkWithAssesmentData()
-        {
-            var listComplaince = new List<ComplainceDto>();
-            var Complaince = new ComplainceDto();
-            Complaince.TotalApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.Applicable).Count();
-            Complaince.TotalNotApplicable = _assessmentRepository.Where(t => t.Applicable == ApplicableType.NotApplicable).Count();
-            var framworks = _repository.ToList();
-            var ListFramework = new List<FrameworkData>();
-            foreach (var item in framworks)
-            {
-                var FrameworkDt = new FrameworkData();
-                var DomainsDta = new DomainsDta();
                 FrameworkDt.FrameworkDto = ObjectMapper.Map<Framework, FrameworkDto>(item);
+                var ListMainDomainsDto = new List<MainDomainsDto>();
                 var domainsWithChild = _domainRepository.Where(c => c.FrameworkId == item.Id).ToList();
-                foreach (var domains in domainsWithChild)
+                foreach (var Maindomain in domainsWithChild)
                 {
-                    var ListDomains = new List<DomainsDta>();
-                    if (domains.Children != null)
-                        foreach (var domain in domains.Children)
+                    var MainDomainsDto = new MainDomainsDto();
+                    MainDomainsDto.Maindomain = ObjectMapper.Map<Domain, DomainDto>(Maindomain);
+                    var listSubDomain = new List<SubDomainsDto>();
+                    if (Maindomain.Children != null)
+                        foreach (var domain in Maindomain.Children)
                         {
-                            var ControlsDto = new List<ControlsDto>();
+                            var subDomain = new SubDomainsDto();
+                            subDomain.Subdomain = ObjectMapper.Map<Domain, DomainDto>(domain);
                             var controlsWithChild = _controlRepository.Where(e => e.DomainId == domain.Id).ToList();
+
+                            var listmMaincontrol = new List<MainControlsDto>();
                             foreach (var control in controlsWithChild)
                             {
-                                var Ctrol = new ControlsDto();
+                                var maincontrol = new MainControlsDto();
+                                maincontrol.MainControl = ObjectMapper.Map<Control, ControlDto>(control);
+                                var Ctrols = new List<SubControlsDto>();
                                 if (control.Children != null)
                                     foreach (var ctrl in control.Children)
                                     {
+                                        var Ctrol = new SubControlsDto();
                                         Ctrol.subControl = ObjectMapper.Map<Control, ControlDto>(ctrl);
-                                        var assesment = _assessmentRepository.FirstOrDefault(u => u.ControlId == ctrl.Id);
+                                        var assesment = _assessmentRepository.Where(u => u.ControlId == ctrl.Id).FirstOrDefault();
                                         Ctrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(assesment);
                                         if (assesment != null)
                                         {
                                             if (assesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel1)
-                                                FrameworkDt.LevelOne += 1;
+                                                MainDomainsDto.LevelOne += 1;
                                             if (assesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel2)
-                                                FrameworkDt.LevelTwo += 1;
+                                                MainDomainsDto.LevelTwo += 1;
                                             if (assesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel3)
-                                                FrameworkDt.LevelThree += 1;
+                                                MainDomainsDto.LevelThree += 1;
                                             if (assesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel4)
-                                                FrameworkDt.Levelfour += 1;
+                                                MainDomainsDto.Levelfour += 1;
                                             if (assesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel5)
-                                                FrameworkDt.LevelFive += 1;
-
+                                                MainDomainsDto.LevelFive += 1;
+                                            if (assesment.Applicable == ApplicableType.Applicable)
+                                                FrameworkDt.TotalApplicable += 1;
+                                            if (assesment.Applicable == ApplicableType.NotApplicable)
+                                                FrameworkDt.TotalNotApplicable += 1;
                                         }
+                                        Ctrols.Add(Ctrol);
                                     }
-                                ControlsDto.Add(Ctrol);
-                            }
-                            DomainsDta.ChildrenControls = ControlsDto;
-                        }
-                    ListDomains.Add(DomainsDta);
-                    FrameworkDt.DomaindDta = ListDomains;
-                }
-                ListFramework.Add(FrameworkDt);
-            };
-            Complaince.FrameworkData = ListFramework;
-            listComplaince.Add(Complaince);
 
-            return listComplaince;
+                                maincontrol.subControl = Ctrols;
+                                listmMaincontrol.Add(maincontrol);
+                            }
+                            subDomain.ChildrenControls = listmMaincontrol;
+                            listSubDomain.Add(subDomain);
+                        }
+
+                    MainDomainsDto.ChildrenDomains = listSubDomain;
+                    ListMainDomainsDto.Add(MainDomainsDto); 
+                }
+                FrameworkDt.DomainDta = ListMainDomainsDto;
+
+
         }
 
+            return FrameworkDt;
+        }
+
+
+      
     }
 }
       
