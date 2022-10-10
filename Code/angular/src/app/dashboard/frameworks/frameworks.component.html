@@ -1,101 +1,111 @@
 <ng-container *ngIf="data">
-    <h2 class="mt-4 text-center">
-        {{ '::Compliance' | abpLocalization }}
-    </h2>
+  <h2 class="mt-4 text-center">
+    {{ '::Compliance' | abpLocalization }}
+  </h2>
+  <h2 class="mt-4 text-center">
 
-    <div class="row">
-        <div class="col-md-8">
-            <ng-template #table1 [ngIf]="true">
-                <mat-card #tableParent class="card-1 mb-3" >
-                    <!-- <div class="row">
+    <label>
+      {{ '::Framework' | abpLocalization }}
+    </label>
+    <ng-select (change)="getDomains($event)">
+      <ng-option *ngFor="let frame of Frameworks" [value]="frame.id">
+        {{ frame | lang:'name' }}
+      </ng-option>
+    </ng-select>
+  </h2>
+  <div class="row">
+    <div class="col-md-8">
+      <ng-template #table1 [ngIf]="true">
+        <mat-card #tableParent class="card-1 mb-3">
+          <!-- <div class="row">
                         <div class="col-md-4">
                             <mat-chip-list>
                                 <mat-chip class="d-flex justify-content-between align-items-center w-100">
                                     <span>{{ '::Dashboard:Applicable' | abpLocalization }}</span>
                                     <span>180</span>
                                 </mat-chip>
-            
+
                                 <mat-chip class="d-flex justify-content-between align-items-center w-100">
                                     <span>{{ '::Dashboard:NotApplicable' | abpLocalization }}</span>
                                     <span>13</span>
                                 </mat-chip>
-            
+
                             </mat-chip-list>
-                            
+
                         </div>
-                    
+
                     </div> -->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td class="applicable">
-                                    <div class="d-flex justify-content-between">
-                                        <span>{{ '::Dashboard:Applicable' | abpLocalization }}</span>
-                                        <span>{{ data.totalApplicable }}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="dark-red">
-                                        {{ '::Dashboard:Level' | abpLocalization }} 1
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="red">
-                                        {{ '::Dashboard:Level' | abpLocalization }} 2
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="yellow">
-                                        {{ '::Dashboard:Level' | abpLocalization }} 3
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="dark-yellow">
-                                        {{ '::Dashboard:Level' | abpLocalization }} 4
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="green">
-                                        {{ '::Dashboard:Level' | abpLocalization }} 5
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="applicable not">
-                                    <div class="d-flex justify-content-between">
-                                        <span>{{ '::Dashboard:NotApplicable' | abpLocalization }}</span>
-                                        <span> {{ data.totalNotApplicable }} </span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="dark-red">
-                                        {{ '::Ad-hoc' | abpLocalization }}
-                                    </span>
-                                </td>
-                                <td>
-                                <span class="red">
-                                    {{ '::RepeatableInformal' | abpLocalization }}
-                                </span>
-                                </td>
-                                <td>
-                                    <span class="yellow">
-                                        {{ '::StructuredFormalized' | abpLocalization }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="dark-yellow" style="padding: 2px 0;">
-                                        {{ '::ManagedMeasurable' | abpLocalization }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="green">
-                                        {{ '::Adaptive' | abpLocalization }}
-                                    </span>
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- <tr>
+          <table class="table">
+            <thead>
+              <tr>
+                <td class="applicable">
+                  <div class="d-flex justify-content-between">
+                    <span>{{ '::Dashboard:Applicable' | abpLocalization }}</span>
+                    <span>{{ TotalApplicable }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="dark-red">
+                    {{ '::Dashboard:Level' | abpLocalization }} 1
+                  </span>
+                </td>
+                <td>
+                  <span class="red">
+                    {{ '::Dashboard:Level' | abpLocalization }} 2
+                  </span>
+                </td>
+                <td>
+                  <span class="yellow">
+                    {{ '::Dashboard:Level' | abpLocalization }} 3
+                  </span>
+                </td>
+                <td>
+                  <span class="dark-yellow">
+                    {{ '::Dashboard:Level' | abpLocalization }} 4
+                  </span>
+                </td>
+                <td>
+                  <span class="green">
+                    {{ '::Dashboard:Level' | abpLocalization }} 5
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="applicable not">
+                  <div class="d-flex justify-content-between">
+                    <span>{{ '::Dashboard:NotApplicable' | abpLocalization }}</span>
+                    <span> {{TotalNotApplicable }} </span>
+                  </div>
+                </td>
+                <td>
+                  <span class="dark-red">
+                    {{ '::Ad-hoc' | abpLocalization }}
+                  </span>
+                </td>
+                <td>
+                  <span class="red">
+                    {{ '::RepeatableInformal' | abpLocalization }}
+                  </span>
+                </td>
+                <td>
+                  <span class="yellow">
+                    {{ '::StructuredFormalized' | abpLocalization }}
+                  </span>
+                </td>
+                <td>
+                  <span class="dark-yellow" style="padding: 2px 0;">
+                    {{ '::ManagedMeasurable' | abpLocalization }}
+                  </span>
+                </td>
+                <td>
+                  <span class="green">
+                    {{ '::Adaptive' | abpLocalization }}
+                  </span>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr>
                                 <td style="background-color: #F3F1F1; color: #262D36;">
                                     {{ '::Dashboard:TotalRequirements' | abpLocalization }}
                                 </td>
@@ -105,63 +115,64 @@
                                 <td>1</td>
                                 <td>6</td>
                             </tr> -->
-            
-                            <tr *ngFor="let framerowk of data.frameworkData">
-                                <td>
-                                    <span class="d-block">
-                                        {{ framerowk.frameworkDto | lang:'name'}}
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ framerowk.levelOne }}
-                                </td>
-                                <td>
-                                    {{ framerowk.levelTwo }}
-                                </td>
-                                <td>
-                                    {{ framerowk.levelThree }}
-                                </td>
-                                <td>
-                                    {{ framerowk.levelfour }}
-                                </td>
-                                <td>
-                                    {{ framerowk.levelFive }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </mat-card>
-            </ng-template>
-        </div>
-        <div class="col-md-4" style="display: flex;">
-            <mat-card class="card-1 mb-3" style="flex:1;display: flex;" >
-                <div echarts *ngIf="maturityChart" [options]="maturityChart" (chartInit)="onChartInit(null, $event)" style="flex: 1; height: auto; min-height:300px"></div>
-            </mat-card>
-        </div>
+
+              <tr *ngFor="let framerowk of domains">
+                <td>
+                  <span class="d-block">
+                    {{ framerowk.subdomain | lang:'name'}}
+                  </span>
+                </td>
+                <td>
+                  {{ framerowk.levelOne }}
+                </td>
+                <td>
+                  {{ framerowk.levelTwo }}
+                </td>
+                <td>
+                  {{ framerowk.levelThree }}
+                </td>
+                <td>
+                  {{ framerowk.levelfour }}
+                </td>
+                <td>
+                  {{ framerowk.levelFive }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
+      </ng-template>
     </div>
-    
-    
-    <!-- <mat-card class="card-2 mb-3">
+    <div class="col-md-4" style="display: flex;">
+      <mat-card class="card-1 mb-3" style="flex:1;display: flex;">
+        <div echarts *ngIf="maturityChart" [options]="maturityChart" (chartInit)="onChartInit(null, $event)"
+          style="flex: 1; height: auto; min-height:300px"></div>
+      </mat-card>
+    </div>
+  </div>
+
+
+  <!-- <mat-card class="card-2 mb-3">
         <h4 class="text-center mb-0">{{ '::Dashboard:RequirementsGapAnalysis' | abpLocalization }}</h4>
         <div echarts [options]="chartOneOptions" (chartInit)="onChartInit('chart1', $event)"></div>
     </mat-card> -->
-    
-    
-    <div class="row mb-3">
-        <div class="col-md-4 mb-3" *ngFor="let chart of pieCharts; index as i">
-            <mat-card class="card-3">
-                <div echarts [options]="chart" (chartInit)="onChartInit(i, $event)"></div>
-            </mat-card>
-        </div>
-        <!-- <div class="col-md-6 mb-3">
+
+
+  <div class="row mb-3">
+    <div class="col-md-4 mb-3" *ngFor="let chart of pieCharts; index as i">
+      <mat-card class="card-3">
+        <div echarts [options]="chart" (chartInit)="onChartInit(i, $event)"></div>
+      </mat-card>
+    </div>
+    <!-- <div class="col-md-6 mb-3">
             <mat-card class="card-4">
                 <div echarts [options]="chartThreeOptions" (chartInit)="onChartInit('chart3', $event)"></div>
             </mat-card>
         </div> -->
-    </div>
-    
-    
-    <!-- <ng-template #table2 [ngIf]="true">
+  </div>
+
+
+  <!-- <ng-template #table2 [ngIf]="true">
         <mat-card class="card-5 mb-3">
             <table class="table">
                 <thead>
@@ -218,18 +229,18 @@
             </table>
         </mat-card>
     </ng-template> -->
-    
-    
-    <!-- <mat-card class="card-6 mb-3">
+
+
+  <!-- <mat-card class="card-6 mb-3">
         <h4 class="text-center mb-2">{{ '::Dashboard:MaturityLevel' | abpLocalization }}</h4>
         <div echarts [options]="chartFourOptions" (chartInit)="onChartInit('chart4', $event)"></div>
     </mat-card>
-    
-    
+
+
     <mat-card class="card-6 mb-3">
         <h4 class="text-center mb-2">{{ '::Dashboard:ComplianceBased' | abpLocalization }}</h4>
         <div echarts [options]="chartFiveOptions" (chartInit)="onChartInit('chart5', $event)"></div>
-    
+
         <table class="table">
             <thead>
                 <tr>
@@ -247,14 +258,14 @@
                         {{ '::Dashboard:ThirdParty' | abpLocalization }}
                     </td>
                     <td>
-                         {{ '::Dashboard:IndustrialControl' | abpLocalization}} 
+                         {{ '::Dashboard:IndustrialControl' | abpLocalization}}
                     </td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        {{ '::Dashboard:AsIsStatus' | abpLocalization }} 
+                        {{ '::Dashboard:AsIsStatus' | abpLocalization }}
                     </td>
                     <td>59%</td>
                     <td>37%</td>
@@ -275,8 +286,8 @@
             </tbody>
         </table>
     </mat-card>
-    
-    
+
+
     <div class="row mb-3">
         <div class="col-md-6 mb-3">
             <mat-card class="card-3">
@@ -289,60 +300,60 @@
             </mat-card>
         </div>
     </div>
-    
-    
+
+
     <mat-card class="card-7">
         <div echarts [options]="chartEightOptions"  (chartInit)="onChartInit('chart8', $event)"></div>
     </mat-card> -->
-    
-    
-    <div class="print-section-1">
-        <h2 class="mt-4 text-center">
-            {{ '::Compliance' | abpLocalization }}
-        </h2>
-        <div class="row">
-            <div class="col-md-8">
-                <ng-template [ngTemplateOutlet]="table1" ></ng-template>
-            </div>
-            <div class="col-md-4">
-                <mat-card class="card-3">
-                    <img [src]="maturityChartImg?.img" style="width: 100%;">
-                </mat-card>
-            </div>
-        </div>
 
-        <!-- <mat-card class="card-2 mb-3">
+
+  <div class="print-section-1">
+    <h2 class="mt-4 text-center">
+      {{ '::Compliance' | abpLocalization }}
+    </h2>
+    <div class="row">
+      <div class="col-md-8">
+        <ng-template [ngTemplateOutlet]="table1"></ng-template>
+      </div>
+      <div class="col-md-4">
+        <mat-card class="card-3">
+          <img [src]="maturityChartImg?.img" style="width: 100%;">
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- <mat-card class="card-2 mb-3">
             <h4 class="text-center mb-0">{{ '::Dashboard:RequirementsGapAnalysis' | abpLocalization }}</h4>
             <img [src]="charts['chart1']?.img" style="width: 100%;">
         </mat-card> -->
-        
-        
-        <div class="row mb-3">
-            <div class="col-md-4 mb-3" *ngFor="let chart of chartsAfterInit">
-                <mat-card class="card-3">
-                    <img [src]="chart.img" style="width: 100%;">
-                </mat-card>
-            </div>
-            <!-- <div class="col-md-6 mb-3">
+
+
+    <div class="row mb-3">
+      <div class="col-md-4 mb-3" *ngFor="let chart of chartsAfterInit">
+        <mat-card class="card-3">
+          <img [src]="chart.img" style="width: 100%;">
+        </mat-card>
+      </div>
+      <!-- <div class="col-md-6 mb-3">
                 <mat-card class="card-4">
                     <img [src]="charts['chart3']?.img" style="width: 100%;">
                 </mat-card>
             </div> -->
-        </div>
-    
-        <!-- <ng-template [ngTemplateOutlet]="table2" ></ng-template> -->
-    
-            
-        <!-- <mat-card class="card-6 mb-3">
+    </div>
+
+    <!-- <ng-template [ngTemplateOutlet]="table2" ></ng-template> -->
+
+
+    <!-- <mat-card class="card-6 mb-3">
             <h4 class="text-center mb-2">{{ '::Dashboard:MaturityLevel' | abpLocalization }}</h4>
             <img [src]="charts['chart4']?.img" style="width: 100%;">
         </mat-card>
-    
-    
+
+
         <mat-card class="card-6 mb-3">
             <h4 class="text-center mb-2">{{ '::Dashboard:ComplianceBased' | abpLocalization }}</h4>
             <img [src]="charts['chart5']?.img" style="width: 100%;">
-    
+
             <table class="table">
                 <thead>
                     <tr>
@@ -360,14 +371,14 @@
                             {{ '::Dashboard:ThirdParty' | abpLocalization }}
                         </td>
                         <td>
-                            {{ '::Dashboard:IndustrialControl' | abpLocalization}} 
+                            {{ '::Dashboard:IndustrialControl' | abpLocalization}}
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
-                            {{ '::Dashboard:AsIsStatus' | abpLocalization }} 
+                            {{ '::Dashboard:AsIsStatus' | abpLocalization }}
                         </td>
                         <td>59%</td>
                         <td>37%</td>
@@ -388,8 +399,8 @@
                 </tbody>
             </table>
         </mat-card>
-    
-    
+
+
         <div class="row mb-3">
             <div class="col-md-6 mb-3">
                 <mat-card class="card-3">
@@ -402,11 +413,11 @@
                 </mat-card>
             </div>
         </div>
-    
-    
+
+
         <mat-card class="card-7">
             <img [src]="charts['chart8']?.img" style="width: 100%;">
         </mat-card> -->
-    
-    </div>
+
+  </div>
 </ng-container>

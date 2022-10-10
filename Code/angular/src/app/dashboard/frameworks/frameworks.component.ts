@@ -1,19 +1,21 @@
-import { LocalizationService } from '@abp/ng.core';
+import { LocalizationService, ListService } from '@abp/ng.core';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FrameworkService } from '@proxy/frameworks/framework.service';
 
 @Component({
   selector: 'app-frameworks',
   templateUrl: './frameworks.component.html',
-  styleUrls: ['./frameworks.component.scss']
+  styleUrls: ['./frameworks.component.scss'],
+  providers: [ListService]
 })
 export class FrameworksComponent implements OnInit {
   @Output('printEle') printEle = new EventEmitter();
   fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
 
   constructor(
-    private frameworkService:FrameworkService,
-    private localizationService:LocalizationService
+    private list: ListService,
+    private frameworkService: FrameworkService,
+    private localizationService: LocalizationService
   ) { }
 
   data;
@@ -26,55 +28,25 @@ export class FrameworksComponent implements OnInit {
 
   };
   ngOnInit(): void {
-    this.frameworkService.getListFrameWorkDashBoard().subscribe((response) => {
-      this.TotalApplicable= response[0].totalApplicable;
-      this.TotalNotApplicable= response[0].totalNotApplicable;
-      console.log('responseresponse', response);
-      console.log(this.localizationService.currentLang)
-      this.data = response[0];
+    debugger;
+    this.getList();
 
-      let maturity = {
-        levelFive: 0,
-        levelOne: 0,
-        levelThree: 0,
-        levelTwo: 0,
-        levelfour: 0,
-        frameworkDto: {
-          nameAr:'مستوى النضج',
-          nameEn:'Maturity Level'
-        }
-      }
-
-      let pieCharts: any = [
-       
-      ];
-      for(let framework of this.data['frameworkData']) {
-        maturity.levelOne += framework.levelOne;
-        maturity.levelTwo += framework.levelTwo;
-        maturity.levelThree += framework.levelThree;
-        maturity.levelfour += framework.levelfour;
-        maturity.levelFive += framework.levelFive;
-        pieCharts.push(this.setPieChartOptions(framework));
-      }
-      this.data['frameworkData'].unshift(maturity);
-      this.pieCharts = pieCharts;
-      this.maturityChart = this.setBarChart(maturity);
-    });
-
+    this.FrameworkId = 'bf9d539a-ac38-5ce8-f371-3a00694ce9a6';
+    this.getComplianceChart(this.FrameworkId)
   }
 
-  
+
   setPieChartOptions(framework) {
     return {
       title: {
-        text: this.localizationService.currentLang == 'en-GB' ? framework.frameworkDto.nameEn : framework.frameworkDto.nameAr,
+        text: this.localizationService.currentLang == 'en-GB' ? framework.subdomain.nameEn : framework.subdomain.nameAr,
         left: 'center',
         top: 10,
         textStyle: {
           color: '#000000',
           fontSize: '14px',
           fontWeight: 'normal',
-          fontFamily:this.fontFamily
+          fontFamily: this.fontFamily
         },
       },
       tooltip: {},
@@ -82,7 +54,7 @@ export class FrameworksComponent implements OnInit {
         // top: 'middle',
         // orient: 'vertical',
         right: 10,
-        bottom:0
+        bottom: 0
       },
       toolbox: {
         show: true,
@@ -93,7 +65,7 @@ export class FrameworksComponent implements OnInit {
       series: [
         {
           name:
-            this.localizationService.currentLang == 'en-GB' ? framework.frameworkDto.nameEn : framework.frameworkDto.nameAr,
+            this.localizationService.currentLang == 'en-GB' ? framework.subdomain.nameEn : framework.subdomain.nameAr,
           type: 'pie',
           // radius: [50, 250],
           radius: [1, '50%'],
@@ -103,47 +75,47 @@ export class FrameworksComponent implements OnInit {
             borderRadius: 8,
           },
           data: [
-            { 
+            {
               value: framework.levelOne,
               name: this.localizationService.instant('::Ad-hoc'),
-              itemStyle : {
-                color:'#B00606'
+              itemStyle: {
+                color: '#B00606'
               }
             },
             {
               value: framework.levelTwo,
               name: this.localizationService.instant('::RepeatableInformal'),
-              itemStyle : {
-                color:'#E30303'
+              itemStyle: {
+                color: '#E30303'
               }
             },
             {
               value: framework.levelThree,
               name: this.localizationService.instant('::StructuredFormalized'),
-              itemStyle : {
-                color:'#F8D90E'
+              itemStyle: {
+                color: '#F8D90E'
               }
             },
             {
               value: framework.levelfour,
               name: this.localizationService.instant('::ManagedMeasurable'),
-              itemStyle : {
-                color:'#FFCC00'
+              itemStyle: {
+                color: '#FFCC00'
               }
             },
-            { 
+            {
               value: framework.levelFive,
               name: this.localizationService.instant('::Adaptive'),
-              itemStyle : {
-                color:'#00E355'
+              itemStyle: {
+                color: '#00E355'
               }
             },
           ],
           label: {
             formatter: '{b}  \n \n {c}',
-            fontSize:12,
-            fontWeight:'bold',
-            fontFamily:this.fontFamily
+            fontSize: 12,
+            fontWeight: 'bold',
+            fontFamily: this.fontFamily
           },
         },
       ],
@@ -151,6 +123,7 @@ export class FrameworksComponent implements OnInit {
   }
 
   setBarChart(framework) {
+    debugger;
     return {
       // xAxis: {
       //   type: 'category',
@@ -163,21 +136,21 @@ export class FrameworksComponent implements OnInit {
       //   ]
       // },
       title: {
-        text: this.localizationService.currentLang == 'en-GB' ? framework.frameworkDto.nameEn : framework.frameworkDto.nameAr,
+        text: this.localizationService.currentLang == 'en-GB' ? framework.subdomain.nameEn : framework.subdomain.nameAr,
         left: 'center',
         top: 10,
         textStyle: {
           color: '#000000',
           fontSize: '14px',
           fontWeight: 'normal',
-          fontFamily:this.fontFamily
+          fontFamily: this.fontFamily
         },
       },
       tooltip: {
         trigger: 'item',
         formatter: '{b} : {c} ({d}%)',
-        textStyle:{
-          fontFamily:this.fontFamily
+        textStyle: {
+          fontFamily: this.fontFamily
         }
       },
       xAxis: {
@@ -191,8 +164,8 @@ export class FrameworksComponent implements OnInit {
         axisLabel: {
           inside: true,
           color: '#fff',
-          rotate:90,
-          fontFamily:this.fontFamily
+          rotate: 90,
+          fontFamily: this.fontFamily
         },
         axisTick: {
           show: false
@@ -214,34 +187,34 @@ export class FrameworksComponent implements OnInit {
       series: [
         {
           data: [
-            { 
+            {
               value: framework.levelOne,
-              itemStyle : {
-                color:'#B00606'
+              itemStyle: {
+                color: '#B00606'
               }
             },
             {
               value: framework.levelTwo,
-              itemStyle : {
-                color:'#E30303'
+              itemStyle: {
+                color: '#E30303'
               }
             },
             {
               value: framework.levelThree,
-              itemStyle : {
-                color:'#F8D90E'
+              itemStyle: {
+                color: '#F8D90E'
               }
             },
             {
               value: framework.levelfour,
-              itemStyle : {
-                color:'#FFCC00'
+              itemStyle: {
+                color: '#FFCC00'
               }
             },
-            { 
+            {
               value: framework.levelFive,
-              itemStyle : {
-                color:'#00E355'
+              itemStyle: {
+                color: '#00E355'
               }
             },
           ],
@@ -254,7 +227,7 @@ export class FrameworksComponent implements OnInit {
 
   chartsAfterInit = [];
   onChartInit(key, ev) {
-    if(key == null ) {
+    if (key == null) {
       console.log(ev);
       this.maturityChartImg['chart'] = ev;
       this.maturityChartImg['img'] = ev.getDataURL({
@@ -278,7 +251,7 @@ export class FrameworksComponent implements OnInit {
       pixelRatio: 2,
       backgroundColor: '#fff'
     });
-    for(let key in this.chartsAfterInit) {
+    for (let key in this.chartsAfterInit) {
       this.chartsAfterInit[key].img = this.chartsAfterInit[key].chart.getDataURL({
         pixelRatio: 2,
         backgroundColor: '#fff'
@@ -288,6 +261,67 @@ export class FrameworksComponent implements OnInit {
       this.printEle.emit(document.getElementsByClassName('print-section-1')[0].innerHTML);
     }, 100)
   }
+  FrameworkId;
+  Frameworks;
+  getList(search = null) {
+    const streamCreator = (query) => this.frameworkService.getList({ ...query, search: search });
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      debugger;
+      this.Frameworks = response.items;
+    });
+  }
+
+
+
+  getComplianceChart(frameworkId) {
+    this.frameworkService.getListFrameWorkDashBoard({ FrameworkId: frameworkId }).subscribe((response) => {
+      debugger;
+      this.data = response[0];
+      let maturity = {
+        levelFive: 0,
+        levelOne: 0,
+        levelThree: 0,
+        levelTwo: 0,
+        levelfour: 0,
+        domaindDta: {
+          nameAr: 'مستوى النضج',
+          nameEn: 'Maturity Level'
+        }
+      }
+
+      let pieCharts: any = [
+
+      ];
+      for (let framework of this.data.FrameworkData) {
+        debugger;
+        this.TotalApplicable = framework.totalApplicable;
+        this.TotalNotApplicable = framework.totalNotApplicable;
+        this.domains = framework.domaindDta;
+        let domainsDta = framework['domaindDta'];
+        for (let domain of domainsDta) {
+          maturity.levelOne += domain.levelOne;
+          maturity.levelTwo += domain.levelTwo;
+          maturity.levelThree += domain.levelThree;
+          maturity.levelfour += domain.levelfour;
+          maturity.levelFive += domain.levelFive;
+          pieCharts.push(this.setPieChartOptions(domain));
+        }
+      }
+      this.domains.unshift(maturity);
+      this.pieCharts = pieCharts;
+      this.maturityChart = this.setBarChart(maturity);
+    });
+  }
+  domains = [];
+
+
+  getDomains(ev) {
+    debugger;
+    console.log(ev);
+    this.getComplianceChart(ev);
+  }
+
+
 }
 
 
@@ -408,7 +442,7 @@ export class FrameworksComponent implements OnInit {
   }
 
 
-  
+
   chartThreeOptions
   setChartThreeOptions() {
     this.chartThreeOptions = {

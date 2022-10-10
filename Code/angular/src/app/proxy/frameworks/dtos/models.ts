@@ -28,31 +28,35 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
 }
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  FrameworkId?: string;
   search?: string;
   status?: SharedStatus;
 }
-
-
-export interface ComplainceDto{
-  totalApplicable?:number;
-  totalNotApplicable?:number;
-  FrameworkData?:FrameworkData[];
+export interface getFrameworkDto {
+  FrameworkId?: string;
 }
-export interface FrameworkData{
+
+export interface ComplainceDto {
+  totalApplicable?: number;
+  totalNotApplicable?: number;
+  FrameworkData?: FrameworkData[];
+}
+export interface FrameworkData {
+
+  FrameworkDto?: FrameworkDto;
+  DomainsDta?: DomainsDta[];
+}
+export interface DomainsDta {
   levelOne?: number;
-       levelTwo?: number;
-       levelThree ?: number;
-       levelfour ?: number;
-       levelFive ?: number;
-  FrameworkDto?:FrameworkDto;
-  DomainsDta?:DomainsDta[];
+  levelTwo?: number;
+  levelThree?: number;
+  levelfour?: number;
+  levelFive?: number;
+  subdomain?: DomainDto;
+  ChildrenControls?: ControlsDto[];
 }
-export interface DomainsDta{
-  subdomain?:DomainDto;
-  ChildrenControls?:ControlsDto[];
-}
-export interface ControlsDto{
-  subControl?:ControlDto;
-  AssessmentDto?:AssessmentDto;
+export interface ControlsDto {
+  subControl?: ControlDto;
+  AssessmentDto?: AssessmentDto;
 
 }
