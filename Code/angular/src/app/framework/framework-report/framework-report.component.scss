@@ -1,0 +1,47 @@
+
+.status {
+    color: #21D500;
+    font-weight: bold;
+    &.closed {
+        color:#FF0000;
+    }
+}
+
+:host {
+    ngx-datatable ::ng-deep {
+        datatable-body {
+            datatable-row-wrapper {
+                datatable-body-row {
+                    border-bottom: 1px solid #ddd;
+                }
+                &:last-of-type {
+                    datatable-body-row {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+        .datatable-header .datatable-header-inner .datatable-header-cell {
+            background: #37474f;
+            color: #fff !important;
+        }
+    }
+}
+
+#excel-table {
+    display: none;
+}
+
+button {
+    font-size: 18px;
+    background-color: transparent;
+    color: #4775FD;
+    border: 2px solid #4775FD;
+}
+
+mat-card {
+    height: auto;
+    mat-card-title {
+        margin-bottom: 1rem;
+    }
+}

@@ -402,7 +402,13 @@
     "RepeatableInformal":"Repeatable but informal",
     "StructuredFormalized":"Structured and formalized",
     "ManagedMeasurable":"Managed and measurable",
-    "Adaptive":"Adaptive"
+    "Adaptive":"Adaptive",
+
+    "FrameworkName":"Framework Name",
+    "MainDomainName":"Main Domain Name",
+    "SubDomainName":"Sub Domain Name",
+    "MainControlName":"Main Control Name",
+    "SubControlName":"Sub Control Name"
 
 
 

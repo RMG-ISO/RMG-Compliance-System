@@ -3,6 +3,7 @@ import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FrameworkComponent } from './framework.component';
+import { FrameworkReportComponent } from './framework-report/framework-report.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
     data: {
       requiredPolicy: 'ComplianceSystem.Framework',
     },
+  },
+  {
+    path:'report/:frameworkId/:mainDomainId',
+    component:FrameworkReportComponent
   },
   {
     path: ':frameworkId',

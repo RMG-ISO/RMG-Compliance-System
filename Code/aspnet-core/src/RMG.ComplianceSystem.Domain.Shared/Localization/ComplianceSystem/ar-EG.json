@@ -405,8 +405,13 @@
     "RepeatableInformal":"قابل للتكرار لكن غير رسمى",
     "StructuredFormalized":"منظم ورسمى",
     "ManagedMeasurable":"مُدار وقابل للقياس",
-    "Adaptive":"مُتكيف"
+    "Adaptive":"مُتكيف",
 
+    "FrameworkName":"إطار العمل",
+    "MainDomainName":"النطاق الرئيسى",
+    "SubDomainName":"النطاق الفرعى",
+    "MainControlName":"الضابط رئيسي",
+    "SubControlName":"ضابط الفرعى"
 
 
   }
