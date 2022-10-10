@@ -1,4 +1,4 @@
-import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedResultRequestDto,ComplainceDto } from './dtos/models';
+import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedResultRequestDto, FrameworkData, getFrameworkDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -15,28 +15,28 @@ export class FrameworkService {
       url: '/api/app/framework',
       body: input,
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
   delete = (id: string) =>
     this.restService.request<any, void>({
       method: 'DELETE',
       url: `/api/app/framework/${id}`,
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
   get = (id: string) =>
     this.restService.request<any, FrameworkDto>({
       method: 'GET',
       url: `/api/app/framework/${id}`,
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
   getFrameworkListLookup = () =>
     this.restService.request<any, ListResultDto<FrameworkDto>>({
       method: 'GET',
       url: '/api/app/framework/framework-list-lookup',
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
   getList = (input: FrameworkPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<FrameworkDto>>({
@@ -44,7 +44,7 @@ export class FrameworkService {
       url: '/api/app/framework',
       params: { search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
   update = (id: string, input: CreateUpdateFrameworkDto) =>
     this.restService.request<any, FrameworkDto>({
@@ -52,16 +52,17 @@ export class FrameworkService {
       url: `/api/app/framework/${id}`,
       body: input,
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
 
-    getListFrameWorkDashBoard = () =>
-    this.restService.request<any, ComplainceDto>({
+  getListFrameWorkDashBoard = (input: getFrameworkDto) =>
+    this.restService.request<any, FrameworkData>({
       method: 'GET',
-      url: '/api/app/framework/frame-work-with-assesment-data',
+      url: '/api/app/framework/frame-work-with-assesment-bYId',
+      params: { FrameworkId: input.FrameworkId },
     },
-    { apiName: this.apiName });
+      { apiName: this.apiName });
 
 
-  constructor(private restService: RestService) {}
+  constructor(private restService: RestService) { }
 }
