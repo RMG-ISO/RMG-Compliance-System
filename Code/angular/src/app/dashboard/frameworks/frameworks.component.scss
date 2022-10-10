@@ -106,7 +106,10 @@ table {
                td {
                 border-bottom: 1px solid #F3F1F1;
                 padding:0;
-                span {
+                a {
+                    cursor: pointer;
+                }
+                span, a {
                     padding: 12px;
                 }
                 &:first-of-type {
@@ -120,7 +123,7 @@ table {
                     border-bottom:none;
                     td {
                         border-bottom: none;
-                        span {
+                        span, a {
                             border-radius: 0 0 8px 8px;
                         }
                     }
