@@ -11,4 +11,9 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public string Search { get; set; }
         public SharedStatus? Status { get; set; }
     }
+
+    public class getFrameworkDto
+    {
+        public Guid FrameworkId { get; set; }
+    }
 }
