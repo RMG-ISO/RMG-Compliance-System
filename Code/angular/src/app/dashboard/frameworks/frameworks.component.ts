@@ -153,7 +153,7 @@ export class FrameworksComponent implements OnInit {
       },
       tooltip: {
         trigger: 'item',
-        formatter: '{b} : {c} ({d}%)',
+        formatter: '{b} : ({c}%)',
         textStyle: {
           fontFamily: this.fontFamily
         }

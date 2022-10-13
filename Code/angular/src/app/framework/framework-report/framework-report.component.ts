@@ -53,7 +53,10 @@ export class FrameworkReportComponent implements OnInit {
           if(this.route.snapshot.params.mainDomainId == 'maturityLevel') {
             this.loopOnDomain(d, r['frameworkDto']);
           } else {
-            if(d.maindomain.id == this.route.snapshot.params.mainDomainId) this.loopOnDomain(d, r['frameworkDto']);
+            if(d.maindomain.id == this.route.snapshot.params.mainDomainId) {
+              this.loopOnDomain(d, r['frameworkDto']);
+              console.log('d', d);
+            }
           }
         })
       
@@ -71,6 +74,7 @@ export class FrameworkReportComponent implements OnInit {
         for(let subControl of mainControl.subControl) {
           // if( == 'maturityLevel' )
           if(this.complianceLevel && this.complianceLevel != subControl?.assessmentDto?.complianceLevel) {
+            console.log('continuing');
             continue;
           }
           let sub = {...subControl}
@@ -97,13 +101,14 @@ export class FrameworkReportComponent implements OnInit {
       }
     }
   }
+
   exportexcel() {
-      // let title = this.departmentName;
-      // if(!this.departmentName) {
-      //   title = `${ this.localizationService.instant(this.activeTabName + 'Potential')} - ${ this.localizationService.instant('::' + this.period) }`
-      // }
-      // this.excelService.generateExcel(title, this.activeTabName, this.rows)
-      this.excelService.generateFrameWorkExcel(this.excelRows, this.excelHeader, this.excelRows[0][0] + ' - ' + this.excelRows[0][1])
-    }
+    // let title = this.departmentName;
+    // if(!this.departmentName) {
+    //   title = `${ this.localizationService.instant(this.activeTabName + 'Potential')} - ${ this.localizationService.instant('::' + this.period) }`
+    // }
+    // this.excelService.generateExcel(title, this.activeTabName, this.rows)
+    this.excelService.generateFrameWorkExcel(this.excelRows, this.excelHeader, this.excelRows[0][0] + ' - ' + this.excelRows[0][1])
+  }
 
 }
