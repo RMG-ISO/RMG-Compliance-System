@@ -30,7 +30,7 @@ export class FrameworkReportComponent implements OnInit {
 
   totalCount;
   excelRows = [];
-
+  complianceLevel;
   ngOnInit(): void {
     this.excelHeader = [
       this.localizationService.instant('::FrameworkName'),
@@ -42,38 +42,25 @@ export class FrameworkReportComponent implements OnInit {
       this.localizationService.instant('::AssessmentComplianceLevel')
     ];
 
+    this.complianceLevel = this.route.snapshot.queryParams.complianceLevel;
+    console.log('complianceLevel', this.complianceLevel);
     this.frameworkService.getListFrameWorkDashBoard({FrameworkId:this.route.snapshot.params.frameworkId}).subscribe(r => {
       console.log(r);
       this.data = r;
       if(this.route.snapshot.params.mainDomainId) {
-        let main = r['domainDta'].filter(d => d.maindomain.id == this.route.snapshot.params.mainDomainId)[0];
-        for(let subDomain of main.childrenDomains) {
-          for(let mainControl of subDomain.childrenControls) {
-            for(let subControl of mainControl.subControl) {
-              let sub = {...subControl}
-              sub.frameworkDto = r['frameworkDto'];
-              sub.mainDomain = main.maindomain
-              sub.subDomain = subDomain.subdomain
-              sub.mainControl = mainControl.mainControl
-              // sub.assessmentDto = subControl.assessmentDto;
-              this.items.push(sub);
-              this.excelRows.push([
-                this.langPipe.transform(r['frameworkDto'], 'name'),
-                this.langPipe.transform(main.maindomain, 'name'),
-                this.langPipe.transform(subDomain.subdomain, 'name'),
-                this.langPipe.transform(mainControl.mainControl, 'name'),
-                this.langPipe.transform(subControl.subControl, 'name'),
-                subControl.assessmentDto && subControl.assessmentDto.applicable
-                  ? this.localizationService.instant(
-                      '::Enum:ApplicableType:' + subControl.assessmentDto.applicable
-                    )
-                  : '-',
-                subControl.assessmentDto ? subControl.assessmentDto.complianceLevel : '-',
-              ]);
+        // let main = r['domainDta'].filter(d => d.maindomain.id == this.route.snapshot.params.mainDomainId)[0];
+        r['domainDta'].map(d => {
+          if(this.route.snapshot.params.mainDomainId == 'maturityLevel') {
+            this.loopOnDomain(d, r['frameworkDto']);
+          } else {
+            if(d.maindomain.id == this.route.snapshot.params.mainDomainId) {
+              this.loopOnDomain(d, r['frameworkDto']);
+              console.log('d', d);
             }
           }
-        }
-
+        })
+      
+        // this.loopOnDomain(main, r['frameworkDto']);
         console.log(this.items);
         console.log(this.excelRows)
       }
@@ -81,13 +68,47 @@ export class FrameworkReportComponent implements OnInit {
   }
 
 
-  exportexcel() {
-      // let title = this.departmentName;
-      // if(!this.departmentName) {
-      //   title = `${ this.localizationService.instant(this.activeTabName + 'Potential')} - ${ this.localizationService.instant('::' + this.period) }`
-      // }
-      // this.excelService.generateExcel(title, this.activeTabName, this.rows)
-      this.excelService.generateFrameWorkExcel(this.excelRows, this.excelHeader, this.excelRows[0][0] + ' - ' + this.excelRows[0][1])
+  loopOnDomain(main, frameworkDto) {
+    for(let subDomain of main.childrenDomains) {
+      for(let mainControl of subDomain.childrenControls) {
+        for(let subControl of mainControl.subControl) {
+          // if( == 'maturityLevel' )
+          if(this.complianceLevel && this.complianceLevel != subControl?.assessmentDto?.complianceLevel) {
+            console.log('continuing');
+            continue;
+          }
+          let sub = {...subControl}
+          sub.frameworkDto = frameworkDto;
+          sub.mainDomain = main.maindomain
+          sub.subDomain = subDomain.subdomain
+          sub.mainControl = mainControl.mainControl
+          // sub.assessmentDto = subControl.assessmentDto;
+          this.items.push(sub);
+          this.excelRows.push([
+            this.langPipe.transform(frameworkDto, 'name'),
+            this.langPipe.transform(main.maindomain, 'name'),
+            this.langPipe.transform(subDomain.subdomain, 'name'),
+            this.langPipe.transform(mainControl.mainControl, 'name'),
+            this.langPipe.transform(subControl.subControl, 'name'),
+            subControl.assessmentDto && subControl.assessmentDto.applicable
+              ? this.localizationService.instant(
+                  '::Enum:ApplicableType:' + subControl.assessmentDto.applicable
+                )
+              : '-',
+            subControl.assessmentDto ? subControl.assessmentDto.complianceLevel : '-',
+          ]);
+        }
+      }
     }
+  }
+
+  exportexcel() {
+    // let title = this.departmentName;
+    // if(!this.departmentName) {
+    //   title = `${ this.localizationService.instant(this.activeTabName + 'Potential')} - ${ this.localizationService.instant('::' + this.period) }`
+    // }
+    // this.excelService.generateExcel(title, this.activeTabName, this.rows)
+    this.excelService.generateFrameWorkExcel(this.excelRows, this.excelHeader, this.excelRows[0][0] + ' - ' + this.excelRows[0][1])
+  }
 
 }
