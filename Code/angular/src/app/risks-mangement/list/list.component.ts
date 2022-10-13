@@ -45,6 +45,12 @@ export class ListComponent implements OnInit {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
     const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
+      response.items.map(item => {
+        // if(item['reEvaluation']) {
+          // potentialNameAr
+          // potentialNameEn
+        // }
+      })
       this.items = response.items;
       this.totalCount = response.totalCount;
     });

@@ -62,7 +62,7 @@ export class DashboardReportComponent implements OnInit {
       if(params.period === 'BeforeMitigation') {
         filterObj['Potential'] = potintial[0];
         filterObj['PotentialValue'] = potintial[1];
-      } else filterObj['reEvaluation'] = potintial[0]
+      } else filterObj['ReEvaluation'] = potintial[0]
     }
     const streamCreator = (query) => this.riskAndOpportunityService.getList({
       ...query,

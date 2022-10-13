@@ -122,6 +122,7 @@ export interface RiskOpportunityPagedAndSortedResultRequestDto extends PagedAndS
   UserId?:string;
   Potential?:number;
   PotentialValue?:number;
+  ReEvaluation?:number;
   Status?:number;
 }
 export interface OpenCloseRiskAndOpportunityDto {
