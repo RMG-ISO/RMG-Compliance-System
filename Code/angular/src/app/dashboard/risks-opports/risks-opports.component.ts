@@ -396,7 +396,7 @@ export class RisksOpportsComponent implements OnInit {
     this.charts[key]['chart'] = ev;
     this.charts[key]['img'] = ev.getDataURL({
       pixelRatio: 2,
-      backgroundColor: '#fff'
+      backgroundColor: '#fefefe'
     });
   }
 
@@ -405,7 +405,7 @@ export class RisksOpportsComponent implements OnInit {
     for(let key in this.charts) {
       this.charts[key].img = this.charts[key].chart.getDataURL({
         pixelRatio: 2,
-        backgroundColor: '#fff'
+        backgroundColor: '#fefefe'
       });
     }
     setTimeout(() => {

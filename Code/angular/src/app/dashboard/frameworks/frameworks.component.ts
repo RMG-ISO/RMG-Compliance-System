@@ -24,9 +24,8 @@ export class FrameworksComponent implements OnInit {
 
   pieCharts = [];
   maturityChart;
-  maturityChartImg:any = {
+  maturityChartImg:any = {};
 
-  };
   ngOnInit(): void {
     this.getList();
   }
@@ -50,7 +49,7 @@ export class FrameworksComponent implements OnInit {
         // top: 'middle',
         // orient: 'vertical',
         right: 10,
-        bottom: 0
+        bottom: 5
       },
       toolbox: {
         show: true,
@@ -64,8 +63,13 @@ export class FrameworksComponent implements OnInit {
             this.localizationService.currentLang == 'en-GB' ? domain.maindomain.nameEn : domain.maindomain.nameAr,
           type: 'pie',
           // radius: [50, 250],
-          radius: [1, '50%'],
-          center: ['50%', '50%'],
+
+          // radius: [1, '50%'],
+          // center: ['50%', '50%'],
+
+          radius: [1, '40%'],
+          center: ['50%', '40%'],
+    
           roseType: 'area',
           itemStyle: {
             borderRadius: 8,
@@ -227,34 +231,49 @@ export class FrameworksComponent implements OnInit {
 
   chartsAfterInit = [];
   onChartInit(key, ev) {
+    console.log(ev);
     if (key == null) {
-      console.log(ev);
       this.maturityChartImg['chart'] = ev;
-      this.maturityChartImg['img'] = ev.getDataURL({
-        pixelRatio: 2,
-        backgroundColor: '#fff'
-      })
-      console.log('maturityChartImg', !!this.maturityChartImg)
+      // this.maturityChartImg['img'] = ev.getDataURL({
+      //   pixelRatio: 2,
+      //   backgroundColor: '#f9f9f9',
+      //   excludeComponents:[
+      //     'legend',
+      //     'toolbox'
+      //   ]
+      // })
       return;
     }
     this.chartsAfterInit[key] = {};
     this.chartsAfterInit[key]['chart'] = ev;
-    this.chartsAfterInit[key]['img'] = ev.getDataURL({
-      pixelRatio: 2,
-      backgroundColor: '#fff'
-    });
+    // this.chartsAfterInit[key]['img'] = ev.getDataURL({
+    //   pixelRatio: 2,
+    //    backgroundColor: '#f9f9f9',
+    //     excludeComponents:[
+    //       'legend',
+    //       'toolbox'
+    //     ]
+    // });
   }
 
 
   doPrint() {
     this.maturityChartImg['img'] = this.maturityChartImg['chart'].getDataURL({
       pixelRatio: 2,
-      backgroundColor: '#fff'
+       backgroundColor: '#f9f9f9',
+        excludeComponents:[
+          'legend',
+          'toolbox'
+        ]
     });
     for (let key in this.chartsAfterInit) {
       this.chartsAfterInit[key].img = this.chartsAfterInit[key].chart.getDataURL({
         pixelRatio: 2,
-        backgroundColor: '#fff'
+         backgroundColor: '#f9f9f9',
+        excludeComponents:[
+          'legend',
+          'toolbox'
+        ]
       });
     }
     setTimeout(() => {
