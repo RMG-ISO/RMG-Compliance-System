@@ -72,6 +72,7 @@ namespace RMG.ComplianceSystem.Risks
             int totalCount = 0;
             if (input.Type != null)
             {
+
                 //get Risk By CategoryId and Filters and Pagination
                 var ListRisks = RiskAndOpportunityRepository
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
