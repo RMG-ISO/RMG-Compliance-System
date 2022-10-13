@@ -141,7 +141,7 @@
     </div>
     <div class="col-md-4" style="display: flex;">
       <mat-card class="card-1 mb-3" style="flex:1;display: flex;align-items: center;">
-        <div echarts *ngIf="maturityChart" [options]="maturityChart" (chartInit)="onChartInit(null, $event)"
+        <div echarts *ngIf="maturityChart" [options]="maturityChart" (chartInit)="onChartInit(null, $event)" (chartClick)="onChartClick($event.data.groupId)"
           style="flex: 1; max-height: 400px;"></div>
       </mat-card>
     </div>
