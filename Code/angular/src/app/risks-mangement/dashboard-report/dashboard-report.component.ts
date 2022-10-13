@@ -73,6 +73,7 @@ export class DashboardReportComponent implements OnInit {
     });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       if(response.items[0] && this.route.snapshot.params.departmentId) this.departmentName = response.items[0]['departmentName'];
+      if(!filterObj['ReEvaluation']) response.items = response.items.filter(x => x['reEvaluation']  == null);
       this.items = response.items;
       this.totalCount = response.totalCount;
       this.rows = response.items.map(row => {

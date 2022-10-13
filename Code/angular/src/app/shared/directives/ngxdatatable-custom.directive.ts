@@ -35,9 +35,10 @@ export class NgxdatatableCustomDirective implements AfterViewInit, OnDestroy {
     this.table.rowHeight = 'auto';
     this.table.scrollbarH = true;
     this.table.virtualization = false;
-    localizationService.get('::NoDataFound').subscribe(t => {
-      this.table.messages.emptyMessage = t;
-    });
+    this.table.messages.emptyMessage = this.localizationService.instant('::NoDataFound');
+    // localizationService.get('::NoDataFound').subscribe(t => {
+      
+    // });
     // [messages]="{emptyMessage: ''}"
   }
 
