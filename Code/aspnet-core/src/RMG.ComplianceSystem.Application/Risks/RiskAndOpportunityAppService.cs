@@ -129,6 +129,11 @@ namespace RMG.ComplianceSystem.Risks
                     Risk.PotentialNameAr = getPotentialName(Risk.Potential).Result.NameAr;
                     Risk.PotentialNameEn = getPotentialName(Risk.Potential).Result.NameEn;
                 }
+                if (Risk.ReEvaluation != null)
+                {
+                    Risk.PotentialNameAr = getPotentialName(Risk.ReEvaluation).Result.NameAr;
+                    Risk.PotentialNameEn = getPotentialName(Risk.ReEvaluation).Result.NameEn;
+                }
                 if (Risk.DepartmentId != null)
                 {
                     Risk.DepartmentName = departmentRepository.FirstOrDefault(t => t.Id == Risk.DepartmentId).Name;
