@@ -1,5 +1,6 @@
 import { LocalizationService, ListService } from '@abp/ng.core';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ComplianceLevelType } from '@proxy/assessments';
 import { FrameworkService } from '@proxy/frameworks/framework.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { FrameworkService } from '@proxy/frameworks/framework.service';
 export class FrameworksComponent implements OnInit {
   @Output('printEle') printEle = new EventEmitter();
   fontFamily = 'ElMessiri, Roboto, Helvetica Neue,  sans-serif';
-
+  ComplianceLevelType = ComplianceLevelType;
   constructor(
     private list: ListService,
     private frameworkService: FrameworkService,
@@ -78,7 +79,7 @@ export class FrameworksComponent implements OnInit {
             {
               value: domain.levelOne,
               name: this.localizationService.instant('::Ad-hoc'),
-              groupId:domain.maindomain.id,
+              groupId:domain.maindomain.id + '?complianceLevel=' + ComplianceLevelType.ComplianceLevel1,
               itemStyle: {
                 color: '#B00606'
               },
@@ -86,7 +87,7 @@ export class FrameworksComponent implements OnInit {
             {
               value: domain.levelTwo,
               name: this.localizationService.instant('::RepeatableInformal'),
-              groupId:domain.maindomain.id,
+              groupId:domain.maindomain.id + '?complianceLevel=' + ComplianceLevelType.ComplianceLevel2,
               itemStyle: {
                 color: '#E30303'
               }
@@ -94,7 +95,7 @@ export class FrameworksComponent implements OnInit {
             {
               value: domain.levelThree,
               name: this.localizationService.instant('::StructuredFormalized'),
-              groupId:domain.maindomain.id,
+              groupId:domain.maindomain.id + '?complianceLevel=' + ComplianceLevelType.ComplianceLevel3,
               itemStyle: {
                 color: '#F8D90E'
               }
@@ -102,7 +103,7 @@ export class FrameworksComponent implements OnInit {
             {
               value: domain.levelfour,
               name: this.localizationService.instant('::ManagedMeasurable'),
-              groupId:domain.maindomain.id,
+              groupId:domain.maindomain.id + '?complianceLevel=' + ComplianceLevelType.ComplianceLevel4,
               itemStyle: {
                 color: '#FFCC00'
               }
@@ -110,7 +111,7 @@ export class FrameworksComponent implements OnInit {
             {
               value: domain.levelFive,
               name: this.localizationService.instant('::Adaptive'),
-              groupId:domain.maindomain.id,
+              groupId:domain.maindomain.id + '?complianceLevel=' + ComplianceLevelType.ComplianceLevel5,
               itemStyle: {
                 color: '#00E355'
               }
@@ -185,7 +186,7 @@ export class FrameworksComponent implements OnInit {
       grid: {
         left: '3%',
         right: '3%',
-        bottom: '1%',
+        bottom: '5%',
         containLabel: true
       },
       series: [
@@ -195,27 +196,32 @@ export class FrameworksComponent implements OnInit {
               value: domain.levelOne,
               itemStyle: {
                 color: '#B00606'
-              }
+              },
+              groupId: 'maturityLevel?complianceLevel=' + ComplianceLevelType.ComplianceLevel1,
             },
             {
+              groupId: 'maturityLevel?complianceLevel=' + ComplianceLevelType.ComplianceLevel2,
               value: domain.levelTwo,
               itemStyle: {
                 color: '#E30303'
               }
             },
             {
+              groupId: 'maturityLevel?complianceLevel=' + ComplianceLevelType.ComplianceLevel3,
               value: domain.levelThree,
               itemStyle: {
                 color: '#F8D90E'
               }
             },
             {
+              groupId: 'maturityLevel?complianceLevel=' + ComplianceLevelType.ComplianceLevel4,
               value: domain.levelfour,
               itemStyle: {
                 color: '#FFCC00'
               }
             },
             {
+              groupId: 'maturityLevel?complianceLevel=' + ComplianceLevelType.ComplianceLevel5,
               value: domain.levelFive,
               itemStyle: {
                 color: '#00E355'
@@ -318,6 +324,7 @@ export class FrameworksComponent implements OnInit {
       for (let domain of response['domainDta']) {
         console.log("response['domainDta'].parentId", domain['maindomain'].parentId);
         if(domain['maindomain'].parentId) continue;
+
         // if(!domain['maindomain'].parentId) {
           maturity.levelOne += domain.levelOne;
           maturity.levelTwo += domain.levelTwo;
