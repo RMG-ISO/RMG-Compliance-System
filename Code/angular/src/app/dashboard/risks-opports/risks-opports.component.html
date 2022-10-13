@@ -144,6 +144,7 @@
 
 
 <div class="print-section-2" style="display: none">
+    <div class="breake-before"></div>
     <ng-template [ngTemplateOutlet]="content1"></ng-template>
 
     <mat-card class="main-card">
@@ -158,14 +159,14 @@
                     <div class="col-md-6 p-0">
                         <mat-card class="pie-chart mb-4">
                             <mat-card-content>
-                                <img [src]="charts['chart1']?.img" style="width: 100%;">
+                                <img [src]="charts['chart1']?.img" style="width: 100%; display: block;">
                             </mat-card-content>
                         </mat-card>
                     </div>
                     <div class="col-md-6 p-0">
                         <mat-card class="pie-chart mb-4">
                             <mat-card-content>
-                                <img [src]="charts['chart2']?.img" style="width: 100%;">
+                                <img [src]="charts['chart2']?.img" style="width: 100%; display: block;">
                             </mat-card-content>
                         </mat-card>
                     </div>
@@ -179,14 +180,14 @@
                     <div class="col-md-6  p-0">
                         <mat-card class="pie-chart mb-4">
                             <mat-card-content>
-                                <img [src]="charts['chart3']?.img" style="width: 100%;">
+                                <img [src]="charts['chart3']?.img" style="width: 100%; display: block;">
                             </mat-card-content>
                         </mat-card>
                     </div>
                     <div class="col-md-6  p-0">
                         <mat-card class="pie-chart mb-4">
                             <mat-card-content>
-                                <img [src]="charts['chart4']?.img" style="width: 100%;">
+                                <img [src]="charts['chart4']?.img" style="width: 100%; display: block;">
                             </mat-card-content>
                         </mat-card>
                     </div>
@@ -196,14 +197,14 @@
                 <div class="col-md-6">
                     <mat-card class="mb-4">
                         <mat-card-content>
-                            <img [src]="charts['chart5']?.img" style="width: 100%;">
+                            <img [src]="charts['chart5']?.img" style="width: 100%; display: block;">
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6">
                     <mat-card class="mb-4">
                         <mat-card-content>
-                            <img [src]="charts['chart6']?.img" style="width: 100%;">
+                            <img [src]="charts['chart6']?.img" style="width: 100%; display: block;">
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -220,18 +221,21 @@
                 <div class="col-md-6">
                     <mat-card class="mb-4">
                         <mat-card-content>
-                            <img [src]="charts['chart7']?.img" style="width: 100%;">
+                            <img [src]="charts['chart7']?.img" style="width: 100%; display: block;">
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6">
                     <mat-card class="mb-4">
                         <mat-card-content>
-                            <img [src]="charts['chart8']?.img" style="width: 100%;">
+                            <img [src]="charts['chart8']?.img" style="width: 100%; display: block;">
                         </mat-card-content>
                     </mat-card>
                 </div>
     
+                <!-- <div class="breake-before"></div> -->
+
+
                 <div class="col-md-12">
                     <h3 class="text-center">
                         {{ '::AfterMitigation' | abpLocalization }}
@@ -241,14 +245,14 @@
                 <div class="col-md-6">
                     <mat-card class="mb-4">
                         <mat-card-content>
-                            <img [src]="charts['chart9']?.img" style="width: 100%;">
+                            <img [src]="charts['chart9']?.img" style="width: 100%; display: block;">
                         </mat-card-content>
                     </mat-card>
                 </div>
                 <div class="col-md-6">
                     <mat-card class="mb-4">
                         <mat-card-content>
-                            <img [src]="charts['chart10']?.img" style="width: 100%;">
+                            <img [src]="charts['chart10']?.img" style="width: 100%; display: block;">
                         </mat-card-content>
                     </mat-card>
                 </div>
