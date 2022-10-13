@@ -72,11 +72,13 @@ namespace RMG.ComplianceSystem.Risks
             int totalCount = 0;
             if (input.Type != null)
             {
+
                 //get Risk By CategoryId and Filters and Pagination
                 var ListRisks = RiskAndOpportunityRepository
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
                     .WhereIf(input.Potential != null, t => t.Potential == input.Potential|| t.Potential == input.PotentialValue ||t.ReEvaluation == input.Potential)
+                   .WhereIf(input.ReEvaluation != null,t=>t.ReEvaluation==input.ReEvaluation)
                     .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
                     .Where(x => x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
@@ -126,6 +128,11 @@ namespace RMG.ComplianceSystem.Risks
                 {
                     Risk.PotentialNameAr = getPotentialName(Risk.Potential).Result.NameAr;
                     Risk.PotentialNameEn = getPotentialName(Risk.Potential).Result.NameEn;
+                }
+                if (Risk.ReEvaluation != null)
+                {
+                    Risk.PotentialNameAr = getPotentialName(Risk.ReEvaluation).Result.NameAr;
+                    Risk.PotentialNameEn = getPotentialName(Risk.ReEvaluation).Result.NameEn;
                 }
                 if (Risk.DepartmentId != null)
                 {

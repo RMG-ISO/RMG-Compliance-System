@@ -147,7 +147,7 @@ namespace RMG.ComplianceSystem.Notifications
                 emailTemplate.Subject,
                 Priority.Normal,
                 NotificationType.Push,
-                Notifications.Status.NotSeen,
+                Status.NotSeen,
                 _clock.Now,
                 NotificationTemplateData.NotificationBody,
                 true,

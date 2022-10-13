@@ -33,7 +33,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public DomainDto Subdomain { get; set; }
         public List<MainControlsDto> ChildrenControls { get; set; }
     }
-        public class MainControlsDto
+    public class MainControlsDto
     {
         public ControlDto MainControl { get; set; }
         public List<SubControlsDto> subControl { get; set; }
