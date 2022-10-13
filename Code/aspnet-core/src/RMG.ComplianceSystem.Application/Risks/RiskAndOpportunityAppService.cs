@@ -77,6 +77,7 @@ namespace RMG.ComplianceSystem.Risks
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
                     .WhereIf(input.Potential != null, t => t.Potential == input.Potential|| t.Potential == input.PotentialValue ||t.ReEvaluation == input.Potential)
+                   .WhereIf(input.ReEvaluation != null,t=>t.ReEvaluation==input.ReEvaluation)
                     .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
                     .Where(x => x.Type == input.Type &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
