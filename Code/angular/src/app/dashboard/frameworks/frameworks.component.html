@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-md-8">
       <ng-template #table1 [ngIf]="true">
-        <mat-card #tableParent class="card-1 mb-3">
+        <mat-card #tableParent class="card-1 mb-3" style="height: calc(100% - 16px);">
           <table class="table">
             <thead>
               <tr>
@@ -140,17 +140,17 @@
       </ng-template>
     </div>
     <div class="col-md-4" style="display: flex;">
-      <mat-card class="card-1 mb-3" style="flex:1;display: flex;max-height: 500px;">
+      <mat-card class="card-1 mb-3" style="flex:1;display: flex;align-items: center;">
         <div echarts *ngIf="maturityChart" [options]="maturityChart" (chartInit)="onChartInit(null, $event)"
-          style="flex: 1; height: auto; min-height:300px"></div>
+          style="flex: 1; max-height: 400px;"></div>
       </mat-card>
     </div>
   </div>
 
   <div class="row mb-3">
     <div class="col-md-4 mb-3" *ngFor="let chart of pieCharts; index as i">
-      <mat-card class="card-3">
-        <div echarts [options]="chart" (chartInit)="onChartInit(i, $event)" (chartClick)="onChartClick($event.data.groupId)"></div>
+      <mat-card class="card-3" style="height: 100%; display:flex; align-items:center">
+        <div echarts [options]="chart" style="flex:1" (chartInit)="onChartInit(i, $event)" (chartClick)="onChartClick($event.data.groupId)"></div>
       </mat-card>
     </div>
   </div>
@@ -160,20 +160,21 @@
       {{ '::Compliance' | abpLocalization }}
     </h2>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <ng-template [ngTemplateOutlet]="table1"></ng-template>
       </div>
-      <div class="col-md-4">
-        <mat-card class="card-3">
-          <img [src]="maturityChartImg?.img" style="width: 100%;">
-        </mat-card>
-      </div>
+      
     </div>
 
     <div class="row mb-3">
-      <div class="col-md-4 mb-3" *ngFor="let chart of chartsAfterInit">
+      <div class="col-md-4">
         <mat-card class="card-3">
-          <img [src]="chart.img" style="width: 100%;">
+          <img style="width: 100%;" [src]="maturityChartImg?.img">
+        </mat-card>
+      </div>
+      <div class="col-md-4 mb-3" *ngFor="let chart of chartsAfterInit">
+        <mat-card class="card-3" style="height: 100%; display:flex; align-items:center">
+          <img [src]="chart.img" style="width: 100%;display: block;flex:1">
         </mat-card>
       </div>
     </div>
