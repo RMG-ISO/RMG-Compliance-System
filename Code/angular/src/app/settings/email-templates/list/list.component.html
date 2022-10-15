@@ -5,7 +5,7 @@
                 {{ '::EmailTemplate:Page:Title' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
-                <button  id="create" mat-button class="add-btn mr-3" type="button" routerLink="/settings/email-templates/create">
+                <button *abpPermission="'ComplianceSystem.EmailTemplate.Create'" id="create" mat-button class="add-btn mr-3" type="button" routerLink="/settings/email-templates/create">
                     <i class="fa fa-plus mr-2"></i>
                     <span class="line mr-2"></span>
                     <span>{{ "::Create" | abpLocalization }}</span>
@@ -35,10 +35,10 @@
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150"  cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                    <button *abpPermission="'ComplianceSystem.EmailTemplate.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
                         <mat-icon >delete_forever</mat-icon>
                     </button>
-                    <a mat-button [routerLink]="['/settings/email-templates', row.id, 'edit']">
+                    <a *abpPermission="'ComplianceSystem.EmailTemplate.Update'" mat-button [routerLink]="['/settings/email-templates', row.id, 'edit']">
                         <mat-icon>edit</mat-icon>
                     </a>
                 </ng-template>
