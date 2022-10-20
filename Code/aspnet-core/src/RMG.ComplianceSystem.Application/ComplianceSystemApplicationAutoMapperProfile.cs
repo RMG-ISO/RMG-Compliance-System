@@ -29,6 +29,10 @@ using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.Notifications.Dtos;
 using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.EmailTemplates.Dtos;
+using RMG.ComplianceSystem.InternalAuditQuestionLists.Footer.Dto;
+using RMG.ComplianceSystem.InternalAuditQuestionLists;
+using RMG.ComplianceSystem.InternalAuditQuestionLists.Header.Dto;
+using RMG.ComplianceSystem.InternalAuditQuestions;
 
 namespace RMG.ComplianceSystem
 {
@@ -53,6 +57,12 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateDocumentCategoryDto, DocumentCategory>();
             CreateMap<RiskOpportunity, RiskAndOpportunityDto>();
             CreateMap<CreateUpdateRiskAndOpportunityDto, RiskOpportunity>();
+             CreateMap<InternalAuditQuestionList, InternalAuditQuestionListDto>();
+            CreateMap<CreateUpdateInternalAuditQuestionListDto, InternalAuditQuestionList>();
+            CreateMap<InternalAuditMenuQuestion, InternalAuditMenuQuestionDto>();
+            CreateMap<CreateUpdateInternalAuditMenuQuestionDto, InternalAuditMenuQuestion>();
+            CreateMap<InternalAuditQuestion, InternalAuditQuestionDto>();
+            CreateMap<CreateUpdateInternalAuditQuestionDto, InternalAuditQuestion>();
             CreateMap<HistoryRiskOpportunity, HistoryRiskAndOpportunityDto>();
             CreateMap<CreateUpdateHistoryRiskAndOpportunityDto, HistoryRiskOpportunity>();
             CreateMap<Notification, NotificationDto>();
