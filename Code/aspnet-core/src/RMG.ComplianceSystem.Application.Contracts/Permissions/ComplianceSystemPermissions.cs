@@ -6,8 +6,8 @@ namespace RMG.ComplianceSystem.Permissions
 
         //Add your own permission names. Example:
         //public const string MyPermission1 = GroupName + ".MyPermission1";
-        
-             public static class EmailTemplate
+
+        public static class EmailTemplate
         {
             public const string Default = GroupName + ".EmailTemplate";
             public const string Create = Default + ".Create";
@@ -66,12 +66,15 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Treatment = Default + "Treatment";
             public const string Review = Default + "Review";
 
-
-
-
-
         }
 
+        public static class InternalAuditQuestionList
+        {
+            public const string Default = GroupName + ".InternalAuditQuestionList";
+            public const string Create = Default + ".Create";
+            public const string Edit = Default + ".Edit";
+            public const string Delete = Default + ".Delete";
+        }
         public static class Authors
         {
             public const string Default = GroupName + ".Authors";

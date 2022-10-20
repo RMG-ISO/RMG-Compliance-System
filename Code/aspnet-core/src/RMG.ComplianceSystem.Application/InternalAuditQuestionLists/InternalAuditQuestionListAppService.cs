@@ -14,7 +14,6 @@ using Volo.Abp.ObjectMapping;
 
 namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 {
-    // [Authorize(ComplianceSystemPermissions.InternalAuditQuestion.Default)]
     public class InternalAuditQuestionListAppService :
         CrudAppService<
             InternalAuditMenuQuestion, //The InternalAuditMenuQuestion entity
@@ -26,13 +25,13 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
     {
         //   Start Permissions
 
-        //#region Start Permissions
-        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
-        //protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
-        //protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Create;
-        //protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Update;
-        //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
-        //#endregion
+        #region Start Permissions
+        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestionList.Default;
+        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestionList.Default;
+        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestionList.Create;
+        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestionList.Edit;
+        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestionList.Delete;
+        #endregion
 
         // End Permissions
         //Start Properties and Constructor InternalAuditMenuQuestionAppService
