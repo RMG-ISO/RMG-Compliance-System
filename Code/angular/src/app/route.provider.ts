@@ -31,13 +31,6 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Framework',
       },
-      // {
-      //   path:'/document',
-      //   name:'::Menu:DocumentManagement',
-      //   iconClass: 'fa fa-cloud-upload',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      // },
       {
         path:'/assessment',
         name:'::Menu:Assessment',
@@ -78,16 +71,6 @@ function configureRoutes(routesService: RoutesService) {
         parentName:'::Menu:RiskManagement',
         layout: eLayoutType.application,
       },
-
-      // {
-      //   path:'/design-guide',
-      //   name:'::design-guide',
-      //   iconClass: 'fas fa-building',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      //   requiredPolicy:'ComplianceSystem.Department',
-      // },
-
       {
         path:'/documents-management',
         name:'::Menu:DocumentsManagement',
@@ -176,54 +159,22 @@ function configureRoutes(routesService: RoutesService) {
       },
 
 
-      // {
-      //   path:'/documents-management',
-      //   name:'::DocumentManagement',
-      //   iconClass: 'fa fa-cloud-upload',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      //   // requiredPolicy:'ComplianceSystem.Framework',
-      // },
-
-
-      // {
-      //   path: '/compliance-department',
-      //   name: '::Menu:ComplianceDepartment',
-      //   iconClass: 'fas fa-home',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      //   parentName:'::Menu:Home'
-      // },
-
-      // {
-      //   path: "/book-store",
-      //   name: "::Menu:BookStore",
-      //   iconClass: "fas fa-book",
-      //   order: 2,
-      //   layout: eLayoutType.application,
-      // },
-      // {
-      //   path: "/books",
-      //   name: "::Menu:Books",
-      //   parentName: "::Menu:BookStore",
-      //   requiredPolicy:"ComplianceSystem.Books",
-      //   layout: eLayoutType.application,
-      // },
-      // {
-      //   path: "/authors",
-      //   name: "::Menu:Authors",
-      //   parentName: "::Menu:BookStore",
-      //   requiredPolicy:"ComplianceSystem.Authors",
-      //   layout: eLayoutType.application,
-      // },
-      // {
-      //   path: "/abp-books",
-      //   name: "::Menu:abp-Books",
-      //   parentName: "::Menu:BookStore",
-      //   requiredPolicy:"ComplianceSystem.Books",
-      //   layout: eLayoutType.application,
-      // },
-
+      //Internal Audit
+      {
+        path:'/internal-audit',
+        name:'::Menu:InternalAudit',
+        iconClass: 'fas fa-asterisk',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/internal-audit/questions',
+        name:'::Menu:InternalAudit:Questions',
+        iconClass: 'fas fa-cogs',
+        order: 1,
+        parentName:'::Menu:InternalAudit',
+        layout: eLayoutType.application,
+      },
     ]);
   };
 }

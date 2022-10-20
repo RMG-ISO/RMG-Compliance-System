@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FilesManagementComponent } from './files-management.component';
 
 const routes: Routes = [
   {
-    path:'',
-    component:FilesManagementComponent
+    path:'questions',
+    loadChildren:() => import('./questions/questions.module').then(m => m.QuestionsModule)
   }
 ];
 
@@ -13,4 +12,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FilesManagementRoutingModule { }
+export class InternalAuditRoutingModule { }
