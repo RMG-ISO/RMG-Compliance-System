@@ -29,6 +29,8 @@ using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.RiskTreatments;
 using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.EmailTemplates;
+using RMG.ComplianceSystem.InternalAuditQuestionLists;
+using RMG.ComplianceSystem.InternalAuditQuestions;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -73,6 +75,9 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Book> Books { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
+        public DbSet<InternalAuditQuestionList> InternalAuditQuestionLists { get; set; }
+        public DbSet<InternalAuditMenuQuestion> InternalAuditMenuQuestions { get; set; }
+        public DbSet<InternalAuditQuestion> InternalAuditQuestions { get; set; }
         public DbSet<RiskOpportunity> RisksAndOpportunities { get; set; }
         public DbSet<HistoryRiskOpportunity> HistoryRisksAndOpportunities { get; set; }
         public DbSet<StaticDatatb> StaticDatatb { get; set; }
@@ -154,7 +159,27 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-            builder.Entity<RisksTreatment>(b =>
+
+            builder.Entity<InternalAuditQuestionList>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditQuestionLists",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+            builder.Entity<InternalAuditMenuQuestion>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditMenuQuestions",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+
+            builder.Entity<InternalAuditQuestion>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditQuestions",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+        builder.Entity<RisksTreatment>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksTreatment",
                     ComplianceSystemConsts.DbSchema);

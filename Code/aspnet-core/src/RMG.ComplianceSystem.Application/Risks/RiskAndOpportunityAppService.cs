@@ -64,6 +64,7 @@ namespace RMG.ComplianceSystem.Risks
         }
         #endregion
         //End Properties and Constructor RiskAppService
+
         //Start Methods getbyId and GetListRiskBy
         #region Start Methods getbyId and GetListRisk
         public async Task<PagedResultDto<RiskAndOpportunityDto>> GetListRiskByFilterAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
@@ -72,17 +73,17 @@ namespace RMG.ComplianceSystem.Risks
             int totalCount = 0;
             if (input.Type != null)
             {
-
                 //get Risk By CategoryId and Filters and Pagination
                 var ListRisks = RiskAndOpportunityRepository
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
                     .WhereIf(input.Potential != null, t => t.Potential == input.Potential|| t.Potential == input.PotentialValue)
-                   .WhereIf(input.ReEvaluation != null,t=>t.ReEvaluation==input.ReEvaluation)
+                    .WhereIf(input.ReEvaluation != null,t=>t.ReEvaluation==input.ReEvaluation)
                     .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
                     .Where(x => x.Type == input.Type &&
-                ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
-                 .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                     ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || 
+                     (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
                 var risk = RiskAndOpportunityRepository.Where(x => x.Type == input.Type).ToList();
