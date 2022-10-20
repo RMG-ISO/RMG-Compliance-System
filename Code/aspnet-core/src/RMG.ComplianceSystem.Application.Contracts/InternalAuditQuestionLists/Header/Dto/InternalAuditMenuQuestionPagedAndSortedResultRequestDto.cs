@@ -10,7 +10,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists.Header.Dto
     public class InternalAuditMenuQuestionPagedAndSortedResultRequestDto:PagedAndSortedResultRequestDto
     {
         public string Search { get; set; }
-        public Guid FrameworkId { get; set; }
+        public Guid? FrameworkId { get; set; }
 
 
     }

@@ -1,4 +1,6 @@
-﻿using RMG.ComplianceSystem.InternalAuditQuestionLists.Header.Dto;
+﻿using RMG.ComplianceSystem.InternalAuditQuestionLists.Footer.Dto;
+using RMG.ComplianceSystem.InternalAuditQuestionLists.Header.Dto;
+using RMG.ComplianceSystem.InternalAuditQuestions;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -14,7 +16,8 @@ namespace RMG.ComplianceSystem.InternalAuditMenuQuestions
          CreateUpdateInternalAuditMenuQuestionDto> //Used to create/update a book
     {
         Task<PagedResultDto<InternalAuditMenuQuestionDto>> GetListQuestionByFilterAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input);
-    }
+        Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByIdAsync(InternalAuditQuestionListPagedAndSortedResultRequestDto input);
+        }
 
     public interface IInternalAuditQuestionListManager
     {

@@ -25,13 +25,15 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         IInternalAuditMenuQuestionAppService //implement the IInternalAuditMenuQuestionAppService
     {
         //   Start Permissions
-        #region Start Permissions
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
-        #endregion
+
+        //#region Start Permissions
+        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
+        //protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Default;
+        //protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Create;
+        //protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Update;
+        //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.RiskAndOpportunity.Delete;
+        //#endregion
+
         // End Permissions
         //Start Properties and Constructor InternalAuditMenuQuestionAppService
         #region Start Properties and Constructor InternalAuditMenuQuestionAppService
@@ -118,11 +120,11 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 
             return await MapToGetOutputDtoAsync(questionList);
         }
-
-
-
-
-
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="input"></param>
+       /// <returns></returns>
         public async Task<PagedResultDto<InternalAuditMenuQuestionDto>> GetListQuestionByFilterAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
@@ -144,9 +146,11 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
                 Questions
             );
         }
-
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByIdAsync(InternalAuditQuestionListPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
