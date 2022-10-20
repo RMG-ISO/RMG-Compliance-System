@@ -29,20 +29,16 @@
         <form [formGroup]="form">
             <div class="row">
                 <div class="col-md-6 form-group">
-                    <mat-form-field class="d-block" appearance="fill" validationContainer>
-                        <mat-label>
-                            {{ '::AuditQuestionTitle' | abpLocalization }}
-                        </mat-label>
-                        <input matInput type="text" formControlName="questionTextAr">
-                    </mat-form-field> 
+                    <label for="">
+                        {{ '::AuditQuestionTitleAr' | abpLocalization }}
+                    </label>
+                    <input class="form-control" formControlName="questionTextAr">
                 </div>
                 <div class="col-md-6 form-group">
-                    <mat-form-field class="d-block" appearance="outline">
-                        <mat-label>
-                            {{ '::AuditQuestionTitle' | abpLocalization }}
-                        </mat-label>
-                        <input matInput type="text" formControlName="questionTextEn">
-                    </mat-form-field> 
+                    <label for="">
+                        {{ '::AuditQuestionTitleEn' | abpLocalization }}
+                    </label>
+                    <input class="form-control" formControlName="questionTextEn">
                 </div>
                 <div class="col-md-12">
                     <ng-select appendTo="body" placeholder="FrameWork">
