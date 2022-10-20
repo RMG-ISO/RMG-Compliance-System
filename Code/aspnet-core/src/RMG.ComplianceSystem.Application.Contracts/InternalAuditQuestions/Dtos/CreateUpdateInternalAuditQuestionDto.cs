@@ -11,6 +11,9 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
     {
         public string QuestionTextEn { get; set; }
         public string QuestionTextAr { get; set; }
+
+        public string QuestionExplainEn { get; set; }
+        public string QuestionExplainAr { get; set; }
         public Guid FrameworkId { get; set; }
     }
 }
