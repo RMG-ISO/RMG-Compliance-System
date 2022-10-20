@@ -1,1 +1,66 @@
-<p>list works!</p>
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center header-content">
+            <h3 class="card-title m-0">
+                {{ '::اسئلة التدقيق' | abpLocalization }}
+            </h3>
+            <div class="d-flex justify-content-end">
+                <button mat-button class="add-btn mr-3" type="button" (click)="openDialog()" >
+                    <i class="fa fa-plus mr-2"></i>
+                    <span class="line mr-2"></span>
+                    <span>{{ "::Create" | abpLocalization }}</span>
+                </button>
+                <app-search (search)="searchVal = $event;list.get()"></app-search>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+    </div>
+
+</div>
+
+
+<abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+        <h3 class="mb-0">{{ (selected?.id ? '::EditAuditQuestion' : '::CreateAuditQuestion' ) | abpLocalization }}</h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <mat-form-field class="d-block" appearance="fill" validationContainer>
+                        <mat-label>
+                            {{ '::AuditQuestionTitle' | abpLocalization }}
+                        </mat-label>
+                        <input matInput type="text" formControlName="questionTextAr">
+                    </mat-form-field> 
+                </div>
+                <div class="col-md-6 form-group">
+                    <mat-form-field class="d-block" appearance="outline">
+                        <mat-label>
+                            {{ '::AuditQuestionTitle' | abpLocalization }}
+                        </mat-label>
+                        <input matInput type="text" formControlName="questionTextEn">
+                    </mat-form-field> 
+                </div>
+                <div class="col-md-12">
+                    <ng-select appendTo="body" placeholder="FrameWork">
+                        <ng-option *ngFor="let frame of frameworks" [value]="frame.id">
+                            {{ frame | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-12 d-flex justify-content-end btns mt-4">
+                    <button mat-raised-button color="warn" #abpClose>
+                        {{ '::Cancel' | abpLocalization}}
+                    </button>
+                  
+                    <button mat-raised-button color="primary" class="ml-3">
+                        {{ '::Save' | abpLocalization}}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</abp-modal>

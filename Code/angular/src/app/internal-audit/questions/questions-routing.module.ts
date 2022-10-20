@@ -6,6 +6,11 @@ const routes: Routes = [
   {
     path:'list',
     component:ListComponent
+  },
+  {
+    path:'',
+    pathMatch:'full',
+    redirectTo:'/internal-audit/questions/list'
   }
 ];
 

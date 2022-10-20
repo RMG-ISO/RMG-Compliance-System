@@ -163,14 +163,14 @@ function configureRoutes(routesService: RoutesService) {
       {
         path:'/internal-audit',
         name:'::Menu:InternalAudit',
-        iconClass: 'fas fa-asterisk',
+        iconClass: 'fa-solid fa-arrow-up-right-dots',
         order: 1,
         layout: eLayoutType.application,
       },
       {
         path:'/internal-audit/questions',
         name:'::Menu:InternalAudit:Questions',
-        iconClass: 'fas fa-cogs',
+        iconClass: 'fa-solid fa-question',
         order: 1,
         parentName:'::Menu:InternalAudit',
         layout: eLayoutType.application,
