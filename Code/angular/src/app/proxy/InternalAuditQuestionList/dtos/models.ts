@@ -26,3 +26,8 @@ export interface InternalAuditQuestionListPagedAndSortedResultRequestDto extends
  InternalAuditMenuQuestionId?: string;
  InternalAuditQuestionId ?: string;
 }
+export interface InternalAuditMenuQuestionPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  Search?: string;
+  FrameworkId?: string;
+}
+

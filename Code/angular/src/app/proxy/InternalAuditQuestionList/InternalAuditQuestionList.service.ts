@@ -1,4 +1,4 @@
-import type { CreateUpdateInternalAuditMenuQuestionDto, InternalAuditMenuQuestionDto, InternalAuditMenuQuestionPagedAndSortedResultRequestDto } from './dtos/models';
+import type { CreateUpdateInternalAuditMenuQuestionDto, InternalAuditMenuQuestionDto, InternalAuditQuestionListPagedAndSortedResultRequestDto,InternalAuditMenuQuestionPagedAndSortedResultRequestDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -50,11 +50,19 @@ export class RiskTreatmentService {
     },
     { apiName: this.apiName });
 
-    getQuestionByID = (input: InternalAuditMenuQuestionPagedAndSortedResultRequestDto) =>
+    getQuestionByID = (input: InternalAuditQuestionListPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<InternalAuditMenuQuestionDto>>({
       method: 'GET',
       url: '/api/app/internal-audit-question-list/question-by-id',
       params: {InternalAuditMenuQuestionId:input.InternalAuditMenuQuestionId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+    getQuestionByFramework = (input: InternalAuditMenuQuestionPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<InternalAuditMenuQuestionDto>>({
+      method: 'GET',
+      url: '/api/app/internal-audit-question-list/question-by-framework',
+      params: {FrameworkId:input.FrameworkId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
