@@ -96,11 +96,15 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
             await Repository.UpdateAsync(entity, autoSave: true);
 
             #region [Questions]
-
-            await _internalAuditQuestionListRepository.DeleteAsync(entity.Id, autoSave: true);
-
             if (input.QuestionsIds != null && input.QuestionsIds.Count > 0)
             {
+                var quesList= _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
+                foreach (var question in quesList)
+                {
+
+                    await _internalAuditQuestionListRepository.DeleteAsync(question.Id, autoSave: true);
+                }
+
                 List<InternalAuditQuestionList> ModelList = new List<InternalAuditQuestionList>();
                 foreach (var question in input.QuestionsIds)
                 {
