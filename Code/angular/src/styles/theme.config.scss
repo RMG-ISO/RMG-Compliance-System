@@ -23,6 +23,22 @@ body[dir="rtl"] {
 
 }
 
+input.form-control, textarea.form-control {
+    background-color: #f7f9fc;
+    border-color: #e4e9f2;
+    &:focus{
+        background-color: #fff;
+        border-color: #36f;
+        box-shadow: none;
+    }
+}
+
+ng-select .ng-select-container {
+    box-shadow: none;
+    background-color: #f7f9fc!important;
+    border-color: #e4e9f2!important;
+}
+
 nav.app-nav {
     position: sticky;
     top: 0;

@@ -1,8 +1,9 @@
-import { ListService } from '@abp/ng.core';
+import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
+import { ListService, LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FrameworkService } from '@proxy/frameworks';
-import { VALIDATION_BLUEPRINTS, VALIDATION_TARGET_SELECTOR } from '@ngx-validate/core';
+import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
 
 @Component({
   selector: 'app-list',
@@ -10,10 +11,6 @@ import { VALIDATION_BLUEPRINTS, VALIDATION_TARGET_SELECTOR } from '@ngx-validate
   styleUrls: ['./list.component.scss'],
   providers:[
     ListService,
-    // {
-    //   provide:'VALIDATION_TARGET_SELECTOR',
-    //   useValue:'form-group'
-    // }
   ]
 })
 export class ListComponent implements OnInit {
@@ -24,22 +21,36 @@ export class ListComponent implements OnInit {
 
   constructor(
     public list:ListService,
-    private frameworkService:FrameworkService
+    private frameworkService:FrameworkService,
+    private internalAuditQuestionsService:InternalAuditQuestionsService,
+    private confirmation:ConfirmationService,
+    private localizationService:LocalizationService
   ) { }
 
   ngOnInit(): void {
+    this.getList();
     this.frameworkService.getList({maxResultCount:null}).subscribe(result => this.frameworks = result.items);
   }
 
-  // delete(model: FrameworkDto) {
-  //   this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [model.nameAr] }).subscribe((status) => {
-  //     if (status === Confirmation.Status.confirm) {
-  //       this.frameworkService.delete(model.id).subscribe(() => this.list.get());
-  //     }
-  //   });
-  // }
+  items;
+  totalCount
+  getList(search = null) {
+    const streamCreator = (query) => this.internalAuditQuestionsService.getList({ ...query, Search: search });
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      this.items = response.items;
+      this.totalCount = response.totalCount;
+      console.log(response);
+    });
+  }
 
-
+  delete(model) {
+    let title = this.localizationService.currentLang.includes('ar') ?  model['questionTextAr'] : model['questionTextEn'];
+    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        this.internalAuditQuestionsService.delete(model.id).subscribe(() => this.list.get());
+      }
+    });
+  }
 
   openDialog(data?) {
     this.selected = data;
@@ -52,6 +63,8 @@ export class ListComponent implements OnInit {
     this.form = new FormGroup({
       questionTextAr: new FormControl(null, Validators.required),
       questionTextEn: new FormControl(null, Validators.required),
+      questionExplainAr: new FormControl(null, Validators.required),
+      questionExplainEn: new FormControl(null, Validators.required),
       frameworkId: new FormControl(null, Validators.required),
       id: new FormControl(null)
     })
@@ -59,19 +72,16 @@ export class ListComponent implements OnInit {
   }
 
   save() {
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.form.invalid) return;
 
-    // const request = this.selected?.id
-    //   ? this.frameworkService.update(this.selected.id, this.form.value)
-    //   : this.frameworkService.create(this.form.value);
-
-    // request.subscribe(() => {
-    //   this.isModalOpen = false;
-    //   this.form.reset();
-    //   this.list.get();
-    // });
+    const request = this.selected?.id
+      ? this.internalAuditQuestionsService.update(this.selected.id, this.form.value)
+      : this.internalAuditQuestionsService.create(this.form.value);
+    request.subscribe(() => {
+      this.isModalOpen = false;
+      this.form.reset();
+      this.list.get();
+    });
   }
 
 }
