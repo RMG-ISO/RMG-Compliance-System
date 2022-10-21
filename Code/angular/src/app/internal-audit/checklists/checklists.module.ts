@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +14,8 @@ import { CreateComponent } from './create/create.component';
   ],
   imports: [
     CommonModule,
-    ChecklistsRoutingModule
+    ChecklistsRoutingModule,
+    SharedModule
   ]
 })
 export class ChecklistsModule { }

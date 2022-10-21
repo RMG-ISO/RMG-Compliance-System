@@ -1,1 +1,20 @@
-<p>list works!</p>
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center header-content">
+            <h3 class="card-title m-0">
+                {{ '::قوائم التدقيق' | abpLocalization }}
+            </h3>
+            <div class="d-flex justify-content-end">
+                <button mat-button class="add-btn mr-3" type="button" routerLink="/internal-audit/checklists/create" >
+                    <i class="fa fa-plus mr-2"></i>
+                    <span class="line mr-2"></span>
+                    <span>{{ "::Create" | abpLocalization }}</span>
+                </button>
+                <app-search (search)="searchVal = $event;list.get()"></app-search>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        
+    </div>
+</div>

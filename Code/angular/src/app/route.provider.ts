@@ -71,6 +71,35 @@ function configureRoutes(routesService: RoutesService) {
         parentName:'::Menu:RiskManagement',
         layout: eLayoutType.application,
       },
+
+
+
+       //Internal Audit
+       {
+        path:'/internal-audit',
+        name:'::Menu:InternalAudit',
+        iconClass: 'fa-solid fa-arrow-up-right-dots',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/internal-audit/questions',
+        name:'::Menu:InternalAudit:Questions',
+        iconClass: 'fa-solid fa-question',
+        order: 2,
+        parentName:'::Menu:InternalAudit',
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/internal-audit/checklists',
+        name:'::Menu:InternalAudit:Checklists',
+        iconClass: 'fa-solid fa-list-check',
+        order: 2,
+        parentName:'::Menu:InternalAudit',
+        layout: eLayoutType.application,
+      },
+
+
       {
         path:'/documents-management',
         name:'::Menu:DocumentsManagement',
@@ -159,22 +188,7 @@ function configureRoutes(routesService: RoutesService) {
       },
 
 
-      //Internal Audit
-      {
-        path:'/internal-audit',
-        name:'::Menu:InternalAudit',
-        iconClass: 'fa-solid fa-arrow-up-right-dots',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path:'/internal-audit/questions',
-        name:'::Menu:InternalAudit:Questions',
-        iconClass: 'fa-solid fa-question',
-        order: 1,
-        parentName:'::Menu:InternalAudit',
-        layout: eLayoutType.application,
-      },
+     
     ]);
   };
 }

@@ -1,1 +1,33 @@
-<p>create works!</p>
+<mat-card>
+    <mat-card-subtitle>
+        قوائم التدقيق / تعديل
+    </mat-card-subtitle>
+    <mat-card-content>
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="">
+                        اسم القائمة عربى
+                    </label>
+                    <input class="form-control" formControlName="menuTextAr">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="">
+                        اسم القائمة إنجليزى
+                    </label>
+                    <input class="form-control" formControlName="menuTextEn">
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="">
+                        {{ '::Framework' | abpLocalization }}
+                    </label>
+                    <ng-select appendTo="body" placeholder="FrameWork" formControlName="frameworkId" (change)="frameworkChanged($event)">
+                        <ng-option *ngFor="let frame of frameworks" [value]="frame.id">
+                            {{ frame | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
