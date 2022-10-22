@@ -412,6 +412,9 @@
 
     "AuditManagement":"Audit Management",
     "AuditQuestions":"Audit Questions",
+    "CreateAuditQuestion":"Create Audit Questions",
+    "EditAuditQuestion":"Edit Audit Questions",
+
     "QuestionText":"Question text",
     "QuestionTextAr":"Question text in arabic",
     "QuestionTextEn":"Question text in english",

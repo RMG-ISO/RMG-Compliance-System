@@ -4,7 +4,8 @@ import { FrameworkService } from '@proxy/frameworks';
 import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
 import { InternalAuditChecklistService } from '@proxy/InternalAuditQuestionList/InternalAuditQuestionList.service';
 import { ListService } from '@abp/ng.core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-create',
@@ -26,7 +27,10 @@ export class CreateComponent implements OnInit {
     private internalAuditQuestionsService:InternalAuditQuestionsService,
     private internalAuditChecklistService:InternalAuditChecklistService,
     public list:ListService,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute:ActivatedRoute,
+    private toasterService:ToasterService,
+    private router:Router
+
 
   ) { }
   ngOnInit(): void {
@@ -48,16 +52,14 @@ export class CreateComponent implements OnInit {
         this.form.patchValue(response);
         let questionsIds = response['internalAuditQuestions'].map(x => {
           this.selectedIds[x.id] = true;
-          return x.id
+          return x.id;
         })
         this.form.controls.questionsIds.setValue(questionsIds.length ? questionsIds : null);
         this.internalAuditChecklistService.getQuestionByFramework(response['frameworkId']).subscribe( r => {
           this.items = r.items;
           this.totalCount = r.totalCount;
           let selected = [];
-          for(let frame of r.items) {
-            if(this.selectedIds[frame.id]) selected.push(frame);
-          }
+          for(let frame of r.items) if(this.selectedIds[frame.id]) selected.push(frame);
           this.selected = selected;
         })
       })
@@ -65,11 +67,9 @@ export class CreateComponent implements OnInit {
   }
 
   frameworkChanged(id) {
-    // , FrameworkId:id
-    let filter = {maxResultCount:null};
+    let filter = {maxResultCount:null, FrameworkId:id};
     const streamCreator = (query) => this.internalAuditQuestionsService.getListByFilter({ ...query, ...filter });
       this.list.hookToQuery(streamCreator).subscribe(r => {
-      console.log(r);
       this.items = r.items;
       this.totalCount = r.totalCount;
     })
@@ -89,12 +89,15 @@ export class CreateComponent implements OnInit {
 
 
   save() {
-    console.log(this.form);
     this.form.markAllAsTouched();
     if(this.form.invalid) return;
-    this.internalAuditChecklistService.create(this.form.value).subscribe(r => {
-      console.log(r);
-    })
+    if(this.id) this.internalAuditChecklistService.update(this.id, this.form.value).subscribe( () => this.afterSave())
+    else this.internalAuditChecklistService.create(this.form.value).subscribe( () => this.afterSave())
+  }
+
+  afterSave() {
+    this.toasterService.success("::SuccessfullySaved", "");
+    this.router.navigate(['/internal-audit/checklists/list'])
   }
 
 }
