@@ -1,6 +1,7 @@
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
+import { Router } from '@angular/router';
+import { InternalAuditChecklistService } from '@proxy/InternalAuditQuestionList/InternalAuditQuestionList.service';
 
 @Component({
   selector: 'app-list',
@@ -11,16 +12,28 @@ import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
   ]
 })
 export class ListComponent implements OnInit {
-  searchVal
+  searchVal;
+  items;
+  totalCount
   constructor(
     public list:ListService,
-    private internalAuditQuestionsService:InternalAuditQuestionsService,
+    private internalAuditChecklistService:InternalAuditChecklistService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
+    this.getList();
   }
 
-  openDialog() {
+  getList(search = null) {
+    const streamCreator = (query) => this.internalAuditChecklistService.getList({ ...query, Search: search });
+    this.list.hookToQuery(streamCreator).subscribe((response) => {
+      this.items = response.items;
+      this.totalCount = response.totalCount;
+    });
+  }
 
+  openDialog(row) {
+    this.router.navigate(['/internal-audit/checklists', row.id, 'edit'])
   }
 }

@@ -408,7 +408,22 @@
     "MainDomainName":"Main Domain",
     "SubDomainName":"Sub Domain",
     "MainControlName":"Main Control",
-    "SubControlName":"Sub Control"
+    "SubControlName":"Sub Control",
+
+    "AuditManagement":"Audit Management",
+    "AuditQuestions":"Audit Questions",
+    "QuestionText":"Question text",
+    "QuestionTextAr":"Question text in arabic",
+    "QuestionTextEn":"Question text in english",
+    "QuestionExplain":"Question explain",
+    "QuestionExplainAr":"Question explain in arabic",
+    "QuestionExplainEn":"Question explain in english",
+    "CheckLists":"CheckLists",
+    "CheckListName":"CheckList name",
+    "CheckListNameAr":"CheckList name in arabic",
+    "CheckListNameEn":"CheckList name in english",
+    "CheckListQuestions":"CheckList questions",
+    "AddChecklistQuestion":"Please select atleast one question"
 
 
 
