@@ -1,0 +1,103 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-header class="mb-3">
+            <mat-card-title>
+                {{ '::CheckLists' | abpLocalization }} 
+                /
+                {{ ( '::' + mode ) | abpLocalization }}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="">
+                        {{ '::CheckListNameAr' | abpLocalization }}
+                    </label>
+                    <input class="form-control" formControlName="menuTextAr">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="">
+                        {{ '::CheckListNameEn' | abpLocalization }}
+                    </label>
+                    <input class="form-control" formControlName="menuTextEn">
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="">
+                        {{ '::FrameworkName' | abpLocalization }}
+                    </label>
+                    <ng-select appendTo="body" placeholder="FrameWork" formControlName="frameworkId" (change)="frameworkChanged($event)">
+                        <ng-option *ngFor="let frame of frameworks" [value]="frame.id">
+                            {{ frame | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="col-md-12">
+                    <label for="">
+                        {{ '::CheckListQuestions' | abpLocalization }}
+                    </label>
+                    <ngx-datatable
+
+                    class="material fullscreen"
+                    columnMode="force"
+                    [headerHeight]="50"
+                    [footerHeight]="50"
+                    rowHeight="auto"
+                    [scrollbarH]="true"
+                    #dataTable
+                    [rows]="items"
+                    [count]="totalCount"
+                    [list]="list"
+
+                    [selected]="selected"
+                    selectionType="checkbox"
+                    [selectAllRowsOnPage]="false"
+                    (select)="onSelect($event)"
+
+                    appNgxdatatable
+
+                    >
+                        <ngx-datatable-column
+                        [width]="100"
+                        [sortable]="false"
+                        [canAutoResize]="false"
+                        [draggable]="false"
+                        [resizeable]="false"
+                        [headerCheckboxable]="true"
+                        [checkboxable]="true"
+                        >
+                        </ngx-datatable-column>
+                        
+                        <ngx-datatable-column [name]=" '::QuestionText' | abpLocalization">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row | lang:'questionText' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [name]="'::QuestionExplain' | abpLocalization">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row | lang:'questionExplain' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    
+                    </ngx-datatable>
+
+                    <div class="invalid-feedback d-block" *ngIf="form.controls.questionsIds.touched && form.controls.questionsIds.invalid">
+                        {{ '::AddChecklistQuestion' | abpLocalization }}
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <mat-card-actions class="d-flex justify-content-end btns mt-2 pr-4">
+                <button mat-raised-button color="warn" type="button" routerLink="/internal-audit/checklists/list">
+                    {{ '::Cancel' | abpLocalization}}
+                </button>
+            
+                <button mat-raised-button color="primary" class="ml-3" type="submit">
+                    {{ '::Save' | abpLocalization}}
+                </button>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
+</form>

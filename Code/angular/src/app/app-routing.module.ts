@@ -18,18 +18,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule)
   },
-
-
   {
     path:'dashboard',
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
-  // {
-  //   path:'files-management',
-  //   canActivate: [AuthGuard, PermissionGuard],
-  //   loadChildren: () => import('./files-management/files-management.module').then(m => m.FilesManagementModule)
-  // },
   {
     path:'documents-management',
     canActivate: [AuthGuard, PermissionGuard],
@@ -45,15 +38,17 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
   },
+ 
+  {
+    path:'internal-audit',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./internal-audit/internal-audit.module').then(m => m.InternalAuditModule)
+  },
 
-  // {
-  //   path: 'compliance-department',
-  //   loadChildren: () => import('./compliance-department/compliance-department.module').then(m => m.ComplianceDepartmentModule),
-  // },
-  // {
-  //   path: 'abp-books',
-  //   loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule),
-  // },
+
+
+
+
   {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
@@ -67,15 +62,6 @@ const routes: Routes = [
   {
     path: 'setting-management',
     loadChildren: () => import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
-  },
-
-  // { path: 'books', loadChildren: () => import('./book/book.module').then(m => m.BookModule) },
-  // { path: 'authors', loadChildren: () => import('./author/author.module').then(m => m.AuthorModule) },
-  // { path: 'author-with-books', loadChildren: () => import('./author-with-books/author-with-books.module').then(m => m.AuthorWithBooksModule) },
-  // { path: 'abp-books', loadChildren: () => import('./abp-books/abp-books.module').then(m => m.AbpBooksModule) },
-  {
-    path:'design-guide',
-    loadChildren:() => import('./design-guide/design-guide.module').then(m => m.DesignGuideModule)
   },
   {
     path:'settings',

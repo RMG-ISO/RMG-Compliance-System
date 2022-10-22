@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class RiskTreatmentService {
+export class InternalAuditChecklistService {
   apiName = 'Default';
 
   create = (input: CreateUpdateInternalAuditMenuQuestionDto) =>

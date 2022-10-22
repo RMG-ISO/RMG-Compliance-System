@@ -54,12 +54,12 @@ $custom-typography: mat-typography-config(
 );
 @include mat-core($custom-typography);
 
-$primary: mat-palette($mat-blue,200);
-$accent: mat-palette($mat-orange,200);
+// $primary: mat-palette($mat-blue,200);
+// $accent: mat-palette($mat-orange,200);
 
-$theme: mat-light-theme($primary, $accent);
+// $theme: mat-light-theme($primary, $accent);
 
-@include angular-material-theme($theme);
+// @include angular-material-theme($theme);
 
 
 

@@ -31,13 +31,6 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Framework',
       },
-      // {
-      //   path:'/document',
-      //   name:'::Menu:DocumentManagement',
-      //   iconClass: 'fa fa-cloud-upload',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      // },
       {
         path:'/assessment',
         name:'::Menu:Assessment',
@@ -79,14 +72,33 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
 
-      // {
-      //   path:'/design-guide',
-      //   name:'::design-guide',
-      //   iconClass: 'fas fa-building',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      //   requiredPolicy:'ComplianceSystem.Department',
-      // },
+
+
+       //Internal Audit
+       {
+        path:'/internal-audit',
+        name:'::AuditManagement',
+        iconClass: 'fa-solid fa-arrow-up-right-dots',
+        order: 1,
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/internal-audit/questions',
+        name:'::AuditQuestions',
+        iconClass: 'fa-solid fa-question',
+        order: 2,
+        parentName:'::AuditManagement',
+        layout: eLayoutType.application,
+      },
+      {
+        path:'/internal-audit/checklists',
+        name:'::CheckLists',
+        iconClass: 'fa-solid fa-list-check',
+        order: 2,
+        parentName:'::AuditManagement',
+        layout: eLayoutType.application,
+      },
+
 
       {
         path:'/documents-management',
@@ -176,54 +188,7 @@ function configureRoutes(routesService: RoutesService) {
       },
 
 
-      // {
-      //   path:'/documents-management',
-      //   name:'::DocumentManagement',
-      //   iconClass: 'fa fa-cloud-upload',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      //   // requiredPolicy:'ComplianceSystem.Framework',
-      // },
-
-
-      // {
-      //   path: '/compliance-department',
-      //   name: '::Menu:ComplianceDepartment',
-      //   iconClass: 'fas fa-home',
-      //   order: 1,
-      //   layout: eLayoutType.application,
-      //   parentName:'::Menu:Home'
-      // },
-
-      // {
-      //   path: "/book-store",
-      //   name: "::Menu:BookStore",
-      //   iconClass: "fas fa-book",
-      //   order: 2,
-      //   layout: eLayoutType.application,
-      // },
-      // {
-      //   path: "/books",
-      //   name: "::Menu:Books",
-      //   parentName: "::Menu:BookStore",
-      //   requiredPolicy:"ComplianceSystem.Books",
-      //   layout: eLayoutType.application,
-      // },
-      // {
-      //   path: "/authors",
-      //   name: "::Menu:Authors",
-      //   parentName: "::Menu:BookStore",
-      //   requiredPolicy:"ComplianceSystem.Authors",
-      //   layout: eLayoutType.application,
-      // },
-      // {
-      //   path: "/abp-books",
-      //   name: "::Menu:abp-Books",
-      //   parentName: "::Menu:BookStore",
-      //   requiredPolicy:"ComplianceSystem.Books",
-      //   layout: eLayoutType.application,
-      // },
-
+     
     ]);
   };
 }
