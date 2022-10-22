@@ -68,7 +68,9 @@ export class CreateComponent implements OnInit {
 
   frameworkChanged(id) {
     let filter = {maxResultCount:null, FrameworkId:id};
-    const streamCreator = (query) => this.internalAuditQuestionsService.getListByFilter({ ...query, ...filter });
+    this.selected = [];
+    this.form.controls.questionsIds.setValue(null);
+    const streamCreator = (query) => this.internalAuditChecklistService.getQuestionByFramework({ ...query, ...filter });
       this.list.hookToQuery(streamCreator).subscribe(r => {
       this.items = r.items;
       this.totalCount = r.totalCount;
