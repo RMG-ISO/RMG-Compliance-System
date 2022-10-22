@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class RiskTreatmentService {
+export class InternalAuditQuestionsService {
   apiName = 'Default';
 
   create = (input: CreateUpdateInternalAuditQuestionDto) =>
@@ -46,13 +46,17 @@ export class RiskTreatmentService {
     this.restService.request<any, PagedResultDto<InternalAuditQuestionDto>>({
       method: 'GET',
       url: '/api/app/internal-audit-question',
-      params: {Search:input.Search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: {Search:input.Search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, FrameworkId: input['FrameworkId'] },
     },
     { apiName: this.apiName });
 
-
-
-
+    getListByFilter = (input: InternalAuditQuestionPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<InternalAuditQuestionDto>>({
+      method: 'GET',
+      url: '/api/app/internal-audit-question/question-by-filter',
+      params: {Search:input.Search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, FrameworkId: input['FrameworkId'] },
+    },
+    { apiName: this.apiName });
 
 
   constructor(private restService: RestService) {}
