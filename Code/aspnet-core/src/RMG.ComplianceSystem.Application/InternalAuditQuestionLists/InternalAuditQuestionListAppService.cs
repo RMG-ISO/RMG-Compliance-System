@@ -96,11 +96,15 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
             await Repository.UpdateAsync(entity, autoSave: true);
 
             #region [Questions]
-
-            await _internalAuditQuestionListRepository.DeleteAsync(entity.Id, autoSave: true);
-
             if (input.QuestionsIds != null && input.QuestionsIds.Count > 0)
             {
+                var quesList = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
+                foreach (var question in quesList)
+                {
+
+                    await _internalAuditQuestionListRepository.DeleteAsync(question.Id, autoSave: true);
+                }
+
                 List<InternalAuditQuestionList> ModelList = new List<InternalAuditQuestionList>();
                 foreach (var question in input.QuestionsIds)
                 {
@@ -119,22 +123,22 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 
             return await MapToGetOutputDtoAsync(questionList);
         }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="input"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<InternalAuditMenuQuestionDto>> GetListQuestionByFilterAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListQuestions = InternalAuditMenuQuestionRepository.Where(x => 
+            var ListQuestions = InternalAuditMenuQuestionRepository.Where(x =>
                      ((x.MenuTextAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
                      (x.MenuTextEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
-             var Questions = ObjectMapper.Map<List<InternalAuditMenuQuestion>, List<InternalAuditMenuQuestionDto>>(ListQuestions);
-             var ListQuestion = InternalAuditMenuQuestionRepository.ToList();
-                totalCount = ListQuestion.Count;
-           
+            var Questions = ObjectMapper.Map<List<InternalAuditMenuQuestion>, List<InternalAuditMenuQuestionDto>>(ListQuestions);
+            var ListQuestion = InternalAuditMenuQuestionRepository.ToList();
+            totalCount = ListQuestion.Count;
+
             if (!string.IsNullOrEmpty(input.Sorting))
             {
                 var propertyInfo = typeof(InternalAuditMenuQuestionDto).GetProperty(input.Sorting);
@@ -153,15 +157,39 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByIdAsync(InternalAuditQuestionListPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListQuestions =_internalAuditQuestionListRepository.Where(x =>x.Id==input.InternalAuditMenuQuestionId).ToList();
+            var ListQuestions = _internalAuditQuestionListRepository.Where(x => x.Id == input.InternalAuditMenuQuestionId).ToList();
             var Questions = new List<InternalAuditQuestionDto>();
             foreach (var item in ListQuestions)
             {
-                var Question = _InternalAuditQuestionRepository.Where(t=>t.Id== item.InternalAuditQuestionId).FirstOrDefault();
-               Questions.Add(ObjectMapper.Map<InternalAuditQuestion,InternalAuditQuestionDto>(Question));
+                var Question = _InternalAuditQuestionRepository.Where(t => t.Id == item.InternalAuditQuestionId).FirstOrDefault();
+                Questions.Add(ObjectMapper.Map<InternalAuditQuestion, InternalAuditQuestionDto>(Question));
             }
-            
+
             var ListQuestion = _internalAuditQuestionListRepository.Where(x => x.Id == input.InternalAuditMenuQuestionId).ToList();
+            totalCount = ListQuestion.Count;
+
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(InternalAuditMenuQuestionDto).GetProperty(input.Sorting);
+                Questions.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
+            return new PagedResultDto<InternalAuditQuestionDto>(
+                totalCount,
+                Questions
+            );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByFrameworkAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input)
+        {
+            int totalCount = 0;
+            var Question = _InternalAuditQuestionRepository.Where(t => t.Id == input.FrameworkId).ToList();
+            var Questions = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(Question);
+            var ListQuestion = _internalAuditQuestionListRepository.Where(x => x.Id == input.FrameworkId).ToList();
             totalCount = ListQuestion.Count;
 
             if (!string.IsNullOrEmpty(input.Sorting))
