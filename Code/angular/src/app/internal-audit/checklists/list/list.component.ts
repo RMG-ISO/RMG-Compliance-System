@@ -18,7 +18,6 @@ export class ListComponent implements OnInit {
   constructor(
     public list:ListService,
     private internalAuditChecklistService:InternalAuditChecklistService,
-    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -31,9 +30,5 @@ export class ListComponent implements OnInit {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
-  }
-
-  openDialog(row) {
-    this.router.navigate(['/internal-audit/checklists', row.id, 'edit'])
   }
 }

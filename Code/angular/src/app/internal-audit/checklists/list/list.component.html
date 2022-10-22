@@ -46,9 +46,9 @@
                         <mat-icon>delete_forever</mat-icon>
                     </button>
 
-                    <button mat-button (click)="$event.stopPropagation();openDialog(row)">
+                    <a mat-button [routerLink]="['/internal-audit/checklists', row.id, 'edit']" target="_blank">
                         <mat-icon>edit</mat-icon>
-                    </button>
+                    </a>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>
