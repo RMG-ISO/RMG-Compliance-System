@@ -2,7 +2,6 @@ import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InternalAuditChecklistService } from '@proxy/InternalAuditQuestionList/InternalAuditQuestionList.service';
-import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
 
 @Component({
   selector: 'app-list',
