@@ -411,7 +411,17 @@
     "MainDomainName":"النطاق الرئيسى",
     "SubDomainName":"النطاق الفرعى",
     "MainControlName":"الضابط رئيسي",
-    "SubControlName":"الضابط الفرعى"
+    "SubControlName":"الضابط الفرعى",
+
+
+    "QuestionText":"نص السؤال",
+    "QuestionTextAr":"نص السؤال بالعربى",
+    "QuestionTextEn":"نص السؤال بالإنجليزي",
+    "QuestionExplain":"شرح السؤال",
+    "QuestionExplainAr":"شرح السؤال بالعربى",
+    "QuestionExplainEn":"شرح السؤال بالإنجليزي"
+    
+
 
 
   }

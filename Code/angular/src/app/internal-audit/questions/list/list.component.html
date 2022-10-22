@@ -16,21 +16,21 @@
     </div>
     <div class="card-body">
         <ngx-datatable class="material fullscreen"  [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable >
-            <ngx-datatable-column [name]="'::نص السؤال' | abpLocalization">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | lang:'questionText' }}
+            <ngx-datatable-column [name]=" '::QuestionText' | abpLocalization">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row | lang:'questionText' }}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::شرح السؤال' | abpLocalization">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | lang:'questionExplain' }}
+            <ngx-datatable-column [name]="'::QuestionExplain' | abpLocalization">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row | lang:'questionExplain' }}
                 </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column [name]="'::FrameworkName' | abpLocalization" prop="frameworkId"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::CreatorName' | abpLocalization" prop="creatorId"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::creatorName' | abpLocalization" prop="creatorId"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="creationTime">
+            <ngx-datatable-column [name]="'::CreationTime' | abpLocalization" prop="creationTime">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <span title="{{value | date}}">{{value | fromNow}}</span>                </ng-template>
             </ngx-datatable-column>
@@ -64,31 +64,31 @@
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="">
-                        {{ '::AuditQuestionTitleAr' | abpLocalization }}
+                        {{ '::QuestionTextAr' | abpLocalization }}
                     </label>
                     <input class="form-control" formControlName="questionTextAr">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="">
-                        {{ '::AuditQuestionTitleEn' | abpLocalization }}
+                        {{ '::QuestionTextEn' | abpLocalization }}
                     </label>
                     <input class="form-control" formControlName="questionTextEn">
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="">
-                        {{ '::AuditQuestionExplainAr' | abpLocalization }}
+                        {{ '::QuestionExplainAr' | abpLocalization }}
                     </label>
                     <textarea class="form-control" formControlName="questionExplainAr"></textarea>
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="">
-                        {{ '::AuditQuestionExplainEn' | abpLocalization }}
+                        {{ '::QuestionExplainEn' | abpLocalization }}
                     </label>
                     <textarea class="form-control" formControlName="questionExplainEn"></textarea>
                 </div>
                 <div class="col-md-12">
                     <label for="">
-                        {{ '::Framework' | abpLocalization }}
+                        {{ '::FrameworkName' | abpLocalization }}
                     </label>
                     <ng-select appendTo="body" placeholder="FrameWork" formControlName="frameworkId">
                         <ng-option *ngFor="let frame of frameworks" [value]="frame.id">

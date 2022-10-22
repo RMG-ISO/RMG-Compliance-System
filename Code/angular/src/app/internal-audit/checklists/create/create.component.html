@@ -1,9 +1,11 @@
-<mat-card>
-    <mat-card-subtitle>
-        قوائم التدقيق / تعديل
-    </mat-card-subtitle>
-    <mat-card-content>
-        <form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-header class="mb-3">
+            <mat-card-title>
+                قوائم التدقيق / تعديل
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="">
@@ -19,7 +21,7 @@
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="">
-                        {{ '::Framework' | abpLocalization }}
+                        {{ '::FrameworkName' | abpLocalization }}
                     </label>
                     <ng-select appendTo="body" placeholder="FrameWork" formControlName="frameworkId" (change)="frameworkChanged($event)">
                         <ng-option *ngFor="let frame of frameworks" [value]="frame.id">
@@ -27,7 +29,70 @@
                         </ng-option>
                     </ng-select>
                 </div>
+
+                <div class="col-md-12">
+                    <label for="">
+                        اسئلة القائمة
+                    </label>
+                    <ngx-datatable
+
+                    class="material fullscreen"
+                    columnMode="force"
+                    [headerHeight]="50"
+                    [footerHeight]="50"
+                    rowHeight="auto"
+                    [scrollbarH]="true"
+                    #dataTable
+                    [rows]="items"
+                    [count]="totalCount"
+                    [list]="list"
+
+                    [selected]="selected"
+                    selectionType="checkbox"
+                    [selectAllRowsOnPage]="false"
+                    (select)="onSelect($event)"
+
+                    appNgxdatatable
+
+                    >
+                        <ngx-datatable-column
+                        [width]="100"
+                        [sortable]="false"
+                        [canAutoResize]="false"
+                        [draggable]="false"
+                        [resizeable]="false"
+                        [headerCheckboxable]="true"
+                        [checkboxable]="true"
+                        >
+                        </ngx-datatable-column>
+                        
+                        <ngx-datatable-column [name]=" '::QuestionText' | abpLocalization">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row | lang:'questionText' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [name]="'::QuestionExplain' | abpLocalization">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{ row | lang:'questionExplain' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+                    
+                    </ngx-datatable>
+                </div>
+
             </div>
-        </form>
-    </mat-card-content>
-</mat-card>
+        </mat-card-content>
+        <mat-card-footer>
+            <mat-card-actions class="d-flex justify-content-end btns mt-2 pr-4">
+                <button mat-raised-button color="warn" type="button">
+                    {{ '::Cancel' | abpLocalization}}
+                </button>
+            
+                <button mat-raised-button color="primary" class="ml-3" type="submit">
+                    {{ '::Save' | abpLocalization}}
+                </button>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
+</form>
