@@ -17,7 +17,14 @@ const routes: Routes = [
     }
   },
   {
-    path:':id',
+    path:':id/edit',
+    component:CreateComponent,
+    data:{
+      mode:FormMode.Edit
+    }
+  },
+  {
+    path:':id/view',
     component:CreateComponent,
     data:{
       mode:FormMode.Edit

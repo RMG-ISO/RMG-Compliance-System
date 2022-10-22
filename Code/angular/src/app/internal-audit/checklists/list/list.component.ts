@@ -35,6 +35,6 @@ export class ListComponent implements OnInit {
   }
 
   openDialog(row) {
-    this.router.navigate(['/internal-audit/checklists', row.id])
+    this.router.navigate(['/internal-audit/checklists', row.id, 'edit'])
   }
 }
