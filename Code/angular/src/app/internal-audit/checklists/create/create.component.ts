@@ -52,16 +52,14 @@ export class CreateComponent implements OnInit {
         this.form.patchValue(response);
         let questionsIds = response['internalAuditQuestions'].map(x => {
           this.selectedIds[x.id] = true;
-          return x.id
+          return x.id;
         })
         this.form.controls.questionsIds.setValue(questionsIds.length ? questionsIds : null);
         this.internalAuditChecklistService.getQuestionByFramework(response['frameworkId']).subscribe( r => {
           this.items = r.items;
           this.totalCount = r.totalCount;
           let selected = [];
-          for(let frame of r.items) {
-            if(this.selectedIds[frame.id]) selected.push(frame);
-          }
+          for(let frame of r.items) if(this.selectedIds[frame.id]) selected.push(frame);
           this.selected = selected;
         })
       })
@@ -69,8 +67,7 @@ export class CreateComponent implements OnInit {
   }
 
   frameworkChanged(id) {
-    // , FrameworkId:id
-    let filter = {maxResultCount:null};
+    let filter = {maxResultCount:null, FrameworkId:id};
     const streamCreator = (query) => this.internalAuditQuestionsService.getListByFilter({ ...query, ...filter });
       this.list.hookToQuery(streamCreator).subscribe(r => {
       console.log(r);
