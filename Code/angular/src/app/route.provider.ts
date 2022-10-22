@@ -77,25 +77,25 @@ function configureRoutes(routesService: RoutesService) {
        //Internal Audit
        {
         path:'/internal-audit',
-        name:'::Menu:InternalAudit',
+        name:'::AuditManagement',
         iconClass: 'fa-solid fa-arrow-up-right-dots',
         order: 1,
         layout: eLayoutType.application,
       },
       {
         path:'/internal-audit/questions',
-        name:'::Menu:InternalAudit:Questions',
+        name:'::AuditQuestions',
         iconClass: 'fa-solid fa-question',
         order: 2,
-        parentName:'::Menu:InternalAudit',
+        parentName:'::AuditManagement',
         layout: eLayoutType.application,
       },
       {
         path:'/internal-audit/checklists',
-        name:'::Menu:InternalAudit:Checklists',
+        name:'::CheckLists',
         iconClass: 'fa-solid fa-list-check',
         order: 2,
-        parentName:'::Menu:InternalAudit',
+        parentName:'::AuditManagement',
         layout: eLayoutType.application,
       },
 

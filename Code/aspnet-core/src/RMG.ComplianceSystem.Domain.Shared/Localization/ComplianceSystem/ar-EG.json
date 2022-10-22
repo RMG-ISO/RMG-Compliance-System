@@ -414,12 +414,19 @@
     "SubControlName":"الضابط الفرعى",
 
 
+    "AuditManagement":"إدارة التدقيق",
+    "AuditQuestions":"اسئلة التدقيق",
     "QuestionText":"نص السؤال",
     "QuestionTextAr":"نص السؤال بالعربى",
     "QuestionTextEn":"نص السؤال بالإنجليزي",
     "QuestionExplain":"شرح السؤال",
     "QuestionExplainAr":"شرح السؤال بالعربى",
-    "QuestionExplainEn":"شرح السؤال بالإنجليزي"
+    "QuestionExplainEn":"شرح السؤال بالإنجليزي",
+    "CheckLists":"قوائم التدقيق",
+    "CheckListName":"اسم القائمة",
+    "CheckListNameAr":"اسم القائمة عربى",
+    "CheckListNameEn":"اسم القائمة انجليزى",
+    "CheckListQuestions":"اسئلة القائمة"
     
 
 

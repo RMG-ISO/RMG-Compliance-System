@@ -61,6 +61,10 @@ export class CreateComponent implements OnInit {
 
   save() {
     console.log(this.form);
+    if(this.form.invalid) return;
+    this.internalAuditChecklistService.create(this.form.value).subscribe(r => {
+      console.log(r);
+    })
   }
 
 }

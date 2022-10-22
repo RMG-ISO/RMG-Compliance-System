@@ -2,20 +2,22 @@
     <mat-card>
         <mat-card-header class="mb-3">
             <mat-card-title>
-                قوائم التدقيق / تعديل
+                {{ '::CheckLists' | abpLocalization }} 
+                /
+                تعديل
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <div class="row">
                 <div class="col-md-6 form-group">
                     <label for="">
-                        اسم القائمة عربى
+                        {{ '::CheckListNameAr' | abpLocalization }}
                     </label>
                     <input class="form-control" formControlName="menuTextAr">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="">
-                        اسم القائمة إنجليزى
+                        {{ '::CheckListNameEn' | abpLocalization }}
                     </label>
                     <input class="form-control" formControlName="menuTextEn">
                 </div>
@@ -32,7 +34,7 @@
 
                 <div class="col-md-12">
                     <label for="">
-                        اسئلة القائمة
+                        {{ '::CheckListQuestions' | abpLocalization }}
                     </label>
                     <ngx-datatable
 
