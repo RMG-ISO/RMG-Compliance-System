@@ -1,4 +1,4 @@
-import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -24,7 +24,8 @@ export class ListComponent implements OnInit {
     private frameworkService:FrameworkService,
     private internalAuditQuestionsService:InternalAuditQuestionsService,
     private confirmation:ConfirmationService,
-    private localizationService:LocalizationService
+    private localizationService:LocalizationService,
+    private toasterService:ToasterService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +48,10 @@ export class ListComponent implements OnInit {
     let title = this.localizationService.currentLang.includes('ar') ?  model['questionTextAr'] : model['questionTextEn'];
     this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.internalAuditQuestionsService.delete(model.id).subscribe(() => this.list.get());
+        this.internalAuditQuestionsService.delete(model.id).subscribe(() => {
+          this.list.get();
+          this.toasterService.success('::SuccessfullyDeleted', "");
+        });
       }
     });
   }
@@ -78,6 +82,7 @@ export class ListComponent implements OnInit {
       ? this.internalAuditQuestionsService.update(this.selected.id, this.form.value)
       : this.internalAuditQuestionsService.create(this.form.value);
     request.subscribe(() => {
+      this.toasterService.success('::SuccessfullySaved', "");
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();

@@ -4,7 +4,8 @@ import { FrameworkService } from '@proxy/frameworks';
 import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
 import { InternalAuditChecklistService } from '@proxy/InternalAuditQuestionList/InternalAuditQuestionList.service';
 import { ListService } from '@abp/ng.core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-create',
@@ -26,7 +27,10 @@ export class CreateComponent implements OnInit {
     private internalAuditQuestionsService:InternalAuditQuestionsService,
     private internalAuditChecklistService:InternalAuditChecklistService,
     public list:ListService,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute:ActivatedRoute,
+    private toasterService:ToasterService,
+    private router:Router
+
 
   ) { }
   ngOnInit(): void {
@@ -92,9 +96,13 @@ export class CreateComponent implements OnInit {
     console.log(this.form);
     this.form.markAllAsTouched();
     if(this.form.invalid) return;
-    this.internalAuditChecklistService.create(this.form.value).subscribe(r => {
-      console.log(r);
-    })
+    if(this.id) this.internalAuditChecklistService.update(this.id, this.form.value).subscribe( () => this.afterSave())
+    else this.internalAuditChecklistService.create(this.form.value).subscribe( () => this.afterSave())
+  }
+
+  afterSave() {
+    this.toasterService.success("::SuccessfullySaved", "");
+    this.router.navigate(['/internal-audit/checklists/list'])
   }
 
 }

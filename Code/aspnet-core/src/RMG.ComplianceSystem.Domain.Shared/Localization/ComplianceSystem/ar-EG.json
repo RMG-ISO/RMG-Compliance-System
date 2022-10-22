@@ -416,6 +416,8 @@
 
     "AuditManagement":"إدارة التدقيق",
     "AuditQuestions":"اسئلة التدقيق",
+    "CreateAuditQuestion":"إاضافة أسئلة التدقيق",
+    "EditAuditQuestion":"تعديل أسئلة التدقيق",
     "QuestionText":"نص السؤال",
     "QuestionTextAr":"نص السؤال بالعربى",
     "QuestionTextEn":"نص السؤال بالإنجليزي",
