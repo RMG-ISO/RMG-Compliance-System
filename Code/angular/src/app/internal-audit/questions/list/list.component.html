@@ -90,7 +90,7 @@
                     <label for="">
                         {{ '::FrameworkName' | abpLocalization }}
                     </label>
-                    <ng-select appendTo="body" placeholder="FrameWork" formControlName="frameworkId">
+                    <ng-select appendTo="body" formControlName="frameworkId">
                         <ng-option *ngFor="let frame of frameworks" [value]="frame.id">
                             {{ frame | lang:'name' }}
                         </ng-option>
