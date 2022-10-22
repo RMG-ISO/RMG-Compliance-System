@@ -70,7 +70,6 @@ export class CreateComponent implements OnInit {
     let filter = {maxResultCount:null, FrameworkId:id};
     const streamCreator = (query) => this.internalAuditQuestionsService.getListByFilter({ ...query, ...filter });
       this.list.hookToQuery(streamCreator).subscribe(r => {
-      console.log(r);
       this.items = r.items;
       this.totalCount = r.totalCount;
     })
@@ -90,7 +89,6 @@ export class CreateComponent implements OnInit {
 
 
   save() {
-    console.log(this.form);
     this.form.markAllAsTouched();
     if(this.form.invalid) return;
     if(this.id) this.internalAuditChecklistService.update(this.id, this.form.value).subscribe( () => this.afterSave())
