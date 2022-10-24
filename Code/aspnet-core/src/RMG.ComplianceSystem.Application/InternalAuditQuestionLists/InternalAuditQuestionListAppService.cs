@@ -231,8 +231,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
             int totalCount = 0;
             var Question = _InternalAuditQuestionRepository.Where(t => t.FrameworkId == input.FrameworkId).ToList();
             var Questions = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(Question);
-            var ListQuestion = _internalAuditQuestionListRepository.Where(x => x.Id == input.FrameworkId).ToList();
-            totalCount = ListQuestion.Count;
+            totalCount = Questions.Count;
 
             if (!string.IsNullOrEmpty(input.Sorting))
             {
