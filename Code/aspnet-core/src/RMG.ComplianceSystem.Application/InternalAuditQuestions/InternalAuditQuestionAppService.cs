@@ -93,6 +93,14 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
             );
         }
 
+
+        public async Task<InternalAuditQuestionDto> GetQuestionByIdAsync(Guid Id)
+        {
+            var ListQuestions = InternalAuditQuestionRepository.FirstOrDefault(x =>x.Id==Id);
+            var Questions = ObjectMapper.Map<InternalAuditQuestion, InternalAuditQuestionDto>(ListQuestions);
+            return Questions;
+        }
+
         #endregion
 
 
