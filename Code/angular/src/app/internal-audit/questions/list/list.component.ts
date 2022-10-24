@@ -38,6 +38,7 @@ export class ListComponent implements OnInit {
   getList(search = null) {
     const streamCreator = (query) => this.internalAuditQuestionsService.getListByFilter({ ...query, Search: search });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
+      debugger;
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(response);
@@ -77,7 +78,6 @@ export class ListComponent implements OnInit {
 
   save() {
     if (this.form.invalid) return;
-
     const request = this.selected?.id
       ? this.internalAuditQuestionsService.update(this.selected.id, this.form.value)
       : this.internalAuditQuestionsService.create(this.form.value);

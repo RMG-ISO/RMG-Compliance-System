@@ -37,6 +37,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
     {
         public ControlDto MainControl { get; set; }
         public List<SubControlsDto> subControl { get; set; }
+        public AssessmentDto AssessmentDto { get; set; }
     }
     public class SubControlsDto
     {

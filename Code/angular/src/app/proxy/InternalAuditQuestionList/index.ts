@@ -1,3 +1,3 @@
 import * as Dtos from './dtos';
-export * from './InternalAuditQuestions.service';
+export * from './InternalAuditQuestionList.service';
 export { Dtos };

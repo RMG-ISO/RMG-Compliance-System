@@ -37,7 +37,7 @@ export class CreateComponent implements OnInit {
     this.form = new FormGroup({
       menuTextAr:new FormControl(null, Validators.required),
       menuTextEn:new FormControl(null, Validators.required),
-      isEditable:new FormControl(true, Validators.required),
+      isEditable:new FormControl(true),
       frameworkId:new FormControl(null, Validators.required),
       questionsIds:new FormControl(null, Validators.required),
       id:new FormControl(null),
@@ -67,11 +67,13 @@ export class CreateComponent implements OnInit {
   }
 
   frameworkChanged(id) {
+    debugger;
     let filter = {maxResultCount:null, FrameworkId:id};
     this.selected = [];
     this.form.controls.questionsIds.setValue(null);
     const streamCreator = (query) => this.internalAuditChecklistService.getQuestionByFramework({ ...query, ...filter });
       this.list.hookToQuery(streamCreator).subscribe(r => {
+        debugger;
       this.items = r.items;
       this.totalCount = r.totalCount;
     })
@@ -83,7 +85,7 @@ export class CreateComponent implements OnInit {
   onSelect({ selected }) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
-    
+
     let ids = this.selected.map(x => x.id);
 
     this.form.controls.questionsIds.setValue(ids.length ? ids : null)

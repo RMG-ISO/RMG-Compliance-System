@@ -22,12 +22,12 @@ export interface InternalAuditMenuQuestionDto extends FullAuditedEntityWithUserD
 
 
 export interface InternalAuditQuestionListPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
-  Search?: string;
+  search?: string;
  InternalAuditMenuQuestionId?: string;
  InternalAuditQuestionId ?: string;
 }
 export interface InternalAuditMenuQuestionPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
-  Search?: string;
+  search?: string;
   FrameworkId?: string;
 }
 
