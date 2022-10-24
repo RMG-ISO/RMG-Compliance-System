@@ -43,28 +43,49 @@ export class CreateComponent implements OnInit {
       id:new FormControl(null),
     });
 
-    this.frameworkService.getList({maxResultCount:null}).subscribe(result => this.frameworks = result.items);
-
     this.mode = this.activatedRoute.snapshot.data.mode;
     this.id = this.activatedRoute.snapshot.params.id
+
+    this.frameworkService.getList({maxResultCount:null}).subscribe(result => {
+      this.frameworks = result.items;
+    });
+
     if(this.id) {
       this.internalAuditChecklistService.get(this.id).subscribe(response => {
-        console.log('response', response);
         this.form.patchValue(response);
-        let questionsIds = response['internalAuditQuestions'].map(x => {
-          this.selectedIds[x.id] = true;
-          return x.id;
+
+        //remove this tomorrow
+        this.internalAuditChecklistService.getQuestionByID({InternalAuditMenuQuestionId:this.id, maxResultCount:null}).subscribe(questions => {
+          let questionsIds = questions.items.map(x => {
+            this.selectedIds[x.id] = true;
+            return x.id;
+          });
+
+          this.form.controls.questionsIds.setValue(questionsIds.length ? questionsIds : null);
+          this.internalAuditChecklistService.getQuestionByFramework({FrameworkId:response['frameworkId'], maxResultCount:null}).subscribe( r => {
+            this.items = r.items;
+            this.totalCount = r.totalCount;
+            let selected = [];
+            for(let frame of r.items) if(this.selectedIds[frame.id]) selected.push(frame);
+            this.selected = selected;
+          })
         })
-        this.form.controls.questionsIds.setValue(questionsIds.length ? questionsIds : null);
-        this.internalAuditChecklistService.getQuestionByFramework(response['frameworkId']).subscribe( r => {
-          this.items = r.items;
-          this.totalCount = r.totalCount;
-          let selected = [];
-          for(let frame of r.items) if(this.selectedIds[frame.id]) selected.push(frame);
-          this.selected = selected;
-        })
+
+        // let questionsIds = response['internalAuditQuestions'].map(x => {
+        //   this.selectedIds[x.id] = true;
+        //   return x.id;
+        // })
+        // this.form.controls.questionsIds.setValue(questionsIds.length ? questionsIds : null);
+        // this.internalAuditChecklistService.getQuestionByFramework({FrameworkId:response['frameworkId'], maxResultCount:null}).subscribe( r => {
+        //   this.items = r.items;
+        //   this.totalCount = r.totalCount;
+        //   let selected = [];
+        //   for(let frame of r.items) if(this.selectedIds[frame.id]) selected.push(frame);
+        //   this.selected = selected;
+        // })
       })
     }
+    
   }
 
   frameworkChanged(id) {
