@@ -27,7 +27,7 @@ export class InternalAuditChecklistService {
   get = (id: string) =>
     this.restService.request<any, InternalAuditMenuQuestionDto>({
       method: 'GET',
-      url: `/api/app/internal-audit-question-list/${id}`,
+      url: `/api/app/internal-audit-question-list/menu-question-by-id/${id}`,
     },
     { apiName: this.apiName });
 
