@@ -8,6 +8,9 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Identity;
 using RMG.ComplianceSystem.StaticData;
+using RMG.ComplianceSystem.Frameworks.Dtos;
+using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.InternalAuditQuestionLists;
 
 namespace RMG.ComplianceSystem.InternalAuditQuestions
 {
@@ -23,22 +26,26 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
     {
         //   Start Permissions
         #region Start Permissions
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Delete;
+        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
+        //protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
+        //protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Create;
+        //protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Update;
+        //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Delete;
         #endregion
         // End Permissions
         //Start Properties and Constructor InternalAuditQuestionAppService
         #region Start Properties and Constructor InternalAuditQuestionAppService
         private readonly IInternalAuditQuestionRepository InternalAuditQuestionRepository;
+        private readonly IInternalAuditQuestionListRepository _internalAuditQuestionListRepository;
         private readonly IdentityUserManager User;
+        private readonly IFrameworkRepository _FrameworkRepository;
 
-        public InternalAuditQuestionAppService(IdentityUserManager _User, IInternalAuditQuestionRepository _InternalAuditQuestionRepository) : base(_InternalAuditQuestionRepository)
+        public InternalAuditQuestionAppService(IdentityUserManager _User, IInternalAuditQuestionListRepository internalAuditQuestionListRepository, IFrameworkRepository FrameworkRepository, IInternalAuditQuestionRepository _InternalAuditQuestionRepository) : base(_InternalAuditQuestionRepository)
         {
             InternalAuditQuestionRepository = _InternalAuditQuestionRepository;
             User = _User;
+            _FrameworkRepository= FrameworkRepository;
+            _internalAuditQuestionListRepository = internalAuditQuestionListRepository;
         }
         #endregion
         //End Properties and Constructor InternalAuditQuestionAppService
@@ -54,7 +61,27 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
              var Questions = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(ListQuestions);
              var ListQuestion = InternalAuditQuestionRepository.ToList();
                 totalCount = ListQuestion.Count;
-           
+            foreach (var item in Questions)
+            {
+
+                if (item.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)item.CreatorId).Result;
+                    item.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (item.FrameworkId != null)
+                {
+                    var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
+                    item.Framework = ObjectMapper.Map<Framework, FrameworkDto>(Framework);
+                }
+                if (item.Id != null)
+                {
+                    var QuestionIsUsed = _internalAuditQuestionListRepository.FirstOrDefault(t => t.InternalAuditQuestionId == item.Id);
+                    if (QuestionIsUsed != null) { item.CanDelete = false; }
+                    else { item.CanDelete = true; } 
+                }
+
+            }
             if (!string.IsNullOrEmpty(input.Sorting))
             {
                 var propertyInfo = typeof(InternalAuditQuestionDto).GetProperty(input.Sorting);

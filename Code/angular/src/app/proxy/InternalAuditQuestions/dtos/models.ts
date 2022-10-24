@@ -16,6 +16,7 @@ export interface InternalAuditQuestionDto extends FullAuditedEntityWithUserDto<I
   QuestionTextAr?: string;
   QuestionExplainEn?:string;
   QuestionExplainAr?:string;
+  CanDelete?:boolean;
 }
 
 export interface InternalAuditQuestionPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

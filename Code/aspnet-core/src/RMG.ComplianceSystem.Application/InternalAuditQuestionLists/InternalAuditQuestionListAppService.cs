@@ -11,6 +11,10 @@ using RMG.ComplianceSystem.InternalAuditMenuQuestions;
 using RMG.ComplianceSystem.InternalAuditQuestionLists.Footer.Dto;
 using RMG.ComplianceSystem.InternalAuditQuestions;
 using Volo.Abp.ObjectMapping;
+using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Frameworks.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Volo.Abp;
 
 namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 {
@@ -39,17 +43,17 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         private readonly IInternalAuditMenuQuestionRepository InternalAuditMenuQuestionRepository;
         private readonly IInternalAuditQuestionRepository _InternalAuditQuestionRepository;
         private readonly IInternalAuditQuestionListRepository _internalAuditQuestionListRepository;
-        private readonly IInternalAuditQuestionListManager _internalAuditQuestionListManager;
+        private readonly IFrameworkRepository _FrameworkRepository;
 
         private readonly IdentityUserManager User;
 
-        public InternalAuditQuestionListAppService(IdentityUserManager _User, IInternalAuditQuestionRepository internalAuditQuestionRepository, IInternalAuditQuestionListManager internalAuditQuestionListManager, IInternalAuditQuestionListRepository InternalAuditQuestionListRepository, IInternalAuditMenuQuestionRepository _InternalAuditMenuQuestionRepository) : base(_InternalAuditMenuQuestionRepository)
+        public InternalAuditQuestionListAppService(IdentityUserManager _User, IFrameworkRepository FrameworkRepository, IInternalAuditQuestionRepository internalAuditQuestionRepository, IInternalAuditQuestionListRepository InternalAuditQuestionListRepository, IInternalAuditMenuQuestionRepository _InternalAuditMenuQuestionRepository) : base(_InternalAuditMenuQuestionRepository)
         {
             InternalAuditMenuQuestionRepository = _InternalAuditMenuQuestionRepository;
             _internalAuditQuestionListRepository = InternalAuditQuestionListRepository;
-            _internalAuditQuestionListManager = internalAuditQuestionListManager;
             _InternalAuditQuestionRepository = internalAuditQuestionRepository;
             User = _User;
+            _FrameworkRepository = FrameworkRepository;
         }
         #endregion
         //End Properties and Constructor InternalAuditMenuQuestionAppService
@@ -70,7 +74,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
                 List<InternalAuditQuestionList> ModelList = new List<InternalAuditQuestionList>();
                 foreach (var question in input.QuestionsIds)
                 {
-                    var internalAuditQuestionList = new InternalAuditQuestionList(entity.Id, question);
+                    var internalAuditQuestionList = new InternalAuditQuestionList(question, entity.Id);
                     ModelList.Add(internalAuditQuestionList);
                 }
                 await _internalAuditQuestionListRepository.InsertManyAsync(ModelList, autoSave: true);
@@ -88,7 +92,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         /// <returns></returns>
         public override async Task<InternalAuditMenuQuestionDto> UpdateAsync(Guid id, CreateUpdateInternalAuditMenuQuestionDto input)
         {
-            await _internalAuditQuestionListManager.CanUpdate(id);
+            // await _internalAuditQuestionListManager.CanUpdate(id);
             var entity = await GetEntityByIdAsync(id);
 
             await MapToEntityAsync(input, entity);
@@ -108,7 +112,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
                 List<InternalAuditQuestionList> ModelList = new List<InternalAuditQuestionList>();
                 foreach (var question in input.QuestionsIds)
                 {
-                    var internalAuditQuestionList = new InternalAuditQuestionList(entity.Id, question);
+                    var internalAuditQuestionList = new InternalAuditQuestionList(question, entity.Id);
                     ModelList.Add(internalAuditQuestionList);
                 }
                 await _internalAuditQuestionListRepository.InsertManyAsync(ModelList, autoSave: true);
@@ -123,6 +127,28 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 
             return await MapToGetOutputDtoAsync(questionList);
         }
+
+       
+        public override async Task DeleteAsync(Guid id)
+        {
+            var entity = await GetEntityByIdAsync(id);
+
+         await Repository.DeleteAsync(entity, autoSave: true);
+
+            #region [Deleted Questions]
+
+            var quesList = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
+                foreach (var question in quesList)
+                {
+
+                    await _internalAuditQuestionListRepository.DeleteAsync(question.Id, autoSave: true);
+                }
+
+            #endregion
+        }
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -136,6 +162,22 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
                      (x.MenuTextEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var Questions = ObjectMapper.Map<List<InternalAuditMenuQuestion>, List<InternalAuditMenuQuestionDto>>(ListQuestions);
+            foreach (var item in Questions)
+            {
+
+                if (item.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)item.CreatorId).Result;
+                    item.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (item.FrameworkId != null)
+                {
+                    var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
+                    item.Framework = ObjectMapper.Map<Framework, FrameworkDto>(Framework);
+                }
+
+            }
+
             var ListQuestion = InternalAuditMenuQuestionRepository.ToList();
             totalCount = ListQuestion.Count;
 
@@ -157,7 +199,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByIdAsync(InternalAuditQuestionListPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListQuestions = _internalAuditQuestionListRepository.Where(x => x.Id == input.InternalAuditMenuQuestionId).ToList();
+            var ListQuestions = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == input.InternalAuditMenuQuestionId).ToList();
             var Questions = new List<InternalAuditQuestionDto>();
             foreach (var item in ListQuestions)
             {
@@ -187,7 +229,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByFrameworkAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var Question = _InternalAuditQuestionRepository.Where(t => t.Id == input.FrameworkId).ToList();
+            var Question = _InternalAuditQuestionRepository.Where(t => t.FrameworkId == input.FrameworkId).ToList();
             var Questions = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(Question);
             var ListQuestion = _internalAuditQuestionListRepository.Where(x => x.Id == input.FrameworkId).ToList();
             totalCount = ListQuestion.Count;

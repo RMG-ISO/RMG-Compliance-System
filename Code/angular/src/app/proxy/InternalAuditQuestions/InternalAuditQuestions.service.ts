@@ -45,7 +45,7 @@ export class InternalAuditQuestionsService {
     getList = (input: InternalAuditQuestionPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<InternalAuditQuestionDto>>({
       method: 'GET',
-      url: '/api/app/internal-audit-question',
+      url: '/api/app/internal-audit-question/question-by-filter',
       params: {Search:input.Search, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount, FrameworkId: input['FrameworkId'] },
     },
     { apiName: this.apiName });

@@ -97,12 +97,31 @@ namespace RMG.ComplianceSystem.Frameworks
                                 var maincontrol = new MainControlsDto();
                                 maincontrol.MainControl = ObjectMapper.Map<Control, ControlDto>(control);
                                 var Ctrols = new List<SubControlsDto>();
+                                var maincontrolassesment = _assessmentRepository.FirstOrDefault(u => u.ControlId == control.Id);
+                                maincontrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(maincontrolassesment);
+                                if (maincontrolassesment != null)
+                                {
+                                    if (maincontrolassesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel1)
+                                        MainDomainsDto.LevelOne += 1;
+                                    if (maincontrolassesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel2)
+                                        MainDomainsDto.LevelTwo += 1;
+                                    if (maincontrolassesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel3)
+                                        MainDomainsDto.LevelThree += 1;
+                                    if (maincontrolassesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel4)
+                                        MainDomainsDto.Levelfour += 1;
+                                    if (maincontrolassesment.ComplianceLevel == ComplianceLevelType.ComplianceLevel5)
+                                        MainDomainsDto.LevelFive += 1;
+                                    if (maincontrolassesment.Applicable == ApplicableType.Applicable)
+                                        FrameworkDt.TotalApplicable += 1;
+                                    if (maincontrolassesment.Applicable == ApplicableType.NotApplicable)
+                                        FrameworkDt.TotalNotApplicable += 1;
+                                }
                                 if (control.Children != null)
                                     foreach (var ctrl in control.Children)
                                     {
                                         var Ctrol = new SubControlsDto();
                                         Ctrol.subControl = ObjectMapper.Map<Control, ControlDto>(ctrl);
-                                        var assesment = _assessmentRepository.Where(u => u.ControlId == ctrl.Id).FirstOrDefault();
+                                        var assesment = _assessmentRepository.FirstOrDefault(u => u.ControlId == ctrl.Id);
                                         Ctrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(assesment);
                                         if (assesment != null)
                                         {

@@ -14,6 +14,7 @@ namespace RMG.ComplianceSystem.InternalAuditMenuQuestions
          Guid, //Primary key of the book entity
          InternalAuditMenuQuestionPagedAndSortedResultRequestDto, //Used for paging/sorting
          CreateUpdateInternalAuditMenuQuestionDto> //Used to create/update a book
+
     {
         Task<PagedResultDto<InternalAuditMenuQuestionDto>> GetListQuestionByFilterAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input);
         Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByIdAsync(InternalAuditQuestionListPagedAndSortedResultRequestDto input);
