@@ -27,9 +27,10 @@ export class InternalAuditQuestionsService {
   get = (id: string) =>
     this.restService.request<any, InternalAuditQuestionDto>({
       method: 'GET',
-      url: `/api/app/internal-audit-question/question-by-id/${id}`,
+      url: `/api/app/internal-audit-question/${id}`,
     },
     { apiName: this.apiName });
+
 
 
 

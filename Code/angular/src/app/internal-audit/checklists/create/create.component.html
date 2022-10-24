@@ -10,16 +10,16 @@
         <mat-card-content>
             <div class="row">
                 <div class="col-md-6 form-group">
-                    <label for="">
+                    <label for="CheckListNameAr">
                         {{ '::CheckListNameAr' | abpLocalization }}
                     </label>
-                    <input class="form-control" formControlName="menuTextAr">
+                    <input id="CheckListNameAr" class="form-control" formControlName="menuTextAr">
                 </div>
                 <div class="col-md-6 form-group">
-                    <label for="">
+                    <label for="CheckListNameEn">
                         {{ '::CheckListNameEn' | abpLocalization }}
                     </label>
-                    <input class="form-control" formControlName="menuTextEn">
+                    <input id="CheckListNameEn" class="form-control" formControlName="menuTextEn">
                 </div>
                 <div class="col-md-12 form-group">
                     <label for="">
@@ -36,8 +36,8 @@
                     <label for="">
                         {{ '::CheckListQuestions' | abpLocalization }}
                     </label>
+                    
                     <ngx-datatable
-
                     class="material fullscreen"
                     columnMode="force"
                     [headerHeight]="50"
@@ -53,9 +53,7 @@
                     selectionType="checkbox"
                     [selectAllRowsOnPage]="false"
                     (select)="onSelect($event)"
-
                     appNgxdatatable
-
                     >
                         <ngx-datatable-column
                         [width]="100"
