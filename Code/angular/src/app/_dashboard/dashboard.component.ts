@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-debugger;
+ 
     this.signalrService.initiateSignalrConnection().then(x => {
       this.signalrService.connection.on('RisksOpportunities', (result: any) => {
         console.log("RisksOpportunities",result);
@@ -72,11 +72,11 @@ getPotentialsLevels(){
     [{likelihood:1,impact:1,Potential:1,levelNum:0,levelEn:'very Low',levelAr:'ضعيف جدا'},{likelihood:1,impact:2,Potential:2,levelNum:1,levelEn:'Low',levelAr:'ضعيف'},{likelihood:1,impact:3,Potential:3,levelNum:1,levelEn:'Low',levelAr:'ضعيف'},{likelihood:1,impact:4,Potential:4,levelNum:2,levelEn:'Medium',levelAr:'متوسط'}],);
 
   this.itemsRisk.forEach((item,i)=>{
-debugger;
+ 
 let levelVeryHigh=this.potentials.filter(t=>t.levelNum==4&&t.Potential==item.potential&&t.likelihood==item.likelihood&&t.impact==item.impact);
   if(levelVeryHigh.length>0)
   {
-    debugger;
+     
     this.VeryHigh.push({levelEn:levelVeryHigh.pop().levelEn,levelAr:levelVeryHigh.pop().levelAr})
   }
 

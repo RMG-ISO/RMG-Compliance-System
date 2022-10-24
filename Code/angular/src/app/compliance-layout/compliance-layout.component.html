@@ -20,7 +20,8 @@
 
       <div>
         <button *ngIf="drawer" (click)="drawer.toggle()" mat-button class="menu-button">
-          <img src="assets/icons/bars.svg" alt="">
+          <!-- <img src="assets/icons/bars.svg" alt=""> -->
+          <i class="fa-solid fa-bars"></i>
         </button>
 
         <ng-container *ngIf="!drawer || !drawer.opened" >

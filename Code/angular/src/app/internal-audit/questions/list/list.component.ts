@@ -38,7 +38,7 @@ export class ListComponent implements OnInit {
   getList(search = null) {
     const streamCreator = (query) => this.internalAuditQuestionsService.getListByFilter({ ...query, Search: search });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
-      debugger;
+       
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(response);

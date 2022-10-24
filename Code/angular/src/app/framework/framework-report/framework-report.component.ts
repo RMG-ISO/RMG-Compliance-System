@@ -71,6 +71,15 @@ export class FrameworkReportComponent implements OnInit {
   loopOnDomain(main, frameworkDto) {
     for(let subDomain of main.childrenDomains) {
       for(let mainControl of subDomain.childrenControls) {
+        // if(this.complianceLevel && this.complianceLevel != mainControl?.assessmentDto?.complianceLevel) {
+        // } else {
+        //   let main = {...mainControl.mainControl}
+        //   main.frameworkDto = frameworkDto;
+        //   main.mainDomain = main.maindomain
+        //   main.subDomain = subDomain.subdomain
+        //   main.mainControl = mainControl.mainControl;
+        //   this.items.push(sub);
+        // }
         for(let subControl of mainControl.subControl) {
           // if( == 'maturityLevel' )
           if(this.complianceLevel && this.complianceLevel != subControl?.assessmentDto?.complianceLevel) {
