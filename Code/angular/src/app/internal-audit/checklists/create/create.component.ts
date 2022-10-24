@@ -49,6 +49,7 @@ export class CreateComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.params.id
     if(this.id) {
       this.internalAuditChecklistService.get(this.id).subscribe(response => {
+        console.log('response', response);
         this.form.patchValue(response);
         let questionsIds = response['internalAuditQuestions'].map(x => {
           this.selectedIds[x.id] = true;
@@ -67,15 +68,14 @@ export class CreateComponent implements OnInit {
   }
 
   frameworkChanged(id) {
-    debugger;
     let filter = {maxResultCount:null, FrameworkId:id};
     this.selected = [];
     this.form.controls.questionsIds.setValue(null);
     const streamCreator = (query) => this.internalAuditChecklistService.getQuestionByFramework({ ...query, ...filter });
-      this.list.hookToQuery(streamCreator).subscribe(r => {
-        debugger;
+    this.list.hookToQuery(streamCreator).subscribe(r => {
       this.items = r.items;
-      this.totalCount = r.totalCount;
+      // this.totalCount = r.totalCount;
+      this.totalCount = r.items.length;
     })
   }
 
@@ -87,7 +87,6 @@ export class CreateComponent implements OnInit {
     this.selected.push(...selected);
 
     let ids = this.selected.map(x => x.id);
-
     this.form.controls.questionsIds.setValue(ids.length ? ids : null)
   }
 
