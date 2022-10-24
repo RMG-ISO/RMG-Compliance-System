@@ -47,10 +47,11 @@
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false"cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button *ngIf="row.canDelete" mat-button color="warn"
-                        (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon>delete_forever</mat-icon>
-                    </button>
+                    <ng-container *ngIf="row.canDelete">
+                        <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                            <mat-icon>delete_forever</mat-icon>
+                        </button>
+                    </ng-container>
 
                     <button mat-button (click)="$event.stopPropagation();openDialog(row)">
                         <mat-icon>edit</mat-icon>
@@ -72,34 +73,34 @@
         <form [formGroup]="form" (ngSubmit)="save()">
             <div class="row">
                 <div class="col-md-6 form-group">
-                    <label for="">
+                    <label for="questionTextAr">
                         {{ '::QuestionTextAr' | abpLocalization }}
                     </label>
-                    <input class="form-control" formControlName="questionTextAr">
+                    <input id="questionTextAr" class="form-control" formControlName="questionTextAr">
                 </div>
                 <div class="col-md-6 form-group">
-                    <label for="">
+                    <label for="QuestionTextEn">
                         {{ '::QuestionTextEn' | abpLocalization }}
                     </label>
-                    <input class="form-control" formControlName="questionTextEn">
+                    <input id="QuestionTextEn" class="form-control" formControlName="questionTextEn">
                 </div>
                 <div class="col-md-12 form-group">
-                    <label for="">
+                    <label for="QuestionExplainAr">
                         {{ '::QuestionExplainAr' | abpLocalization }}
                     </label>
-                    <textarea class="form-control" formControlName="questionExplainAr"></textarea>
+                    <textarea id="QuestionExplainAr" class="form-control" formControlName="questionExplainAr"></textarea>
                 </div>
                 <div class="col-md-12 form-group">
-                    <label for="">
+                    <label for="QuestionExplainEn">
                         {{ '::QuestionExplainEn' | abpLocalization }}
                     </label>
-                    <textarea class="form-control" formControlName="questionExplainEn"></textarea>
+                    <textarea id="QuestionExplainEn" class="form-control" formControlName="questionExplainEn"></textarea>
                 </div>
                 <div class="col-md-12">
-                    <label for="">
+                    <label for="FrameworkName">
                         {{ '::FrameworkName' | abpLocalization }}
                     </label>
-                    <ng-select appendTo="body" formControlName="frameworkId">
+                    <ng-select id="FrameworkName" appendTo="body" formControlName="frameworkId">
                         <ng-option *ngFor="let frame of frameworks" [value]="frame.id">
                             {{ frame | lang:'name' }}
                         </ng-option>

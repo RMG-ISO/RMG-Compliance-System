@@ -127,7 +127,7 @@ export class MatrixComponent implements OnInit, OnChanges {
   }
 
   setValue(likelihood: any, impact: any, potential: any) {
-    // debugger;
+    //  
     if (this.view) return;
     this.form.patchValue({
       likelihood: likelihood,
