@@ -26,7 +26,7 @@ export class FrameworkReportComponent implements OnInit {
     private excelService:ExcelService,
   ) { }
 
-  items = [];
+  // items = [];
 
   totalCount;
   excelRows = [];
@@ -61,7 +61,7 @@ export class FrameworkReportComponent implements OnInit {
         })
       
         // this.loopOnDomain(main, r['frameworkDto']);
-        console.log(this.items);
+        // console.log(this.items);
         console.log(this.excelRows)
       }
     })
@@ -70,29 +70,49 @@ export class FrameworkReportComponent implements OnInit {
 
   loopOnDomain(main, frameworkDto) {
     for(let subDomain of main.childrenDomains) {
+      let mainControlPushd = {};
       for(let mainControl of subDomain.childrenControls) {
-        // if(this.complianceLevel && this.complianceLevel != mainControl?.assessmentDto?.complianceLevel) {
-        // } else {
-        //   let main = {...mainControl.mainControl}
-        //   main.frameworkDto = frameworkDto;
-        //   main.mainDomain = main.maindomain
-        //   main.subDomain = subDomain.subdomain
-        //   main.mainControl = mainControl.mainControl;
-        //   this.items.push(sub);
-        // }
+        if(this.complianceLevel && this.complianceLevel != mainControl?.assessmentDto?.complianceLevel) {
+        } else {
+          if(mainControl.assessmentDto && !mainControlPushd[mainControl.mainControl.id]) {
+            console.log('main controls', mainControl)
+            // let main = {...mainControl.mainControl}
+            // main.frameworkDto = frameworkDto;
+            // main.mainDomain = main.maindomain
+            // main.subDomain = subDomain.subdomain
+            // main.mainControl = mainControl.mainControl;
+            // this.items.push(main);
+
+            this.excelRows.push([
+              this.langPipe.transform(frameworkDto, 'name'),
+              this.langPipe.transform(main.maindomain, 'name'),
+              this.langPipe.transform(subDomain.subdomain, 'name'),
+              this.langPipe.transform(mainControl.mainControl, 'name'),
+              '-',
+              mainControl.assessmentDto && mainControl.assessmentDto.applicable
+                ? this.localizationService.instant(
+                    '::Enum:ApplicableType:' + mainControl.assessmentDto.applicable
+                  )
+                : '-',
+                mainControl.assessmentDto ? mainControl.assessmentDto.complianceLevel : '-',
+            ]);
+            mainControlPushd[mainControl.mainControl.id] = true;
+            console.log('main contorls pushed', mainControlPushd)
+          }
+        }
         for(let subControl of mainControl.subControl) {
           // if( == 'maturityLevel' )
           if(this.complianceLevel && this.complianceLevel != subControl?.assessmentDto?.complianceLevel) {
             console.log('continuing');
             continue;
           }
-          let sub = {...subControl}
-          sub.frameworkDto = frameworkDto;
-          sub.mainDomain = main.maindomain
-          sub.subDomain = subDomain.subdomain
-          sub.mainControl = mainControl.mainControl
+          // let sub = {...subControl}
+          // sub.frameworkDto = frameworkDto;
+          // sub.mainDomain = main.maindomain
+          // sub.subDomain = subDomain.subdomain
+          // sub.mainControl = mainControl.mainControl
           // sub.assessmentDto = subControl.assessmentDto;
-          this.items.push(sub);
+          // this.items.push(sub);
           this.excelRows.push([
             this.langPipe.transform(frameworkDto, 'name'),
             this.langPipe.transform(main.maindomain, 'name'),
@@ -112,11 +132,6 @@ export class FrameworkReportComponent implements OnInit {
   }
 
   exportexcel() {
-    // let title = this.departmentName;
-    // if(!this.departmentName) {
-    //   title = `${ this.localizationService.instant(this.activeTabName + 'Potential')} - ${ this.localizationService.instant('::' + this.period) }`
-    // }
-    // this.excelService.generateExcel(title, this.activeTabName, this.rows)
     this.excelService.generateFrameWorkExcel(this.excelRows, this.excelHeader, this.excelRows[0][0] + ' - ' + this.excelRows[0][1])
   }
 

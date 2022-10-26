@@ -9,8 +9,7 @@
         </button>
     </mat-card-title>
     <mat-card-content>
-       
-        <ngx-datatable class="material fullscreen"
+        <ngx-datatable 
         class="material fullscreen"
         columnMode="force"
         [headerHeight]="50"
@@ -23,63 +22,21 @@
         appNgxdatatable
         >
 
-        <!-- <ngx-datatable-column [name]="'::FrameworkName' | abpLocalization" prop="frameworkDto">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value | lang:'name' }}
-            </ng-template>
-        </ngx-datatable-column>
-       
-        <ngx-datatable-column [name]="'::MainDomainName' | abpLocalization" prop="mainDomain">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value | lang:'name' }}
-            </ng-template>
-        </ngx-datatable-column>
-     
-        <ngx-datatable-column [name]="'::SubDomainName' | abpLocalization" prop="subDomain">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value | lang:'name' }}
-            </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::MainControlName' | abpLocalization" prop="mainControl">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value | lang:'name' }}
-            </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::SubControlName' | abpLocalization" prop="subControl">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value | lang:'name' }}
-            </ng-template>
-        </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::FrameworkName' | abpLocalization" prop="0"></ngx-datatable-column>
         
-        <ngx-datatable-column [name]="'::AssessmentApplicable' | abpLocalization" prop="assessmentDto">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ ( '::Enum:ApplicableType:' + value.applicable ) | abpLocalization }}
-            </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::AssessmentComplianceLevel' | abpLocalization" prop="assessmentDto">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{ value.complianceLevel }}
-            </ng-template>
-        </ngx-datatable-column> -->
-       
-        <ngx-datatable-column [name]="'::FrameworkName' | abpLocalization" prop="0"></ngx-datatable-column>
-       
-        <ngx-datatable-column [name]="'::MainDomainName' | abpLocalization" prop="1"></ngx-datatable-column>
-     
-        <ngx-datatable-column [name]="'::SubDomainName' | abpLocalization" prop="2"></ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::MainControlName' | abpLocalization" prop="3"></ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'::SubControlName' | abpLocalization" prop="4"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::MainDomainName' | abpLocalization" prop="1"></ngx-datatable-column>
         
-        <ngx-datatable-column [name]="'::AssessmentApplicable' | abpLocalization" prop="5"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::SubDomainName' | abpLocalization" prop="2"></ngx-datatable-column>
 
-        <ngx-datatable-column [name]="'::AssessmentComplianceLevel' | abpLocalization" prop="6"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::MainControlName' | abpLocalization" prop="3"></ngx-datatable-column>
 
-    </ngx-datatable>
+            <ngx-datatable-column [name]="'::SubControlName' | abpLocalization" prop="4"></ngx-datatable-column>
+            
+            <ngx-datatable-column [name]="'::AssessmentApplicable' | abpLocalization" prop="5"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::AssessmentComplianceLevel' | abpLocalization" prop="6"></ngx-datatable-column>
+
+        </ngx-datatable>
 
     </mat-card-content>
 </mat-card>
