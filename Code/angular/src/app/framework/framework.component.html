@@ -57,7 +57,13 @@
             </div>
         </div>
 
-        <ngx-datatable [class.hide-content]="visibleContent === 'cards'" class="material fullscreen"  [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable
+        <ngx-datatable
+        [class.hide-content]="visibleContent === 'cards'"
+        class="material fullscreen"
+        [rows]="items"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
             (activate)="activate($event)">
 
             <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>

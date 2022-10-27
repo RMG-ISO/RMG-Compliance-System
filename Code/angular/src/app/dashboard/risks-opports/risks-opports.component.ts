@@ -133,8 +133,9 @@ export class RisksOpportsComponent implements OnInit {
         { value: response.reEvaluationVeryHigh, id: '12' },
       ];
 
-      this.createPotentialChart(key + 'TreatmentPotentialsBefore' , riskitem        , type == 'risks' ? '::Risk:Potential' : '::Opportunity:Potential', type , 'BeforeMitigation');
-      this.createPotentialChart(key + 'TreatmentPotentialsAfter' , reEvaluationitem, type == 'risks' ? '::Risk:Potential' : '::Opportunity:Potential', type , 'AfterMitigation');
+      console.log('typeeee', type);
+      this.createPotentialChart(key + 'TreatmentPotentialsBefore' , riskitem        , key == 'risks' ? '::Risk:Potential' : '::Opportunity:Potential', type , 'BeforeMitigation');
+      this.createPotentialChart(key + 'TreatmentPotentialsAfter' , reEvaluationitem, key == 'risks' ? '::Risk:Potential' : '::Opportunity:Potential', type , 'AfterMitigation');
     });
   }
 
