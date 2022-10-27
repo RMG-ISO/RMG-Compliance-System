@@ -100,32 +100,34 @@ export class FrameworkReportComponent implements OnInit {
             console.log('main contorls pushed', mainControlPushd)
           }
         }
-        for(let subControl of mainControl.subControl) {
-          // if( == 'maturityLevel' )
-          if(this.complianceLevel && this.complianceLevel != subControl?.assessmentDto?.complianceLevel) {
-            console.log('continuing');
-            continue;
+        if(!mainControl.assessmentDto) {
+          for(let subControl of mainControl.subControl) {
+            // if( == 'maturityLevel' )
+            if(this.complianceLevel && this.complianceLevel != subControl?.assessmentDto?.complianceLevel) {
+              console.log('continuing');
+              continue;
+            }
+            // let sub = {...subControl}
+            // sub.frameworkDto = frameworkDto;
+            // sub.mainDomain = main.maindomain
+            // sub.subDomain = subDomain.subdomain
+            // sub.mainControl = mainControl.mainControl
+            // sub.assessmentDto = subControl.assessmentDto;
+            // this.items.push(sub);
+            this.excelRows.push([
+              this.langPipe.transform(frameworkDto, 'name'),
+              this.langPipe.transform(main.maindomain, 'name'),
+              this.langPipe.transform(subDomain.subdomain, 'name'),
+              this.langPipe.transform(mainControl.mainControl, 'name'),
+              this.langPipe.transform(subControl.subControl, 'name'),
+              subControl.assessmentDto && subControl.assessmentDto.applicable
+                ? this.localizationService.instant(
+                    '::Enum:ApplicableType:' + subControl.assessmentDto.applicable
+                  )
+                : '-',
+              subControl.assessmentDto ? subControl.assessmentDto.complianceLevel : '-',
+            ]);
           }
-          // let sub = {...subControl}
-          // sub.frameworkDto = frameworkDto;
-          // sub.mainDomain = main.maindomain
-          // sub.subDomain = subDomain.subdomain
-          // sub.mainControl = mainControl.mainControl
-          // sub.assessmentDto = subControl.assessmentDto;
-          // this.items.push(sub);
-          this.excelRows.push([
-            this.langPipe.transform(frameworkDto, 'name'),
-            this.langPipe.transform(main.maindomain, 'name'),
-            this.langPipe.transform(subDomain.subdomain, 'name'),
-            this.langPipe.transform(mainControl.mainControl, 'name'),
-            this.langPipe.transform(subControl.subControl, 'name'),
-            subControl.assessmentDto && subControl.assessmentDto.applicable
-              ? this.localizationService.instant(
-                  '::Enum:ApplicableType:' + subControl.assessmentDto.applicable
-                )
-              : '-',
-            subControl.assessmentDto ? subControl.assessmentDto.complianceLevel : '-',
-          ]);
         }
       }
     }
