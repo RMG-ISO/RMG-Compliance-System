@@ -97,6 +97,8 @@ namespace RMG.ComplianceSystem.Frameworks
                                 var maincontrol = new MainControlsDto();
                                 maincontrol.MainControl = ObjectMapper.Map<Control, ControlDto>(control);
                                 var Ctrols = new List<SubControlsDto>();
+                                if(control.Children == null)
+                                { 
                                 var maincontrolassesment = _assessmentRepository.FirstOrDefault(u => u.ControlId == control.Id);
                                 maincontrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(maincontrolassesment);
                                 if (maincontrolassesment != null)
@@ -115,6 +117,7 @@ namespace RMG.ComplianceSystem.Frameworks
                                         FrameworkDt.TotalApplicable += 1;
                                     if (maincontrolassesment.Applicable == ApplicableType.NotApplicable)
                                         FrameworkDt.TotalNotApplicable += 1;
+                                }
                                 }
                                 if (control.Children != null)
                                     foreach (var ctrl in control.Children)
