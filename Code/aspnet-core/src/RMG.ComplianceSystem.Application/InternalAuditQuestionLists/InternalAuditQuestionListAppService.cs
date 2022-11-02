@@ -200,11 +200,22 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         {
             int totalCount = 0;
             var ListQuestions = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == input.InternalAuditMenuQuestionId).ToList();
+            var FrameworkId = InternalAuditMenuQuestionRepository.FirstOrDefault(e=>e.Id == input.InternalAuditMenuQuestionId).FrameworkId;
+            var QuestionByFramework = _InternalAuditQuestionRepository.Where(t => t.FrameworkId ==FrameworkId).ToList();
+            var QuestionsByFramework = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(QuestionByFramework);
             var Questions = new List<InternalAuditQuestionDto>();
-            foreach (var item in ListQuestions)
+            foreach (var item in QuestionsByFramework)
             {
-                var Question = _InternalAuditQuestionRepository.Where(t => t.Id == item.InternalAuditQuestionId).FirstOrDefault();
-                Questions.Add(ObjectMapper.Map<InternalAuditQuestion, InternalAuditQuestionDto>(Question));
+                var selected= ListQuestions.FirstOrDefault(x => x.InternalAuditQuestionId == item.Id);
+                if (selected!=null)
+                {
+                    item.Selected = true;
+                }
+                else
+                {
+                    item.Selected = false;
+                }
+                Questions.Add(item);
             }
 
             var ListQuestion = _internalAuditQuestionListRepository.Where(x => x.Id == input.InternalAuditMenuQuestionId).ToList();
