@@ -1,12 +1,14 @@
 ﻿using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Risks.Entity;
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace RMG.ComplianceSystem.InternalAuditQuestions
+namespace RMG.ComplianceSystem.InternalAuditPreparations
 {
     public class InternalAuditPreparation : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
     {
+       
         public string AuditCode { get; set; }
         public string AuditTitleEn { get; set; }
         public string AuditTitleAr { get; set; }
@@ -18,11 +20,12 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
         public string AuditSetpsAr { get; set; }
         public string AuditGoalsEn { get; set; }
         public string AuditGoalsAr { get; set; }
-        public string DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
         public virtual Department Department { get; set; }
-
-
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public Guid RiskOpportunityId { get; set; }
+        public virtual RiskOpportunity RiskOpportunity { get; set; }
         public Guid FrameworkId { get; set; }
         public virtual Framework Framework { get; set; }
     }
