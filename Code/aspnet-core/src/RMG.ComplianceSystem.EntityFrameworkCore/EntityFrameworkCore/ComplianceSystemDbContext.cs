@@ -31,6 +31,7 @@ using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.InternalAuditQuestionLists;
 using RMG.ComplianceSystem.InternalAuditQuestions;
+using RMG.ComplianceSystem.InternalAuditPreparations;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -79,12 +80,15 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<InternalAuditMenuQuestion> InternalAuditMenuQuestions { get; set; }
         public DbSet<InternalAuditQuestion> InternalAuditQuestions { get; set; }
         public DbSet<RiskOpportunity> RisksAndOpportunities { get; set; }
+        public DbSet<InternalAuditPreparation> InternalAuditPreparations { get; set; }
+        public DbSet<InternalAuditor> InternalAuditors { get; set; }
+        
         public DbSet<HistoryRiskOpportunity> HistoryRisksAndOpportunities { get; set; }
         public DbSet<StaticDatatb> StaticDatatb { get; set; }
         public DbSet<RisksTreatment> RiskTreatments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
-        
+
         public DbSet<Author> Authors { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
@@ -132,13 +136,13 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
-            
-                 builder.Entity<EmailTemplate>(b =>
-                 {
-                     b.ToTable(ComplianceSystemConsts.DbTablePrefix + "EmailTemplates",
-                         ComplianceSystemConsts.DbSchema);
-                     b.ConfigureByConvention();
-                 });
+
+            builder.Entity<EmailTemplate>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "EmailTemplates",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
             builder.Entity<Book>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Books",
@@ -179,18 +183,31 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-        builder.Entity<RisksTreatment>(b =>
+            builder.Entity<RisksTreatment>(b =>
+                {
+                    b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksTreatment",
+                        ComplianceSystemConsts.DbSchema);
+                    b.ConfigureByConvention();
+                });
+            builder.Entity<RiskOpportunity>(b =>
             {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksTreatment",
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksOpportunities",
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
-            }); 
-                   builder.Entity<RiskOpportunity>(b =>
-                   {
-                       b.ToTable(ComplianceSystemConsts.DbTablePrefix + "RisksOpportunities",
-                           ComplianceSystemConsts.DbSchema);
-                       b.ConfigureByConvention();
-                   });
+            });
+            builder.Entity<InternalAuditPreparation>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditPreparations",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+            builder.Entity<InternalAuditor>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditors",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+            
             builder.Entity<HistoryRiskOpportunity>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "HistoryRisksOpportunities",
@@ -209,7 +226,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-            
+
             builder.Entity<Author>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Authors",

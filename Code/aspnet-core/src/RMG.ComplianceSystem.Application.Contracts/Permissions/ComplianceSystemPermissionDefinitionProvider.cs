@@ -56,6 +56,18 @@ namespace RMG.ComplianceSystem.Permissions
             StaticDataPermission.AddChild(ComplianceSystemPermissions.StaticData.Update, L("Permission:Update"));
             StaticDataPermission.AddChild(ComplianceSystemPermissions.StaticData.Delete, L("Permission:Delete"));
 
+
+            var InternalAuditQuestion = myGroup.AddPermission(ComplianceSystemPermissions.InternalAuditQuestion.Default, L("Permission:InternalAuditQuestion"));
+            InternalAuditQuestion.AddChild(ComplianceSystemPermissions.InternalAuditQuestion.Create, L("Permission:Create"));
+            InternalAuditQuestion.AddChild(ComplianceSystemPermissions.InternalAuditQuestion.Update, L("Permission:Update"));
+            InternalAuditQuestion.AddChild(ComplianceSystemPermissions.InternalAuditQuestion.Delete, L("Permission:Delete"));
+
+            var InternalAuditPreparation = myGroup.AddPermission(ComplianceSystemPermissions.InternalAuditPreparation.Default, L("Permission:InternalAuditPreparation"));
+            InternalAuditPreparation.AddChild(ComplianceSystemPermissions.InternalAuditPreparation.Create, L("Permission:Create"));
+            InternalAuditPreparation.AddChild(ComplianceSystemPermissions.InternalAuditPreparation.Update, L("Permission:Update"));
+            InternalAuditPreparation.AddChild(ComplianceSystemPermissions.InternalAuditPreparation.Delete, L("Permission:Delete"));
+            
+
             var EmailTemplatePermission = myGroup.AddPermission(ComplianceSystemPermissions.EmailTemplate.Default, L("Permission:EmailTemplate"));
             EmailTemplatePermission.AddChild(ComplianceSystemPermissions.EmailTemplate.Create, L("Permission:Create"));
             EmailTemplatePermission.AddChild(ComplianceSystemPermissions.EmailTemplate.Update, L("Permission:Update"));
