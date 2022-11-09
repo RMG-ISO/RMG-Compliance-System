@@ -1,0 +1,68 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-header class="mb-3">
+            <mat-card-title>
+                {{ '::CheckLists' | abpLocalization }}
+                /
+                {{ ( '::' + mode ) | abpLocalization }}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="AuditNameAr">
+                        {{ '::AuditNameAr' | abpLocalization }}
+                    </label>
+                    <input id="AuditNameAr" class="form-control" formControlName="auditTitleAr">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="AuditNameEn">
+                        {{ '::AuditNameEn' | abpLocalization }}
+                    </label>
+                    <input id="AuditNameEn" class="form-control" formControlName="auditTitleEn">
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditDescriptionAr">
+                        {{ '::AuditDescriptionAr' | abpLocalization }}
+                    </label>
+                    <textarea id="auditDescriptionAr" class="form-control" formControlName="auditDescriptionAr"></textarea>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditDescriptionEn">
+                        {{ '::AuditDescriptionEn' | abpLocalization }}
+                    </label>
+                    <textarea id="auditDescriptionEn" class="form-control" formControlName="auditDescriptionEn"></textarea>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditFieldAr">
+                        {{ '::AuditFieldAr' | abpLocalization }}
+                    </label>
+                    <input id="auditFieldAr" class="form-control" formControlName="auditFieldAr">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditFieldEn">
+                        {{ '::AuditFieldEn' | abpLocalization }}
+                    </label>
+                    <input id="auditFieldEn" class="form-control" formControlName="auditFieldEn">
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditSetpsAr">
+                        {{ '::AuditSetpsAr' | abpLocalization }}
+                    </label>
+                    <textarea id="auditSetpsAr" class="form-control" formControlName="auditSetpsAr"></textarea>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditSetpsEn">
+                        {{ '::AuditSetpsEn' | abpLocalization }}
+                    </label>
+                    <textarea id="auditSetpsEn" class="form-control" formControlName="auditSetpsEn"></textarea>
+                </div>
+
+                
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>
