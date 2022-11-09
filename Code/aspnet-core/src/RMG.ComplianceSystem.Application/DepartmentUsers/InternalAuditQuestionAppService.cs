@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using RMG.ComplianceSystem.DepartmentUsers.Dtos;
 using RMG.ComplianceSystem.Permissions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Identity;
-using RMG.ComplianceSystem.StaticData;
-using RMG.ComplianceSystem.Frameworks.Dtos;
 using RMG.ComplianceSystem.Frameworks;
 
 namespace RMG.ComplianceSystem.DepartmentUsers
