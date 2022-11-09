@@ -61,6 +61,11 @@ namespace RMG.ComplianceSystem.Permissions
             InternalAuditApprove.AddChild(ComplianceSystemPermissions.InternalAuditApprove.Update, L("Permission:Update"));
             InternalAuditApprove.AddChild(ComplianceSystemPermissions.InternalAuditApprove.Delete, L("Permission:Delete"));
 
+            var DepartmentUser = myGroup.AddPermission(ComplianceSystemPermissions.DepartmentUser.Default, L("Permission:DepartmentUser"));
+            DepartmentUser.AddChild(ComplianceSystemPermissions.DepartmentUser.Create, L("Permission:Create"));
+            DepartmentUser.AddChild(ComplianceSystemPermissions.DepartmentUser.Update, L("Permission:Update"));
+            DepartmentUser.AddChild(ComplianceSystemPermissions.DepartmentUser.Delete, L("Permission:Delete"));
+
             var InternalAuditQuestion = myGroup.AddPermission(ComplianceSystemPermissions.InternalAuditQuestion.Default, L("Permission:InternalAuditQuestion"));
             InternalAuditQuestion.AddChild(ComplianceSystemPermissions.InternalAuditQuestion.Create, L("Permission:Create"));
             InternalAuditQuestion.AddChild(ComplianceSystemPermissions.InternalAuditQuestion.Update, L("Permission:Update"));
@@ -69,7 +74,7 @@ namespace RMG.ComplianceSystem.Permissions
             var InternalAuditQuestionList = myGroup.AddPermission(ComplianceSystemPermissions.InternalAuditQuestionList.Default, L("Permission:InternalAuditQuestionList"));
             InternalAuditQuestionList.AddChild(ComplianceSystemPermissions.InternalAuditQuestionList.Create, L("Permission:Create"));
             InternalAuditQuestionList.AddChild(ComplianceSystemPermissions.InternalAuditQuestionList.Edit, L("Permission:Update"));
-            InternalAuditQuestionList.AddChild(ComplianceSystemPermissions.InternalAuditQuestionList.Delete, L("Permission:Delete")); 
+            InternalAuditQuestionList.AddChild(ComplianceSystemPermissions.InternalAuditQuestionList.Delete, L("Permission:Delete"));
 
             var InternalAuditPreparation = myGroup.AddPermission(ComplianceSystemPermissions.InternalAuditPreparation.Default, L("Permission:InternalAuditPreparation"));
             InternalAuditPreparation.AddChild(ComplianceSystemPermissions.InternalAuditPreparation.Create, L("Permission:Create"));
