@@ -35,6 +35,7 @@ using RMG.ComplianceSystem.InternalAuditQuestionLists.Header.Dto;
 using RMG.ComplianceSystem.InternalAuditQuestions;
 using RMG.ComplianceSystem.InternalAuditPreparation.Dto;
 using RMG.ComplianceSystem.InternalAuditPreparations;
+using RMG.ComplianceSystem.InternalAuditApproves;
 
 namespace RMG.ComplianceSystem
 {
@@ -67,6 +68,8 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateInternalAuditPreparationDto, InternalAuditPreparations.InternalAuditPreparation>();
             CreateMap<InternalAuditor, InternalAuditorDto>();
             CreateMap<InternalAuditor, AuditorDto>();
+            CreateMap<InternalAuditApprove, InternalAuditApproveDto>();
+            CreateMap<CreateUpdateInternalAuditApproveDto, InternalAuditApprove>();
             CreateMap<InternalAuditQuestion, InternalAuditQuestionDto>();
             CreateMap<CreateUpdateInternalAuditQuestionDto, InternalAuditQuestion>();
             CreateMap<HistoryRiskOpportunity, HistoryRiskAndOpportunityDto>();

@@ -14,6 +14,14 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Update = Default + ".Update";
             public const string Delete = Default + ".Delete";
         }
+        public static class InternalAuditApprove
+        {
+            public const string Default = GroupName + ".InternalAuditApprove";
+            public const string Create = Default + ".Create";
+            public const string Update = Default + ".Update";
+            public const string Delete = Default + ".Delete";
+        }
+        
         public static class Books
         {
             public const string Default = GroupName + ".Books";
