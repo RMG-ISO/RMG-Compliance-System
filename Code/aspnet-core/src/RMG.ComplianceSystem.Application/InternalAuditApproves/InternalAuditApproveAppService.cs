@@ -9,7 +9,6 @@ using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.InternalAuditApproves
 {
-    // [Authorize(ComplianceSystemPermissions.InternalAuditApprove.Default)]
     public class InternalAuditApproveAppService :
         CrudAppService<
             InternalAuditApprove, //The InternalAuditApprove entity

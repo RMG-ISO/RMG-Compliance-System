@@ -13,6 +13,8 @@ export interface CreateUpdateInternalAuditPreparationDto {
   AuditFieldAr?:string;
   AuditSetpsEn?:string;
   AuditSetpsAr?:string;
+  AuditGoalsEn?:string;
+  AuditGoalsAr?:string;
   DepartmentId?:string;
   StartDate?:Date;
   EndDate?:Date;
@@ -44,6 +46,8 @@ export interface InternalAuditPreparationDto extends FullAuditedEntityWithUserDt
   AuditFieldAr?:string;
   AuditSetpsEn?:string;
   AuditSetpsAr?:string;
+  AuditGoalsEn?:string;
+  AuditGoalsAr?:string;
   DepartmentId?:string;
   StartDate?:Date;
   EndDate?:Date;
