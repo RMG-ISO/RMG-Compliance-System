@@ -32,6 +32,7 @@ using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.InternalAuditQuestionLists;
 using RMG.ComplianceSystem.InternalAuditQuestions;
 using RMG.ComplianceSystem.InternalAuditPreparations;
+using RMG.ComplianceSystem.InternalAuditApproves;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -76,6 +77,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Book> Books { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
+        public DbSet<InternalAuditApprove> InternalAuditApproves { get; set; }
         public DbSet<InternalAuditQuestionList> InternalAuditQuestionLists { get; set; }
         public DbSet<InternalAuditMenuQuestion> InternalAuditMenuQuestions { get; set; }
         public DbSet<InternalAuditQuestion> InternalAuditQuestions { get; set; }
@@ -176,7 +178,13 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
-
+            builder.Entity<InternalAuditApprove>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditApproves",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+            
             builder.Entity<InternalAuditQuestion>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "InternalAuditQuestions",

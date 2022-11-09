@@ -14,6 +14,7 @@ using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Departments.Dtos;
 using Department = RMG.ComplianceSystem.Departments.Department;
 using Framework = RMG.ComplianceSystem.Frameworks.Framework;
+using IdentityServer4.Validation;
 
 namespace RMG.ComplianceSystem.InternalAuditPreparations
 {
@@ -62,6 +63,8 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         {
             try
             {
+                Random _rdm = new Random();
+               input.AuditCode = "AUD" + _rdm.Next(0, 9999).ToString("D4");
                 var entity = await MapToEntityAsync(input);
                 TryToSetTenantId(entity);
                 await Repository.InsertAsync(entity, autoSave: true);
@@ -183,6 +186,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         {
             try
             {
+               
                 int totalCount = 0;
                 var ListQuestions = InternalAuditPreparationRepository.Where(x =>
                          ((x.AuditTitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
