@@ -1,1 +1,23 @@
-<p>audit-item works!</p>
+<form [formGroup]="form">
+    <mat-card>
+        <mat-card-content>
+            <div class="form-group">
+                <label for="">
+                    الموافقة على التدقيق
+                </label>
+                <mat-radio-group formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
+                    <mat-radio-button class="mr-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button [value]="false"> {{ '::no'  | abpLocalization }} </mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="form-group refuse-cause" [class]=" form.controls.isApprove.value ? 'hide' : 'show' ">
+                <label for="">
+                    سبب الرفض
+                </label>
+                <textarea [disabled]="form.controls.isApprove.value" class="form-control" formControlName="causesRefuse"></textarea>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</form>

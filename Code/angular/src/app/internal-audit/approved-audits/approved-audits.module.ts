@@ -1,3 +1,4 @@
+import { MatRadioModule } from '@angular/material/radio';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +16,8 @@ import { AuditItemComponent } from './audit-item/audit-item.component';
   imports: [
     CommonModule,
     ApprovedAuditsRoutingModule,
-    SharedModule
+    SharedModule,
+    MatRadioModule
   ]
 })
 export class ApprovedAuditsModule { }

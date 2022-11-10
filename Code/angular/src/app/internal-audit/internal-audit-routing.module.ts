@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path:'audits',
     loadChildren: () => import('./audits/audits.module').then(m => m.AuditsModule)
+  },
+  {
+    path:'approved-audits',
+    loadChildren:() => import('./approved-audits/approved-audits.module').then(m => m.ApprovedAuditsModule)
   }
 ];
 

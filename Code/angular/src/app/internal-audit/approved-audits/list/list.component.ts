@@ -1,5 +1,4 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
-import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
+import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 
@@ -17,9 +16,6 @@ export class ListComponent implements OnInit {
   constructor(
     public  list:ListService,
     private internalAuditPreparationService:InternalAuditPreparationService,
-    private confirmation:ConfirmationService,
-    private localizationService:LocalizationService,
-    private toasterService:ToasterService
   ) { }
 
   ngOnInit(): void {
@@ -34,18 +30,6 @@ export class ListComponent implements OnInit {
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(response);
-    });
-  }
-
-  delete(model) {
-    let title = this.localizationService.currentLang.includes('ar') ?  model['questionTextAr'] : model['questionTextEn'];
-    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
-      if (status === Confirmation.Status.confirm) {
-        this.internalAuditPreparationService.delete(model.id).subscribe(() => {
-          this.list.get();
-          this.toasterService.success('::SuccessfullyDeleted', "");
-        });
-      }
     });
   }
 
