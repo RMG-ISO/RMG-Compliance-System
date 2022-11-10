@@ -98,6 +98,14 @@ function configureRoutes(routesService: RoutesService) {
         parentName:'::AuditManagement',
         layout: eLayoutType.application,
       },
+      {
+        path:'/internal-audit/audits',
+        name:'::Audits',
+        iconClass: 'fa-solid fa-file-lines',
+        order: 2,
+        parentName:'::AuditManagement',
+        layout: eLayoutType.application,
+      },
 
 
       {

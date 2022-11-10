@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="card-body">
-    <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+    <ngx-datatable appNgxdatatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
       rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list">
       <ngx-datatable-column [name]="'::EmployeeFullName' | abpLocalization" prop="fullName"></ngx-datatable-column>
 
