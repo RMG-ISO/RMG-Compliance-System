@@ -17,6 +17,13 @@ const routes: Routes = [
     }
   },
   {
+    path:':id/edit',
+    component:CreateComponent,
+    data:{
+      mode:FormMode.Edit
+    }
+  },
+  {
     path:'',
     redirectTo:'list'
   }

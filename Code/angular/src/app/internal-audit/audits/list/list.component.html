@@ -16,18 +16,22 @@
     </div>
     <div class="card-body">
         <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable >
-            <ngx-datatable-column [name]=" '::QuestionText' | abpLocalization">
+            <ngx-datatable-column [name]=" 'AuditCode' | abpLocalization" prop="auditCode"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::AuditTitle' | abpLocalization">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row | lang:'questionText' }}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::QuestionExplain' | abpLocalization">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row | lang:'questionExplain' }}
+                    {{ row | lang:'auditTitle' }}
                 </ng-template>
             </ngx-datatable-column>
 
+
             <ngx-datatable-column [name]=" '::FrameworkName' | abpLocalization" prop="framework">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | lang:'name' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::DepartmentName' | abpLocalization" prop="department">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{ value | lang:'name' }}
                 </ng-template>
@@ -48,13 +52,11 @@
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <ng-container *ngIf="row.canDelete">
-                        <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
-                            <mat-icon>delete_forever</mat-icon>
-                        </button>
-                    </ng-container>
+                    <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
 
-                    <button mat-button (click)="$event.stopPropagation();openDialog(row)">
+                    <button mat-button [routerLink]="['/internal-audit/audits', row.id, 'edit']">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </ng-template>

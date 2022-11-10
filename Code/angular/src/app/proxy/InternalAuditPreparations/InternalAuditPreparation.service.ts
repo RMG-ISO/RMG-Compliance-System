@@ -63,8 +63,7 @@ export class InternalAuditPreparationService {
     getUserByDeptId = (deptId:string ) =>
     this.restService.request<any, IdentityUserDto[]>({
       method: 'GET',
-      url: '/api/app/internal-audit-preparation/users-by-dept-id/',
-      params: { DeptId:deptId},
+      url: `/api/app/internal-audit-preparation/users-by-dept-id/${deptId}`,
     },
     { apiName: this.apiName });
 

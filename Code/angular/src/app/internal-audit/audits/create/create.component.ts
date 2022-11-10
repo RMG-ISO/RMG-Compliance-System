@@ -77,8 +77,10 @@ export class CreateComponent implements OnInit {
     })
   }
 
-  changeDepartment($event) {
-
+  changeDepartment(id) {
+    this.internalAuditPreparationService.getUserByDeptId(id).subscribe(r => {
+      console.log(r);
+    })
   }
 
   getEmployeesByDepartment() {
