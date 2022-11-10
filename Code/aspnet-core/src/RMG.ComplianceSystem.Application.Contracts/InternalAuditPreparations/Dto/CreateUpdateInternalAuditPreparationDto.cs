@@ -27,5 +27,11 @@ namespace RMG.ComplianceSystem.InternalAuditPreparation.Dto
         public Guid RiskOpportunityId { get; set; }
         public Guid FrameworkId { get; set; }
         public List<InternalAuditorDto> Auditors { get; set; }
+
+
+        public Boolean? IsApprove { get; set; }
+        public DateTime? approveDate { get; set; }
+        public Guid? ApproveBy { get; set; }
+        public string CausesRefuse { get; set; }
     }
 }

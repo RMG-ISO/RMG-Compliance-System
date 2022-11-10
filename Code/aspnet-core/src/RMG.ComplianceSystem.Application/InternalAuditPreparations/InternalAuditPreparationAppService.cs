@@ -70,7 +70,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
             try
             {
                 Random _rdm = new Random();
-               input.AuditCode = "AUD" + _rdm.Next(0, 9999).ToString("D4");
+                input.AuditCode = "AUD" + _rdm.Next(0, 9999).ToString("D4");
                 var entity = await MapToEntityAsync(input);
                 TryToSetTenantId(entity);
                 await Repository.InsertAsync(entity, autoSave: true);
@@ -95,7 +95,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 throw;
             }
-          
+
         }
         /// <summary>
         /// UpdateAsync
@@ -114,6 +114,8 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 await Repository.UpdateAsync(entity, autoSave: true);
 
+                if(entity.IsApprove==null)
+                { 
                 #region [Auditors]
                 if (input.Auditors != null && input.Auditors.Count > 0)
                 {
@@ -135,8 +137,8 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
                 }
 
 
-                #endregion
-
+                    #endregion
+                }
 
 
                 var audit = await GetEntityByIdAsync(id);
@@ -148,7 +150,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 throw;
             }
-          
+
         }
 
         /// <summary>
@@ -178,7 +180,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 throw;
             }
-          
+
 
             #endregion
         }
@@ -192,13 +194,16 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         {
             try
             {
-               
+
                 int totalCount = 0;
                 var ListQuestions = InternalAuditPreparationRepository.Where(x =>
                          ((x.AuditTitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
                          (x.AuditTitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
-                    .WhereIf(input.DepartmentId!=null,e=>e.DepartmentId== input.DepartmentId)
+                    .WhereIf(input.DepartmentId != null, e => e.DepartmentId == input.DepartmentId)
                      .WhereIf(input.FrameworkId != null, e => e.FrameworkId == input.FrameworkId)
+                     .WhereIf(input.IsApprove != null, e => e.IsApprove == input.IsApprove)
+                .WhereIf(input.ApproveBy != null, e => e.ApproveBy == input.ApproveBy)
+                .WhereIf(input.approveDate != null, e => e.approveDate == input.approveDate)
                         .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 var Questions = ObjectMapper.Map<List<InternalAuditPreparation>, List<InternalAuditPreparationDto>>(ListQuestions);
                 var ListQuestion = InternalAuditPreparationRepository.ToList();
@@ -240,7 +245,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 return null;
             }
-           
+
         }
 
         /// <summary>
@@ -275,17 +280,17 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 return null;
             }
-           
+
         }
         public async Task<List<EmployeeDto>> GetUsersByDeptIdAsync(Guid DeptId)
         {
-            var Users = _employeeRepository.Where(e=>e.DepartmentId==DeptId).ToList();
-            var DeptUsers =ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(Users);
+            var Users = _employeeRepository.Where(e => e.DepartmentId == DeptId).ToList();
+            var DeptUsers = ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(Users);
             return DeptUsers;
         }
 
-            #endregion
+        #endregion
 
 
-        }
+    }
 }
