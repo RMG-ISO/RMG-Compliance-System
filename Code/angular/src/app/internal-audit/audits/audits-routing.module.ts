@@ -1,3 +1,4 @@
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListComponent } from './list/list.component';
@@ -10,7 +11,10 @@ const routes: Routes = [
   },
   {
     path:'create',
-    component:CreateComponent
+    component:CreateComponent,
+    data:{
+      mode:FormMode.Create
+    }
   },
   {
     path:'',

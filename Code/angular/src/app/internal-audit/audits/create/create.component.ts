@@ -5,6 +5,8 @@ import { FrameworkService } from '@proxy/frameworks';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
+import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { Type } from 'src/app/risks-mangement/module.enums';
 
 @Component({
   selector: 'app-create',
@@ -24,6 +26,7 @@ export class CreateComponent implements OnInit {
     private internalAuditPreparationService:InternalAuditPreparationService,
     private departmentService: DepartmentService,
     private employeeService: EmployeeService,
+    private riskAndOpportunityService:RiskAndOpportunityService,
   ) { }
 
   ngOnInit(): void {
@@ -42,17 +45,19 @@ export class CreateComponent implements OnInit {
       auditGoalsAr: new FormControl(null, Validators.required),
       frameworkId: new FormControl(null, Validators.required),
       departmentId: new FormControl(null, Validators.required),
+      auditorsIds:new FormControl(null, Validators.required),
+      departmentRepresentatives:new FormControl(null, Validators.required),
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
       riskOpportunityId: new FormControl(null, Validators.required),
-      auditors:new FormControl(null, Validators.required),
-      departmentRepresentatives:new FormControl(null, Validators.required),
     });
 
-    
+    this.getItems();
 
   }
 
+  auditorsList;
+  risksList;
   getItems() {
     this.frameworkService.getList({maxResultCount:null}).subscribe(result => {
       this.frameworks = result.items;
@@ -64,7 +69,16 @@ export class CreateComponent implements OnInit {
  
     this.employeeService.getList({maxResultCount:null}).subscribe(result => {
       this.allEmployees = result.items;
+      this.auditorsList = result.items;
     });
+
+    this.riskAndOpportunityService.getList({ maxResultCount:null, type:Type.Risk }).subscribe(r => {
+      this.risksList = r.items
+    })
+  }
+
+  changeDepartment($event) {
+
   }
 
   getEmployeesByDepartment() {
@@ -72,6 +86,31 @@ export class CreateComponent implements OnInit {
   }
 
   save() {
+    if(this.form.invalid) return;
 
+    let value = {...this.form.value};
+    value['auditors'] = [];
+    for(let id of value.auditorsIds) {
+      value['auditors'].push({
+        userId:id,
+        isAuditor:true,
+        UserId:id,
+        IsAuditor:true
+      })
+    }
+
+    for(let id of value.departmentRepresentatives) {
+      value['auditors'].push({
+        userId:id,
+        UserId:id,
+        departmentId:value.departmentId,
+        DepartmentId:value.departmentId
+      })
+    }
+
+    console.log(value);
+    this.internalAuditPreparationService.create(value).subscribe( r => {
+      console.log(r);
+    })
   }
 }
