@@ -1,3 +1,5 @@
+using RMG.ComplianceSystem.InternalAuditPreparation.Dto;
+using RMG.ComplianceSystem.InternalAuditPreparations;
 using RMG.ComplianceSystem.Permissions;
 using System;
 using System.Collections.Generic;
@@ -33,11 +35,13 @@ namespace RMG.ComplianceSystem.InternalAuditApproves
 
         private readonly IInternalAuditApproveRepository InternalAuditApproveRepository;
         private readonly IdentityUserManager User;
+        private readonly IInternalAuditPreparationRepository _internalAuditPreparationRepository;
 
-        public InternalAuditApproveAppService(IdentityUserManager _User, IInternalAuditApproveRepository _InternalAuditApproveRepository) : base(_InternalAuditApproveRepository)
+        public InternalAuditApproveAppService(IdentityUserManager _User, IInternalAuditPreparationRepository InternalAuditPreparationRepository,IInternalAuditApproveRepository _InternalAuditApproveRepository) : base(_InternalAuditApproveRepository)
         {
             InternalAuditApproveRepository = _InternalAuditApproveRepository;
             User = _User;
+            _internalAuditPreparationRepository=InternalAuditPreparationRepository; 
         }
         #endregion
         //End Properties and Constructor InternalAuditApproveAppService
@@ -55,6 +59,8 @@ namespace RMG.ComplianceSystem.InternalAuditApproves
             totalCount = ListAuditApprove.Count;
             foreach (var item in AuditApproves)
             {
+                var InternalAudit = _internalAuditPreparationRepository.FirstOrDefault(x => x.Id == item.InternalAuditId);
+                item.InternalAuditPreparationDto= ObjectMapper.Map<InternalAuditPreparations.InternalAuditPreparation, InternalAuditPreparationDto>(InternalAudit); 
 
                 if (item.CreatorId != null)
                 {
