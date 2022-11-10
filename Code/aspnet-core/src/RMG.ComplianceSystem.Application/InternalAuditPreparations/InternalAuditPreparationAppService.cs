@@ -16,6 +16,7 @@ using Department = RMG.ComplianceSystem.Departments.Department;
 using Framework = RMG.ComplianceSystem.Frameworks.Framework;
 using IdentityServer4.Validation;
 using RMG.ComplianceSystem.DepartmentUsers;
+using RMG.ComplianceSystem.Employees;
 
 namespace RMG.ComplianceSystem.InternalAuditPreparations
 {
@@ -46,17 +47,16 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         private readonly IFrameworkRepository _FrameworkRepository;
         private readonly IInternalAuditorRepository _internalAuditorRepository;
         private readonly IDepartmentRepository _departmentRepository;
-        private readonly IDepartmentUserRepository _departmentUserRepository;
-        
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public InternalAuditPreparationAppService(IdentityUserManager _User, IDepartmentUserRepository DepartmentUserRepository, IDepartmentRepository DepartmentRepository, IInternalAuditorRepository InternalAuditorRepository, IFrameworkRepository FrameworkRepository, IInternalAuditPreparationRepository _InternalAuditPreparationRepository) : base(_InternalAuditPreparationRepository)
+        public InternalAuditPreparationAppService(IdentityUserManager _User, IEmployeeRepository EmployeeRepository, IDepartmentRepository DepartmentRepository, IInternalAuditorRepository InternalAuditorRepository, IFrameworkRepository FrameworkRepository, IInternalAuditPreparationRepository _InternalAuditPreparationRepository) : base(_InternalAuditPreparationRepository)
         {
             InternalAuditPreparationRepository = _InternalAuditPreparationRepository;
             User = _User;
             _FrameworkRepository = FrameworkRepository;
             _internalAuditorRepository = InternalAuditorRepository;
             _departmentRepository = DepartmentRepository;
-            _departmentUserRepository= DepartmentUserRepository;
+            _employeeRepository = EmployeeRepository;
         }
         #endregion
         //End Properties and Constructor InternalAuditPreparationAppService
@@ -278,7 +278,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         public async Task<List<IdentityUserDto>> GetUsersByDeptIdAsync(Guid DeptId)
         {
 
-            var Users = _departmentUserRepository.Where(e=>e.DepartmentId==DeptId).ToList();
+            var Users = _employeeRepository.Where(e=>e.DepartmentId==DeptId).ToList();
             var DeptUsers=new List<IdentityUserDto>();  
             foreach (var item in Users)
             {
