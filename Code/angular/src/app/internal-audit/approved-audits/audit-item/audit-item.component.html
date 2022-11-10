@@ -1,23 +1,81 @@
-<form [formGroup]="form">
-    <mat-card>
+<ng-container *ngIf="auditInfo">
+    <mat-card class="mb-4">
+        <mat-card-title>
+            <h3>
+                {{ auditInfo | lang:'auditTitle' }}
+                -
+                {{ auditInfo.auditCode }}
+            </h3>
+        </mat-card-title>
         <mat-card-content>
             <div class="form-group">
-                <label for="">
-                    الموافقة على التدقيق
-                </label>
-                <mat-radio-group formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
-                    <mat-radio-button class="mr-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button [value]="false"> {{ '::no'  | abpLocalization }} </mat-radio-button>
-                </mat-radio-group>
+                <h4 class="mb-1">
+                    {{ '::AuditDescription' | abpLocalization }}
+                </h4>
+                <p>
+                    {{ auditInfo | lang:'auditDescription' }}
+                </p>
             </div>
 
-            <div class="form-group refuse-cause" [class]=" form.controls.isApprove.value ? 'hide' : 'show' ">
-                <label for="">
-                    سبب الرفض
-                </label>
-                <textarea [disabled]="form.controls.isApprove.value" class="form-control" formControlName="causesRefuse"></textarea>
+            <div class="form-group">
+                <h4 class="mb-1">
+                    {{ '::AuditField' | abpLocalization }}
+                </h4>
+                <p>
+                    {{ auditInfo | lang:'auditField' }}
+                </p>
+            </div>
+
+            <div class="form-group">
+                <h4 class="mb-1">
+                    {{ '::AuditSetps' | abpLocalization }}
+                </h4>
+                <p>
+                    {{ auditInfo | lang:'auditSetps' }}
+                </p>
+            </div>
+
+            <div class="form-group">
+                <h4 class="mb-1">
+                    {{ '::AuditGoals' | abpLocalization }}
+                </h4>
+                <p>
+                    {{ auditInfo | lang:'auditGoals' }}
+                </p>
             </div>
 
         </mat-card-content>
     </mat-card>
-</form>
+    
+    <form [formGroup]="form">
+        <mat-card>
+            <mat-card-content>
+                <div class="form-group">
+                    <label for="">
+                        الموافقة على التدقيق
+                    </label>
+                    <mat-radio-group formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
+                        <mat-radio-button class="mr-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
+                        <mat-radio-button [value]="false"> {{ '::no'  | abpLocalization }} </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+    
+                <div class="form-group refuse-cause" [class]=" form.controls.isApprove.value ? 'hide' : 'show' ">
+                    <label for="">
+                        سبب الرفض
+                    </label>
+                    <textarea class="form-control" formControlName="causesRefuse"></textarea>
+                </div>
+    
+            </mat-card-content>
+            <mat-card-actions class="actions mb-3">
+                <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/audits/list">
+                    {{ '::Back' | abpLocalization }}
+                </button>
+                <button class="primary" mat-raised-button [disabled]="isSaving">
+                    {{ '::Save' | abpLocalization }}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</ng-container>
