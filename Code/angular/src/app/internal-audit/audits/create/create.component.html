@@ -60,8 +60,42 @@
                     </label>
                     <textarea id="auditSetpsEn" class="form-control" formControlName="auditSetpsEn"></textarea>
                 </div>
-
                 
+                <div class="col-md-6 form-group">
+                    <label for="auditGoalsAr">
+                        {{ '::AuditGoalsAr' | abpLocalization }}
+                    </label>
+                    <textarea id="auditGoalsAr" class="form-control" formControlName="auditGoalsAr"></textarea>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditGoalsEn">
+                        {{ '::AuditGoalsEn' | abpLocalization }}
+                    </label>
+                    <textarea id="auditGoalsEn" class="form-control" formControlName="auditGoalsEn"></textarea>
+                </div>
+
+
+                <div class="col-md-6 form-group">
+                    <label for="framework">
+                        {{ '::Framework' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="frameworkId">
+                        <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
+                            {{ framework | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="Department">
+                        {{ '::Department' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="departmentId">
+                        <ng-option *ngFor="let department of departments" [value]="department.id">
+                            {{ department.name }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+
             </div>
         </mat-card-content>
     </mat-card>
