@@ -17,6 +17,8 @@ using Framework = RMG.ComplianceSystem.Frameworks.Framework;
 using IdentityServer4.Validation;
 using RMG.ComplianceSystem.DepartmentUsers;
 using RMG.ComplianceSystem.Employees;
+using RMG.ComplianceSystem.Employees.Dtos;
+using Volo.Abp.ObjectMapping;
 
 namespace RMG.ComplianceSystem.InternalAuditPreparations
 {
@@ -275,16 +277,10 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
             }
            
         }
-        public async Task<List<IdentityUserDto>> GetUsersByDeptIdAsync(Guid DeptId)
+        public async Task<List<EmployeeDto>> GetUsersByDeptIdAsync(Guid DeptId)
         {
-
             var Users = _employeeRepository.Where(e=>e.DepartmentId==DeptId).ToList();
-            var DeptUsers=new List<IdentityUserDto>();  
-            foreach (var item in Users)
-            {
-                var getuser = User.GetByIdAsync((Guid)item.CreatorId).Result;
-                DeptUsers.Add( ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser));
-            }
+            var DeptUsers =ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(Users);
             return DeptUsers;
         }
 
