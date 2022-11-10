@@ -48,7 +48,7 @@ export class InternalAuditPreparationService {
     this.restService.request<any, PagedResultDto<InternalAuditPreparationDto>>({
       method: 'GET',
       url: '/api/app/internal-audit-preparation/internal-audit-by-filter',
-      params: {Search:input.Search,DepartmentId:input.DepartmentId,FrameworkId:input.FrameworkId,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { ApproveBy:input.ApproveBy,approveDate:input.approveDate,IsApprove:input.IsApprove, Search:input.Search,DepartmentId:input.DepartmentId,FrameworkId:input.FrameworkId,sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 

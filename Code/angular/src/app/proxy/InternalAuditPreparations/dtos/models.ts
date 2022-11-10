@@ -1,5 +1,4 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import type { InternalAuditQuestionDto } from '@proxy/InternalAuditQuestions/dtos/models';
 
 import { IdentityUserDto } from '@abp/ng.account';
 
@@ -21,6 +20,13 @@ export interface CreateUpdateInternalAuditPreparationDto {
   RiskOpportunityId?:string;
   FrameworkId?:string;
   Auditors?:InternalAuditorDto[];
+
+  IsApprove  ?:boolean;
+  approveDate ?:Date;
+ ApproveBy ?:string;
+ CausesRefuse?:string;
+
+
 }
 
 export interface InternalAuditorDto{
@@ -55,10 +61,17 @@ export interface InternalAuditPreparationDto extends FullAuditedEntityWithUserDt
   FrameworkId?:string;
   AuditorDeptDto?:InternalAuditorDto[];
   AuditorDto?:AuditorDto[];
+  IsApprove  ?:boolean;
+  approveDate ?:Date;
+ ApproveBy ?:string;
+ CausesRefuse?:string;
 }
 
 export interface InternalAuditPreparationPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   Search?: string;
   FrameworkId?: string;
   DepartmentId ?: string;
+  IsApprove  ?:boolean;
+  approveDate ?:Date;
+ ApproveBy ?:string;
 }

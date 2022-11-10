@@ -35,6 +35,11 @@ namespace RMG.ComplianceSystem.InternalAuditPreparation.Dto
         public List<AuditorDto> AuditorDto { get; set; }
         public List<InternalAuditorDto> AuditorDeptDto { get; set; }
 
+        public Boolean? IsApprove { get; set; }
+        public DateTime? approveDate { get; set; }
+        public Guid? ApproveBy { get; set; }
+        public string CausesRefuse { get; set; }
+
     }
 
 
