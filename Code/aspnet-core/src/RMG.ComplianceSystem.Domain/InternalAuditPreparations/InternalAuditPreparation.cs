@@ -28,5 +28,11 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         public virtual RiskOpportunity RiskOpportunity { get; set; }
         public Guid FrameworkId { get; set; }
         public virtual Framework Framework { get; set; }
+
+
+        public Boolean? IsApprove { get; set; }
+        public DateTime? approveDate { get; set; }
+        public Guid? ApproveBy { get; set; }
+        public string CausesRefuse { get; set; }
     }
 }

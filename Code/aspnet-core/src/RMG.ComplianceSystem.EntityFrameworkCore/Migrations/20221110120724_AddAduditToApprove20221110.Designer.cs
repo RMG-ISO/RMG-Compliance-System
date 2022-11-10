@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMG.ComplianceSystem.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -10,9 +11,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace RMG.ComplianceSystem.Migrations
 {
     [DbContext(typeof(ComplianceSystemDbContext))]
-    partial class ComplianceSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221110120724_AddAduditToApprove20221110")]
+    partial class AddAduditToApprove20221110
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1094,9 +1096,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ApproveBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("AuditCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -1128,9 +1127,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AuditTitleEn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CausesRefuse")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -1168,9 +1164,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("FrameworkId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool?>("IsApprove")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -1189,9 +1182,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("approveDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
