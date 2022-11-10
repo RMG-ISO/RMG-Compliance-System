@@ -99,7 +99,7 @@
                     <label for="auditors">
                         {{ '::Auditors' | abpLocalization }}
                     </label><span> * </span>
-                    <ng-select formControlName="auditorsIds" multiple="true">
+                    <ng-select formControlName="auditorsIds" multiple="true" (change)="changeUsers($event, form.controls.departmentRepresentatives)">
                         <ng-option *ngFor="let user of auditorsList" [value]="user.id">
                             {{ user.fullName }}
                         </ng-option>
@@ -109,9 +109,9 @@
                     <label for="DepartmentRepresentatives">
                         {{ '::DepartmentRepresentatives' | abpLocalization }}
                     </label><span> * </span>
-                    <ng-select formControlName="departmentRepresentatives" multiple="true">
-                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
-                            {{ user.fullName }}
+                    <ng-select formControlName="departmentRepresentatives" multiple="true" (change)="changeUsers($event, form.controls.auditorsIds)">
+                        <ng-option *ngFor="let user of representativesList" [value]="user.id">
+                            {{ user.name }}
                         </ng-option>
                     </ng-select>
                 </div>
@@ -129,7 +129,7 @@
 
                 <div class="col-md-12 form-group">
                     <label for="riskOpportunityId">
-                        {{ '::Risk' | abpLocalization }}
+                        {{ '::TheRisk' | abpLocalization }}
                     </label><span> * </span>
                     <ng-select formControlName="riskOpportunityId">
                         <ng-option *ngFor="let risk of risksList" [value]="risk.id">
@@ -143,7 +143,7 @@
             <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/audits/list">
                 {{ '::Back' | abpLocalization }}
             </button>
-            <button class="primary" mat-raised-button>
+            <button class="primary" mat-raised-button [disabled]="isSaving" *ngIf="mode !== FormMode.View">
                 {{ '::Save' | abpLocalization }}
             </button>
         </mat-card-actions>

@@ -53,9 +53,9 @@ export class InternalAuditPreparationService {
     { apiName: this.apiName });
 
     getByID = (id:string ) =>
-    this.restService.request<any, PagedResultDto<InternalAuditPreparationDto>>({
+    this.restService.request<any, InternalAuditPreparationDto>({
       method: 'GET',
-      url: '/api/app/internal-audit-preparation/internal-audit-by-id',
+      url: '/api/app/internal-audit-preparation/internal-audit-by-id/' + id,
       params: { Id:id},
     },
     { apiName: this.apiName });

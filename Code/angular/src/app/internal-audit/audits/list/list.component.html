@@ -33,7 +33,7 @@
 
             <ngx-datatable-column [name]=" '::DepartmentName' | abpLocalization" prop="department">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | lang:'name' }}
+                    {{ value.name }}
                 </ng-template>
             </ngx-datatable-column>
 

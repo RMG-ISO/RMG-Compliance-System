@@ -1,4 +1,8 @@
-import { ActivatedRoute } from '@angular/router';
+import { ToasterService } from '@abp/ng.theme.shared';
+import { finalize } from 'rxjs/operators';
+import { parseISO } from 'date-fns';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FrameworkService } from '@proxy/frameworks';
@@ -19,6 +23,7 @@ export class CreateComponent implements OnInit {
   frameworks;
   departments;
   allEmployees;
+  FormMode = FormMode;
 
   constructor(
     private activatedRoute:ActivatedRoute,
@@ -27,6 +32,8 @@ export class CreateComponent implements OnInit {
     private departmentService: DepartmentService,
     private employeeService: EmployeeService,
     private riskAndOpportunityService:RiskAndOpportunityService,
+    private toasterService:ToasterService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -50,14 +57,27 @@ export class CreateComponent implements OnInit {
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
       riskOpportunityId: new FormControl(null, Validators.required),
+      id:new FormControl(null)
     });
 
     this.getItems();
 
+    if(this.mode !== FormMode.Create) {
+      this.internalAuditPreparationService.getByID(this.activatedRoute.snapshot.params.id).subscribe(r => {
+        console.log(r);
+        r['startDate'] = parseISO(r['startDate']);
+        r['endDate'] = parseISO(r['endDate']);
+        r['auditorsIds'] = r['auditorDto'].map(x => x.userId)
+        r['departmentRepresentatives'] = r['auditorDeptDto'].map(x => x.userId)
+        this.form.patchValue(r);
+        this.changeDepartment(r['departmentId'])
+      })
+    }
   }
 
   auditorsList;
   risksList;
+  representativesList;
   getItems() {
     this.frameworkService.getList({maxResultCount:null}).subscribe(result => {
       this.frameworks = result.items;
@@ -77,18 +97,24 @@ export class CreateComponent implements OnInit {
     })
   }
 
+  changeUsers(ev, control) {
+    let oppsit = control.value || [];
+    for(let i = oppsit.length - 1; i >= 0; i--) {
+      if(ev.indexOf(oppsit[i]) > -1) oppsit.splice(i, 1);
+    }
+    control.patchValue(oppsit)
+  }
+
   changeDepartment(id) {
     this.internalAuditPreparationService.getUserByDeptId(id).subscribe(r => {
-      console.log(r);
+      this.representativesList = r;
     })
   }
 
-  getEmployeesByDepartment() {
-    // this.employeeService.getList()
-  }
-
+  isSaving = false;
   save() {
     if(this.form.invalid) return;
+    this.isSaving = true;
 
     let value = {...this.form.value};
     value['auditors'] = [];
@@ -96,23 +122,33 @@ export class CreateComponent implements OnInit {
       value['auditors'].push({
         userId:id,
         isAuditor:true,
-        UserId:id,
-        IsAuditor:true
       })
     }
 
     for(let id of value.departmentRepresentatives) {
       value['auditors'].push({
         userId:id,
-        UserId:id,
         departmentId:value.departmentId,
-        DepartmentId:value.departmentId
+        isAuditor:false
       })
     }
 
     console.log(value);
-    this.internalAuditPreparationService.create(value).subscribe( r => {
+    if(this.mode == FormMode.Create) this.internalAuditPreparationService.create(value)
+    .pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe( r => {
       console.log(r);
+      this.toasterService.success('::SuccessfullySaved', "");
+      this.router.navigate(['/internal-audit/audits/list'])
     })
+    else this.internalAuditPreparationService.update(value.id, value)
+    .pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe(r => {
+      this.toasterService.success('::SuccessfullySaved', "");
+      this.router.navigate(['/internal-audit/audits/list'])
+    })
+
   }
 }
