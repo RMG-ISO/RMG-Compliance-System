@@ -33,6 +33,7 @@ using RMG.ComplianceSystem.InternalAuditQuestionLists;
 using RMG.ComplianceSystem.InternalAuditQuestions;
 using RMG.ComplianceSystem.InternalAuditPreparations;
 using RMG.ComplianceSystem.InternalAuditApproves;
+using RMG.ComplianceSystem.DepartmentUsers;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -102,6 +103,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Assessment> Assessments { get; set; }
         public DbSet<AssessmentEmployee> AssessmentEmployees { get; set; }
         public DbSet<DomainDepartment> DomainDepartments { get; set; }
+        public DbSet<DepartmentUser> DepartmentUsers { get; set; }
+        
         #endregion
 
 
@@ -145,6 +148,13 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                     ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
+            builder.Entity<DepartmentUser>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DepartmentUsers",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+            
             builder.Entity<Book>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Books",
