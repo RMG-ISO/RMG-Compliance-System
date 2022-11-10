@@ -9,6 +9,17 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row">
+                <ng-container *ngIf="mode !== FormMode.Create">
+                    <div class="col-md-3 form-group">
+                        <label for="AuditNameAr">
+                            {{ '::AuditCode' | abpLocalization }}
+                        </label>
+                        <input id="AuditNameAr" class="form-control" formControlName="auditCode">
+                    </div>
+
+                    <div class="col-md-9"></div>
+                    
+                </ng-container>
                 <div class="col-md-6 form-group">
                     <label for="AuditNameAr">
                         {{ '::AuditNameAr' | abpLocalization }}

@@ -16,7 +16,7 @@
     </div>
     <div class="card-body">
         <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable >
-            <ngx-datatable-column [name]=" 'AuditCode' | abpLocalization" prop="auditCode"></ngx-datatable-column>
+            <ngx-datatable-column [name]=" '::AuditCode' | abpLocalization " prop="auditCode"></ngx-datatable-column>
 
             <ngx-datatable-column [name]=" '::AuditTitle' | abpLocalization">
                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -25,7 +25,7 @@
             </ngx-datatable-column>
 
 
-            <ngx-datatable-column [name]=" '::FrameworkName' | abpLocalization" prop="framework">
+            <ngx-datatable-column [name]=" '::FrameworkName' | abpLocalization " prop="framework">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{ value | lang:'name' }}
                 </ng-template>
