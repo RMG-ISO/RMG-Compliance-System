@@ -8,7 +8,7 @@ import { IdentityUserDto } from '@abp/ng.account';
 @Injectable({
   providedIn: 'root',
 })
-export class InternalAuditPreparationService {
+export class InternalAuditApproveService {
   apiName = 'Default';
 
   create = (input: CreateUpdateInternalAuditPreparationDto) =>
