@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path:'checklists',
     loadChildren:() => import('./checklists/checklists.module').then(m => m.ChecklistsModule)
+  },
+  {
+    path:'audits',
+    loadChildren: () => import('./audits/audits.module').then(m => m.AuditsModule)
   }
 ];
 

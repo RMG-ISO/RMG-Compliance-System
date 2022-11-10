@@ -429,9 +429,25 @@
     "CheckListNameAr":"اسم القائمة عربى",
     "CheckListNameEn":"اسم القائمة انجليزى",
     "CheckListQuestions":"اسئلة القائمة",
-    "AddChecklistQuestion":"من فضلك قم بإختيار سؤال على الأقل"
+    "AddChecklistQuestion":"من فضلك قم بإختيار سؤال على الأقل",
     
-
+    "AuditsList":"قائمة التدقيقات",
+    "Audits":"التدقيقات",
+    "AuditCode":"رقم التدقيق",
+    "AuditTitle":"عنوان التدقيق",
+    "AuditNameAr":"عنوان التدقيق عربى",
+    "AuditNameEn":"عنوان التدقيق انجليزى",
+    "AuditDescriptionAr":"وصف التدقيق عربى",
+    "AuditDescriptionEn":"وصف التدقيق انجليزى",
+    "AuditFieldAr":"مجال التدقيق عربى",
+    "AuditFieldEn":"مجال التدقيق انجليزى",
+    "AuditSetpsAr":"خطوات التدقيق عربى",
+    "AuditSetpsEn":"خطوات التدقيق انجليزى",
+    "AuditGoalsAr":"اهداف التدقيق عربى",
+    "AuditGoalsEn":"اهداف التدقيق انجليزى",
+    "Auditors":"المدققون",
+    "DepartmentRepresentatives":"ممثلو الإدارة",
+    "TheRisk":"الخطر"
 
 
   }
