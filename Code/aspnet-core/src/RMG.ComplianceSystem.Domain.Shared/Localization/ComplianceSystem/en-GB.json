@@ -426,8 +426,25 @@
     "CheckListNameAr":"CheckList name in arabic",
     "CheckListNameEn":"CheckList name in english",
     "CheckListQuestions":"CheckList questions",
-    "AddChecklistQuestion":"Please select atleast one question"
+    "AddChecklistQuestion":"Please select atleast one question",
 
+    "AuditsList":"Audits List",
+    "Audits":"Audits",
+    "AuditCode":"Audit code",
+    "AuditTitle":"Audit title",
+    "AuditNameAr":"Audit name in arabic",
+    "AuditNameEn":"Audit name in english",
+    "AuditDescriptionAr":"Audit description in arabic",
+    "AuditDescriptionEn":"Audit description in english",
+    "AuditFieldAr":"Audit field arabic",
+    "AuditFieldEn":"Audit field english",
+    "AuditSetpsAr":"Audit steps in arabic",
+    "AuditSetpsEn":"Audit steps in english",
+    "AuditGoalsAr":"Audit goals in arabic",
+    "AuditGoalsEn":"Audit goals in english",
+    "Auditors":"Auditors",
+    "DepartmentRepresentatives":"Department Representatives",
+    "TheRisk":"Risk"
 
 
   }

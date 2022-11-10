@@ -1,0 +1,162 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <mat-card>
+        <mat-card-header class="mb-3">
+            <mat-card-title>
+                {{ '::Audits' | abpLocalization }}
+                /
+                {{ ( '::' + mode ) | abpLocalization }}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <ng-container *ngIf="mode !== FormMode.Create">
+                    <div class="col-md-3 form-group">
+                        <label for="AuditNameAr">
+                            {{ '::AuditCode' | abpLocalization }}
+                        </label>
+                        <input id="AuditNameAr" class="form-control" formControlName="auditCode">
+                    </div>
+
+                    <div class="col-md-9"></div>
+                    
+                </ng-container>
+                <div class="col-md-6 form-group">
+                    <label for="AuditNameAr">
+                        {{ '::AuditNameAr' | abpLocalization }}
+                    </label><span> * </span>
+                    <input id="AuditNameAr" class="form-control" formControlName="auditTitleAr">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="AuditNameEn">
+                        {{ '::AuditNameEn' | abpLocalization }}
+                    </label><span> * </span>
+                    <input id="AuditNameEn" class="form-control" formControlName="auditTitleEn">
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditDescriptionAr">
+                        {{ '::AuditDescriptionAr' | abpLocalization }}
+                    </label><span> * </span>
+                    <textarea id="auditDescriptionAr" class="form-control" formControlName="auditDescriptionAr"></textarea>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditDescriptionEn">
+                        {{ '::AuditDescriptionEn' | abpLocalization }}
+                    </label><span> * </span>
+                    <textarea id="auditDescriptionEn" class="form-control" formControlName="auditDescriptionEn"></textarea>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditFieldAr">
+                        {{ '::AuditFieldAr' | abpLocalization }}
+                    </label><span> * </span>
+                    <input id="auditFieldAr" class="form-control" formControlName="auditFieldAr">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditFieldEn">
+                        {{ '::AuditFieldEn' | abpLocalization }}
+                    </label><span> * </span>
+                    <input id="auditFieldEn" class="form-control" formControlName="auditFieldEn">
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditSetpsAr">
+                        {{ '::AuditSetpsAr' | abpLocalization }}
+                    </label><span> * </span>
+                    <textarea id="auditSetpsAr" class="form-control" formControlName="auditSetpsAr"></textarea>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditSetpsEn">
+                        {{ '::AuditSetpsEn' | abpLocalization }}
+                    </label><span> * </span>
+                    <textarea id="auditSetpsEn" class="form-control" formControlName="auditSetpsEn"></textarea>
+                </div>
+                
+                <div class="col-md-6 form-group">
+                    <label for="auditGoalsAr">
+                        {{ '::AuditGoalsAr' | abpLocalization }}
+                    </label><span> * </span>
+                    <textarea id="auditGoalsAr" class="form-control" formControlName="auditGoalsAr"></textarea>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="auditGoalsEn">
+                        {{ '::AuditGoalsEn' | abpLocalization }}
+                    </label><span> * </span>
+                    <textarea id="auditGoalsEn" class="form-control" formControlName="auditGoalsEn"></textarea>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="framework">
+                        {{ '::Framework' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="frameworkId">
+                        <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
+                            {{ framework | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="Department">
+                        {{ '::Department' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="departmentId" (change)="changeDepartment($event)">
+                        <ng-option *ngFor="let department of departments" [value]="department.id">
+                            {{ department.name }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="auditors">
+                        {{ '::Auditors' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="auditorsIds" multiple="true" (change)="changeUsers($event, form.controls.departmentRepresentatives)">
+                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
+                            {{ user.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="DepartmentRepresentatives">
+                        {{ '::DepartmentRepresentatives' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="departmentRepresentatives" multiple="true" (change)="changeUsers($event, form.controls.auditorsIds)">
+                        <ng-option *ngFor="let user of representativesList" [value]="user.id">
+                            {{ user.name }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label for="dueDate">{{ '::StartDate' | abpLocalization }}</label><span> * </span>
+                    <input #startDate="ngbDatepicker" class="form-control" id="dueDate" name="startDate" formControlName="startDate"
+                    ngbDatepicker (click)="startDate.toggle()" />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="endDate">{{ '::DueDate' | abpLocalization }}</label><span> * </span>
+                    <input #endDate="ngbDatepicker" class="form-control" id="endDate" name="endDate" formControlName="endDate"
+                    ngbDatepicker  (click)="endDate.toggle()" />
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label for="riskOpportunityId">
+                        {{ '::TheRisk' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="riskOpportunityId">
+                        <ng-option *ngFor="let risk of risksList" [value]="risk.id">
+                            {{ risk | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions class="actions mb-3">
+            <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/audits/list">
+                {{ '::Back' | abpLocalization }}
+            </button>
+            <button class="primary" mat-raised-button [disabled]="isSaving" *ngIf="mode !== FormMode.View">
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>
