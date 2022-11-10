@@ -1,3 +1,4 @@
+import { DateValidators } from 'src/app/shared/validators/date-validator';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { finalize } from 'rxjs/operators';
 import { parseISO } from 'date-fns';
@@ -39,7 +40,7 @@ export class CreateComponent implements OnInit {
   ngOnInit(): void {
     this.mode = this.activatedRoute.snapshot.data.mode;
     this.form = new FormGroup({
-      auditCode: new FormControl(null),
+      auditCode: new FormControl({value:null, disabled:true}),
       auditTitleEn: new FormControl(null, Validators.required),
       auditTitleAr: new FormControl(null, Validators.required),
       auditDescriptionEn: new FormControl(null, Validators.required),
@@ -58,6 +59,11 @@ export class CreateComponent implements OnInit {
       endDate: new FormControl(null, Validators.required),
       riskOpportunityId: new FormControl(null, Validators.required),
       id:new FormControl(null)
+    }, {
+      validators:[
+        DateValidators.MinDate('startDate'),
+        DateValidators.ValidateTwoDates('startDate', 'endDate'),
+      ]
     });
 
     this.getItems();
