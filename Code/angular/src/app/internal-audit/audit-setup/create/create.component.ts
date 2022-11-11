@@ -59,16 +59,19 @@ export class CreateComponent implements OnInit {
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
       riskOpportunityId: new FormControl(null, Validators.required),
-      id:new FormControl(null)
+      id:new FormControl(null),
+      isApprove:new FormControl(null)
     }, {
       validators:[
-        DateValidators.MinDate('startDate'),
-        DateValidators.ValidateTwoDates('startDate', 'endDate'),
+        DateValidators.ValidateTwoDates('startDate', 'endDate')
       ]
     });
 
-    this.getItems();
+    if(this.mode == FormMode.Create) this.form.setValidators([DateValidators.ValidateTwoDates('startDate', 'endDate'),DateValidators.MinDate('startDate')])
+    this.form.updateValueAndValidity();
 
+    this.getItems();
+    
     if(this.mode !== FormMode.Create) {
       this.internalAuditPreparationService.getByID(this.activatedRoute.snapshot.params.id).subscribe(r => {
         console.log(r);
@@ -81,7 +84,7 @@ export class CreateComponent implements OnInit {
         if(r['isApprove']) {
           this.form.disable();
           this.mode = FormMode.View;
-        }
+        } else this.form.controls.isApprove.setValue(null)
       })
     } else if (this.mode == FormMode.View) this.form.disable();
   }
