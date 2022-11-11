@@ -3,7 +3,7 @@ import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
-import { IdentityUserDto } from '@abp/ng.account';
+import type { EmployeeDto } from '../employees/dtos/models';
 
 @Injectable({
   providedIn: 'root',
@@ -61,7 +61,7 @@ export class InternalAuditPreparationService {
     { apiName: this.apiName });
 
     getUserByDeptId = (deptId:string ) =>
-    this.restService.request<any, IdentityUserDto[]>({
+    this.restService.request<any, EmployeeDto[]>({
       method: 'GET',
       url: `/api/app/internal-audit-preparation/users-by-dept-id/${deptId}`,
     },
