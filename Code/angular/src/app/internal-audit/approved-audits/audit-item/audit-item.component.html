@@ -76,13 +76,13 @@
         <mat-card>
             <mat-card-title>
                 <h3>
-                   اتخاذ القرار
+                  {{ '::TakeDecision' | abpLocalization }}
                 </h3>
             </mat-card-title>
             <mat-card-content>
                 <div class="form-group">
                     <label for="">
-                        الموافقة على التدقيق
+                        {{ '::AcceptAudit' | abpLocalization }}
                     </label>
                     <mat-radio-group color="primary" formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
                         <mat-radio-button class="mr-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
@@ -92,7 +92,7 @@
     
                 <div class="form-group refuse-cause" [class]=" form.controls.isApprove.value ? 'hide' : 'show' ">
                     <label for="">
-                        سبب الرفض
+                        {{ '::RefuseCause' | abpLocalization }}
                     </label>
                     <span *ngIf="!form.controls.isApprove.value">*</span>
                     <textarea class="form-control" formControlName="causesRefuse"></textarea>

@@ -109,7 +109,7 @@ function configureRoutes(routesService: RoutesService) {
       {
         path:'/internal-audit/approved-audits',
         name:'::ApprovedAudits',
-        iconClass: 'fa-solid fa-file-lines',
+        iconClass: 'fa-solid fa-check',
         order: 2,
         parentName:'::AuditManagement',
         layout: eLayoutType.application,

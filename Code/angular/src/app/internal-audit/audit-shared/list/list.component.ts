@@ -6,6 +6,7 @@ import { DepartmentService } from '@proxy/departments';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { EmployeeService } from '@proxy/employees';
 
 @Component({
   selector: 'app-list',
@@ -23,12 +24,11 @@ export class ListComponent implements OnInit {
     private internalAuditPreparationService:InternalAuditPreparationService,
     private departmentService: DepartmentService,
     private frameworkService:FrameworkService,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute:ActivatedRoute,
+    private employeeService:EmployeeService
   ) { }
 
-  departments;
-  filterForm:FormGroup;
-  frameworks;
+
 
   route;
   title = '::AuditSetup'
@@ -40,9 +40,13 @@ export class ListComponent implements OnInit {
     if(this.route == 'approved-audits') this.title = '::ApprovedAudits';
   }
 
+  departments;
+  filterForm:FormGroup;
+  frameworks;
+  auditorsList;
   initSearch() {
     this.filterForm = new FormGroup({
-      // ApproveBy:new FormControl(),
+      ApproveBy:new FormControl(),
       IsApprove:new FormControl(null),
       approveDate:new FormControl(null),
       DepartmentId:new FormControl(null),
@@ -55,6 +59,10 @@ export class ListComponent implements OnInit {
 
     this.frameworkService.getList({maxResultCount:null}).subscribe(result => {
       this.frameworks = result.items;
+    });
+
+    this.employeeService.getList({maxResultCount:null}).subscribe(result => {
+      this.auditorsList = result.items;
     });
     
     this.filterForm.valueChanges.subscribe(r => this.list.get() )
