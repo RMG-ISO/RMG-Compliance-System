@@ -130,7 +130,7 @@ export class CreateComponent implements OnInit {
     if(this.form.invalid) return;
     this.isSaving = true;
 
-    let value = {...this.form.value};
+    let value = {...this.form.getRawValue()};
     value.startDate = moment(value.startDate).utc(true).toDate();
     value.endDate = moment(value.endDate).utc(true).toDate();
     

@@ -1,12 +1,13 @@
 import { FrameworkService } from '@proxy/frameworks';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ListService } from '@abp/ng.core';
+import { ListService, LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '@proxy/departments';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '@proxy/employees';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-list',
@@ -25,7 +26,10 @@ export class ListComponent implements OnInit {
     private departmentService: DepartmentService,
     private frameworkService:FrameworkService,
     private activatedRoute:ActivatedRoute,
-    private employeeService:EmployeeService
+    private employeeService:EmployeeService,
+    private localizationService:LocalizationService,
+    private confirmation:ConfirmationService,
+    private toasterService:ToasterService
   ) { }
 
 
@@ -89,6 +93,18 @@ export class ListComponent implements OnInit {
       this.items = response.items;
       this.totalCount = response.totalCount;
       console.log(response);
+    });
+  }
+
+  delete(model) {
+    let title = this.localizationService.currentLang.includes('ar') ?  model['questionTextAr'] : model['questionTextEn'];
+    this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
+      if (status === Confirmation.Status.confirm) {
+        this.internalAuditPreparationService.delete(model.id).subscribe(() => {
+          this.list.get();
+          this.toasterService.success('::SuccessfullyDeleted', "");
+        });
+      }
     });
   }
 
