@@ -12,6 +12,7 @@ import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { Type } from 'src/app/risks-mangement/module.enums';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create',
@@ -58,16 +59,19 @@ export class CreateComponent implements OnInit {
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
       riskOpportunityId: new FormControl(null, Validators.required),
-      id:new FormControl(null)
+      id:new FormControl(null),
+      isApprove:new FormControl(null)
     }, {
       validators:[
-        DateValidators.MinDate('startDate'),
-        DateValidators.ValidateTwoDates('startDate', 'endDate'),
+        DateValidators.ValidateTwoDates('startDate', 'endDate')
       ]
     });
 
-    this.getItems();
+    if(this.mode == FormMode.Create) this.form.setValidators([DateValidators.ValidateTwoDates('startDate', 'endDate'),DateValidators.MinDate('startDate')])
+    this.form.updateValueAndValidity();
 
+    this.getItems();
+    
     if(this.mode !== FormMode.Create) {
       this.internalAuditPreparationService.getByID(this.activatedRoute.snapshot.params.id).subscribe(r => {
         console.log(r);
@@ -76,9 +80,13 @@ export class CreateComponent implements OnInit {
         r['auditorsIds'] = r['auditorDto'].map(x => x.userId)
         r['departmentRepresentatives'] = r['auditorDeptDto'].map(x => x.userId)
         this.form.patchValue(r);
-        this.changeDepartment(r['departmentId'])
+        this.changeDepartment(r['departmentId']);
+        if(r['isApprove']) {
+          this.form.disable();
+          this.mode = FormMode.View;
+        } else this.form.controls.isApprove.setValue(null)
       })
-    }
+    } else if (this.mode == FormMode.View) this.form.disable();
   }
 
   auditorsList;
@@ -122,7 +130,10 @@ export class CreateComponent implements OnInit {
     if(this.form.invalid) return;
     this.isSaving = true;
 
-    let value = {...this.form.value};
+    let value = {...this.form.getRawValue()};
+    value.startDate = moment(value.startDate).utc(true).toDate();
+    value.endDate = moment(value.endDate).utc(true).toDate();
+    
     value['auditors'] = [];
     for(let id of value.auditorsIds) {
       value['auditors'].push({
@@ -139,21 +150,19 @@ export class CreateComponent implements OnInit {
       })
     }
 
-    console.log(value);
     if(this.mode == FormMode.Create) this.internalAuditPreparationService.create(value)
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe( r => {
-      console.log(r);
       this.toasterService.success('::SuccessfullySaved', "");
-      this.router.navigate(['/internal-audit/audits/list'])
+      this.router.navigate(['/internal-audit/audit-setup/list'])
     })
     else this.internalAuditPreparationService.update(value.id, value)
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe(r => {
       this.toasterService.success('::SuccessfullySaved', "");
-      this.router.navigate(['/internal-audit/audits/list'])
+      this.router.navigate(['/internal-audit/audit-setup/list'])
     })
 
   }

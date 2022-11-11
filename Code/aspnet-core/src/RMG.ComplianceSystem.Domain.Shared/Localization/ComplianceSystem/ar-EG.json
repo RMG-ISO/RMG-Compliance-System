@@ -447,7 +447,20 @@
     "AuditGoalsEn":"اهداف التدقيق انجليزى",
     "Auditors":"المدققون",
     "DepartmentRepresentatives":"ممثلو الإدارة",
-    "TheRisk":"الخطر"
+    "TheRisk":"الخطر",
+    "AuditSetup":"إعداد التدقيق",
+    "ApprovedAudits":"التدقيقات المقبولة",
+    "ApproveStatus":"مقبول",
+    "ApproveDate":"تاريخ القبول",
+    "TakeDecision":"اتخاذ القرار",
+    "AcceptAudit":"الموافقة على التدقيق",
+    "RefuseCause":"سبب الرفض",
+    "AuditDescription":"وصف التدقيق",
+    "AuditField":"مجال التدقيق",
+    "AuditSetps":"خطوات التدقيق",
+    "AuditGoals":"اهداف التدقيق",
+    "ApprovedBy":"مقبول بواسطة"
+
 
 
   }

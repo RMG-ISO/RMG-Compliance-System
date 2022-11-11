@@ -1,0 +1,175 @@
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center header-content">
+            <h3 class="card-title m-0">
+                {{ title | abpLocalization }}
+            </h3>
+            <div class="d-flex justify-content-end">
+                <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
+                    <i class="fas fa-filter"></i>
+                </button>
+                <button
+                *ngIf="route == 'audit-setup'"
+                mat-button class="add-btn mr-3" type="button"
+                routerLink="/internal-audit/audit-setup/create" >
+                    <i class="fa fa-plus mr-2"></i>
+                    <span class="line mr-2"></span>
+                    <span> {{ "::Create" | abpLocalization }} </span>
+                </button>
+                <app-search (search)="searchVal = $event;list.get()"></app-search>
+            </div>
+        </div>
+
+        <form [formGroup]="filterForm">
+            <div class="row filter-row mt-3" [class.show]="showFilters">
+                <ng-container *ngIf="route == 'approved-audits' ">
+                    <div class="col-md-3 form-group">
+                        <label>
+                            {{ '::IsApprove' | abpLocalization }}
+                        </label>
+                        <ng-select formControlName="IsApprove">
+                            <ng-option [value]="true">
+                                {{ '::yes' | abpLocalization }}
+                            </ng-option>
+                            <ng-option [value]="false">
+                                {{ '::no' | abpLocalization }}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label for="auditors">
+                            {{ '::ApprovedBy' | abpLocalization }}
+                        </label>
+                        <ng-select formControlName="ApproveBy" >
+                            <ng-option *ngFor="let user of auditorsList" [value]="user.id">
+                                {{ user.fullName }}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+                    
+                    <!-- <div class="col-md-3 form-group">
+                        <label for="approveDate">{{ '::approveDate' | abpLocalization }}</label>
+                        <input #approveDate="ngbDatepicker" class="form-control" id="approveDate" name="approveDate" formControlName="approveDate"
+                        ngbDatepicker (click)="approveDate.toggle()" />
+                    </div> -->
+                </ng-container>
+                
+    
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::Department' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="DepartmentId">
+                        <ng-option *ngFor="let department of departments" [value]="department.id">
+                            {{ department.name }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+    
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::Framework' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="FrameworkId">
+                        <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
+                            {{ framework | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                
+            </div>
+        </form>
+
+    </div>
+    <div class="card-body">
+        <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable >
+            <ngx-datatable-column [name]=" '::AuditCode' | abpLocalization " prop="auditCode"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::AuditTitle' | abpLocalization">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row | lang:'auditTitle' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]=" '::FrameworkName' | abpLocalization " prop="framework">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | lang:'name' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::DepartmentName' | abpLocalization" prop="department">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value.name }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::creatorName' | abpLocalization" prop="creator">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value.name }}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+
+            <ngx-datatable-column [name]="'::CreationTime' | abpLocalization" prop="creationTime">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy/MM/dd' }} 
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ng-container *ngIf="route == 'approved-audits'">
+                <ngx-datatable-column [name]=" '::ApproveStatus' | abpLocalization">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <ng-container *ngIf="row.isApprove !== null; else showNull">
+                            <i [style.color]="row.isApprove ? '#388e3c' : '#e53935'" class="status-icon fa-solid" [class]="row.isApprove ? 'fa-circle-check' : 'fa-circle-xmark' "></i>
+                            <!-- <span [style.color]="row.isApprove ? 'green' : 'red'">
+                                {{ (row.isApprove ? '::yes' : '::no') | abpLocalization }}
+                            </span> -->
+                        </ng-container>
+                        <ng-template #showNull>
+                            -
+                        </ng-template>
+                    </ng-template>
+                </ngx-datatable-column>
+    
+                <ngx-datatable-column [name]="'::ApproveDate' | abpLocalization" prop="approveDate">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        {{ value | date:'yyyy/MM/dd' }} 
+                    </ng-template>
+                </ngx-datatable-column>
+            </ng-container>
+            
+
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="200" [sortable]="false" cellClass="options">
+                <ng-template let-row="row" ngx-datatable-cell-template >
+                    <ng-container *ngIf="route == 'audit-setup' ; else showApproved">
+                        <ng-container *ngIf="!row.isApprove">
+                            <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+        
+                            <a mat-button [routerLink]="['/internal-audit/audit-setup', row.id, 'edit']">
+                                <mat-icon>edit</mat-icon>
+                            </a>
+                        </ng-container>
+                        <a mat-button [routerLink]="['/internal-audit/audit-setup', row.id, 'view']">
+                            <mat-icon>visibility</mat-icon>
+                        </a>
+                    </ng-container>
+                    <ng-template #showApproved>
+                        <a *ngIf="!row.isApprove" mat-button [routerLink]="['/internal-audit/approved-audits', row.id, 'approve-decline']">
+                            <mat-icon>rule</mat-icon>
+                        </a>
+                        <a mat-button [routerLink]="['/internal-audit/approved-audits', row.id, 'view']">
+                            <mat-icon>visibility</mat-icon>
+                        </a>
+                    </ng-template>
+                    
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+
+</div>

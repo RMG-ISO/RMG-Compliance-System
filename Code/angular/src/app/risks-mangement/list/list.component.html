@@ -30,48 +30,48 @@
             </button>
         </div>
 
-          <div class="row filter-row" [class.show]="showFilters">
+        <div class="row filter-row" [class.show]="showFilters">
+        <div class="col-md-3 form-group">
+            <label>
+                {{ '::Status' | abpLocalization }}
+            </label>
+            <ng-select (change)="changeFilter({'Status': $event || null})">
+                <ng-option *ngFor="let st of Statusdrop" [value]="st.id">
+                    {{ st | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label>
+                {{ (activeTabName +'Potential') | abpLocalization }}
+            </label>
+            <ng-select (change)="changeFilter({'Potential': $event.id || null, 'value':$event.value})">
+                <ng-option *ngFor="let Potential of Potentials" [value]="Potential">
+                    {{ ('::' + Potential.name)  | abpLocalization }}
+                </ng-option>
+            </ng-select>
+        </div>
             <div class="col-md-3 form-group">
-                <label>
-                    {{ '::Status' | abpLocalization }}
-                </label>
-                <ng-select (change)="changeFilter({'Status': $event || null})">
-                    <ng-option *ngFor="let st of Statusdrop" [value]="st.id">
-                        {{ st | lang:'name' }}
-                    </ng-option>
-                </ng-select>
-            </div>
-            <div class="col-md-3 form-group">
-                <label>
-                    {{ (activeTabName +'Potential') | abpLocalization }}
-                </label>
-                <ng-select (change)="changeFilter({'Potential': $event.id || null, 'value':$event.value})">
-                    <ng-option *ngFor="let Potential of Potentials" [value]="Potential">
-                        {{ ('::' + Potential.name)  | abpLocalization }}
-                    </ng-option>
-                </ng-select>
-            </div>
-              <div class="col-md-3 form-group">
-                <label>
-                    {{ '::CreatedBy' | abpLocalization }}
-                </label>
-                <ng-select (change)="changeFilter({'UserId': $event || null})">
-                    <ng-option *ngFor="let user of users" [value]="user.id">
-                        {{user.name}}
-                    </ng-option>
-                </ng-select>
-            </div>
-            <div class="col-md-3 form-group">
-              <label>
-                  {{ '::Department' | abpLocalization }}
-              </label>
-              <ng-select (change)="changeFilter({'DepartmentId': $event || null})">
-                    <ng-option *ngFor="let department of departments" [value]="department.id">
-                        {{ department.name }}
-                    </ng-option>
-                </ng-select>
-            </div>
-          </div>
+            <label>
+                {{ '::CreatedBy' | abpLocalization }}
+            </label>
+            <ng-select (change)="changeFilter({'UserId': $event || null})">
+                <ng-option *ngFor="let user of users" [value]="user.id">
+                    {{user.name}}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label>
+                {{ '::Department' | abpLocalization }}
+            </label>
+            <ng-select (change)="changeFilter({'DepartmentId': $event || null})">
+                <ng-option *ngFor="let department of departments" [value]="department.id">
+                    {{ department.name }}
+                </ng-option>
+            </ng-select>
+        </div>
+        </div>
     </div>
 
 
