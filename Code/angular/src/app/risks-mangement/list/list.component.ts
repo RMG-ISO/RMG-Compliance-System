@@ -118,7 +118,6 @@ export class ListComponent implements OnInit {
   }
 
   changeFilter(val) {
-    console.log(val);
     this.filter = {...this.filter, ...val};
     this.list.get();
   }

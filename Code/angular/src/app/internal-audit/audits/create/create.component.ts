@@ -12,6 +12,7 @@ import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { Type } from 'src/app/risks-mangement/module.enums';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create',
@@ -123,6 +124,9 @@ export class CreateComponent implements OnInit {
     this.isSaving = true;
 
     let value = {...this.form.value};
+    value.startDate = moment(value.startDate).utc(true).toDate();
+    value.endDate = moment(value.endDate).utc(true).toDate();
+    
     value['auditors'] = [];
     for(let id of value.auditorsIds) {
       value['auditors'].push({
@@ -139,12 +143,10 @@ export class CreateComponent implements OnInit {
       })
     }
 
-    console.log(value);
     if(this.mode == FormMode.Create) this.internalAuditPreparationService.create(value)
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe( r => {
-      console.log(r);
       this.toasterService.success('::SuccessfullySaved', "");
       this.router.navigate(['/internal-audit/audits/list'])
     })

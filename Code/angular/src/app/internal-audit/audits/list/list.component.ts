@@ -12,24 +12,25 @@ import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparation
   ]
 })
 export class ListComponent implements OnInit {
-  searchVal;
+  searchVal = null;
 
   constructor(
     public  list:ListService,
     private internalAuditPreparationService:InternalAuditPreparationService,
     private confirmation:ConfirmationService,
     private localizationService:LocalizationService,
-    private toasterService:ToasterService
+    private toasterService:ToasterService,
   ) { }
 
   ngOnInit(): void {
     this.getList();
   }
 
+  
   items;
   totalCount
-  getList(search = null) {
-    const streamCreator = (query) => this.internalAuditPreparationService.getList({ ...query, Search: search });
+  getList() {
+    const streamCreator = (query) => this.internalAuditPreparationService.getList({ ...query, Search: this.searchVal });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

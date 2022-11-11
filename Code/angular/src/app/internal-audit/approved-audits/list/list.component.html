@@ -2,12 +2,63 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center header-content">
             <h3 class="card-title m-0">
-                {{ '::AuditsList' | abpLocalization }}
+                {{ '::اعداد التدقيق' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
+                <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
+                    <i class="fas fa-filter"></i>
+                </button>
                 <app-search (search)="searchVal = $event;list.get()"></app-search>
             </div>
         </div>
+
+        <form [formGroup]="filterForm">
+            <div class="row filter-row mt-3" [class.show]="showFilters">
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::IsApprove' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="IsApprove">
+                        <ng-option [value]="true">
+                            {{ '::yes' | abpLocalization }}
+                        </ng-option>
+                        <ng-option [value]="false">
+                            {{ '::no' | abpLocalization }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                
+                <div class="col-md-3 form-group">
+                    <label for="approveDate">{{ '::approveDate' | abpLocalization }}</label>
+                    <input #approveDate="ngbDatepicker" class="form-control" id="approveDate" name="approveDate" formControlName="approveDate"
+                    ngbDatepicker (click)="approveDate.toggle()" />
+                </div>
+    
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::Department' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="DepartmentId">
+                        <ng-option *ngFor="let department of departments" [value]="department.id">
+                            {{ department.name }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+    
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::Framework' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="FrameworkId">
+                        <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
+                            {{ framework | lang:'name' }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                
+            </div>
+        </form>
+
     </div>
     <div class="card-body">
         <ngx-datatable class="material fullscreen" [rows]="items" [count]="totalCount" [list]="list" appNgxdatatable >
@@ -38,7 +89,7 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]=" '::ApproveStatus' | abpLocalization">
+            <ngx-datatable-column *ngIf="showFilters" [name]=" '::ApproveStatus' | abpLocalization">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <ng-container *ngIf="row.isApprove !== null; else showNull">
                         <span [style.color]="row.isApprove ? 'green' : 'red'">

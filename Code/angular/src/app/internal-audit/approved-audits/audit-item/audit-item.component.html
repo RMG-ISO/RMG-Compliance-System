@@ -47,14 +47,19 @@
         </mat-card-content>
     </mat-card>
     
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="save()">
         <mat-card>
+            <mat-card-title>
+                <h3>
+                   اتخاذ القرار
+                </h3>
+            </mat-card-title>
             <mat-card-content>
                 <div class="form-group">
                     <label for="">
                         الموافقة على التدقيق
                     </label>
-                    <mat-radio-group formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
+                    <mat-radio-group color="primary" formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
                         <mat-radio-button class="mr-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
                         <mat-radio-button [value]="false"> {{ '::no'  | abpLocalization }} </mat-radio-button>
                     </mat-radio-group>
@@ -64,12 +69,13 @@
                     <label for="">
                         سبب الرفض
                     </label>
+                    <span *ngIf="!form.controls.isApprove.value">*</span>
                     <textarea class="form-control" formControlName="causesRefuse"></textarea>
                 </div>
     
             </mat-card-content>
             <mat-card-actions class="actions mb-3">
-                <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/audits/list">
+                <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/approved-audits/list">
                     {{ '::Back' | abpLocalization }}
                 </button>
                 <button class="primary" mat-raised-button [disabled]="isSaving">
