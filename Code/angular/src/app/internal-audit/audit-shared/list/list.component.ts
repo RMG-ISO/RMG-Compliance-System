@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '@proxy/departments';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -21,15 +22,22 @@ export class ListComponent implements OnInit {
     public  list:ListService,
     private internalAuditPreparationService:InternalAuditPreparationService,
     private departmentService: DepartmentService,
-    private frameworkService:FrameworkService
+    private frameworkService:FrameworkService,
+    private activatedRoute:ActivatedRoute
   ) { }
 
   departments;
   filterForm:FormGroup;
   frameworks;
+
+  route;
+  title = '::AuditSetup'
   ngOnInit(): void {
     this.initSearch();
     this.getList();
+    console.log(this.activatedRoute.snapshot);
+    this.route = this.activatedRoute.snapshot.data.route;
+    if(this.route == 'approved-audits') this.title = '::ApprovedAudits';
   }
 
   initSearch() {

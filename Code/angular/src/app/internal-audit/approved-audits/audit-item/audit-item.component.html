@@ -9,7 +9,7 @@
         </mat-card-title>
         <mat-card-content>
             <div class="form-group">
-                <h4 class="mb-1">
+                <h4 class="mb-0">
                     {{ '::AuditDescription' | abpLocalization }}
                 </h4>
                 <p>
@@ -18,7 +18,7 @@
             </div>
 
             <div class="form-group">
-                <h4 class="mb-1">
+                <h4 class="mb-0">
                     {{ '::AuditField' | abpLocalization }}
                 </h4>
                 <p>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group">
-                <h4 class="mb-1">
+                <h4 class="mb-0">
                     {{ '::AuditSetps' | abpLocalization }}
                 </h4>
                 <p>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group">
-                <h4 class="mb-1">
+                <h4 class="mb-0">
                     {{ '::AuditGoals' | abpLocalization }}
                 </h4>
                 <p>
@@ -44,10 +44,35 @@
                 </p>
             </div>
 
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <h4 class="mb-0">
+                        {{ '::StartDate' | abpLocalization }}
+                    </h4>
+                    <p>
+                        {{ auditInfo.startDate | date:'yyyy/MM/dd' }}
+                    </p>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <h4 class="mb-0">
+                        {{ '::EndDate' | abpLocalization }}
+                    </h4>
+                    <p>
+                        {{ auditInfo.endDate | date:'yyyy/MM/dd' }}
+                    </p>
+                </div>
+            </div>
+
         </mat-card-content>
+        <mat-card-actions class="actions mb-3" *ngIf="mode === FormMode.View">
+            <button color="primary" mat-raised-button type="button" routerLink="/internal-audit/approved-audits/list" class="mr-3">
+                {{ '::Back' | abpLocalization }}
+            </button>
+        </mat-card-actions>
     </mat-card>
     
-    <form [formGroup]="form" (ngSubmit)="save()">
+    <form [formGroup]="form" (ngSubmit)="save()" *ngIf="mode !== FormMode.View">
         <mat-card>
             <mat-card-title>
                 <h3>

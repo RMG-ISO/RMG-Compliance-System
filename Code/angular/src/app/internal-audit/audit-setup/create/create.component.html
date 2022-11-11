@@ -151,7 +151,7 @@
             </div>
         </mat-card-content>
         <mat-card-actions class="actions mb-3">
-            <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/audits/list">
+            <button class="danger" mat-raised-button type="button" routerLink="/internal-audit/audit-setup/list">
                 {{ '::Back' | abpLocalization }}
             </button>
             <button class="primary" mat-raised-button [disabled]="isSaving" *ngIf="mode !== FormMode.View">

@@ -77,9 +77,13 @@ export class CreateComponent implements OnInit {
         r['auditorsIds'] = r['auditorDto'].map(x => x.userId)
         r['departmentRepresentatives'] = r['auditorDeptDto'].map(x => x.userId)
         this.form.patchValue(r);
-        this.changeDepartment(r['departmentId'])
+        this.changeDepartment(r['departmentId']);
+        if(r['isApprove']) {
+          this.form.disable();
+          this.mode = FormMode.View;
+        }
       })
-    }
+    } else if (this.mode == FormMode.View) this.form.disable();
   }
 
   auditorsList;
@@ -148,14 +152,14 @@ export class CreateComponent implements OnInit {
       finalize(() => this.isSaving = false)
     ).subscribe( r => {
       this.toasterService.success('::SuccessfullySaved', "");
-      this.router.navigate(['/internal-audit/audits/list'])
+      this.router.navigate(['/internal-audit/audit-setup/list'])
     })
     else this.internalAuditPreparationService.update(value.id, value)
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe(r => {
       this.toasterService.success('::SuccessfullySaved', "");
-      this.router.navigate(['/internal-audit/audits/list'])
+      this.router.navigate(['/internal-audit/audit-setup/list'])
     })
 
   }

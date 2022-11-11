@@ -11,8 +11,8 @@ const routes: Routes = [
     loadChildren:() => import('./checklists/checklists.module').then(m => m.ChecklistsModule)
   },
   {
-    path:'audits',
-    loadChildren: () => import('./audits/audits.module').then(m => m.AuditsModule)
+    path:'audit-setup',
+    loadChildren: () => import('./audit-setup/audit-setup.module').then(m => m.AuditSetupModule)
   },
   {
     path:'approved-audits',

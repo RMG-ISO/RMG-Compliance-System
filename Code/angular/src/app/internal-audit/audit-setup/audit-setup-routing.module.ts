@@ -1,13 +1,15 @@
-import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListComponent } from './list/list.component';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { CreateComponent } from './create/create.component';
 
 const routes: Routes = [
   {
     path:'list',
-    component:ListComponent
+    loadChildren: () => import('../audit-shared/audit-shared.module').then(m => m.AuditSharedModule),
+    data:{
+      route:'audit-setup'
+    }
   },
   {
     path:'create',
@@ -24,6 +26,13 @@ const routes: Routes = [
     }
   },
   {
+    path:':id/view',
+    component:CreateComponent,
+    data:{
+      mode:FormMode.View
+    }
+  },
+  {
     path:'',
     redirectTo:'list'
   }
@@ -33,4 +42,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuditsRoutingModule { }
+export class AuditSetupRoutingModule { }

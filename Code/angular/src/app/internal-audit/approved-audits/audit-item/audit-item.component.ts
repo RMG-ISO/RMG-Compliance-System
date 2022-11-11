@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
   selector: 'app-audit-item',
@@ -15,6 +16,9 @@ export class AuditItemComponent implements OnInit {
   form:FormGroup;
   isSaving = false;
   auditInfo;
+  mode;
+  FormMode = FormMode;
+  
   constructor(
     private configStateService:ConfigStateService,
     private activatedRoute:ActivatedRoute,
@@ -30,7 +34,12 @@ export class AuditItemComponent implements OnInit {
       causesRefuse:new FormControl({value:null, disabled:true}),
     });
 
-    this.internalAuditPreparationService.getByID(this.activatedRoute.snapshot.params.id).subscribe(r => this.auditInfo = r)
+    this.mode = this.activatedRoute.snapshot.data.mode;
+
+    this.internalAuditPreparationService.getByID(this.activatedRoute.snapshot.params.id).subscribe(r => {
+      this.auditInfo = r;
+      if(this.auditInfo.isApprove) this.mode = FormMode.View;
+    })
   }
 
   changeSelection(ev) {
