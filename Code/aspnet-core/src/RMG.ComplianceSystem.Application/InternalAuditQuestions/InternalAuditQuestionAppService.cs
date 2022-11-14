@@ -26,11 +26,11 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
     {
         //   Start Permissions
         #region Start Permissions
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
-        protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Create;
-        protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Update;
-        protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Delete;
+        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
+        //protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Default;
+        //protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Create;
+        //protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Update;
+        //protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.InternalAuditQuestion.Delete;
         #endregion
         // End Permissions
         //Start Properties and Constructor InternalAuditQuestionAppService
