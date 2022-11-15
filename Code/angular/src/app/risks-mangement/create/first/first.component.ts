@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 import { DepartmentService } from '@proxy/departments';
 import { Type } from '../../module.enums';
+import { FrameworkService } from '@proxy/frameworks';
 
 @Component({
   selector: 'app-first',
@@ -16,7 +17,8 @@ export class FirstComponent implements OnInit {
   constructor(
     private staticDataService:StaticDataService,
     private departmentService:DepartmentService,
-    private userService:IdentityUserService
+    private userService:IdentityUserService,
+    private frameworkService:FrameworkService
   ) { }
 
   sectors;
@@ -24,6 +26,7 @@ export class FirstComponent implements OnInit {
   categories;
   users;
   riskContext;
+  frameworks;
   ngOnInit(): void {
     this.getList(8, 'sectors');
     this.getListdepartments();
@@ -32,7 +35,9 @@ export class FirstComponent implements OnInit {
 
     this.userService.getList({maxResultCount:null, filter:null}).subscribe(r => {
       this.users = r.items
-    })
+    });
+
+    this.frameworkService.getList({maxResultCount:null}).subscribe(r => this.frameworks = r.items)
   }
 
   getList(Type, key) {

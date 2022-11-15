@@ -154,6 +154,7 @@
     "Cancel": "إلغاء",
     "Actions": "الخيارات",
     "Save": "حفظ",
+    "Send":"إرسال",
     "View": "عرض",
     "NoResults": "لا يوجد نتائج",
     "Back": "رجوع",
@@ -449,9 +450,9 @@
     "DepartmentRepresentatives":"ممثلو الإدارة",
     "TheRisk":"الخطر",
     "AuditSetup":"إعداد التدقيق",
-    "ApprovedAudits":"التدقيقات المقبولة",
+    "AuditsStatus ":"حالة التدقيقات",
     "ApproveStatus":"مقبول",
-    "ApproveDate":"تاريخ القبول",
+    "StatusDate":"تاريخ الحالة",
     "TakeDecision":"اتخاذ القرار",
     "AcceptAudit":"الموافقة على التدقيق",
     "RefuseCause":"سبب الرفض",
@@ -459,7 +460,10 @@
     "AuditField":"مجال التدقيق",
     "AuditSetps":"خطوات التدقيق",
     "AuditGoals":"اهداف التدقيق",
-    "ApprovedBy":"مقبول بواسطة"
+    "ApprovedBy":"مقبول بواسطة",
+    "Approved":"مقبول",
+    "Declined":"مرفوض"
+
 
 
 

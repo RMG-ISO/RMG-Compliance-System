@@ -95,7 +95,7 @@
                     <label for="framework">
                         {{ '::Framework' | abpLocalization }}
                     </label><span> * </span>
-                    <ng-select formControlName="frameworkId">
+                    <ng-select formControlName="frameworkId" (change)="changeFramework($event)">
                         <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
                             {{ framework | lang:'name' }}
                         </ng-option>
@@ -149,7 +149,7 @@
                         {{ '::TheRisk' | abpLocalization }}
                     </label>
                     <!-- <span> * </span> -->
-                    <ng-select formControlName="riskOpportunityId">
+                    <ng-select formControlName="riskOpportunityIds" multiple="true">
                         <ng-option *ngFor="let risk of risksList" [value]="risk.id">
                             {{ risk | lang:'name' }}
                         </ng-option>
@@ -162,7 +162,7 @@
                 {{ '::Back' | abpLocalization }}
             </button>
             <button class="primary" mat-raised-button [disabled]="isSaving" *ngIf="mode !== FormMode.View">
-                {{ '::Save' | abpLocalization }}
+                {{ '::Send' | abpLocalization }}
             </button>
         </mat-card-actions>
     </mat-card>

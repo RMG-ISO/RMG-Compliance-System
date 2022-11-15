@@ -119,6 +119,18 @@
             </ng-select>
         </div>
 
+        <div class="col-md-6 form-group">
+            <label for="framework">
+                {{ '::Framework' | abpLocalization }}
+                <span> * </span>
+            </label>
+            <ng-select [formControl]="form.controls.frameworkId">
+                <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
+                    {{ framework | lang:'name' }}
+                </ng-option>
+            </ng-select>
+        </div>
+
 
     </div>
 <!-- </form> -->
