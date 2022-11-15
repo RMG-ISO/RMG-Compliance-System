@@ -25,14 +25,14 @@
                 <ng-container *ngIf="route == 'approved-audits' ">
                     <div class="col-md-3 form-group">
                         <label>
-                            {{ '::IsApprove' | abpLocalization }}
+                            {{ '::Status' | abpLocalization }}
                         </label>
                         <ng-select formControlName="IsApprove">
                             <ng-option [value]="true">
-                                {{ '::yes' | abpLocalization }}
+                                {{ '::Approved' | abpLocalization }}
                             </ng-option>
                             <ng-option [value]="false">
-                                {{ '::no' | abpLocalization }}
+                                {{ '::Declined' | abpLocalization }}
                             </ng-option>
                         </ng-select>
                     </div>
@@ -120,7 +120,7 @@
             </ngx-datatable-column>
 
             <ng-container *ngIf="route == 'approved-audits'">
-                <ngx-datatable-column [name]=" '::ApproveStatus' | abpLocalization">
+                <ngx-datatable-column [name]=" '::Status' | abpLocalization">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <ng-container *ngIf="row.isApprove !== null; else showNull">
                             <i [style.color]="row.isApprove ? '#388e3c' : '#e53935'" class="status-icon fa-solid" [class]="row.isApprove ? 'fa-circle-check' : 'fa-circle-xmark' "></i>
@@ -134,7 +134,7 @@
                     </ng-template>
                 </ngx-datatable-column>
     
-                <ngx-datatable-column [name]="'::ApproveDate' | abpLocalization" prop="approveDate">
+                <ngx-datatable-column [name]="'::StatusDate' | abpLocalization" prop="approveDate">
                     <ng-template let-value="value" ngx-datatable-cell-template>
                         {{ value | date:'yyyy/MM/dd' }} 
                     </ng-template>

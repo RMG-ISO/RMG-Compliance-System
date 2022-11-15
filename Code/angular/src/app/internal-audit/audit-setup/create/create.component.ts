@@ -33,7 +33,7 @@ export class CreateComponent implements OnInit {
     private internalAuditPreparationService:InternalAuditPreparationService,
     private departmentService: DepartmentService,
     private employeeService: EmployeeService,
-    private riskAndOpportunityService:RiskAndOpportunityService,
+    // private riskAndOpportunityService:RiskAndOpportunityService,
     private toasterService:ToasterService,
     private router:Router
   ) { }
@@ -58,7 +58,7 @@ export class CreateComponent implements OnInit {
       departmentRepresentatives:new FormControl(null, Validators.required),
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
-      riskOpportunityId: new FormControl(null, null),
+      riskOpportunityIds: new FormControl(null, null),
       id:new FormControl(null),
       isApprove:new FormControl(null)
     }, {
@@ -81,6 +81,7 @@ export class CreateComponent implements OnInit {
         r['departmentRepresentatives'] = r['auditorDeptDto'].map(x => x.userId)
         this.form.patchValue(r);
         this.changeDepartment(r['departmentId']);
+        this.changeFramework(r['frameworkId'])
         if(r['isApprove']) {
           this.form.disable();
           this.mode = FormMode.View;
@@ -106,9 +107,9 @@ export class CreateComponent implements OnInit {
       this.auditorsList = result.items;
     });
 
-    this.riskAndOpportunityService.getList({ maxResultCount:null, type:Type.Risk }).subscribe(r => {
-      this.risksList = r.items
-    })
+    // this.riskAndOpportunityService.getList({ maxResultCount:null, type:Type.Risk }).subscribe(r => {
+    //   this.risksList = r.items
+    // })
   }
 
   changeUsers(ev, control) {
@@ -122,6 +123,19 @@ export class CreateComponent implements OnInit {
   changeDepartment(id) {
     this.internalAuditPreparationService.getUserByDeptId(id).subscribe(r => {
       this.representativesList = r;
+    })
+  }
+
+  changeFramework(id) {
+    this.internalAuditPreparationService.RisksByFrameWorkeId(id).subscribe(r => {
+      console.log(r);
+      this.risksList = r;
+      let ids = r.map(x => x.id);
+      let newIds = [];
+      for(let id of this.form.controls.riskOpportunityIds.value || []) {
+        if(ids.includes(id)) newIds.push(id);
+      }
+      this.form.controls.riskOpportunityIds.setValue(newIds);
     })
   }
 
