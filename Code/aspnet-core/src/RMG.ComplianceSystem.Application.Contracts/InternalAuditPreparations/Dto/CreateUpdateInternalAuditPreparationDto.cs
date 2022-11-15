@@ -24,7 +24,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparation.Dto
         public Guid DepartmentId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public Guid RiskOpportunityId { get; set; }
+        public Guid? RiskOpportunityId { get; set; }
         public Guid FrameworkId { get; set; }
         public List<InternalAuditorDto> Auditors { get; set; }
 

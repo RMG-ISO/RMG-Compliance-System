@@ -46,19 +46,19 @@ export class CreateComponent implements OnInit {
       auditTitleAr: new FormControl(null, Validators.required),
       auditDescriptionEn: new FormControl(null, Validators.required),
       auditDescriptionAr: new FormControl(null, Validators.required),
-      auditFieldEn: new FormControl(null, Validators.required),
-      auditFieldAr: new FormControl(null, Validators.required),
-      auditSetpsEn: new FormControl(null, Validators.required),
-      auditSetpsAr: new FormControl(null, Validators.required),
-      auditGoalsEn: new FormControl(null, Validators.required),
-      auditGoalsAr: new FormControl(null, Validators.required),
+      auditFieldEn: new FormControl(null, null),
+      auditFieldAr: new FormControl(null, null),
+      auditSetpsEn: new FormControl(null, null),
+      auditSetpsAr: new FormControl(null, null),
+      auditGoalsEn: new FormControl(null, null),
+      auditGoalsAr: new FormControl(null, null),
       frameworkId: new FormControl(null, Validators.required),
       departmentId: new FormControl(null, Validators.required),
       auditorsIds:new FormControl(null, Validators.required),
       departmentRepresentatives:new FormControl(null, Validators.required),
       startDate: new FormControl(null, Validators.required),
       endDate: new FormControl(null, Validators.required),
-      riskOpportunityId: new FormControl(null, Validators.required),
+      riskOpportunityId: new FormControl(null, null),
       id:new FormControl(null),
       isApprove:new FormControl(null)
     }, {
@@ -71,7 +71,7 @@ export class CreateComponent implements OnInit {
     this.form.updateValueAndValidity();
 
     this.getItems();
-    
+
     if(this.mode !== FormMode.Create) {
       this.internalAuditPreparationService.getByID(this.activatedRoute.snapshot.params.id).subscribe(r => {
         console.log(r);
@@ -100,7 +100,7 @@ export class CreateComponent implements OnInit {
     this.departmentService.getList({maxResultCount:null}).subscribe(result => {
       this.departments = result.items;
     });
- 
+
     this.employeeService.getList({maxResultCount:null}).subscribe(result => {
       this.allEmployees = result.items;
       this.auditorsList = result.items;
@@ -133,7 +133,7 @@ export class CreateComponent implements OnInit {
     let value = {...this.form.getRawValue()};
     value.startDate = moment(value.startDate).utc(true).toDate();
     value.endDate = moment(value.endDate).utc(true).toDate();
-    
+
     value['auditors'] = [];
     for(let id of value.auditorsIds) {
       value['auditors'].push({
