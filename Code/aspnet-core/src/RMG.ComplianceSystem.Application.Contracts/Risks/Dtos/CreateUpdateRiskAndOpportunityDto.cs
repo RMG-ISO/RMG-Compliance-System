@@ -12,6 +12,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public string DetailsEn { get; set; }
         public string AffectDetailsAr { get; set; }
         public string AffectDetailsEn { get; set; }
+        public Guid? FrameWorkId { get; set; }
         //  status (Enum)
         public int status { get; set; }
         

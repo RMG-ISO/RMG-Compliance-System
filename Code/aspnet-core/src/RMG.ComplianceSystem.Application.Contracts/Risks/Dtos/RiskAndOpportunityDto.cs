@@ -17,6 +17,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public string AffectDetailsAr { get; set; }
         public string AffectDetailsEn { get; set; }
         public int? status { get; set; }
+        public Guid? FrameWorkId { get; set; }
         // المواصفه
         public Guid? StandardId { get; set; }
         // القطاع

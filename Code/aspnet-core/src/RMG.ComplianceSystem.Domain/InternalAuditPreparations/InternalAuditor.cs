@@ -1,10 +1,4 @@
-﻿using RMG.ComplianceSystem.Departments;
-using RMG.ComplianceSystem.InternalAuditQuestionLists;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
