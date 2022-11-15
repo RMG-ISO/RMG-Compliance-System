@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
     this.getList();
     console.log(this.activatedRoute.snapshot);
     this.route = this.activatedRoute.snapshot.data.route;
-    if(this.route == 'approved-audits') this.title = '::ApprovedAudits';
+    if(this.route == 'approved-audits') this.title = '::AuditsStatus';
   }
 
   departments;

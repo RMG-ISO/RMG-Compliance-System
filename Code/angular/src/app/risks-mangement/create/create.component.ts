@@ -76,6 +76,7 @@ export class CreateComponent implements OnInit {
       ownerId         : new FormControl(null,       [Validators.required]),
       status          : new FormControl(Status.Open                      ),
       riskContext     : new FormControl(null,       [Validators.required]),
+      frameworkId     : new FormControl(null,       [Validators.required])
     });
 
 
