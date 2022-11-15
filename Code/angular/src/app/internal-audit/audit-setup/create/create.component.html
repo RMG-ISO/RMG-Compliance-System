@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="col-md-9"></div>
-                    
+
                 </ng-container>
                 <div class="col-md-6 form-group">
                     <label for="AuditNameAr">
@@ -49,39 +49,45 @@
                 <div class="col-md-6 form-group">
                     <label for="auditFieldAr">
                         {{ '::AuditFieldAr' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <input id="auditFieldAr" class="form-control" formControlName="auditFieldAr">
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="auditFieldEn">
                         {{ '::AuditFieldEn' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <input id="auditFieldEn" class="form-control" formControlName="auditFieldEn">
                 </div>
 
                 <div class="col-md-6 form-group">
                     <label for="auditSetpsAr">
                         {{ '::AuditSetpsAr' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <textarea id="auditSetpsAr" class="form-control" formControlName="auditSetpsAr"></textarea>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="auditSetpsEn">
                         {{ '::AuditSetpsEn' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <textarea id="auditSetpsEn" class="form-control" formControlName="auditSetpsEn"></textarea>
                 </div>
-                
+
                 <div class="col-md-6 form-group">
                     <label for="auditGoalsAr">
                         {{ '::AuditGoalsAr' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <textarea id="auditGoalsAr" class="form-control" formControlName="auditGoalsAr"></textarea>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="auditGoalsEn">
                         {{ '::AuditGoalsEn' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <textarea id="auditGoalsEn" class="form-control" formControlName="auditGoalsEn"></textarea>
                 </div>
 
@@ -141,7 +147,8 @@
                 <div class="col-md-12 form-group">
                     <label for="riskOpportunityId">
                         {{ '::TheRisk' | abpLocalization }}
-                    </label><span> * </span>
+                    </label>
+                    <!-- <span> * </span> -->
                     <ng-select formControlName="riskOpportunityId">
                         <ng-option *ngFor="let risk of risksList" [value]="risk.id">
                             {{ risk | lang:'name' }}
