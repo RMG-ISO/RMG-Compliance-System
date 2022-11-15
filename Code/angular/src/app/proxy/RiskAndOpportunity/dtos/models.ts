@@ -13,6 +13,7 @@ export interface CreateUpdateRiskAndOpportunityDto {
   GeneralDepartmentId ?:string ;
   DepartmentId ?:string ;
   CategoryId ?:string ;
+  FrameWorkId?:string;
   OwnerId ?:string ;
   // Opportunity - Risk (Enum)
   Type ?:number ;
@@ -79,6 +80,7 @@ export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<Iden
   DepartmentId ?:string ;
   CategoryId ?:string ;
   OwnerId ?:string ;
+  FrameWorkId?:string;
   // Opportunity - Risk (Enum)
   Type ?:number ;
   WorkFlowStages ?:number ;

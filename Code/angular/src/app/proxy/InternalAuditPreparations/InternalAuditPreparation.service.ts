@@ -4,6 +4,8 @@ import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 import type { EmployeeDto } from '../employees/dtos/models';
+import type { RiskAndOpportunityDto} from '../RiskAndOpportunity/dtos/models';
+
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +69,12 @@ export class InternalAuditPreparationService {
     },
     { apiName: this.apiName });
 
-
+    RisksByFrameWorkeId = (FrmId:string ) =>
+    this.restService.request<any, RiskAndOpportunityDto[]>({
+      method: 'GET',
+      url: `/api/app/internal-audit-preparation/risks-by-frame-worke-id/${FrmId}`,
+    },
+    { apiName: this.apiName });
 
 
   constructor(private restService: RestService) {}
