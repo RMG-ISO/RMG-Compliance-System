@@ -28,7 +28,6 @@ export class HistoryComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getHistory();
-    console.log(this.list)
   }
 
   historyChanges;

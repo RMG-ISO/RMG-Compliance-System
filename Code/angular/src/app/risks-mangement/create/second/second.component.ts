@@ -47,13 +47,11 @@ export class SecondComponent implements OnInit {
   ];
 
   changeMatrix(ev) {
-    console.log(ev);
     this.form.patchValue({
       likelihood:null,
       impact:null,
       potential:null,
     });
-    console.log(this.form);
   }
 
 //   NumberMatrix;

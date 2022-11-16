@@ -1,12 +1,10 @@
 <div class="card">
     <div class="card-header">
-        <div class="row">
-            <div class="col col-md-6">
+        <div class="d-flex justify-content-between align-items-center">
                 <h3 class="card-title">
                     {{ '::Framework' | abpLocalization }}
                 </h3>
-            </div>
-            <div class="col col-md-6 pt-2 d-flex justify-content-end">
+            <div class="pt-2 d-flex justify-content-end">
                 <div class="visible-content mr-3">
                     <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
                         <i class="fas fa-th-large"></i>
@@ -16,8 +14,7 @@
                     </button>
                 </div>
 
-                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" class="btn btn-primary mr-3"
-                    type="button" (click)="openDialog()">
+                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
                     <i class="fa fa-plus mr-1"></i>
                     <span>{{ "::CreateFramework" | abpLocalization }}</span>
                 </button>
