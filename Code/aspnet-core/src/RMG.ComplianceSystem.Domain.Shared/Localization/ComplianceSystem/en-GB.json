@@ -459,7 +459,8 @@
     "AuditGoals":"Audit Goals",
     "ApprovedBy":"Approved By",
     "Approved":"Approved",
-    "Declined":"Declined"
+    "Declined":"Declined",
+    "UserApprover":"User Approver"
 
 
 

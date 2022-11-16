@@ -89,6 +89,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::AuditManagement',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.InternalAuditQuestion'
       },
       {
         path:'/internal-audit/checklists',
@@ -97,6 +98,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::AuditManagement',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.InternalAuditQuestionList'
       },
       {
         path:'/internal-audit/audit-setup',
@@ -105,6 +107,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::AuditManagement',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
       },
       {
         path:'/internal-audit/approved-audits',

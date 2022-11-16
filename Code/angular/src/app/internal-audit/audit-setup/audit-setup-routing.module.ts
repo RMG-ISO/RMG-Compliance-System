@@ -1,3 +1,4 @@
+import { PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
@@ -7,22 +8,28 @@ const routes: Routes = [
   {
     path:'list',
     loadChildren: () => import('../audit-shared/audit-shared.module').then(m => m.AuditSharedModule),
+    canActivate:[PermissionGuard],
     data:{
-      route:'audit-setup'
+      route:'audit-setup',
+      requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
     }
   },
   {
     path:'create',
     component:CreateComponent,
+    canActivate:[PermissionGuard],
     data:{
-      mode:FormMode.Create
+      mode:FormMode.Create,
+      requiredPolicy:'ComplianceSystem.InternalAuditPreparation.Create'
     }
   },
   {
     path:':id/edit',
     component:CreateComponent,
+    canActivate:[PermissionGuard],
     data:{
-      mode:FormMode.Edit
+      mode:FormMode.Edit,
+      requiredPolicy:'ComplianceSystem.InternalAuditPreparation.Update'
     }
   },
   {
