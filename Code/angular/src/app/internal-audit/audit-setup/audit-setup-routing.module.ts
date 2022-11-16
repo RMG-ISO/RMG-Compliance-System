@@ -26,6 +26,7 @@ const routes: Routes = [
   {
     path:':id/edit',
     component:CreateComponent,
+    canActivate:[PermissionGuard],
     data:{
       mode:FormMode.Edit,
       requiredPolicy:'ComplianceSystem.InternalAuditPreparation.Update'

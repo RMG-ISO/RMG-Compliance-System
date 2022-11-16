@@ -462,7 +462,8 @@
     "AuditGoals":"اهداف التدقيق",
     "ApprovedBy":"الإعتماد بواسطة",
     "Approved":"مقبول",
-    "Declined":"مرفوض"
+    "Declined":"مرفوض",
+    "UserApprover":"الشخص المعتمد"
 
 
 
