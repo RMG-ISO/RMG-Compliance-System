@@ -122,9 +122,16 @@ ngx-datatable {
             display: flex;
             align-items: center;
             justify-content:center;
+            // padding-left: 10px !important;
+            // padding-right: 10px !important;
+            .datatable-body-cell-label {
+                display: flex;
+            }
             button, a {
                 width: auto;
                 min-width: auto;
+                // padding-left: 10px;
+                // padding-right: 10px;
                 padding-left: 10px;
                 padding-right: 10px;
             }

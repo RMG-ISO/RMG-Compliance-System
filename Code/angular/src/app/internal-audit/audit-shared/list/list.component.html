@@ -20,40 +20,41 @@
             </div>
         </div>
 
-        <form [formGroup]="filterForm">
+        <form [formGroup]="filterForm" class="filter-form">
             <div class="row filter-row mt-3" [class.show]="showFilters">
-                <ng-container *ngIf="route == 'approved-audits' ">
-                    <div class="col-md-3 form-group">
-                        <label>
-                            {{ '::Status' | abpLocalization }}
-                        </label>
-                        <ng-select formControlName="IsApprove">
-                            <ng-option [value]="true">
-                                {{ '::Approved' | abpLocalization }}
-                            </ng-option>
-                            <ng-option [value]="false">
-                                {{ '::Declined' | abpLocalization }}
-                            </ng-option>
-                        </ng-select>
-                    </div>
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::Status' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="IsApprove">
+                        <ng-option [value]="true">
+                            {{ '::Approved' | abpLocalization }}
+                        </ng-option>
+                        <ng-option [value]="false">
+                            {{ '::Declined' | abpLocalization }}
+                        </ng-option>
+                    </ng-select>
+                </div>
 
-                    <div class="col-md-3 form-group">
-                        <label for="auditors">
-                            {{ '::ApprovedBy' | abpLocalization }}
-                        </label>
-                        <ng-select formControlName="ApproveBy" >
-                            <ng-option *ngFor="let user of auditorsList" [value]="user.id">
-                                {{ user.fullName }}
-                            </ng-option>
-                        </ng-select>
-                    </div>
-                    
-                    <!-- <div class="col-md-3 form-group">
-                        <label for="approveDate">{{ '::approveDate' | abpLocalization }}</label>
-                        <input #approveDate="ngbDatepicker" class="form-control" id="approveDate" name="approveDate" formControlName="approveDate"
-                        ngbDatepicker (click)="approveDate.toggle()" />
-                    </div> -->
-                </ng-container>
+                <div class="col-md-3 form-group">
+                    <label for="auditors">
+                        {{ '::ApprovedBy' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="ApproveBy" >
+                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
+                            {{ user.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <!--
+                    <ng-container *ngIf="route == 'approved-audits' ">
+                        <div class="col-md-3 form-group">
+                            <label for="approveDate">{{ '::approveDate' | abpLocalization }}</label>
+                            <input #approveDate="ngbDatepicker" class="form-control" id="approveDate" name="approveDate" formControlName="approveDate"
+                            ngbDatepicker (click)="approveDate.toggle()" />
+                        </div> 
+                    </ng-container>
+                -->
                 
     
                 <div class="col-md-3 form-group">
@@ -119,28 +120,33 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ng-container *ngIf="route == 'approved-audits'">
-                <ngx-datatable-column [name]=" '::Status' | abpLocalization">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <ng-container *ngIf="row.isApprove !== null; else showNull">
-                            <i [style.color]="row.isApprove ? '#388e3c' : '#e53935'" class="status-icon fa-solid" [class]="row.isApprove ? 'fa-circle-check' : 'fa-circle-xmark' "></i>
-                            <!-- <span [style.color]="row.isApprove ? 'green' : 'red'">
-                                {{ (row.isApprove ? '::yes' : '::no') | abpLocalization }}
-                            </span> -->
-                        </ng-container>
-                        <ng-template #showNull>
-                            -
-                        </ng-template>
+
+        <!-- Approve Columns -->
+
+            <ngx-datatable-column [name]=" '::ApprovedBy' | abpLocalization " prop="approveByName"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::Status' | abpLocalization">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isApprove !== null; else showNull">
+                        <i [style.color]="row.isApprove ? '#388e3c' : '#e53935'" class="status-icon fa-solid" [class]="row.isApprove ? 'fa-circle-check' : 'fa-circle-xmark' "></i>
+                    </ng-container>
+                    <ng-template #showNull>
+                        -
                     </ng-template>
-                </ngx-datatable-column>
-    
-                <ngx-datatable-column [name]="'::StatusDate' | abpLocalization" prop="approveDate">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{ value | date:'yyyy/MM/dd' }} 
-                    </ng-template>
-                </ngx-datatable-column>
-            </ng-container>
-            
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::StatusDate' | abpLocalization" prop="approveDate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy/MM/dd' }} 
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ng-container *ngIf="route == 'approved-audits'">
+            </ng-container> -->
+        
+        <!-- Approve Columns -->
+
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="200" [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template >
