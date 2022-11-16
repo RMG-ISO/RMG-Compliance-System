@@ -8,14 +8,17 @@
                 <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
                     <i class="fas fa-filter"></i>
                 </button>
-                <button
-                *ngIf="route == 'audit-setup'"
-                mat-button class="add-btn mr-3" type="button"
-                routerLink="/internal-audit/audit-setup/create" >
-                    <i class="fa fa-plus mr-2"></i>
-                    <span class="line mr-2"></span>
-                    <span> {{ "::Create" | abpLocalization }} </span>
-                </button>
+                <ng-container *ngIf="route == 'audit-setup'">
+                    <button
+                    *abpPermission="'ComplianceSystem.InternalAuditPreparation.Delete'"
+                    mat-button class="add-btn mr-3" type="button"
+                    routerLink="/internal-audit/audit-setup/create" >
+                        <i class="fa fa-plus mr-2"></i>
+                        <span class="line mr-2"></span>
+                        <span> {{ "::Create" | abpLocalization }} </span>
+                    </button>
+                </ng-container>
+                
                 <app-search (search)="searchVal = $event;list.get()"></app-search>
             </div>
         </div>
@@ -152,11 +155,11 @@
                 <ng-template let-row="row" ngx-datatable-cell-template >
                     <ng-container *ngIf="route == 'audit-setup' ; else showApproved">
                         <ng-container *ngIf="!row.isApprove">
-                            <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                            <button *abpPermission="'ComplianceSystem.InternalAuditPreparation.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>
         
-                            <a mat-button [routerLink]="['/internal-audit/audit-setup', row.id, 'edit']">
+                            <a *abpPermission="'ComplianceSystem.InternalAuditPreparation.Update'" mat-button [routerLink]="['/internal-audit/audit-setup', row.id, 'edit']">
                                 <mat-icon>edit</mat-icon>
                             </a>
                         </ng-container>
