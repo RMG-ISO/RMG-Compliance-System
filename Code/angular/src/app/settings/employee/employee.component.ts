@@ -1,14 +1,13 @@
-import { DepartmentService } from '../../proxy/departments/department.service';
-import { EmployeeService } from '../../proxy/employees/employee.service';
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormMode } from '../../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Router } from '@angular/router';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EmployeeDto } from '@proxy/employees/dtos';
 import { DepartmentDto } from '@proxy/departments/dtos';
+import { EmployeeService } from '@proxy/employees';
+import { DepartmentService } from '@proxy/departments';
 
 @Component({
   selector: 'app-employee',
