@@ -60,7 +60,8 @@ export class CreateComponent implements OnInit {
       endDate: new FormControl(null, Validators.required),
       riskOpportunityIds: new FormControl(null, null),
       id:new FormControl(null),
-      isApprove:new FormControl(null)
+      isApprove:new FormControl(null),
+      approverUserId:new FormControl(null, Validators.required),
     }, {
       validators:[
         DateValidators.ValidateTwoDates('startDate', 'endDate')

@@ -450,7 +450,7 @@
     "DepartmentRepresentatives":"ممثلو الإدارة",
     "TheRisk":"الخطر",
     "AuditSetup":"إعداد التدقيق",
-    "AuditsStatus ":"حالة التدقيقات",
+    "AuditsStatus":"حالة التدقيقات",
     "ApproveStatus":"مقبول",
     "StatusDate":"تاريخ الحالة",
     "TakeDecision":"اتخاذ القرار",
@@ -460,9 +460,10 @@
     "AuditField":"مجال التدقيق",
     "AuditSetps":"خطوات التدقيق",
     "AuditGoals":"اهداف التدقيق",
-    "ApprovedBy":"مقبول بواسطة",
+    "ApprovedBy":"الإعتماد بواسطة",
     "Approved":"مقبول",
-    "Declined":"مرفوض"
+    "Declined":"مرفوض",
+    "UserApprover":"الشخص المعتمد"
 
 
 
