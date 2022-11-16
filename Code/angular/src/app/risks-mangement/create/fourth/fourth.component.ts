@@ -130,6 +130,5 @@ export class FourthComponent implements OnInit {
   update(action, isDelete = false) {
     this.updateProcessing.emit({action:action, isDelete});
     this.list.get();
-    console.log('this.getin list')
   }
 }

@@ -6,7 +6,7 @@
         <mat-card-content>
             <div class="d-flex route-actions mb-5">
                 <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" >
-                    <div [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
+                    <div [class.active]="activeTab >= WorkFlowStages.DefineRiskAndOpportunity">
                         <span class="d-block circle" (click)="changeTab(WorkFlowStages.DefineRiskAndOpportunity)">
                            {{ WorkFlowStages.DefineRiskAndOpportunity }}
                         </span>
@@ -19,7 +19,7 @@
                             </div>
                         </button>
                     </div>
-                    <span class="arrow" [class.active]="activeTab === WorkFlowStages.DefineRiskAndOpportunity">
+                    <span class="arrow" [class.active]="activeTab > WorkFlowStages.DefineRiskAndOpportunity">
                         <span class="line"></span>
                         <i class="fas fa-chevron-left"></i>
                     </span>
@@ -27,7 +27,7 @@
     
     
                 <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" >
-                    <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Analysis }">
+                    <div [ngClass]="{ disabled: !id, active: activeTab >= WorkFlowStages.Analysis }">
                         <span class="d-block circle" (click)="changeTab(WorkFlowStages.Analysis)">
                             {{WorkFlowStages.Analysis}}
                         </span>
@@ -41,7 +41,7 @@
                             </div>
                         </button>
                     </div>
-                    <span class="arrow" [class.active]="activeTab === WorkFlowStages.Analysis">
+                    <span class="arrow" [class.active]="activeTab > WorkFlowStages.Analysis">
                         <span class="line"></span>
                         <i class="fas fa-chevron-left"></i>
                     </span>
@@ -49,7 +49,7 @@
     
                 <ng-container  *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" >
     
-                    <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Evaluation }">
+                    <div [ngClass]="{ disabled: !id, active: activeTab >= WorkFlowStages.Evaluation }">
                         <span class="d-block circle" (click)="changeTab(WorkFlowStages.Evaluation)">
                             {{WorkFlowStages.Evaluation}}
                         </span>
@@ -62,7 +62,7 @@
                             </div>
                         </button>
                     </div>
-                    <span class="arrow" [class.active]="activeTab === WorkFlowStages.Evaluation">
+                    <span class="arrow" [class.active]="activeTab > WorkFlowStages.Evaluation">
                         <span class="line"></span>
                         <i class="fas fa-chevron-left"></i>
                     </span>
@@ -71,7 +71,7 @@
     
                 <ng-container *abpPermission="'ComplianceSystem.RiskAndOpportunityTreatment'"   >
                     <ng-container *ngIf="itemData?.isTreatment">
-                        <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Processing}">
+                        <div [ngClass]="{ disabled: !id, active: activeTab >= WorkFlowStages.Processing}">
                             <span class="d-block circle" (click)="changeTab(WorkFlowStages.Processing)">
                                 {{WorkFlowStages.Processing}}
                             </span>
@@ -85,7 +85,7 @@
                                 </div>
                             </button>
                         </div>
-                        <span class="arrow"  [class.active]="activeTab === WorkFlowStages.Processing">
+                        <span class="arrow"  [class.active]="activeTab > WorkFlowStages.Processing">
                             <span class="line"></span>
                             <i class="fas fa-chevron-left"></i>
                         </span>
@@ -95,7 +95,7 @@
     
     
     
-                <div [ngClass]="{ disabled: !id, active: activeTab === WorkFlowStages.Review}" *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" >
+                <div [ngClass]="{ disabled: !id, active: activeTab >= WorkFlowStages.Review}" *abpPermission="'ComplianceSystem.RiskAndOpportunityReview'" >
                     <span class="d-block circle" (click)="changeTab(WorkFlowStages.Review)">
                         {{ itemData?.isTreatment ?  WorkFlowStages.Review : 4  }}
                     </span>

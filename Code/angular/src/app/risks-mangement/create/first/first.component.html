@@ -5,7 +5,7 @@
                 {{ '::Type' | abpLocalization }}
                 <span> * </span>
             </label>
-            <mat-radio-group aria-label="Select an option" [formControl]="form.controls.type">
+            <mat-radio-group color="primary" [formControl]="form.controls.type">
                 <mat-radio-button [value]="Type.Risk">{{ '::Risk' | abpLocalization }}</mat-radio-button>
                 <span class="space"></span>
                 <mat-radio-button [value]="Type.Opportunity">{{ '::Opportunity' | abpLocalization }}</mat-radio-button>

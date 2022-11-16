@@ -45,7 +45,6 @@ export class settingsComponent implements OnInit {
     this.staticDataService.getListType().subscribe(r => {
       this.catsList = r;
       this.catsList.map(item => this.catsListObj[item.id] = item );
-      console.log(this.catsListObj);
     })
   }
 

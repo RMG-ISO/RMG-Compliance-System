@@ -10,8 +10,6 @@ import { FrameworkService } from '@proxy/frameworks';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
-import { Type } from 'src/app/risks-mangement/module.enums';
 import * as moment from 'moment';
 
 @Component({
@@ -33,7 +31,6 @@ export class CreateComponent implements OnInit {
     private internalAuditPreparationService:InternalAuditPreparationService,
     private departmentService: DepartmentService,
     private employeeService: EmployeeService,
-    // private riskAndOpportunityService:RiskAndOpportunityService,
     private toasterService:ToasterService,
     private router:Router
   ) { }
@@ -108,9 +105,6 @@ export class CreateComponent implements OnInit {
       this.auditorsList = result.items;
     });
 
-    // this.riskAndOpportunityService.getList({ maxResultCount:null, type:Type.Risk }).subscribe(r => {
-    //   this.risksList = r.items
-    // })
   }
 
   changeUsers(ev, control) {
