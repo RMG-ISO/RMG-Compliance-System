@@ -460,7 +460,8 @@
     "ApprovedBy":"Approved By",
     "Approved":"Approved",
     "Declined":"Declined",
-    "UserApprover":"User Approver"
+    "UserApprover":"User Approver",
+    "ConfirmationDeleteMessage":"Are you sure to delete {0}?"
 
 
 
