@@ -14,6 +14,7 @@ import { SignalrService } from '@proxy/signalrService';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import snq from 'snq';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'abp-current-user',
@@ -43,16 +44,18 @@ export class CurrentUserComponent implements OnInit {
   ngOnInit(): void {
     this.signalrService.initiateSignalrConnection();
     this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
-      console.log("ReceiveNotification",result);
-      this.notificationItems = result.notifications;
-      this.notificationItemsCount = result.unReadNotifications;
+      // console.log("ReceiveNotification",result);
+      // this.notificationItems = result.notifications;
+      // this.notificationItemsCount = result.unReadNotifications;
+      this.setNotifications(result)
     });
 
     this.signalrService.initiateSignalrConnection().then(x => {
       this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
         console.log("ReceiveNotification",result);
-        this.notificationItems = result.notifications;
-        this.notificationItemsCount = result.unReadNotifications;
+        // this.notificationItems = result.notifications;
+        // this.notificationItemsCount = result.unReadNotifications;
+        this.setNotifications(result)
       });
     })
     // this.signalrService.configureConnection()
@@ -60,9 +63,19 @@ export class CurrentUserComponent implements OnInit {
 
     this.notificationService.getCurrentUserNotification().subscribe((result: NotifyUserDto) => {
       console.log("result of getCurrentUserNotification",result);
-      this.notificationItems = result.notifications;
-      this.notificationItemsCount = result.unReadNotifications;
+      // this.notificationItems = result.notifications;
+      // this.notificationItemsCount = result.unReadNotifications;
+      this.setNotifications(result)
     });
+  }
+
+  setNotifications(list) {
+    this.notificationItems = list.notifications.map(item => {
+      let index = item.url.indexOf(environment.application.baseUrl);
+      if(index > -1) item.url = item.url.substring(environment.application.baseUrl.length );
+      return item
+    });
+    this.notificationItemsCount = list.unReadNotifications;
   }
 
 

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NotificationService, Status } from '@proxy/notifications';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-list',
@@ -34,7 +35,11 @@ export class ListComponent {
     const streamCreator = (query) => this.notificationService.getListCurrentUserNotifications({ ...query, sorting: 'creationtime desc', });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       console.log(response)
-      this.items = response.items;
+      this.items = response.items.map(item => {
+        let index = item.url.indexOf(environment.application.baseUrl);
+        if(index > -1) item.url = item.url.substring(environment.application.baseUrl.length );
+        return item
+      })
       this.totalCount = response.totalCount;
     });
   }

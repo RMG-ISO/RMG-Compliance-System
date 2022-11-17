@@ -464,7 +464,8 @@
     "Approved":"مقبول",
     "Declined":"مرفوض",
     "UserApprover":"الشخص المعتمد",
-    "ConfirmationDeleteMessage":"هل أنت متأكد من حذف {0} ؟"
+    "ConfirmationDeleteMessage":"هل أنت متأكد من حذف {0} ؟",
+    "Title":"العنوان"
 
 
 

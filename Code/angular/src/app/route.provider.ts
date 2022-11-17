@@ -179,8 +179,6 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.EmailTemplate'
       },
 
-
-
       {
         path:'/settings/identity',
         name:'::Permissions',
@@ -198,27 +196,16 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         // requiredPolicy:'ComplianceSystem.Employee',
       },
-      {
-        path:'/settings/identity/roles',
-        name:'AbpIdentity::Roles',
-        iconClass: 'fas fa-user-tag',
-        order: 2,
-        parentName:'::Permissions',
-        layout: eLayoutType.application,
-        // requiredPolicy:'ComplianceSystem.Employee',
-      },
-
-
-      // for Test
       // {
-      //   path:'/settings/test-users',
-      //   name:'::TestUsers',
-      //   iconClass: 'fas fa-envelope',
+      //   path:'/settings/identity/roles',
+      //   name:'AbpIdentity::Roles',
+      //   iconClass: 'fas fa-user-tag',
       //   order: 2,
-      //   parentName:'::Menu:ComplianceSystemSettings',
+      //   parentName:'::Permissions',
       //   layout: eLayoutType.application,
-      //   // requiredPolicy:'ComplianceSystem.EmailTemplate'
+      //   // requiredPolicy:'ComplianceSystem.Employee',
       // },
+
 
      
     ]);
