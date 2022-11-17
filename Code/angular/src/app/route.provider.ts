@@ -179,6 +179,8 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.EmailTemplate'
       },
 
+
+
       {
         path:'/settings/identity',
         name:'::Permissions',
@@ -206,6 +208,17 @@ function configureRoutes(routesService: RoutesService) {
         // requiredPolicy:'ComplianceSystem.Employee',
       },
 
+
+      // for Test
+      // {
+      //   path:'/settings/test-users',
+      //   name:'::TestUsers',
+      //   iconClass: 'fas fa-envelope',
+      //   order: 2,
+      //   parentName:'::Menu:ComplianceSystemSettings',
+      //   layout: eLayoutType.application,
+      //   // requiredPolicy:'ComplianceSystem.EmailTemplate'
+      // },
 
      
     ]);

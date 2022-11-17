@@ -1,16 +1,14 @@
-import { ControlService } from '../../proxy/controls/control.service';
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormMode } from '../../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ControlDto } from '@proxy/controls/dtos';
-import { DepartmentService } from '@proxy/departments';
-import { FrameworkService } from '@proxy/frameworks';
+import { ControlService } from '@proxy/controls';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
   selector: 'app-control',
@@ -42,8 +40,6 @@ export class ControlComponent implements OnInit {
     public dialog: MatDialog,
     private confirmation: ConfirmationService,
     private router: Router,
-    private departmentService: DepartmentService,
-    private frameworktService: FrameworkService,
     private activatedRoute: ActivatedRoute,
   ) {
 

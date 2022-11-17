@@ -1,7 +1,7 @@
-import { AppLayoutService } from './../shared/services/app-layout.service';
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener} from '@angular/core';
 import { LayoutService } from 'projects/theme-basic/src/lib/services/layout.service';
 import { MatDrawer } from '@angular/material/sidenav';
+import { AppLayoutService } from '../shared/services/app-layout.service';
 
 @Component({
   selector: 'app-compliance-layout',
