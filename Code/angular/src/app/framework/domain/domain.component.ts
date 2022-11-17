@@ -1,8 +1,6 @@
-import { DomainService } from '../../proxy/domains/domain.service';
 import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormMode } from '../../shared/interfaces/form-mode';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
@@ -11,8 +9,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomainDto } from '@proxy/domains/dtos';
 import { DepartmentDto } from '@proxy/departments/dtos';
 import { DepartmentService } from '@proxy/departments';
-import { FrameworkDto } from '@proxy/frameworks/dtos';
-import { FrameworkService } from '@proxy/frameworks';
+import { DomainService } from '@proxy/domains';
+import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
   selector: 'app-domain',

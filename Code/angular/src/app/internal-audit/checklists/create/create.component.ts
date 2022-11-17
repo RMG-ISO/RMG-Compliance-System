@@ -1,7 +1,6 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FrameworkService } from '@proxy/frameworks';
-import { InternalAuditQuestionsService } from '@proxy/InternalAuditQuestions';
 import { InternalAuditChecklistService } from '@proxy/InternalAuditQuestionList/InternalAuditQuestionList.service';
 import { ListService } from '@abp/ng.core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,7 +23,6 @@ export class CreateComponent implements OnInit {
   selectedIds = {};
   constructor(
     private frameworkService:FrameworkService,
-    private internalAuditQuestionsService:InternalAuditQuestionsService,
     private internalAuditChecklistService:InternalAuditChecklistService,
     public  list:ListService,
     private activatedRoute:ActivatedRoute,

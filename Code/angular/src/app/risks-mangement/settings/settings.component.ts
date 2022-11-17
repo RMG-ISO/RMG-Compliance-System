@@ -1,4 +1,4 @@
-import { ListService, ConfigStateService } from '@abp/ng.core';
+import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -30,7 +30,6 @@ export class settingsComponent implements OnInit {
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
     private staticDataService:StaticDataService,
-    private configStateService:ConfigStateService
   ) { }
 
 
@@ -45,7 +44,6 @@ export class settingsComponent implements OnInit {
     this.staticDataService.getListType().subscribe(r => {
       this.catsList = r;
       this.catsList.map(item => this.catsListObj[item.id] = item );
-      console.log(this.catsListObj);
     })
   }
 

@@ -1,14 +1,11 @@
 <div class="card">
     <div class="card-header">
-        <div class="row">
-            <div class="col col-md-6">
-                <h3 class="card-title">
-                    {{ '::Document:Categories' | abpLocalization }}
-                </h3>
-            </div>
-            <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                <button *abpPermission="'ComplianceSystem.DocumentCategory.Create'"  id="create" class="btn btn-primary mr-3"
-                    type="button" (click)="openDialog(null)">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title">
+                {{ '::Document:Categories' | abpLocalization }}
+            </h3>
+            <div class="pt-2 d-flex justify-content-end">
+                <button *abpPermission="'ComplianceSystem.DocumentCategory.Create'"  mat-button class="add-btn mr-3"type="button" (click)="openDialog(null)">
                     <i class="fa fa-plus mr-1"></i>
                     <span>{{ "::Document:CreateCategory" | abpLocalization }}</span>
                 </button>
@@ -75,7 +72,7 @@
     </ng-template>
 
     <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" #abpClose>
+        <button type="button" class="btn btn-secondary" abpClose>
             {{ '::Close' | abpLocalization }}
         </button>
 

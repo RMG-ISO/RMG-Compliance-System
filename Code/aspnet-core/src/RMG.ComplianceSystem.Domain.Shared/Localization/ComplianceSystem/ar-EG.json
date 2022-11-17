@@ -463,7 +463,9 @@
     "ApprovedBy":"الإعتماد بواسطة",
     "Approved":"مقبول",
     "Declined":"مرفوض",
-    "UserApprover":"الشخص المعتمد"
+    "UserApprover":"الشخص المعتمد",
+    "ConfirmationDeleteMessage":"هل أنت متأكد من حذف {0} ؟"
+
 
 
 

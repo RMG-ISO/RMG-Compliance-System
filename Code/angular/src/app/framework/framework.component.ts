@@ -54,7 +54,7 @@ export class FrameworkComponent implements OnInit {
 
 
   delete(model: FrameworkDto) {
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [model.nameAr] }).subscribe((status) => {
+    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [this.localizationService.currentLang.includes('ar') ?  model.nameAr : model.nameEn] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.frameworkService.delete(model.id).subscribe(() => this.list.get());
       }
