@@ -21,7 +21,10 @@ const routes: Routes = [
   {
     path:'dashboard',
     canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    data:{
+      requiredPolicy:'ComplianceSystem.Framework'
+    }
   },
   {
     path:'documents-management',

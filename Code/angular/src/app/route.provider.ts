@@ -15,6 +15,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-chart-line',
         order: 1,
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Framework'
       },
       {
         path: '/home',
@@ -53,6 +54,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-asterisk',
         order: 1,
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.RiskAndOpportunity',
       },
       {
         path:'/risks-management/settings',
@@ -61,14 +63,15 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         parentName:'::Menu:RiskManagement',
         layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.StaticData',
       },
-
       {
         path:'/risks-management/riskopportunity',
         name:'::Menu:RiskOpportunity',
         iconClass: 'fas fa-asterisk',
         order: 1,
         parentName:'::Menu:RiskManagement',
+        requiredPolicy:'ComplianceSystem.RiskAndOpportunity',
         layout: eLayoutType.application,
       },
 
@@ -116,6 +119,9 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::AuditManagement',
         layout: eLayoutType.application,
+
+        requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
+
       },
 
 
@@ -179,15 +185,15 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.EmailTemplate'
       },
 
-
-
       {
-        path:'/settings/identity',
+        // path:'/settings/identity',
+        path:'/',
         name:'::Permissions',
         iconClass: 'fa fa-wrench',
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
         order: 1,
+        // requiredPolicy:'AbpIdentity'
       },
       {
         path:'/settings/identity/users',
@@ -196,6 +202,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::Permissions',
         layout: eLayoutType.application,
+        requiredPolicy:'AbpIdentity.Users'
         // requiredPolicy:'ComplianceSystem.Employee',
       },
       {
@@ -205,20 +212,9 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         parentName:'::Permissions',
         layout: eLayoutType.application,
-        // requiredPolicy:'ComplianceSystem.Employee',
+        requiredPolicy:'AbpIdentity.Roles',
       },
 
-
-      // for Test
-      // {
-      //   path:'/settings/test-users',
-      //   name:'::TestUsers',
-      //   iconClass: 'fas fa-envelope',
-      //   order: 2,
-      //   parentName:'::Menu:ComplianceSystemSettings',
-      //   layout: eLayoutType.application,
-      //   // requiredPolicy:'ComplianceSystem.EmailTemplate'
-      // },
 
      
     ]);

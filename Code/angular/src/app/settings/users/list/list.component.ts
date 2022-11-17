@@ -36,8 +36,7 @@ export class ListComponent implements OnInit {
 
   delete(model) {
     console.log(model)
-    let title = "this.localizationService.currentLang.includes('ar') ?  model['questionTextAr'] : model['questionTextEn']";
-    this.confirmation.warn('::DomainDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
+    this.confirmation.warn('::ConfirmationDeleteMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.identityUserService.delete(model.id).subscribe(() => {
           this.list.get();
