@@ -461,7 +461,8 @@
     "Approved":"Approved",
     "Declined":"Declined",
     "UserApprover":"User Approver",
-    "ConfirmationDeleteMessage":"Are you sure to delete {0}?"
+    "ConfirmationDeleteMessage":"Are you sure to delete {0}?",
+    "Title":"Title"
 
 
 
