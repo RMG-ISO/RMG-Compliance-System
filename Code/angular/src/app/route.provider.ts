@@ -186,13 +186,14 @@ function configureRoutes(routesService: RoutesService) {
       },
 
       {
-        path:'/settings/identity',
+        // path:'/settings/identity',
+        path:'/',
         name:'::Permissions',
         iconClass: 'fa fa-wrench',
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
         order: 1,
-        requiredPolicy:'AbpIdentity.Roles'
+        // requiredPolicy:'AbpIdentity'
       },
       {
         path:'/settings/identity/users',
@@ -204,15 +205,15 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'AbpIdentity.Users'
         // requiredPolicy:'ComplianceSystem.Employee',
       },
-      // {
-      //   path:'/settings/identity/roles',
-      //   name:'AbpIdentity::Roles',
-      //   iconClass: 'fas fa-user-tag',
-      //   order: 2,
-      //   parentName:'::Permissions',
-      //   layout: eLayoutType.application,
-      //   // requiredPolicy:'ComplianceSystem.Employee',
-      // },
+      {
+        path:'/settings/identity/roles',
+        name:'AbpIdentity::Roles',
+        iconClass: 'fas fa-user-tag',
+        order: 2,
+        parentName:'::Permissions',
+        layout: eLayoutType.application,
+        requiredPolicy:'AbpIdentity.Roles',
+      },
 
 
      
