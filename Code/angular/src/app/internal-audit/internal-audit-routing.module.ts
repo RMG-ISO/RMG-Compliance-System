@@ -29,7 +29,11 @@ const routes: Routes = [
   },
   {
     path:'approved-audits',
-    loadChildren:() => import('./approved-audits/approved-audits.module').then(m => m.ApprovedAuditsModule)
+    loadChildren:() => import('./approved-audits/approved-audits.module').then(m => m.ApprovedAuditsModule),
+    canActivate:[ PermissionGuard ],
+    data:{
+      requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
+    }
   }
 ];
 
