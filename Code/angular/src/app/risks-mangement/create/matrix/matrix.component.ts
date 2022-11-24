@@ -118,10 +118,8 @@ export class MatrixComponent implements OnInit, OnChanges {
   }
 
   changeMatrix(number) {
-    console.log('number', number);
     if (number == 3) this.potentials = this.potienital3;
     else this.potentials = this.potienital4;
-    console.log('this.potentials', this.potentials);
 
     this.getListMatrix(number);
   }

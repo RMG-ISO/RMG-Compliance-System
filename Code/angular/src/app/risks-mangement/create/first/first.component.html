@@ -5,7 +5,7 @@
                 {{ '::Type' | abpLocalization }}
                 <span> * </span>
             </label>
-            <mat-radio-group aria-label="Select an option" [formControl]="form.controls.type">
+            <mat-radio-group color="primary" [formControl]="form.controls.type">
                 <mat-radio-button [value]="Type.Risk">{{ '::Risk' | abpLocalization }}</mat-radio-button>
                 <span class="space"></span>
                 <mat-radio-button [value]="Type.Opportunity">{{ '::Opportunity' | abpLocalization }}</mat-radio-button>
@@ -115,6 +115,18 @@
             <ng-select [formControl]="form.controls.ownerId">
                 <ng-option *ngFor="let user of users" [value]="user.id">
                     {{user.name}}
+                </ng-option>
+            </ng-select>
+        </div>
+
+        <div class="col-md-6 form-group">
+            <label for="framework">
+                {{ '::Framework' | abpLocalization }}
+                <span> * </span>
+            </label>
+            <ng-select [formControl]="form.controls.frameworkId">
+                <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
+                    {{ framework | lang:'name' }}
                 </ng-option>
             </ng-select>
         </div>

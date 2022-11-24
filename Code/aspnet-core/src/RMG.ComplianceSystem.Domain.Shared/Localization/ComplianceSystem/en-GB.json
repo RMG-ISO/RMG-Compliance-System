@@ -146,6 +146,7 @@
     "Cancel": "Cancel",
     "Actions": "Actions",
     "Save": "Save",
+    "Send":"Send",
     "View": "View",
     "NoResults": "No Results",
     "Back": "Back",
@@ -446,9 +447,9 @@
     "DepartmentRepresentatives":"Department Representatives",
     "TheRisk":"Risk",
     "AuditSetup":"Audit Setup",
-    "ApprovedAudits":"Approved Audits",
+    "AuditsStatus":"Audits Status",
     "ApproveStatus":"Approved",
-    "ApproveDate":"Approve Date",
+    "StatusDate":"Status Date",
     "TakeDecision":"Take Decision",
     "AcceptAudit":"Accept Audit",
     "RefuseCause":"Refuse Cause",
@@ -456,7 +457,12 @@
     "AuditField":"Audit Field",
     "AuditSetps":"Audit Setps",
     "AuditGoals":"Audit Goals",
-    "ApprovedBy":"Approved By"
+    "ApprovedBy":"Approved By",
+    "Approved":"Approved",
+    "Declined":"Declined",
+    "UserApprover":"User Approver",
+    "ConfirmationDeleteMessage":"Are you sure to delete {0}?",
+    "Title":"Title"
 
 
 

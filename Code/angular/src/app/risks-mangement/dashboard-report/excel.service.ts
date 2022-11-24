@@ -111,7 +111,6 @@ export class ExcelService {
       //   fgColor: { argb: color }
       // };
 
-      console.log(worksheet);
       worksheet._rows.map(row => {
         row._cells.map(cell => {
           cell.alignment = { vertical: 'middle', horizontal: 'center' };

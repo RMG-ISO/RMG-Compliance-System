@@ -95,7 +95,7 @@
                     <label for="framework">
                         {{ '::Framework' | abpLocalization }}
                     </label><span> * </span>
-                    <ng-select formControlName="frameworkId">
+                    <ng-select formControlName="frameworkId" (change)="changeFramework($event)">
                         <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
                             {{ framework | lang:'name' }}
                         </ng-option>
@@ -112,26 +112,7 @@
                     </ng-select>
                 </div>
 
-                <div class="col-md-6 form-group">
-                    <label for="auditors">
-                        {{ '::Auditors' | abpLocalization }}
-                    </label><span> * </span>
-                    <ng-select formControlName="auditorsIds" multiple="true" (change)="changeUsers($event, form.controls.departmentRepresentatives)">
-                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
-                            {{ user.fullName }}
-                        </ng-option>
-                    </ng-select>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="DepartmentRepresentatives">
-                        {{ '::DepartmentRepresentatives' | abpLocalization }}
-                    </label><span> * </span>
-                    <ng-select formControlName="departmentRepresentatives" multiple="true" (change)="changeUsers($event, form.controls.auditorsIds)">
-                        <ng-option *ngFor="let user of representativesList" [value]="user.id">
-                            {{ user.fullName }}
-                        </ng-option>
-                    </ng-select>
-                </div>
+
 
                 <div class="col-md-6 form-group">
                     <label for="dueDate">{{ '::StartDate' | abpLocalization }}</label><span> * </span>
@@ -149,12 +130,47 @@
                         {{ '::TheRisk' | abpLocalization }}
                     </label>
                     <!-- <span> * </span> -->
-                    <ng-select formControlName="riskOpportunityId">
+                    <ng-select formControlName="riskOpportunityIds" multiple="true">
                         <ng-option *ngFor="let risk of risksList" [value]="risk.id">
                             {{ risk | lang:'name' }}
                         </ng-option>
                     </ng-select>
                 </div>
+
+
+                <div class="col-md-12 form-group">
+                    <label for="auditors">
+                        {{ '::Auditors' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="auditorsIds" multiple="true" (change)="changeUsers($event, form.controls.departmentRepresentatives)">
+                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
+                            {{ user.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="DepartmentRepresentatives">
+                        {{ '::DepartmentRepresentatives' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="departmentRepresentatives" multiple="true" (change)="changeUsers($event, form.controls.auditorsIds)">
+                        <ng-option *ngFor="let user of representativesList" [value]="user.id">
+                            {{ user.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                
+                <div class="col-md-6 form-group">
+                    <label for="auditors">
+                        {{ '::UserApprover' | abpLocalization }}
+                    </label><span> * </span>
+                    <ng-select formControlName="approverUserId">
+                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
+                            {{ user.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+
+
             </div>
         </mat-card-content>
         <mat-card-actions class="actions mb-3">
@@ -162,7 +178,7 @@
                 {{ '::Back' | abpLocalization }}
             </button>
             <button class="primary" mat-raised-button [disabled]="isSaving" *ngIf="mode !== FormMode.View">
-                {{ '::Save' | abpLocalization }}
+                {{ '::Send' | abpLocalization }}
             </button>
         </mat-card-actions>
     </mat-card>

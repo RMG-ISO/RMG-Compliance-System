@@ -8,52 +8,56 @@
                 <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
                     <i class="fas fa-filter"></i>
                 </button>
-                <button
-                *ngIf="route == 'audit-setup'"
-                mat-button class="add-btn mr-3" type="button"
-                routerLink="/internal-audit/audit-setup/create" >
-                    <i class="fa fa-plus mr-2"></i>
-                    <span class="line mr-2"></span>
-                    <span> {{ "::Create" | abpLocalization }} </span>
-                </button>
+                <ng-container *ngIf="route == 'audit-setup'">
+                    <button
+                    *abpPermission="'ComplianceSystem.InternalAuditPreparation.Create'"
+                    mat-button class="add-btn mr-3" type="button"
+                    routerLink="/internal-audit/audit-setup/create" >
+                        <i class="fa fa-plus mr-2"></i>
+                        <span class="line mr-2"></span>
+                        <span> {{ "::Create" | abpLocalization }} </span>
+                    </button>
+                </ng-container>
+                
                 <app-search (search)="searchVal = $event;list.get()"></app-search>
             </div>
         </div>
 
-        <form [formGroup]="filterForm">
+        <form [formGroup]="filterForm" class="filter-form">
             <div class="row filter-row mt-3" [class.show]="showFilters">
-                <ng-container *ngIf="route == 'approved-audits' ">
-                    <div class="col-md-3 form-group">
-                        <label>
-                            {{ '::IsApprove' | abpLocalization }}
-                        </label>
-                        <ng-select formControlName="IsApprove">
-                            <ng-option [value]="true">
-                                {{ '::yes' | abpLocalization }}
-                            </ng-option>
-                            <ng-option [value]="false">
-                                {{ '::no' | abpLocalization }}
-                            </ng-option>
-                        </ng-select>
-                    </div>
+                <div class="col-md-3 form-group">
+                    <label>
+                        {{ '::Status' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="IsApprove">
+                        <ng-option [value]="true">
+                            {{ '::Approved' | abpLocalization }}
+                        </ng-option>
+                        <ng-option [value]="false">
+                            {{ '::Declined' | abpLocalization }}
+                        </ng-option>
+                    </ng-select>
+                </div>
 
-                    <div class="col-md-3 form-group">
-                        <label for="auditors">
-                            {{ '::ApprovedBy' | abpLocalization }}
-                        </label>
-                        <ng-select formControlName="ApproveBy" >
-                            <ng-option *ngFor="let user of auditorsList" [value]="user.id">
-                                {{ user.fullName }}
-                            </ng-option>
-                        </ng-select>
-                    </div>
-                    
-                    <!-- <div class="col-md-3 form-group">
-                        <label for="approveDate">{{ '::approveDate' | abpLocalization }}</label>
-                        <input #approveDate="ngbDatepicker" class="form-control" id="approveDate" name="approveDate" formControlName="approveDate"
-                        ngbDatepicker (click)="approveDate.toggle()" />
-                    </div> -->
-                </ng-container>
+                <div class="col-md-3 form-group">
+                    <label for="auditors">
+                        {{ '::ApprovedBy' | abpLocalization }}
+                    </label>
+                    <ng-select formControlName="ApproveBy" >
+                        <ng-option *ngFor="let user of auditorsList" [value]="user.id">
+                            {{ user.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                <!--
+                    <ng-container *ngIf="route == 'approved-audits' ">
+                        <div class="col-md-3 form-group">
+                            <label for="approveDate">{{ '::approveDate' | abpLocalization }}</label>
+                            <input #approveDate="ngbDatepicker" class="form-control" id="approveDate" name="approveDate" formControlName="approveDate"
+                            ngbDatepicker (click)="approveDate.toggle()" />
+                        </div> 
+                    </ng-container>
+                -->
                 
     
                 <div class="col-md-3 form-group">
@@ -119,38 +123,43 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ng-container *ngIf="route == 'approved-audits'">
-                <ngx-datatable-column [name]=" '::ApproveStatus' | abpLocalization">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <ng-container *ngIf="row.isApprove !== null; else showNull">
-                            <i [style.color]="row.isApprove ? '#388e3c' : '#e53935'" class="status-icon fa-solid" [class]="row.isApprove ? 'fa-circle-check' : 'fa-circle-xmark' "></i>
-                            <!-- <span [style.color]="row.isApprove ? 'green' : 'red'">
-                                {{ (row.isApprove ? '::yes' : '::no') | abpLocalization }}
-                            </span> -->
-                        </ng-container>
-                        <ng-template #showNull>
-                            -
-                        </ng-template>
+
+        <!-- Approve Columns -->
+
+            <ngx-datatable-column [name]=" '::ApprovedBy' | abpLocalization " prop="approveByName"></ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::Status' | abpLocalization">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <ng-container *ngIf="row.isApprove !== null; else showNull">
+                        <i [style.color]="row.isApprove ? '#388e3c' : '#e53935'" class="status-icon fa-solid" [class]="row.isApprove ? 'fa-circle-check' : 'fa-circle-xmark' "></i>
+                    </ng-container>
+                    <ng-template #showNull>
+                        -
                     </ng-template>
-                </ngx-datatable-column>
-    
-                <ngx-datatable-column [name]="'::ApproveDate' | abpLocalization" prop="approveDate">
-                    <ng-template let-value="value" ngx-datatable-cell-template>
-                        {{ value | date:'yyyy/MM/dd' }} 
-                    </ng-template>
-                </ngx-datatable-column>
-            </ng-container>
-            
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::StatusDate' | abpLocalization" prop="approveDate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'yyyy/MM/dd' }} 
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ng-container *ngIf="route == 'approved-audits'">
+            </ng-container> -->
+        
+        <!-- Approve Columns -->
+
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="200" [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template >
                     <ng-container *ngIf="route == 'audit-setup' ; else showApproved">
                         <ng-container *ngIf="!row.isApprove">
-                            <button mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                            <button *abpPermission="'ComplianceSystem.InternalAuditPreparation.Delete'" mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
                                 <mat-icon>delete_forever</mat-icon>
                             </button>
         
-                            <a mat-button [routerLink]="['/internal-audit/audit-setup', row.id, 'edit']">
+                            <a *abpPermission="'ComplianceSystem.InternalAuditPreparation.Update'" mat-button [routerLink]="['/internal-audit/audit-setup', row.id, 'edit']">
                                 <mat-icon>edit</mat-icon>
                             </a>
                         </ng-container>
