@@ -1,5 +1,6 @@
 :root{
-    --main-color:#4b74ff;
+    // --main-color:#4b74ff;
+    --main-color:#19ad3e;
 }
 
 body[dir="rtl"] {
@@ -284,14 +285,14 @@ ng-select.ng-select.ng-select-multiple{
     &.ng-select-disabled {
         .ng-select-container .ng-value-container .ng-value {
             background-color: transparent;
-            color: #558BED;
+            color: var(--main-color);
         }
     }
 
     .ng-select-container .ng-value-container .ng-value {
         border: 1px solid var(--main-color);
         background-color: transparent;
-        color: #558BED;
+        color: var(--main-color);
         border-radius: 100px;
         padding: 7px 14px;
         .ng-value-icon {
@@ -316,7 +317,7 @@ mat-card.global-card {
         flex: 1;
         text-align: center;
         button{
-            color: #558BED;
+            color: var(--main-color);
             font-size: 20px;
             width: 55px;
             height: 55px;
@@ -333,7 +334,7 @@ mat-card.global-card {
     mat-card-actions {
         padding-bottom: 16px !important;
         button{
-            color: #558BED;
+            color: var(--main-color);
             font-size: 20px;
             min-width: auto;
             padding: 0;
@@ -357,13 +358,13 @@ mat-card.global-card {
 
 button.add-btn {
     background-color: transparent;
-    color: #4775FD;
-    border: 2px solid #4775FD;
+    color: #19ad3e;
+    border: 2px solid #19ad3e;
     padding-left: 18px;
     padding-right: 18px;
     font-weight: bold;
     .line {
-        border-left: 1px solid #4775fd;
+        border-left: 1px solid #19ad3e;
         height: 14px;
         display: inline-block;
     }
@@ -381,7 +382,7 @@ button.button {
     width: 100px;
     border-radius: 100px;
     &.blue {
-        background-color: #4775FD;
+        background-color: #19ad3e;
     }
     &.red {
         background-color: #DE3C31;

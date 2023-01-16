@@ -35,8 +35,8 @@
 button {
     font-size: 18px;
     background-color: transparent;
-    color: #4775FD;
-    border: 2px solid #4775FD;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
 }
 
 mat-card {
