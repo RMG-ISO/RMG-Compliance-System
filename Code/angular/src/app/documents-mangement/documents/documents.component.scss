@@ -44,7 +44,7 @@
                             }
                             i {
                                 font-size: 14px;
-                                color: #4977FD;
+                                color: var(--main-color);
                                 display: block !important;
                                 @include nb-ltr(){
                                     transform: rotate(180deg);
