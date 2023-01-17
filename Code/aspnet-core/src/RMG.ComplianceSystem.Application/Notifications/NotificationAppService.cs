@@ -70,7 +70,7 @@ namespace RMG.ComplianceSystem.Notifications
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                 };
-//                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
+//ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
 //SecurityProtocolType.Tls11 |
 //SecurityProtocolType.Tls12;
                 using (var message = new MailMessage(fromAddress, toAddress)

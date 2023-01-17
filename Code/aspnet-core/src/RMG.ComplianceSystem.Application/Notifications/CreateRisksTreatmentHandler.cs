@@ -163,7 +163,9 @@ namespace RMG.ComplianceSystem.Notifications
             await _notificationsRepository.InsertManyAsync(notificationList, true);
             foreach (var notificatio in notificationList.Where(t => t.Type == NotificationType.Push))
             {
+
                 await _notificationAppService.NotifyUser(Guid.Parse(notificatio.To));
+
                 await _notificationAppService.SendNotifications();
             }
         }
