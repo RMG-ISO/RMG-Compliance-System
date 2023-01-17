@@ -9,6 +9,7 @@ export const environment = {
     name: 'ComplianceSystem',
     logoUrl: 'assets/logo.png',
   },
+  
   // oAuthConfig: {
   //   issuer: 'https://iso.digitaltransformationinstitute.org:11000',
   //   redirectUri: baseUrl,
