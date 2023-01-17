@@ -9,6 +9,7 @@ export const environment = {
     name: 'ComplianceSystem',
     logoUrl: 'assets/logo.png',
   },
+  
   // oAuthConfig: {
   //   issuer: 'https://localhost:44375',
   //   redirectUri: baseUrl,
