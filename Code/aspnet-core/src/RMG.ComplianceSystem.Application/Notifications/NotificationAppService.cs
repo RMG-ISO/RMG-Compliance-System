@@ -115,7 +115,7 @@ namespace RMG.ComplianceSystem.Notifications
                         var hearder = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailHeader");
                         var footer = await _emailTemplateRepository.GetAsync(x => x.Key == "EmailFooter");
                         string _body = hearder.Body;
-                        _body += "<p>لديك فعل متخذ جديد إضغط هنا </p>";
+                        _body += "<p>للدخول علي الرابط إضغط هنا </p>";
                         _body += "<br/><p>" + item.Url+"</p>";
                         _body += item.Body;
                         _body += footer.Body.Replace("{{model.year}}", DateTime.Now.Year.ToString());
@@ -128,10 +128,6 @@ namespace RMG.ComplianceSystem.Notifications
                         };
                        string To= item.To.Split(',')[0];    
                         SendMail(To, item.Subject, _body, item.IsHTML);
-                        //mailMessage.To.Add(item.To);
-                        //if (!string.IsNullOrEmpty(item.CC))
-                        //    mailMessage.CC.Add(item.CC);
-                        //await _emailSender.SendAsync(mailMessage);
 
                         item.Status = Status.Success;
                     }
@@ -214,7 +210,8 @@ namespace RMG.ComplianceSystem.Notifications
             var Notifications = new NotifyUserDto
             {
                 UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
-                Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen).OrderByDescending(v => v.CreationTime).Take(6).Select(t => new NotifyUserNotificationDto
+                Notifications = userNotifications.Where(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen )
+                .OrderByDescending(v => v.CreationTime).Take(6).Select(t => new NotifyUserNotificationDto
                 {
                     Id = t.Id,
                     Title = t.Subject,
@@ -242,7 +239,8 @@ namespace RMG.ComplianceSystem.Notifications
             var query = (await Repository.GetQueryableAsync())
                .WhereIf(!input.Body.IsNullOrEmpty(), t => t.Body.Contains(input.Body))
                .WhereIf(input.Source.HasValue, t => t.Source == input.Source)
-               .WhereIf(input.CreationTime.HasValue, t => t.CreationTime.Date == input.CreationTime.Value.Date).Where(t => t.Type == NotificationType.Push && t.To == _currentUser.Id.ToString());
+               .WhereIf(input.CreationTime.HasValue, t => t.CreationTime.Date == input.CreationTime.Value.Date)
+               .Where(t => t.Type == NotificationType.Push && t.To == _currentUser.Id.ToString());
 
             var totalCount = await AsyncExecuter.CountAsync(query);
 

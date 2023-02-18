@@ -6,6 +6,7 @@ using Microsoft.Extensions.Localization;
 using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Localization;
+using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Risks.IRepository;
 using RMG.ComplianceSystem.RiskTreatments;
 using RMG.ComplianceSystem.Shared;
@@ -19,7 +20,7 @@ using Volo.Abp.Users;
 
 namespace RMG.ComplianceSystem.Notifications
 {
-    public class CreateRisksTreatmentHandler : ILocalEventHandler<EntityCreatedEventData<RisksTreatment>>, ILocalEventHandler<EntityUpdatedEventData<RisksTreatment>>, ITransientDependency
+    public class CreateRiskOpportunityHandler : ILocalEventHandler<EntityCreatedEventData<RiskOpportunity>>, ILocalEventHandler<EntityUpdatedEventData<RiskOpportunity>>, ITransientDependency
     {
         private readonly CurrentUser _currentUser;
         private readonly IGuidGenerator _guidGenerator;
@@ -28,15 +29,15 @@ namespace RMG.ComplianceSystem.Notifications
         private readonly IStringLocalizer<ComplianceSystemResource> _localizer;
 
         private readonly IRiskAndOpportunityRepository _riskAndOpportunityRepository;
-        private readonly IRiskTreatmentRepository _RisksTreatmentRepository;
+        private readonly IRiskTreatmentRepository _RiskOpportunityRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
         private readonly IEmailTemplateAppService _emailTemplateAppService;
         private readonly IEmailTemplateRepository _emailTemplatesRepository;
         private readonly INotificationAppService _notificationAppService;
 
-        public CreateRisksTreatmentHandler(CurrentUser currentUser, IGuidGenerator guidGenerator, INotificationRepository notificationsRepository, IClock clock,
-            IStringLocalizer<ComplianceSystemResource> localizer, IRiskTreatmentRepository RisksTreatmentRepository,
+        public CreateRiskOpportunityHandler(CurrentUser currentUser, IGuidGenerator guidGenerator, INotificationRepository notificationsRepository, IClock clock,
+            IStringLocalizer<ComplianceSystemResource> localizer, IRiskTreatmentRepository RiskOpportunityRepository,
             IEmployeeRepository employeeRepository, IIdentityUserRepository identityUserRepository,
             IEmailTemplateAppService emailTemplateAppService,
             IEmailTemplateRepository emailTemplatesRepository,
@@ -49,7 +50,7 @@ namespace RMG.ComplianceSystem.Notifications
             _notificationsRepository = notificationsRepository;
             _clock = clock;
             _localizer = localizer;
-            _RisksTreatmentRepository = RisksTreatmentRepository;
+            _RiskOpportunityRepository = RiskOpportunityRepository;
             _employeeRepository = employeeRepository;
             _identityUserRepository = identityUserRepository;
             _emailTemplateAppService = emailTemplateAppService;
@@ -62,7 +63,7 @@ namespace RMG.ComplianceSystem.Notifications
         /// </summary>
         /// <param name="eventData"></param>
         /// <returns></returns>
-        public async Task HandleEventAsync(EntityCreatedEventData<RisksTreatment> eventData)
+        public async Task HandleEventAsync(EntityCreatedEventData<RiskOpportunity> eventData)
         {
             //Insert new record into notification table
             List<Notification> notificationList = new List<Notification>();
@@ -71,7 +72,7 @@ namespace RMG.ComplianceSystem.Notifications
             List<string> _managerEmails = new List<string>();
            
             
-            var useres = _identityUserRepository.GetListAsync().Result.Where(e => e.Id==eventData.Entity.Responsibility).ToList();
+            var useres = _identityUserRepository.GetListAsync().Result.Where(e => e.Id==eventData.Entity.OwnerId).ToList();
 
             if (useres != null && useres.Count() > 0)
             {
@@ -90,20 +91,16 @@ namespace RMG.ComplianceSystem.Notifications
 
             }
            
-            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "TreatementNewTemplate");
+            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RiskNewTemplate");
 
-            RisksTreatmentCreatedHandlerDto RisksTreatmentCreatedModel = new RisksTreatmentCreatedHandlerDto
+            RisksOpportunityCreatedHandlerDto RiskOpportunityCreatedModel = new RisksOpportunityCreatedHandlerDto
             {
-                MitigateActionPlanAr = eventData.Entity.MitigateActionPlanAr,
-                MitigateActionPlanEn = eventData.Entity.MitigateActionPlanEn,
-                ActionDetailsAr = eventData.Entity.ActionDetailsAr,
-                ActionDetailsEn = eventData.Entity.ActionDetailsEn,
-                DueDate = eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd"),
-                AchievementPercentage = eventData.Entity.AchievementPercentage.ToString()
+                NameAr = eventData.Entity.NameAr,
+                NameEn = eventData.Entity.NameEn
             };
 
-            var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentCreatedModel);
-            var emailTemplateData = await _emailTemplateAppService.RenderTemplate("TreatementNewTemplate", expandoData);
+            var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RiskOpportunityCreatedModel);
+            var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RiskNewTemplate", expandoData);
 
             var notification = new Notification(
                 _guidGenerator.Create(),
@@ -120,28 +117,27 @@ namespace RMG.ComplianceSystem.Notifications
                 true,
                 true,
                 null,
-                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
-                 NotySource.RiskTreatment,
+                Utility.GetURL(NotificationSource.Risk, eventData.Entity.Id, null, null),
+                 NotySource.Risk,
                 eventData.Entity.Id,
                 false
                 );
             notificationList.Add(notification);
 
             //Push Notification
-            RisksTreatmentNotificationDto RisksTreatmentNotificationDto = new RisksTreatmentNotificationDto
+            RisksOpportunityNotificationDto RiskOpportunityNotificationDto = new RisksOpportunityNotificationDto
             {
-                MitigateActionPlanAr = eventData.Entity.MitigateActionPlanAr,
-                ActionDetailsAr = eventData.Entity.ActionDetailsAr,
-                DueDate = eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd")
+                NameAr = eventData.Entity.NameAr,
+                NameEn = eventData.Entity.NameEn
             };
-            var expandoDataNotification = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentNotificationDto);
-            var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("TreatementNewTemplate", expandoDataNotification);
+            var expandoDataNotification = Shared.Utility.ConvertTypeToExpandoObject(RiskOpportunityNotificationDto);
+            var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("RiskNewTemplate", expandoDataNotification);
 
             var PushNotification = new Notification(
                 _guidGenerator.Create(),
                 "ComplianceSystem",
                 null,
-                eventData.Entity.Responsibility.ToString(),
+               eventData.Entity.OwnerId.ToString(),
                 null,
                 null,
                 emailTemplate.Subject,
@@ -153,8 +149,8 @@ namespace RMG.ComplianceSystem.Notifications
                 true,
                 true,
                 null,
-                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
-                 NotySource.RiskTreatment,
+                Utility.GetURL(NotificationSource.Risk, eventData.Entity.Id, null, null),
+                 NotySource.Risk,
                 eventData.Entity.Id,
                 false
                 );
@@ -175,16 +171,16 @@ namespace RMG.ComplianceSystem.Notifications
         /// </summary>
         /// <param name="eventData"></param>
         /// <returns></returns>
-        public async Task HandleEventAsync(EntityUpdatedEventData<RisksTreatment> eventData)
+        public async Task HandleEventAsync(EntityUpdatedEventData<RiskOpportunity> eventData)
         {
             List<Notification> notificationList = new List<Notification>();
-            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksTreatmentCreated");
-            var existingRisksTreatment = await _RisksTreatmentRepository.GetAsync(eventData.Entity.Id);
+            var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksCreated");
+            var existingRiskOpportunity = await _RiskOpportunityRepository.GetAsync(eventData.Entity.Id);
             List<Guid> _managerIds = new List<Guid>();
             List<string> _managerEmails = new List<string>();
 
 
-            var useres = _identityUserRepository.GetListAsync().Result.Where(e => e.Id == eventData.Entity.Responsibility).ToList();
+            var useres = _identityUserRepository.GetListAsync().Result.Where(e => e.Id == eventData.Entity.OwnerId).ToList();
 
             if (useres != null && useres.Count() > 0)
             {
@@ -203,23 +199,18 @@ namespace RMG.ComplianceSystem.Notifications
 
             }
 
-            RisksTreatmentCreatedHandlerDto RisksTreatmentCreatedModel = new RisksTreatmentCreatedHandlerDto
+            RisksOpportunityCreatedHandlerDto RiskOpportunityCreatedModel = new RisksOpportunityCreatedHandlerDto
                 {
 
-                    MitigateActionPlanAr = eventData.Entity.MitigateActionPlanAr,
-                    MitigateActionPlanEn = eventData.Entity.MitigateActionPlanEn,
-                    ActionDetailsAr = eventData.Entity.ActionDetailsAr,
-                    ActionDetailsEn = eventData.Entity.ActionDetailsEn,
-                    DueDate = eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd"),
-                    AchievementPercentage = eventData.Entity.AchievementPercentage.ToString()
+                    NameAr = eventData.Entity.NameAr,
+                    NameEn = eventData.Entity.NameEn
                 };
 
-                var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentCreatedModel);
-                var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RisksTreatmentCreated", expandoData);
+                var expandoData = Shared.Utility.ConvertTypeToExpandoObject(RiskOpportunityCreatedModel);
+                var emailTemplateData = await _emailTemplateAppService.RenderTemplate("RisksCreated", expandoData);
 
                 var notification = new Notification(_guidGenerator.Create(),
-                    "ComplianceSystem",
-                    null,
+                    "ComplianceSystem", null,
                     mailTo,
                     null,
                     null,
@@ -232,30 +223,29 @@ namespace RMG.ComplianceSystem.Notifications
                 true,
                 true,
                 null,
-                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
-                 NotySource.RiskTreatment,
+                Utility.GetURL(NotificationSource.Risk, eventData.Entity.Id, null, null),
+                 NotySource.Risk,
                 eventData.Entity.Id,
                     false
                     );
                 notificationList.Add(notification);
 
                 //Push Notification
-                RisksTreatmentNotificationDto RisksTreatmentNotificationDto = new RisksTreatmentNotificationDto
+                RisksOpportunityNotificationDto RiskOpportunityNotificationDto = new RisksOpportunityNotificationDto
                 {
-                    MitigateActionPlanAr = eventData.Entity.MitigateActionPlanAr,
-                    ActionDetailsAr = eventData.Entity.ActionDetailsAr,
-                    DueDate = eventData.Entity.DueDate.Value.ToString("yyyy/MM/dd"),
+                    NameAr = eventData.Entity.NameAr,
+                    NameEn = eventData.Entity.NameEn
                 };
-                var expandoDataNotification = Shared.Utility.ConvertTypeToExpandoObject(RisksTreatmentNotificationDto);
-                var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("RisksTreatmentCreated", expandoDataNotification);
+                var expandoDataNotification = Shared.Utility.ConvertTypeToExpandoObject(RiskOpportunityNotificationDto);
+                var NotificationTemplateData = await _emailTemplateAppService.RenderTemplateNotification("RisksCreated", expandoDataNotification);
 
                 var PushNotification = new Notification(
                     _guidGenerator.Create(),
                     "ComplianceSystem",
                     null,
-                    eventData.Entity.Responsibility.ToString(),
+                   eventData.Entity.OwnerId.ToString(),
                     null,
-                    null, 
+                    null,
 
                 emailTemplate.Subject,
                 Priority.Normal,
@@ -266,8 +256,8 @@ namespace RMG.ComplianceSystem.Notifications
                 true,
                 true,
                 null,
-                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
-                 NotySource.RiskTreatment,
+                Utility.GetURL(NotificationSource.Risk, eventData.Entity.Id, null, null),
+                 NotySource.Risk,
                 eventData.Entity.Id,
                 false
                     );
