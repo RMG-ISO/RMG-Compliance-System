@@ -201,17 +201,18 @@ namespace RMG.ComplianceSystem.Notifications
                     _currentUser.Email,
                     null,
                     null,
-                    emailTemplate.Subject,
-                    Priority.Normal,
-                    NotificationType.Email, Status.Created,
-                    _clock.Now,
-                    emailTemplateData.Body,
-                    true,
-                    true,
-                    null,
-                    null,
-                    null,
-                    null,
+
+                emailTemplate.Subject,
+                Priority.Normal,
+                NotificationType.Email, Status.Created,
+                _clock.Now,
+                emailTemplateData.Body,
+                true,
+                true,
+                null,
+                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
+                 NotySource.RiskTreatment,
+                eventData.Entity.Id,
                     false
                     );
                 notificationList.Add(notification);
@@ -233,19 +234,20 @@ namespace RMG.ComplianceSystem.Notifications
                     _currentUser.Id.ToString(),
                     null,
                     null,
-                    emailTemplate.Subject,
-                    Priority.Normal,
-                    NotificationType.Push,
-                    Notifications.Status.NotSeen,
-                    _clock.Now,
-                    NotificationTemplateData.NotificationBody,
-                    true,
-                    true,
-                    null,
-                    null,
-                    NotySource.RiskTreatment,
-                    eventData.Entity.Id,
-                    false
+
+                emailTemplate.Subject,
+                Priority.Normal,
+                NotificationType.Push,
+                Status.NotSeen,
+                _clock.Now,
+                NotificationTemplateData.NotificationBody,
+                true,
+                true,
+                null,
+                Utility.GetURL(NotificationSource.RiskTreatment, eventData.Entity.Id, null, null),
+                 NotySource.RiskTreatment,
+                eventData.Entity.Id,
+                false
                     );
                 notificationList.Add(PushNotification);
 

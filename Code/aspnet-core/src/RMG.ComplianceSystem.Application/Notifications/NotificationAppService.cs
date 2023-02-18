@@ -53,7 +53,7 @@ namespace RMG.ComplianceSystem.Notifications
 
         public async Task SendMail(string MailTo,string subject,string body,bool IsHTML)
         {
-            var fromAddress = new MailAddress("complaincesystem@outlook.com", "From Name");
+            var fromAddress = new MailAddress("complaincesystem@outlook.com", "ISO System");
             var toAddress = new MailAddress(MailTo, "To Name");
             const string fromPassword = "Amr@123#qwe";
             //const string subject = "Subject";
