@@ -27,7 +27,7 @@ namespace RMG.ComplianceSystem.Notifications
     public enum NotySource
     {
         RiskTreatment,
-        //Risk,
+        Risk,
         //Compilance,
         //Document,
        

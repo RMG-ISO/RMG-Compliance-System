@@ -78,9 +78,9 @@ export class CreateComponent implements OnInit {
       this.emailTemplateService.get(this.activatedRoute.snapshot.params.id).subscribe(r => this.form.patchValue(r))
     }
 
-    if (this.mode === FormMode.Edit) {
-      this.form.controls.key.disable();
-    }
+    // if (this.mode === FormMode.Edit) {
+    //   this.form.controls.key.disable();
+    // }
 
   }
 
