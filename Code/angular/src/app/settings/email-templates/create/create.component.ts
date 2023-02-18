@@ -38,7 +38,7 @@ export class CreateComponent implements OnInit {
     private router:Router,
     private localizationService:LocalizationService
   ) {
-    
+
   }
 
   public onReady( editor ) {
@@ -77,6 +77,11 @@ export class CreateComponent implements OnInit {
     if(this.mode !== FormMode.Create) {
       this.emailTemplateService.get(this.activatedRoute.snapshot.params.id).subscribe(r => this.form.patchValue(r))
     }
+
+    if (this.mode === FormMode.Edit) {
+      this.form.controls.key.disable();
+    }
+
   }
 
 
