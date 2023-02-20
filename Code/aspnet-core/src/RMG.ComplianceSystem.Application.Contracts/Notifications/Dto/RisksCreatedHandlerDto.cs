@@ -10,10 +10,10 @@ namespace RMG.ComplianceSystem.Notifications
         public string NameAr { get; set; }
     }
 
-        public class RisksOpportunityNotificationDto
+    public class RisksOpportunityNotificationDto
     {
         public string NameEn { get; set; }
         public string NameAr { get; set; }
     }
-    
+
 }
