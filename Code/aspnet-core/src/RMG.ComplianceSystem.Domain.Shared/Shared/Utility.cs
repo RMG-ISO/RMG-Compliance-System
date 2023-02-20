@@ -69,7 +69,7 @@ namespace RMG.ComplianceSystem.Shared
                 case NotificationSource.RiskTreatment:
                     return "https://iso.digitaltransformationinstitute.org:11001/risks-management/risk-treatment/"+id;
                 case NotificationSource.Risk:
-                    return "/risks-management/" + id +"/edit";
+                    return "https://iso.digitaltransformationinstitute.org:11001/risks-management/" + id +"/edit";
                 default:
                     break;
             }
