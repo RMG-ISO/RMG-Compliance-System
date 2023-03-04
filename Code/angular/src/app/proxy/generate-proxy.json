@@ -4917,7 +4917,6 @@
                   "type": "Volo.Abp.Account.Web.Areas.Account.Controllers.Models.UserLoginInfo",
                   "typeSimple": "Volo.Abp.Account.Web.Areas.Account.Controllers.Models.UserLoginInfo",
                   "isOptional": false,
-                  "LockoutEnabled": false,
                   "defaultValue": null,
                   "constraintTypes": null,
                   "bindingSourceId": "Body",
@@ -5003,7 +5002,6 @@
                   "typeAsString": "Volo.Abp.Account.RegisterDto, Volo.Abp.Account.Application.Contracts",
                   "type": "Volo.Abp.Account.RegisterDto",
                   "typeSimple": "Volo.Abp.Account.RegisterDto",
-                  "LockoutEnabled":true,
                   "isOptional": false,
                   "defaultValue": null
                 }
