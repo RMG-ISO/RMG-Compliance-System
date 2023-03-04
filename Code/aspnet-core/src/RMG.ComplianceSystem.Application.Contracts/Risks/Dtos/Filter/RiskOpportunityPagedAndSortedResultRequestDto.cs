@@ -10,6 +10,7 @@ namespace RMG.ComplianceSystem.Risks.Dtos
         public int? Potential { get; set; }
         public int? ReEvaluation { get; set; }
         public int? PotentialValue { get; set; }
+        public Guid? OwnerId { get; set; }
         public int? Status { get; set; }
         public Guid? UserId { get; set; }
         public Guid? DepartmentId { get; set; }
