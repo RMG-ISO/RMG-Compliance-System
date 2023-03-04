@@ -92,7 +92,9 @@ export class CurrentUserComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout().subscribe();
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/account/login'])
+    });
   }
 
 

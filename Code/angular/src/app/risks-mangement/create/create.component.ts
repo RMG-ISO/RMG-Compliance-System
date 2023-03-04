@@ -126,6 +126,7 @@ export class CreateComponent implements OnInit {
   getData() {
     this.riskAndOpportunityService.get(this.id).subscribe(r => {
       this.itemData = r;
+      r['frameworkId'] = r['frameWorkId']
       this.firstForm.patchValue(r);
       this.secondForm.patchValue(r);
       this.thirdForm.patchValue(r);
