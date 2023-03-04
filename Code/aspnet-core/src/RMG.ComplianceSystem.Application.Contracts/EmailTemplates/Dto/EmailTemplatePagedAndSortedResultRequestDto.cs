@@ -9,5 +9,6 @@ namespace RMG.ComplianceSystem.EmailTemplates.Dtos
     {
         public string Key { get; set; }
         public string Subject { get; set; }
+        public string Search { get; set; }
     }
 }
