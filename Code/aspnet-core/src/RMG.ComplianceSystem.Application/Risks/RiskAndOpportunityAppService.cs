@@ -149,6 +149,90 @@ namespace RMG.ComplianceSystem.Risks
         }
 
 
+        //Start Methods getbyId and GetListRiskByOwnerId
+        public async Task<PagedResultDto<RiskAndOpportunityDto>> GetListRiskByOwnerIdAsync(RiskOpportunityPagedAndSortedResultRequestDto input)
+        {
+            List<RiskAndOpportunityDto> Risks = new List<RiskAndOpportunityDto>();
+            int totalCount = 0;
+            if (input.Type != null)
+            {
+                //get Risk By CategoryId and Filters and Pagination
+                var ListRisks = RiskAndOpportunityRepository
+                    .WhereIf(input.OwnerId != null, t => t.OwnerId == input.OwnerId)
+                    .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
+                    .WhereIf(input.Status != null, t => t.status == input.Status)
+                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential || t.Potential == input.PotentialValue)
+                    .WhereIf(input.ReEvaluation != null, t => t.ReEvaluation == input.ReEvaluation)
+                    .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
+                    .Where(x => x.Type == input.Type &&
+                     ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
+                     (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                // Mapping RiskAndOpportunity to RiskAndOpportunityDto
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
+                var risk = RiskAndOpportunityRepository.Where(x => x.Type == input.Type).ToList();
+                totalCount = risk.Count;
+            }
+            else
+            {
+                //get Risk By CategoryId and Filters and Pagination
+                var ListDoc = RiskAndOpportunityRepository
+                    .WhereIf(input.OwnerId != null, t => t.OwnerId == input.OwnerId)
+                    .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
+                    .WhereIf(input.Status != null, t => t.status == input.Status)
+                    .WhereIf(input.Potential != null, t => t.Potential == input.Potential || t.Potential == input.PotentialValue || t.ReEvaluation == input.Potential)
+                    .WhereIf(input.UserId != null, t => t.OwnerId == input.UserId)
+                    .Where(x =>
+                ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+                   .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                // Mapping RiskAndOpportunity to RiskAndOpportunityDto
+                Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
+                var risk = RiskAndOpportunityRepository.ToList();
+                totalCount = risk.Count;
+            }
+            if (!string.IsNullOrEmpty(input.Sorting))
+            {
+                var propertyInfo = typeof(RiskAndOpportunityDto).GetProperty(input.Sorting);
+                Risks.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
+            var RisksData = new List<RiskAndOpportunityDto>();
+            foreach (var item in Risks)
+            {
+                var Risk = new RiskAndOpportunityDto();
+                Risk = item;
+                if (Risk.CreatorId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)Risk.CreatorId).Result;
+                    Risk.Creator = ObjectMapper.Map<IdentityUser, IdentityUserDto>(getuser);
+                }
+                if (Risk.OwnerId != null)
+                {
+                    var getuser = User.GetByIdAsync((Guid)item.OwnerId).Result;
+                    Risk.OwnerName = getuser.UserName;
+                }
+                if (Risk.Potential != null)
+                {
+                    Risk.PotentialNameAr = getPotentialName(Risk.Potential).Result.NameAr;
+                    Risk.PotentialNameEn = getPotentialName(Risk.Potential).Result.NameEn;
+                }
+                if (Risk.ReEvaluation != null)
+                {
+                    Risk.PotentialNameAr = getPotentialName(Risk.ReEvaluation).Result.NameAr;
+                    Risk.PotentialNameEn = getPotentialName(Risk.ReEvaluation).Result.NameEn;
+                }
+                if (Risk.DepartmentId != null)
+                {
+                    Risk.DepartmentName = departmentRepository.FirstOrDefault(t => t.Id == Risk.DepartmentId).Name;
+                }
+                RisksData.Add(Risk);
+            }
+
+            return new PagedResultDto<RiskAndOpportunityDto>(
+                totalCount,
+                RisksData
+            );
+        }
+
 
         public async Task<getEnumTypeStaticData> getPotentialName(int? Potential)
         {
