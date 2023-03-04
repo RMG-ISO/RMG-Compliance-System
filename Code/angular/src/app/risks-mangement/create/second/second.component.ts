@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { ControlService } from '@proxy/controls';
 @Component({
   selector: 'app-second',
   templateUrl: './second.component.html',
@@ -8,17 +9,23 @@ import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 })
 export class SecondComponent implements OnInit {
   @Input('form') form;
+  @Input('itemData') itemData;
 
   constructor(
     private staticDataService:StaticDataService,
     private riskAndOpportunityService:RiskAndOpportunityService,
+    private controlService:ControlService
+    
   ) { }
 
   ngOnInit(): void {
 
     // this.getMatrixType();
     this.getList(2, 'likelihood');
-    this.getList(5, 'controlAssesment');
+    this.controlService.getControlsListFramwork({frameWorkId:this.itemData.frameWorkId} as any).subscribe( r => {
+      this.controlAssesment = r.items
+    })
+    // this.getList(5, 'controlAssesment');
     // this.getList(6, 'potentials');
     // this.getListMatrix(this.NumberMatrix);
     // let NumMatrix = this.form.value.numberMatrix;
