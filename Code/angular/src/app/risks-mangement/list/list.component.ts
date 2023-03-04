@@ -28,7 +28,9 @@ export class ListComponent implements OnInit {
     private userService:IdentityUserService
   ) { }
 
+  userId;
   ngOnInit(): void {
+    this.userId = this.configState.getAll().currentUser.id
     this.getDataFilter();
     this.getList();
   }
@@ -43,7 +45,8 @@ export class ListComponent implements OnInit {
   activeTabName;
   getList() {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
-    const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter });
+    // const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter });
+    const streamCreator = (query) => this.riskAndOpportunityService.getListByOwner({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter, UserId:this.userId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       response.items.map(item => {
         // if(item['reEvaluation']) {

@@ -3,7 +3,7 @@
         {{ '::EmailTemplate:Page:Title' | abpLocalization }}
     </mat-card-title>
     <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="save()">
+        <form [formGroup]="form" (ngSubmit)="save()" (keydown.shift.enter)="enteresSubmitted()" (keydown.enter)="enteresSubmitted()">
             <div class="col-md-12 form-group">
                 <label for="Key">
                     {{ '::Email:Key' | abpLocalization }}
