@@ -13,43 +13,39 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss']
+  styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
   @ViewChild('myckeditor') ckeditor: CKEditorComponent;
   FormMode = FormMode;
 
   ckeConfig = {
-    language:{
+    language: {
       ui: 'ar',
-      content: 'ar'
+      content: 'ar',
     },
   };
 
-  form:FormGroup;
+  form: FormGroup;
   mode;
 
   public Editor = DecoupledEditor;
 
-
   constructor(
-    private activatedRoute:ActivatedRoute,
-    private emailTemplateService:EmailTemplateService,
-    private router:Router,
-    private localizationService:LocalizationService
-  ) {
+    private activatedRoute: ActivatedRoute,
+    private emailTemplateService: EmailTemplateService,
+    private router: Router,
+    private localizationService: LocalizationService
+  ) {}
 
-  }
-
-  public onReady( editor ) {
+  public onReady(editor) {
     // if (editor.model.schema.isRegistered('image')) {
     //   editor.model.schema.extend('image', { allowAttributes: 'blockIndent' });
     // }
 
-    editor.ui.getEditableElement().parentElement.insertBefore(
-      editor.ui.view.toolbar.element,
-      editor.ui.getEditableElement()
-    );
+    editor.ui
+      .getEditableElement()
+      .parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
 
     editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
       return new UploadAdapter(loader);
@@ -66,7 +62,7 @@ export class CreateComponent implements OnInit {
       body: new FormControl(null, Validators.required),
       key: new FormControl(null, Validators.required),
       subject: new FormControl(null, Validators.required),
-      notificationBody:new FormControl(null, Validators.required),
+      notificationBody: new FormControl(null, Validators.required),
     });
     this.mode = this.activatedRoute.snapshot.data.mode;
     if (this.mode === FormMode.View) {
@@ -74,38 +70,55 @@ export class CreateComponent implements OnInit {
       this.ckeConfig['readOnly'] = true;
       this.ckeConfig['allowedContent'] = true;
     }
-    if(this.mode !== FormMode.Create) {
-      this.emailTemplateService.get(this.activatedRoute.snapshot.params.id).subscribe(r => this.form.patchValue(r))
+    if (this.mode !== FormMode.Create) {
+      this.form.controls.key.disable();
+      this.emailTemplateService
+        .get(this.activatedRoute.snapshot.params.id)
+        .subscribe(r => this.form.patchValue(r));
     }
 
     // if (this.mode === FormMode.Edit) {
     //   this.form.controls.key.disable();
     // }
-
   }
 
+  enterSubmitted;
+  enterTimeout;
+  enteresSubmitted() {
+    this.enterSubmitted = true;
+    clearTimeout(this.enterTimeout);
+    this.enterTimeout = setTimeout(() => {
+      this.enterSubmitted = false;
+    }, 500);
+  }
 
   submitFlag = false;
+  submitTiemout;
   save() {
-    if(this.form.invalid) return;
-    this.submitFlag = true;
+    clearTimeout(this.submitTiemout);
+    this.submitTiemout = setTimeout(() => {
+      if (this.enterSubmitted || this.form.invalid) return;
 
-    if (this.mode === FormMode.Create) {
-      this.emailTemplateService.create(this.form.value)
-      .pipe(
-        finalize(() => this.submitFlag = false)
-      )
-      .subscribe( () => {
-        this.router.navigate(['/settings/email-templates/list'])
-      });
-    } else {
-      this.emailTemplateService.update(this.form.value.id, this.form.value)
-      .pipe(
-        finalize(() => this.submitFlag = false)
-      ).subscribe( () => {
-        this.router.navigate(['/settings/email-templates/list'])
-      });
-    }
+      this.submitFlag = true;
+
+      let value = this.form.getRawValue();
+
+      if (this.mode === FormMode.Create) {
+        this.emailTemplateService
+          .create(value)
+          .pipe(finalize(() => (this.submitFlag = false)))
+          .subscribe(() => {
+            this.router.navigate(['/settings/email-templates/list']);
+          });
+      } else {
+        this.emailTemplateService
+        .update(value.id, value)
+        .pipe(finalize(() => (this.submitFlag = false)))
+        .subscribe(() => {
+          this.router.navigate(['/settings/email-templates/list']);
+        });
+      }
+    }, 100);
   }
 }
 
