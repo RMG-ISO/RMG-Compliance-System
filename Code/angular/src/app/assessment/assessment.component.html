@@ -37,15 +37,15 @@
             </div>
           </mat-card-content>
           <mat-card-actions class="d-flex justify-content-center">
-            <button mat-raised-button>
+            <button mat-raised-button  [routerLink]="['/assessment', item.id]">
               <i class="fas fa-eye"></i>
             </button>
-            <button mat-raised-button>
+            <!-- <button mat-raised-button>
               <i class="fas fa-list-ul"></i>
             </button>
             <button mat-raised-button (click)="openDialog(row)">
               <mat-icon>edit</mat-icon>
-            </button>
+            </button> -->
           </mat-card-actions>
         </mat-card>
       </div>
