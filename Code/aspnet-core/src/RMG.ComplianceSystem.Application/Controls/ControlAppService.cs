@@ -6,6 +6,12 @@ using Volo.Abp.Application.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using RMG.ComplianceSystem.Domains.Dtos;
+using System.Collections.Generic;
+using Volo.Abp.ObjectMapping;
+using RMG.ComplianceSystem.Domains;
+using RMG.ComplianceSystem.Risks.Dtos;
+using RMG.ComplianceSystem.Risks.Entity;
 
 namespace RMG.ComplianceSystem.Controls
 {
@@ -17,14 +23,16 @@ namespace RMG.ComplianceSystem.Controls
         protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Control.Create;
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Control.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Control.Delete;
-
+        private readonly IDomainRepository _domainRepository;
         private readonly IControlRepository _repository;
 
-        public ControlAppService(IControlRepository repository) : base(repository)
+        public ControlAppService(IControlRepository repository, IDomainRepository domainRepository) : base(repository)
         {
             _repository = repository;
+            _domainRepository = domainRepository;   
         }
 
+     
         protected override async Task<IQueryable<Control>> CreateFilteredQueryAsync(ControlPagedAndSortedResultRequestDto input)
         {
             return (await Repository.WithDetailsAsync())
@@ -57,5 +65,22 @@ namespace RMG.ComplianceSystem.Controls
 
             return new ListResultDto<ControlDto>(entityDtos);
         }
+
+        public async Task<ListResultDto<ControlDto>> GetListControlsByFramworkAsync(ControlPagedAndSortedResultRequestDto input)
+        {
+           var   mainDomains = _domainRepository.Where(t => t.FrameworkId == input.FrameWorkId).ToList();
+            var ControlsDto = new List<ControlDto>();
+            foreach (var domain in mainDomains)
+            {
+                if (domain.Children!=null)
+                foreach (var item in domain.Children)
+                {
+                    var Controls = _repository.Where(t => t.DomainId == item.Id).ToList();
+                    ControlsDto = await MapToGetListOutputDtosAsync(Controls);
+                }
+            }
+            return new ListResultDto<ControlDto>(ControlsDto);
+        }
+
     }
 }
