@@ -13,7 +13,6 @@ namespace RMG.ComplianceSystem.Controls.Dtos
         public string Search { get; set; }
         public SharedStatus? Status { get; set; }
         public Guid? DomainId { get; set; }
-
-
+        public Guid? FrameWorkId { get; set; }
     }
 }
