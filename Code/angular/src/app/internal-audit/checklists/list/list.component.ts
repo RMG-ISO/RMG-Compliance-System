@@ -28,8 +28,8 @@ export class ListComponent implements OnInit {
     this.getList();
   }
 
-  getList(search = null) {
-    const streamCreator = (query) => this.internalAuditChecklistService.getList({ ...query, search: search});
+  getList() {
+    const streamCreator = (query) => this.internalAuditChecklistService.getList({ ...query, search: this.searchVal });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
 
       this.items = response.items;
