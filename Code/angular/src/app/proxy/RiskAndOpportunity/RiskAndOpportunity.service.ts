@@ -40,6 +40,13 @@ export class RiskAndOpportunityService {
       params: { search: input.search, type: input.type,DepartmentId:input.DepartmentId,ReEvaluation:input.ReEvaluation,UserId:input.UserId,Potential:input.Potential,PotentialValue:input.PotentialValue,Status:input.Status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
+  getListByOwner = (input: RiskOpportunityPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<RiskAndOpportunityDto>>({
+      method: 'GET',
+      url: '/api/app/risk-and-opportunity/risk-by-owner-id',
+      params: { search: input.search, type: input.type,DepartmentId:input.DepartmentId,ReEvaluation:input.ReEvaluation,UserId:input.UserId,Potential:input.Potential,PotentialValue:input.PotentialValue,Status:input.Status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
     getListUser = (input: UserPagedAndSortedResultRequestDto) =>
     this.restService.request<any, PagedResultDto<IdentityUserDto>>({
       method: 'GET',

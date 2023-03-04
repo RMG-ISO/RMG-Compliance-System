@@ -35,7 +35,7 @@ export class EmailTemplateService {
     this.restService.request<any, PagedResultDto<EmailTemplateDto>>({
       method: 'GET',
       url: '/api/app/email-template',
-      params: { key: input.key, subject: input.subject, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { key: input.key, search: input['search'], subject: input.subject, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
