@@ -3,11 +3,19 @@
         <mat-card-title>
             <h3>
                 {{ auditInfo | lang:'auditTitle' }}
-                -
-                {{ auditInfo.auditCode }}
             </h3>
         </mat-card-title>
         <mat-card-content>
+            
+            <div class="form-group">
+                <h4 class="mb-0">
+                    {{ '::AuditCode' | abpLocalization }}
+                </h4>
+                <p>
+                    {{ auditInfo.auditCode }}
+                </p>
+            </div>
+
             <div class="form-group">
                 <h4 class="mb-0">
                     {{ '::AuditDescription' | abpLocalization }}

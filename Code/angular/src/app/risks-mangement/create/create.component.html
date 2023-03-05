@@ -116,7 +116,7 @@
                     <app-first *abpPermission="'ComplianceSystem.RiskAndOpportunityDefinition'" [form]="firstForm"> </app-first>
                 </ng-container>
                 <ng-container *ngSwitchCase="WorkFlowStages.Analysis">
-                    <app-second *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" [form]="secondForm"> </app-second>
+                    <app-second *abpPermission="'ComplianceSystem.RiskAndOpportunityAnalysis'" [form]="secondForm" [itemData]="itemData"> </app-second>
                 </ng-container>
                 <ng-container *ngSwitchCase="WorkFlowStages.Evaluation">
                     <app-third *abpPermission="'ComplianceSystem.RiskAndOpportunityEvaluation'" [form]="thirdForm" [itemData]="itemData"> </app-third>

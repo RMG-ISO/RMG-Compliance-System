@@ -58,7 +58,7 @@ export class CreateComponent implements OnInit {
       riskOpportunityIds: new FormControl(null, null),
       id:new FormControl(null),
       isApprove:new FormControl(null),
-      approverUserId:new FormControl(null, Validators.required),
+      approveBy:new FormControl(null, Validators.required),
     }, {
       validators:[
         DateValidators.ValidateTwoDates('startDate', 'endDate')

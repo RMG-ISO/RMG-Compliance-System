@@ -39,6 +39,14 @@ export class ControlService {
     },
     { apiName: this.apiName });
 
+  getControlsListFramwork = (input: ControlPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<ControlDto>>({
+      method: 'GET',
+      url: '/api/app/control/controls-by-framwork',
+      params: { FrameWorkId: input['frameWorkId'], isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
   getListWithoutPaging = (input: ControlPagedAndSortedResultRequestDto) =>
     this.restService.request<any, ListResultDto<ControlDto>>({
       method: 'GET',
