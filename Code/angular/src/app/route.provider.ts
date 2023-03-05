@@ -33,6 +33,14 @@ function configureRoutes(routesService: RoutesService) {
         requiredPolicy:'ComplianceSystem.Framework',
       },
       {
+        path:'/frameworks',
+        name:'::Menu:Frameworks',
+        iconClass: 'fas fa-th-large',
+        order: 1,
+        layout: eLayoutType.application,
+        requiredPolicy:'ComplianceSystem.Framework',
+      },
+      {
         path:'/assessment',
         name:'::Menu:Assessment',
         iconClass: 'fas fa-sitemap',

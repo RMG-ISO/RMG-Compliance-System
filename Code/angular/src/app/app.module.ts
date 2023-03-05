@@ -32,6 +32,7 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 
 import { VALIDATION_BLUEPRINTS } from '@ngx-validate/core';
 import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
+import { MatIconModule } from '@angular/material/icon';
 
 
 // export let AppInjector: Injector;
@@ -58,7 +59,7 @@ import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
     MatExpansionModule,
     MatButtonModule,
     MatMenuModule,
-
+    MatIconModule
   ],
   declarations: [
     AppComponent,
