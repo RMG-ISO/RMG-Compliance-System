@@ -82,8 +82,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
             return await Task.FromResult(Repository.GetListAsync().Result.Where(x =>
                                          (input.Search.IsNullOrEmpty()||x.Key.Contains(input.Search)) ||
                     ( input.Search.IsNullOrEmpty()||x.Subject.Contains(input.Search))
-                     )
-                .AsQueryable());
+                     ).AsQueryable());
 
         }
 
