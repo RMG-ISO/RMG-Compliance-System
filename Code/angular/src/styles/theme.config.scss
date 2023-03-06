@@ -24,6 +24,13 @@ body[dir="rtl"] {
 
 }
 
+.form-control {
+    color: #000000;
+    &:not([type="search"]) {
+        border-color: #4b74ff;
+    }
+}
+
 input.form-control:not([type="search"]), textarea.form-control {
     // background-color: #f7f9fc;
     // border-color: #e4e9f2;
@@ -97,69 +104,6 @@ ngb-datepicker {
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px !important;;
-}
-
-ngx-datatable {
-    .datatable-header .datatable-header-cell.resizeable .resize-handle {
-        visibility: visible;
-        border-color: #ddd;
-    }
-
-    datatable-header-cell.datatable-header-cell{
-        font-weight: bold !important;
-        color: #343C63 !important;
-    }
-
-    datatable-body-cell, datatable-header-cell {
-        text-align: center !important;
-    }
-    datatable-scroller {
-        display: block !important;
-    }
-
-    // datatable-header-cell {
-    //     direction: ltr;
-    // }
-
-    datatable-body-cell {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        .datatable-body-cell-label {
-            // word-break: break-all;
-        }
-        &.options {
-            display: flex;
-            align-items: center;
-            justify-content:center;
-            // padding-left: 10px !important;
-            // padding-right: 10px !important;
-            .datatable-body-cell-label {
-                display: flex;
-            }
-            button, a {
-                width: auto;
-                min-width: auto;
-                // padding-left: 10px;
-                // padding-right: 10px;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-        }
-    }
-    .empty-row  {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-
-    datatable-row-wrapper {
-        .datatable-row-detail  {
-            overflow-y: visible !important;
-            background-color: #fff !important;
-        }
-    }
 }
 
 mat-tab-group  {

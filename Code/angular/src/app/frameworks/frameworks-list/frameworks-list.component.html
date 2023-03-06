@@ -26,87 +26,90 @@
         </div>
     </div>
     <div class="card-body">
-        <mat-card>
-            <mat-card-header>
-                <h3 class="mb-0">{{ (selected?.id ? '::EditFramework' : '::CreateFramework' ) | abpLocalization }}</h3>
-            </mat-card-header>
-           <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="save()">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="name-en">{{ '::FrameworkNameAr' | abpLocalization }}</label><span> * </span>
-                            <input id="name-en" class="form-control" formControlName="nameAr" >
+        <form [formGroup]="form" (ngSubmit)="save()" #formDirective="ngForm">
+            <mat-card>
+                <mat-card-header>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h3 class="mb-0">{{ (selected?.id ? '::EditFramework' : '::CreateFramework' ) | abpLocalization }}</h3>
+                        
+                        <span>
+                            <button class="red" type="button" mat-raised-button (click)="setFormData(null)">
+                                {{ '::Cancel' | abpLocalization }}
+                            </button>
+                    
+                            <!--added save button-->
+                            <button class="green" mat-raised-button type="submit">
+                                <i class="fa fa-check mr-1"></i>
+                                {{ '::Save' | abpLocalization }}
+                            </button>
+                        </span>
+                    </div>
+                </mat-card-header>
+            <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name-en">{{ '::FrameworkNameAr' | abpLocalization }}</label><span> * </span>
+                                <input id="name-en" class="form-control" formControlName="nameAr" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name-en">{{ '::FrameworkNameEn' | abpLocalization }}</label><span> * </span>
+                                <input id="name-en" class="form-control" formControlName="nameEn" >
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="name-en">{{ '::FrameworkNameEn' | abpLocalization }}</label><span> * </span>
-                            <input id="name-en" class="form-control" formControlName="nameEn" >
+            
+            
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="shortcur-ar">{{ '::FrameworkShortcutAr' | abpLocalization }}</label><span> * </span>
+                                <input type="text" id="shortcur-ar" class="form-control" formControlName="shortcutAr" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="shortcut-en">{{ '::FrameworkShortcutEn' | abpLocalization }}</label><span> * </span>
+                                <input type="text" id="shortcut-en" class="form-control" formControlName="shortcutEn" />
+                            </div>
                         </div>
                     </div>
-                </div>
-        
-        
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="shortcur-ar">{{ '::FrameworkShortcutAr' | abpLocalization }}</label><span> * </span>
-                            <input type="text" id="shortcur-ar" class="form-control" formControlName="shortcutAr" />
+            
+            
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label>
+                                <textarea id="description-ar" class="form-control" formControlName="descriptionAr"></textarea>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label>
+                                <textarea id="description" class="form-control" formControlName="descriptionEn"> </textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="shortcut-en">{{ '::FrameworkShortcutEn' | abpLocalization }}</label><span> * </span>
-                            <input type="text" id="shortcut-en" class="form-control" formControlName="shortcutEn" />
+            
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status">{{ '::FrameworkStatus' | abpLocalization }}</label><span> * </span>
+                                <select class="form-control" id="status" formControlName="status">
+                                    <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
+                                    <option *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
+                                        {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-        
-        
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label>
-                            <textarea id="description-ar" class="form-control" formControlName="descriptionAr"></textarea>
-                        </div>
-                    </div>
-               
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label>
-                            <textarea id="description" class="form-control" formControlName="descriptionEn"> </textarea>
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="status">{{ '::FrameworkStatus' | abpLocalization }}</label><span> * </span>
-                            <select class="form-control" id="status" formControlName="status">
-                                <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
-                                <option *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
-                                    {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </form>
-           </mat-card-content>
-            <ng-template #abpFooter>
-                <button type="button" class="btn btn-secondary" abpClose>
-                    {{ '::Close' | abpLocalization }}
-                </button>
-        
-                <!--added save button-->
-                <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-                    <i class="fa fa-check mr-1"></i>
-                    {{ '::Save' | abpLocalization }}
-                </button>
-            </ng-template>
-        </mat-card>
+            </mat-card-content>
+            </mat-card>
+        </form>
 
         <div class="row" *ngIf="visibleContent === 'cards'">
             <div class="col-md-4 col-lg-3 card-cont" *ngFor="let item of items">
