@@ -12,7 +12,8 @@ namespace RMG.ComplianceSystem.Shared
     public enum NotificationSource 
     {
         RiskTreatment,
-        Risk
+        Risk,
+        InternalAuditPreparation
     }
      public enum Status
     {

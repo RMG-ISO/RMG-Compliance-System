@@ -15,6 +15,8 @@ namespace RMG.ComplianceSystem.Employees.Dtos
 
         public bool IsManager { get; set; }
 
+        public bool IsUse { get; set; } 
+
         public string DepartmentName { get; set; }
 
     }
