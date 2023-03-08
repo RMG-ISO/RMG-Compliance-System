@@ -158,7 +158,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
                         var AuditRisks = _AuditRiskRepository.Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
                         foreach (var AuditRisk in AuditRisks)
                         {
-                            await _internalAuditorRepository.DeleteAsync(AuditRisk.Id, autoSave: true);
+                            await _AuditRiskRepository.DeleteAsync(AuditRisk.Id, autoSave: true);
                         }
                         List<InternalAuditRisk> AuditRiskList = new List<InternalAuditRisk>();
                         foreach (var RiskId in input.RiskOpportunityIds)
