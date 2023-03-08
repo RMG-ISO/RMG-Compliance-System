@@ -70,6 +70,8 @@ namespace RMG.ComplianceSystem.Shared
                     return "https://iso.digitaltransformationinstitute.org:11001/risks-management/risk-treatment/"+id;
                 case NotificationSource.Risk:
                     return "https://iso.digitaltransformationinstitute.org:11001/risks-management/" + id +"/edit";
+                case NotificationSource.InternalAuditPreparation:
+                    return "https://iso.digitaltransformationinstitute.org:11001/internal-audit/audit-setup/" + id + "/edit";
                 default:
                     break;
             }

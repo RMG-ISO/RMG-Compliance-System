@@ -28,9 +28,10 @@ namespace RMG.ComplianceSystem.Notifications
     {
         RiskTreatment,
         Risk,
+        InternalAuditPreparation,
         //Compilance,
         //Document,
-       
+
     }
     
 }
