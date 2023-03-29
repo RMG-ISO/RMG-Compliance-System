@@ -1,0 +1,22 @@
+<section class="card">
+    <header class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+                <h2 class="card-title mb-0">
+                    {{ '::أطر العمل الرئيسيه' | abpLocalization }}
+                </h2>
+            <div class="pt-2 d-flex justify-content-end">
+                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
+                    <i class="fa fa-plus mr-1"></i>
+                    <span>{{ "::CreateFramework" | abpLocalization }}</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="card-body">
+        <div class="info">
+            <h3>
+                {{ frameWorkData | lang:'name' }}
+            </h3>
+        </div>
+    </div>
+</section>

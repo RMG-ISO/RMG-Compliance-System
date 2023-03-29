@@ -5,12 +5,14 @@ import { FrameworksRoutingModule } from './frameworks-routing.module';
 import { FrameworksListComponent } from './frameworks-list/frameworks-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
+import { FrameworkViewComponent } from './framework-view/framework-view.component';
 
 
 @NgModule({
   declarations: [
     FrameworksListComponent,
-    CreateFrameworkComponent
+    CreateFrameworkComponent,
+    FrameworkViewComponent
   ],
   imports: [
     CommonModule,
