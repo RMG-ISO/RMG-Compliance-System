@@ -4,112 +4,45 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-                <h3 class="card-title">
+                <h2 class="card-title mb-0">
                     {{ '::Framework' | abpLocalization }}
-                </h3>
+                </h2>
             <div class="pt-2 d-flex justify-content-end">
-                <!-- <div class="visible-content mr-3">
-                    <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
-                        <i class="fas fa-th-large"></i>
-                    </button>
-                    <button mat-button (click)="visibleContent = 'grid'" [class.active]="visibleContent === 'grid'">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
-
-                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="setFormData()">
+                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
                     <i class="fa fa-plus mr-1"></i>
                     <span>{{ "::CreateFramework" | abpLocalization }}</span>
-                </button> -->
-                <app-search (search)="getList($event)"></app-search>
+                </button>
+                
+                <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
+                    <i class="fas fa-filter"></i>
+                    {{ '::Filter' | abpLocalization }}
+                </button>
             </div>
         </div>
     </div>
+
+    <form [formGroup]="filterForm" class="filter-form">
+        <div class="row filter-row mt-3" [class.show]="showFilters">
+            <div class="col-md-4 form-group">
+                <ng-select formControlName="status" [placeholder]="'::Status' | abpLocalization" >
+                    <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                        {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                    </ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-4 form-group">
+               <input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control" formControlName="search">
+            </div>
+            <div class="col-md-4">
+                <button mat-button class="reset" (click)="filterForm.reset()" >
+                    {{ 'ResetFilter' | abpLocalization }}
+                </button>
+            </div>
+        </div>
+    </form>
+
     <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="save()" #formDirective="ngForm">
-            <mat-card>
-                <mat-card-header>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h3 class="mb-0">{{ (selected?.id ? '::EditFramework' : '::CreateFramework' ) | abpLocalization }}</h3>
-                        
-                        <span>
-                            <button class="red" type="button" mat-raised-button (click)="setFormData(null)">
-                                {{ '::Cancel' | abpLocalization }}
-                            </button>
-                    
-                            <!--added save button-->
-                            <button class="green" mat-raised-button type="submit">
-                                <i class="fa fa-check mr-1"></i>
-                                {{ '::Save' | abpLocalization }}
-                            </button>
-                        </span>
-                    </div>
-                </mat-card-header>
-            <mat-card-content>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name-en">{{ '::FrameworkNameAr' | abpLocalization }}</label><span> * </span>
-                                <input id="name-en" class="form-control" formControlName="nameAr" >
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name-en">{{ '::FrameworkNameEn' | abpLocalization }}</label><span> * </span>
-                                <input id="name-en" class="form-control" formControlName="nameEn" >
-                            </div>
-                        </div>
-                    </div>
-            
-            
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="shortcur-ar">{{ '::FrameworkShortcutAr' | abpLocalization }}</label><span> * </span>
-                                <input type="text" id="shortcur-ar" class="form-control" formControlName="shortcutAr" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="shortcut-en">{{ '::FrameworkShortcutEn' | abpLocalization }}</label><span> * </span>
-                                <input type="text" id="shortcut-en" class="form-control" formControlName="shortcutEn" />
-                            </div>
-                        </div>
-                    </div>
-            
-            
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label>
-                                <textarea id="description-ar" class="form-control" formControlName="descriptionAr"></textarea>
-                            </div>
-                        </div>
-                
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label>
-                                <textarea id="description" class="form-control" formControlName="descriptionEn"> </textarea>
-                            </div>
-                        </div>
-                    </div>
-            
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="status">{{ '::FrameworkStatus' | abpLocalization }}</label><span> * </span>
-                                <select class="form-control" id="status" formControlName="status">
-                                    <option [ngValue]="null">{{'::PleaseSelect' | abpLocalization}}</option>
-                                    <option *ngFor="let stauts of sharedStatusOptions" [ngValue]="stauts.value">
-                                        {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-            </mat-card-content>
-            </mat-card>
-        </form>
+
 
         <div class="row" *ngIf="visibleContent === 'cards'">
             <div class="col-md-4 col-lg-3 card-cont" *ngFor="let item of items">
@@ -181,7 +114,7 @@
                     </button>
 
                     <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
-                        (click)="$event.stopPropagation();setFormData(row)">
+                        (click)="$event.stopPropagation();openDialog(row, FormMode.Update)">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </ng-template>
@@ -190,3 +123,6 @@
     </div>
 </div>
 
+<ng-template #dialog let-data let-ref="dialogRef">
+    <app-create-framework [data]="data.data" [ref]="ref" [mode]="data.mode"></app-create-framework>
+</ng-template>

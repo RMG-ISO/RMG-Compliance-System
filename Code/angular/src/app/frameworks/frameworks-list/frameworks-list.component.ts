@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
 import { sharedStatusOptions } from '@proxy/shared';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -17,6 +18,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 })
 export class FrameworksListComponent implements OnInit {
   @ViewChild('formDirective') formDirective;
+  @ViewChild('dialog') dialog;
 
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
@@ -31,36 +33,43 @@ export class FrameworksListComponent implements OnInit {
   constructor(
     public readonly list: ListService,
     private frameworkService: FrameworkService,
-    public dialog: MatDialog,
+    public  matDialog: MatDialog,
     private confirmation: ConfirmationService,
     private router: Router,
     private localizationService: LocalizationService,
   ) { }
 
 
+  filterForm:FormGroup;
   ngOnInit(): void {
     this.getList();
-    this.buildForm();
+
+    this.filterForm = new FormGroup({
+      search:new FormControl(),
+      status:new FormControl(null),
+    });
+
+    this.filterForm.valueChanges.pipe(
+    debounceTime(1000),
+    distinctUntilChanged())
+    .subscribe(value => {
+      this.list.get();
+    });
   }
 
-  getList(search = null) {
-    const streamCreator = (query) => this.frameworkService.getList({ ...query, search: search });
+  showFilters = false;
+  getList() {
+    const streamCreator = (query) => this.frameworkService.getList({ ...query,...this.filterForm.value, });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
 
-
-
-
   delete(model: FrameworkDto) {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [this.localizationService.currentLang.includes('ar') ?  model.nameAr : model.nameEn] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.frameworkService.delete(model.id).subscribe(() => {
-          if(model.id == this.selected?.id) this.setFormData(null);
-          this.list.get()
-        });
+        this.frameworkService.delete(model.id).subscribe( () => this.list.get() );
       }
     });
   }
@@ -70,64 +79,18 @@ export class FrameworksListComponent implements OnInit {
   }
 
 
-  setFormData(data: FrameworkDto) {
-    this.selected = data;
-    this.buildForm();
-  }
-
-
-  buildForm() {
-    // this.form = null;
-    if(!this.form) this.form = new FormGroup({
-        nameAr: new FormControl(null, Validators.required),
-        nameEn: new FormControl(null, Validators.required),
-        shortcutAr: new FormControl(null, Validators.required),
-        shortcutEn: new FormControl(null, Validators.required),
-        descriptionAr: new FormControl(null),
-        descriptionEn: new FormControl(null),
-        status: new FormControl(null, Validators.required),
-        id: new FormControl(null)
-      });
-   
-
-    this.form.patchValue(this.selected);
-    console.log(this.selected);
-    if(!this.selected) {
-      this.form.reset();
-
-      for(let c in this.form.controls) {
-        this.form.controls[c].setErrors(null);
-        this.form.controls[c].reset();
-        this.form.controls[c].markAsPristine();
-        this.form.controls[c].markAsUntouched();
-        this.form.controls[c].updateValueAndValidity();
-    }
-
-      // this.formDirective.resetForm();
-
-      // this.form.markAsPristine();
-      // this.form.markAsUntouched();
-      // this.form.updateValueAndValidity();
-
-    }
-
-    console.log(this.form);
-
-    console.log('/formDirective', this.formDirective);
-
-  }
-
-  save() {
-    console.log(this.form);
-    if (this.form.invalid) return;
-
-    const request = this.selected?.id
-      ? this.frameworkService.update(this.selected.id, this.form.value)
-      : this.frameworkService.create(this.form.value);
-
-    request.subscribe(() => {
-      this.setFormData(null)
-      this.list.get();
+  openDialog(data = null, mode = FormMode.Create) {
+    let ref = this.matDialog.open(this.dialog, {
+      data:{
+        data,
+        mode
+      }
     });
+    ref.afterClosed().subscribe(con => {
+      if(con) this.list.get();
+    })
   }
+
+
+
 }

@@ -466,7 +466,9 @@
     "Declined": "مرفوض",
     "UserApprover": "الشخص المعتمد",
     "ConfirmationDeleteMessage": "هل أنت متأكد من حذف {0} ؟",
-    "Title": "العنوان"
+    "Title": "العنوان",
+    "Filter":"فلتر",
+    "ResetFilter":"إعادة تعيين"
 
 
 

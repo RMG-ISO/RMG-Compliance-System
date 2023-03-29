@@ -1,0 +1,71 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <h2 mat-dialog-title>
+        {{ title | abpLocalization }}
+    </h2>
+    <mat-dialog-content class="mat-typography" >
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name-en">{{ '::FrameworkNameAr' | abpLocalization }}</label><span> * </span>
+                    <input id="name-en" class="form-control" formControlName="nameAr" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name-en">{{ '::FrameworkNameEn' | abpLocalization }}</label><span> * </span>
+                    <input id="name-en" class="form-control" formControlName="nameEn" >
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="shortcur-ar">{{ '::FrameworkShortcutAr' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="shortcur-ar" class="form-control" formControlName="shortcutAr" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="shortcut-en">{{ '::FrameworkShortcutEn' | abpLocalization }}</label><span> * </span>
+                    <input type="text" id="shortcut-en" class="form-control" formControlName="shortcutEn" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description-ar">{{ '::FrameworkDescriptionAr' | abpLocalization }}</label>
+                    <textarea id="description-ar" class="form-control" formControlName="descriptionAr"></textarea>
+                </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description">{{ '::FrameworkDescriptionEn' | abpLocalization }}</label>
+                    <textarea id="description" class="form-control" formControlName="descriptionEn"> </textarea>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="status">
+                        {{ '::FrameworkStatus' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <select class="form-control" id="status" formControlName="status">
+                        <option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+      <button mat-button (click)="ref.close()" class="red"> 
+        {{ '::Cancel' | abpLocalization }}
+      </button>
+      <button mat-button cdkFocusInitial class="green">
+        <i class="fa fa-check mr-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
+    </mat-dialog-actions>
+</form>
