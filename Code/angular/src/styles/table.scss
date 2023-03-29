@@ -1,0 +1,70 @@
+.ngx-datatable .datatable-header .datatable-header-cell {
+    background: #55C270 !important;
+    .datatable-header-cell-template-wrap {
+        color: #fff !important;
+        font-size: 14px;
+    }
+}
+
+ngx-datatable {
+    .datatable-header .datatable-header-cell.resizeable .resize-handle {
+        visibility: visible;
+        border-color: #ddd;
+    }
+
+    datatable-header-cell.datatable-header-cell{
+        font-weight: bold !important;
+        color: #343C63 !important;
+    }
+
+    datatable-body-cell, datatable-header-cell {
+        text-align: center !important;
+    }
+    datatable-scroller {
+        display: block !important;
+    }
+
+    // datatable-header-cell {
+    //     direction: ltr;
+    // }
+
+    datatable-body-cell {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        .datatable-body-cell-label {
+            // word-break: break-all;
+        }
+        &.options {
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            // padding-left: 10px !important;
+            // padding-right: 10px !important;
+            .datatable-body-cell-label {
+                display: flex;
+            }
+            button, a {
+                width: auto;
+                min-width: auto;
+                // padding-left: 10px;
+                // padding-right: 10px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+    .empty-row  {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    datatable-row-wrapper {
+        .datatable-row-detail  {
+            overflow-y: visible !important;
+            background-color: #fff !important;
+        }
+    }
+}

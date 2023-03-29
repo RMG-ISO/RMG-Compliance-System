@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
   },
   {
+    path:'frameworks',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./frameworks/frameworks.module').then(m => m.FrameworksModule)
+  },
+  {
     path:'assessment',
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule)

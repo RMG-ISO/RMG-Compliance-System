@@ -1,6 +1,6 @@
 :root{
     // --main-color:#4b74ff;
-    --main-color:#19ad3e;
+    --main-color:#1CAE40;
 }
 
 body[dir="rtl"] {
@@ -24,14 +24,29 @@ body[dir="rtl"] {
 
 }
 
-input.form-control, textarea.form-control {
-    background-color: #f7f9fc;
-    border-color: #e4e9f2;
+.form-control {
+    color: #000000;
+    &:not([type="search"]) {
+        border-color: #4b74ff;
+    }
+}
+
+input.form-control:not([type="search"]), textarea.form-control {
+    // background-color: #f7f9fc;
+    // border-color: #e4e9f2;
+
+    background-color: #ffffff;
+    border-color: #4b74ff;
+    border-radius: 10px;
+    height: calc(1.5em + 0.75rem + 12px);
     &:focus{
         background-color: #fff;
         border-color: #36f;
         box-shadow: none;
     }
+}
+textarea.form-control {
+    height: 138px;
 }
 
 ng-select .ng-select-container {
@@ -43,7 +58,8 @@ ng-select .ng-select-container {
 nav.app-nav {
     position: sticky;
     top: 0;
-    background-color: #fff;
+    // background-color: #fff;
+    background-color: rgba(186,230,198,.04);
     padding: 8px 16px ;
     z-index: 5;
     button.menu-button {
@@ -60,15 +76,15 @@ nav.app-nav {
             width: 18px;
         }
     }
-    &:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAHBAMAAADzDtBxAAAAD1BMVEUAAAAAAAAAAAAAAAAAAABPDueNAAAABXRSTlMUCS0gBIh/TXEAAAAaSURBVAjXYxCEAgY4UIICBmMogMsgFLtAAQCNSwXZKOdPxgAAAABJRU5ErkJggg==)
-    }
+    // &:after {
+    //     content: '';
+    //     position: absolute;
+    //     bottom: 0;
+    //     left: 0;
+    //     right: 0;
+    //     height: 2px;
+    //     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAHBAMAAADzDtBxAAAAD1BMVEUAAAAAAAAAAAAAAAAAAABPDueNAAAABXRSTlMUCS0gBIh/TXEAAAAaSURBVAjXYxCEAgY4UIICBmMogMsgFLtAAQCNSwXZKOdPxgAAAABJRU5ErkJggg==)
+    // }
 }
 
 ngb-datepicker {
@@ -88,69 +104,6 @@ ngb-datepicker {
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px !important;;
-}
-
-ngx-datatable {
-    .datatable-header .datatable-header-cell.resizeable .resize-handle {
-        visibility: visible;
-        border-color: #ddd;
-    }
-
-    datatable-header-cell.datatable-header-cell{
-        font-weight: bold !important;
-        color: #343C63 !important;
-    }
-
-    datatable-body-cell, datatable-header-cell {
-        text-align: center !important;
-    }
-    datatable-scroller {
-        display: block !important;
-    }
-
-    // datatable-header-cell {
-    //     direction: ltr;
-    // }
-
-    datatable-body-cell {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        .datatable-body-cell-label {
-            // word-break: break-all;
-        }
-        &.options {
-            display: flex;
-            align-items: center;
-            justify-content:center;
-            // padding-left: 10px !important;
-            // padding-right: 10px !important;
-            .datatable-body-cell-label {
-                display: flex;
-            }
-            button, a {
-                width: auto;
-                min-width: auto;
-                // padding-left: 10px;
-                // padding-right: 10px;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-        }
-    }
-    .empty-row  {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-
-    datatable-row-wrapper {
-        .datatable-row-detail  {
-            overflow-y: visible !important;
-            background-color: #fff !important;
-        }
-    }
 }
 
 mat-tab-group  {
@@ -357,12 +310,21 @@ mat-card.global-card {
 }
 
 button.add-btn {
+    // background-color: transparent;
+    // color: #19ad3e;
+    // border: 2px solid #19ad3e;
+    // padding-left: 18px;
+    // padding-right: 18px;
+    // font-weight: bold;
+
     background-color: transparent;
-    color: #19ad3e;
-    border: 2px solid #19ad3e;
+    color: #1CAE40;
+    border: 1px solid rgba(0,0,0, .12);
     padding-left: 18px;
     padding-right: 18px;
     font-weight: bold;
+    border-radius: 50px;
+
     .line {
         border-left: 1px solid #19ad3e;
         height: 14px;
