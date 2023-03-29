@@ -80,6 +80,7 @@ export class FrameworksListComponent implements OnInit {
 
 
   openDialog(data = null, mode = FormMode.Create) {
+    console.log('mocee', mode)
     let ref = this.matDialog.open(this.dialog, {
       data:{
         data,
