@@ -1,0 +1,89 @@
+@import'../../../styles/mixins';
+
+:host {
+    .info {
+        box-shadow: 0 2px 5px rgba(0,0,0,.35);
+        border-radius: 8px;
+        padding-left: 13px;
+        padding-right: 13px;
+        width: calc(100% - 16px);
+
+        margin-right: auto;
+
+        @include nb-ltr(){
+            margin-right: 0;
+            margin-left: auto;
+        }
+
+        h3 {
+            background: var(--main-green);
+            color: #fff;
+            padding: 12px 32px 12px;
+            border-radius: 8px;
+            margin-right: -30px;
+            margin-bottom: 0;
+            @include nb-ltr(){
+                margin-left: -30px;
+                margin-right: 0;
+            }
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            span {
+                padding: 12px 16px;
+                &.status {
+                    color: #21D500;
+                    font-weight: bold;
+                    &::after{
+                        content: "";
+                        width: 8px;
+                        height: 8px;
+                        background: #21D500;
+                        display: inline-block;
+                        border-radius: 8px;
+                        margin-left: 5px;
+                        margin-right: 5px;
+                    }
+                    &.Inactive {
+                        color:#FF0000;
+                        &::after{
+                            background:#FF0000;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .tabs {
+        background: #6B6E6C;
+        padding: 5px;
+        button {
+            border-radius: 6px 0;
+            border:1px solid #54C16F;
+
+            padding-left: 32px;
+            margin-right: -16px;
+            &.active {
+                background-color: #54C16F;
+            }
+        }
+        div:first-of-type {
+            button {
+                margin-right: 0;
+            }
+        }
+        div:last-of-type {
+            button {
+                padding-left: 16px;
+            }
+        }
+        h4 {
+            margin-top: 16px;
+            color: #fff;
+            text-align: center;
+        }
+    }
+}

@@ -6,13 +6,17 @@ import { FrameworksListComponent } from './frameworks-list/frameworks-list.compo
 import { SharedModule } from '../shared/shared.module';
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
+import { DomainsComponent } from './domains/domains.component';
+import { ControlsComponent } from './controls/controls.component';
 
 
 @NgModule({
   declarations: [
     FrameworksListComponent,
     CreateFrameworkComponent,
-    FrameworkViewComponent
+    FrameworkViewComponent,
+    DomainsComponent,
+    ControlsComponent,
   ],
   imports: [
     CommonModule,

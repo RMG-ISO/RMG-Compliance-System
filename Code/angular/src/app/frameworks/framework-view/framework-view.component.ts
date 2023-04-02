@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
+import { SharedStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-framework-view',
@@ -9,8 +10,10 @@ import { FrameworkService } from '@proxy/frameworks';
 })
 export class FrameworkViewComponent implements OnInit {
 
+  SharedStatus = SharedStatus;
+
   constructor(
-    private activatedRoute:ActivatedRoute,
+    public activatedRoute:ActivatedRoute,
     private frameworkService:FrameworkService
   ) { }
 
@@ -23,6 +26,10 @@ export class FrameworkViewComponent implements OnInit {
       console.log(fram);
       this.frameWorkData = fram
     })
+  }
+
+  routeChanges(ev) {
+    console.log(ev);
   }
 
 }
