@@ -80,12 +80,9 @@ namespace RMG.ComplianceSystem.EmailTemplates
           //  await CheckGetListPolicyAsync();
 
             return await Task.FromResult(Repository.GetListAsync().Result.Where(x =>
-                                          (string.IsNullOrEmpty(input.Key) || input.Key == x.Key) &&
-                                          (string.IsNullOrEmpty(input.Subject) || input.Subject == x.Subject)
-                                          )
-                .Where(x => (x.Key.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
-                     (x.Subject.Contains(input.Search) || input.Search.IsNullOrEmpty()))
-                .AsQueryable());
+                                         (input.Search.IsNullOrEmpty()||x.Key.Contains(input.Search)) ||
+                    ( input.Search.IsNullOrEmpty()||x.Subject.Contains(input.Search))
+                     ).AsQueryable());
 
         }
 
