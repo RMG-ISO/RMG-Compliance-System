@@ -55,6 +55,8 @@ export class DomainsComponent implements OnInit {
     this.departmentService.getDepartmentListLookup().subscribe(r => this.departments = r.items);
 
 
+    console.log(this.activatedRoute.snapshot.params)
+
     this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
     this.isMainDomains = this.activatedRoute.snapshot.data["isMainDomains"];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
@@ -94,6 +96,17 @@ export class DomainsComponent implements OnInit {
     this.buildForm();
     this.isModalOpen = true;
   }
+
+  selectedTable = [];
+  onSelect({ selected }) {
+
+    this.selectedTable = [];
+    if(selected[selected.length - 1]) this.selectedTable.push(selected[selected.length - 1]);
+
+    console.log('Select Event', selected, this.selectedTable);
+
+  }
+
 
   buildForm() {
     this.form = new FormGroup({

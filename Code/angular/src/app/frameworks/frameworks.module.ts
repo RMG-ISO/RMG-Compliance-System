@@ -8,6 +8,7 @@ import { CreateFrameworkComponent } from './frameworks-list/create-framework/cre
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
 import { DomainsComponent } from './domains/domains.component';
 import { ControlsComponent } from './controls/controls.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ControlsComponent } from './controls/controls.component';
   imports: [
     CommonModule,
     FrameworksRoutingModule,
-    SharedModule
+    SharedModule,
+    MatCheckboxModule
   ]
 })
 export class FrameworksModule { }

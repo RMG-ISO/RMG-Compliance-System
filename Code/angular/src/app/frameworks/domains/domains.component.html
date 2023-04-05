@@ -22,10 +22,38 @@
       </div>
     </div> -->
     <div class="card-body">
-      <ngx-datatable class="material fullscreen" #dataTable [rows]="items" [count]="totalCount" [list]="list"
-        (activate)="activate($event)" appNgxdatatable>
-        <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference">
-        </ngx-datatable-column>
+      <ngx-datatable  [selectionType]="'checkbox'"
+      [selectAllRowsOnPage]="false"
+      (activate)="activate($event)"
+      (select)='onSelect($event)' class="material fullscreen" [selected]="selectedTable" #dataTable [rows]="items" [count]="totalCount" [list]="list"
+        appNgxdatatable>
+
+        <ngx-datatable-column
+        [width]="50"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+      >
+        <ng-template
+          ngx-datatable-header-template
+          let-value="value"
+          let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn"
+        >
+          <mat-checkbox [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"></mat-checkbox>
+        </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+        <mat-checkbox [checked]="isSelected" (change)="onCheckboxChangeFn($event)"></mat-checkbox>
+        </ng-template>
+      </ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference"> </ngx-datatable-column>
         <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
         <ngx-datatable-column [name]="'::DomainNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
         <ngx-datatable-column [name]="'::DomainDepartment' | abpLocalization" prop="departments">
