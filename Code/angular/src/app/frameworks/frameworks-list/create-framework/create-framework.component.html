@@ -1,9 +1,86 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-    <h2 mat-dialog-title>
-        {{ title | abpLocalization }}
-    </h2>
+    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+        <h2 >
+            {{ title | abpLocalization }}
+        </h2>
+
+        <div class="actions">
+            <button mat-button (click)="ref.close()" class="red"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>
+        
+            <button mat-button cdkFocusInitial class="green" type="submit" >
+                <i class="fa fa-check mr-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+    
     <mat-dialog-content class="mat-typography" >
-        <div class="row">
+        <div class="navs d-flex align-items-center">
+            <button
+              mat-button
+              type="button"
+              (click)="activeTab = 1"
+              [class]="form.controls.frameInfo.status"
+              [ngClass]="{
+                active: activeTab === 1,
+                invalid: form.controls.frameInfo.touched && form.controls.frameInfo.invalid
+              }"
+            >
+              <div class="icon-cont">
+                <mat-icon>description</mat-icon>
+                <mat-icon class="done">done</mat-icon>
+              </div>
+              <h3>
+                {{ "معلومات اطار العمل" | abpLocalization }}
+              </h3>
+            </button>
+            <span class="line">
+              <span class="prog"></span>
+            </span>
+            <button
+              mat-button
+              type="button"
+              (click)="activeTab = 2"
+              [class]="form.controls.frameLevels.status"
+              [ngClass]="{
+                active: activeTab === 2,
+                invalid: form.controls.frameLevels.touched && form.controls.frameLevels.invalid
+              }"
+            >
+              <div class="icon-cont">
+                <mat-icon>layers</mat-icon>
+                <mat-icon class="done">done</mat-icon>
+              </div>
+              <h3>
+                {{ "مستويات إطار العمل" | abpLocalization }}
+              </h3>
+            </button>
+            <span class="line">
+              <span class="prog"></span>
+            </span>
+            <button
+                mat-button
+                type="button"
+                (click)="activeTab = 3"
+                [class]="form.controls.frameTeam.status"
+                [ngClass]="{
+                active: activeTab === 3,
+                invalid: form.controls.frameTeam.touched && form.controls.frameTeam.invalid
+                }"
+            >
+              <div class="icon-cont">
+                <mat-icon>groups</mat-icon>
+                <mat-icon class="done">done</mat-icon>
+              </div>
+              <h3>
+                {{ "فريق إطار العمل" | abpLocalization }}
+              </h3>
+            </button>
+        </div>
+
+        <div [class.d-none]="activeTab !== 1" class="row" formGroupName="frameInfo">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name-en">{{ '::FrameworkNameAr' | abpLocalization }}</label><span> * </span>
@@ -46,6 +123,20 @@
 
             <div class="col-md-6">
                 <div class="form-group">
+                    <label for="department">
+                        {{ '::Department' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <select class="form-control" id="department" formControlName="department">
+                        <option *ngFor="let department of departments" [value]="department.id">
+                            {{  department.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
                     <label for="status">
                         {{ '::FrameworkStatus' | abpLocalization }}
                     </label>
@@ -57,15 +148,64 @@
                     </select>
                 </div>
             </div>
+
         </div>
+        <div  [class.d-none]="activeTab !== 2"  formGroupName="frameLevels" class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level1_ar">{{ '::FrameworkLevel1_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level1_ar" class="form-control" formControlName="level1_ar" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level1_en">{{ '::FrameworkLevel1_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level1_en" class="form-control" formControlName="level1_en" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level2_ar">{{ '::FrameworkLevel2_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level2_ar" class="form-control" formControlName="level2_ar" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level2_en">{{ '::FrameworkLevel2_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level2_en" class="form-control" formControlName="level2_en" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level3_ar">{{ '::FrameworkLevel3_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level3_ar" class="form-control" formControlName="level3_ar" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level3_en">{{ '::FrameworkLevel3_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level3_en" class="form-control" formControlName="level3_en" >
+                </div>
+            </div>
+        </div>
+        <div [class.d-none]=" activeTab !== 3" class="row">
+        
+        </div>
+        
     </mat-dialog-content>
-    <mat-dialog-actions align="center">
-      <button mat-button (click)="ref.close()" class="red"> 
-        {{ '::Cancel' | abpLocalization }}
-      </button>
-      <button mat-button cdkFocusInitial class="green">
-        <i class="fa fa-check mr-1"></i>
-        {{ '::Save' | abpLocalization }}
+    <mat-dialog-actions>
+        <button type="button" mat-button [disabled]="activeTab == 1" (click)="activeTab = activeTab - 1">
+            <mat-icon>
+                keyboard_double_arrow_right
+            </mat-icon> 
+            {{ '::Previos' | abpLocalization }}
+        </button>
+
+      <button mat-button type="submit" [disabled]="activeTab == 3"  (click)="navNext()">
+        {{ '::Next' | abpLocalization }}
+        <mat-icon>
+            keyboard_double_arrow_left
+        </mat-icon> 
       </button>
     </mat-dialog-actions>
 </form>

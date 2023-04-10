@@ -1,0 +1,125 @@
+.navs {
+    width: 100%;
+    margin-left: -32px;
+    margin-right: -32px;
+    padding: 0 16px;
+    button {
+        padding: 16px;
+        width: 140px;
+        position: relative;
+        z-index: 1;
+        div.icon-cont {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%2353BE6D' stroke-width='4' stroke-dasharray='3' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+            background-color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            transition: background-image .35s ease-in-out;
+            mat-icon {
+                width: 20px;
+                height: 20px;
+                color:#53BE6D;
+                font-size: 20px;
+            }
+            .done {
+                display: none;
+                // position: absolute;
+                // right: -8px;
+                // top: -5px;
+                font-size: 22px;
+                width: 22px;
+                height: 22px;
+                background: var(--check-color);
+                line-height: 22px;
+                // color: #fff;
+                border-radius: 50px;
+                transition: opacity .5s ease-in-out;
+            }
+        }
+        h3 {
+            margin-top: 6px;
+            margin-bottom: 0;
+            font-size: 12px;
+            line-height: 12px;
+            color:#53BE6D;
+            transition: color .35s ease-in-out;
+        }
+        &.invalid  {
+            color: var(--invalid-color);
+            .icon-cont {
+                background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%23DD3333' stroke-width='4' stroke-dasharray='3' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e"); 
+                .danger {
+                    opacity: 1;
+                }
+                mat-icon {
+                    color: var(--invalid-color);
+                }
+            }
+            mat-icon {
+                color: var(--invalid-color);
+            }
+            h3 {
+                color: var(--invalid-color);
+            }
+        }
+        &.active {
+            .icon-cont {
+                background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%2302A887' stroke-width='4' stroke-dasharray='3' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+                mat-icon {
+                    color: #02A887;
+                }
+            }
+            h3 {
+                color: #02A887;
+            }
+        }
+        &.VALID {
+            color: var(--h-color);
+            .icon-cont {
+                background-color: #FFE27F;
+                background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%2344CF6C' stroke-width='4' stroke-dasharray='3' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+                .done {
+                    // opacity: 1;
+                  display: inline-block;
+                }
+            }
+            mat-icon {
+                color: var(--check-color);
+                display: none;
+                &.done {
+                    display: inline-block;
+                }
+            }
+            h3 {
+                color: var(--h-color);
+            }
+        }
+    }
+    .line {
+        flex: 1;
+        position: relative;
+        margin-top: -20px;
+        .prog {
+            background-color: #53BE6D;
+            height: 2px;
+            width: calc(100% + 90px);
+            position: absolute;
+            right: -45px;
+        }
+    }
+}
+
+mat-dialog-actions {
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-right: 16px;
+    button {
+        color: #000000;
+    }
+}
