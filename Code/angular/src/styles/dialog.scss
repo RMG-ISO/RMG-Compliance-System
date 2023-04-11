@@ -1,0 +1,91 @@
+.app-dialog {
+    h2 {
+        padding: 16px 32px;
+        color: #232323;
+        margin-bottom: 0 !important;
+    }
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    mat-dialog-content {
+        border-top: 1px solid #EDEFF9;
+        border-bottom: 1px solid #EDEFF9;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    mat-dialog-actions {
+        margin-bottom: 0;
+        button {
+            height: 34px;
+            color: #fff;
+            border-radius: 50px;
+            font-size: 13px;
+            width: 100px;
+            line-height: 30px;
+            margin: 0 4px;
+            &.green {
+                background-color: #1CAE40;
+            }
+            &.red {
+                background-color: #E02020;
+            }
+        }
+    }
+}
+
+
+button.filter-btn {
+    color: #1CAE40;
+    background: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 0;
+    &.show {
+        color: var(--main-color);
+        border-color: var(--main-color);
+    }
+    
+}
+
+.filter-form {
+    .filter-row {
+        margin-left: 0;
+        margin-right: 0;
+        transition: all .3s ease;
+        transition-property: max-height, opacity;
+        opacity: 0;
+        max-height: 0;
+
+        input.form-control {
+            border: 1px solid rgba(0,0,0,.32);
+            color: rgba(0,0,0,.60);
+            box-shadow: none !important;
+        }
+
+        .ng-select.ng-select-single .ng-select-container {
+            background-color: transparent !important;
+            border: 1px solid rgba(0,0,0,.32) !important;
+            color: rgba(0,0,0,.60);
+            box-shadow: none !important;
+            min-height: 38px;
+        }
+
+        &.show {
+            opacity: 1;
+            max-height: 700px;
+        }
+    }
+    button.reset {
+        color: #1CAE40;
+        border: 1px solid rgba(0,0,0,.12);
+        border-radius: 50px;
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}

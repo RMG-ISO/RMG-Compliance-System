@@ -463,7 +463,9 @@
     "Declined": "Declined",
     "UserApprover": "User Approver",
     "ConfirmationDeleteMessage": "Are you sure to delete {0}?",
-    "Title": "Title"
+    "Title": "Title",
+    "Filter":"Filter",
+    "ResetFilter":"Reset"
 
 
 

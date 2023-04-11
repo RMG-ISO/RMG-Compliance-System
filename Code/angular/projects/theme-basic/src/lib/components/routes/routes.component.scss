@@ -1,3 +1,15 @@
+@keyframes animate-opacity {
+    0%   {
+        opacity: 0;
+        height: 0;
+        top: 62px;
+    }
+    100%  {
+        opacity: 1;
+        height: 58px;
+        top: -4px;
+    }
+}
 
 :host {
     width: 280px ;
@@ -14,12 +26,28 @@
         margin-bottom: 4px;
         box-shadow: none;
         text-decoration: none;
+        position: relative;
+        padding-left: 28px;
+        padding-right: 28px;
         &:hover, &.active {
-            background-color: var(--main-color);
-            color: #fff;;
+            // background-color: var(--main-color); 
+            // color: #fff;
+            background-color: #ebf0ee;
+            color: var(--main-color);
             i {
-                color: #fff;
+                color: var(--main-color);
             }
+        }
+        &.active::after {
+            content: "";
+            height: 58px;
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 15px;
+            background: linear-gradient(to bottom, var(--main-color), #249FAF);
+            box-shadow: 0 0 5px #acb2c1;
+            animation: animate-opacity  .5s ease-in-out;
         }
        
     }

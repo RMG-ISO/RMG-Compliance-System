@@ -11,7 +11,7 @@ export class SearchComponent implements OnInit {
   @Output('search') search = new EventEmitter();
 
   filterText: string = "";
-    filterTextUpdate = new Subject<string>();
+  filterTextUpdate = new Subject<string>();
 
   constructor() { }
 
