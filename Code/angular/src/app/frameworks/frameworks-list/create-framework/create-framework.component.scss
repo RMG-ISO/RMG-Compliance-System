@@ -1,8 +1,9 @@
 .navs {
     width: 100%;
-    margin-left: -32px;
-    margin-right: -32px;
+    // margin-left: -32px;
+    // margin-right: -32px;
     padding: 0 16px;
+    margin-bottom: 25px;
     button {
         padding: 16px;
         width: 140px;
@@ -49,23 +50,24 @@
             line-height: 12px;
             color:#53BE6D;
             transition: color .35s ease-in-out;
+            white-space: break-spaces;
         }
         &.invalid  {
-            color: var(--invalid-color);
+            color: #DD3333;
             .icon-cont {
                 background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%23DD3333' stroke-width='4' stroke-dasharray='3' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e"); 
                 .danger {
                     opacity: 1;
                 }
                 mat-icon {
-                    color: var(--invalid-color);
+                    color: #DD3333;
                 }
             }
             mat-icon {
-                color: var(--invalid-color);
+                color: #DD3333;
             }
             h3 {
-                color: var(--invalid-color);
+                color: #DD3333;
             }
         }
         &.active {
@@ -122,4 +124,7 @@ mat-dialog-actions {
     button {
         color: #000000;
     }
+}
+mat-dialog-content {
+    min-width: 75vw;
 }

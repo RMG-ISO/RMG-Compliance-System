@@ -33,7 +33,7 @@
                 <mat-icon class="done">done</mat-icon>
               </div>
               <h3>
-                {{ "معلومات اطار العمل" | abpLocalization }}
+                {{ "::FrameworkInfo" | abpLocalization }}
               </h3>
             </button>
             <span class="line">
@@ -54,7 +54,7 @@
                 <mat-icon class="done">done</mat-icon>
               </div>
               <h3>
-                {{ "مستويات إطار العمل" | abpLocalization }}
+                {{ "::FrameworkLevels" | abpLocalization }}
               </h3>
             </button>
             <span class="line">
@@ -75,7 +75,7 @@
                 <mat-icon class="done">done</mat-icon>
               </div>
               <h3>
-                {{ "فريق إطار العمل" | abpLocalization }}
+                {{ "::FrameworkTeam" | abpLocalization }}
               </h3>
             </button>
         </div>
@@ -187,9 +187,60 @@
                     <input id="level3_en" class="form-control" formControlName="level3_en" >
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level4_ar">{{ '::FrameworkLevel4_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level4_ar" class="form-control" formControlName="level4_ar" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level4_en">{{ '::FrameworkLevel4_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level4_en" class="form-control" formControlName="level4_en" >
+                </div>
+            </div>
         </div>
         <div [class.d-none]=" activeTab !== 3" class="row">
-        
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Reviewer">
+                        {{ '::Reviewer' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <select class="form-control" id="Reviewer" formControlName="reviewer">
+                        <option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Approver">
+                        {{ '::Approver' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <select class="form-control" id="Approver" formControlName="approver">
+                        <option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="team">
+                        {{ '::WorkTeamMembers' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <select class="form-control" id="team" formControlName="team">
+                        <option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
         </div>
         
     </mat-dialog-content>
@@ -198,7 +249,7 @@
             <mat-icon>
                 keyboard_double_arrow_right
             </mat-icon> 
-            {{ '::Previos' | abpLocalization }}
+            {{ '::Previous' | abpLocalization }}
         </button>
 
       <button mat-button type="submit" [disabled]="activeTab == 3"  (click)="navNext()">

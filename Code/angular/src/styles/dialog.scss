@@ -10,6 +10,7 @@
 .app-dialog {
     .mat-dialog-title {
         margin-bottom: 0;
+        flex-wrap: wrap;
         .actions{
             padding:16px 32px
         }

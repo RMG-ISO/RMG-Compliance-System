@@ -48,10 +48,14 @@ export class CreateFrameworkComponent implements OnInit {
         level2_en:new FormControl(null, Validators.required),
         level3_ar:new FormControl(null, Validators.required),
         level3_en:new FormControl(null, Validators.required),
+        level4_ar:new FormControl(null, Validators.required),
+        level4_en:new FormControl(null, Validators.required),
       }),
       frameTeam:new FormGroup({
         owner:new FormControl(null, Validators.required),
-        reviewrs:new FormControl(null, Validators.required),
+        reviewer:new FormControl(null, Validators.required),
+        approver:new FormControl(null, Validators.required),
+        team:new FormControl(null, Validators.required)
       })
     });
 

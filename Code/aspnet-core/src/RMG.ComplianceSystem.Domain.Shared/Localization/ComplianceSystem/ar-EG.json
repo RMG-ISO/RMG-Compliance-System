@@ -468,7 +468,23 @@
     "ConfirmationDeleteMessage": "هل أنت متأكد من حذف {0} ؟",
     "Title": "العنوان",
     "Filter":"فلتر",
-    "ResetFilter":"إعادة تعيين"
+    "ResetFilter":"إعادة تعيين",
+    "Reviewer":"المراجع",
+    "FrameworkInfo":"معلومات اطار العمل",
+    "FrameworkLevels":"مستويات إطار العمل",
+    "FrameworkTeam":"فريق إطار العمل",
+    "FrameworkLevel1_Ar":"المستوى الأول بالعربية",
+    "FrameworkLevel1_En":"المستوى الأول بالإنجليزية",
+    "FrameworkLevel2_Ar":"المستوى الثانى بالعربية",
+    "FrameworkLevel2_En":"المستوى الثانى بالإنجليزية",
+    "FrameworkLevel3_Ar":"المستوى الثالث بالعربية",
+    "FrameworkLevel3_En":"المستوى الثالث بالإنجليزية",
+    "FrameworkLevel4_Ar":"المستوى الرابع بالعربية",
+    "FrameworkLevel4_En":"المستوى الرابع بالإنجليزية",
+    "WorkTeamMembers":"أعضاء فريق العمل",
+    "Previous":"السابق",
+    "Next":"التالى"
+
 
 
 
