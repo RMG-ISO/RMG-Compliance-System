@@ -1,4 +1,4 @@
-import type { SharedStatus } from '../../shared/shared-status.enum';
+import type { SharedStatus,SharedFrameworkStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { IdentityUserDto } from '@abp/ng.account';
 import type { DomainDto } from '../../domains/dtos/models';
@@ -14,6 +14,19 @@ export interface CreateUpdateFrameworkDto {
   descriptionAr?: string;
   descriptionEn?: string;
   status: SharedStatus;
+  frameworkStatus?: SharedFrameworkStatus;
+  attachmentId?: string;
+reviewUserId?: string;
+approveUserId?: string;
+  levelFirstNameAr?:string;
+  levelFirstNameEn?:string;
+  levelSecondNameAr?:string;
+  levelSecondNameEn?:string;
+  levelThirdNameAr?:string;
+  levelThirdNameEn?:string;
+  levelFourNameAr?:string;
+  levelFourNameEn?:string;
+
 }
 
 
@@ -25,6 +38,18 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   descriptionAr?: string;
   descriptionEn?: string;
   status: SharedStatus;
+  frameworkStatus?: SharedFrameworkStatus;
+  attachmentId?: string;
+reviewUserId?: string;
+approveUserId?: string;
+  levelFirstNameAr?:string;
+  levelFirstNameEn?:string;
+  levelSecondNameAr?:string;
+  levelSecondNameEn?:string;
+  levelThirdNameAr?:string;
+  levelThirdNameEn?:string;
+  levelFourNameAr?:string;
+  levelFourNameEn?:string;
 }
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
