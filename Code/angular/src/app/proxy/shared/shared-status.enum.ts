@@ -5,10 +5,10 @@ export enum SharedStatus {
   Active = 1,
 }
 export enum SharedFrameworkStatus {
-  NewFramework=1,
-  UnderReview=2,
-  UnderApproval=3,
-  Approved=4
+  NewFramework=0,
+  UnderReview=1,
+  UnderApproval=2,
+  Approved=3
 }
 
 export const sharedStatusOptions = mapEnumToOptions(SharedStatus);
