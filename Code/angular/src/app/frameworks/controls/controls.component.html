@@ -1,9 +1,9 @@
-<app-complience-setting-breadcrumb *ngIf="!isMainControls && mainControl || isMainControls && subDomainId"
+<!-- <app-complience-setting-breadcrumb *ngIf="!isMainControls && mainControl || isMainControls && subDomainId"
   [type]="isMainControls ? 2 : 3" [itemId]="isMainControls ? subDomainId : mainControl.id">
-</app-complience-setting-breadcrumb>
+</app-complience-setting-breadcrumb> -->
 
 <div class="card">
-  <div class="card-header">
+  <!-- <div class="card-header">
     <div class="row">
       <div class="col col-md-6">
         <h3 class="card-title">
@@ -21,7 +21,7 @@
         <app-search (search)="getList($event)"></app-search>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="card-body">
     <ngx-datatable class="material fullscreen" #dataTable [rows]="items" [count]="totalCount" [list]="list"
       (activate)="activate($event)" appNgxdatatable>

@@ -51,11 +51,13 @@ export class ControlsComponent implements OnInit {
 
 
 
-    this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
+    this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"] || this.router.url.split("/")[2];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
     this.subDomainId = this.activatedRoute.snapshot.params["subDomainId"];
     this.isMainControls = this.activatedRoute.snapshot.data["isMainControls"];
     this.mainControlId = this.activatedRoute.snapshot.params["mainControlId"];
+
+    console.log('this.activatedRoute.snapshot', this.activatedRoute.snapshot)
 
     this.getMainControl();
   }
@@ -77,7 +79,7 @@ export class ControlsComponent implements OnInit {
   }
 
   activate(ev) {
-    if (ev.type === 'click' && this.isMainControls) this.router.navigate(['frameworks', this.frameworkId, 'main-domains', this.mainDomainId, 'sub-domains', this.subDomainId, 'main-controls',ev.row.id,'sub-controls']);
+    if (ev.type === 'click' && this.isMainControls) this.router.navigate(['frameworks', this.frameworkId, 'main-domains', this.mainDomainId, 'sub-domains', this.subDomainId, ev.row.id,'sub-controls']);
   }
 
   openDialog(data: ControlDto) {

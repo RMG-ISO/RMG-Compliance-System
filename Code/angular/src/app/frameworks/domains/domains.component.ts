@@ -2,7 +2,7 @@ import { ListService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { DepartmentDto } from '@proxy/departments/dtos';
 import { DepartmentService } from '@proxy/departments';
 import { DomainService } from '@proxy/domains';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-domains',
@@ -51,18 +52,41 @@ export class DomainsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log(this.activatedRoute);
+
     this.getList();
     this.departmentService.getDepartmentListLookup().subscribe(r => this.departments = r.items);
 
 
     console.log(this.activatedRoute.snapshot.params)
 
-    this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"];
+    this.frameworkId = this.activatedRoute.snapshot.params["frameworkId"] || this.router.url.split("/")[2];
     this.isMainDomains = this.activatedRoute.snapshot.data["isMainDomains"];
     this.mainDomainId = this.activatedRoute.snapshot.params["mainDomainId"];
 
     console.log('this.frameworkId', this.frameworkId)
     this.getMainDomain();
+    console.log(this.router.url)
+
+    // this.router.events
+    // .pipe(
+    //   filter((event) => event instanceof NavigationEnd),
+    //   map(() => this.activatedRoute),
+    //   map((route) => {
+    //     console.log('route pre-while: ', route); // Shows ActivatedRoute object
+    //     console.log('pre-while route child: ', route.firstChild); // null
+    //     while (route.firstChild) {
+    //       console.log('while route: ', route);
+    //       route = route.firstChild; // Conditional if needed in scenario
+    //     }
+    //     console.log('post while route: ', route);
+    //     return route;
+    //   })
+    // )
+    // .subscribe((elem) => {
+    //     console.log('elem: ', elem);
+    // });
+
   }
 
   getList(search = null) {
