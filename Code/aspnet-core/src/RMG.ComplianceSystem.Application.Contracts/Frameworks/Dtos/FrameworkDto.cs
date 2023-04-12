@@ -1,6 +1,8 @@
 using RMG.ComplianceSystem.Attachments.Dtos;
+using RMG.ComplianceSystem.InternalAuditPreparation.Dto;
 using RMG.ComplianceSystem.Shared;
 using System;
+using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 
@@ -28,15 +30,42 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid ApproveUserId { get; set; }
         public string LevelFirstNameAr { get; set; }
         public string LevelFirstNameEn { get; set; }
-
+        
         public string LevelSecondNameAr { get; set; }
         public string LevelSecondNameEn { get; set; }
 
         public string LevelThirdNameAr { get; set; }
         public string LevelThirdNameEn { get; set; }
-
+        public Guid OwnerId { get; set; }
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
+        public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; }
 
     }
+
+    public class FrameworkEmpDto 
+    {
+        public Guid FrameworkId { get; set; }
+        public Guid EmployeeId { get; set; }
+
+
+    }
+    public class FrameworkEmp
+    {
+        public Guid FrameworkId { get; set; }
+        public Guid EmployeeId { get; set; }
+
+        protected FrameworkEmp() { }
+        public FrameworkEmp(
+          Guid frameworkId,
+          Guid employeeId
+      )
+        {
+            FrameworkId = frameworkId;  
+            EmployeeId = employeeId;    
+
+        }
+    }
+
+
 }

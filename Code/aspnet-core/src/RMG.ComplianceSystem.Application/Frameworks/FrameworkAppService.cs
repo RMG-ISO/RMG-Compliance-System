@@ -13,7 +13,6 @@ using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Domains.Dtos;
 using RMG.ComplianceSystem.Controls.Dtos;
 using RMG.ComplianceSystem.Assessments.Dtos;
-using Microsoft.AspNetCore.Mvc;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -31,17 +30,103 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly IDomainRepository _domainRepository;
         private readonly IControlRepository _controlRepository;
         private readonly IFrameworkRepository _repository;
+        private readonly IFrameworkEmployeeRepository _frameworkEmployeerepository;
 
         public FrameworkAppService(IFrameworkRepository repository,
             IDomainRepository domainRepository,
         IControlRepository controlRepository,
-            IAssessmentRepository assessmentRepository) : base(repository)
+            IAssessmentRepository assessmentRepository,
+            IFrameworkEmployeeRepository frameworkEmployeerepository) : base(repository)
         {
             _repository = repository;
             _assessmentRepository = assessmentRepository;
             _domainRepository = domainRepository;
             _controlRepository = controlRepository;
+            _frameworkEmployeerepository = frameworkEmployeerepository; 
         }
+
+
+
+        public override async Task<FrameworkDto> CreateAsync(CreateUpdateFrameworkDto input)
+        {
+            try
+            {
+                var entity = await MapToEntityAsync(input);
+                TryToSetTenantId(entity);
+                await Repository.InsertAsync(entity, autoSave: true);
+
+                if (input.FrameworkEmpsDto != null && input.FrameworkEmpsDto.Count > 0)
+                {
+                    List<FrameworkEmployee> ModelList = new List<FrameworkEmployee>();
+                    foreach (var emp in input.FrameworkEmpsDto)
+                    {
+                        var FWEmployee = new FrameworkEmployee(entity.Id,emp.EmployeeId);
+                        ModelList.Add(FWEmployee);
+                    }
+                    await _frameworkEmployeerepository.InsertManyAsync(ModelList, autoSave: true);
+                }
+                
+
+                var Framework = await GetEntityByIdAsync(entity.Id);
+
+                return await MapToGetOutputDtoAsync(Framework);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public override async Task<FrameworkDto> UpdateAsync(Guid id, CreateUpdateFrameworkDto input)
+        {
+            try
+            {
+                var entity = await GetEntityByIdAsync(id);
+
+                await MapToEntityAsync(input, entity);
+
+                await Repository.UpdateAsync(entity, autoSave: true);
+
+
+                #region [Employees]
+                if (input.FrameworkEmpsDto!= null && input.FrameworkEmpsDto.Count > 0)
+                    {
+                        var Employees = _frameworkEmployeerepository.Where(x => x.FrameworkId == entity.Id).ToList();
+                        foreach (var emp in Employees)
+                        {
+                            await _frameworkEmployeerepository.DeleteAsync(emp.Id, autoSave: true);
+                        }
+
+
+                        List<FrameworkEmployee> ModelList = new List<FrameworkEmployee>();
+                        foreach (var emp in input.FrameworkEmpsDto)
+                        {
+                            var audtor = new FrameworkEmployee(entity.Id, emp.EmployeeId);
+                            ModelList.Add(audtor);
+                        }
+                        await _frameworkEmployeerepository.InsertManyAsync(ModelList, autoSave: true);
+
+                    }
+
+
+                    #endregion
+               
+
+
+                var audit = await GetEntityByIdAsync(id);
+
+                return await MapToGetOutputDtoAsync(audit);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
 
 
         protected override async Task<IQueryable<Framework>> CreateFilteredQueryAsync(FrameworkPagedAndSortedResultRequestDto input)
