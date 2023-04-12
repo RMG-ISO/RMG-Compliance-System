@@ -30,10 +30,8 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid ApproveUserId { get; set; }
         public string LevelFirstNameAr { get; set; }
         public string LevelFirstNameEn { get; set; }
-        
         public string LevelSecondNameAr { get; set; }
         public string LevelSecondNameEn { get; set; }
-
         public string LevelThirdNameAr { get; set; }
         public string LevelThirdNameEn { get; set; }
         public Guid OwnerId { get; set; }
