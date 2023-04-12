@@ -261,7 +261,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
                     if (item.FrameworkId != null)
                     {
                         var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
-                        item.Framework = ObjectMapper.Map<Framework, FrameworkDto>(Framework);
+                        item.Framework = ObjectMapper.Map<RMG.ComplianceSystem.Frameworks.Framework, FrameworkDto>(Framework);
                     }
                     if (item.DepartmentId != null)
                     {

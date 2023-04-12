@@ -96,6 +96,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<AttachmentFile> AttachmentFiles { get; set; }
         public DbSet<Framework> Frameworks { get; set; }
+        public DbSet<FrameworkEmployee> FrameworkEmployees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Domain> Domains { get; set; }
