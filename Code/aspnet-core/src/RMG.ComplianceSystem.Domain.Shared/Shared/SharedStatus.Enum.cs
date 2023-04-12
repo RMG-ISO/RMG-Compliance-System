@@ -9,6 +9,13 @@ namespace RMG.ComplianceSystem.Shared
         Inactive,
         Active,
     }
+    public enum FrameworkStatus : byte
+    {
+        NewFramework,
+        UnderReview,
+        UnderApproval,
+        Approved
+    }
     public enum NotificationSource 
     {
         RiskTreatment,

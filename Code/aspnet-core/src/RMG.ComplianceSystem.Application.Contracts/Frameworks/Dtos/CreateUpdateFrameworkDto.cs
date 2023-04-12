@@ -19,5 +19,22 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public string DescriptionEn { get; set; }
 
         public SharedStatus Status { get; set; }
+        public FrameworkStatus FrameworkStatus { get; set; }
+        public Guid AttachmentId { get; set; }
+        public Guid ReviewUserId { get; set; }
+        public Guid ApproveUserId { get; set; }
+        public string LevelFirstNameAr { get; set; }
+        public string LevelFirstNameEn { get; set; }
+
+        public string LevelSecondNameAr { get; set; }
+        public string LevelSecondNameEn { get; set; }
+
+        public string LevelThirdNameAr { get; set; }
+        public string LevelThirdNameEn { get; set; }
+
+        public string LevelFourNameAr { get; set; }
+        public string LevelFourNameEn { get; set; }
+
+
     }
 }

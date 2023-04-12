@@ -10,6 +10,8 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
     {
         public string Search { get; set; }
         public SharedStatus? Status { get; set; }
+        public FrameworkStatus? FrameworkStatus { get; set; }
+        
     }
 
     public class getFrameworkDto
