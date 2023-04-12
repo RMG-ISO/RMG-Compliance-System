@@ -16,6 +16,7 @@ export interface CreateUpdateFrameworkDto {
   status: SharedStatus;
   frameworkStatus?: SharedFrameworkStatus;
   attachmentId?: string;
+  ManagementId?: string;
 reviewUserId?: string;
 approveUserId?: string;
   levelFirstNameAr?:string;
@@ -40,6 +41,7 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   status: SharedStatus;
   frameworkStatus?: SharedFrameworkStatus;
   attachmentId?: string;
+  ManagementId?: string;
 reviewUserId?: string;
 approveUserId?: string;
   levelFirstNameAr?:string;
