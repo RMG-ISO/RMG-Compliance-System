@@ -72,7 +72,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
                 if (item.FrameworkId != null)
                 {
                     var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
-                    item.Framework = ObjectMapper.Map<Framework, FrameworkDto>(Framework);
+                    item.Framework = ObjectMapper.Map<Frameworks.Framework, FrameworkDto>(Framework);
                 }
                 if (item.Id != null)
                 {

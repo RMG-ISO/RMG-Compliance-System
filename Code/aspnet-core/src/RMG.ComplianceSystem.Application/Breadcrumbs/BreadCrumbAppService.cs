@@ -31,7 +31,7 @@ namespace RMG.ComplianceSystem.Breadcrumbs
         }
         public async Task<BreadCrumbSettingsDto> GetBreadCrumbSettings(GetBreadCrumbSettingsDto input)
         {
-            Framework framework = null;
+            Frameworks.Framework framework = null;
             Domain domain = null;
             Domain subDomain = null;
             Control control = null;
