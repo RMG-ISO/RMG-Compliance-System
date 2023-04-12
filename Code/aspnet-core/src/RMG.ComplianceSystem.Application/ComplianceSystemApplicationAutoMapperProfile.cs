@@ -85,8 +85,10 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateStaticDataDto, StaticDatatb>();
             CreateMap<Attachment, AttachmentDto>();
             CreateMap<AttachmentFile, AttachmentFileDto>();
-            CreateMap<Framework, FrameworkDto>();
-            CreateMap<CreateUpdateFrameworkDto, Framework>(MemberList.Source);
+            CreateMap<FrameworkEmployee, FrameworkEmployeeDto>();
+            CreateMap<CreateUpdateFrameworkEmployeeDto, FrameworkEmployee>();
+            CreateMap<Frameworks.Framework, FrameworkDto>();
+            CreateMap<CreateUpdateFrameworkDto, Frameworks.Framework>(MemberList.Source);
             CreateMap<Department, DepartmentDto>();
             CreateMap<CreateUpdateDepartmentDto, Department>(MemberList.Source);
             CreateMap<Employee, EmployeeDto>()

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMG.ComplianceSystem.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -10,9 +11,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace RMG.ComplianceSystem.Migrations
 {
     [DbContext(typeof(ComplianceSystemDbContext))]
-    partial class ComplianceSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230412113357_addManagementIdFramwork20230412")]
+    partial class addManagementIdFramwork20230412
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1050,68 +1052,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasIndex("LastModifierId");
 
                     b.ToTable("AppFrameworks");
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.FrameworkEmployee", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<Guid>("FrameworkId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("DeleterId");
-
-                    b.HasIndex("LastModifierId");
-
-                    b.ToTable("FrameworkEmployees");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditApproves.InternalAuditApprove", b =>
@@ -4337,27 +4277,6 @@ namespace RMG.ComplianceSystem.Migrations
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.Framework", b =>
-                {
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
-                        .WithMany()
-                        .HasForeignKey("DeleterId");
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
-                        .WithMany()
-                        .HasForeignKey("LastModifierId");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Deleter");
-
-                    b.Navigation("LastModifier");
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.FrameworkEmployee", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
                         .WithMany()
