@@ -16,6 +16,7 @@ namespace RMG.ComplianceSystem.Frameworks
 
         public string NameAr { get; set; }
         public string NameEn { get; set; }
+        public Guid OwnerId { get; set; }
         public string ShortcutAr { get; set; }
         public string ShortcutEn { get; set; }
         public string DescriptionAr { get; set; }

@@ -22,11 +22,10 @@ namespace RMG.ComplianceSystem.Frameworks
             
     }
 
-        public FrameworkEmployee(
-            Guid id,    
+        public FrameworkEmployee(   
             Guid frameworkId,
           Guid employeeId
-        ) : base(id)
+        )
         {
            FrameworkId= frameworkId;
             EmployeeId= employeeId; 
