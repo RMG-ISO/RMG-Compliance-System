@@ -27,7 +27,8 @@ approveUserId?: string;
   levelThirdNameEn?:string;
   levelFourNameAr?:string;
   levelFourNameEn?:string;
-
+  OwnerId?:string;
+  FrameworkEmpDto ?:FrameworkEmpDto[] ;
 }
 
 
@@ -52,6 +53,8 @@ approveUserId?: string;
   levelThirdNameEn?:string;
   levelFourNameAr?:string;
   levelFourNameEn?:string;
+  OwnerId?:string;
+  FrameworkEmpDto ?:FrameworkEmpDto[];
 }
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
@@ -61,6 +64,10 @@ export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedR
 }
 export interface getFrameworkDto {
   FrameworkId?: string;
+}
+export interface FrameworkEmpDto  {
+  FrameworkId?: string;
+  EmployeeId?:string;
 }
 
 export interface ComplainceDto {

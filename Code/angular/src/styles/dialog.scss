@@ -1,4 +1,20 @@
+.card {
+    .card-header {
+        background-color: #E3FEF3;
+        h3 {
+            margin-bottom: 0;
+        }
+    }
+}
+
 .app-dialog {
+    .mat-dialog-title {
+        margin-bottom: 0;
+        flex-wrap: wrap;
+        .actions{
+            padding:16px 32px
+        }
+    }
     h2 {
         padding: 16px 32px;
         color: #232323;
@@ -19,7 +35,7 @@
         margin-right: 0;
     }
     
-    mat-dialog-actions {
+    mat-dialog-actions, .actions {
         margin-bottom: 0;
         button {
             height: 34px;

@@ -25,9 +25,11 @@ export class ComplianceLayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
+    
   }
 
   ngAfterViewInit() {
+    this.drawer.toggle();
     this.service.subscribeWindowSize();
     if(this.drawer) this.drawer.openedChange.subscribe(t => this.appLayoutService.naveToggle.next(t) )
   }

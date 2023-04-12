@@ -1,18 +1,95 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-    <h2 mat-dialog-title>
-        {{ title | abpLocalization }}
-    </h2>
+    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+        <h2 >
+            {{ title | abpLocalization }}
+        </h2>
+
+        <div class="actions">
+            <button mat-button (click)="ref.close()" class="red"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>
+        
+            <button mat-button cdkFocusInitial class="green" type="submit" >
+                <i class="fa fa-check mr-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+    
     <mat-dialog-content class="mat-typography" >
-        <div class="row">
+        <div class="navs d-flex align-items-center">
+            <button
+              mat-button
+              type="button"
+              (click)="activeTab = 1"
+              [class]="form.controls.frameInfo.status"
+              [ngClass]="{
+                active: activeTab === 1,
+                invalid: form.controls.frameInfo.touched && form.controls.frameInfo.invalid
+              }"
+            >
+              <div class="icon-cont">
+                <mat-icon>description</mat-icon>
+                <mat-icon class="done">done</mat-icon>
+              </div>
+              <h3>
+                {{ "::FrameworkInfo" | abpLocalization }}
+              </h3>
+            </button>
+            <span class="line">
+              <span class="prog"></span>
+            </span>
+            <button
+              mat-button
+              type="button"
+              (click)="activeTab = 2"
+              [class]="form.controls.frameLevels.status"
+              [ngClass]="{
+                active: activeTab === 2,
+                invalid: form.controls.frameLevels.touched && form.controls.frameLevels.invalid
+              }"
+            >
+              <div class="icon-cont">
+                <mat-icon>layers</mat-icon>
+                <mat-icon class="done">done</mat-icon>
+              </div>
+              <h3>
+                {{ "::FrameworkLevels" | abpLocalization }}
+              </h3>
+            </button>
+            <span class="line">
+              <span class="prog"></span>
+            </span>
+            <button
+                mat-button
+                type="button"
+                (click)="activeTab = 3"
+                [class]="form.controls.frameTeam.status"
+                [ngClass]="{
+                active: activeTab === 3,
+                invalid: form.controls.frameTeam.touched && form.controls.frameTeam.invalid
+                }"
+            >
+              <div class="icon-cont">
+                <mat-icon>groups</mat-icon>
+                <mat-icon class="done">done</mat-icon>
+              </div>
+              <h3>
+                {{ "::FrameworkTeam" | abpLocalization }}
+              </h3>
+            </button>
+        </div>
+
+        <div [class.d-none]="activeTab !== 1" class="row" formGroupName="frameInfo">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name-en">{{ '::FrameworkNameAr' | abpLocalization }}</label><span> * </span>
+                    <label for="name-en"> {{ '::FrameworkNameAr' | abpLocalization }} </label><span> * </span>
                     <input id="name-en" class="form-control" formControlName="nameAr" >
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name-en">{{ '::FrameworkNameEn' | abpLocalization }}</label><span> * </span>
+                    <label for="name-en"> {{ '::FrameworkNameEn' | abpLocalization }} </label><span> * </span>
                     <input id="name-en" class="form-control" formControlName="nameEn" >
                 </div>
             </div>
@@ -46,26 +123,153 @@
 
             <div class="col-md-6">
                 <div class="form-group">
+                    <label for="department">
+                        {{ '::Department' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select appendTo="body" id="department" formControlName="managementId">
+                        <ng-option *ngFor="let department of departments" [value]="department.id">
+                            {{  department.name }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
                     <label for="status">
                         {{ '::FrameworkStatus' | abpLocalization }}
                     </label>
                     <span> * </span>
-                    <select class="form-control" id="status" formControlName="status">
-                        <option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                    <ng-select appendTo="body" id="status" formControlName="status">
+                        <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
                             {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
-                        </option>
-                    </select>
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+
+        </div>
+        <div  [class.d-none]="activeTab !== 2"  formGroupName="frameLevels" class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level1_ar">{{ '::FrameworkLevel1_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level1_ar" class="form-control" formControlName="levelFirstNameAr" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level1_en">{{ '::FrameworkLevel1_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level1_en" class="form-control" formControlName="levelFirstNameEn" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level2_ar">{{ '::FrameworkLevel2_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level2_ar" class="form-control" formControlName="levelSecondNameAr" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level2_en">{{ '::FrameworkLevel2_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level2_en" class="form-control" formControlName="levelSecondNameEn" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level3_ar">{{ '::FrameworkLevel3_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level3_ar" class="form-control" formControlName="levelThirdNameAr" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level3_en">{{ '::FrameworkLevel3_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level3_en" class="form-control" formControlName="levelThirdNameEn" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level4_ar">{{ '::FrameworkLevel4_Ar' | abpLocalization }}</label><span> * </span>
+                    <input id="level4_ar" class="form-control" formControlName="levelFourNameAr" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="level4_en">{{ '::FrameworkLevel4_En' | abpLocalization }}</label><span> * </span>
+                    <input id="level4_en" class="form-control" formControlName="levelFourNameEn" >
                 </div>
             </div>
         </div>
+        
+        <div [class.d-none]=" activeTab !== 3" class="row" formGroupName="frameTeam">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ownerId">
+                        {{ '::FrameWork:Owner' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select appendTo="body" id="ownerId" formControlName="ownerId">
+                        <ng-option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Reviewer">
+                        {{ '::Reviewer' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select appendTo="body" id="Reviewer" formControlName="reviewUserId" (change)="changeSelection($event, 'approveUserId')">
+                        <ng-option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Approver">
+                        {{ '::Approver' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select appendTo="body" id="Approver" formControlName="approveUserId" (change)="changeSelection($event, 'reviewUserId')">
+                        <ng-option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="team">
+                        {{ '::WorkTeamMembers' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select appendTo="body" multiple="true" id="team" formControlName="frameworkEmpsDto" >
+                        <ng-option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+        
     </mat-dialog-content>
-    <mat-dialog-actions align="center">
-      <button mat-button (click)="ref.close()" class="red"> 
-        {{ '::Cancel' | abpLocalization }}
-      </button>
-      <button mat-button cdkFocusInitial class="green">
-        <i class="fa fa-check mr-1"></i>
-        {{ '::Save' | abpLocalization }}
+    <mat-dialog-actions>
+        <button type="button" mat-button [disabled]="activeTab == 1" (click)="activeTab = activeTab - 1">
+            <mat-icon>
+                keyboard_double_arrow_right
+            </mat-icon> 
+            {{ '::Previous' | abpLocalization }}
+        </button>
+
+      <button mat-button type="submit" [disabled]="activeTab == 3"  (click)="navNext()">
+        {{ '::Next' | abpLocalization }}
+        <mat-icon>
+            keyboard_double_arrow_left
+        </mat-icon> 
       </button>
     </mat-dialog-actions>
 </form>
