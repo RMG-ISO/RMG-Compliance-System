@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FrameworkService } from '@proxy/frameworks';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { sharedStatusOptions } from '@proxy/shared';
 import { DepartmentService } from '@proxy/departments';
+import { EmployeeService } from '@proxy/employees';
 
 @Component({
   selector: 'app-create-framework',
@@ -19,7 +20,8 @@ export class CreateFrameworkComponent implements OnInit {
   sharedStatusOptions = sharedStatusOptions
   constructor(
     private frameworkService:FrameworkService,
-    private departmentService:DepartmentService
+    private departmentService:DepartmentService,
+    private employeeService:EmployeeService
   ) { }
 
   form:FormGroup;
@@ -35,37 +37,58 @@ export class CreateFrameworkComponent implements OnInit {
         nameEn: new FormControl(null, Validators.required),
         shortcutAr: new FormControl(null, Validators.required),
         shortcutEn: new FormControl(null, Validators.required),
-        department: new FormControl(null, Validators.required),
+        managementId: new FormControl(null, Validators.required),
         status: new FormControl(null, Validators.required),
+        frameworkStatus: new FormControl(null),
         descriptionAr: new FormControl(null),
         descriptionEn: new FormControl(null),
+        attachmentId: new FormControl(null),
         id: new FormControl(null),
       }),
       frameLevels: new FormGroup({
-        level1_ar:new FormControl(null, Validators.required),
-        level1_en:new FormControl(null, Validators.required),
-        level2_ar:new FormControl(null, Validators.required),
-        level2_en:new FormControl(null, Validators.required),
-        level3_ar:new FormControl(null, Validators.required),
-        level3_en:new FormControl(null, Validators.required),
-        level4_ar:new FormControl(null, Validators.required),
-        level4_en:new FormControl(null, Validators.required),
+        levelFirstNameAr:new FormControl(null, Validators.required),
+        levelFirstNameEn:new FormControl(null, Validators.required),
+        levelSecondNameAr:new FormControl(null, Validators.required),
+        levelSecondNameEn:new FormControl(null, Validators.required),
+        levelThirdNameAr:new FormControl(null, Validators.required),
+        levelThirdNameEn:new FormControl(null, Validators.required),
+        levelFourNameAr:new FormControl(null, Validators.required),
+        levelFourNameEn:new FormControl(null, Validators.required),
       }),
       frameTeam:new FormGroup({
         owner:new FormControl(null, Validators.required),
-        reviewer:new FormControl(null, Validators.required),
-        approver:new FormControl(null, Validators.required),
-        team:new FormControl(null, Validators.required)
+        reviewUserId:new FormControl(null, Validators.required),
+        approveUserId:new FormControl(null, Validators.required),
+        frameworkEmployees:new FormControl(null, Validators.required)
       })
     });
 
-    if(this.data) this.form.patchValue(this.data);
+    if(this.data) {
+      this.form.controls.frameInfo.patchValue(this.data);
+      this.form.controls.frameLevels.patchValue(this.data);
+      this.form.controls.frameTeam.patchValue(this.data);
+    }
     this.title = '::' + this.mode + 'Framework';
 
+    this.getassets();
+  }
+
+  employees;
+  getassets() {
     this.departmentService.getDepartmentListLookup().subscribe(r => {
-      console.log(r);
       this.departments = r.items;
+    });
+    this.employeeService.getEmployeeListLookup().subscribe(r => {
+      this.employees = r.items;
     })
+  }
+
+
+  changeSelection(val, key) {
+    let control = this.form.controls.frameTeam['controls'][key];
+    if(val && control.value == val) {
+      control.setValue(null)
+    }
   }
 
 
@@ -84,19 +107,16 @@ export class CreateFrameworkComponent implements OnInit {
     //   return;
     // } else if(this.form.valid && this.activeTab !== 3) this.activeTab += 1;
     console.log(this.form);
-    return;
     if (this.form.invalid) return;
+    let rawValue = this.form.getRawValue();
 
+    let value = {...rawValue.frameInfo, ...rawValue.frameLevels, ...rawValue.frameTeam}
     const request = this.data?.id
-      ? this.frameworkService.update(this.data.id, this.form.value)
-      : this.frameworkService.create(this.form.value);
+      ? this.frameworkService.update(this.data.id, value)
+      : this.frameworkService.create(value);
     request.subscribe(() => {
       this.ref.close(true);
     });
-  }
-
-  submit() {
-    console.log('submit')
   }
 
 }

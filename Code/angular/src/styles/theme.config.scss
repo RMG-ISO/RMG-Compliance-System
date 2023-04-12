@@ -44,10 +44,16 @@ textarea.form-control {
     height: 138px;
 }
 
-ng-select .ng-select-container {
-    box-shadow: none;
-    background-color: #f7f9fc!important;
-    border-color: #e4e9f2!important;
+ng-select.ng-select {
+    // height: 48px;
+    .ng-select-container {
+        min-height: 46px !important;
+        background-color: #fff !important;
+        box-shadow: none;
+        border: 1px solid #4b74ff !important;
+        // background-color: #f7f9fc!important;
+        // border-color: #e4e9f2!important;
+    }
 }
 
 nav.app-nav {
@@ -229,7 +235,7 @@ body[dir="rtl"] {
     }
 }
 
-ng-select.ng-select.ng-select-multiple{
+ng-select.ng-select.ng-select-multiple {
     &.ng-select-disabled {
         .ng-select-container .ng-value-container .ng-value {
             background-color: transparent;
