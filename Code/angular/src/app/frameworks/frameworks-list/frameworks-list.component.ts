@@ -75,7 +75,8 @@ export class FrameworksListComponent implements OnInit {
   }
 
   activate(ev) {
-    if (ev.type === 'click') this.router.navigate(['framework', ev.row.id, 'main-domains']);
+    // if (ev.type === 'click') this.router.navigate(['framework', ev.row.id, 'main-domains']);
+    if (ev.type === 'click') this.router.navigate(['frameworks', ev.row.id]);
   }
 
 

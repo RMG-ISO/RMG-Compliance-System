@@ -465,7 +465,25 @@
     "ConfirmationDeleteMessage": "Are you sure to delete {0}?",
     "Title": "Title",
     "Filter":"Filter",
-    "ResetFilter":"Reset"
+    "ResetFilter":"Reset",
+    "Reviewer":"Reviewer",
+    "FrameworkInfo":"Framework informations",
+    "FrameworkLevels":"Framework levels",
+    "FrameworkTeam":"Framework team",
+    "FrameworkLevel1_Ar":"Framework level one in arabic",
+    "FrameworkLevel1_En":"Framework level one in english",
+    "FrameworkLevel2_Ar":"Framework level two in arabic",
+    "FrameworkLevel2_En":"Framework level two in english",
+    "FrameworkLevel3_Ar":"Framework level three in arabic",
+    "FrameworkLevel3_En":"Framework level three in english",
+    "FrameworkLevel4_Ar":"Framework level four in arabic",
+    "FrameworkLevel4_En":"Framework level four in english",
+    "WorkTeamMembers":"Work team members",
+    "Previous":"Previous",
+    "Next":"Next",
+    "Menu:Frameworks":"Frameworks",
+    "FrameWork:Owner":"FrameWork Owner"
+
 
 
 
