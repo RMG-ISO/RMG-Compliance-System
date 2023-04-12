@@ -28,24 +28,20 @@ namespace RMG.ComplianceSystem.Frameworks
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Delete;
 
 
-        private readonly IAssessmentRepository _assessmentRepository;
-        private readonly IDomainRepository _domainRepository;
-        private readonly IControlRepository _controlRepository;
         private readonly IFrameworkEmployeeRepository _repository;
 
-        public FrameworkEmployeeAppService(IFrameworkEmployeeRepository repository,
-            IDomainRepository domainRepository,
-        IControlRepository controlRepository,
-            IAssessmentRepository assessmentRepository) : base(repository)
+        public FrameworkEmployeeAppService(IFrameworkEmployeeRepository repository) : base(repository)
         {
             _repository = repository;
-            _assessmentRepository = assessmentRepository;
-            _domainRepository = domainRepository;
-            _controlRepository = controlRepository;
+        }
+
+        public async Task<ListResultDto<FrameworkEmployeeDto>> GetFrameworkEmployees(getFrameworkDto input)
+        { 
+        var listemployee= _repository.Where(t=>t.FrameworkId==input.FrameworkId).ToList();
+        return new ListResultDto<FrameworkEmployeeDto>(ObjectMapper.Map<List<FrameworkEmployee>, List<FrameworkEmployeeDto>>(listemployee));
         }
 
 
-     
 
         protected override Task<FrameworkEmployee> GetEntityByIdAsync(Guid id)
         {
