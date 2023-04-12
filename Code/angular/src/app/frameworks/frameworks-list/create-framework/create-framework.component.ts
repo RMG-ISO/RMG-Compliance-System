@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FrameworkService } from '@proxy/frameworks';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { sharedStatusOptions } from '@proxy/shared';
+import { SharedFrameworkStatus, sharedStatusOptions } from '@proxy/shared';
 import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
 
@@ -39,10 +39,10 @@ export class CreateFrameworkComponent implements OnInit {
         shortcutEn: new FormControl(null, Validators.required),
         managementId: new FormControl(null, Validators.required),
         status: new FormControl(null, Validators.required),
-        frameworkStatus: new FormControl(null),
+        frameworkStatus: new FormControl(SharedFrameworkStatus.NewFramework),
         descriptionAr: new FormControl(null),
         descriptionEn: new FormControl(null),
-        attachmentId: new FormControl(null),
+        attachmentId: new FormControl("00000000-0000-0000-0000-000000000000"), 
         id: new FormControl(null),
       }),
       frameLevels: new FormGroup({
@@ -56,17 +56,21 @@ export class CreateFrameworkComponent implements OnInit {
         levelFourNameEn:new FormControl(null, Validators.required),
       }),
       frameTeam:new FormGroup({
-        owner:new FormControl(null, Validators.required),
+        ownerId:new FormControl(null, Validators.required),
         reviewUserId:new FormControl(null, Validators.required),
         approveUserId:new FormControl(null, Validators.required),
-        frameworkEmployees:new FormControl(null, Validators.required)
+        frameworkEmpsDto:new FormControl(null, Validators.required)
       })
     });
 
     if(this.data) {
-      this.form.controls.frameInfo.patchValue(this.data);
-      this.form.controls.frameLevels.patchValue(this.data);
-      this.form.controls.frameTeam.patchValue(this.data);
+      let data = {...this.data};
+      if(data.frameworkEmpsDto) data.frameworkEmpsDto.map(x => x.id);
+
+      this.form.controls.frameInfo.patchValue(data);
+      this.form.controls.frameLevels.patchValue(data);
+      this.form.controls.frameTeam.patchValue(data);
+      console.log(data);
     }
     this.title = '::' + this.mode + 'Framework';
 
@@ -102,7 +106,6 @@ export class CreateFrameworkComponent implements OnInit {
   }
 
   save() {
-    console.log(this.isNextClicked)
     // if(this.form.invalid && this.activeTab !== 3) {
     //   return;
     // } else if(this.form.valid && this.activeTab !== 3) this.activeTab += 1;
@@ -111,6 +114,14 @@ export class CreateFrameworkComponent implements OnInit {
     let rawValue = this.form.getRawValue();
 
     let value = {...rawValue.frameInfo, ...rawValue.frameLevels, ...rawValue.frameTeam}
+    
+    value.frameworkEmpsDto = value.frameworkEmpsDto.map(emp => {
+      return {
+        employeeId:emp,
+        frameworkId: this.data?.id ? this.data?.id : "00000000-0000-0000-0000-000000000000"
+      }
+    });
+
     const request = this.data?.id
       ? this.frameworkService.update(this.data.id, value)
       : this.frameworkService.create(value);

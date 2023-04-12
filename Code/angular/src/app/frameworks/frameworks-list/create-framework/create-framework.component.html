@@ -204,6 +204,19 @@
         <div [class.d-none]=" activeTab !== 3" class="row" formGroupName="frameTeam">
             <div class="col-md-6">
                 <div class="form-group">
+                    <label for="ownerId">
+                        {{ '::FrameWork:Owner' | abpLocalization }}
+                    </label>
+                    <span> * </span>
+                    <ng-select appendTo="body" id="ownerId" formControlName="ownerId">
+                        <ng-option *ngFor="let emp of employees" [value]="emp.id">
+                            {{ emp.fullName }}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
                     <label for="Reviewer">
                         {{ '::Reviewer' | abpLocalization }}
                     </label>
@@ -234,7 +247,7 @@
                         {{ '::WorkTeamMembers' | abpLocalization }}
                     </label>
                     <span> * </span>
-                    <ng-select appendTo="body" multiple="true" id="team" formControlName="frameworkEmployees" >
+                    <ng-select appendTo="body" multiple="true" id="team" formControlName="frameworkEmpsDto" >
                         <ng-option *ngFor="let emp of employees" [value]="emp.id">
                             {{ emp.fullName }}
                         </ng-option>
