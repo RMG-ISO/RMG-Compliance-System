@@ -14,13 +14,15 @@ namespace RMG.ComplianceSystem.Shared
         NewFramework,
         UnderReview,
         UnderApproval,
-        Approved
+        Approved,
+        ReturnedToCreator
     }
     public enum NotificationSource 
     {
         RiskTreatment,
         Risk,
-        InternalAuditPreparation
+        InternalAuditPreparation,
+        FrameworkWorkflowAction
     }
      public enum Status
     {

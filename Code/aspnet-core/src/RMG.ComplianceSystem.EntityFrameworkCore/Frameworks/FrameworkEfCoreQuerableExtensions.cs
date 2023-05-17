@@ -15,6 +15,7 @@ namespace RMG.ComplianceSystem.Frameworks
             return queryable
                  // .Include(x => x.xxx) // TODO: AbpHelper generated
 
+                .Include(t => t.ChangeStatusLogs)
                 .Include(t => t.Creator)
                 .Include(t => t.LastModifier)
                 .Include(t => t.Deleter)
