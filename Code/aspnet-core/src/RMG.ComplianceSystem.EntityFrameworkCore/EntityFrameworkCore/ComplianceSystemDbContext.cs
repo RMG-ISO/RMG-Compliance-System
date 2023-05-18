@@ -105,6 +105,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<AssessmentEmployee> AssessmentEmployees { get; set; }
         public DbSet<DomainDepartment> DomainDepartments { get; set; }
         public DbSet<DepartmentUser> DepartmentUsers { get; set; }
+        public DbSet<FrameworkChangeStatusLog> FrameworkChangeStatusLogs { get; set; }
 
         #endregion
 
@@ -142,6 +143,13 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+            builder.Entity<FrameworkChangeStatusLog>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "FrameworkChangeStatusLogs",
+                    ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<EmailTemplate>(b =>
             {

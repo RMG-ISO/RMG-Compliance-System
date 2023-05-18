@@ -15,5 +15,10 @@ namespace RMG.ComplianceSystem.Frameworks
             CreateUpdateFrameworkDto>
     {
         Task<ListResultDto<FrameworkDto>> GetFrameworkListLookupAsync();
+
+        Task SendToReviewer(Guid id);
+        Task SendToOwner(Guid id);
+        Task ReturnToCreator(Guid id, RejectFrameworkDto input);
+        Task Approve(Guid id);
     }
 }
