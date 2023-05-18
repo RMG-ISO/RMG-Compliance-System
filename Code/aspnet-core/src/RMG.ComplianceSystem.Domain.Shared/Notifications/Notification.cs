@@ -29,9 +29,10 @@ namespace RMG.ComplianceSystem.Notifications
         RiskTreatment,
         Risk,
         InternalAuditPreparation,
+        FrameworkWorkflowAction
         //Compilance,
         //Document,
 
     }
-    
+
 }

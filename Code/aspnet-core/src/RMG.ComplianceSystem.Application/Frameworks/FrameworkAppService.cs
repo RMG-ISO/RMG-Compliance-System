@@ -13,6 +13,16 @@ using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Domains.Dtos;
 using RMG.ComplianceSystem.Controls.Dtos;
 using RMG.ComplianceSystem.Assessments.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.NetworkInformation;
+using Volo.Abp;
+using RMG.ComplianceSystem.Shared;
+using DocumentFormat.OpenXml.Bibliography;
+using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.EmailTemplates;
+using RMG.ComplianceSystem.Employees;
+using Microsoft.Extensions.Configuration;
+using Volo.Abp.TextTemplating.VirtualFiles;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -31,18 +41,37 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly IControlRepository _controlRepository;
         private readonly IFrameworkRepository _repository;
         private readonly IFrameworkEmployeeRepository _frameworkEmployeerepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEmailTemplateAppService _emailTemplateAppService;
+        private readonly INotificationRepository _notificationRepository;
+        private readonly INotificationAppService _notificationAppService;
+        private readonly IConfiguration _configuration;
 
         public FrameworkAppService(IFrameworkRepository repository,
             IDomainRepository domainRepository,
-        IControlRepository controlRepository,
+            IControlRepository controlRepository,
             IAssessmentRepository assessmentRepository,
-            IFrameworkEmployeeRepository frameworkEmployeerepository) : base(repository)
+            IEmailTemplateRepository emailTemplateRepository,
+            IEmployeeRepository employeeRepository,
+            IEmailTemplateAppService emailTemplateAppService,
+            INotificationRepository notificationRepository,
+            INotificationAppService notificationAppService,
+            IConfiguration configuration,
+            IFrameworkEmployeeRepository frameworkEmployeerepository
+            ) : base(repository)
         {
             _repository = repository;
             _assessmentRepository = assessmentRepository;
             _domainRepository = domainRepository;
             _controlRepository = controlRepository;
             _frameworkEmployeerepository = frameworkEmployeerepository; 
+            _emailTemplateRepository = emailTemplateRepository;
+            _emailTemplateAppService = emailTemplateAppService;
+            _employeeRepository = employeeRepository;
+            _notificationRepository = notificationRepository;
+            _notificationAppService = notificationAppService;
+            _configuration = configuration;
         }
 
 
@@ -127,7 +156,15 @@ namespace RMG.ComplianceSystem.Frameworks
 
         }
 
-
+        public override async Task<FrameworkDto> GetAsync(Guid id)
+        {
+            var dto = await base.GetAsync(id);
+            foreach (var log in dto.ChangeStatusLogs.Where(l => l.CreatorId.HasValue))
+            {
+                log.CreatorName = (await _employeeRepository.GetAsync(log.CreatorId.Value))?.FullName;
+            }
+            return dto;
+        }
 
         protected override async Task<IQueryable<Framework>> CreateFilteredQueryAsync(FrameworkPagedAndSortedResultRequestDto input)
         {
@@ -249,8 +286,147 @@ namespace RMG.ComplianceSystem.Frameworks
             return FrameworkDt;
         }
 
+        [HttpPut]
+        public async Task SendToReviewer(Guid id)
+        {
+            var entity = await Repository.GetAsync(id, false);
+            if (entity.FrameworkStatus != FrameworkStatus.NewFramework && entity.FrameworkStatus != FrameworkStatus.ReturnedToCreator)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkOnlyNewCanBeSentToReviewer);
 
-      
+            //if (entity.CreatorId != CurrentUser.Id)
+            //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyCreatorUserCanSendToReviewer);
+
+            entity.FrameworkStatus = FrameworkStatus.UnderReview;
+            await Repository.UpdateAsync(entity, autoSave: true);
+            entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.UnderReview, entity.Id));
+
+            // Notify reviewer
+            await NotifyUsersAsync("FrameworkSentForRevision", entity.ReviewUserId, entity.Id);
+        }
+
+        [HttpPut]
+        public async Task SendToOwner(Guid id)
+        {
+            var entity = await Repository.GetAsync(id, includeDetails: true);
+            if (entity.FrameworkStatus != FrameworkStatus.UnderReview)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkOnlySentToReviewerCanBeSentToOwner);
+
+            //if (entity.BIAReviewers.Any() && entity.BIAReviewers.FirstOrDefault().ReviewerId != CurrentUser.Id)
+            //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyReviewerUserCanSendToOwner);
+
+            entity.FrameworkStatus = FrameworkStatus.UnderApproval;
+            await Repository.UpdateAsync(entity, autoSave: true);
+            entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.UnderApproval, entity.Id));
+
+            await NotifyUsersAsync("FrameworkSentForApproval", entity.OwnerId, entity.Id);
+        }
+
+        [HttpPut]
+        public async Task ReturnToCreator(Guid id, RejectFrameworkDto input)
+        {
+            var entity = await Repository.GetAsync(id);
+            if (entity.FrameworkStatus != FrameworkStatus.UnderApproval && entity.FrameworkStatus != FrameworkStatus.UnderReview)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkOnlySentToReviewerOrSentToOwnerCanBeReturnedToCreator);
+
+            //if (entity.BIAReviewers.Any() && entity.BIAReviewers.FirstOrDefault().ReviewerId != CurrentUser.Id && entity.OwnerId != CurrentUser.Id)
+            //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyReviewerUserOrOwnerUserCanReturnToCreator);
+
+            entity.FrameworkStatus = FrameworkStatus.ReturnedToCreator;
+            await Repository.UpdateAsync(entity);
+            entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.ReturnedToCreator, entity.Id));
+
+            await NotifyUsersAsync("FrameworkReturnedToCreator", entity.CreatorId.Value, entity.Id);
+        }
+
+        [HttpPut]
+        public async Task Approve(Guid id)
+        {
+            var entity = await Repository.GetAsync(id);
+            if (entity.FrameworkStatus != FrameworkStatus.UnderApproval)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkOnlySentToOwnerCanBeApproved);
+
+            //if (entity.OwnerId != CurrentUser.Id)
+            //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyOwnerUserCanApprove);
+
+            entity.FrameworkStatus = FrameworkStatus.Approved;
+            await Repository.UpdateAsync(entity);
+            entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.Approved, entity.Id));
+            // ToDo: send notification for owner
+        }
+
+
+        private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, Guid frameworkId)
+        {
+            List<Notification> notificationList = new List<Notification>();
+
+            var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
+            var Creator = _employeeRepository.FirstOrDefault(x => x.Id == receiverId);
+            //Email Notification
+
+            FrameworkActionEmailDto biaActionEmailDto = new FrameworkActionEmailDto
+            {
+                Name = Creator.FullName,
+                URL = $"{_configuration["App:ClientUrl"]}{Utility.GetURL(NotificationSource.FrameworkWorkflowAction, frameworkId, null, null)}"
+            };
+
+            var expandoData = Utility.ConvertTypeToExpandoObject(biaActionEmailDto);
+            var emailTemplateData = await _emailTemplateAppService.RenderTemplate(emailTemplateKey, expandoData);
+
+            var notification = new Notification(
+                Guid.NewGuid(),
+                "ComplianceSystem",
+                null,
+                Creator.Email,
+                null,
+                null,
+                emailTemplate.Subject,
+                Priority.Normal,
+                NotificationType.Email,
+                Notifications.Status.Created,
+                Clock.Now,
+                emailTemplateData.Body,
+                true,
+                true,
+                null,
+                null,
+                null,
+                null,
+                false
+            );
+            notificationList.Add(notification);
+
+            //Push Notification
+
+            var PushNotification = new Notification(
+                Guid.NewGuid(),
+                "ComplianceSystem",
+                null,
+                Creator.Id.ToString(),
+                null,
+                null,
+                emailTemplate.Subject,
+                Priority.Normal,
+                NotificationType.Push,
+                Notifications.Status.NotSeen,
+                Clock.Now,
+                emailTemplate.NotificationBody,
+                true,
+                true,
+                null,
+                Utility.GetURL(NotificationSource.FrameworkWorkflowAction, frameworkId, null, null),
+                NotySource.FrameworkWorkflowAction,
+                null,
+                false
+            );
+            notificationList.Add(PushNotification);
+            await _notificationRepository.InsertManyAsync(notificationList, true);
+            foreach (var not in notificationList.Where(t => t.Type == NotificationType.Push))
+            {
+                await _notificationAppService.NotifyUser(Guid.Parse(not.To));
+
+            }
+        }
+
     }
 }
       

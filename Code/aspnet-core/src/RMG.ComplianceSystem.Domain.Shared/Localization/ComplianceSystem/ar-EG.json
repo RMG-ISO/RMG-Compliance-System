@@ -493,8 +493,12 @@
     "MainDomains":"النطاقات الرئيسية",
     "SubDomains":"النطاقات الفرعية",
     "ReferenceNumber":"الرقم المرجعى",
-    "DeleteSelectedItem":"هل تريد حذف العناصر المحددة؟"
-
+    "DeleteSelectedItem":"هل تريد حذف العناصر المحددة؟",
+    "ComplianceSystem:Framework:001": "يمكن إرسال الإطار ذو الحالة جديد فقط للمراجع",
+    "ComplianceSystem:Framework:002": "يمكن إرسال الإطار ذو الحالة قيد المراجعة فقط للمالك",
+    "ComplianceSystem:Framework:003": "يمكن إعادة الإطار للمالك ذو الحالة قيد المراجعة أو قيد الموافقة فقط",
+    "ComplianceSystem:Framework:004": "يمكن الموافقة إلى الإطار ذو الحالة قيد الموافقة فقط",
+    "ComplianceSystem:Framework:005": "يمكن رفض الإطار ذو الحالة قيد الموافقة فقط"
 
 
 

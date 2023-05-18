@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +24,15 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
         private static IConfigurationRoot BuildConfiguration()
         {
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "../RMG.ComplianceSystem.DbMigrator/");
+            var jsonFileName = "appsettings.json";
+            if (env == "Development" && File.Exists(Path.Combine(jsonFilePath, $"appsettings.{env}.json")))
+                jsonFileName = "appsettings.Development.json";
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../RMG.ComplianceSystem.DbMigrator/"))
-                .AddJsonFile("appsettings.json", optional: false);
+                .SetBasePath(jsonFilePath)
+                .AddJsonFile(jsonFileName, optional: false);
 
             return builder.Build();
         }
