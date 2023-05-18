@@ -1,0 +1,202 @@
+<div class="card">
+    <div class="card-body">
+        <section>
+           <header class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">
+                    {{ subDomainData | lang:'name' }}
+                </h2>
+                <ng-container *abpPermission="'ComplianceSystem.Domain.Create'">
+                    <button *ngIf="mainDomainData" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
+                        <mat-icon class="mr-1">edit</mat-icon>
+                        {{ '::Edit' | abpLocalization }}
+                    </button>
+                </ng-container>
+           </header>
+            <div class="details-table-cont">
+                <table class="table">
+                    <tr>
+                        <td>
+                            {{ '::ReferenceNumber' | abpLocalization }}
+                        </td>
+                        <td colspan="3">
+                            {{subDomainData?.reference}}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {{ '::DomainNameEn' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{subDomainData?.nameEn}}
+                        </td>
+                        <td>
+                            {{ '::CreationTime' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{subDomainData?.creationTime | date:'yyyy-MM-dd' }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {{ '::DomainDescriptionAr' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{subDomainData?.descriptionAr}}
+                        </td>
+                        <td>
+                            {{ '::DomainDescriptionEn' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{subDomainData?.descriptionEn}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> {{ '::Departments' | abpLocalization }} </td>
+                        <td colspan="3">
+                            <mat-chip-list>
+                                <mat-chip *ngFor="let department of subDomainData?.departments">
+                                    {{department.name}}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ '::Status' | abpLocalization }}
+                        </td>
+                        <td colspan="3">
+                            <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
+                                {{  ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    
+        <section>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="m-0">
+                    {{ '::ControlMainControls' | abpLocalization }}
+                </h3>
+    
+                <div>
+                    <button (click)="openControlDialog(null, FormMode.Create, null, null)" *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
+                        <i class="fa fa-plus mr-1"></i>
+                        <span>
+                            {{ "::CreateControl" | abpLocalization: ('::ControlMainControl' | abpLocalization) }}
+                        </span>
+                    </button>
+                    <button mat-raised-button class="mr-2 delete-btn"  color="warn" [disabled]="!deleteLength" (click)="deleteItems()">
+                        <mat-icon class="mr-1">delete_forever</mat-icon>
+                        {{ '::Delete' | abpLocalization }}
+                    </button>
+                </div>
+            </div>
+    
+            <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details">
+                <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="d-flex justify-content-between align-items-center">
+                            <span>
+                                {{ mainControl | lang:'name' }}
+                            </span>
+                            <div>
+                                <button *abpPermission="'ComplianceSystem.Control.Update'"  class="mr-3" mat-button (click)="openControlDialog(mainControl, FormMode.Edit, null, null); $event.stopPropagation()">
+                                    <mat-icon>edit</mat-icon>
+                                    {{ '::Edit' | abpLocalization }}
+                                </button>
+                                <mat-checkbox class="mr-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainControl.id)"></mat-checkbox>
+                            </div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+                    <section>
+                        <div class="details-table-cont">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        {{ '::ReferenceNumber' | abpLocalization }}
+                                    </td>
+                                    <td colspan="3">
+                                        {{mainControl?.reference}}
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td>
+                                        {{ '::ControlNameEn' | abpLocalization }}
+                                    </td>
+                                    <td>
+                                        {{mainControl?.nameEn}}
+                                    </td>
+                                    <td>
+                                        {{ '::CreationTime' | abpLocalization }}
+                                    </td>
+                                    <td>
+                                        {{mainControl?.creationTime | date:'yyyy-MM-dd' }}
+                                    </td>
+                                </tr>
+            
+                                <tr>
+                                    <td>
+                                        {{ '::ControlDescriptionAr' | abpLocalization }}
+                                    </td>
+                                    <td>
+                                        {{mainControl?.descriptionAr}}
+                                    </td>
+                                    <td>
+                                        {{ '::ControlDescriptionEn' | abpLocalization }}
+                                    </td>
+                                    <td>
+                                        {{mainControl?.descriptionEn}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        {{ '::Status' | abpLocalization }}
+                                    </td>
+                                    <td colspan="3">
+                                        <button mat-button class="status" [class]="SharedStatus[mainControl?.status]">
+                                            {{  ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+    
+                        <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+                            <h4 class="m-0">
+                                {{ '::ControlSubControls' | abpLocalization }}
+                            </h4>
+            
+                            <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button class="add-raised-btn add-blue"
+                                type="button" (click)="openControlDialog(null, FormMode.Create, mainControl, subControlsTable)">
+                                <i class="fa fa-plus mr-1"></i>
+                                <span>
+                                    {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' | abpLocalization) }}
+                                </span>
+                            </button>
+                        </div>
+    
+                        <app-expansion-sub-controls-table #subControlsTable [expanded]="panel.expanded" 
+                        [subDomainId]="subDomainId" [mainControl]="mainControl" > </app-expansion-sub-controls-table>
+                    </section>
+    
+                </mat-expansion-panel>
+            </mat-accordion>
+        </section>
+    </div>
+</div>
+
+
+<ng-template #domainDialog let-data let-ref="dialogRef">
+    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameworkId]="data.data.frameworkId" [mainDomain]="mainDomainData"></app-create-domain>
+</ng-template>
+
+<ng-template #controlDialog let-data let-ref="dialogRef">
+    <app-create-control [data]="data.data" [ref]="ref" [mode]="data.mode" [subDomainId]="subDomainId" [mainControl]="data.mainControl"></app-create-control>
+</ng-template>
