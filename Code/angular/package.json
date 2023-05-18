@@ -6,7 +6,7 @@
     "start": "ng serve --open",
     "start:local": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve -o -c=local",
     "build": "ng build",
-    "build:prod": "ng build --configuration production",
+    "build:prod": "set NODE_OPTIONS=--openssl-legacy-provider && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
