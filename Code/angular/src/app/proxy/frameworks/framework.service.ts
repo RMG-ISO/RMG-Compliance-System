@@ -2,12 +2,45 @@ import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedRes
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-
+import type {RejectFrameworkDto} from './dtos'
 @Injectable({
   providedIn: 'root',
 })
 export class FrameworkService {
   apiName = 'Default';
+
+	
+  approveById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/approve`,
+    },
+    { apiName: this.apiName });
+
+  
+  returnToCreatorByIdAndInput = (id: string, input: RejectFrameworkDto) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/return-to-creator`,
+      body: input,
+    },
+    { apiName: this.apiName });
+	
+	
+  sendToOwnerById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/send-to-owner`,
+    },
+    { apiName: this.apiName });
+
+  sendToReviewerById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/send-to-reviewer`,
+    },
+    { apiName: this.apiName });
+
 
   create = (input: CreateUpdateFrameworkDto) =>
     this.restService.request<any, FrameworkDto>({

@@ -4,7 +4,12 @@ import { IdentityUserDto } from '@abp/ng.account';
 import type { DomainDto } from '../../domains/dtos/models';
 import type { ControlDto } from '../../controls/dtos/models';
 import type { AssessmentDto } from '../../assessments/dtos/models';
+import type { FrameworkChangeStatusLogDto } from '../models';
 
+
+export interface RejectFrameworkDto {
+  reason?: string;
+}
 
 export interface CreateUpdateFrameworkDto {
   nameAr?: string;
@@ -55,6 +60,7 @@ approveUserId?: string;
   levelFourNameEn?:string;
   OwnerId?:string;
   FrameworkEmpDto ?:FrameworkEmpDto[];
+  changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

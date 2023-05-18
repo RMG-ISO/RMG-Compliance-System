@@ -42,6 +42,7 @@ namespace RMG.ComplianceSystem.Frameworks
         
 
         public virtual ICollection<Domain> Domains { get; set; }
+        public virtual ICollection<FrameworkChangeStatusLog> ChangeStatusLogs { get; set; } = new HashSet<FrameworkChangeStatusLog>();
 
         protected Framework()
         {
