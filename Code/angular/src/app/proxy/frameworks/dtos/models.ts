@@ -22,8 +22,8 @@ export interface CreateUpdateFrameworkDto {
   frameworkStatus?: SharedFrameworkStatus;
   attachmentId?: string;
   ManagementId?: string;
-reviewUserId?: string;
-approveUserId?: string;
+  reviewUserId?: string;
+  approveUserId?: string;
   levelFirstNameAr?:string;
   levelFirstNameEn?:string;
   levelSecondNameAr?:string;

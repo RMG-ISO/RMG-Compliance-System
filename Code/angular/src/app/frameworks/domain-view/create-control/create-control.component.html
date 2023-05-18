@@ -1,0 +1,69 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+        <h2 >
+            {{ (data?.id ? '::EditControl' : '::CreateControl' ) | abpLocalization:( ( mainControl ? '::ControlSubControl' : '::ControlMainControl' ) | abpLocalization ) }}
+        </h2>
+
+        <div class="actions">
+            <button mat-button (click)="ref.close()" class="red"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>
+        
+            <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+                <i class="fa fa-check mr-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+    
+    <mat-dialog-content class="mat-typography">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="control-nameAr">{{ '::ControlNameAr' | abpLocalization }}</label><span> * </span>
+                    <textarea id="control-nameAr" class="form-control" formControlName="nameAr"></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="control-nameEn">{{ '::ControlNameEn' | abpLocalization }}</label><span> * </span>
+                    <textarea id="control-nameEn" class="form-control" formControlName="nameEn"></textarea>
+                </div>
+            </div>
+    
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="control-descriptionAr">{{ '::ControlDescriptionAr' | abpLocalization }}</label>
+                    <textarea id="control-descriptionAr" class="form-control" formControlName="descriptionAr"></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="control-descriptionEn">{{ '::ControlDescriptionEn' | abpLocalization }}</label>
+                    <textarea id="control-descriptionEn" class="form-control" formControlName="descriptionEn"></textarea>
+                </div>
+            </div>
+    
+    
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="control-reference">{{ '::ControlReference' | abpLocalization }}</label><span>
+                        * </span>
+                    <input type="text" id="control-reference" class="form-control" formControlName="reference" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="status">{{ '::ControlStatus' | abpLocalization }}</label><span> * </span>
+                    <ng-select appendTo="body" id="status" formControlName="status" [searchable]="false" [clearable]="true">
+                        <ng-option *ngFor="let sharedStatusOption of sharedStatusOptions"
+                            [value]="sharedStatusOption.value">
+                            {{'::Enum:SharedStatus:'+sharedStatusOption.value | abpLocalization}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+</form>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ControlsComponent } from './controls.component';
+import { DomainViewComponent } from './domain-view.component';
 
-describe('ControlsComponent', () => {
-  let component: ControlsComponent;
-  let fixture: ComponentFixture<ControlsComponent>;
+describe('DomainViewComponent', () => {
+  let component: DomainViewComponent;
+  let fixture: ComponentFixture<DomainViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ControlsComponent ]
+      declarations: [ DomainViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ControlsComponent);
+    fixture = TestBed.createComponent(DomainViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

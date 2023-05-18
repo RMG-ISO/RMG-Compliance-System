@@ -2,47 +2,51 @@ import { ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ControlService } from '@proxy/controls';
 import { DomainService } from '@proxy/domains';
-import { FrameworkService } from '@proxy/frameworks';
 import { SharedStatus } from '@proxy/shared';
-import { filter, map } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
-  selector: 'app-framework-view',
-  templateUrl: './framework-view.component.html',
-  styleUrls: ['./framework-view.component.scss'],
+  selector: 'app-domain-view',
+  templateUrl: './domain-view.component.html',
+  styleUrls: ['./domain-view.component.scss'],
   providers:[
     ListService
   ]
 })
-export class FrameworkViewComponent implements OnInit {
-  @ViewChild('frameDialog') frameDialog;
+export class DomainViewComponent implements OnInit {
   @ViewChild('domainDialog') domainDialog;
+  @ViewChild('controlDialog') controlDialog;
+
   SharedStatus = SharedStatus;
   FormMode = FormMode;
 
   constructor(
     public activatedRoute:ActivatedRoute,
-    private frameworkService:FrameworkService,
     private router:Router,
     private domainService: DomainService,
     public readonly list: ListService,
     public  matDialog: MatDialog,
     private confirmation: ConfirmationService,
-    private localizationService:LocalizationService
+    private localizationService:LocalizationService,
+    private controlService: ControlService,
+
   ) { }
 
-  frameworkId;
-  frameWorkData;
-
+  subDomainId;
+  subDomainData;
+    mainDomainData;
   ngOnInit(): void {
-    this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
-    this.frameworkService.get(this.frameworkId).subscribe(fram => {
-      console.log(fram);
-      this.frameWorkData = fram;
-      this.getMainDomainsList();
+    this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
+    this.domainService.get(this.subDomainId).subscribe(res => {
+      console.log(res);
+      this.subDomainData = res;
+      this.domainService.get(res.parentId).subscribe(r => {
+        this.mainDomainData = r;
+      })
+      this.getMainControlsList();
     });
 
   }
@@ -66,11 +70,11 @@ export class FrameworkViewComponent implements OnInit {
   }
 
 
-  mainDomainsItems;
-  getMainDomainsList(search = null) {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
+  mainControlsItems;
+  getMainControlsList(search = null) {
+    const bookStreamCreator = (query) => this.controlService.getList({ ...query, isMainControl: true, search: search, domainId: this.subDomainId, maxResultCount:null });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
-      this.mainDomainsItems = response.items;
+      this.mainControlsItems = response.items;
       this.selectedToDelete = {};
       this.deleteLength = 0;
       // this.totalCount = response.totalCount;
@@ -78,33 +82,33 @@ export class FrameworkViewComponent implements OnInit {
   }
 
 
-  openFrameDialog(mode = FormMode.Create) {
-    let ref = this.matDialog.open(this.frameDialog, {
+  openDomainDialog(mode = FormMode.Create) {
+    let ref = this.matDialog.open(this.domainDialog, {
       data:{
-        data:this.frameWorkData,
+        data:this.subDomainData,
         mode
       }
     });
     ref.afterClosed().subscribe(con => {
       if(con) {
-        this.frameWorkData = con;
+        this.subDomainData = con;
         this.list.get();
       }
     })
   }
   
 
-  openDomainDialog(data = null, mode = FormMode.Create, mainDomain, subDomainsTable) {
-    let ref = this.matDialog.open(this.domainDialog, {
+  openControlDialog(data = null, mode = FormMode.Create, mainControl, subControlsTable) {
+    let ref = this.matDialog.open(this.controlDialog, {
       data:{
         data,
         mode,
-        mainDomain
+        mainControl
       }
     });
     ref.afterClosed().subscribe(con => {
       if(con) {
-        if(subDomainsTable) subDomainsTable.list.get();
+        if(subControlsTable) subControlsTable.list.get();
         else this.list.get();
       }
     })
