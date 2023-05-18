@@ -9,7 +9,10 @@ import { FrameworkViewComponent } from './framework-view/framework-view.componen
 import { DomainsComponent } from './domains/domains.component';
 import { ControlsComponent } from './controls/controls.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { ExpansionSubDomainsTableComponent } from './framework-view/expansion-sub-domains-table/expansion-sub-domains-table.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -18,12 +21,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FrameworkViewComponent,
     DomainsComponent,
     ControlsComponent,
+    ExpansionSubDomainsTableComponent,
   ],
   imports: [
     CommonModule,
     FrameworksRoutingModule,
     SharedModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class FrameworksModule { }

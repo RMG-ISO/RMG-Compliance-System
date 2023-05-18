@@ -1,5 +1,7 @@
+import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
 import { SharedStatus } from '@proxy/shared';
 import { filter, map } from 'rxjs/operators';
@@ -7,7 +9,10 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'app-framework-view',
   templateUrl: './framework-view.component.html',
-  styleUrls: ['./framework-view.component.scss']
+  styleUrls: ['./framework-view.component.scss'],
+  providers:[
+    ListService
+  ]
 })
 export class FrameworkViewComponent implements OnInit {
 
@@ -16,7 +21,10 @@ export class FrameworkViewComponent implements OnInit {
   constructor(
     public activatedRoute:ActivatedRoute,
     private frameworkService:FrameworkService,
-    private router:Router
+    private router:Router,
+    private domainService: DomainService,
+    public readonly list: ListService,
+
   ) { }
 
   frameworkId;
@@ -26,7 +34,8 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       console.log(fram);
-      this.frameWorkData = fram
+      this.frameWorkData = fram;
+      this.getMainDomainsList();
     });
 
 
@@ -54,5 +63,17 @@ export class FrameworkViewComponent implements OnInit {
   routeChanges(ev) {
     console.log(ev);
   }
+
+  mainDomainsItems;
+  getMainDomainsList(search = null) {
+    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
+    this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+      this.mainDomainsItems = response.items;
+      // this.totalCount = response.totalCount;
+    });
+  }
+
+
+
 
 }
