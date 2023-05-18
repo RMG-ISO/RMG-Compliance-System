@@ -125,8 +125,8 @@ export class CreateFrameworkComponent implements OnInit {
     const request = this.data?.id
       ? this.frameworkService.update(this.data.id, value)
       : this.frameworkService.create(value);
-    request.subscribe(() => {
-      this.ref.close(true);
+    request.subscribe((res) => {
+      this.ref.close(res);
     });
   }
 

@@ -347,6 +347,23 @@ button.delete-btn {
     box-shadow: none;
 }
 
+button.add-blue {
+    background-color: #3B76B1;
+    color: #fff;
+}
+
+button.status {
+    color: #fff;
+    border-radius: 50px;
+    height: 30px;
+    line-height: 30px;
+    &.Active {
+        background: var(--main-color);
+    }
+    &.Inactive {
+        background: #f44336;
+    }
+}
 .space {
     width: 32px;
     display: inline-block;

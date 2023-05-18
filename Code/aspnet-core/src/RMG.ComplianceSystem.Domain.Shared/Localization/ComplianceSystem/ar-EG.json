@@ -308,8 +308,8 @@
     "ControlChildren": "الضوابط الفرعية",
     "CreateControl": "إنشاء {0}",
     "EditControl": "تعديل {0}",
-    "ControlMainControls": "ضوابط رئيسية",
-    "ControlSubControls": "ضوابط فرعية",
+    "ControlMainControls": "الضوابط الرئيسية",
+    "ControlSubControls": "الضوابط الفرعية",
     "ControlMainControl": "ضابط رئيسي",
     "ControlSubControl": "ضابط فرعي",
     "ControlDeletionConfirmationMessage": "هل أنت متأكد من حذف الضابط {0}؟",
@@ -485,7 +485,15 @@
     "Previous":"السابق",
     "Next":"التالى",
     "Menu:Frameworks":"أطر العمل",
-    "FrameWork:Owner":"مالك الإطار"
+    "FrameWork:Owner":"مالك الإطار",
+    "FrameWorkDetails":"تفاصيل إطار العمل",
+    "Reports":"التقارير",
+    "MainFrameWorks":"أطر العمل الرئيسيه",
+    "Reviewers":"المراجعون",
+    "MainDomains":"النطاقات الرئيسية",
+    "SubDomains":"النطاقات الفرعية",
+    "ReferenceNumber":"الرقم المرجعى",
+    "DeleteSelectedItem":"هل تريد حذف العناصر المحددة؟"
 
 
 

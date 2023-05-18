@@ -482,7 +482,15 @@
     "Previous":"Previous",
     "Next":"Next",
     "Menu:Frameworks":"Frameworks",
-    "FrameWork:Owner":"FrameWork Owner"
+    "FrameWork:Owner":"FrameWork Owner",
+    "FrameWorkDetails":"FrameWork Details",
+    "Reports":"Reports",
+    "MainFrameWorks":"Main FrameWorks",
+    "Reviewers":"Reviewers",
+    "MainDomains":"Main Domains",
+    "SubDomains":"Sub Domains",
+    "ReferenceNumber":"Reference Number",
+    "DeleteSelectedItem":"Do you want to delete the selected items?"
 
 
 

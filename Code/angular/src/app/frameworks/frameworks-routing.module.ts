@@ -4,11 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 // import { DomainsComponent } from './domains/domains.component';
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
 import { FrameworksListComponent } from './frameworks-list/frameworks-list.component';
+import { DomainViewComponent } from './domain-view/domain-view.component';
 
 const routes: Routes = [
   {
     path:'list',
     component:FrameworksListComponent
+  },
+  {
+    path:'sub-domains/:subDomainId/controls',
+    component:DomainViewComponent
   },
   {
     path:':frameworkId',
@@ -36,6 +41,7 @@ const routes: Routes = [
     //   },
     // ]
   },
+
   {
     path:'',
     redirectTo:'list',

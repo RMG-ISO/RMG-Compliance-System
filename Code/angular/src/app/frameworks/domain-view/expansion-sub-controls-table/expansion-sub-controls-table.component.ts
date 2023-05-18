@@ -1,34 +1,35 @@
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { DomainService } from '@proxy/domains';
-import { DomainDto } from '@proxy/domains/dtos';
+import { ControlService } from '@proxy/controls';
+import { ControlDto } from '@proxy/controls/dtos';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
-  selector: 'app-expansion-sub-domains-table',
-  templateUrl: './expansion-sub-domains-table.component.html',
-  styleUrls: ['./expansion-sub-domains-table.component.scss'],
+  selector: 'app-expansion-sub-controls-table',
+  templateUrl: './expansion-sub-controls-table.component.html',
+  styleUrls: ['./expansion-sub-controls-table.component.scss'],
   providers:[
     ListService
   ]
 })
-export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
-  @ViewChild('domainDialog') domainDialog;
+export class ExpansionSubControlsTableComponent implements OnInit {
+  @ViewChild('controlDialog') controlDialog;
   
-  @Input('frameworkId') frameworkId;
-  @Input('mainDomain') mainDomain;
+  @Input('subDomainId') subDomainId;
+  @Input('mainControl') mainControl;
   @Input('expanded') expanded;
   
   constructor(
-    private domainService:DomainService,
     public readonly list: ListService,
     public  matDialog: MatDialog,
     private confirmation:ConfirmationService,
     private localizationService:LocalizationService,
-    private router:Router
+    private router:Router,
+    private controlService: ControlService,
+
   ) { }
 
   ngOnInit(): void {
@@ -46,27 +47,26 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   }
 
 
-  delete(model: DomainDto) {
+  delete(model: ControlDto) {
     this.confirmation
-      .warn('::DomainDeletionConfirmationMessage', '::AreYouSure', {
+      .warn('::ControlDeletionConfirmationMessage', '::AreYouSure', {
         messageLocalizationParams: [
           this.localizationService.currentLang.includes('ar') ? model.nameAr : model.nameEn,
         ],
       })
       .subscribe(status => {
         if (status === Confirmation.Status.confirm) {
-          this.domainService.delete(model.id).subscribe(() => this.list.get());
+          this.controlService.delete(model.id).subscribe(() => this.list.get());
         }
       });
   }
 
 
-  openDomainDialog(data = null) {
-    let ref = this.matDialog.open(this.domainDialog, {
+  openDialog(data = null) {
+    let ref = this.matDialog.open(this.controlDialog, {
       data:{
         data,
         mode:FormMode.Edit,
-        mainDomain:this.mainDomain
       }
     });
     ref.afterClosed().subscribe(con => {
@@ -79,7 +79,7 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   items
   totalCount;
   getList() {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: false, mainDomainId: this.mainDomain.id, frameworkId: this.frameworkId });
+    const bookStreamCreator = (query) => this.controlService.getList({ ...query, isMainControl: false, mainControlId: this.mainControl.id, domainId: this.subDomainId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -87,10 +87,10 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   }
 
   activate(ev) {
-    if (ev.type === 'click') {
-      this.router.navigate(['/frameworks', 'sub-domains', ev.row.id, 'controls'])
-      console.log(ev.row);
-    }
+    // if (ev.type === 'click') {
+    //   this.router.navigate(['/frameworks', 'sub-domains', ev.row.id, 'controls'])
+    //   console.log(ev.row);
+    // }
     
   }
 

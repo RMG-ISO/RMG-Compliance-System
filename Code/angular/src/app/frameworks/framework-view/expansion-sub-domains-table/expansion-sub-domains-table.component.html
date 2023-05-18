@@ -32,7 +32,7 @@
                 <mat-icon>delete_forever</mat-icon>
             </button>
             <button *abpPermission="'ComplianceSystem.Domain.Update'" mat-button
-                (click)="$event.stopPropagation();openDialog(row)">
+                (click)="$event.stopPropagation();openDomainDialog(row)">
                 <mat-icon>edit</mat-icon>
             </button>
         </ng-template>
@@ -41,4 +41,9 @@
 
 <ng-template #showLoader>
     <mat-spinner [diameter]="40" [strokeWidth]="3"></mat-spinner>
+</ng-template>
+
+
+<ng-template #domainDialog let-data let-ref="dialogRef">
+    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameworkId]="frameworkId" [mainDomain]="data.mainDomain"></app-create-domain>
 </ng-template>

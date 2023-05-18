@@ -110,7 +110,11 @@ ngx-datatable {
 
 
 mat-accordion.table-details {
-    mat-expansion-panel{
+    margin-bottom: 2rem;
+    display: block;
+    mat-expansion-panel {
+        background: transparent;
+
         mat-expansion-panel-header {
             background-color: #2B657D !important;
             max-height: 48px;
@@ -122,6 +126,8 @@ mat-accordion.table-details {
                     button {
                         height: 30px;
                         line-height: 30px;
+                        padding-left: 8px;
+                        padding-right: 8px;
                         mat-icon {
                             font-size: 18px;
                         }
@@ -136,7 +142,8 @@ mat-accordion.table-details {
                                 background-color: #fff;
                             }
                             .mat-checkbox-checkmark-path {
-                                stroke: #2b657d !important;
+                                // stroke: #2b657d !important;
+                                stroke: #f44336 !important;
                             }
                         }
                     }
@@ -150,16 +157,19 @@ mat-accordion.table-details {
         &.mat-expanded {
             mat-expansion-panel-header {
                 background-color: var(--main-green) !important;
-                mat-panel-title {
-                    &>div {
-                        mat-checkbox {
-                            .mat-checkbox-checkmark-path {
-                                stroke: var(--main-color) !important;
-                            }
-                        }
-                    }
-                }
+                // mat-panel-title {
+                //     &>div {
+                //         mat-checkbox {
+                //             .mat-checkbox-checkmark-path {
+                //                 stroke: var(--main-color) !important;
+                //             }
+                //         }
+                //     }
+                // }
             }
+        }
+        &.marked-for-delete  mat-expansion-panel-header  {
+            background-color: #f44336 !important;
         }
         section {
             padding-top: 2rem;

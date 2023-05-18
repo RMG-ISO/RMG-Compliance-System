@@ -2,7 +2,7 @@
     <header class="card-header">
         <div class="d-flex justify-content-between align-items-center">
                 <h2 class="card-title mb-0">
-                    {{ '::أطر العمل الرئيسيه' | abpLocalization }}
+                    {{ '::MainFrameWorks' | abpLocalization }}
                 </h2>
             <!-- <div class="pt-2 d-flex justify-content-end">
                 <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
@@ -14,9 +14,15 @@
     </header>
     <div class="card-body">
         <div class="info">
-            <h3>
-                {{ frameWorkData | lang:'name' }}
-            </h3>
+            <div class="card-top">
+                <h3>
+                    {{ frameWorkData | lang:'name' }}
+                </h3>
+                <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button (click)="openFrameDialog(FormMode.Edit)">
+                    <mat-icon class="mr-1">edit</mat-icon>
+                    {{ '::Edit' | abpLocalization }}
+                </button>
+            </div>
             <div>
                 <span>
                     {{frameWorkData?.nameAr}}
@@ -35,48 +41,48 @@
 
         <div class="tabs d-flex align-items-center">
             <button mat-raised-button [routerLink]="['/', 'frameworks', frameworkId]" routerLinkActive="active">
-                تفاصيل إطار العمل
+                {{ '::FrameWorkDetails' | abpLocalization }}
             </button>
             <button mat-raised-button >
-                مستويات إطار العمل
+                {{ '::FrameworkLevels' | abpLocalization }}
             </button>
             <button mat-raised-button>
-              التقارير
+              {{ '::Reports' | abpLocalization }}
             </button>
             <button mat-raised-button>
-                المرفقات
+                {{ '::Attachments' | abpLocalization }}
             </button>
         </div>
 
         <section>
             <h3>
-                تفاصيل إطار العمل
+                {{ '::FrameWorkDetails' | abpLocalization }}
             </h3>
             <div class="details-table-cont">
                 <table class="table">
                     <tr>
                         <td>
-                            مالك الإطار بالعربى
+                            {{ '::FrameWork:Owner' | abpLocalization }}
                         </td>
-                        <td>
+                        <td colspan="3">
                             {{frameWorkData?.ownerId}}
                         </td>
-                        <td>
+                        <!-- <td>
                             مالك الإطار بالانجليزى 
                         </td>
                         <td>
                             Owner name 
-                        </td>
+                        </td> -->
                     </tr>
                     <tr>
                         <td>
-                            الإختصار بالعربى
+                            {{ '::FrameworkShortcutAr' | abpLocalization }}
                         </td>
                         <td>
                             {{frameWorkData?.shortcutAr}}
                         </td>
                         <td>
-                            الإختصار بالانجليزى
+                            {{ '::FrameworkShortcutEn' | abpLocalization }}
                         </td>
                         <td>
                             {{frameWorkData?.shortcutEn}}
@@ -84,28 +90,28 @@
                     </tr>
                     <tr>
                         <td>
-                            الوصف بالعربية
+                            {{ '::FrameworkDescriptionAr' | abpLocalization }}
                         </td>
                         <td>
                             {{frameWorkData?.descriptionAr}}
                         </td>
                         <td>
-                            لوصف بالانجليزية
+                            {{ '::FrameworkDescriptionEn' | abpLocalization }}
                         </td>
                         <td>
                             {{frameWorkData?.descriptionEn}}
                         </td>
                     </tr>
                     <tr>
-                        <td>المراجعون</td>
+                        <td> {{ '::Reviewers' | abpLocalization }} </td>
                         <td colspan="3"></td>
                     </tr>
                     <tr>
-                        <td>الإدارات</td>
+                        <td> {{ '::Departments' | abpLocalization }} </td>
                         <td colspan="3"></td>
                     </tr>
                     <tr>
-                        <td>فريق العمل</td>
+                        <td> {{ '::WorkTeamMembers' | abpLocalization }} </td>
                         <td colspan="3"></td>
                     </tr>
                 </table>
@@ -113,19 +119,19 @@
         </section>
 
         <section>
-           <div class="d-flex justify-content-between align-items-center">
+           <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="m-0">
-                    النطاقات الرئيسية
+                    {{ '::MainDomains' | abpLocalization }}
                 </h3>
 
-                <div class="mb-3">
-                    <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
+                <div>
+                    <button (click)="openDomainDialog(null, FormMode.Create, null, null)" *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
                         <i class="fa fa-plus mr-1"></i>
                         <span>
                             {{ "::CreateDomain" | abpLocalization: ('::DomainMainDomain' | abpLocalization) }}
                         </span>
                     </button>
-                    <button mat-raised-button class="mr-2 delete-btn"  color="warn" >
+                    <button mat-raised-button class="mr-2 delete-btn"  color="warn" [disabled]="!deleteLength" (click)="deleteItems()">
                         <mat-icon class="mr-1">delete_forever</mat-icon>
                         {{ '::Delete' | abpLocalization }}
                     </button>
@@ -133,18 +139,18 @@
            </div>
 
             <mat-accordion *ngFor="let mainDomain of mainDomainsItems" class="table-details">
-                <mat-expansion-panel #panel>
+                <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainDomain.id]">
                     <mat-expansion-panel-header>
                         <mat-panel-title class="d-flex justify-content-between align-items-center">
                             <span>
                                 {{ mainDomain | lang:'name' }}
                             </span>
                             <div>
-                                <button mat-button (click)="$event.stopPropagation()">
-                                    <mat-icon class="mr-1">edit</mat-icon>
+                                <button *abpPermission="'ComplianceSystem.Domain.Update'" class="mr-3" mat-button (click)="openDomainDialog(mainDomain, FormMode.Edit, null, null); $event.stopPropagation()">
+                                    <mat-icon >edit</mat-icon>
                                     {{ '::Edit' | abpLocalization }}
                                 </button>
-                                <mat-checkbox class="mr-3" (click)="$event.stopPropagation()"></mat-checkbox>
+                                <mat-checkbox class="mr-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
                             </div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
@@ -154,7 +160,7 @@
                             <table class="table">
                                 <tr>
                                     <td>
-                                        الرقم المرجعى
+                                        {{ '::ReferenceNumber' | abpLocalization }}
                                     </td>
                                     <td colspan="3">
                                         {{ mainDomain.reference }}
@@ -196,7 +202,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        الحالة
+                                        {{ '::Status' | abpLocalization }}
                                     </td>
                                     <td colspan="3">
                                         <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
@@ -223,10 +229,11 @@
 
                         <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
                             <h4 class="m-0">
-                                النطاقات الفرعية
+                                {{ ':SubDomains' | abpLocalization }}
                             </h4>
             
-                            <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button  class="add-raised-btn add-blue" type="button">
+                            <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button class="add-raised-btn add-blue"
+                                type="button" (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
                                 <i class="fa fa-plus mr-1"></i>
                                 <span>
                                     {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }}
@@ -234,7 +241,8 @@
                             </button>
                        </div>
 
-                        <app-expansion-sub-domains-table [expanded]="panel.expanded"  [frameworkId]="frameworkId" [mainDomainId]="mainDomain.id" ></app-expansion-sub-domains-table>
+                        <app-expansion-sub-domains-table #subDomainsTable [expanded]="panel.expanded" 
+                        [frameworkId]="frameworkId" [mainDomain]="mainDomain" > </app-expansion-sub-domains-table>
                     </section>
 
                 </mat-expansion-panel>
@@ -294,3 +302,12 @@
         <router-outlet (activate)="routeChanges($event)"></router-outlet> -->
     </div>
 </section>
+
+
+<ng-template #frameDialog let-data let-ref="dialogRef">
+    <app-create-framework [data]="data.data" [ref]="ref" [mode]="data.mode"></app-create-framework>
+</ng-template>
+
+<ng-template #domainDialog let-data let-ref="dialogRef">
+    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameworkId]="frameworkId" [mainDomain]="data.mainDomain"></app-create-domain>
+</ng-template>
