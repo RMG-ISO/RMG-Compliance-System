@@ -22,6 +22,7 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('domainDialog') domainDialog;
   SharedStatus = SharedStatus;
   FormMode = FormMode;
+  activeTab = 'details';
 
   constructor(
     public activatedRoute:ActivatedRoute,
