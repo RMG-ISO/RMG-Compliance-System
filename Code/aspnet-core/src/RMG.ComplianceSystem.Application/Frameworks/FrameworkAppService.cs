@@ -163,7 +163,14 @@ namespace RMG.ComplianceSystem.Frameworks
             {
                 log.CreatorName = (await _employeeRepository.GetAsync(log.CreatorId.Value))?.FullName;
             }
-            dto.FrameworkEmpsDto = ObjectMapper.Map<List<FrameworkEmployee>, List<FrameworkEmpDto>>(_frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).ToList());
+            var employeeIDs = _frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
+            var employees = _employeeRepository.Where(e => employeeIDs.Contains(e.Id)).Select(e => new FrameworkEmpDto
+            {
+                EmployeeId = e.Id,
+                EmployeeName = e.FullName,
+                FrameworkId = dto.Id,
+            }).ToList();
+            dto.FrameworkEmpsDto = employees;
             return dto;
         }
 
