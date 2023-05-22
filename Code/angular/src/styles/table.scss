@@ -8,6 +8,11 @@
 }
 
 ngx-datatable {
+    &.with-row-pointer {
+        datatable-body-row {
+            cursor: pointer;
+        }
+    }
     .datatable-header .datatable-header-cell.resizeable .resize-handle {
         visibility: visible;
         border-color: #ddd;

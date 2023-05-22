@@ -65,7 +65,7 @@ export class CreateFrameworkComponent implements OnInit {
 
     if(this.data) {
       let data = {...this.data};
-      if(data.frameworkEmpsDto) data.frameworkEmpsDto.map(x => x.id);
+      if(data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(x => x.employeeId);
 
       this.form.controls.frameInfo.patchValue(data);
       this.form.controls.frameLevels.patchValue(data);
