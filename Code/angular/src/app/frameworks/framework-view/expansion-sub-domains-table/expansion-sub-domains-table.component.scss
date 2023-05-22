@@ -10,9 +10,9 @@ ul {
             stroke: var(--main-color);
         }
     }
-    ngx-datatable ::ng-deep{
-        datatable-body-row {
-            cursor: pointer;
-        }
-    }
+    // ngx-datatable ::ng-deep{
+    //     datatable-body-row {
+    //         cursor: pointer;
+    //     }
+    // }
 }

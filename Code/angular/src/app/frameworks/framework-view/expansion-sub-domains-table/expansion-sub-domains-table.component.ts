@@ -34,7 +34,6 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     
   }
-
   
   isExpanded = false;
   ngOnChanges(): void {

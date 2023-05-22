@@ -19,6 +19,13 @@ body[dir="rtl"] {
 
 }
 
+button.back-button {
+    border: 2px solid #383838;
+    border-radius: 50px;
+    height: 36px;
+    line-height: 32px;
+}
+
 .form-control {
     color: #000000;
     &:not([type="search"]) {
@@ -232,6 +239,11 @@ body[dir="rtl"] {
     .header-pipe {
         border-right: 2px solid #000000;
         border-left:none;
+    }
+    .back-button {
+        mat-icon {
+            transform: rotate(180deg);
+        }
     }
 }
 

@@ -1,12 +1,12 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { SharedStatus } from '@proxy/shared';
-import { filter, map } from 'rxjs/operators';
+import { SharedFrameworkStatus, SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -20,25 +20,34 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 export class FrameworkViewComponent implements OnInit {
   @ViewChild('frameDialog') frameDialog;
   @ViewChild('domainDialog') domainDialog;
+  @ViewChild('refuseCauseDialog') refuseCauseDialog;
+
   SharedStatus = SharedStatus;
   FormMode = FormMode;
   activeTab = 'details';
 
+  SharedFrameworkStatus = SharedFrameworkStatus;
+  
   constructor(
-    public activatedRoute:ActivatedRoute,
+    public  activatedRoute:ActivatedRoute,
     private frameworkService:FrameworkService,
     private router:Router,
     private domainService: DomainService,
     public readonly list: ListService,
     public  matDialog: MatDialog,
     private confirmation: ConfirmationService,
-    private localizationService:LocalizationService
+    private localizationService:LocalizationService,
+    private configState:ConfigStateService
   ) { }
 
   frameworkId;
   frameWorkData;
 
+  currentLang;
+  userId;
   ngOnInit(): void {
+    this.currentLang = this.localizationService.currentLang;
+
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       console.log(fram);
@@ -46,6 +55,7 @@ export class FrameworkViewComponent implements OnInit {
       this.getMainDomainsList();
     });
 
+    this.userId = this.configState.getAll().currentUser.id
   }
 
   selectedToDelete = {};
@@ -78,6 +88,63 @@ export class FrameworkViewComponent implements OnInit {
     });
   }
 
+
+  form:FormGroup;
+
+  changeCreateFrameStatus(cond) {
+    console.log(cond)
+    if(cond) this.frameworkService.sendToReviewerById(this.frameWorkData.id).subscribe(r => {
+      window.location.reload();
+    })
+  }
+
+  changeReviewFrameStatus(cond, ngSelect) {
+    if(cond == undefined) return;
+
+    if(cond) {
+      this.frameworkService.sendToOwnerById(this.frameWorkData.id).subscribe(r => {
+        window.location.reload();
+      });
+      return;
+    }
+
+    this.form = new FormGroup({
+      reason: new FormControl(null, Validators.required)
+    });
+
+    let ref = this.matDialog.open(this.refuseCauseDialog);
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
+          window.location.reload();
+        });
+      } else ngSelect.clearModel();
+    })
+  }
+
+  changeApproveFrameStatus(cond, ngSelect) {
+    if(cond == undefined) return;
+
+    if(cond) {
+      this.frameworkService.approveById(this.frameWorkData.id).subscribe(r => {
+        window.location.reload();
+      });
+      return;
+    }
+
+    this.form = new FormGroup({
+      reason: new FormControl(null, Validators.required)
+    });
+
+    let ref = this.matDialog.open(this.refuseCauseDialog);
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
+          window.location.reload();
+        });
+      } else ngSelect.clearModel();
+    })
+  }
 
   openFrameDialog(mode = FormMode.Create) {
     let ref = this.matDialog.open(this.frameDialog, {

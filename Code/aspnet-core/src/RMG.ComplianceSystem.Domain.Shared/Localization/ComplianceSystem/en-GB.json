@@ -495,7 +495,17 @@
     "ComplianceSystem:Framework:002": "Only under review frameworks can be sent to owner",
     "ComplianceSystem:Framework:003": "Only under review or under approval frameworks can be returned to creator",
     "ComplianceSystem:Framework:004": "Only under approval frameworks can be approved",
-    "ComplianceSystem:Framework:005": "Only under approval frameworks can be rejected"
+    "ComplianceSystem:Framework:005": "Only under approval frameworks can be rejected",
+    "FrameworkCreation":"Framework Creation",
+    "FrameworkReview":"Framework Review",
+    "FrameworkApprove":"Framework Approve",
+    "Activation":"Activation",
+    "SendToReview":"Send To Review",
+    "SendToApprove":"Send To Approve",
+    "ReturnToCreator":"Return To Creator",
+    "Approve":"Approve",
+    "ReturnBack":"Return Back",
+    "SelectAction":"Select Action"
 
   }
 }
