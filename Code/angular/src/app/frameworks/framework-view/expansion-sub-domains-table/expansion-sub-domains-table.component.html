@@ -1,4 +1,4 @@
-<ngx-datatable *ngIf="items; else showLoader" class="material fullscreen" #dataTable [rows]="items" [count]="totalCount" [list]="list"
+<ngx-datatable *ngIf="items; else showLoader" class="material fullscreen with-row-pointer" #dataTable [rows]="items" [count]="totalCount" [list]="list"
     (activate)="activate($event)" appNgxdatatable>
     <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference">
     </ngx-datatable-column>
