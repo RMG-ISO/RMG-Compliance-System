@@ -74,6 +74,7 @@ export interface getFrameworkDto {
 export interface FrameworkEmpDto  {
   FrameworkId?: string;
   EmployeeId?:string;
+  employeeName?: string;
 }
 
 export interface ComplainceDto {
