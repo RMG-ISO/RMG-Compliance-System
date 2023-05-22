@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
 namespace RMG.ComplianceSystem
@@ -15,7 +16,8 @@ namespace RMG.ComplianceSystem
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            
+            var rootPath = env.ContentRootPath;
+
             app.InitializeApplication();
             app.Use(async (httpContext, next) =>
             {
@@ -29,6 +31,12 @@ namespace RMG.ComplianceSystem
                 }
 
                 await next();
+            });
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                RequestPath = "/logs",
+                FileProvider = new PhysicalFileProvider(System.IO.Path.Combine(rootPath, "Logs"))
             });
 
         }
