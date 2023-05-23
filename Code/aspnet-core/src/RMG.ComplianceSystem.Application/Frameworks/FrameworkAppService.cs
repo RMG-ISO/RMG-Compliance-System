@@ -23,6 +23,7 @@ using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.Employees;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.TextTemplating.VirtualFiles;
+using RMG.ComplianceSystem.Departments;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -40,12 +41,13 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly IDomainRepository _domainRepository;
         private readonly IControlRepository _controlRepository;
         private readonly IFrameworkRepository _repository;
-        private readonly IFrameworkEmployeeRepository _frameworkEmployeerepository;
+        private readonly IFrameworkEmployeeRepository _frameworkEmployeeRepository;
         private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IEmailTemplateAppService _emailTemplateAppService;
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationAppService _notificationAppService;
+        private readonly IDepartmentRepository _departmentRepository;
         private readonly IConfiguration _configuration;
 
         public FrameworkAppService(IFrameworkRepository repository,
@@ -58,20 +60,22 @@ namespace RMG.ComplianceSystem.Frameworks
             INotificationRepository notificationRepository,
             INotificationAppService notificationAppService,
             IConfiguration configuration,
-            IFrameworkEmployeeRepository frameworkEmployeerepository
+            IDepartmentRepository departmentRepository,
+            IFrameworkEmployeeRepository frameworkEmployeeRepository
             ) : base(repository)
         {
             _repository = repository;
             _assessmentRepository = assessmentRepository;
             _domainRepository = domainRepository;
             _controlRepository = controlRepository;
-            _frameworkEmployeerepository = frameworkEmployeerepository; 
+            _frameworkEmployeeRepository = frameworkEmployeeRepository; 
             _emailTemplateRepository = emailTemplateRepository;
             _emailTemplateAppService = emailTemplateAppService;
             _employeeRepository = employeeRepository;
             _notificationRepository = notificationRepository;
             _notificationAppService = notificationAppService;
             _configuration = configuration;
+            _departmentRepository = departmentRepository;
         }
 
 
@@ -92,7 +96,7 @@ namespace RMG.ComplianceSystem.Frameworks
                         var FWEmployee = new FrameworkEmployee(entity.Id,emp.EmployeeId);
                         ModelList.Add(FWEmployee);
                     }
-                    await _frameworkEmployeerepository.InsertManyAsync(ModelList, autoSave: true);
+                    await _frameworkEmployeeRepository.InsertManyAsync(ModelList, autoSave: true);
                 }
                 
 
@@ -106,6 +110,25 @@ namespace RMG.ComplianceSystem.Frameworks
                 throw;
             }
 
+        }
+
+        protected override async Task<FrameworkDto> MapToGetOutputDtoAsync(Framework entity)
+        {
+            var dto = await base.MapToGetOutputDtoAsync(entity);
+            dto.OwnerName = (await _employeeRepository.FindAsync(dto.OwnerId, false))?.FullName;
+            var empsIDs = _frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
+            foreach (var emp in empsIDs)
+            {
+                dto.FrameworkEmpsDto.Add(new FrameworkEmpDto
+                {
+                    EmployeeId = emp,
+                    FrameworkId = dto.Id,
+                    EmployeeName = (await _employeeRepository.FindAsync(emp, false))?.FullName
+                });
+            }
+            dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
+            dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
+            return dto;
         }
 
         public override async Task<FrameworkDto> UpdateAsync(Guid id, CreateUpdateFrameworkDto input)
@@ -122,10 +145,10 @@ namespace RMG.ComplianceSystem.Frameworks
                 #region [Employees]
                 if (input.FrameworkEmpsDto!= null && input.FrameworkEmpsDto.Count > 0)
                     {
-                        var Employees = _frameworkEmployeerepository.Where(x => x.FrameworkId == entity.Id).ToList();
+                        var Employees = _frameworkEmployeeRepository.Where(x => x.FrameworkId == entity.Id).ToList();
                         foreach (var emp in Employees)
                         {
-                            await _frameworkEmployeerepository.DeleteAsync(emp.Id, autoSave: true);
+                            await _frameworkEmployeeRepository.DeleteAsync(emp.Id, autoSave: true);
                         }
 
 
@@ -135,7 +158,7 @@ namespace RMG.ComplianceSystem.Frameworks
                             var audtor = new FrameworkEmployee(entity.Id, emp.EmployeeId);
                             ModelList.Add(audtor);
                         }
-                        await _frameworkEmployeerepository.InsertManyAsync(ModelList, autoSave: true);
+                        await _frameworkEmployeeRepository.InsertManyAsync(ModelList, autoSave: true);
 
                     }
 
@@ -163,6 +186,14 @@ namespace RMG.ComplianceSystem.Frameworks
             {
                 log.CreatorName = (await _employeeRepository.GetAsync(log.CreatorId.Value))?.FullName;
             }
+            var employeeIDs = _frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
+            var employees = _employeeRepository.Where(e => employeeIDs.Contains(e.Id)).Select(e => new FrameworkEmpDto
+            {
+                EmployeeId = e.Id,
+                EmployeeName = e.FullName,
+                FrameworkId = dto.Id,
+            }).ToList();
+            dto.FrameworkEmpsDto = employees;
             return dto;
         }
 

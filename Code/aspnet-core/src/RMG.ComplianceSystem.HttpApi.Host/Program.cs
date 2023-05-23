@@ -20,7 +20,8 @@ namespace RMG.ComplianceSystem
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                .WriteTo.Async(c => c.File("Logs/logs.txt", fileSizeLimitBytes: 1024 * 1024 * 10, rollOnFileSizeLimit: true))
+
 #if DEBUG
                 .WriteTo.Async(c => c.Console())
 #endif
