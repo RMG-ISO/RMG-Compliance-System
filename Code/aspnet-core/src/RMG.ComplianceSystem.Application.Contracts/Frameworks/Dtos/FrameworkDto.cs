@@ -11,6 +11,9 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
     [Serializable]
     public class FrameworkDto : FullAuditedEntityWithUserDto<Guid,IdentityUserDto>
     {
+        public string ManagementName { get; set; }
+        public string ReviewUserName { get; set; }
+        public string OwnerName { get; set; }
         public string NameAr { get; set; }
 
         public string NameEn { get; set; }
@@ -37,7 +40,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid OwnerId { get; set; }
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
-        public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; }
+        public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; } = new List<FrameworkEmpDto>();
         public List<FrameworkChangeStatusLogDto> ChangeStatusLogs { get; set; }
 
     }

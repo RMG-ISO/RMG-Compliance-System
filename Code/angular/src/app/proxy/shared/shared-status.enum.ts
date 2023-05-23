@@ -8,7 +8,8 @@ export enum SharedFrameworkStatus {
   NewFramework=0,
   UnderReview=1,
   UnderApproval=2,
-  Approved=3
+  Approved=3,
+  ReturnedToCreator=4,
 }
 
 export const sharedStatusOptions = mapEnumToOptions(SharedStatus);
