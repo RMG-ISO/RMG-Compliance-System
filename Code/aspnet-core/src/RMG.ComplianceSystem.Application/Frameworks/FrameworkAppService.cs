@@ -23,6 +23,7 @@ using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.Employees;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.TextTemplating.VirtualFiles;
+using RMG.ComplianceSystem.Departments;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -46,6 +47,7 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly IEmailTemplateAppService _emailTemplateAppService;
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationAppService _notificationAppService;
+        private readonly IDepartmentRepository _departmentRepository;
         private readonly IConfiguration _configuration;
 
         public FrameworkAppService(IFrameworkRepository repository,
@@ -58,6 +60,7 @@ namespace RMG.ComplianceSystem.Frameworks
             INotificationRepository notificationRepository,
             INotificationAppService notificationAppService,
             IConfiguration configuration,
+            IDepartmentRepository departmentRepository,
             IFrameworkEmployeeRepository frameworkEmployeeRepository
             ) : base(repository)
         {
@@ -72,6 +75,7 @@ namespace RMG.ComplianceSystem.Frameworks
             _notificationRepository = notificationRepository;
             _notificationAppService = notificationAppService;
             _configuration = configuration;
+            _departmentRepository = departmentRepository;
         }
 
 
@@ -106,6 +110,25 @@ namespace RMG.ComplianceSystem.Frameworks
                 throw;
             }
 
+        }
+
+        protected override async Task<FrameworkDto> MapToGetOutputDtoAsync(Framework entity)
+        {
+            var dto = await base.MapToGetOutputDtoAsync(entity);
+            dto.OwnerName = (await _employeeRepository.FindAsync(dto.OwnerId, false))?.FullName;
+            var empsIDs = _frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
+            foreach (var emp in empsIDs)
+            {
+                dto.FrameworkEmpsDto.Add(new FrameworkEmpDto
+                {
+                    EmployeeId = emp,
+                    FrameworkId = dto.Id,
+                    EmployeeName = (await _employeeRepository.FindAsync(emp, false))?.FullName
+                });
+            }
+            dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
+            dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
+            return dto;
         }
 
         public override async Task<FrameworkDto> UpdateAsync(Guid id, CreateUpdateFrameworkDto input)
