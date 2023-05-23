@@ -24,14 +24,14 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
-      {
-        path:'/framework',
-        name:'::Menu:Framework',
-        iconClass: 'fas fa-th-large',
-        order: 1,
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Framework',
-      },
+      // {
+      //   path:'/framework',
+      //   name:'::Menu:Framework',
+      //   iconClass: 'fas fa-th-large',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.Framework',
+      // },
       {
         path:'/frameworks',
         name:'::Menu:Frameworks',

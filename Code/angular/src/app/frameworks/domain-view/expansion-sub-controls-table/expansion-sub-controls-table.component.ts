@@ -21,6 +21,7 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   @Input('subDomainId') subDomainId;
   @Input('mainControl') mainControl;
   @Input('expanded') expanded;
+  @Input('frameWorkData') frameWorkData;
   
   constructor(
     public readonly list: ListService,

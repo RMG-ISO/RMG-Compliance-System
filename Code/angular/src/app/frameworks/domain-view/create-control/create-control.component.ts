@@ -17,6 +17,7 @@ export class CreateControlComponent implements OnInit {
   @Input('ref') ref;
   @Input('mainControl') mainControl;
   @Input('subDomainId') subDomainId;
+  @Input('frameWorkData') frameWorkData;
 
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;

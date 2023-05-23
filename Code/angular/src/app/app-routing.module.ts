@@ -8,11 +8,11 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard, PermissionGuard],
   },
-  {
-    path:'framework',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
-  },
+  // {
+  //   path:'framework',
+  //   canActivate: [AuthGuard, PermissionGuard],
+  //   loadChildren: () => import('./framework/framework.module').then(m => m.FrameworkModule)
+  // },
   {
     path:'frameworks',
     canActivate: [AuthGuard, PermissionGuard],

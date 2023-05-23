@@ -21,6 +21,7 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   @Input('frameworkId') frameworkId;
   @Input('mainDomain') mainDomain;
   @Input('expanded') expanded;
+  @Input('frameWorkData') frameWorkData;
   
   constructor(
     private domainService:DomainService,
