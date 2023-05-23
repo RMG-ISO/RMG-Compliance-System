@@ -1,4 +1,4 @@
-import type { SharedStatus,SharedFrameworkStatus } from '../../shared/shared-status.enum';
+import type { SharedStatus, SharedFrameworkStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { IdentityUserDto } from '@abp/ng.account';
 import type { DomainDto } from '../../domains/dtos/models';
@@ -6,12 +6,14 @@ import type { ControlDto } from '../../controls/dtos/models';
 import type { AssessmentDto } from '../../assessments/dtos/models';
 import type { FrameworkChangeStatusLogDto } from '../models';
 
-
 export interface RejectFrameworkDto {
   reason?: string;
 }
 
 export interface CreateUpdateFrameworkDto {
+  managementName?: string;
+  reviewUserName?: string;
+  ownerName?: string;
   nameAr?: string;
   nameEn?: string;
   shortcutAr?: string;
@@ -22,20 +24,19 @@ export interface CreateUpdateFrameworkDto {
   frameworkStatus?: SharedFrameworkStatus;
   attachmentId?: string;
   ManagementId?: string;
-reviewUserId?: string;
-approveUserId?: string;
-  levelFirstNameAr?:string;
-  levelFirstNameEn?:string;
-  levelSecondNameAr?:string;
-  levelSecondNameEn?:string;
-  levelThirdNameAr?:string;
-  levelThirdNameEn?:string;
-  levelFourNameAr?:string;
-  levelFourNameEn?:string;
-  OwnerId?:string;
-  FrameworkEmpDto ?:FrameworkEmpDto[] ;
+  reviewUserId?: string;
+  approveUserId?: string;
+  levelFirstNameAr?: string;
+  levelFirstNameEn?: string;
+  levelSecondNameAr?: string;
+  levelSecondNameEn?: string;
+  levelThirdNameAr?: string;
+  levelThirdNameEn?: string;
+  levelFourNameAr?: string;
+  levelFourNameEn?: string;
+  OwnerId?: string;
+  FrameworkEmpDto?: FrameworkEmpDto[];
 }
-
 
 export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
@@ -48,18 +49,18 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   frameworkStatus?: SharedFrameworkStatus;
   attachmentId?: string;
   ManagementId?: string;
-reviewUserId?: string;
-approveUserId?: string;
-  levelFirstNameAr?:string;
-  levelFirstNameEn?:string;
-  levelSecondNameAr?:string;
-  levelSecondNameEn?:string;
-  levelThirdNameAr?:string;
-  levelThirdNameEn?:string;
-  levelFourNameAr?:string;
-  levelFourNameEn?:string;
-  OwnerId?:string;
-  FrameworkEmpDto ?:FrameworkEmpDto[];
+  reviewUserId?: string;
+  approveUserId?: string;
+  levelFirstNameAr?: string;
+  levelFirstNameEn?: string;
+  levelSecondNameAr?: string;
+  levelSecondNameEn?: string;
+  levelThirdNameAr?: string;
+  levelThirdNameEn?: string;
+  levelFourNameAr?: string;
+  levelFourNameEn?: string;
+  OwnerId?: string;
+  FrameworkEmpDto?: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
 
@@ -71,9 +72,9 @@ export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedR
 export interface getFrameworkDto {
   FrameworkId?: string;
 }
-export interface FrameworkEmpDto  {
+export interface FrameworkEmpDto {
   FrameworkId?: string;
-  EmployeeId?:string;
+  EmployeeId?: string;
   employeeName?: string;
 }
 
@@ -83,7 +84,6 @@ export interface ComplainceDto {
   FrameworkData?: FrameworkData[];
 }
 export interface FrameworkData {
-
   FrameworkDto?: FrameworkDto;
   DomainsDta?: DomainsDta[];
 }
@@ -99,5 +99,4 @@ export interface DomainsDta {
 export interface ControlsDto {
   subControl?: ControlDto;
   AssessmentDto?: AssessmentDto;
-
 }
