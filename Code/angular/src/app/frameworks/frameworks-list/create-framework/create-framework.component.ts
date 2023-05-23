@@ -64,7 +64,7 @@ export class CreateFrameworkComponent implements OnInit {
 
     if (this.data) {
       let data = { ...this.data };
-      if (data.frameworkEmpsDto) data.frameworkEmpsDto.map(x => x.id);
+      if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(x => x.employeeId);
 
       this.form.controls.frameInfo.patchValue(data);
       this.form.controls.frameLevels.patchValue(data);
@@ -113,7 +113,7 @@ export class CreateFrameworkComponent implements OnInit {
     let value = { ...rawValue.frameInfo, ...rawValue.frameLevels, ...rawValue.frameTeam };
     value.frameworkEmpsDto = value.frameworkEmpsDto.map(emp => {
       return {
-        employeeId: emp.employeeId,
+        employeeId: emp,
         frameworkId: this.data?.id ? this.data?.id : '00000000-0000-0000-0000-000000000000',
       };
     });
@@ -121,8 +121,8 @@ export class CreateFrameworkComponent implements OnInit {
     const request = this.data?.id
       ? this.frameworkService.update(this.data.id, value)
       : this.frameworkService.create(value);
-    request.subscribe(() => {
-      this.ref.close(true);
+    request.subscribe((r) => {
+      this.ref.close(r);
     });
   }
 }
