@@ -154,6 +154,7 @@
                 }
                 ng-select {
                     width: 150px;
+                    margin-bottom: 16px;
                     &.ng-select.ng-select-single ::ng-deep {
                         .ng-select-container {
                             border-radius: 50px;
@@ -175,6 +176,7 @@
                 span.status {
                     color: #21D500;
                     font-weight: bold;
+                    margin-bottom: 16px;
                     &::after{
                         content: "";
                         width: 8px;
