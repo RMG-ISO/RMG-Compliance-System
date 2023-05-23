@@ -1,3 +1,4 @@
+@import "./mixins";
 .ngx-datatable .datatable-header .datatable-header-cell {
     background: var(--main-green) !important;
     .datatable-header-cell-template-wrap {
@@ -7,6 +8,11 @@
 }
 
 ngx-datatable {
+    &.with-row-pointer {
+        datatable-body-row {
+            cursor: pointer;
+        }
+    }
     .datatable-header .datatable-header-cell.resizeable .resize-handle {
         visibility: visible;
         border-color: #ddd;
@@ -65,6 +71,113 @@ ngx-datatable {
         .datatable-row-detail  {
             overflow-y: visible !important;
             background-color: #fff !important;
+        }
+    }
+}
+
+.details-table-cont {
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    table {
+        margin: 0;
+        tr {
+            &:nth-of-type(odd) {
+                background-color: #E9EFEC;
+                
+            }
+            td {
+                border-left: 1px solid #DDDDDD;
+                border-right: 1px solid #DDDDDD;
+                border-top: none;
+                &:first-of-type{
+                    border-right: none;
+                    @include nb-ltr(){
+                        border-right: 1px solid #DDDDDD;
+                        border-left: none;
+                    }
+                }
+                &:last-of-type{
+                    border-left: none;
+                    @include nb-ltr(){
+                        border-left: 1px solid #DDDDDD;
+                        border-right: none;
+                    }
+                }
+                @include nb-ltr(){
+                    margin-right: 16px;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+
+mat-accordion.table-details {
+    margin-bottom: 2rem;
+    display: block;
+    mat-expansion-panel {
+        background: transparent;
+
+        mat-expansion-panel-header {
+            background-color: #2B657D !important;
+            max-height: 48px;
+            mat-panel-title {
+                color: #fff;
+                &>div {
+                    display: flex;
+                    align-items: center;
+                    button {
+                        height: 30px;
+                        line-height: 30px;
+                        padding-left: 8px;
+                        padding-right: 8px;
+                        mat-icon {
+                            font-size: 18px;
+                        }
+                    }
+                    mat-checkbox {
+                        width: 20px;
+                        height: 20px;
+                        .mat-checkbox-inner-container {
+                            width: 20px;
+                            height: 20px;
+                            .mat-checkbox-background {
+                                background-color: #fff;
+                            }
+                            .mat-checkbox-checkmark-path {
+                                // stroke: #2b657d !important;
+                                stroke: #f44336 !important;
+                            }
+                        }
+                    }
+                }
+            }
+
+           .mat-expansion-indicator::after {
+                color: #fff;
+            }
+        }
+        &.mat-expanded {
+            mat-expansion-panel-header {
+                background-color: var(--main-green) !important;
+                // mat-panel-title {
+                //     &>div {
+                //         mat-checkbox {
+                //             .mat-checkbox-checkmark-path {
+                //                 stroke: var(--main-color) !important;
+                //             }
+                //         }
+                //     }
+                // }
+            }
+        }
+        &.marked-for-delete  mat-expansion-panel-header  {
+            background-color: #f44336 !important;
+        }
+        section {
+            padding-top: 2rem;
         }
     }
 }

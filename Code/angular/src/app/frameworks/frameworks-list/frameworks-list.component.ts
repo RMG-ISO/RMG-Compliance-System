@@ -89,6 +89,7 @@ export class FrameworksListComponent implements OnInit {
       }
     });
     ref.afterClosed().subscribe(con => {
+      
       if(con) this.list.get();
     })
   }

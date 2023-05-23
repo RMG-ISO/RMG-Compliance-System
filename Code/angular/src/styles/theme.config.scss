@@ -19,6 +19,13 @@ body[dir="rtl"] {
 
 }
 
+button.back-button {
+    border: 2px solid #383838;
+    border-radius: 50px;
+    height: 36px;
+    line-height: 32px;
+}
+
 .form-control {
     color: #000000;
     &:not([type="search"]) {
@@ -233,6 +240,11 @@ body[dir="rtl"] {
         border-right: 2px solid #000000;
         border-left:none;
     }
+    .back-button {
+        mat-icon {
+            transform: rotate(180deg);
+        }
+    }
 }
 
 ng-select.ng-select.ng-select-multiple {
@@ -332,8 +344,38 @@ button.add-btn {
         display: inline-block;
     }
 }
+button.add-raised-btn {
+    background-color: #1CAE40;
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 400;
+    border-radius: 50px;
+    font-size: 14px;
+}
+button.delete-btn {
+    border-radius: 50px;
+    box-shadow: none;
+}
 
+button.add-blue {
+    background-color: #3B76B1;
+    color: #fff;
+}
 
+button.status {
+    color: #fff;
+    border-radius: 50px;
+    height: 30px;
+    line-height: 30px;
+    &.Active {
+        background: var(--main-color);
+    }
+    &.Inactive {
+        background: #f44336;
+    }
+}
 .space {
     width: 32px;
     display: inline-block;
