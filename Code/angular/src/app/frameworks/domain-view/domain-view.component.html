@@ -1,7 +1,17 @@
 <div class="card">
+    <header class="card-header">
+        <button mat-button [routerLink]="['/frameworks', subDomainData?.frameworkId ]" class="back-button">
+            <mat-icon>
+                arrow_back_ios
+            </mat-icon>
+            <span>
+               {{ '::ReturnBack' | abpLocalization }}
+            </span>
+        </button>
+    </header>
     <div class="card-body">
         <section>
-           <header class="d-flex justify-content-between align-items-center mb-4">
+           <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="mb-0">
                     {{ subDomainData | lang:'name' }}
                 </h2>
@@ -11,7 +21,7 @@
                         {{ '::Edit' | abpLocalization }}
                     </button>
                 </ng-container>
-           </header>
+           </div>
             <div class="details-table-cont">
                 <table class="table">
                     <tr>
@@ -79,14 +89,20 @@
         <section>
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="m-0">
-                    {{ '::ControlMainControls' | abpLocalization }}
+                    {{ (frameWorkData | lang:'levelThirdName') || ('::ControlMainControls' | abpLocalization) }}
                 </h3>
     
                 <div>
                     <button (click)="openControlDialog(null, FormMode.Create, null, null)" *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
                         <i class="fa fa-plus mr-1"></i>
                         <span>
-                            {{ "::CreateControl" | abpLocalization: ('::ControlMainControl' | abpLocalization) }}
+                            <ng-container *ngIf="frameWorkData | lang:'levelThirdName'; else showCreateControl">
+                                {{'::Create' | abpLocalization}}
+                                {{ frameWorkData | lang:'levelThirdName' }}
+                            </ng-container>
+                            <ng-template #showCreateControl>
+                                {{ "::CreateControl" | abpLocalization: ('::ControlMainControl' | abpLocalization) }}
+                            </ng-template>
                         </span>
                     </button>
                     <button mat-raised-button class="mr-2 delete-btn"  color="warn" [disabled]="!deleteLength" (click)="deleteItems()">
@@ -170,20 +186,26 @@
     
                         <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
                             <h4 class="m-0">
-                                {{ '::ControlSubControls' | abpLocalization }}
+                                {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' | abpLocalization) }}
                             </h4>
             
                             <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button class="add-raised-btn add-blue"
                                 type="button" (click)="openControlDialog(null, FormMode.Create, mainControl, subControlsTable)">
                                 <i class="fa fa-plus mr-1"></i>
                                 <span>
-                                    {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' | abpLocalization) }}
+                                    <ng-container *ngIf="frameWorkData | lang:'levelFourName'; else showCreateSubControl">
+                                        {{'::Create' | abpLocalization}}
+                                        {{ frameWorkData | lang:'levelFourName' }}
+                                    </ng-container>
+                                    <ng-template #showCreateSubControl>
+                                        {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' | abpLocalization) }}
+                                    </ng-template>
                                 </span>
                             </button>
                         </div>
     
                         <app-expansion-sub-controls-table #subControlsTable [expanded]="panel.expanded" 
-                        [subDomainId]="subDomainId" [mainControl]="mainControl" > </app-expansion-sub-controls-table>
+                        [subDomainId]="subDomainId" [mainControl]="mainControl" [frameWorkData]="frameWorkData" > </app-expansion-sub-controls-table>
                     </section>
     
                 </mat-expansion-panel>
@@ -194,9 +216,9 @@
 
 
 <ng-template #domainDialog let-data let-ref="dialogRef">
-    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameworkId]="data.data.frameworkId" [mainDomain]="mainDomainData"></app-create-domain>
+    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData" [mainDomain]="mainDomainData"></app-create-domain>
 </ng-template>
 
 <ng-template #controlDialog let-data let-ref="dialogRef">
-    <app-create-control [data]="data.data" [ref]="ref" [mode]="data.mode" [subDomainId]="subDomainId" [mainControl]="data.mainControl"></app-create-control>
+    <app-create-control [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData" [subDomainId]="subDomainId" [mainControl]="data.mainControl"></app-create-control>
 </ng-template>

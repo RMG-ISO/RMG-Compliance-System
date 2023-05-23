@@ -1,9 +1,28 @@
 <form [formGroup]="form" (ngSubmit)="save()">
     <div mat-dialog-title class="d-flex align-items-center justify-content-between">
-        <h2 >
-            {{ (data?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization:( ( mainDomain ? '::DomainSubDomain' : '::DomainMainDomain' ) | abpLocalization ) }}
+      <!-- *ngIf="mainDomain; else subDomainTitle"  -->
+      <h2 *ngIf="!mainDomain; else subDomainTitle">
+        <ng-container *ngIf="frameWorkData | lang:'levelFirstName'; else showCreateDomain">
+          {{ (data?.id ? '::Edit' : '::Create') | abpLocalization}}
+          {{ frameWorkData | lang:'levelFirstName' }}
+        </ng-container>
+        <ng-template #showCreateDomain>
+          {{ ( data?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization }}
+          {{ '::DomainMainDomain' | abpLocalization }}
+        </ng-template>
+      </h2>
+      <ng-template #subDomainTitle>
+        <h2>
+          <ng-container *ngIf="frameWorkData | lang:'levelSecondName'; else showCreateDomain">
+            {{ (data?.id ? '::Edit' : '::Create') | abpLocalization}}
+            {{ frameWorkData | lang:'levelSecondName' }}
+          </ng-container>
+          <ng-template #showCreateDomain>
+            {{ ( data?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization }}
+            {{ '::DomainSubDomain' | abpLocalization }}
+          </ng-template>
         </h2>
-
+      </ng-template>
         <div class="actions">
             <button mat-button (click)="ref.close()" class="red"> 
                 {{ '::Cancel' | abpLocalization }}
