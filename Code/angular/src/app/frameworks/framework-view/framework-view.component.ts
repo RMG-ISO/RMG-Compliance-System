@@ -63,7 +63,6 @@ export class FrameworkViewComponent implements OnInit {
   selectChanged(checked, id){
     this.selectedToDelete[id] = checked;
     this.deleteLength = checked ? this.deleteLength + 1 : this.deleteLength - 1;
-    console.log(checked);
   }
 
   deleteItems(){
@@ -92,7 +91,6 @@ export class FrameworkViewComponent implements OnInit {
   form:FormGroup;
 
   changeCreateFrameStatus(cond) {
-    console.log(cond)
     if(cond) this.frameworkService.sendToReviewerById(this.frameWorkData.id).subscribe(r => {
       window.location.reload();
     })
@@ -151,7 +149,8 @@ export class FrameworkViewComponent implements OnInit {
       data:{
         data:this.frameWorkData,
         mode
-      }
+      },
+      disableClose:true
     });
     ref.afterClosed().subscribe(con => {
       if(con) {
@@ -168,7 +167,8 @@ export class FrameworkViewComponent implements OnInit {
         data,
         mode,
         mainDomain
-      }
+      },
+      disableClose:true
     });
     ref.afterClosed().subscribe(con => {
       if(con) {

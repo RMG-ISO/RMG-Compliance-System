@@ -1,7 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="save()">
     <div mat-dialog-title class="d-flex align-items-center justify-content-between">
-        <h2 >
-            {{ (data?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization:( ( mainDomain ? '::DomainSubDomain' : '::DomainMainDomain' ) | abpLocalization ) }}
+      <!-- *ngIf="mainDomain; else subDomainTitle"  -->
+      <h2>
+          {{ (data?.id ? '::EditDomain' : '::CreateDomain' ) | abpLocalization:( ( mainDomain ? '::DomainSubDomain' : '::DomainMainDomain' ) | abpLocalization ) }}
         </h2>
 
         <div class="actions">

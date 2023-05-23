@@ -56,7 +56,6 @@ export class DomainViewComponent implements OnInit {
   selectChanged(checked, id){
     this.selectedToDelete[id] = checked;
     this.deleteLength = checked ? this.deleteLength + 1 : this.deleteLength - 1;
-    console.log(checked);
   }
 
   deleteItems(){
@@ -87,7 +86,8 @@ export class DomainViewComponent implements OnInit {
       data:{
         data:this.subDomainData,
         mode
-      }
+      },
+      disableClose:true
     });
     ref.afterClosed().subscribe(con => {
       if(con) {
@@ -104,7 +104,8 @@ export class DomainViewComponent implements OnInit {
         data,
         mode,
         mainControl
-      }
+      },
+      disableClose:true
     });
     ref.afterClosed().subscribe(con => {
       if(con) {

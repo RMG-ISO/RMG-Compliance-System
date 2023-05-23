@@ -86,7 +86,8 @@ export class FrameworksListComponent implements OnInit {
       data:{
         data,
         mode
-      }
+      },
+      disableClose:true
     });
     ref.afterClosed().subscribe(con => {
       

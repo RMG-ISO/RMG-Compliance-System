@@ -17,7 +17,7 @@ export class CreateDomainComponent implements OnInit {
   @Input('mode') mode;
   @Input('ref') ref;
   @Input('mainDomain') mainDomain;
-  @Input('frameworkId') frameworkId;
+  @Input('frameWorkData') frameWorkData;
 
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
@@ -43,7 +43,7 @@ export class CreateDomainComponent implements OnInit {
       descriptionEn: new FormControl(null),
       reference: new FormControl(null, Validators.required),
       departmentIds: new FormControl({ value: this.mainDomain ? this.mainDomain.departments.map(t => t.id) : null , disabled: !!this.mainDomain }, Validators.required),
-      frameworkId: new FormControl(this.frameworkId, Validators.required),
+      frameworkId: new FormControl(this.frameWorkData.id, Validators.required),
       status: new FormControl(null, Validators.required),
       parentId: new FormControl( this.mainDomain ? this.mainDomain.id : null, this.mainDomain ? Validators.required : null),
     });
