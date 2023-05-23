@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
 import { DomainService } from '@proxy/domains';
+import { FrameworkService } from '@proxy/frameworks';
 import { SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -32,12 +33,14 @@ export class DomainViewComponent implements OnInit {
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
     private controlService: ControlService,
+    private frameworkService:FrameworkService
 
   ) { }
 
   subDomainId;
   subDomainData;
-    mainDomainData;
+  mainDomainData;
+  frameWorkData;
   ngOnInit(): void {
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
@@ -47,7 +50,12 @@ export class DomainViewComponent implements OnInit {
         this.mainDomainData = r;
       })
       this.getMainControlsList();
+
+      this.frameworkService.get(res.frameworkId).subscribe(fram => {
+        this.frameWorkData = fram;
+      });
     });
+    console.log(this.activatedRoute.snapshot.params);
 
   }
 

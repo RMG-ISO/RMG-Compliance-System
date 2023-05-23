@@ -37,13 +37,13 @@
                 {{ "::FrameworkCreation" | abpLocalization }}
               </h3>
             </button>
-            <span class="line active" [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderReview" >
+            <span class="line active" [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderReview  && frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator" >
               <span class="prog"></span>
             </span>
             <button
             mat-button
             type="button"
-            [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval"
+            [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval && frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator"
             disabled="true"
             >
               <div class="icon-cont">
@@ -54,10 +54,10 @@
                 {{ "::FrameworkReview" | abpLocalization }}
               </h3>
             </button>
-            <span class="line" [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval">
+            <span class="line" [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval && frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator">
               <span class="prog"></span>
             </span>
-            <button mat-button type="button" [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.Approved"  disabled="true">
+            <button mat-button type="button" [class.active]="frameWorkData?.frameworkStatus == SharedFrameworkStatus.Approved"  disabled="true">
               <div class="icon-cont">
                 <mat-icon>task</mat-icon>
                 <mat-icon class="done">done</mat-icon>
@@ -118,7 +118,8 @@
 
                 <div>
                     <ng-select
-                    *ngIf="frameWorkData?.frameworkStatus === SharedFrameworkStatus.NewFramework && frameWorkData?.creatorId == userId"
+                    *ngIf="(frameWorkData?.frameworkStatus === SharedFrameworkStatus.NewFramework ||
+                    frameWorkData?.frameworkStatus === SharedFrameworkStatus.ReturnedToCreator) && frameWorkData?.creatorId == userId"
                     [placeholder]="'::SelectAction' | abpLocalization" (change)="changeCreateFrameStatus($event)">
                         <ng-option [value]="true">
                             {{ '::SendToReview' | abpLocalization }}
@@ -384,7 +385,7 @@
                                 </button>
                             </div>
      
-                             <app-expansion-sub-domains-table #subDomainsTable [expanded]="panel.expanded" 
+                             <app-expansion-sub-domains-table #subDomainsTable [frameWorkData]="frameWorkData" [expanded]="panel.expanded" 
                              [frameworkId]="frameworkId" [mainDomain]="mainDomain" > </app-expansion-sub-domains-table>
                          </section>
      

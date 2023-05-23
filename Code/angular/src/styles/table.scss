@@ -68,6 +68,9 @@ ngx-datatable {
     }
 
     datatable-row-wrapper {
+        &:nth-of-type(even) {
+            background-color: #E9EFEC;
+        }
         .datatable-row-detail  {
             overflow-y: visible !important;
             background-color: #fff !important;
