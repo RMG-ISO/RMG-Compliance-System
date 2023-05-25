@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Content;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -20,5 +21,8 @@ namespace RMG.ComplianceSystem.Frameworks
         Task SendToOwner(Guid id);
         Task ReturnToCreator(Guid id, RejectFrameworkDto input);
         Task Approve(Guid id);
+
+        IRemoteStreamContent GetTempExcelFile();
+        Task ImportExcelFileAsync(IRemoteStreamContent file, Guid id);
     }
 }
