@@ -1,0 +1,81 @@
+<!-- <section class="compliance-info">
+    <h4>
+        بيانات الامتثال
+    </h4>
+    <div class="details-table-cont">
+        <table class="table">
+            <tr>
+                <td>
+                    {{ '::مستوى الامتثال' | abpLocalization }}
+                </td>
+                <td colspan="3">
+                    3
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::تاريخ الامتثال' | abpLocalization }}
+                </td>
+                <td>
+                    فبراير 2023
+                </td>
+                <td>
+                    {{ '::تاريخ الامتثال التالى' | abpLocalization }}
+                </td>
+                <td>
+                    فبراير 2023
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::موثق' | abpLocalization }}
+                </td>
+                <td>
+                    جزئى
+                </td>
+                <td>
+                    {{ '::منفذ' | abpLocalization }}
+                </td>
+                <td>
+                    جزئى
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::فعال' | abpLocalization }}
+                </td>
+                <td colspan="3">
+                    جرئى
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::التعليق' | abpLocalization }}
+                </td>
+                <td colspan="3">
+                    تم ارفاق جميع الوثائق المطلوبة 
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</section> -->
+
+<form [formGroup]="form">
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label for="">
+                مستوى الإمتثال
+            </label>
+            <ng-select formControlName="level">
+                <ng-option *ngFor="let i of [1,2,3,4,5]" [value]="i">
+                    {{i}}
+                </ng-option>
+            </ng-select>
+        </div>
+    </div>
+</form>

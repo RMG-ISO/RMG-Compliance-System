@@ -93,6 +93,14 @@ ngx-datatable {
                 border-left: 1px solid #DDDDDD;
                 border-right: 1px solid #DDDDDD;
                 border-top: none;
+                &:nth-of-type(odd) {
+                    color: #888888;
+                    font-weight: bold;
+                    min-width: 150px;
+                }
+                &:nth-of-type(even) {
+                    width: 50%;
+                }
                 &:first-of-type{
                     border-right: none;
                     @include nb-ltr(){

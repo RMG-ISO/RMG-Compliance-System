@@ -15,6 +15,7 @@ import { CreateDomainComponent } from './framework-view/create-domain/create-dom
 import { DomainViewComponent } from './domain-view/domain-view.component';
 import { CreateControlComponent } from './domain-view/create-control/create-control.component';
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';
+import { ComplianceFormComponent } from './compliance-form/compliance-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-
     DomainViewComponent,
     CreateControlComponent,
     ExpansionSubControlsTableComponent,
+    ComplianceFormComponent,
   ],
   imports: [
     CommonModule,
