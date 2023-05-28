@@ -16,6 +16,7 @@ import { DomainViewComponent } from './domain-view/domain-view.component';
 import { CreateControlComponent } from './domain-view/create-control/create-control.component';
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';
 import { ComplianceFormComponent } from './compliance-form/compliance-form.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ComplianceFormComponent } from './compliance-form/compliance-form.compo
     MatCheckboxModule,
     MatExpansionModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule
   ]
 })
 export class FrameworksModule { }
