@@ -13,6 +13,7 @@ export class ComplianceFormComponent implements OnInit {
   form:FormGroup;
   ngOnInit(): void {
     this.form = new FormGroup({
+      isApplicable : new FormControl(null),
       level:new FormControl(null, Validators.required),
       date:new FormControl(null, Validators.required),
       nextDate:new FormControl(null, Validators.required),
@@ -20,7 +21,25 @@ export class ComplianceFormComponent implements OnInit {
       completed:new FormControl(null, Validators.required),
       effective:new FormControl(null, Validators.required),
       comment:new FormControl(null),
+      reviewerComment:new FormControl(null),
+      attachmentId:new FormControl(null),
     })
   }
 
+  OnFileUploaded(attachmentId: string) {
+    this.form.controls["attachmentId"].patchValue(attachmentId);
+  }
+
+  uploading
+  OnFileBeginUpload(beginUpload: boolean) {
+    this.uploading = true;
+  }
+
+  OnFileEndUpload(endUpload: boolean) {
+    this.uploading = false;
+  }
+
+  save() {
+
+  }
 }

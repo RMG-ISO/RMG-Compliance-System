@@ -178,4 +178,19 @@ export class FrameworkViewComponent implements OnInit {
     })
   }
 
+
+  OnFileUploaded(attachmentId: string) {
+    this.frameWorkData.attachmentId = attachmentId;
+  }
+
+  uploading
+  OnFileBeginUpload(beginUpload: boolean) {
+    this.uploading = true;
+  }
+
+  OnFileEndUpload(endUpload: boolean) {
+    this.uploading = false;
+  }
+
+
 }

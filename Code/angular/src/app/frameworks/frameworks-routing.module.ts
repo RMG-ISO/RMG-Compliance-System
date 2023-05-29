@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
 import { FrameworksListComponent } from './frameworks-list/frameworks-list.component';
 import { DomainViewComponent } from './domain-view/domain-view.component';
+import { ControlViewComponent } from './control-view/control-view.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path:'sub-domains/:subDomainId/controls',
     component:DomainViewComponent
+  },
+  {
+    path:'sub-controls/:frameworkId/:subDomainId/:subControlId',
+    component:ControlViewComponent
   },
   {
     path:':frameworkId',

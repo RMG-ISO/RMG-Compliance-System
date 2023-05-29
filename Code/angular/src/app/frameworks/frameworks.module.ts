@@ -17,6 +17,7 @@ import { CreateControlComponent } from './domain-view/create-control/create-cont
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';
 import { ComplianceFormComponent } from './compliance-form/compliance-form.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { ControlViewComponent } from './control-view/control-view.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
     CreateControlComponent,
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
+    ControlViewComponent,
   ],
   imports: [
     CommonModule,
