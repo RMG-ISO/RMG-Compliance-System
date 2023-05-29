@@ -528,7 +528,7 @@ namespace RMG.ComplianceSystem.Frameworks
                     rows = rows.Skip(1);
 
                     // create main domain (worksheet name)
-                    var mainDomain = new Domain(GuidGenerator.Create(), null, worksheet.Contains("-") ? worksheet.Name.Split('-')[1] : worksheet.Name, null, null, null, Shared.SharedStatus.Inactive, parentId: null, framework.Id);
+                    var mainDomain = new Domain(GuidGenerator.Create(), worksheet.Name.Contains("-") ? worksheet.Name.Split('-')[1] : worksheet.Name,null, null, null, null, Shared.SharedStatus.Inactive, parentId: null, framework.Id);
                     mainDomainsList.Add(mainDomain);
                     // create sub Controllers and assigned it to main domain
 
@@ -539,17 +539,17 @@ namespace RMG.ComplianceSystem.Frameworks
                     mainDomain.Children = subDomainsList;
                     foreach (var item in subDomainControllersLookup.Where(x => !x.Key.Item2.IsNullOrEmpty()).Select(x => x.Key))
                     {
-                        var subDomain = new Domain(GuidGenerator.Create(), null, item.Item2, null, null, item.Item1, Shared.SharedStatus.Inactive, parentId: mainDomain.Id, framework.Id);
+                        var subDomain = new Domain(GuidGenerator.Create(), item.Item2,null , null, null, item.Item1, Shared.SharedStatus.Inactive, parentId: mainDomain.Id, framework.Id);
                         subDomainsList.Add(subDomain);
 
-                        subDomain.Controls = subDomainControllersLookup[item].Select(x => new Control(GuidGenerator.Create(), null, x.Item2, null, null, x.Item1, Shared.SharedStatus.Inactive, parentId: null, subDomain.Id)).ToList();
+                        subDomain.Controls = subDomainControllersLookup[item].Select(x => new Control(GuidGenerator.Create(),  x.Item2,null, null, null, x.Item1, Shared.SharedStatus.Inactive, parentId: null, subDomain.Id)).ToList();
 
                         var controllersDict = subDomain.Controls.ToDictionary(x => x.Id);
 
                         foreach (var key in controllersDict.Keys)
                         {
                             var mainControl = controllersDict[key];
-                            mainControl.Children = subControllersLookup[mainControl.Reference].Select(x => new Control(GuidGenerator.Create(), null, x.Item2, null, null, null, Shared.SharedStatus.Inactive, mainControl.Id, mainControl.DomainId)).ToList();
+                            mainControl.Children = subControllersLookup[mainControl.Reference].Select(x => new Control(GuidGenerator.Create(), x.Item2,null, null, null, null, Shared.SharedStatus.Inactive, mainControl.Id, mainControl.DomainId)).ToList();
                         }
 
                     }
@@ -557,7 +557,7 @@ namespace RMG.ComplianceSystem.Frameworks
             }
             await Repository.UpdateAsync(framework, autoSave: true);
         }
-
+        
         public IRemoteStreamContent GetTempExcelFile()
         {
             var dataTable = new DataTable();
