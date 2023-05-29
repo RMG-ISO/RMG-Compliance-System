@@ -1,5 +1,6 @@
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Departments;
+using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Shared;
 using System;
@@ -22,6 +23,8 @@ namespace RMG.ComplianceSystem.Domains
         public SharedStatus Status { get; set; }
         public Guid? ParentId { get; set; }
         public Guid FrameworkId { get; set; }
+        public Guid? ResponsibleId { get; set; }
+        public Employee Responsible { get; set; }
 
         public virtual Framework Framework { get; set; }
         public virtual Domain Parent { get; set; }

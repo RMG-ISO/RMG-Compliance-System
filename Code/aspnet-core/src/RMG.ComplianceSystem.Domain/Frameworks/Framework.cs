@@ -13,7 +13,6 @@ namespace RMG.ComplianceSystem.Frameworks
 {
     public class Framework : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
     {
-
         public string NameAr { get; set; }
         public string NameEn { get; set; }
         public Guid OwnerId { get; set; }
@@ -39,7 +38,9 @@ namespace RMG.ComplianceSystem.Frameworks
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
 
-        
+        public ComplianceStatus ComplianceStatus { get; set; }
+        public DateTime? SelfAssessmentStartDate { get; set; }
+
 
         public virtual ICollection<Domain> Domains { get; set; }
         public virtual ICollection<FrameworkChangeStatusLog> ChangeStatusLogs { get; set; } = new HashSet<FrameworkChangeStatusLog>();

@@ -24,6 +24,7 @@ using RMG.ComplianceSystem.Employees;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.TextTemplating.VirtualFiles;
 using RMG.ComplianceSystem.Departments;
+using Volo.Abp.Domain.Entities;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -49,6 +50,7 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly INotificationAppService _notificationAppService;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IConfiguration _configuration;
+        private readonly IFrameworkManager _frameworkManager;
 
         public FrameworkAppService(IFrameworkRepository repository,
             IDomainRepository domainRepository,
@@ -61,6 +63,7 @@ namespace RMG.ComplianceSystem.Frameworks
             INotificationAppService notificationAppService,
             IConfiguration configuration,
             IDepartmentRepository departmentRepository,
+            IFrameworkManager frameworkManager,
             IFrameworkEmployeeRepository frameworkEmployeeRepository
             ) : base(repository)
         {
@@ -76,6 +79,7 @@ namespace RMG.ComplianceSystem.Frameworks
             _notificationAppService = notificationAppService;
             _configuration = configuration;
             _departmentRepository = departmentRepository;
+            _frameworkManager = frameworkManager;
         }
 
 
@@ -385,6 +389,18 @@ namespace RMG.ComplianceSystem.Frameworks
             // ToDo: send notification for owner
         }
 
+        [Authorize]
+        [HttpPut]
+        public async Task StartSelfAssessment(Guid id)
+        {
+            var framework = await Repository.GetAsync(id, false);
+            if (framework.OwnerId != CurrentUser.Id)
+                throw new EntityNotFoundException(typeof(Framework), id);
+
+            _frameworkManager.CanStartSelfAssessment(framework);
+            framework.SelfAssessmentStartDate = Clock.Now;
+            framework.ComplianceStatus = ComplianceStatus.UnderPreparation;
+        }
 
         private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, Guid frameworkId)
         {

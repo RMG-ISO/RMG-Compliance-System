@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using RMG.ComplianceSystem.Controls.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using RMG.ComplianceSystem.Employees;
+using Volo.Abp;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -20,11 +22,11 @@ namespace RMG.ComplianceSystem.Domains
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Domain.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Domain.Delete;
 
-        private readonly IDomainRepository _repository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public DomainAppService(IDomainRepository repository) : base(repository)
+        public DomainAppService(IDomainRepository repository, IEmployeeRepository employeeRepository) : base(repository)
         {
-            _repository = repository;
+            _employeeRepository = employeeRepository;
         }
 
         protected override async Task<IQueryable<Domain>> CreateFilteredQueryAsync(DomainPagedAndSortedResultRequestDto input)
@@ -52,7 +54,17 @@ namespace RMG.ComplianceSystem.Domains
         public override async Task<DomainDto> CreateAsync(CreateUpdateDomainDto input)
         {
             await CheckCreatePolicyAsync();
-
+            if (!input.ParentId.HasValue)
+            {
+                if (!input.ResponsibleId.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.MainDomainNeedsResponsible);
+                await _employeeRepository.GetAsync(input.ResponsibleId.Value, false);
+            }
+            else
+            {
+                var parent = await Repository.GetAsync(input.ParentId.Value);
+                input.ResponsibleId = parent.ResponsibleId;
+            }
             var entity = await MapToEntityAsync(input);
 
             if (input.DepartmentIds is not null)
@@ -91,14 +103,23 @@ namespace RMG.ComplianceSystem.Domains
             return await MapToGetOutputDtoAsync(entity);
         }
 
+        protected override async Task<DomainDto> MapToGetOutputDtoAsync(Domain entity)
+        {
+            var dto = await base.MapToGetOutputDtoAsync(entity);
+            if (dto.ResponsibleId.HasValue)
+                dto.ResponsibleName = (await _employeeRepository.GetAsync(dto.ResponsibleId.Value))?.FullName;
+            return dto;
+        }
+
         [Authorize(ComplianceSystemPermissions.Assessment.Default)]
         public async Task<ListResultDto<DomainWithoutPagingDto>> GetListWithoutPagingAsync(DomainPagedAndSortedResultRequestDto input)
         {
             var query = await CreateFilteredQueryAsync(input);
 
             var entities = await AsyncExecuter.ToListAsync(query);
+            
             var entityDtos = ObjectMapper.Map<List<Domain>, List<DomainWithoutPagingDto>>(entities);
-
+            
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
         }
     }
