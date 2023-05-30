@@ -18,19 +18,20 @@ import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-
 import { ComplianceFormComponent } from './compliance-form/compliance-form.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { ControlViewComponent } from './control-view/control-view.component';
+import { FrameworksSharedModule } from './frameworks-shared.module';
 
 @NgModule({
   declarations: [
     FrameworksListComponent,
-    CreateFrameworkComponent,
-    FrameworkViewComponent,
-    ExpansionSubDomainsTableComponent,
-    CreateDomainComponent,
-    DomainViewComponent,
-    CreateControlComponent,
-    ExpansionSubControlsTableComponent,
-    ComplianceFormComponent,
-    ControlViewComponent,
+    // CreateFrameworkComponent,
+    // FrameworkViewComponent,
+    // ExpansionSubDomainsTableComponent,
+    // CreateDomainComponent,
+    // DomainViewComponent,
+    // CreateControlComponent,
+    // ExpansionSubControlsTableComponent,
+    // ComplianceFormComponent,
+    // ControlViewComponent,
   ],
   imports: [
     CommonModule,
@@ -40,7 +41,8 @@ import { ControlViewComponent } from './control-view/control-view.component';
     MatExpansionModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    FrameworksSharedModule
   ]
 })
 export class FrameworksModule { }

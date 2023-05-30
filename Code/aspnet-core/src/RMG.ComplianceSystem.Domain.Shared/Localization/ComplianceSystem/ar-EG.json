@@ -508,7 +508,11 @@
     "ReturnToCreator":"إعادة للمعد",
     "Approve":"إعتماد",
     "ReturnBack":"عودة للخلف",
-    "SelectAction":"اختيار إجراء"
+    "SelectAction":"اختيار إجراء",
+    "StartAssessment":"هل تريد أن تبدأ التقييم الذاتى؟",
+    "SelfAssessment":"التقييم الذاتى",
+    "ReviewerComment":"تعليق المراجع",
+    "IsSystemApplicable":"هل النظام قابل للتطبيق؟"
 
 
 

@@ -40,8 +40,16 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Framework',
       },
+      // {
+      //   path:'/assessment',
+      //   name:'::Menu:Assessment',
+      //   iconClass: 'fas fa-sitemap',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.Assessment',
+      // },
       {
-        path:'/assessment',
+        path:'/compliance-assessment',
         name:'::Menu:Assessment',
         iconClass: 'fas fa-sitemap',
         order: 1,

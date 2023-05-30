@@ -26,6 +26,12 @@ export class ComplianceFormComponent implements OnInit {
     })
   }
 
+  changeApplicable(event) {
+    console.log(event)
+    event.value
+  }
+
+
   OnFileUploaded(attachmentId: string) {
     this.form.controls["attachmentId"].patchValue(attachmentId);
   }

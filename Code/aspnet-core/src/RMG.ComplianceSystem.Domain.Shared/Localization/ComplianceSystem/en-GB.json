@@ -505,7 +505,13 @@
     "ReturnToCreator":"Return To Creator",
     "Approve":"Approve",
     "ReturnBack":"Return Back",
-    "SelectAction":"Select Action"
+    "SelectAction":"Select Action",
+    "StartAssessment":"Do you want to start the self assessment?",
+    "SelfAssessment":"Self Assessment",
+    "ReviewerComment":"Reviewer Comment",
+    "IsSystemApplicable":"Is the system applicable?"
+
+
 
   }
 }
