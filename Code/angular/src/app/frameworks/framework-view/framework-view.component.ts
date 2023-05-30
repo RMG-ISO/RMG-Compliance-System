@@ -1,13 +1,18 @@
 import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
-import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
+import { IFormFile } from '@proxy/microsoft/asp-net-core/http';
 import { SharedFrameworkStatus, SharedStatus } from '@proxy/shared';
+import { IRemoteStreamContent } from '@proxy/volo/abp/content';
+import { EMPTY } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-framework-view',
@@ -21,12 +26,15 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('frameDialog') frameDialog;
   @ViewChild('domainDialog') domainDialog;
   @ViewChild('refuseCauseDialog') refuseCauseDialog;
+  @ViewChild('fileInput') fileInput : ElementRef<HTMLInputElement>;
 
   SharedStatus = SharedStatus;
   FormMode = FormMode;
   activeTab = 'details';
 
   SharedFrameworkStatus = SharedFrameworkStatus;
+
+  uploadfile : IRemoteStreamContent;
   
   constructor(
     public  activatedRoute:ActivatedRoute,
@@ -37,7 +45,8 @@ export class FrameworkViewComponent implements OnInit {
     public  matDialog: MatDialog,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
-    private configState:ConfigStateService
+    private configState:ConfigStateService,
+    private toaster: ToasterService
   ) { }
 
   frameworkId;
@@ -176,6 +185,46 @@ export class FrameworkViewComponent implements OnInit {
         else this.list.get();
       }
     })
+  }
+
+  uploadDownloadExcel($event) {
+    if($event == undefined) return;
+
+    if ($event) {
+      
+      this.fileInput.nativeElement.click();
+    }
+
+    this.frameworkService.getTempExcelFile().subscribe(file => {
+      saveAs(file, 'Excel file temp');
+    });
+    
+  }
+  onfileSelected($event) {
+    const fileElement = $event.target as HTMLInputElement;
+  
+    
+    if (!fileElement || !fileElement.files || fileElement.files.length < 1)
+      return;
+    
+      this.uploadfile = fileElement.files[0] as IRemoteStreamContent;
+
+      this.saveFile(this.uploadfile);
+      
+  }
+
+  saveFile(file : IRemoteStreamContent) {
+
+    const formData = new FormData();
+    formData.append('file',file as Blob);
+    this.frameworkService.importExcelFile(file,this.frameworkId).pipe(
+      catchError(err => { 
+        this.toaster.error("::ExcelFileError"); 
+        return EMPTY; 
+      })
+    ).subscribe(
+      () => this.toaster.success('Message', 'Title')
+    );
   }
 
 }

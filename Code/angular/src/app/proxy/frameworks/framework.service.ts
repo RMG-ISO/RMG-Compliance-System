@@ -3,6 +3,8 @@ import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type {RejectFrameworkDto} from './dtos'
+import { IRemoteStreamContent } from '@proxy/volo/abp/content';
+import { IFormFile } from '@proxy/microsoft/asp-net-core/http';
 @Injectable({
   providedIn: 'root',
 })
@@ -96,6 +98,19 @@ export class FrameworkService {
     },
       { apiName: this.apiName });
 
+      getTempExcelFile = () =>
+      this.restService.request<any, IRemoteStreamContent>({
+        method: 'GET',
+        url: '/api/app/framework/temp-excel-file',
+      },
+      { apiName: this.apiName });
 
+      importExcelFile = (file: IRemoteStreamContent, id: string) =>
+      this.restService.request<any, void>({
+        method: 'POST',
+        url: `/api/app/framework/${id}/import-excel-file`,
+        body: file,
+      },
+      { apiName: this.apiName });
   constructor(private restService: RestService) { }
 }

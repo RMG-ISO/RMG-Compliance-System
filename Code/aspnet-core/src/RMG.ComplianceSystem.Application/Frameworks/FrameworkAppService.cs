@@ -30,6 +30,7 @@ using ClosedXML.Excel;
 using static RMG.ComplianceSystem.ComplianceSystemConsts;
 using System.Data;
 using FastMember;
+using Microsoft.AspNetCore.Http;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -464,9 +465,14 @@ namespace RMG.ComplianceSystem.Frameworks
             }
         }
 
-        public async Task ImportExcelFileAsync(IRemoteStreamContent file, Guid id)
+
+        public async Task ImportExcelFileAsync([FromBody] IRemoteStreamContent file, Guid id)
         {
             var framework = await Repository.GetAsync(id);
+            string fileExtension = Path.GetExtension(file.FileName);
+
+            if (fileExtension != ".xlsx" && fileExtension != ".xls")
+                throw new UserFriendlyException(L["InvalidFileContent"]);
             var stream = file.GetStream();
             var mainDomainsList = new List<Domain>();
             framework.Domains = mainDomainsList;
@@ -531,7 +537,6 @@ namespace RMG.ComplianceSystem.Frameworks
                     var mainDomain = new Domain(GuidGenerator.Create(), worksheet.Name.Contains("-") ? worksheet.Name.Split('-')[1] : worksheet.Name,null, null, null, null, Shared.SharedStatus.Inactive, parentId: null, framework.Id);
                     mainDomainsList.Add(mainDomain);
                     // create sub Controllers and assigned it to main domain
-
                     var subDomainControllersLookup = rows.ToLookup(x => Tuple.Create(x.Cell(domainRefIndex).GetValue<string>(), x.Cell(domainNameIndex).GetValue<string>()), x => Tuple.Create(x.Cell(controllerNumIndex).GetValue<string>(), x.Cell(controllerNameIndex).GetValue<string>()));
 
                     var subControllersLookup = rows.ToLookup(x => x.Cell(controllerNumIndex).GetValue<string>(), x => Tuple.Create(x.Cell(subControllerNumIndex).GetValue<string>(), x.Cell(subControllerNameIndex).GetValue<string>()));
@@ -574,7 +579,9 @@ namespace RMG.ComplianceSystem.Frameworks
                 {
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
-                    return new RemoteStreamContent(new MemoryStream(content), fileName: "Framework Template.xlsx");
+                    var streamConent = new RemoteStreamContent(new MemoryStream(content), fileName: "Framework Template.xlsx");
+                    streamConent.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    return streamConent;
                 }
             }
         }
