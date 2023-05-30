@@ -47,6 +47,8 @@ export class FrameworkViewComponent implements OnInit {
 
   currentLang;
   userId;
+
+  inAssessment = false;
   ngOnInit(): void {
     this.currentLang = this.localizationService.currentLang;
 
@@ -54,6 +56,7 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       console.log(fram);
       this.frameWorkData = fram;
+      this.inAssessment = !!fram.selfAssessmentStartDate;
       this.getMainDomainsList();
     });
 

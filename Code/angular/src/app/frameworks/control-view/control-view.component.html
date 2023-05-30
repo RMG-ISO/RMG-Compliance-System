@@ -1,6 +1,6 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="['/sub-domains', subDomainId, 'controls' ]" class="back-button">
+        <button mat-button [routerLink]="['/frameworks/sub-domains', subDomainId, 'controls' ]" class="back-button">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>
@@ -14,8 +14,8 @@
             <h2 class="mb-0">
                 {{ subControlData | lang:'name' }}
             </h2>
-            <ng-container *abpPermission="'ComplianceSystem.Control.Create'">
-                <button *ngIf="subControlData" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
+            <ng-container *abpPermission="'ComplianceSystem.Control.Update'">
+                <button *ngIf="subControlData && subDomainData?.complianceStatus !== ComplianceStatus.UnderPreparation" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
                     <mat-icon class="mr-1">edit</mat-icon>
                     {{ '::Edit' | abpLocalization }}
                 </button>
@@ -91,7 +91,7 @@
         (OnFileEndUpload)="OnFileEndUpload($event)">
         </app-table-files>
 
-        <app-compliance-form></app-compliance-form>
+        <app-compliance-form *ngIf="subDomainData?.complianceStatus === ComplianceStatus.UnderPreparation"></app-compliance-form>
     </div>
 </div>
 
