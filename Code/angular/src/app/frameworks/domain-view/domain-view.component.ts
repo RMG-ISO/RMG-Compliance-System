@@ -41,6 +41,8 @@ export class DomainViewComponent implements OnInit {
   subDomainData;
   mainDomainData;
   frameWorkData;
+
+  inAssessment = false;
   ngOnInit(): void {
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
@@ -53,6 +55,7 @@ export class DomainViewComponent implements OnInit {
 
       this.frameworkService.get(res.frameworkId).subscribe(fram => {
         this.frameWorkData = fram;
+        this.inAssessment = !!fram.selfAssessmentStartDate;
       });
     });
     console.log(this.activatedRoute.snapshot.params);

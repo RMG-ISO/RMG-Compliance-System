@@ -22,6 +22,7 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   @Input('mainDomain') mainDomain;
   @Input('expanded') expanded;
   @Input('frameWorkData') frameWorkData;
+  @Input('inAssessment') inAssessment;
   
   constructor(
     private domainService:DomainService,
@@ -33,12 +34,12 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-    
   }
   
   isExpanded = false;
   ngOnChanges(): void {
     if(this.isExpanded) return;
+
     if(this.expanded) {
       this.isExpanded = true;
       this.getList();

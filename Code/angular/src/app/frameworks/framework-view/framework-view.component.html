@@ -21,7 +21,6 @@
         </div>
     </header>
     <div class="card-body">
-
         <div class="navs d-flex align-items-center">
             <button
               mat-button
@@ -73,10 +72,12 @@
                 <h3>
                     {{ frameWorkData | lang:'name' }}
                 </h3>
-                <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button (click)="openFrameDialog(FormMode.Edit)">
-                    <mat-icon class="mr-1">edit</mat-icon>
-                    {{ '::Edit' | abpLocalization }}
-                </button>
+                <ng-container *ngIf="!inAssessment">
+                    <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button (click)="openFrameDialog(FormMode.Edit)">
+                        <mat-icon class="mr-1">edit</mat-icon>
+                        {{ '::Edit' | abpLocalization }}
+                    </button>
+                </ng-container>
             </div>
             <div>
                 <div *ngIf="currentLang === 'ar-EG'; else OtherName">
@@ -145,7 +146,33 @@
                             {{ '::ReturnToCreator' | abpLocalization }}
                         </ng-option>
                     </ng-select>
+
+
+                    <ng-select [disabled]="isSendingStatus" (change)="changeFrameActivityStatus($event)"
+                    *ngIf="frameWorkData?.frameworkStatus === SharedFrameworkStatus.Approved && frameWorkData?.ownerId == userId"
+                    [placeholder]="'::ChangeStatus' | abpLocalization">
+                        <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                        </ng-option>
+                    </ng-select>
+
+                    <!-- <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="status">
+                                {{ '::FrameworkStatus' | abpLocalization }}
+                            </label>
+                            <span> * </span>
+                            <ng-select appendTo="body" id="status" formControlName="status">
+                                <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                                    {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                    </div> -->
+
                 </div>
+
+
                 <!-- <div class="status" [class]="SharedStatus[frameWorkData?.status]">
                     {{ ( '::Enum:SharedStatus:' + frameWorkData?.status ) | abpLocalization }}
                 </div> -->
@@ -168,7 +195,6 @@
                 {{ '::Attachments' | abpLocalization }}
             </button>
         </div>
-
 
 
         <ng-container [ngSwitch]="activeTab">
@@ -252,7 +278,7 @@
                         <!-- {{  '::MainDomains' | abpLocalization }} -->
                     </h3>
      
-                    <div>
+                    <div *ngIf="!inAssessment">
                         <button (click)="openDomainDialog(null, FormMode.Create, null, null)" *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
                             <i class="fa fa-plus mr-1"></i>
                             <span>
@@ -281,7 +307,7 @@
                                 <span>
                                 {{ mainDomain | lang:'name' }}
                                 </span>
-                                <div>
+                                <div *ngIf="!inAssessment">
                                     <button *abpPermission="'ComplianceSystem.Domain.Update'" class="mr-3" mat-button (click)="openDomainDialog(mainDomain, FormMode.Edit, null, null); $event.stopPropagation()">
                                         <mat-icon >edit</mat-icon>
                                         {{ '::Edit' | abpLocalization }}
@@ -298,8 +324,15 @@
                                         <td>
                                             {{ '::ReferenceNumber' | abpLocalization }}
                                         </td>
-                                        <td colspan="3">
+                                        <td>
                                             {{ mainDomain.reference }}
+                                        </td>
+
+                                        <td>
+                                            {{ '::Creator' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            {{ mainDomain?.responsibleName }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -369,23 +402,25 @@
                                 <!-- {{ '::SubDomains' | abpLocalization }} -->
                             </h4>
             
-                            <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button class="add-raised-btn add-blue"
-                                type="button" (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
-                                <i class="fa fa-plus mr-1"></i>
-                                <span>
-                                    <ng-container *ngIf="frameWorkData | lang:'levelSecondName'; else showCreateSubDomain">
-                                        {{'::Create' | abpLocalization}}
-                                        {{ frameWorkData | lang:'levelSecondName' }}
-                                    </ng-container>
-                                    <ng-template #showCreateSubDomain>
-                                        {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }}
-                                    </ng-template>
-                                    <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }} -->
-                                </span>
-                            </button>
+                            <ng-container *ngIf="!inAssessment">
+                                <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button class="add-raised-btn add-blue"
+                                    type="button" (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
+                                    <i class="fa fa-plus mr-1"></i>
+                                    <span>
+                                        <ng-container *ngIf="frameWorkData | lang:'levelSecondName'; else showCreateSubDomain">
+                                            {{'::Create' | abpLocalization}}
+                                            {{ frameWorkData | lang:'levelSecondName' }}
+                                        </ng-container>
+                                        <ng-template #showCreateSubDomain>
+                                            {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }}
+                                        </ng-template>
+                                        <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }} -->
+                                    </span>
+                                </button>
+                            </ng-container>
                         </div>
     
-                            <app-expansion-sub-domains-table #subDomainsTable [frameWorkData]="frameWorkData" [expanded]="panel.expanded" 
+                            <app-expansion-sub-domains-table #subDomainsTable [inAssessment]="inAssessment" [frameWorkData]="frameWorkData" [expanded]="panel.expanded" 
                             [frameworkId]="frameworkId" [mainDomain]="mainDomain" > </app-expansion-sub-domains-table>
                         </section>
                     </mat-expansion-panel>

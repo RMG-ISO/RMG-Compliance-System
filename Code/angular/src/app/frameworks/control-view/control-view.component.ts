@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { ControlService } from '@proxy/controls';
 import { DomainService } from '@proxy/domains';
-import { SharedStatus } from '@proxy/shared';
+import { ComplianceStatus, SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -13,12 +14,14 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 export class ControlViewComponent implements OnInit {
   controlDialog;
   SharedStatus = SharedStatus;
-
+  ComplianceStatus = ComplianceStatus;
   
   constructor(
     private activatedRoute:ActivatedRoute,
+    private matDialog:MatDialog,
+    private controlService: ControlService,
     private domainService: DomainService,
-    private matDialog:MatDialog
+
   ) { }
 
   frameworkId;
@@ -27,15 +30,21 @@ export class ControlViewComponent implements OnInit {
 
   subControlData;
 
+  subDomainData;
   ngOnInit(): void {
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.subControlId = this.activatedRoute.snapshot.params.subControlId;
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.getControlData();
+
+    this.domainService.get(this.subDomainId).subscribe( r => {
+      this.subDomainData = r;
+    });
+
   }
 
   getControlData() {
-    this.domainService.get(this.subDomainId).subscribe( r => {
+    this.controlService.get(this.subDomainId).subscribe( r => {
       console.log(r);
       this.subControlData = r;
     })

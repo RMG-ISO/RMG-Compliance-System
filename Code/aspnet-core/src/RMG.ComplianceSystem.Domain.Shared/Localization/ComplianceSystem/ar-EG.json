@@ -515,7 +515,9 @@
     "IsSystemApplicable":"هل النظام قابل للتطبيق؟",
     "ComplianceSystem:Framework:006": "يجب أن يكون الإطار معتمد حتى تبدأ الامتثال الذاتي",
     "ComplianceSystem:Framework:007": "يجب أن يكون الإطار مفعل حتى تبدأ الامتثال الذاتي",
-    "ComplianceSystem:Domain:001": "النطاق الرئيسي يحتاج إلى شخص مسؤول"
+    "ComplianceSystem:Domain:001": "النطاق الرئيسي يحتاج إلى شخص مسؤول",
+    "ChangeFrameworkStatus":"تغيير حالة الإطار",
+    "SelfAssessmentDate":"تاريخ التقييم الذاتى"
 
 
   }

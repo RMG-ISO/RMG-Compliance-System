@@ -24,7 +24,7 @@
       </h2>
     </ng-template>
     <div class="actions">
-      <button mat-button (click)="ref.close()" class="red">
+      <button type="button" mat-button (click)="ref.close()" class="red">
         {{ '::Cancel' | abpLocalization }}
       </button>
 
@@ -37,58 +37,54 @@
 
   <mat-dialog-content class="mat-typography">
     <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="domain-nameAr">{{ '::DomainNameAr' | abpLocalization }}</label><span> * </span>
-          <textarea id="domain-nameAr" class="form-control" formControlName="nameAr"></textarea>
-        </div>
+
+      <div class="col-md-6 form-group">
+        <label for="domain-nameAr">{{ '::DomainNameAr' | abpLocalization }}</label><span> * </span>
+        <textarea id="domain-nameAr" class="form-control" formControlName="nameAr"></textarea>
       </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="domain-nameEn">{{ '::DomainNameEn' | abpLocalization }}</label><span> * </span>
-          <textarea id="domain-nameEn" class="form-control" formControlName="nameEn"></textarea>
-        </div>
+      
+      <div class="col-md-6 form-group">
+        <label for="domain-nameEn">{{ '::DomainNameEn' | abpLocalization }}</label><span> * </span>
+        <textarea id="domain-nameEn" class="form-control" formControlName="nameEn"></textarea>
       </div>
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="domain-descriptionAr">{{ '::DomainDescriptionAr' | abpLocalization }}</label>
-          <textarea id="domain-descriptionAr" class="form-control" formControlName="descriptionAr"></textarea>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="domain-descriptionEn">{{ '::DomainDescriptionEn' | abpLocalization }}</label>
-          <textarea id="domain-descriptionEn" class="form-control" formControlName="descriptionEn"></textarea>
-        </div>
+      <div class="col-md-6 form-group">
+        <label for="domain-descriptionAr">{{ '::DomainDescriptionAr' | abpLocalization }}</label>
+        <textarea id="domain-descriptionAr" class="form-control" formControlName="descriptionAr"></textarea>
       </div>
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="domain-reference">{{ '::DomainReference' | abpLocalization }}</label><span>
-            * </span>
-          <input type="text" id="domain-reference" class="form-control" formControlName="reference" />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="status">{{ '::DomainStatus' | abpLocalization }}</label><span> * </span>
-          <ng-select appendTo="body" id="status" formControlName="status" [searchable]="false" [clearable]="true">
-            <ng-option *ngFor="let sharedStatusOption of sharedStatusOptions" [value]="sharedStatusOption.value">
-              {{'::Enum:SharedStatus:'+sharedStatusOption.value | abpLocalization}}
-            </ng-option>
-          </ng-select>
-        </div>
+      <div class="col-md-6 form-group">
+        <label for="domain-descriptionEn">{{ '::DomainDescriptionEn' | abpLocalization }}</label>
+        <textarea id="domain-descriptionEn" class="form-control" formControlName="descriptionEn"></textarea>
       </div>
 
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="departmentId">{{ '::DomainDepartmentId' | abpLocalization }}</label><span> * </span>
-          <ng-select appendTo="body" id="departmentId" formControlName="departmentIds" [multiple]="true"
-            [items]="departments" bindLabel="name" bindValue="id">
-          </ng-select>
-        </div>
+      <div class="col-md-6 form-group">
+        <label for="domain-reference">{{ '::DomainReference' | abpLocalization }}</label><span>
+          * </span>
+        <input type="text" id="domain-reference" class="form-control" formControlName="reference" />
       </div>
+
+      <div class="col-md-6 form-group">
+        <label for="status">{{ '::DomainStatus' | abpLocalization }}</label><span> * </span>
+        <ng-select appendTo="body" id="status" formControlName="status" [searchable]="false" [clearable]="true">
+          <ng-option *ngFor="let sharedStatusOption of sharedStatusOptions" [value]="sharedStatusOption.value">
+            {{'::Enum:SharedStatus:'+sharedStatusOption.value | abpLocalization}}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <div class="col-md-12 form-group" *ngIf="form.controls.responsibleId">
+        <label for="responsibleId">{{ '::Creator' | abpLocalization }}</label><span> * </span>
+        <ng-select id="responsibleId" formControlName="responsibleId" [items]="employees" bindLabel="fullName" bindValue="id"> </ng-select>
+      </div>
+
+      <div class="col-md-12 form-group" >
+        <label for="departmentId">{{ '::DomainDepartmentId' | abpLocalization }}</label><span> * </span>
+        <ng-select appendTo="body" id="departmentId" formControlName="departmentIds" [multiple]="true"
+          [items]="departments" bindLabel="name" bindValue="id">
+        </ng-select>
+      </div>
+
     </div>
   </mat-dialog-content>
 </form>

@@ -6,10 +6,7 @@
                 {{ '::Assessment' | abpLocalization }}
             </h2>
 
-            <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
-                <i class="fas fa-filter"></i>
-                {{ '::Filter' | abpLocalization }}
-            </button>
+            <app-search (search)="getList($event)"></app-search>
         </div>
     </div>
 
@@ -32,26 +29,6 @@
         </div>
     </div> -->
 
-    <form [formGroup]="filterForm" class="filter-form">
-        <div class="row filter-row mt-3" [class.show]="showFilters">
-            <div class="col-md-4 form-group">
-                <ng-select formControlName="status" [placeholder]="'::Status' | abpLocalization" >
-                    <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
-                        {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
-                    </ng-option>
-                </ng-select>
-            </div>
-            <div class="col-md-4 form-group">
-               <input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control" formControlName="search">
-            </div>
-            <div class="col-md-4">
-                <button mat-button class="reset" (click)="filterForm.reset()" >
-                    {{ '::ResetFilter' | abpLocalization }}
-                </button>
-            </div>
-        </div>
-    </form>
-
     <div class="card-body p-0">
         <ngx-datatable
         class="material fullscreen with-row-pointer"
@@ -62,12 +39,18 @@
         (activate)="activate($event)">
             <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkNameEn' | abpLocalization" prop="nameEn"> </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::FrameworkShortcutAr' | abpLocalization" prop="shortcutAr">
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn">
+            <ngx-datatable-column [name]="'::FrameworkShortcutAr' | abpLocalization" prop="shortcutAr"> </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn"> </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::FrameWork:Owner' | abpLocalization" prop="ownerName"> </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::SelfAssessmentDate' | abpLocalization" prop="selfAssessmentStartDate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date:'yyyy-MM-dd'}}
+                </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::FrameworkStatus' | abpLocalization" prop="status">
+            
+
+            <!-- <ngx-datatable-column [name]="'::FrameworkStatus' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
                 </ng-template>
@@ -77,15 +60,17 @@
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <span title="{{value | date}}">{{value | fromNow}}</span>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
 
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
-                        (click)="$event.stopPropagation();openDialog(row)">
-                        <mat-icon>checklist</mat-icon>
-                    </button>
+                    <ng-container *ngIf="!row.selfAssessmentStartDate">
+                        <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
+                            (click)="$event.stopPropagation();openDialog(row)">
+                            <mat-icon>checklist</mat-icon>
+                        </button>
+                    </ng-container>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>
