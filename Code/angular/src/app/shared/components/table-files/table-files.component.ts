@@ -15,8 +15,8 @@ export class TableFilesComponent implements OnInit, OnChanges {
   
   items: AttachmentFileDto[] = [];
   totalCount: number;
-  @Input() attachmentId: string;
-  @Input() disabled: boolean = false;
+  @Input('attachmentId') attachmentId: string;
+  @Input('disabled') disabled: boolean = false;
 
   //from file Uploader
   @Output() OnFileUploaded: EventEmitter<string> = new EventEmitter<string>();

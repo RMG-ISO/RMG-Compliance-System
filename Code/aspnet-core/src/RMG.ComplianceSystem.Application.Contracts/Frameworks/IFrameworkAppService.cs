@@ -20,5 +20,10 @@ namespace RMG.ComplianceSystem.Frameworks
         Task SendToOwner(Guid id);
         Task ReturnToCreator(Guid id, RejectFrameworkDto input);
         Task Approve(Guid id);
+
+        Task StartSelfAssessment(Guid id);
+
+        Task Activate(Guid id);
+        Task Deactivate(Guid id);
     }
 }

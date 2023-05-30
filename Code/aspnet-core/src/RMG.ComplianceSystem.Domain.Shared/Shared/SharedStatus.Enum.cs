@@ -33,4 +33,10 @@ namespace RMG.ComplianceSystem.Shared
         Future
     }
 
+    public enum ComplianceStatus
+    {
+        NotStarted = 0,
+        UnderPreparation
+    }
+
 }

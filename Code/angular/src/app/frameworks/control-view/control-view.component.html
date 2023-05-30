@@ -1,0 +1,108 @@
+<div class="card">
+    <header class="card-header">
+        <button mat-button [routerLink]="['/sub-domains', subDomainId, 'controls' ]" class="back-button">
+            <mat-icon>
+                arrow_back_ios
+            </mat-icon>
+            <span>
+               {{ '::ReturnBack' | abpLocalization }}
+            </span>
+        </button>
+    </header>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">
+                {{ subControlData | lang:'name' }}
+            </h2>
+            <ng-container *abpPermission="'ComplianceSystem.Control.Create'">
+                <button *ngIf="subControlData" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
+                    <mat-icon class="mr-1">edit</mat-icon>
+                    {{ '::Edit' | abpLocalization }}
+                </button>
+            </ng-container>
+        </div>
+
+        <div class="details-table-cont">
+            <table class="table">
+                <tr>
+                    <td>
+                        {{ '::ReferenceNumber' | abpLocalization }}
+                    </td>
+                    <td>
+                        {{subControlData?.reference}}
+                    </td>
+                    <td>
+                        {{ '::المراجع' | abpLocalization }}
+                    </td>
+                    <td>
+                        اسم المراجع
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        {{ '::ControlNameEn' | abpLocalization }}
+                    </td>
+                    <td>
+                        {{subControlData?.nameEn}}
+                    </td>
+                    <td>
+                        {{ '::CreationTime' | abpLocalization }}
+                    </td>
+                    <td>
+                        {{subControlData?.creationTime | date:'yyyy-MM-dd' }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        {{ '::ControlDescriptionAr' | abpLocalization }}
+                    </td>
+                    <td>
+                        {{subControlData?.descriptionAr}}
+                    </td>
+                    <td>
+                        {{ '::ControlDescriptionEn' | abpLocalization }}
+                    </td>
+                    <td>
+                        {{subControlData?.descriptionEn}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        {{ '::Status' | abpLocalization }}
+                    </td>
+                    <td colspan="3">
+                        <button mat-button class="status" [class]="SharedStatus[subControlData?.status]">
+                            {{  ('::Enum:SharedStatus:' + subControlData?.status) | abpLocalization }}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <app-table-files
+        class="mt-3 d-block"
+        [attachment]="{isMultiple:false}"
+        [attachmentId]="attachmentId"
+        [disabled]="disabled"
+        (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+        (OnFileEndUpload)="OnFileEndUpload($event)">
+        </app-table-files>
+
+        <app-compliance-form></app-compliance-form>
+    </div>
+</div>
+
+
+<ng-template #controlDialog let-data let-ref="dialogRef">
+    <app-create-control
+    [data]="data.data"
+    [ref]="ref"
+    [mode]="data.mode"
+    [frameWorkData]="frameWorkData"
+    [subDomainId]="subDomainId"
+    [mainControl]="{id:subControlData.parentId}"
+    ></app-create-control>
+</ng-template>

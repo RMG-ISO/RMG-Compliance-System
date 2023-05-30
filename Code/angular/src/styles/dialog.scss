@@ -35,26 +35,32 @@
         margin-right: 0;
     }
     
-    mat-dialog-actions, .actions {
-        margin-bottom: 0;
-        button {
-            height: 34px;
-            color: #fff;
-            border-radius: 50px;
-            font-size: 13px;
-            width: 100px;
-            line-height: 30px;
-            margin: 0 4px;
-            &.green {
-                background-color: #1CAE40;
-            }
-            &.red {
-                background-color: #E02020;
-            }
+   
+}
+
+mat-dialog-actions, .actions {
+    margin-bottom: 0;
+    button {
+        height: 34px;
+        color: #fff;
+        border-radius: 50px;
+        font-size: 13px;
+        width: 100px;
+        line-height: 30px;
+        margin: 0 4px;
+        &:disabled {
+            opacity: .8;
+        }
+        &.green {
+            background-color: #1CAE40;
+            color: #fff !important;
+        }
+        &.red {
+            background-color: #E02020;
+            color: #fff !important;
         }
     }
 }
-
 
 button.filter-btn {
     color: #1CAE40;

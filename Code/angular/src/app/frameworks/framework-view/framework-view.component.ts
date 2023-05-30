@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { SharedFrameworkStatus, SharedStatus } from '@proxy/shared';
+import { FrameworkStatus, SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -26,7 +26,7 @@ export class FrameworkViewComponent implements OnInit {
   FormMode = FormMode;
   activeTab = 'details';
 
-  SharedFrameworkStatus = SharedFrameworkStatus;
+  SharedFrameworkStatus = FrameworkStatus;
   
   constructor(
     public  activatedRoute:ActivatedRoute,
@@ -177,5 +177,20 @@ export class FrameworkViewComponent implements OnInit {
       }
     })
   }
+
+
+  OnFileUploaded(attachmentId: string) {
+    this.frameWorkData.attachmentId = attachmentId;
+  }
+
+  uploading
+  OnFileBeginUpload(beginUpload: boolean) {
+    this.uploading = true;
+  }
+
+  OnFileEndUpload(endUpload: boolean) {
+    this.uploading = false;
+  }
+
 
 }

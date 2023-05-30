@@ -1,0 +1,175 @@
+<!-- <section class="compliance-info">
+    <h4>
+        بيانات الامتثال
+    </h4>
+    <div class="details-table-cont">
+        <table class="table">
+            <tr>
+                <td>
+                    {{ '::مستوى الامتثال' | abpLocalization }}
+                </td>
+                <td colspan="3">
+                    3
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::تاريخ الامتثال' | abpLocalization }}
+                </td>
+                <td>
+                    فبراير 2023
+                </td>
+                <td>
+                    {{ '::تاريخ الامتثال التالى' | abpLocalization }}
+                </td>
+                <td>
+                    فبراير 2023
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::موثق' | abpLocalization }}
+                </td>
+                <td>
+                    جزئى
+                </td>
+                <td>
+                    {{ '::منفذ' | abpLocalization }}
+                </td>
+                <td>
+                    جزئى
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::فعال' | abpLocalization }}
+                </td>
+                <td colspan="3">
+                    جرئى
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ '::التعليق' | abpLocalization }}
+                </td>
+                <td colspan="3">
+                    تم ارفاق جميع الوثائق المطلوبة 
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</section> -->
+
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div class="row">
+        <div class="col-md-12 mb-3 mt-3 d-flex align-items-center applicable-question">
+            <label for="">
+                {{ '::IsSystemApplicable' | abpLocalization }}
+            </label>
+            <mat-radio-group formControlName="trusted" color="primary" class="mr-4 ml-4" (change)="changeApplicable($event)">
+                <mat-radio-button class="ml-3 mr-3" [value]="true"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                <mat-radio-button class="ml-3 mr-3" [value]="false"> {{ '::no' | abpLocalization }} </mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+
+    <section>
+        <div class="row">
+            <div class="col-md-3 col-xl-2 form-group">
+                <label for="">
+                    {{ '::AssessmentComplianceLevel' | abpLocalization }}
+                </label>
+                <ng-select formControlName="level">
+                    <ng-option *ngFor="let i of [1,2,3,4,5]" [value]="i">
+                        {{ i }}
+                    </ng-option>
+                </ng-select>
+            </div>
+    
+            <div class="col-md-3 col-xl-2 form-group">
+                <label for="complianceDate"> {{ '::AssessmentComplianceDate' | abpLocalization }} </label>
+                <input #complianceDate="ngbDatepicker" class="form-control" id="complianceDate" name="date" formControlName="date"
+                ngbDatepicker (click)="complianceDate.toggle()" />
+            </div>
+    
+            <div class="col-md-3 col-xl-2 form-group">
+                <label for="complianceDate"> {{ '::AssessmentNextComplianceDate' | abpLocalization }} </label>
+                <input #nextDate="ngbDatepicker" class="form-control" id="nextDate" name="nextDate" formControlName="nextDate"
+                ngbDatepicker (click)="nextDate.toggle()" />
+            </div>
+    
+            <h5 class="col-md-12">
+                {{ '::AssessmentRequirement' | abpLocalization }}
+            </h5>
+    
+            <div class="col-md-3 col-xl-2 form-group">
+                <label class="d-block" for="">
+                    {{ '::AssessmentDocumented' | abpLocalization }}
+                </label>
+                <mat-radio-group formControlName="trusted" color="primary">
+                    <mat-radio-button class="ml-3 mr-3" [value]="1"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="2"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="3"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                </mat-radio-group>
+            </div>
+    
+            <div class="col-md-3 col-xl-2 form-group">
+                <label class="d-block" for="">
+                    {{ '::AssessmentImplemented' | abpLocalization }}
+                </label>
+                <mat-radio-group formControlName="completed" color="primary">
+                    <mat-radio-button class="ml-3 mr-3" [value]="1"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="2"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="3"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                </mat-radio-group>
+            </div>
+    
+            <div class="col-md-3 col-xl-2 form-group">
+                <label class="d-block" for="">
+                    {{ '::AssessmentEffective' | abpLocalization }}
+                </label>
+                <mat-radio-group formControlName="effective" color="primary">
+                    <mat-radio-button class="ml-3 mr-3" [value]="1"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="2"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="3"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                </mat-radio-group>
+            </div>
+    
+            <div class="col-md-10 col-xl-8 form-group">
+                <label for="control-nameAr">{{ '::AssessmentComment' | abpLocalization }}</label>
+                <textarea id="control-nameAr" class="form-control" formControlName="comment"></textarea>
+            </div>
+    
+            <div class="col-md-10 col-xl-8 form-group">
+                <label for="reviewerComment">{{ '::ReviewerComment' | abpLocalization }}</label>
+                <textarea id="reviewerComment" class="form-control" formControlName="reviewerComment"></textarea>
+            </div>
+    
+            <div class="col-md-10 ">
+                <app-table-files
+                [attachment]="{isMultiple:false}"
+                [attachmentId]="form.controls.attachmentId.value"
+                [disabled]="form.controls.attachmentId.disabled"
+                (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                (OnFileEndUpload)="OnFileEndUpload($event)">
+                </app-table-files>
+            </div>
+        </div>
+
+        <div class="col-md-12 d-flex justify-content-end actions mt-4">
+            <button type="button" mat-button class="red"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>
+        
+            <button mat-button class="green" [disabled]="form.invalid || uploading" type="submit" >
+                <i class="fa fa-check mr-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </div>
+    </section>
+</form>
