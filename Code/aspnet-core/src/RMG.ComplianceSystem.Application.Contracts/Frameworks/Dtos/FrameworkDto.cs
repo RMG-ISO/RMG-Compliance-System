@@ -40,6 +40,10 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid OwnerId { get; set; }
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
+
+        public ComplianceStatus ComplianceStatus { get; set; }
+        public DateTime? SelfAssessmentStartDate { get; set; }
+
         public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; } = new List<FrameworkEmpDto>();
         public List<FrameworkChangeStatusLogDto> ChangeStatusLogs { get; set; }
 

@@ -300,7 +300,7 @@ export class FrameworksComponent implements OnInit {
   maturityData;
   getComplianceChart(frameworkId) {
     this.selectedFrameWorkId = frameworkId;
-    this.frameworkService.getListFrameWorkDashBoard({ FrameworkId: frameworkId }).subscribe((response) => {
+    this.frameworkService.getFrameWorkWithAssesmentBYIdByInput({ frameworkId: frameworkId }).subscribe((response) => {
       console.log('resoin se', response)
       this.TotalApplicable = response['totalApplicable'];
       this.TotalNotApplicable = response['totalNotApplicable'];

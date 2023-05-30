@@ -15,7 +15,7 @@ import { SharedStatus } from '@proxy/shared';
 export class AssessmentControlComponent implements OnInit {
   @ViewChild('table') table: DatatableComponent;
 
-  mainDomains: DomainDto[];
+  mainDomains: DomainWithoutPagingDto[];
   subDomains: DomainWithoutPagingDto[];
 
   isMainDomains: boolean = true;

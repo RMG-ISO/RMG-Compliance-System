@@ -99,8 +99,10 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
             CreateMap<CreateUpdateDomainDto, Domain>();
             CreateMap<Domain, DomainDto>()
+                .ForMember(t => t.ResponsibleName, ops => ops.MapFrom(t => t.Responsible != null ? t.Responsible.FullName : null))
                 .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Domain, DomainWithoutPagingDto>()
+                .ForMember(t => t.ResponsibleName, ops => ops.MapFrom(t => t.Responsible != null ? t.Responsible.FullName : null))
                 .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Control, ControlDto>();
             CreateMap<CreateUpdateControlDto, Control>(MemberList.Source);

@@ -1,15 +1,21 @@
-import type { CreateUpdateFrameworkDto, FrameworkDto, FrameworkPagedAndSortedResultRequestDto, FrameworkData, getFrameworkDto } from './dtos/models';
+import type { CreateUpdateFrameworkDto, FrameworkData, FrameworkDto, FrameworkPagedAndSortedResultRequestDto, RejectFrameworkDto, getFrameworkDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import type {RejectFrameworkDto} from './dtos'
+
 @Injectable({
   providedIn: 'root',
 })
 export class FrameworkService {
   apiName = 'Default';
 
-	
+  activateById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/activate`,
+    },
+    { apiName: this.apiName });
+
   approveById = (id: string) =>
     this.restService.request<any, void>({
       method: 'PUT',
@@ -17,7 +23,58 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
-  
+  create = (input: CreateUpdateFrameworkDto) =>
+    this.restService.request<any, FrameworkDto>({
+      method: 'POST',
+      url: '/api/app/framework',
+      body: input,
+    },
+    { apiName: this.apiName });
+
+  deactivateById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/deactivate`,
+    },
+    { apiName: this.apiName });
+
+  delete = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'DELETE',
+      url: `/api/app/framework/${id}`,
+    },
+    { apiName: this.apiName });
+
+  get = (id: string) =>
+    this.restService.request<any, FrameworkDto>({
+      method: 'GET',
+      url: `/api/app/framework/${id}`,
+    },
+    { apiName: this.apiName });
+
+  getFrameWorkWithAssesmentBYIdByInput = (input: getFrameworkDto) =>
+    this.restService.request<any, FrameworkData>({
+      method: 'GET',
+      url: '/api/app/framework/frame-work-with-assesment-bYId',
+      params: { frameworkId: input.frameworkId },
+    },
+    { apiName: this.apiName });
+
+  getFrameworkListLookup = () =>
+    this.restService.request<any, ListResultDto<FrameworkDto>>({
+      method: 'GET',
+      url: '/api/app/framework/framework-list-lookup',
+    },
+    { apiName: this.apiName });
+
+  getList = (input: FrameworkPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<FrameworkDto>>({
+      method: 'GET',
+      url: '/api/app/framework',
+      params: { search: input.search, status: input.status, frameworkStatus: input.frameworkStatus, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
   returnToCreatorByIdAndInput = (id: string, input: RejectFrameworkDto) =>
     this.restService.request<any, void>({
       method: 'PUT',
@@ -25,8 +82,7 @@ export class FrameworkService {
       body: input,
     },
     { apiName: this.apiName });
-	
-	
+
   sendToOwnerById = (id: string) =>
     this.restService.request<any, void>({
       method: 'PUT',
@@ -41,43 +97,12 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
-
-  create = (input: CreateUpdateFrameworkDto) =>
-    this.restService.request<any, FrameworkDto>({
-      method: 'POST',
-      url: '/api/app/framework',
-      body: input,
-    },
-      { apiName: this.apiName });
-
-  delete = (id: string) =>
+  startSelfAssessmentById = (id: string) =>
     this.restService.request<any, void>({
-      method: 'DELETE',
-      url: `/api/app/framework/${id}`,
+      method: 'PUT',
+      url: `/api/app/framework/${id}/start-self-assessment`,
     },
-      { apiName: this.apiName });
-
-  get = (id: string) =>
-    this.restService.request<any, FrameworkDto>({
-      method: 'GET',
-      url: `/api/app/framework/${id}`,
-    },
-      { apiName: this.apiName });
-
-  getFrameworkListLookup = () =>
-    this.restService.request<any, ListResultDto<FrameworkDto>>({
-      method: 'GET',
-      url: '/api/app/framework/framework-list-lookup',
-    },
-      { apiName: this.apiName });
-
-  getList = (input: FrameworkPagedAndSortedResultRequestDto) =>
-    this.restService.request<any, PagedResultDto<FrameworkDto>>({
-      method: 'GET',
-      url: '/api/app/framework',
-      params: { search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
-    },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
   update = (id: string, input: CreateUpdateFrameworkDto) =>
     this.restService.request<any, FrameworkDto>({
@@ -85,17 +110,7 @@ export class FrameworkService {
       url: `/api/app/framework/${id}`,
       body: input,
     },
-      { apiName: this.apiName });
+    { apiName: this.apiName });
 
-
-  getListFrameWorkDashBoard = (input: getFrameworkDto) =>
-    this.restService.request<any, FrameworkData>({
-      method: 'GET',
-      url: '/api/app/framework/frame-work-with-assesment-bYId',
-      params: { FrameworkId: input.FrameworkId },
-    },
-      { apiName: this.apiName });
-
-
-  constructor(private restService: RestService) { }
+  constructor(private restService: RestService) {}
 }
