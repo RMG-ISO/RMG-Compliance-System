@@ -1,9 +1,9 @@
 import type { CreationAuditedEntityDto } from '@abp/ng.core';
-import type { SharedFrameworkStatus } from '../shared/shared-status.enum';
+import type { FrameworkStatus } from '../shared/framework-status.enum';
 
 export interface FrameworkChangeStatusLogDto extends CreationAuditedEntityDto<string> {
   creatorName?: string;
-  status: SharedFrameworkStatus;
+  status: FrameworkStatus;
   comment?: string;
   frameworkId?: string;
 }
