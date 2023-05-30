@@ -112,10 +112,13 @@
                         <mat-icon>delete_forever</mat-icon>
                     </button>
 
-                    <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
+                    <ng-container *ngIf="!row.selfAssessmentStartDate">
+                        <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
                         (click)="$event.stopPropagation();openDialog(row, FormMode.Edit)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </ng-container>
+
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>

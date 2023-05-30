@@ -48,7 +48,8 @@ input.form-control:not([type="search"]), textarea.form-control {
     }
 }
 textarea.form-control {
-    height: 138px;
+    // height: 138px;
+    height: 90px;
 }
 
 ng-select.ng-select {

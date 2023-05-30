@@ -1,40 +1,42 @@
 <ngx-datatable *ngIf="items; else showLoader" class="material fullscreen" #dataTable [rows]="items" [count]="totalCount" [list]="list"
-    (activate)="activate($event)" appNgxdatatable>
-    <ngx-datatable-column [name]="'::ControlReference' | abpLocalization" prop="reference"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'::ControlNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'::ControlStatus' | abpLocalization" prop="status">
-      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
-      </ng-template>
-    </ngx-datatable-column>
+  (activate)="activate($event)" appNgxdatatable>
+  <ngx-datatable-column [width]="85" [name]="'::ControlReference' | abpLocalization" prop="reference"></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::ControlNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::ControlNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
+  <ngx-datatable-column [name]="'::ControlStatus' | abpLocalization" prop="status">
+    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+      {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
+    </ng-template>
+  </ngx-datatable-column>
 
-    <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        <span title="{{value | date}}">{{value | fromNow}}</span>
-      </ng-template>
-    </ngx-datatable-column>
+  <ngx-datatable-column [name]="'::FrameworkLastUpdate' | abpLocalization" prop="lastModificationTime">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <span title="{{value | date}}">{{value | fromNow}}</span>
+    </ng-template>
+  </ngx-datatable-column>
 
 
-    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <button *abpPermission="'ComplianceSystem.Control.Delete'" mat-button color="warn"
-                (click)="$event.stopPropagation();delete(row)">
-                <mat-icon>delete_forever</mat-icon>
-            </button>
-            <button *abpPermission="'ComplianceSystem.Control.Update'" mat-button
-                (click)="$event.stopPropagation();openDialog(row)">
-                <mat-icon>edit</mat-icon>
-            </button>
-        </ng-template>
-    </ngx-datatable-column>
+  <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <ng-container *ngIf="!inAssessment">
+        <button *abpPermission="'ComplianceSystem.Control.Delete'" mat-button color="warn"
+          (click)="$event.stopPropagation();delete(row)">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+        <button *abpPermission="'ComplianceSystem.Control.Update'" mat-button
+          (click)="$event.stopPropagation();openDialog(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-container>
+    </ng-template>
+  </ngx-datatable-column>
 </ngx-datatable>
 
 <ng-template #showLoader>
-    <mat-spinner [diameter]="40" [strokeWidth]="3"></mat-spinner>
+  <mat-spinner [diameter]="40" [strokeWidth]="3"></mat-spinner>
 </ng-template>
 
 
 <ng-template #controlDialog let-data let-ref="dialogRef">
-    <app-create-control  [frameWorkData]="frameWorkData" [data]="data.data" [ref]="ref" [mode]="data.mode" [subDomainId]="subDomainId" [mainDomain]="mainControl"></app-create-control>
+  <app-create-control  [frameWorkData]="frameWorkData" [data]="data.data" [ref]="ref" [mode]="data.mode" [subDomainId]="subDomainId" [mainDomain]="mainControl"></app-create-control>
 </ng-template>
