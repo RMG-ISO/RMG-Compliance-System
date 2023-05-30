@@ -145,7 +145,33 @@
                             {{ '::ReturnToCreator' | abpLocalization }}
                         </ng-option>
                     </ng-select>
+
+
+                    <ng-select [disabled]="isSendingStatus" (change)="changeFrameActivityStatus($event)"
+                    *ngIf="frameWorkData?.frameworkStatus === SharedFrameworkStatus.Approved && frameWorkData?.ownerId == userId"
+                    [placeholder]="'::ChangeStatus' | abpLocalization">
+                        <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                        </ng-option>
+                    </ng-select>
+
+                    <!-- <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="status">
+                                {{ '::FrameworkStatus' | abpLocalization }}
+                            </label>
+                            <span> * </span>
+                            <ng-select appendTo="body" id="status" formControlName="status">
+                                <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+                                    {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                    </div> -->
+
                 </div>
+
+
                 <!-- <div class="status" [class]="SharedStatus[frameWorkData?.status]">
                     {{ ( '::Enum:SharedStatus:' + frameWorkData?.status ) | abpLocalization }}
                 </div> -->
@@ -298,8 +324,15 @@
                                         <td>
                                             {{ '::ReferenceNumber' | abpLocalization }}
                                         </td>
-                                        <td colspan="3">
+                                        <td>
                                             {{ mainDomain.reference }}
+                                        </td>
+
+                                        <td>
+                                            {{ '::Creator' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            {{ mainDomain?.responsibleName }}
                                         </td>
                                     </tr>
                                     <tr>

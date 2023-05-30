@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
-import { sharedStatusOptions } from '@proxy/shared';
+import { FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -57,8 +57,8 @@ export class ListComponent implements OnInit {
   }
 
   showFilters = false;
-  getList() {
-    const streamCreator = (query) => this.frameworkService.getList({ ...query,...this.filterForm.value, });
+  getList(search = null) {
+    const streamCreator = (query) => this.frameworkService.getList({ ...query, search:search,...this.filterForm.value,status: SharedStatus.Active, frameworkStatus: FrameworkStatus.Approved });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -71,19 +71,20 @@ export class ListComponent implements OnInit {
   }
 
 
-  openDialog(data = null, mode = FormMode.Create) {
-    console.log('mocee', mode)
+  openDialog(data = null) {
+    console.log('data', data)
     let ref = this.matDialog.open(this.dialog, {
       data:{
         data,
-        mode
       },
       disableClose:true,
       panelClass:'app-dialog'
     });
     ref.afterClosed().subscribe(con => {
       if(con) {
-        this.list.get();
+        this.frameworkService.startSelfAssessmentById(data.id).subscribe(r => {
+          this.list.get();
+        })
       }
     })
   }

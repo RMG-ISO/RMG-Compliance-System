@@ -512,7 +512,10 @@
     "IsSystemApplicable":"Is the system applicable?",
     "ComplianceSystem:Framework:006": "Framework must be approved to start self assessment",
     "ComplianceSystem:Framework:007": "Framework must be activated to start self assessment",
-    "ComplianceSystem:Domain:001": "Main domain needs responsible person"
+    "ComplianceSystem:Domain:001": "Main domain needs responsible person",
+    "ChangeFrameworkStatus":"Change Framework Status",
+    "SelfAssessmentDate":"Self Assessment Date"
+
 
   }
 }
