@@ -19,6 +19,7 @@ export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedRes
   search?: string;
   status?: SharedStatus;
   domainId?: string;
+  frameWorkId?: string;
 }
 
 export interface CreateUpdateControlDto {

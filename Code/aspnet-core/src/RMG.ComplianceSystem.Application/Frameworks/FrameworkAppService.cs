@@ -90,6 +90,7 @@ namespace RMG.ComplianceSystem.Frameworks
             {
                 var entity = await MapToEntityAsync(input);
                 TryToSetTenantId(entity);
+                entity.Status = SharedStatus.Inactive;
                 await Repository.InsertAsync(entity, autoSave: true);
 
                 if (input.FrameworkEmpsDto != null && input.FrameworkEmpsDto.Count > 0)
@@ -140,7 +141,7 @@ namespace RMG.ComplianceSystem.Frameworks
             try
             {
                 var entity = await GetEntityByIdAsync(id);
-
+                _frameworkManager.CanUpdate(entity);
                 await MapToEntityAsync(input, entity);
 
                 await Repository.UpdateAsync(entity, autoSave: true);
@@ -211,7 +212,8 @@ namespace RMG.ComplianceSystem.Frameworks
                 t.ShortcutEn.Contains(input.Search) ||
                 t.DescriptionAr.Contains(input.Search) ||
                 t.DescriptionEn.Contains(input.Search))
-                .WhereIf(input.Status.HasValue, t => t.Status == input.Status);
+                .WhereIf(input.Status.HasValue, t => t.Status == input.Status)
+                .WhereIf(input.FrameworkStatus.HasValue, t => t.FrameworkStatus == input.FrameworkStatus);
         }
 
         protected override Task<Framework> GetEntityByIdAsync(Guid id)
@@ -400,6 +402,35 @@ namespace RMG.ComplianceSystem.Frameworks
             _frameworkManager.CanStartSelfAssessment(framework);
             framework.SelfAssessmentStartDate = Clock.Now;
             framework.ComplianceStatus = ComplianceStatus.UnderPreparation;
+            await Repository.UpdateAsync(framework);
+
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            foreach (var domain in domains)
+            {
+                domain.ComplianceStatus = ComplianceStatus.UnderPreparation;
+            }
+
+            await _domainRepository.UpdateManyAsync(domains);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task Activate(Guid id)
+        {
+            var framework = await Repository.GetAsync(id);
+            _frameworkManager.CanActivateDeactivate(framework, CurrentUser.Id.Value);
+            framework.Status = SharedStatus.Active;
+            await Repository.UpdateAsync(framework);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task Deactivate(Guid id)
+        {
+            var framework = await Repository.GetAsync(id);
+            _frameworkManager.CanActivateDeactivate(framework, CurrentUser.Id.Value);
+            framework.Status = SharedStatus.Inactive;
+            await Repository.UpdateAsync(framework);
         }
 
         private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, Guid frameworkId)

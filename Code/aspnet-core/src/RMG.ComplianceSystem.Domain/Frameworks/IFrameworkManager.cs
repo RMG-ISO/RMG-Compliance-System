@@ -10,5 +10,7 @@ namespace RMG.ComplianceSystem.Frameworks
     public interface IFrameworkManager : IDomainService
     {
         bool CanStartSelfAssessment(Framework framework);
+        bool CanUpdate(Framework framework);
+        bool CanActivateDeactivate(Framework framework, Guid userId);
     }
 }

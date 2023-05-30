@@ -18,6 +18,12 @@
         public const string FrameworkMustBeApprovedToStartSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:006";
         public const string FrameworkMustBeActivatedToStartSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:007";
 
+
+        public const string FrameworkCannotBeUpdatedAfterStartingSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:008";
+        public const string OnlyFrameworkOwnerCanActivateDeactivateFramework = $"{ParentGroupName}:{FrameworkGroupName}:009";
+        public const string OnlyApprovedFrameworkCanBeActivatedDeactivated = $"{ParentGroupName}:{FrameworkGroupName}:0010";
+
+
         // Domain
         public const string MainDomainNeedsResponsible = $"{ParentGroupName}:{DomainGroupName}:001";
     }

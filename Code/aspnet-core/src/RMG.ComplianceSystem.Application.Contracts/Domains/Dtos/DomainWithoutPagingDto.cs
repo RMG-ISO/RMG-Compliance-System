@@ -21,6 +21,7 @@ namespace RMG.ComplianceSystem.Domains.Dtos
         public string Reference { get; set; }
 
         public SharedStatus Status { get; set; }
+        public ComplianceStatus ComplianceStatus { get; set; }
 
         public Guid? ParentId { get; set; }
 

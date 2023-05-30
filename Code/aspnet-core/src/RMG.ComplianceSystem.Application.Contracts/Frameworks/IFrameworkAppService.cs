@@ -22,5 +22,8 @@ namespace RMG.ComplianceSystem.Frameworks
         Task Approve(Guid id);
 
         Task StartSelfAssessment(Guid id);
+
+        Task Activate(Guid id);
+        Task Deactivate(Guid id);
     }
 }

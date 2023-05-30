@@ -20,5 +20,22 @@ namespace RMG.ComplianceSystem.Frameworks
 
             return true;
         }
+
+        public bool CanUpdate(Framework framework)
+        {
+            if (framework.ComplianceStatus != Shared.ComplianceStatus.NotStarted)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkCannotBeUpdatedAfterStartingSelfAssessment);
+
+            return true;
+        }
+
+        public bool CanActivateDeactivate(Framework framework, Guid userId)
+        {
+            if (framework.OwnerId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanActivateDeactivateFramework);
+            if (framework.FrameworkStatus != Shared.FrameworkStatus.Approved)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyApprovedFrameworkCanBeActivatedDeactivated);
+            return true;
+        }
     }
 }

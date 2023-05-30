@@ -19,8 +19,6 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public string DescriptionAr { get; set; }
         public string DescriptionEn { get; set; }
         public Guid ManagementId { get; set; }
-        public SharedStatus Status { get; set; }
-        public FrameworkStatus FrameworkStatus { get; set; }
         public Guid OwnerId { get; set; }
         public Guid AttachmentId { get; set; }
         public Guid ReviewUserId { get; set; }
