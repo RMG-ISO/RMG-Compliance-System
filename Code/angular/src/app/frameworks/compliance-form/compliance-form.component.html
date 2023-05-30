@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <section>
+    <section *ngIf="form.controls.trusted.value">
         <div class="row">
             <div class="col-md-3 col-xl-2 form-group">
                 <label for="">
@@ -111,33 +111,42 @@
                 <label class="d-block" for="">
                     {{ '::AssessmentDocumented' | abpLocalization }}
                 </label>
-                <mat-radio-group formControlName="trusted" color="primary">
+                <mat-radio-group formControlName="trusted" color="primary" (change)="changeAnswer($event.value, 'trusted' )">
                     <mat-radio-button class="ml-3 mr-3" [value]="1"> {{ '::yes' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="2"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="3"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
+                <div class="form-group mb-0 mt-2" [class.d-none]="form.controls.trusted.value !== 2">
+                    <input type="number" class="form-control" formControlName="trustedValue" />
+                </div>
             </div>
     
             <div class="col-md-3 col-xl-2 form-group">
                 <label class="d-block" for="">
                     {{ '::AssessmentImplemented' | abpLocalization }}
                 </label>
-                <mat-radio-group formControlName="completed" color="primary">
+                <mat-radio-group formControlName="completed" color="primary" (change)="changeAnswer($event.value, 'completed' )">
                     <mat-radio-button class="ml-3 mr-3" [value]="1"> {{ '::yes' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="2"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="3"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
+                <div class="form-group mb-0 mt-2" [class.d-none]="form.controls.completed.value !== 2">
+                    <input type="number" class="form-control" formControlName="completedValue" />
+                </div>
             </div>
     
             <div class="col-md-3 col-xl-2 form-group">
                 <label class="d-block" for="">
                     {{ '::AssessmentEffective' | abpLocalization }}
                 </label>
-                <mat-radio-group formControlName="effective" color="primary">
+                <mat-radio-group formControlName="effective" color="primary" (change)="changeAnswer($event.value, 'effective' )">
                     <mat-radio-button class="ml-3 mr-3" [value]="1"> {{ '::yes' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="2"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="3"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
+                <div class="form-group mb-0 mt-2" [class.d-none]="form.controls.effective.value !== 2">
+                    <input type="number" class="form-control" formControlName="effectiveValue" />
+                </div>
             </div>
     
             <div class="col-md-10 col-xl-8 form-group">
@@ -158,6 +167,10 @@
                 (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
                 (OnFileEndUpload)="OnFileEndUpload($event)">
                 </app-table-files>
+                
+                <p *ngIf="form.controls.addFiles.invalid" class="invalid-feedback d-block mt-2">
+                    يجب عليك إضافة ملفات
+                </p>
             </div>
         </div>
 
