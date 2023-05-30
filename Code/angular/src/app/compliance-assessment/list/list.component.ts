@@ -58,7 +58,13 @@ export class ListComponent implements OnInit {
 
   showFilters = false;
   getList(search = null) {
-    const streamCreator = (query) => this.frameworkService.getList({ ...query, search:search,...this.filterForm.value,status: SharedStatus.Active, frameworkStatus: FrameworkStatus.Approved });
+    const streamCreator = (query) => this.frameworkService.getList({
+      ...query,
+      search:search,
+      ...this.filterForm.value,
+      status: SharedStatus.Active,
+      frameworkStatus: FrameworkStatus.Approved
+    });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
