@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using RMG.ComplianceSystem.Controls.Dtos;
 using RMG.ComplianceSystem.Domains.Dtos;
 using Volo.Abp.Application.Dtos;
@@ -14,6 +15,7 @@ namespace RMG.ComplianceSystem.Domains
             CreateUpdateDomainDto,
             CreateUpdateDomainDto>
     {
-
+        Task StartInternalAssessment(Guid id);
+        Task EndInternalAssessment(Guid id);
     }
 }

@@ -26,14 +26,17 @@ using Volo.Abp.TextTemplating.VirtualFiles;
 using RMG.ComplianceSystem.Departments;
 using Volo.Abp.Domain.Entities;
 using System.Security.Policy;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
     public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {
-        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
-        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
+        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
+        //protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
         protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Create;
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Delete;
@@ -44,24 +47,28 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly IControlRepository _controlRepository;
         private readonly IFrameworkRepository _repository;
         private readonly IFrameworkEmployeeRepository _frameworkEmployeeRepository;
-        private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IEmailTemplateAppService _emailTemplateAppService;
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationAppService _notificationAppService;
         private readonly IDepartmentRepository _departmentRepository;
+        private readonly IdentityUserManager _identityUserManager; 
         private readonly IConfiguration _configuration;
         private readonly IFrameworkManager _frameworkManager;
+        private readonly IPermissionGrantRepository _permissionGrantRepository;
 
         public FrameworkAppService(IFrameworkRepository repository,
             IDomainRepository domainRepository,
             IControlRepository controlRepository,
             IAssessmentRepository assessmentRepository,
-            IEmailTemplateRepository emailTemplateRepository,
+            IdentityUserManager identityUserManager, 
             IEmployeeRepository employeeRepository,
+            IEmailTemplateRepository emailTemplateRepository,
             IEmailTemplateAppService emailTemplateAppService,
             INotificationRepository notificationRepository,
             INotificationAppService notificationAppService,
+            IPermissionGrantRepository permissionGrantRepository,
             IConfiguration configuration,
             IDepartmentRepository departmentRepository,
             IFrameworkManager frameworkManager,
@@ -81,6 +88,8 @@ namespace RMG.ComplianceSystem.Frameworks
             _configuration = configuration;
             _departmentRepository = departmentRepository;
             _frameworkManager = frameworkManager;
+            _permissionGrantRepository = permissionGrantRepository;
+            _identityUserManager = identityUserManager;
         }
 
 
@@ -185,6 +194,7 @@ namespace RMG.ComplianceSystem.Frameworks
 
         }
 
+        [Authorize]
         public override async Task<FrameworkDto> GetAsync(Guid id)
         {
             var dto = await base.GetAsync(id);
@@ -203,9 +213,15 @@ namespace RMG.ComplianceSystem.Frameworks
             return dto;
         }
 
+        [Authorize]
+        public override Task<PagedResultDto<FrameworkDto>> GetListAsync(FrameworkPagedAndSortedResultRequestDto input)
+        {
+            return base.GetListAsync(input);
+        }
+
         protected override async Task<IQueryable<Framework>> CreateFilteredQueryAsync(FrameworkPagedAndSortedResultRequestDto input)
         {
-            return (await Repository.WithDetailsAsync())
+            var query = (await Repository.WithDetailsAsync())
                 .WhereIf(!input.Search.IsNullOrEmpty(), t =>
                 t.NameAr.Contains(input.Search) ||
                 t.NameEn.Contains(input.Search) ||
@@ -215,6 +231,32 @@ namespace RMG.ComplianceSystem.Frameworks
                 t.DescriptionEn.Contains(input.Search))
                 .WhereIf(input.Status.HasValue, t => t.Status == input.Status)
                 .WhereIf(input.FrameworkStatus.HasValue, t => t.FrameworkStatus == input.FrameworkStatus);
+
+
+            var directPermission = await _permissionGrantRepository.FindAsync(ComplianceSystemPermissions.Framework.Default, "U", CurrentUser.Id.Value.ToString());
+            var rolesPermissions = (await _permissionGrantRepository.GetListAsync()).Where(t => t.ProviderName == "R" && t.Name == ComplianceSystemPermissions.Framework.Default);
+
+            bool foundPermission = false;
+            if (directPermission != null)
+                foundPermission = true;
+            else
+            {
+                foreach (var role in rolesPermissions)
+                {
+                    var users = await _identityUserManager.GetUsersInRoleAsync(role.ProviderKey);
+                    if (users.Any(u => u.Id == CurrentUser.Id.Value))
+                    {
+                        foundPermission = true;
+                        break;
+                    }
+                }
+            }
+            if (!foundPermission)
+            {
+                query = query.Where(f => _domainRepository.Where(d => d.ResponsibleId == CurrentUser.Id).Any(d => d.FrameworkId == f.Id));
+            }
+
+            return query;
         }
 
         protected override Task<Framework> GetEntityByIdAsync(Guid id)
@@ -453,7 +495,7 @@ namespace RMG.ComplianceSystem.Frameworks
             foreach (var domain in domains.Where(d => d.ResponsibleId.HasValue))
             {
                 domain.ComplianceStatus = ComplianceStatus.UnderProgress;
-                await NotifyUsersAsync("DomainStartInternalAssessment", domain.ResponsibleId.Value, NotificationSource.DomainResponsibleStartSelfAssessment, NotySource.DomainResponsibleStartSelfAssessment, id);
+                await NotifyUsersAsync("DomainStartInternalAssessment", domain.ResponsibleId.Value, NotificationSource.FrameworkEndSelfAssessment, NotySource.FrameworkEndSelfAssessment, id);
             }
         }
 
@@ -475,11 +517,11 @@ namespace RMG.ComplianceSystem.Frameworks
                         URL = Utility.GetURL(NotificationSource.FrameworkWorkflowAction, refId, null, null)
                     };
                     break;
-                case NotificationSource.DomainResponsibleStartSelfAssessment:
+                case NotificationSource.FrameworkEndSelfAssessment:
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
                         Name = Creator.FullName,
-                        URL = Utility.GetURL(NotificationSource.DomainResponsibleStartSelfAssessment, refId, null, null)
+                        URL = Utility.GetURL(NotificationSource.FrameworkEndSelfAssessment, refId, null, null)
                     };
                     break;
                 default:

@@ -88,6 +88,8 @@ namespace RMG.ComplianceSystem.Assessments
         [Authorize]
         public override async Task<AssessmentDto> UpdateAsync(Guid id, CreateUpdateAssessmentDto input)
         {
+            //ToDo: what if resp is not granted required permission?
+            //ToDo: restrict updates (owner can update if not sent for internal assessment, resp can update if not end internal assessment)
             await CheckUpdatePolicyAsync();
             var entity = await GetEntityByIdAsync(id);
             if (input.Applicable != entity.Applicable)
@@ -99,6 +101,7 @@ namespace RMG.ComplianceSystem.Assessments
             await ValidateCreateUpdateAsync(input);
             await SaveVersion(entity);
 
+            // ToDo: keep this property in form?
             entity.AssessmentEmployees.Clear();
             await Repository.UpdateAsync(entity, autoSave: true);
 

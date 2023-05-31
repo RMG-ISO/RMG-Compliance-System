@@ -23,7 +23,8 @@ namespace RMG.ComplianceSystem.Shared
         Risk,
         InternalAuditPreparation,
         FrameworkWorkflowAction,
-        DomainResponsibleStartSelfAssessment
+        FrameworkEndSelfAssessment,
+        DomainResponsibleEndInternalAssessment,
     }
      public enum Status
     {

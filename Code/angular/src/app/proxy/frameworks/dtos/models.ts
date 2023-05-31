@@ -35,6 +35,8 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   levelFourNameEn?: string;
   complianceStatus: ComplianceStatus;
   selfAssessmentStartDate?: string;
+  internalAssessmentStartDate?: string;
+  internalAssessmentEndDate?: string;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
