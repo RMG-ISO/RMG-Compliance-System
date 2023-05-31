@@ -30,6 +30,7 @@ namespace RMG.ComplianceSystem.Notifications
         Risk,
         InternalAuditPreparation,
         FrameworkWorkflowAction,
+        FrameworkApproved,
         FrameworkEndSelfAssessment
         //Compilance,
         //Document,

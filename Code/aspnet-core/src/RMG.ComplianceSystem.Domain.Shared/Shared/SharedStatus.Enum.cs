@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RMG.ComplianceSystem.Shared
 {
-   public enum SharedStatus : byte
+    public enum SharedStatus : byte
     {
         Inactive,
         Active,
@@ -17,16 +17,17 @@ namespace RMG.ComplianceSystem.Shared
         Approved,
         ReturnedToCreator
     }
-    public enum NotificationSource 
+    public enum NotificationSource
     {
         RiskTreatment,
         Risk,
         InternalAuditPreparation,
         FrameworkWorkflowAction,
+        FrameworkApproved,
         FrameworkEndSelfAssessment,
         DomainResponsibleEndInternalAssessment,
     }
-     public enum Status
+    public enum Status
     {
         Due,
         Delayed,
@@ -39,7 +40,12 @@ namespace RMG.ComplianceSystem.Shared
     {
         NotStarted = 0,
         UnderPreparation,
-        UnderProgress
+        ReadyForInternalAssessment,
+        UnderInternalAssessment,
+        ReadyForRevision,
+        UnderRevision,
+        UnderInternalReAssessment,
+        UnderReRevision
     }
 
 }
