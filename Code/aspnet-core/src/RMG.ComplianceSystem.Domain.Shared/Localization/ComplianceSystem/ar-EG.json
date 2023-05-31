@@ -507,6 +507,10 @@
     "SendToApprove":"إرسال للإعتماد",
     "ReturnToCreator":"إعادة للمعد",
     "Approve":"إعتماد",
+    "UnderApproval":"تحت الإعتماد",
+    "NewFramework":"إطار عمل جديد",
+    "UnderReview":"تحت المراجعة",
+    "ReturnedToCreator":"إعادة للمعد",
     "ReturnBack":"عودة للخلف",
     "SelectAction":"اختيار إجراء",
     "StartAssessment":"هل تريد أن تبدأ التقييم الذاتى؟",
@@ -526,7 +530,10 @@
     "ComplianceSystem:Framework:010": "يمكن تفعيل أو إلغاء تفعيل الإطار المعتمد فقط",
     "ComplianceSystem:Framework:011": "لا يمكن تعديل معلومات الإطار بعد بدء الامتثال الذاتي",
     "ComplianceSystem:Assessment:004": "يمكن لمالك الإطار فقط أن يعدل قابلية التطبيق للضابط",
-    "ComplianceSystem:Assessment:005": "يمكن لمالك الإطار فقط أن يبدأ الامتثال للضابط"
+    "ComplianceSystem:Assessment:005": "يمكن لمالك الإطار فقط أن يبدأ الامتثال للضابط",
+    "ChangeStatus":"تغيير الحالة",
+    "Date":"التاريخ",
+    "Comment":"التعليق"
 
   }
 }

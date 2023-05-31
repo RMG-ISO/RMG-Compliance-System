@@ -56,6 +56,7 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       console.log(fram);
       this.frameWorkData = fram;
+
       this.inAssessment = !!fram.selfAssessmentStartDate;
       this.getMainDomainsList();
     });
@@ -198,7 +199,21 @@ export class FrameworkViewComponent implements OnInit {
 
 
   OnFileUploaded(attachmentId: string) {
+    if(this.frameWorkData.attachmentId) return;
+
     this.frameWorkData.attachmentId = attachmentId;
+
+    let data = {...this.frameWorkData};
+
+    if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(emp => {
+      return {
+        employeeId: emp.employeeId,
+        frameworkId: this.frameWorkData?.id ? this.frameWorkData?.id : '00000000-0000-0000-0000-000000000000',
+      };
+    });
+    this.frameworkService.update(this.frameWorkData.id, data).subscribe(r => {
+      this.frameWorkData = r;
+    })
   }
 
   uploading

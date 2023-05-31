@@ -194,6 +194,9 @@
             <button mat-raised-button (click)=" activeTab = 'attachments' " [class.active]="activeTab === 'attachments'">
                 {{ '::Attachments' | abpLocalization }}
             </button>
+            <button mat-raised-button (click)=" activeTab = 'Changelog' " [class.active]="activeTab === 'Changelog'">
+                {{ '::Changelog' | abpLocalization }}
+            </button>
         </div>
 
 
@@ -435,6 +438,9 @@
                 (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
                 (OnFileEndUpload)="OnFileEndUpload($event)">
                 </app-table-files>
+            </section>
+            <section  *ngSwitchCase="'Changelog'">
+                <app-change-log [frameWorkData]="frameWorkData"></app-change-log>
             </section>
         </ng-container>
     </div>
