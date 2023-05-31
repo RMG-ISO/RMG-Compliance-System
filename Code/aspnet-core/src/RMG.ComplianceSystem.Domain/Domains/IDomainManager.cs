@@ -10,5 +10,6 @@ namespace RMG.ComplianceSystem.Domains
     public interface IDomainManager : IDomainService
     {
         bool CanStartInternalAssessment(Domain domain, Guid userId);
+        bool CanEndInternalAssessment(Domain domain, Guid userId);
     }
 }

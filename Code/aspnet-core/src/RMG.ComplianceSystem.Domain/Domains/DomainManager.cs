@@ -19,5 +19,14 @@ namespace RMG.ComplianceSystem.Domains
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyDomainResponsibleCanStartInternalAssessment);
             return true;
         }
+
+        public bool CanEndInternalAssessment(Domain domain, Guid userId)
+        {
+            if (domain.ComplianceStatus != ComplianceStatus.UnderInternalAssessment)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.DomainMustBeUnderInternalAssessmentToEndInternalAssessment);
+            if (domain.ResponsibleId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyDomainResponsibleCanStartInternalAssessment);
+            return true;
+        }
     }
 }
