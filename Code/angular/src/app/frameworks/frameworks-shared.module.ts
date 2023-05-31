@@ -16,6 +16,7 @@ import { ExpansionSubDomainsTableComponent } from './framework-view/expansion-su
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
 import { FrameworksRoutingModule } from './frameworks-routing.module';
+import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
 
 
 
@@ -30,6 +31,7 @@ import { FrameworksRoutingModule } from './frameworks-routing.module';
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
     ControlViewComponent,
+    ChangeLogComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,7 @@ import { FrameworksRoutingModule } from './frameworks-routing.module';
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
     ControlViewComponent,
+    ChangeLogComponent
   ]
 })
 export class FrameworksSharedModule { }

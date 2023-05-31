@@ -1,4 +1,4 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
-import { FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
+import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -29,6 +29,8 @@ export class ListComponent implements OnInit {
 
   visibleContent:string = 'grid';
 
+  ComplianceStatus = ComplianceStatus;
+
   constructor(
     public readonly list: ListService,
     private frameworkService: FrameworkService,
@@ -36,24 +38,15 @@ export class ListComponent implements OnInit {
     private confirmation: ConfirmationService,
     private router: Router,
     private localizationService: LocalizationService,
+    private configService:ConfigStateService
   ) { }
 
 
-  filterForm:FormGroup;
+  userId;
   ngOnInit(): void {
     this.getList();
+    this.userId = this.configService.getAll().currentUser.id;
 
-    this.filterForm = new FormGroup({
-      search:new FormControl(),
-      status:new FormControl(null),
-    });
-
-    this.filterForm.valueChanges.pipe(
-    debounceTime(1000),
-    distinctUntilChanged())
-    .subscribe(value => {
-      this.list.get();
-    });
   }
 
   showFilters = false;
@@ -61,7 +54,6 @@ export class ListComponent implements OnInit {
     const streamCreator = (query) => this.frameworkService.getList({
       ...query,
       search:search,
-      ...this.filterForm.value,
       status: SharedStatus.Active,
       frameworkStatus: FrameworkStatus.Approved
     });
@@ -73,7 +65,7 @@ export class ListComponent implements OnInit {
 
 
   activate(ev) {
-    // if (ev.type === 'click') this.router.navigate(['frameworks', ev.row.id]);
+    if (ev.type === 'click') this.router.navigate(['/compliance-assessment', ev.row.id]);
   }
 
 

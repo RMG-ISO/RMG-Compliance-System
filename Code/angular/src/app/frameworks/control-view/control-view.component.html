@@ -1,6 +1,6 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="['/frameworks/sub-domains', subDomainId, 'controls' ]" class="back-button">
+        <button mat-button [routerLink]="[ (inAssessment ? '/compliance-assessment/sub-domains' : '/frameworks/sub-domains'), subDomainId, 'controls' ]" class="back-button">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>
@@ -28,15 +28,15 @@
                     <td>
                         {{ '::ReferenceNumber' | abpLocalization }}
                     </td>
-                    <td>
+                    <td colspan="3">
                         {{subControlData?.reference}}
                     </td>
-                    <td>
-                        {{ '::المراجع' | abpLocalization }}
+                    <!-- <td>
+                        {{ '::Reviewer' | abpLocalization }}
                     </td>
                     <td>
                         اسم المراجع
-                    </td>
+                    </td> -->
                 </tr>
 
                 <tr>
@@ -91,7 +91,9 @@
         (OnFileEndUpload)="OnFileEndUpload($event)">
         </app-table-files>
 
-        <app-compliance-form *ngIf="subDomainData?.complianceStatus === ComplianceStatus.UnderPreparation"></app-compliance-form>
+        <app-compliance-form
+        *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && subControlData && inAssessment"
+        [controlData]="subControlData"></app-compliance-form>
     </div>
 </div>
 
