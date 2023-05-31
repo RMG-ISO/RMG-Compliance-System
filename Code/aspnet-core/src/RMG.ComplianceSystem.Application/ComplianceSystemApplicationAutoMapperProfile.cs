@@ -49,7 +49,11 @@ namespace RMG.ComplianceSystem
              * into multiple profile classes for a better organization. */
             CreateMap<FrameworkChangeStatusLog, FrameworkChangeStatusLogDto>();
 
+            CreateMap<AssessmentVersion, AssessmentVersionDto>();
 
+            CreateMap<Assessment, AssessmentVersion>()
+                .ForMember(t => t.Id, ops => ops.Ignore())
+                .ForMember(t => t.AssessmentId, ops => ops.MapFrom(t => t.Id));
 
             CreateMap<Book, BookDto>();
             CreateMap<CreateUpdateBookDto, Book>();
@@ -107,6 +111,7 @@ namespace RMG.ComplianceSystem
             CreateMap<Control, ControlDto>();
             CreateMap<CreateUpdateControlDto, Control>(MemberList.Source);
             CreateMap<Assessment, AssessmentDto>()
+                .ForMember(t => t.Versions, ops => ops.MapFrom(t => t.AssessmentVersions))
                 .ForMember(t => t.Employees, ops => ops.MapFrom(t => t.AssessmentEmployees.Select(r => new NameId<Guid>(r.Employee.FullName, r.EmployeeId))));
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
         }

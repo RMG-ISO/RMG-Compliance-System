@@ -511,8 +511,16 @@
     "SelectAction": "اختيار إجراء",
     "ComplianceSystem:Framework:006": "يجب أن يكون الإطار معتمد حتى تبدأ الامتثال الذاتي",
     "ComplianceSystem:Framework:007": "يجب أن يكون الإطار مفعل حتى تبدأ الامتثال الذاتي",
-    "ComplianceSystem:Domain:001": "النطاق الرئيسي يحتاج إلى شخص مسؤول"
-
+    "ComplianceSystem:Domain:001": "النطاق الرئيسي يحتاج إلى شخص مسؤول",
+    "ComplianceSystem:Assessment:001": "يجب أن تبدأ الامتثال الذاتي للإطار أولاً",
+    "ComplianceSystem:Assessment:002": "يجب إدخال نسبة مئوية من أجل الأجوبة الجزئية",
+    "ComplianceSystem:Assessment:003": "يجب إدخال تعليق وإرفاق ملفات عند الإجابة بجزئي أو نعم",
+    "ComplianceSystem:Framework:008": "يجب اعتماد الامتثال من أجل الضوابط التالية أولاً: {controlsName}",
+    "ComplianceSystem:Framework:009": "يمكن لمالك الإطار فقط ان يفعل أو يلغي تفعيل الإطار",
+    "ComplianceSystem:Framework:010": "يمكن تفعيل أو إلغاء تفعيل الإطار المعتمد فقط",
+    "ComplianceSystem:Framework:011": "لا يمكن تعديل معلومات الإطار بعد بدء الامتثال الذاتي",
+    "ComplianceSystem:Assessment:004": "يمكن لمالك الإطار فقط أن يعدل قابلية التطبيق للضابط",
+    "ComplianceSystem:Assessment:005": "يمكن لمالك الإطار فقط أن يبدأ الامتثال للضابط"
 
   }
 }

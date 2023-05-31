@@ -22,7 +22,8 @@ namespace RMG.ComplianceSystem.Shared
         RiskTreatment,
         Risk,
         InternalAuditPreparation,
-        FrameworkWorkflowAction
+        FrameworkWorkflowAction,
+        DomainResponsibleStartSelfAssessment
     }
      public enum Status
     {
@@ -36,7 +37,8 @@ namespace RMG.ComplianceSystem.Shared
     public enum ComplianceStatus
     {
         NotStarted = 0,
-        UnderPreparation
+        UnderPreparation,
+        UnderProgress
     }
 
 }

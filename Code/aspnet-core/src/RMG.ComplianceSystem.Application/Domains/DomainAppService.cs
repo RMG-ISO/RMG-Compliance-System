@@ -84,7 +84,17 @@ namespace RMG.ComplianceSystem.Domains
         public override async Task<DomainDto> UpdateAsync(Guid id, CreateUpdateDomainDto input)
         {
             await CheckUpdatePolicyAsync();
-
+            if (!input.ParentId.HasValue)
+            {
+                if (!input.ResponsibleId.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.MainDomainNeedsResponsible);
+                await _employeeRepository.GetAsync(input.ResponsibleId.Value, false);
+            }
+            else
+            {
+                var parent = await Repository.GetAsync(input.ParentId.Value);
+                input.ResponsibleId = parent.ResponsibleId;
+            }
             var entity = await GetEntityByIdAsync(id);
             entity.DomainDepartments.Clear();
             await Repository.UpdateAsync(entity, autoSave: true);

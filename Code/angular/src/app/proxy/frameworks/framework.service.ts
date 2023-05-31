@@ -83,6 +83,13 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
+  sendForInternalAssessmentById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/send-for-internal-assessment`,
+    },
+    { apiName: this.apiName });
+
   sendToOwnerById = (id: string) =>
     this.restService.request<any, void>({
       method: 'PUT',

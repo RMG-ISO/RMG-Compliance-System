@@ -33,10 +33,18 @@ namespace RMG.ComplianceSystem
                 await next();
             });
 
+            var fileProvider = new PhysicalFileProvider(System.IO.Path.Combine(rootPath, "Logs"));
+            var requestPath = "/logs";
             app.UseStaticFiles(new StaticFileOptions()
             {
-                RequestPath = "/logs",
-                FileProvider = new PhysicalFileProvider(System.IO.Path.Combine(rootPath, "Logs"))
+                RequestPath = requestPath,
+                FileProvider = fileProvider
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                RequestPath = requestPath,
+                FileProvider = fileProvider
             });
 
         }
