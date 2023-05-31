@@ -520,8 +520,8 @@
     "ComplianceSystem:Framework:006": "يجب أن يكون الإطار معتمد حتى تبدأ الامتثال الذاتي",
     "ComplianceSystem:Framework:007": "يجب أن يكون الإطار مفعل حتى تبدأ الامتثال الذاتي",
     "ComplianceSystem:Domain:001": "النطاق الرئيسي يحتاج إلى شخص مسؤول",
-    "ChangeFrameworkStatus":"تغيير حالة الإطار",
-    "SelfAssessmentDate":"تاريخ التقييم الذاتى",
+    "ChangeFrameworkStatus": "تغيير حالة الإطار",
+    "SelfAssessmentDate": "تاريخ التقييم الذاتى",
     "ComplianceSystem:Assessment:001": "يجب أن تبدأ الامتثال الذاتي للإطار أولاً",
     "ComplianceSystem:Assessment:002": "يجب إدخال نسبة مئوية من أجل الأجوبة الجزئية",
     "ComplianceSystem:Assessment:003": "يجب إدخال تعليق وإرفاق ملفات عند الإجابة بجزئي أو نعم",
@@ -535,7 +535,12 @@
     "Date":"التاريخ",
     "Comment":"التعليق",
     "RequiredAttachment":"يجب عليك إضافة ملفات",
-    "SendForInternalAssessment":"ارسال للتقييم الداخلي"
+    "SendForInternalAssessment":"ارسال للتقييم الداخلي",
+    "ComplianceSystem:Assessment:006": "يمكن تعديل الامتثال من قبل مالك الإطار عندما في حالة قيد التجهيز أو قيد المراجعة",
+    "ComplianceSystem:Assessment:007": "يمكن لمسؤول النطاق تعديل الامتثال في حالة قيد الامتثال الداخلي",
+    "ComplianceSystem:Domain:002": "يجب أن يكون النطاق بحالة جاهز للامتثال الداخلي حتى تتمكن من بدء الامتثال الداخلي",
+    "ComplianceSystem:Domain:003": "يمكن للمسؤول عن النطاق فقط أن يبدأ الامتثال الداخلي",
+    "ComplianceSystem:Domain:004": "يجب أن يكون النطاق قيد الامتثال الداخلي حتى تتمكن من انهاء الامتثال الداخلي"
 
   }
 }

@@ -22,8 +22,12 @@
         public const string OnlyFrameworkOwnerCanActivateDeactivateFramework = $"{ParentGroupName}:{FrameworkGroupName}:009";
         public const string OnlyApprovedFrameworkCanBeActivatedDeactivated = $"{ParentGroupName}:{FrameworkGroupName}:010";
         public const string FrameworkCannotBeUpdatedAfterStartingSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:011";
+
         // Domain
         public const string MainDomainNeedsResponsible = $"{ParentGroupName}:{DomainGroupName}:001";
+        public const string DomainMustBeReadyForInternalAssessmentToStartInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:002";
+        public const string OnlyDomainResponsibleCanStartInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:003";
+        public const string DomainMustBeUnderInternalAssessmentToEndInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:004";
 
         // Assessment
         public const string YouMustStartSelfAssessmentForFrameworkFirst = $"{ParentGroupName}:{AssessmentGroupName}:001";
@@ -31,6 +35,7 @@
         public const string YouMustProvideCommentAndAttachmentWhenPartialOrFullAnswers = $"{ParentGroupName}:{AssessmentGroupName}:003";
         public const string OnlyFrameworkOwnerCanChangeAssessmentApplicable = $"{ParentGroupName}:{AssessmentGroupName}:004";
         public const string OnlyFrameworkOwnerCanStartAssessmentForControl = $"{ParentGroupName}:{AssessmentGroupName}:005";
-
+        public const string AssessmentCanBeUpdatedByFrameworkOwnerWhenComplianceUnderPreparationOrUnderRevision = $"{ParentGroupName}:{AssessmentGroupName}:006";
+        public const string AssessmentCanOnlyBeUpdatedByDomainResponsibleWhenComplianceUnderInternalAssessment = $"{ParentGroupName}:{AssessmentGroupName}:007";
     }
 }

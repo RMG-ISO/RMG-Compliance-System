@@ -517,8 +517,8 @@
     "ComplianceSystem:Framework:006": "Framework must be approved to start self assessment",
     "ComplianceSystem:Framework:007": "Framework must be activated to start self assessment",
     "ComplianceSystem:Domain:001": "Main domain needs responsible person",
-    "ChangeFrameworkStatus":"Change Framework Status",
-    "SelfAssessmentDate":"Self Assessment Date",
+    "ChangeFrameworkStatus": "Change Framework Status",
+    "SelfAssessmentDate": "Self Assessment Date",
 
     "ComplianceSystem:Assessment:001": "You must start self assessment for framework first",
     "ComplianceSystem:Assessment:002": "You must enter percentage for partial answers",
@@ -533,8 +533,12 @@
     "Date":"Date",
     "Comment":"Comment",
     "RequiredAttachment":"You Must Add Attachments",
-    "SendForInternalAssessment":"Send for internal assessment"
-
+    "SendForInternalAssessment":"Send for internal assessment",
+    "ComplianceSystem:Assessment:006": "Assessment cannot be updated by framework owner when compliance not started nor under internal assessment",
+    "ComplianceSystem:Assessment:007": "Assessment can only be updated by domain responsible when compliance under internal assessment",
+    "ComplianceSystem:Domain:002": "Domain must be ready for internal assessment to start internal assessment",
+    "ComplianceSystem:Domain:003": "Only domain responsible can start internal assessment",
+    "ComplianceSystem:Domain:004": "Domain must be under internal assessment to end internal assessment"
 
   }
 }

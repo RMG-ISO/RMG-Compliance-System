@@ -29,6 +29,7 @@ using System.Security.Policy;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -143,6 +144,8 @@ namespace RMG.ComplianceSystem.Frameworks
             }
             dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
             dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
+
+            dto.CanSendForInternalAssessment = CanSendForInternalAssessment(entity).Item1;
             return dto;
         }
 
@@ -431,7 +434,7 @@ namespace RMG.ComplianceSystem.Frameworks
             entity.FrameworkStatus = FrameworkStatus.Approved;
             await Repository.UpdateAsync(entity);
             entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.Approved, entity.Id));
-            // ToDo: send notification for owner
+            await NotifyUsersAsync("FrameworkApproved", entity.OwnerId, NotificationSource.FrameworkApproved, NotySource.FrameworkApproved, entity.Id);
         }
 
         [Authorize]
@@ -484,19 +487,28 @@ namespace RMG.ComplianceSystem.Frameworks
             if (framework.OwnerId != CurrentUser.Id)
                 throw new EntityNotFoundException(typeof(Framework), id);
 
-            var domains = _domainRepository.Where(d => d.FrameworkId == id).ToList();
+            var canSend = CanSendForInternalAssessment(framework);
+            if (!canSend.Item1)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.TheFollowingControlsDonotHaveAssessmentsYet)
+                    .WithData("controlsName", string.Join("، ", canSend.Item2));
+
+            framework.ComplianceStatus = ComplianceStatus.ReadyForInternalAssessment;
+            framework.SelfAssessmentEndDate = Clock.Now;
+            foreach (var domain in canSend.Item3.Where(d => d.ResponsibleId.HasValue))
+            {
+                domain.ComplianceStatus = ComplianceStatus.ReadyForInternalAssessment;
+                await NotifyUsersAsync("DomainStartInternalAssessment", domain.ResponsibleId.Value, NotificationSource.FrameworkEndSelfAssessment, NotySource.FrameworkEndSelfAssessment, id);
+            }
+        }
+
+        private Tuple<bool, List<string>, List<Domain>> CanSendForInternalAssessment(Framework framework)
+        {
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
             var controls = _controlRepository.Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
             var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.TheFollowingControlsDonotHaveAssessmentsYet)
-                    .WithData("controlsName", string.Join("، ", controlsWithoutAssessments.Select(c => c.NameAr)));
-
-            framework.ComplianceStatus = ComplianceStatus.UnderProgress;
-            foreach (var domain in domains.Where(d => d.ResponsibleId.HasValue))
-            {
-                domain.ComplianceStatus = ComplianceStatus.UnderProgress;
-                await NotifyUsersAsync("DomainStartInternalAssessment", domain.ResponsibleId.Value, NotificationSource.FrameworkEndSelfAssessment, NotySource.FrameworkEndSelfAssessment, id);
-            }
+                return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
+            return new Tuple<bool, List<string>, List<Domain>>(true, null, domains);
         }
 
         private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, NotificationSource notificationSource, NotySource notySource, Guid refId)
@@ -515,6 +527,16 @@ namespace RMG.ComplianceSystem.Frameworks
                     {
                         Name = Creator.FullName,
                         URL = Utility.GetURL(NotificationSource.FrameworkWorkflowAction, refId, null, null)
+                    };
+                    break;
+                case NotificationSource.FrameworkApproved:
+                    var framework = await Repository.GetAsync(refId, false);
+                    emailTemplateModel = new FrameworkApprovedEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(NotificationSource.FrameworkWorkflowAction, refId, null, null),
+                        FrameworkNameAr = framework.NameAr,
+                        FrameworkNameEn = framework.NameEn
                     };
                     break;
                 case NotificationSource.FrameworkEndSelfAssessment:

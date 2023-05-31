@@ -89,15 +89,17 @@ namespace RMG.ComplianceSystem.Assessments
         public override async Task<AssessmentDto> UpdateAsync(Guid id, CreateUpdateAssessmentDto input)
         {
             //ToDo: what if resp is not granted required permission?
-            //ToDo: restrict updates (owner can update if not sent for internal assessment, resp can update if not end internal assessment)
             await CheckUpdatePolicyAsync();
             var entity = await GetEntityByIdAsync(id);
+            var domain = await _domainRepository.GetAsync(entity.Control.DomainId, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            if (framework.OwnerId == CurrentUser.Id)
+                _assessmentManager.CanFrameworkOwnerUpdate(framework);
+            if (domain.ResponsibleId == CurrentUser.Id)
+                _assessmentManager.CanDomainResponsibleUpdate(framework, domain);
             if (input.Applicable != entity.Applicable)
-            {
-                var domain = await _domainRepository.GetAsync(entity.Control.DomainId, false);
-                var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
                 _assessmentManager.CanUpdateApplicableProperty(framework.OwnerId, CurrentUser.Id.Value);
-            }
+
             await ValidateCreateUpdateAsync(input);
             await SaveVersion(entity);
 
