@@ -31,6 +31,7 @@
         public const string YouMustProvideCommentAndAttachmentWhenPartialOrFullAnswers = $"{ParentGroupName}:{AssessmentGroupName}:003";
         public const string OnlyFrameworkOwnerCanChangeAssessmentApplicable = $"{ParentGroupName}:{AssessmentGroupName}:004";
         public const string OnlyFrameworkOwnerCanStartAssessmentForControl = $"{ParentGroupName}:{AssessmentGroupName}:005";
-
+        public const string AssessmentCanBeUpdatedByFrameworkOwnerWhenComplianceUnderPreparationOrUnderRevision = $"{ParentGroupName}:{AssessmentGroupName}:006";
+        public const string AssessmentCanOnlyBeUpdatedByDomainResponsibleWhenComplianceUnderInternalAssessment = $"{ParentGroupName}:{AssessmentGroupName}:007";
     }
 }

@@ -194,9 +194,11 @@ namespace RMG.ComplianceSystem.Domains
             // ToDo: check if responsible and compliance status
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             domain.InternalAssessmentStartDate = Clock.Now;
+            domain.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
             if (!framework.InternalAssessmentStartDate.HasValue)
             {
                 framework.InternalAssessmentStartDate = Clock.Now;
+                framework.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
                 await _frameworkRepository.UpdateAsync(framework);
             }
             await Repository.UpdateAsync(domain);
@@ -208,6 +210,7 @@ namespace RMG.ComplianceSystem.Domains
             // ToDo: check if responsible and compliance status
             // ToDo: update framework end date
             domain.InternalAssessmentEndDate = Clock.Now;
+            domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;
             await Repository.UpdateAsync(domain);
 
             //ToDo: notify framework owner

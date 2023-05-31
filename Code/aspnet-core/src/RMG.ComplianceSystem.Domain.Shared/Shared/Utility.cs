@@ -73,6 +73,8 @@ namespace RMG.ComplianceSystem.Shared
                     return "https://iso.digitaltransformationinstitute.org:11001/internal-audit/audit-setup/" + id + "/edit";
                 case NotificationSource.FrameworkWorkflowAction:
                     return "https://iso.digitaltransformationinstitute.org:11001/frameworks/" + id;
+                case NotificationSource.FrameworkApproved:
+                    return "https://iso.digitaltransformationinstitute.org:11001/frameworks/" + id;
                 case NotificationSource.FrameworkEndSelfAssessment:
                     return "https://iso.digitaltransformationinstitute.org:11001/assessment/" + id;
                 default:
