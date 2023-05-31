@@ -533,7 +533,9 @@
     "ComplianceSystem:Assessment:005": "يمكن لمالك الإطار فقط أن يبدأ الامتثال للضابط",
     "ChangeStatus":"تغيير الحالة",
     "Date":"التاريخ",
-    "Comment":"التعليق"
+    "Comment":"التعليق",
+    "RequiredAttachment":"يجب عليك إضافة ملفات",
+    "SendForInternalAssessment":"ارسال للتقييم الداخلي"
 
   }
 }

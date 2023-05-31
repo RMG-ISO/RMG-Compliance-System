@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
 import { ControlDto } from '@proxy/controls/dtos';
+import { ComplianceStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -40,12 +41,15 @@ export class ExpansionSubControlsTableComponent implements OnInit {
 
   
   isExpanded = false;
+  removeButtons
   ngOnChanges(): void {
     if(this.isExpanded) return;
     if(this.expanded) {
       this.isExpanded = true;
       this.getList();
     }
+
+    this.removeButtons = this.inAssessment || this.frameWorkData.complianceStatus == ComplianceStatus.NotStarted
   }
 
 

@@ -531,7 +531,9 @@
     "ComplianceSystem:Assessment:005": "Only framework owner can start assessment for control",
     "ChangeStatus":"Change Status",
     "Date":"Date",
-    "Comment":"Comment"
+    "Comment":"Comment",
+    "RequiredAttachment":"You Must Add Attachments",
+    "SendForInternalAssessment":"Send for internal assessment"
 
 
   }
