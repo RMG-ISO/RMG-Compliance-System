@@ -117,12 +117,13 @@
                 </div>
 
                 <div>
-                    <ng-select [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event)">
+                    <ng-select #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
                         <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
                         <ng-option [value]="true">
                             {{ '::Import' | abpLocalization }}
                         </ng-option>
                         <ng-option [value]="false">
+                            <a #download style="display: none;"></a>
                             {{ '::DownloadTemp' | abpLocalization }}
                         </ng-option>
                     </ng-select>

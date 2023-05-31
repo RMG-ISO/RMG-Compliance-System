@@ -31,6 +31,7 @@ using static RMG.ComplianceSystem.ComplianceSystemConsts;
 using System.Data;
 using FastMember;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -68,14 +69,13 @@ namespace RMG.ComplianceSystem.Frameworks
             INotificationAppService notificationAppService,
             IConfiguration configuration,
             IDepartmentRepository departmentRepository,
-            IFrameworkEmployeeRepository frameworkEmployeeRepository
-            ) : base(repository)
+            IFrameworkEmployeeRepository frameworkEmployeeRepository) : base(repository)
         {
             _repository = repository;
             _assessmentRepository = assessmentRepository;
             _domainRepository = domainRepository;
             _controlRepository = controlRepository;
-            _frameworkEmployeeRepository = frameworkEmployeeRepository; 
+            _frameworkEmployeeRepository = frameworkEmployeeRepository;
             _emailTemplateRepository = emailTemplateRepository;
             _emailTemplateAppService = emailTemplateAppService;
             _employeeRepository = employeeRepository;
@@ -465,15 +465,17 @@ namespace RMG.ComplianceSystem.Frameworks
             }
         }
 
-
-        public async Task ImportExcelFileAsync([FromBody] IRemoteStreamContent file, Guid id)
+        public async Task ImportExcelFileAsync([FromBody]IRemoteStreamContent file,Guid id)
         {
             var framework = await Repository.GetAsync(id);
-            string fileExtension = Path.GetExtension(file.FileName);
 
-            if (fileExtension != ".xlsx" && fileExtension != ".xls")
+            string extension = Path.GetExtension(file.FileName);
+
+            if (extension != ".xlsx" && extension != ".xls")
                 throw new UserFriendlyException(L["InvalidFileContent"]);
+
             var stream = file.GetStream();
+
             var mainDomainsList = new List<Domain>();
             framework.Domains = mainDomainsList;
             using (var workbook = new XLWorkbook(stream))
@@ -585,7 +587,6 @@ namespace RMG.ComplianceSystem.Frameworks
                 }
             }
         }
-
     }
 }
       

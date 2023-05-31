@@ -513,7 +513,9 @@
     "ExcelFileError": "خطأ غير متوقع أثناء رفع ملف الاكسيل",
     "ExcelFile": "ملف الاكسيل",
     "Import": "تحميل",
-    "DownloadTemp": "تنزيل قالب ملف الاكسيل"
+    "DownloadTemp": "تنزيل",
+    "SuccessfullyDownloaded": "تم التنزيل بنجاح",
+    "SuccessfullyImported" :  "تم الرفع الملف بنجاح"
 
 
 

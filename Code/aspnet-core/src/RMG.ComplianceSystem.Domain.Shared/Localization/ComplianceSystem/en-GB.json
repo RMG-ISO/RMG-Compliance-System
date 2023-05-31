@@ -510,7 +510,9 @@
     "ExcelFileError": "Unexpected error while upload excel file",
     "ExcelFile": "Excel File",
     "Import": "Import",
-    "DownloadTemp" :  "Download Temp Excel"
+    "DownloadTemp": "Download Temp Excel",
+    "SuccessfullyDownloaded": "Successfully Downloaded",
+    "SuccessfullyImported": "Successfully Imported"
 
   }
 }

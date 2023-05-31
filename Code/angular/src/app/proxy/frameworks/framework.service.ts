@@ -99,13 +99,14 @@ export class FrameworkService {
       { apiName: this.apiName });
 
       getTempExcelFile = () =>
-      this.restService.request<any, IRemoteStreamContent>({
+      this.restService.request<any, Blob>({
         method: 'GET',
+        responseType: 'blob',
         url: '/api/app/framework/temp-excel-file',
       },
-      { apiName: this.apiName });
+      { apiName: this.apiName })
 
-      importExcelFile = (file: IRemoteStreamContent, id: string) =>
+      importExcelFile = (file: FormData, id: string) =>
       this.restService.request<any, void>({
         method: 'POST',
         url: `/api/app/framework/${id}/import-excel-file`,

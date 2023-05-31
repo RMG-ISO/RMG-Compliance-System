@@ -1,4 +1,4 @@
-import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService  } from '@abp/ng.core';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ import { EMPTY } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-framework-view',
@@ -27,6 +28,7 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('domainDialog') domainDialog;
   @ViewChild('refuseCauseDialog') refuseCauseDialog;
   @ViewChild('fileInput') fileInput : ElementRef<HTMLInputElement>;
+  @ViewChild('download') downloadElement : ElementRef<HTMLAnchorElement>;
 
   SharedStatus = SharedStatus;
   FormMode = FormMode;
@@ -46,7 +48,8 @@ export class FrameworkViewComponent implements OnInit {
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
     private configState:ConfigStateService,
-    private toaster: ToasterService
+    private toaster: ToasterService,
+    private httpClient : HttpClient
   ) { }
 
   frameworkId;
@@ -187,44 +190,51 @@ export class FrameworkViewComponent implements OnInit {
     })
   }
 
-  uploadDownloadExcel($event) {
+  uploadDownloadExcel($event , ngSelect) {
     if($event == undefined) return;
 
     if ($event) {
-      
       this.fileInput.nativeElement.click();
+      return;
     }
 
-    this.frameworkService.getTempExcelFile().subscribe(file => {
-      saveAs(file, 'Excel file temp');
-    });
+    this.downloadExcelFile();
     
+    ngSelect.clearModel();
+  }
+
+  downloadExcelFile() {
+    this.frameworkService.getTempExcelFile().subscribe(file => {
+      const downloadUrl =window.URL.createObjectURL(file);
+      this.downloadElement.nativeElement.href = downloadUrl;
+      this.downloadElement.nativeElement.download = "Framework Data.xlsx";
+      this.downloadElement.nativeElement.click();
+      window.URL.revokeObjectURL(downloadUrl);
+
+      this.toaster.success('::SuccessfullyDownloaded' , '', { life : 3000})
+    });
   }
   onfileSelected($event) {
     const fileElement = $event.target as HTMLInputElement;
-  
-    
     if (!fileElement || !fileElement.files || fileElement.files.length < 1)
       return;
     
-      this.uploadfile = fileElement.files[0] as IRemoteStreamContent;
-
-      this.saveFile(this.uploadfile);
-      
+    this.saveFile(fileElement.files[0]);
   }
 
-  saveFile(file : IRemoteStreamContent) {
+  saveFile(file : File) {
 
     const formData = new FormData();
-    formData.append('file',file as Blob);
-    this.frameworkService.importExcelFile(file,this.frameworkId).pipe(
-      catchError(err => { 
-        this.toaster.error("::ExcelFileError"); 
-        return EMPTY; 
+    formData.append('file', file as Blob);
+
+    this.frameworkService.importExcelFile(formData, this.frameworkId).pipe(
+      catchError(err => {
+        this.toaster.error("::ExcelFileError");
+        return EMPTY;
       })
     ).subscribe(
-      () => this.toaster.success('Message', 'Title')
-    );
+      () => this.toaster.success('::SuccessfullyImported', '' , { life : 4000})
+    );  
+    }
+    
   }
-
-}
