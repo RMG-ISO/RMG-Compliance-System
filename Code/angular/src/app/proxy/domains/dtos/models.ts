@@ -48,6 +48,7 @@ export interface DomainWithoutPagingDto extends FullAuditedEntityWithUserDto<Ide
   descriptionEn?: string;
   reference?: string;
   status: SharedStatus;
+  complianceStatus: ComplianceStatus;
   parentId?: string;
   frameworkId?: string;
   responsibleId?: string;

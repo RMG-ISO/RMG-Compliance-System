@@ -514,8 +514,17 @@
     "ComplianceSystem:Framework:007": "Framework must be activated to start self assessment",
     "ComplianceSystem:Domain:001": "Main domain needs responsible person",
     "ChangeFrameworkStatus":"Change Framework Status",
-    "SelfAssessmentDate":"Self Assessment Date"
+    "SelfAssessmentDate":"Self Assessment Date",
 
+    "ComplianceSystem:Assessment:001": "You must start self assessment for framework first",
+    "ComplianceSystem:Assessment:002": "You must enter percentage for partial answers",
+    "ComplianceSystem:Assessment:003": "You must provide comment and attachments when answering partial or yes",
+    "ComplianceSystem:Framework:008": "You must provide compliance info for the following controls first: {controlsName}",
+    "ComplianceSystem:Framework:009": "Only framework owner can activate or deactivate framework",
+    "ComplianceSystem:Framework:010": "Only approved frameworks can be activated or deactivated",
+    "ComplianceSystem:Framework:011": "Framework cannot be updated after starting self assessment",
+    "ComplianceSystem:Assessment:004": "Only framework owner can change assessment applicable",
+    "ComplianceSystem:Assessment:005": "Only framework owner can start assessment for control"
 
   }
 }

@@ -106,6 +106,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<DomainDepartment> DomainDepartments { get; set; }
         public DbSet<DepartmentUser> DepartmentUsers { get; set; }
         public DbSet<FrameworkChangeStatusLog> FrameworkChangeStatusLogs { get; set; }
+        public DbSet<AssessmentVersion> AssessmentVersions { get; set; }
 
         #endregion
 
@@ -143,6 +144,12 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+            builder.Entity<AssessmentVersion>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "AssessmentVersions", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<FrameworkChangeStatusLog>(b =>
             {
