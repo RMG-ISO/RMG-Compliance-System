@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { SharedStatus } from '@proxy/shared';
+import { ComplianceStatus, SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -24,6 +24,7 @@ export class DomainViewComponent implements OnInit {
   SharedStatus = SharedStatus;
   FormMode = FormMode;
 
+  ComplianceStatus = ComplianceStatus;
   constructor(
     public activatedRoute:ActivatedRoute,
     private router:Router,
@@ -46,7 +47,6 @@ export class DomainViewComponent implements OnInit {
   ngOnInit(): void {
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
-      console.log(res);
       this.subDomainData = res;
       this.domainService.get(res.parentId).subscribe(r => {
         this.mainDomainData = r;
@@ -55,11 +55,10 @@ export class DomainViewComponent implements OnInit {
 
       this.frameworkService.get(res.frameworkId).subscribe(fram => {
         this.frameWorkData = fram;
-        this.inAssessment = !!fram.selfAssessmentStartDate;
       });
     });
-    console.log(this.activatedRoute.snapshot.params);
 
+    this.inAssessment = this.router.url.includes('/compliance-assessment/')
   }
 
   selectedToDelete = {};
@@ -87,7 +86,6 @@ export class DomainViewComponent implements OnInit {
       this.mainControlsItems = response.items;
       this.selectedToDelete = {};
       this.deleteLength = 0;
-      // this.totalCount = response.totalCount;
     });
   }
 

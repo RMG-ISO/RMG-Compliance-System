@@ -80,10 +80,10 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   items
   totalCount;
   getList() {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: false, mainDomainId: this.mainDomain.id, frameworkId: this.frameworkId });
+    const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: false, mainDomainId: this.mainDomain.id, frameworkId: this.frameworkId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
-      this.totalCount = response.totalCount;
+      this.totalCount = response.items.length;
     });
   }
 

@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
+import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
 import { finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -30,6 +30,8 @@ export class FrameworkViewComponent implements OnInit {
   SharedFrameworkStatus = FrameworkStatus;
   sharedStatusOptions = sharedStatusOptions;
   
+  ComplianceStatus = ComplianceStatus;
+
   constructor(
     public  activatedRoute:ActivatedRoute,
     private frameworkService:FrameworkService,
@@ -49,13 +51,17 @@ export class FrameworkViewComponent implements OnInit {
   userId;
 
   inAssessment = false;
+
+  parentPath;
   ngOnInit(): void {
+    this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
+
     this.currentLang = this.localizationService.currentLang;
 
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
-      console.log(fram);
       this.frameWorkData = fram;
+
       this.inAssessment = !!fram.selfAssessmentStartDate;
       this.getMainDomainsList();
     });
@@ -83,7 +89,7 @@ export class FrameworkViewComponent implements OnInit {
 
   mainDomainsItems;
   getMainDomainsList(search = null) {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
+    const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.mainDomainsItems = response.items;
       this.selectedToDelete = {};
@@ -198,7 +204,21 @@ export class FrameworkViewComponent implements OnInit {
 
 
   OnFileUploaded(attachmentId: string) {
+    if(this.frameWorkData.attachmentId) return;
+
     this.frameWorkData.attachmentId = attachmentId;
+
+    let data = {...this.frameWorkData};
+
+    if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(emp => {
+      return {
+        employeeId: emp.employeeId,
+        frameworkId: this.frameWorkData?.id ? this.frameWorkData?.id : '00000000-0000-0000-0000-000000000000',
+      };
+    });
+    this.frameworkService.update(this.frameWorkData.id, data).subscribe(r => {
+      this.frameWorkData = r;
+    })
   }
 
   uploading
@@ -210,5 +230,8 @@ export class FrameworkViewComponent implements OnInit {
     this.uploading = false;
   }
 
+  sendForInternalAssessment() {
+    this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
+  }
 
 }

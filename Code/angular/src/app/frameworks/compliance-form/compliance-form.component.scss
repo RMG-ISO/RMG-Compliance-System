@@ -12,9 +12,11 @@
 form {
     margin: 1rem 0;
     .applicable-question {
-        color: #888888;
-        font-size: 15px;
-        font-weight: bold;
+        label {
+            color: #888888;
+            font-size: 15px;
+            font-weight: bold;
+        }
     }
     
     section {
