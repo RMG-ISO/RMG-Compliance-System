@@ -22,7 +22,7 @@ namespace RMG.ComplianceSystem.Frameworks
         public string DescriptionEn { get; set; }
         public SharedStatus Status { get; set; }
         public FrameworkStatus FrameworkStatus { get; set; }
-        public Guid AttachmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
         public Guid ManagementId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
