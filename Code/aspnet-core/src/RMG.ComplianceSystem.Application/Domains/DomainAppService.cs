@@ -37,6 +37,7 @@ namespace RMG.ComplianceSystem.Domains
         private readonly INotificationAppService _notificationAppService;
         private readonly IPermissionGrantRepository _permissionGrantRepository;
         private readonly IdentityUserManager _identityUserManager;
+        private readonly IDomainManager _domainManager;
 
         public DomainAppService(
             IDomainRepository repository,
@@ -47,7 +48,8 @@ namespace RMG.ComplianceSystem.Domains
             IEmployeeRepository employeeRepository,
             IPermissionGrantRepository permissionGrantRepository,
             IdentityUserManager identityUserManager,
-            IFrameworkRepository frameworkRepository) : base(repository)
+            IFrameworkRepository frameworkRepository,
+            IDomainManager domainManager) : base(repository)
         {
             _employeeRepository = employeeRepository;
             _frameworkRepository = frameworkRepository;
@@ -57,6 +59,7 @@ namespace RMG.ComplianceSystem.Domains
             _notificationAppService = notificationAppService;
             _permissionGrantRepository = permissionGrantRepository;
             _identityUserManager = identityUserManager;
+            _domainManager = domainManager;
         }
 
         protected override async Task<IQueryable<Domain>> CreateFilteredQueryAsync(DomainPagedAndSortedResultRequestDto input)
@@ -188,10 +191,11 @@ namespace RMG.ComplianceSystem.Domains
         }
 
 
+        [Authorize]
         public async Task StartInternalAssessment(Guid id)
         {
             var domain = await Repository.GetAsync(id);
-            // ToDo: check if responsible and compliance status
+            _domainManager.CanStartInternalAssessment(domain, CurrentUser.Id.Value);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             domain.InternalAssessmentStartDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
@@ -204,10 +208,11 @@ namespace RMG.ComplianceSystem.Domains
             await Repository.UpdateAsync(domain);
         }
 
+        [Authorize]
         public async Task EndInternalAssessment(Guid id)
         {
             var domain = await Repository.GetAsync(id);
-            // ToDo: check if responsible and compliance status
+            _domainManager.CanEndInternalAssessment(domain, CurrentUser.Id.Value);
             // ToDo: update framework end date
             domain.InternalAssessmentEndDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;

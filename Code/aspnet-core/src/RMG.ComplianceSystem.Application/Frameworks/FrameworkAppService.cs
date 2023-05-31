@@ -507,8 +507,8 @@ namespace RMG.ComplianceSystem.Frameworks
             var controls = _controlRepository.Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
             var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
-                return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), domains);
-            return new Tuple<bool, List<string>, List<Domain>>(true, null, null);
+                return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
+            return new Tuple<bool, List<string>, List<Domain>>(true, null, domains);
         }
 
         private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, NotificationSource notificationSource, NotySource notySource, Guid refId)

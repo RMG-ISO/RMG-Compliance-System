@@ -526,7 +526,10 @@
     "ComplianceSystem:Assessment:004": "Only framework owner can change assessment applicable",
     "ComplianceSystem:Assessment:005": "Only framework owner can start assessment for control",
     "ComplianceSystem:Assessment:006": "Assessment cannot be updated by framework owner when compliance not started nor under internal assessment",
-    "ComplianceSystem:Assessment:007": "Assessment can only be updated by domain responsible when compliance under internal assessment"
+    "ComplianceSystem:Assessment:007": "Assessment can only be updated by domain responsible when compliance under internal assessment",
+    "ComplianceSystem:Domain:002": "Domain must be ready for internal assessment to start internal assessment",
+    "ComplianceSystem:Domain:003": "Only domain responsible can start internal assessment",
+    "ComplianceSystem:Domain:004": "Domain must be under internal assessment to end internal assessment"
 
   }
 }
