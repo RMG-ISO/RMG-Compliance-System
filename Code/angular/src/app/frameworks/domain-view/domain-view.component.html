@@ -16,7 +16,7 @@
                     {{ subDomainData | lang:'name' }}
                 </h2>
                 <ng-container *abpPermission="'ComplianceSystem.Domain.Create'">
-                    <button *ngIf="mainDomainData" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
+                    <button *ngIf="mainDomainData && !inAssessment" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
                         <mat-icon class="mr-1">edit</mat-icon>
                         {{ '::Edit' | abpLocalization }}
                     </button>
@@ -91,8 +91,8 @@
                 <h3 class="m-0">
                     {{ (frameWorkData | lang:'levelThirdName') || ('::ControlMainControls' | abpLocalization) }}
                 </h3>
-    
-                <div>
+
+                <div *ngIf="!inAssessment">
                     <button (click)="openControlDialog(null, FormMode.Create, null, null)" *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
                         <i class="fa fa-plus mr-1"></i>
                         <span>
@@ -119,7 +119,7 @@
                             <span>
                                 {{ mainControl | lang:'name' }}
                             </span>
-                            <div>
+                            <div *ngIf="!inAssessment">
                                 <button *abpPermission="'ComplianceSystem.Control.Update'"  class="mr-3" mat-button (click)="openControlDialog(mainControl, FormMode.Edit, null, null); $event.stopPropagation()">
                                     <mat-icon>edit</mat-icon>
                                     {{ '::Edit' | abpLocalization }}
@@ -184,27 +184,31 @@
                             </table>
                         </div>
     
+                        <app-compliance-form></app-compliance-form>
+
                         <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
                             <h4 class="m-0">
                                 {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' | abpLocalization) }}
                             </h4>
             
-                            <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button class="add-raised-btn add-blue"
+                            <ng-container *ngIf="!inAssessment">
+                                <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button class="add-raised-btn add-blue"
                                 type="button" (click)="openControlDialog(null, FormMode.Create, mainControl, subControlsTable)">
-                                <i class="fa fa-plus mr-1"></i>
-                                <span>
-                                    <ng-container *ngIf="frameWorkData | lang:'levelFourName'; else showCreateSubControl">
-                                        {{'::Create' | abpLocalization}}
-                                        {{ frameWorkData | lang:'levelFourName' }}
-                                    </ng-container>
-                                    <ng-template #showCreateSubControl>
-                                        {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' | abpLocalization) }}
-                                    </ng-template>
-                                </span>
-                            </button>
+                                    <i class="fa fa-plus mr-1"></i>
+                                    <span>
+                                        <ng-container *ngIf="frameWorkData | lang:'levelFourName'; else showCreateSubControl">
+                                            {{'::Create' | abpLocalization}}
+                                            {{ frameWorkData | lang:'levelFourName' }}
+                                        </ng-container>
+                                        <ng-template #showCreateSubControl>
+                                            {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' | abpLocalization) }}
+                                        </ng-template>
+                                    </span>
+                                </button>
+                            </ng-container>
                         </div>
     
-                        <app-expansion-sub-controls-table #subControlsTable [expanded]="panel.expanded" 
+                        <app-expansion-sub-controls-table #subControlsTable [inAssessment]="inAssessment" [expanded]="panel.expanded" 
                         [subDomainId]="subDomainId" [mainControl]="mainControl" [frameWorkData]="frameWorkData" > </app-expansion-sub-controls-table>
                     </section>
     

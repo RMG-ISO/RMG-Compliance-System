@@ -16,7 +16,18 @@ const routes: Routes = [
   {
     path:'frameworks',
     canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./frameworks/frameworks.module').then(m => m.FrameworksModule)
+    loadChildren: () => import('./frameworks/frameworks.module').then(m => m.FrameworksModule),
+    data:{
+      requiredPolicy:'ComplianceSystem.Framework'
+    }
+  },
+  {
+    path:'compliance-assessment',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./compliance-assessment/compliance-assessment.module').then(m => m.ComplianceAssessmentModule),
+    data:{
+      requiredPolicy:'ComplianceSystem.Assessment'
+    }
   },
   {
     path:'assessment',
