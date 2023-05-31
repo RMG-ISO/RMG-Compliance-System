@@ -24,7 +24,7 @@
         public const string FrameworkCannotBeUpdatedAfterStartingSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:011";
         // Domain
         public const string MainDomainNeedsResponsible = $"{ParentGroupName}:{DomainGroupName}:001";
-
+        public const string DomainMustBeReadyForInternalAssessmentToStartInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:002";
         // Assessment
         public const string YouMustStartSelfAssessmentForFrameworkFirst = $"{ParentGroupName}:{AssessmentGroupName}:001";
         public const string YouMustProvidePercentageForPartialAnswers = $"{ParentGroupName}:{AssessmentGroupName}:002";
