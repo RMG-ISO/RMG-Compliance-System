@@ -6,11 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { IFormFile } from '@proxy/microsoft/asp-net-core/http';
-import { SharedFrameworkStatus, SharedStatus } from '@proxy/shared';
-import { IRemoteStreamContent } from '@proxy/volo/abp/content';
-import { EMPTY } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
+import { finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
@@ -34,9 +31,8 @@ export class FrameworkViewComponent implements OnInit {
   FormMode = FormMode;
   activeTab = 'details';
 
-  SharedFrameworkStatus = SharedFrameworkStatus;
-
-  uploadfile : IRemoteStreamContent;
+  SharedFrameworkStatus = FrameworkStatus;
+  sharedStatusOptions = sharedStatusOptions;
   
   constructor(
     public  activatedRoute:ActivatedRoute,
@@ -57,6 +53,8 @@ export class FrameworkViewComponent implements OnInit {
 
   currentLang;
   userId;
+
+  inAssessment = false;
   ngOnInit(): void {
     this.currentLang = this.localizationService.currentLang;
 
@@ -64,6 +62,7 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       console.log(fram);
       this.frameWorkData = fram;
+      this.inAssessment = !!fram.selfAssessmentStartDate;
       this.getMainDomainsList();
     });
 
@@ -156,6 +155,19 @@ export class FrameworkViewComponent implements OnInit {
     })
   }
 
+  isSendingStatus = false;
+  changeFrameActivityStatus(cond) {
+    if(cond == undefined) return;
+    this.isSendingStatus = true;
+    
+    let func = cond == SharedStatus.Active ? this.frameworkService.activateById : this.frameworkService.deactivateById;
+    func(this.frameWorkData.id)
+    .pipe( finalize(() => this.isSendingStatus = false) )
+    .subscribe(r => {
+      window.location.reload();
+    })
+  }
+
   openFrameDialog(mode = FormMode.Create) {
     let ref = this.matDialog.open(this.frameDialog, {
       data:{
@@ -190,6 +202,22 @@ export class FrameworkViewComponent implements OnInit {
     })
   }
 
+
+  OnFileUploaded(attachmentId: string) {
+    this.frameWorkData.attachmentId = attachmentId;
+  }
+
+  uploading
+  OnFileBeginUpload(beginUpload: boolean) {
+    this.uploading = true;
+  }
+
+  OnFileEndUpload(endUpload: boolean) {
+    this.uploading = false;
+  }
+
+
+}
   uploadDownloadExcel($event , ngSelect) {
     if($event == undefined) return;
 

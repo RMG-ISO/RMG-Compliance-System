@@ -1,0 +1,41 @@
+.compliance-info {
+    h4 {
+        margin-bottom: 0;
+        padding: 12px 16px;
+        background-color: #F2F9F6;
+    }
+    div.details-table-cont {
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+form {
+    margin: 1rem 0;
+    .applicable-question {
+        color: #888888;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    
+    section {
+        background: #F2F9F6;
+        display: block;
+        padding: 24px 18px;
+        ng-select {
+            ::ng-deep .ng-select-container{
+                border-radius: 10px;
+            }
+        }
+        h5 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        textarea {
+            height: 75px;
+        }
+        p.invalid-feedback {
+            font-size: 15px;
+        }
+    }
+}

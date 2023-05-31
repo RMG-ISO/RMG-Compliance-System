@@ -720,6 +720,9 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ComplianceStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
@@ -781,6 +784,9 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("ResponsibleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
 
@@ -795,6 +801,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasIndex("LastModifierId");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("ResponsibleId");
 
                     b.ToTable("AppDomains");
                 });
@@ -947,6 +955,9 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("ComplianceStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
@@ -1034,6 +1045,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<Guid>("ReviewUserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SelfAssessmentStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ShortcutAr")
                         .HasColumnType("nvarchar(max)");
@@ -4311,6 +4325,10 @@ namespace RMG.ComplianceSystem.Migrations
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
+                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Responsible")
+                        .WithMany()
+                        .HasForeignKey("ResponsibleId");
+
                     b.Navigation("Creator");
 
                     b.Navigation("Deleter");
@@ -4320,6 +4338,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
 
                     b.Navigation("Parent");
+
+                    b.Navigation("Responsible");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.DomainDepartment", b =>

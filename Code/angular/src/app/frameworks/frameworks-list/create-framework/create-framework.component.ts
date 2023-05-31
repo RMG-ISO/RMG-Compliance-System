@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FrameworkService } from '@proxy/frameworks';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { SharedFrameworkStatus, sharedStatusOptions } from '@proxy/shared';
+import { FrameworkStatus, sharedStatusOptions } from '@proxy/shared';
 import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
 
@@ -37,11 +37,11 @@ export class CreateFrameworkComponent implements OnInit {
         shortcutAr: new FormControl(null, Validators.required),
         shortcutEn: new FormControl(null, Validators.required),
         managementId: new FormControl(null, Validators.required),
-        status: new FormControl(null, Validators.required),
-        frameworkStatus: new FormControl(SharedFrameworkStatus.NewFramework),
+        // status: new FormControl(null, Validators.required),
+        frameworkStatus: new FormControl(FrameworkStatus.NewFramework),
         descriptionAr: new FormControl(null),
         descriptionEn: new FormControl(null),
-        attachmentId: new FormControl('00000000-0000-0000-0000-000000000000'),
+        attachmentId: new FormControl(null),
         id: new FormControl(null),
       }),
       frameLevels: new FormGroup({

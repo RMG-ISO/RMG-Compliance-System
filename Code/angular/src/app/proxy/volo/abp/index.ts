@@ -1,2 +1,3 @@
 import * as Content from './content';
-export { Content };
+import * as Identity from './identity';
+export { Content, Identity };

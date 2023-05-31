@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentService } from '@proxy/departments';
 import { DomainService } from '@proxy/domains';
+import { EmployeeService } from '@proxy/employees';
 import { sharedStatusOptions } from '@proxy/shared';
 import { finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
@@ -25,16 +26,14 @@ export class CreateDomainComponent implements OnInit {
   constructor(
     private departmentService: DepartmentService,
     private domainService: DomainService,
-
+    private employeeService:EmployeeService
   ) { }
 
   form:FormGroup;
 
-
-
   departments;
+  employees
   ngOnInit(): void {
-    console.log(this.mainDomain)
     this.form = new FormGroup({
       id: new FormControl(null),
       nameAr: new FormControl(null, Validators.required),
@@ -47,14 +46,20 @@ export class CreateDomainComponent implements OnInit {
       status: new FormControl(null, Validators.required),
       parentId: new FormControl( this.mainDomain ? this.mainDomain.id : null, this.mainDomain ? Validators.required : null),
     });
+
+    this.departmentService.getDepartmentListLookup().subscribe(r => this.departments = r.items);
+
+    if(!this.mainDomain) {
+      this.form.addControl('responsibleId', new FormControl(null, Validators.required));
+      this.employeeService.getEmployeeListLookup().subscribe(r => {
+        this.employees = r.items;
+      });
+    }
+
     if (this.data) {
       this.form.patchValue(this.data);
       this.form.get("departmentIds").setValue(this.data.departments.map(t => t.id));
     }
-
-
-    this.departmentService.getDepartmentListLookup().subscribe(r => this.departments = r.items);
-
   }
 
   isSaving = false;

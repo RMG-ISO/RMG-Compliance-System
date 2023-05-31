@@ -1,16 +1,14 @@
-import type { SharedStatus, SharedFrameworkStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { IdentityUserDto } from '@abp/ng.account';
 import type { DomainDto } from '../../domains/dtos/models';
+import type { SharedStatus } from '../../shared/shared-status.enum';
+import type { FrameworkStatus } from '../../shared/framework-status.enum';
+import type { ComplianceStatus } from '../../shared/compliance-status.enum';
+import type { FrameworkChangeStatusLogDto } from '../models';
 import type { ControlDto } from '../../controls/dtos/models';
 import type { AssessmentDto } from '../../assessments/dtos/models';
-import type { FrameworkChangeStatusLogDto } from '../models';
 
-export interface RejectFrameworkDto {
-  reason?: string;
-}
-
-export interface CreateUpdateFrameworkDto {
+export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   managementName?: string;
   reviewUserName?: string;
   ownerName?: string;
@@ -20,10 +18,10 @@ export interface CreateUpdateFrameworkDto {
   shortcutEn?: string;
   descriptionAr?: string;
   descriptionEn?: string;
+  managementId?: string;
   status: SharedStatus;
-  frameworkStatus?: SharedFrameworkStatus;
+  frameworkStatus: FrameworkStatus;
   attachmentId?: string;
-  ManagementId?: string;
   reviewUserId?: string;
   approveUserId?: string;
   levelFirstNameAr?: string;
@@ -32,23 +30,31 @@ export interface CreateUpdateFrameworkDto {
   levelSecondNameEn?: string;
   levelThirdNameAr?: string;
   levelThirdNameEn?: string;
+  ownerId?: string;
   levelFourNameAr?: string;
   levelFourNameEn?: string;
-  OwnerId?: string;
-  FrameworkEmpDto?: FrameworkEmpDto[];
+  complianceStatus: ComplianceStatus;
+  selfAssessmentStartDate?: string;
+  frameworkEmpsDto: FrameworkEmpDto[];
+  changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
 
-export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
+export interface FrameworkEmpDto {
+  frameworkId?: string;
+  employeeId?: string;
+  employeeName?: string;
+}
+
+export interface CreateUpdateFrameworkDto {
   nameAr?: string;
   nameEn?: string;
   shortcutAr?: string;
   shortcutEn?: string;
   descriptionAr?: string;
   descriptionEn?: string;
-  status: SharedStatus;
-  frameworkStatus?: SharedFrameworkStatus;
+  managementId?: string;
+  ownerId?: string;
   attachmentId?: string;
-  ManagementId?: string;
   reviewUserId?: string;
   approveUserId?: string;
   levelFirstNameAr?: string;
@@ -59,44 +65,67 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   levelThirdNameEn?: string;
   levelFourNameAr?: string;
   levelFourNameEn?: string;
-  OwnerId?: string;
-  FrameworkEmpDto?: FrameworkEmpDto[];
-  changeStatusLogs: FrameworkChangeStatusLogDto[];
+  frameworkEmpsDto: FrameworkEmpDto[];
+}
+
+export interface CreateUpdateFrameworkEmployeeDto {
+  frameworkId?: string;
+  employeeId?: string;
+}
+
+export interface FrameworkData {
+  totalApplicable: number;
+  totalNotApplicable: number;
+  frameworkDto: FrameworkDto;
+  domainDta: MainDomainsDto[];
+}
+
+export interface FrameworkEmployeeDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
+  frameworkId?: string;
+  employeeId?: string;
+}
+
+export interface FrameworkEmployeePagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
+  frameworkId?: string;
+  employeeId?: string;
 }
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
-  FrameworkId?: string;
   search?: string;
   status?: SharedStatus;
-}
-export interface getFrameworkDto {
-  FrameworkId?: string;
-}
-export interface FrameworkEmpDto {
-  FrameworkId?: string;
-  EmployeeId?: string;
-  employeeName?: string;
+  frameworkStatus?: FrameworkStatus;
 }
 
-export interface ComplainceDto {
-  totalApplicable?: number;
-  totalNotApplicable?: number;
-  FrameworkData?: FrameworkData[];
+export interface MainControlsDto {
+  mainControl: ControlDto;
+  subControl: SubControlsDto[];
+  assessmentDto: AssessmentDto;
 }
-export interface FrameworkData {
-  FrameworkDto?: FrameworkDto;
-  DomainsDta?: DomainsDta[];
+
+export interface MainDomainsDto {
+  levelOne: number;
+  levelTwo: number;
+  levelThree: number;
+  levelfour: number;
+  levelFive: number;
+  maindomain: DomainDto;
+  childrenDomains: SubDomainsDto[];
 }
-export interface DomainsDta {
-  levelOne?: number;
-  levelTwo?: number;
-  levelThree?: number;
-  levelfour?: number;
-  levelFive?: number;
-  subdomain?: DomainDto;
-  ChildrenControls?: ControlsDto[];
+
+export interface RejectFrameworkDto {
+  reason?: string;
 }
-export interface ControlsDto {
-  subControl?: ControlDto;
-  AssessmentDto?: AssessmentDto;
+
+export interface SubControlsDto {
+  subControl: ControlDto;
+  assessmentDto: AssessmentDto;
+}
+
+export interface SubDomainsDto {
+  subdomain: DomainDto;
+  childrenControls: MainControlsDto[];
+}
+
+export interface getFrameworkDto {
+  frameworkId?: string;
 }

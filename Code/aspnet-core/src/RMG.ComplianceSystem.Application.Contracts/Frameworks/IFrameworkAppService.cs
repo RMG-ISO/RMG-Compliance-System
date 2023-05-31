@@ -23,6 +23,11 @@ namespace RMG.ComplianceSystem.Frameworks
         Task ReturnToCreator(Guid id, RejectFrameworkDto input);
         Task Approve(Guid id);
 
+        Task StartSelfAssessment(Guid id);
+
+        Task Activate(Guid id);
+        Task Deactivate(Guid id);
+
         IRemoteStreamContent GetTempExcelFile();
         Task ImportExcelFileAsync(IRemoteStreamContent file, Guid id);
     }

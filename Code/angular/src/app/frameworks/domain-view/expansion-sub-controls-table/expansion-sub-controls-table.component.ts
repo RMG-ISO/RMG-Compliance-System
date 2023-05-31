@@ -22,6 +22,7 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   @Input('mainControl') mainControl;
   @Input('expanded') expanded;
   @Input('frameWorkData') frameWorkData;
+  @Input('inAssessment') inAssessment;
   
   constructor(
     public readonly list: ListService,
@@ -88,10 +89,11 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   }
 
   activate(ev) {
-    // if (ev.type === 'click') {
-    //   this.router.navigate(['/frameworks', 'sub-domains', ev.row.id, 'controls'])
-    //   console.log(ev.row);
-    // }
+    // sub-controls/:frameworkId/:subDomainId/:subControlId
+    if (ev.type === 'click') {
+      this.router.navigate(['/frameworks', 'sub-controls', this.frameWorkData.id, this.subDomainId , ev.row.id ])
+      console.log(ev.row);
+    }
     
   }
 
