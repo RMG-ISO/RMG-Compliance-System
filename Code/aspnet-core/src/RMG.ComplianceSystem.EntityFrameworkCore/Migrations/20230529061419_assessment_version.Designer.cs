@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMG.ComplianceSystem.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -10,9 +11,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace RMG.ComplianceSystem.Migrations
 {
     [DbContext(typeof(ComplianceSystemDbContext))]
-    partial class ComplianceSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529061419_assessment_version")]
+    partial class assessment_version
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -790,9 +792,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ComplianceStatus")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
@@ -827,12 +826,6 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<Guid>("FrameworkId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("InternalAssessmentEndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("InternalAssessmentStartDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1028,7 +1021,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("ApproveUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AttachmentId")
+                    b.Property<Guid>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ComplianceStatus")
@@ -1068,12 +1061,6 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<byte>("FrameworkStatus")
                         .HasColumnType("tinyint");
-
-                    b.Property<DateTime?>("InternalAssessmentEndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("InternalAssessmentStartDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1127,9 +1114,6 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<Guid>("ReviewUserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("SelfAssessmentEndDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("SelfAssessmentStartDate")
                         .HasColumnType("datetime2");

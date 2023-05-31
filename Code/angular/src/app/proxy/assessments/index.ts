@@ -5,4 +5,5 @@ export * from './compliance-level-type.enum';
 export * from './documented-type.enum';
 export * from './effective-type.enum';
 export * from './implemented-type.enum';
+export * from './models';
 export { Dtos };
