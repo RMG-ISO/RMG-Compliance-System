@@ -520,9 +520,9 @@
     "SelfAssessmentDate":"تاريخ التقييم الذاتى",
     "InvalidFileContent": "الملف غير صالح .يحب ان يكون ملف اكسيل ذو اللاوحق (.xlsx - .xls)",
     "ExcelFileError": "خطأ غير متوقع أثناء رفع ملف الاكسيل",
-    "ExcelFile": "ملف الاكسيل",
+    "ExcelFile": "ملف الاكسل",
     "Import": "تحميل",
-    "DownloadTemp": "تنزيل",
+    "DownloadTemp": "تنزيل قالب",
     "SuccessfullyDownloaded": "تم التنزيل بنجاح",
     "SuccessfullyImported" :  "تم الرفع الملف بنجاح"
 
