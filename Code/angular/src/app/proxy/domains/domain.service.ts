@@ -24,6 +24,13 @@ export class DomainService {
     },
     { apiName: this.apiName });
 
+  endInternalAssessmentById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/domain/${id}/end-internal-assessment`,
+    },
+    { apiName: this.apiName });
+
   get = (id: string) =>
     this.restService.request<any, DomainDto>({
       method: 'GET',
@@ -44,6 +51,13 @@ export class DomainService {
       method: 'GET',
       url: '/api/app/domain/without-paging',
       params: { frameworkId: input.frameworkId, mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+  startInternalAssessmentById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/domain/${id}/start-internal-assessment`,
     },
     { apiName: this.apiName });
 

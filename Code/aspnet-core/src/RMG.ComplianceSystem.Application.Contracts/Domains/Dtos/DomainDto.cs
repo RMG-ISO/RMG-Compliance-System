@@ -21,6 +21,8 @@ namespace RMG.ComplianceSystem.Domains.Dtos
 
         public SharedStatus Status { get; set; }
         public ComplianceStatus ComplianceStatus { get; set; }
+        public DateTime? InternalAssessmentStartDate { get; set; }
+        public DateTime? InternalAssessmentEndDate { get; set; }
 
         public Guid? ParentId { get; set; }
 
