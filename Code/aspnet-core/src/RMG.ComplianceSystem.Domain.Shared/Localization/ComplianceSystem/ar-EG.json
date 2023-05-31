@@ -518,7 +518,7 @@
     "ComplianceSystem:Domain:001": "النطاق الرئيسي يحتاج إلى شخص مسؤول",
     "ChangeFrameworkStatus":"تغيير حالة الإطار",
     "SelfAssessmentDate":"تاريخ التقييم الذاتى",
-    "InvalidFileContent": "الملف غير صالح .يحب ان يكون ملف اكسيل ذو اللاوحق (.xlsx - .xls)",
+    "InvalidFileContent": "الملف غير صالح .يحب ان يكون ملف اكسل ذو اللاوحق (.xlsx - .xls)",
     "ExcelFileError": "خطأ غير متوقع أثناء رفع ملف الاكسيل",
     "ExcelFile": "ملف الاكسل",
     "Import": "تحميل",
