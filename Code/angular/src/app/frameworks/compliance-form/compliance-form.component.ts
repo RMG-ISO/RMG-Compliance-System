@@ -91,7 +91,16 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
           this.domainData.complianceStatus == ComplianceStatus.Approved ||
           this.frameWorkData.complianceStatus == ComplianceStatus.Approved) {
           this.form.disable();
-        } else if (this.frameWorkData.ownerId !== this.userId && this.domainData.complianceStatus == ComplianceStatus.NotStarted) this.form.disable();
+        } else if (this.frameWorkData.ownerId !== this.userId &&
+          (
+            this.domainData.complianceStatus == ComplianceStatus.NotStarted ||
+            this.domainData.complianceStatus == ComplianceStatus.UnderPreparation ||
+            this.domainData.complianceStatus == ComplianceStatus.UnderReRevision
+          ) ) this.form.disable();
+        else if (
+          (this.domainData.complianceStatus == ComplianceStatus.UnderInternalAssessment || this.domainData.complianceStatus == ComplianceStatus.UnderInternalReAssessment) &&
+          this.domainData.responsibleId !== this.userId) this.form.disable();
+
         // else if(this.domainData.responsibleId !== this.userId) {
 
         // }

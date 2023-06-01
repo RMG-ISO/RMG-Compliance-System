@@ -136,8 +136,6 @@
             }
         }
 
-       
-
         &>div {
             display: flex;
             align-items: center;
@@ -199,7 +197,8 @@
     }
     .tabs {
         // background: #6B6E6C;
-        padding: 32px 0px;
+        padding: 32px 0px 16px;
+        flex-wrap: wrap;
         button {
             border-radius: 6px 0;
             border: 1px solid #54C16F;
@@ -207,6 +206,7 @@
             margin-left: 16px;
             min-width: 145px;
 
+            margin-bottom: 16px;
 
             &.active {
                 background-color: #54C16F;

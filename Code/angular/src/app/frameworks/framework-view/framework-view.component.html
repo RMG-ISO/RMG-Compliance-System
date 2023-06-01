@@ -429,9 +429,17 @@
                                         <td>
                                             {{ '::Status' | abpLocalization }}
                                         </td>
-                                        <td colspan="3">
+                                        <td>
                                             <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
                                                 {{ ('::Enum:SharedStatus:' + mainDomain.status) | abpLocalization }}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            {{ '::ComplianceStatus' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
+                                                {{ ('::' + ComplianceStatus[mainDomain?.complianceStatus] ) | abpLocalization }}
                                             </button>
                                         </td>
                                     </tr>
