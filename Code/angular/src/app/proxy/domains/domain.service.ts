@@ -24,6 +24,14 @@ export class DomainService {
     },
     { apiName: this.apiName });
 
+  deleteManyByIds = (ids: string[]) =>
+    this.restService.request<any, void>({
+      method: 'DELETE',
+      url: '/api/app/domain/many',
+      params: { ids },
+    },
+    { apiName: this.apiName });
+
   endInternalAssessmentById = (id: string) =>
     this.restService.request<any, void>({
       method: 'POST',

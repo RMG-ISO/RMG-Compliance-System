@@ -9,7 +9,7 @@ using Volo.Abp.Domain.Services;
 
 namespace RMG.ComplianceSystem.Domains
 {
-    public class DomainManager : DomainService, IDomainService
+    public class DomainManager : DomainService, IDomainManager
     {
         public bool CanStartInternalAssessment(Domain domain, Guid userId)
         {

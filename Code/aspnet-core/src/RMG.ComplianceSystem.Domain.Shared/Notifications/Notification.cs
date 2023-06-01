@@ -31,7 +31,8 @@ namespace RMG.ComplianceSystem.Notifications
         InternalAuditPreparation,
         FrameworkWorkflowAction,
         FrameworkApproved,
-        FrameworkEndSelfAssessment
+        FrameworkEndSelfAssessment,
+        DomainResponsibleEndInternalAssessment
         //Compilance,
         //Document,
 
