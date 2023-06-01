@@ -33,6 +33,10 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
+    //ToDO: can't delete framework if inside compliance loop
+    //ToDo: can't deactivate framework inside comp loop
+    //ToDo: can't add domains or controls under compliance
+
     public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {
@@ -509,7 +513,7 @@ namespace RMG.ComplianceSystem.Frameworks
         public async Task ApproveCompliance(Guid id)
         {
             var framework = await Repository.GetAsync(id, false);
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id && !d.ParentId.HasValue).ToList();
             _frameworkManager.CanApproveCompliance(framework, domains, CurrentUser.Id.Value);
             framework.ComplianceStatus = ComplianceStatus.Approved;
             await Repository.UpdateAsync(framework);
