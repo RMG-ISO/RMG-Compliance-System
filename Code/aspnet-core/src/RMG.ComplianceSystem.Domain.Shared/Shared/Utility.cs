@@ -77,6 +77,8 @@ namespace RMG.ComplianceSystem.Shared
                     return "https://iso.digitaltransformationinstitute.org:11001/frameworks/" + id;
                 case NotificationSource.FrameworkEndSelfAssessment:
                     return "https://iso.digitaltransformationinstitute.org:11001/assessment/" + id;
+                case NotificationSource.DomainResponsibleEndInternalAssessment:
+                    return "https://iso.digitaltransformationinstitute.org:11001/assessment/" + id;
                 default:
                     break;
             }

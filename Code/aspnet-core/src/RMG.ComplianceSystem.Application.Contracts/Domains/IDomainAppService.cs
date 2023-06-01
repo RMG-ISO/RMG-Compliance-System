@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RMG.ComplianceSystem.Controls.Dtos;
 using RMG.ComplianceSystem.Domains.Dtos;
@@ -17,5 +18,6 @@ namespace RMG.ComplianceSystem.Domains
     {
         Task StartInternalAssessment(Guid id);
         Task EndInternalAssessment(Guid id);
+        Task DeleteMany(List<Guid> ids);
     }
 }

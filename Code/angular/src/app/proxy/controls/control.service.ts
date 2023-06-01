@@ -24,6 +24,14 @@ export class ControlService {
     },
     { apiName: this.apiName });
 
+  deleteManyByIds = (ids: string[]) =>
+    this.restService.request<any, void>({
+      method: 'DELETE',
+      url: '/api/app/control/many',
+      params: { ids },
+    },
+    { apiName: this.apiName });
+
   get = (id: string) =>
     this.restService.request<any, ControlDto>({
       method: 'GET',
@@ -35,15 +43,15 @@ export class ControlService {
     this.restService.request<any, PagedResultDto<ControlDto>>({
       method: 'GET',
       url: '/api/app/control',
-      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, frameWorkId: input.frameWorkId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
-  getControlsListFramwork = (input: ControlPagedAndSortedResultRequestDto) =>
-    this.restService.request<any, PagedResultDto<ControlDto>>({
+  getListControlsByFramwork = (input: ControlPagedAndSortedResultRequestDto) =>
+    this.restService.request<any, ListResultDto<ControlDto>>({
       method: 'GET',
       url: '/api/app/control/controls-by-framwork',
-      params: { FrameWorkId: input['frameWorkId'], isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, frameWorkId: input.frameWorkId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
@@ -51,7 +59,7 @@ export class ControlService {
     this.restService.request<any, ListResultDto<ControlDto>>({
       method: 'GET',
       url: '/api/app/control/without-paging',
-      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, frameWorkId: input.frameWorkId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
