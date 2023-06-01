@@ -76,7 +76,7 @@ export class ListComponent implements OnInit {
         data,
       },
       disableClose:true,
-      panelClass:'app-dialog'
+      panelClass:['app-dialog', 'confirm-alert']
     });
     ref.afterClosed().subscribe(con => {
       if(con) {

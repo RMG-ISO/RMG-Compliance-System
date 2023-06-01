@@ -553,6 +553,19 @@
     "ComplianceSystem:Framework:012": "يجب أن يكون الإطار قيد المراجعة أو قيد إعادة المراجعة لاعتماد الامتثال",
     "ComplianceSystem:Framework:013": "يجب اعتماد امتثال جميع نطاقات الإطار لتتمكن من اعتماد امتثال الإطار",
     "ComplianceSystem:Framework:014": "يجب أن يكون الإطار قيد التجهيز لتتمكن من إرساله للامتثال الداخلي",
-    "StartReview":"بدء المراجعة"
+    "StartReview":"بدء المراجعة",
+    "StartReviewMSG":"هل تريد أن تبدأ عملية المراجعة؟",
+    "SendToOwner":"ارسال للمالك",
+    "ApproveCompliance":"الموافقة على الامتثال",
+    "ReturnToResponsible":"إعادة للمسؤل",
+    "ComplianceStatus":"حالة الإمتثال",
+    "NotStarted":"لم يتم البدء",
+    "UnderPreparation":"تحت الإعداد",
+    "ReadyForInternalAssessment":"جاهز للتقييم الداخلي",
+    "UnderInternalAssessment":"تحت التقييم الداخلي",
+    "ReadyForRevision":"جاهز للمراجعة",
+    "UnderRevision":"تحت المراجعة",
+    "UnderInternalReAssessment":"تحت إعادة التقييم الداخلي",
+    "UnderReRevision":"تحت إعادة المراجعة"
   }
 }

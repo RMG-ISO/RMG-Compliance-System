@@ -551,7 +551,19 @@
     "ComplianceSystem:Framework:012": "Framework must be under revision or under re-revision to approve compliance",
     "ComplianceSystem:Framework:013": "All framework domains must be approved first to approve framework compliance",
     "ComplianceSystem:Framework:014": "Framework must be under preparation to send for internal assessment",
-    "StartReview":"Start Review"
-
+    "StartReview":"Start Review",
+    "StartReviewMSG":"Do you want to start the review process?",
+    "SendToOwner":"Send To Owner",
+    "ComplianceStatus":"Compliance Status",
+    "ApproveCompliance":"Approve Compliance",
+    "ReturnToResponsible":"Return To Responsible",
+    "NotStarted":"Not Started",
+    "UnderPreparation":"Under Preparation",
+    "ReadyForInternalAssessment":"Ready For Internal Assessment",
+    "UnderInternalAssessment":"Under Internal Assessment",
+    "ReadyForRevision":"Ready For Revision",
+    "UnderRevision":"Under Revision",
+    "UnderInternalReAssessment":"Under Internal ReAssessment",
+    "UnderReRevision":"Under ReRevision"
   }
 }

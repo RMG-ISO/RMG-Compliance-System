@@ -162,6 +162,14 @@
                         {{ '::SendForInternalAssessment' | abpLocalization }}
                     </button>
 
+                    <button (click)="approveFramework()" class="round" mat-raised-button color="primary"
+                        *ngIf="
+                        frameWorkData?.canSendForInternalAssessment &&
+                        frameWorkData?.ownerId == userId &&
+                        frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision && allDomainsApproved ">
+                        {{ '::FrameworkApprove' | abpLocalization }}
+                    </button>
+
 
                     <!-- <div class="col-md-6">
                         <div class="form-group">
@@ -343,13 +351,22 @@
                                             (click)="endInternalAssessmentById(mainDomain); $event.stopPropagation()">
                                             {{ '::EndInternalAssessment' | abpLocalization }}
                                         </button>
+
+                                        <button class="mr-3" mat-button
+                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderInternalReAssessment"
+                                            (click)="sendToOwner(mainDomain); $event.stopPropagation()">
+                                            {{ '::SendToOwner' | abpLocalization }}
+                                        </button>
                                     </ng-container>
                                     <ng-container *ngIf="frameWorkData?.ownerId == userId">
-                                        <button (click)="startReview(mainDomain)" class="round" mat-raised-button color="primary"
-                                        *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
+                                        <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button *ngIf="mainDomain.complianceStatus == ComplianceStatus.ReadyForRevision">
                                             {{ '::StartReview' | abpLocalization }}
                                         </button>
 
+                                        <button (click)="takeReviewDecision(mainDomain); $event.stopPropagation()" mat-button
+                                        *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderRevision || mainDomain.complianceStatus == ComplianceStatus.UnderReRevision">
+                                            {{ '::TakeDecision' | abpLocalization }}
+                                        </button>
                                     </ng-container>
 
                                 </div>
@@ -412,9 +429,17 @@
                                         <td>
                                             {{ '::Status' | abpLocalization }}
                                         </td>
-                                        <td colspan="3">
+                                        <td>
                                             <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
                                                 {{ ('::Enum:SharedStatus:' + mainDomain.status) | abpLocalization }}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            {{ '::ComplianceStatus' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
+                                                {{ ('::' + ComplianceStatus[mainDomain?.complianceStatus] ) | abpLocalization }}
                                             </button>
                                         </td>
                                     </tr>
@@ -520,4 +545,54 @@
             </div>
         </mat-dialog-content>
     </form>
+</ng-template>
+
+
+<ng-template #reviewAlert let-data let-ref="dialogRef">
+    <h2 mat-dialog-title>
+        {{ '::StartReview' | abpLocalization }}
+    </h2>
+    <mat-dialog-content class="mat-typography">
+        <p>
+            {{ '::StartReviewMSG' | abpLocalization }}
+        </p>
+        <mat-dialog-actions align="end" class="actions">
+            <button mat-button class="red" (click)="ref.close()">
+                {{ '::no' | abpLocalization }}
+            </button>
+        
+            <button mat-button cdkFocusInitial class="green" (click)="ref.close(true)">
+                {{ '::yes' | abpLocalization }}
+            </button>
+        </mat-dialog-actions>
+    </mat-dialog-content>
+</ng-template>
+
+<ng-template #reviewDecisionAlert let-data let-ref="dialogRef">
+    <h2 mat-dialog-title>
+        {{ '::TakeDecision' | abpLocalization }}
+    </h2>
+    <mat-dialog-content class="mat-typography">
+        <form [formGroup]="reviewForm">
+            <div class="form-group">
+                <!-- <label>
+                    {{ '::IsSystemApplicable' | abpLocalization }}
+                </label> -->
+                <mat-radio-group formControlName="action" color="primary" class="d-flex">
+                    <mat-radio-button class="ml-3 mr-3" [value]="true"> {{ '::ApproveCompliance' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="false"> {{ '::ReturnToResponsible' | abpLocalization }} </mat-radio-button>
+                </mat-radio-group>
+            </div>
+    
+            <mat-dialog-actions align="end" class="actions">
+                <button mat-button class="red" (click)="ref.close()">
+                    {{ '::Cancel' | abpLocalization }}
+                </button>
+            
+                <button mat-button cdkFocusInitial class="green" [disabled]="reviewForm.invalid" (click)="ref.close(true)">
+                    {{ '::Save' | abpLocalization }}
+                </button>
+            </mat-dialog-actions>
+        </form>
+    </mat-dialog-content>
 </ng-template>
