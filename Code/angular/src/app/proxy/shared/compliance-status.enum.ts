@@ -9,6 +9,7 @@ export enum ComplianceStatus {
   UnderRevision = 5,
   UnderInternalReAssessment = 6,
   UnderReRevision = 7,
+  Approved = 8,
 }
 
 export const complianceStatusOptions = mapEnumToOptions(ComplianceStatus);
