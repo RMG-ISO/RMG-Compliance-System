@@ -32,7 +32,6 @@ export class TableFilesComponent implements OnInit, OnChanges {
     private confirmation: ConfirmationService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if(changes.attachmentId) {
       if(changes.attachmentId.currentValue !== changes.attachmentId.previousValue && changes.attachmentId.currentValue !== null) {
         this.getAttachment();
