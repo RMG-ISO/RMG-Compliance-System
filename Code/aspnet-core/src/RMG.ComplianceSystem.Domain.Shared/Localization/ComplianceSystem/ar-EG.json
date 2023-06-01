@@ -566,6 +566,7 @@
     "ReadyForRevision":"جاهز للمراجعة",
     "UnderRevision":"تحت المراجعة",
     "UnderInternalReAssessment":"تحت إعادة التقييم الداخلي",
-    "UnderReRevision":"تحت إعادة المراجعة"
+    "UnderReRevision":"تحت إعادة المراجعة",
+    "StartInternalAssessment":"بدأ التقييم الداخلي"
   }
 }

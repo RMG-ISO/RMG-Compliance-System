@@ -5,6 +5,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { FrameworkStatus, sharedStatusOptions } from '@proxy/shared';
 import { DepartmentService } from '@proxy/departments';
 import { EmployeeService } from '@proxy/employees';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-create-framework',
@@ -21,7 +22,9 @@ export class CreateFrameworkComponent implements OnInit {
   constructor(
     private frameworkService: FrameworkService,
     private departmentService: DepartmentService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private toasterService:ToasterService,
+
   ) {}
 
   form: FormGroup;
@@ -106,7 +109,6 @@ export class CreateFrameworkComponent implements OnInit {
     // if(this.form.invalid && this.activeTab !== 3) {
     //   return;
     // } else if(this.form.valid && this.activeTab !== 3) this.activeTab += 1;
-    console.log(this.form);
     if (this.form.invalid) return;
     let rawValue = this.form.getRawValue();
 
@@ -122,6 +124,8 @@ export class CreateFrameworkComponent implements OnInit {
       ? this.frameworkService.update(this.data.id, value)
       : this.frameworkService.create(value);
     request.subscribe((r) => {
+      this.toasterService.success('::SuccessfullySaved', "");
+
       this.ref.close(r);
     });
   }

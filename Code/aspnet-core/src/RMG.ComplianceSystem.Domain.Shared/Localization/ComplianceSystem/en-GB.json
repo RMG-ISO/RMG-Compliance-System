@@ -564,6 +564,7 @@
     "ReadyForRevision":"Ready For Revision",
     "UnderRevision":"Under Revision",
     "UnderInternalReAssessment":"Under Internal ReAssessment",
-    "UnderReRevision":"Under ReRevision"
+    "UnderReRevision":"Under ReRevision",
+    "StartInternalAssessment":"start Internal Assessment"
   }
 }

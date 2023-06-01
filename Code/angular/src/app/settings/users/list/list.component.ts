@@ -28,14 +28,12 @@ export class ListComponent implements OnInit {
   getList(search = null) {
     const streamCreator = (query) => this.identityUserService.getList({ ...query, search: search});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
-      console.log(response);
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
 
   delete(model) {
-    console.log(model)
     this.confirmation.warn('::ConfirmationDeleteMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
         this.identityUserService.delete(model.id).subscribe(() => {
