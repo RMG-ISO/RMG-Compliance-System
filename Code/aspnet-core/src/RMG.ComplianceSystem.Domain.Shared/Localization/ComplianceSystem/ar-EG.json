@@ -558,6 +558,14 @@
     "SendToOwner":"ارسال للمالك",
     "ApproveCompliance":"الموافقة على الامتثال",
     "ReturnToResponsible":"إعادة للمسؤل",
-    "ComplianceStatus":"حالة الإمتثال"
+    "ComplianceStatus":"حالة الإمتثال",
+    "NotStarted":"لم يتم البدء",
+    "UnderPreparation":"تحت الإعداد",
+    "ReadyForInternalAssessment":"جاهز للتقييم الداخلي",
+    "UnderInternalAssessment":"تحت التقييم الداخلي",
+    "ReadyForRevision":"جاهز للمراجعة",
+    "UnderRevision":"تحت المراجعة",
+    "UnderInternalReAssessment":"تحت إعادة التقييم الداخلي",
+    "UnderReRevision":"تحت إعادة المراجعة"
   }
 }
