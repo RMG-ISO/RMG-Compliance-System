@@ -23,7 +23,8 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   @Input('mainControl') mainControl;
   @Input('expanded') expanded;
   @Input('frameWorkData') frameWorkData;
-  @Input('inAssessment') inAssessment;
+  @Input('showButton') showButton;
+  @Input('parentPath') parentPath;
   
   constructor(
     public readonly list: ListService,
@@ -48,8 +49,6 @@ export class ExpansionSubControlsTableComponent implements OnInit {
       this.isExpanded = true;
       this.getList();
     }
-
-    this.removeButtons = this.inAssessment || this.frameWorkData.complianceStatus == ComplianceStatus.NotStarted
   }
 
 
@@ -93,12 +92,9 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   }
 
   activate(ev) {
-    // sub-controls/:frameworkId/:subDomainId/:subControlId
     if (ev.type === 'click') {
-      this.router.navigate(['/frameworks', 'sub-controls', this.frameWorkData.id, this.subDomainId , ev.row.id ])
-      console.log(ev.row);
+      this.router.navigate(['/', this.parentPath, 'sub-controls', this.frameWorkData.id, this.subDomainId , ev.row.id ])
     }
-    
   }
 
 }

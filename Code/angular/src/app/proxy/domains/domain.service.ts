@@ -34,7 +34,7 @@ export class DomainService {
 
   endInternalAssessmentById = (id: string) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/domain/${id}/end-internal-assessment`,
     },
     { apiName: this.apiName });
@@ -64,7 +64,7 @@ export class DomainService {
 
   startInternalAssessmentById = (id: string) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/domain/${id}/start-internal-assessment`,
     },
     { apiName: this.apiName });

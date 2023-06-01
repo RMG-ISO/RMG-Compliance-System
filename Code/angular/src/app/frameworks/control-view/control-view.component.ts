@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
 import { DomainService } from '@proxy/domains';
+import { FrameworkService } from '@proxy/frameworks';
 import { ComplianceStatus, SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -21,7 +22,8 @@ export class ControlViewComponent implements OnInit {
     private matDialog:MatDialog,
     private controlService: ControlService,
     private domainService: DomainService,
-    private router:Router
+    private router:Router,
+    private frameworkService:FrameworkService,
 
   ) { }
 
@@ -33,18 +35,27 @@ export class ControlViewComponent implements OnInit {
 
   subDomainData;
 
-  inAssessment = false;
+  showButton = false;
+  parentPath;
+  frameWorkData;
   ngOnInit(): void {
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.subControlId = this.activatedRoute.snapshot.params.subControlId;
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
+    this.parentPath = this.router.url.includes('/compliance-assessment/') ? 'compliance-assessment' : 'frameworks'
+
     this.getControlData();
 
     this.domainService.get(this.subDomainId).subscribe( r => {
       this.subDomainData = r;
+      this.showButton = r.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
     });
 
-    this.inAssessment = this.router.url.includes('/compliance-assessment/')
+    this.frameworkService.get(this.frameworkId).subscribe(fram => {
+      this.frameWorkData = fram;
+    });
+
+    // this.inAssessment = this.router.url.includes('/compliance-assessment/')
   }
 
   getControlData() {

@@ -538,7 +538,8 @@
     "ComplianceSystem:Assessment:007": "Assessment can only be updated by domain responsible when compliance under internal assessment",
     "ComplianceSystem:Domain:002": "Domain must be ready for internal assessment to start internal assessment",
     "ComplianceSystem:Domain:003": "Only domain responsible can start internal assessment",
-    "ComplianceSystem:Domain:004": "Domain must be under internal assessment to end internal assessment"
+    "ComplianceSystem:Domain:004": "Domain must be under internal assessment to end internal assessment",
+    "EndInternalAssessment":"End internal assessment"
 
   }
 }

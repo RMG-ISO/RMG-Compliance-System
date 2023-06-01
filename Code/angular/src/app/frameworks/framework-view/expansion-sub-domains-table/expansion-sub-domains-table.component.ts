@@ -22,7 +22,8 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   @Input('mainDomain') mainDomain;
   @Input('expanded') expanded;
   @Input('frameWorkData') frameWorkData;
-  @Input('inAssessment') inAssessment;
+  @Input('showButton') showButton;
+  @Input('parentPath') parentPath;
   
   constructor(
     private domainService:DomainService,
@@ -88,8 +89,9 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   }
 
   activate(ev) {
+    console.log(this.parentPath);
     if (ev.type === 'click') {
-      this.router.navigate(['/frameworks', 'sub-domains', ev.row.id, 'controls'])
+      this.router.navigate(['/', this.parentPath, 'sub-domains', ev.row.id, 'controls'])
       console.log(ev.row);
     }
     
