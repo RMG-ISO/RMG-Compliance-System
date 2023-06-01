@@ -26,6 +26,10 @@ namespace RMG.ComplianceSystem.Shared
         FrameworkApproved,
         FrameworkEndSelfAssessment,
         DomainResponsibleEndInternalAssessment,
+        DomainApproveCompliance,
+        DomainReturnToResponsible,
+        DomainSentToOwner,
+        FrameworkApproveCompliance
     }
     public enum Status
     {
@@ -45,7 +49,8 @@ namespace RMG.ComplianceSystem.Shared
         ReadyForRevision,
         UnderRevision,
         UnderInternalReAssessment,
-        UnderReRevision
+        UnderReRevision,
+        Approved
     }
 
 }

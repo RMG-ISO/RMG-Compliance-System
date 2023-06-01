@@ -161,12 +161,6 @@ namespace RMG.ComplianceSystem.Assessments
 
         private async Task ValidateCreateUpdateAsync(CreateUpdateAssessmentDto input)
         {
-            var control = await _controlRepository.GetAsync(input.ControlId, false);
-            var domain = await _domainRepository.GetAsync(control.DomainId, false);
-            var framwork = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
-            if (framwork.ComplianceStatus != Shared.ComplianceStatus.UnderPreparation)
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustStartSelfAssessmentForFrameworkFirst);
-
             if (input.Documented.HasValue && input.Documented.Value == DocumentedType.PartialDocumented && !input.DocumentedPercentage.HasValue)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
 

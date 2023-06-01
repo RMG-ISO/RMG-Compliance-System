@@ -9,6 +9,13 @@ import { Injectable } from '@angular/core';
 export class DomainService {
   apiName = 'Default';
 
+  approveComplianceById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/approve-compliance`,
+    },
+    { apiName: this.apiName });
+
   create = (input: CreateUpdateDomainDto) =>
     this.restService.request<any, DomainDto>({
       method: 'POST',
@@ -34,7 +41,7 @@ export class DomainService {
 
   endInternalAssessmentById = (id: string) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/domain/${id}/end-internal-assessment`,
     },
     { apiName: this.apiName });
@@ -62,10 +69,31 @@ export class DomainService {
     },
     { apiName: this.apiName });
 
+  returnToResponsibleById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/return-to-responsible`,
+    },
+    { apiName: this.apiName });
+
+  sendToOwnerById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/send-to-owner`,
+    },
+    { apiName: this.apiName });
+
   startInternalAssessmentById = (id: string) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/domain/${id}/start-internal-assessment`,
+    },
+    { apiName: this.apiName });
+
+  startReviewById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/start-review`,
     },
     { apiName: this.apiName });
 

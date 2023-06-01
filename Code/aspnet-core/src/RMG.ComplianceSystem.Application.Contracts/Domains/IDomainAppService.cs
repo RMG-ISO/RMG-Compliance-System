@@ -19,5 +19,9 @@ namespace RMG.ComplianceSystem.Domains
         Task StartInternalAssessment(Guid id);
         Task EndInternalAssessment(Guid id);
         Task DeleteMany(List<Guid> ids);
+        Task StartReview(Guid id);
+        Task ApproveCompliance(Guid id);
+        Task ReturnToResponsible(Guid id);
+        Task SendToOwner(Guid id);
     }
 }

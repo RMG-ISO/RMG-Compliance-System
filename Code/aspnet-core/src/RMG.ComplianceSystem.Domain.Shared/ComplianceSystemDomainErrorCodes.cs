@@ -22,12 +22,24 @@
         public const string OnlyFrameworkOwnerCanActivateDeactivateFramework = $"{ParentGroupName}:{FrameworkGroupName}:009";
         public const string OnlyApprovedFrameworkCanBeActivatedDeactivated = $"{ParentGroupName}:{FrameworkGroupName}:010";
         public const string FrameworkCannotBeUpdatedAfterStartingSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:011";
+        public const string FrameworkMustBeUnderRevisionOrUnderReRevisionToApproveCompliance = $"{ParentGroupName}:{FrameworkGroupName}:012";
+        public const string AllDomainsMustBeApprovedFirstToApproveFramework = $"{ParentGroupName}:{FrameworkGroupName}:013";
+        public const string FrameworkMustBeUnderPreparationToSendForInternalAssessment = $"{ParentGroupName}:{FrameworkGroupName}:014";
 
         // Domain
         public const string MainDomainNeedsResponsible = $"{ParentGroupName}:{DomainGroupName}:001";
         public const string DomainMustBeReadyForInternalAssessmentToStartInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:002";
         public const string OnlyDomainResponsibleCanStartInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:003";
         public const string DomainMustBeUnderInternalAssessmentToEndInternalAssessment = $"{ParentGroupName}:{DomainGroupName}:004";
+        public const string DomainMustBeReadyForRevisionToStartReview = $"{ParentGroupName}:{DomainGroupName}:005";
+        public const string OnlyFrameworkOwnerCanStartReview = $"{ParentGroupName}:{DomainGroupName}:006";
+        public const string DomainMustBeUnderRevisionOrUnderReRevisionToReturnToResponsible = $"{ParentGroupName}:{DomainGroupName}:007";
+        public const string OnlyFrameworkOwnerCanReturnToResponsible = $"{ParentGroupName}:{DomainGroupName}:008";
+        public const string DomainMustBeUnderInternalReAssessmentToSendToOwner = $"{ParentGroupName}:{DomainGroupName}:009";
+        public const string OnlyDomainResponsibleCanSendToOwner = $"{ParentGroupName}:{DomainGroupName}:010";
+        public const string DomainMustBeUnderRevisionOrUnderReRevisionToApproveCompliance = $"{ParentGroupName}:{DomainGroupName}:011";
+        public const string OnlyFrameworkOwnerCanApproveCompliance = $"{ParentGroupName}:{DomainGroupName}:012";
+
 
         // Assessment
         public const string YouMustStartSelfAssessmentForFrameworkFirst = $"{ParentGroupName}:{AssessmentGroupName}:001";

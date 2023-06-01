@@ -17,6 +17,7 @@ using RMG.ComplianceSystem.Shared;
 using RMG.ComplianceSystem.EmailTemplates;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -44,7 +45,7 @@ namespace RMG.ComplianceSystem.Domains
             IEmailTemplateRepository emailTemplateRepository,
             IEmailTemplateAppService emailTemplateAppService,
             INotificationRepository notificationRepository,
-            INotificationAppService notificationAppService, 
+            INotificationAppService notificationAppService,
             IEmployeeRepository employeeRepository,
             IPermissionGrantRepository permissionGrantRepository,
             IdentityUserManager identityUserManager,
@@ -190,7 +191,7 @@ namespace RMG.ComplianceSystem.Domains
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
         }
 
-
+        [HttpPut]
         [Authorize]
         public async Task StartInternalAssessment(Guid id)
         {
@@ -208,6 +209,7 @@ namespace RMG.ComplianceSystem.Domains
             await Repository.UpdateAsync(domain);
         }
 
+        [HttpPut]
         [Authorize]
         public async Task EndInternalAssessment(Guid id)
         {
@@ -216,6 +218,7 @@ namespace RMG.ComplianceSystem.Domains
             domain.InternalAssessmentEndDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            framework.ComplianceStatus = ComplianceStatus.ReadyForRevision;
             await Repository.UpdateAsync(domain);
             var isLastDomain = !Repository.Any(d => d.FrameworkId == domain.FrameworkId && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
             if (isLastDomain)
@@ -226,6 +229,60 @@ namespace RMG.ComplianceSystem.Domains
             await NotifyUsersAsync("DomainEndInternalAssessment", framework.OwnerId, NotificationSource.DomainResponsibleEndInternalAssessment, NotySource.DomainResponsibleEndInternalAssessment, framework.Id);
         }
 
+        public async Task DeleteMany(List<Guid> ids)
+        {
+            await CheckDeletePolicyAsync();
+            await Repository.DeleteManyAsync(ids);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task StartReview(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            _domainManager.CanStartReview(domain, framework.OwnerId, CurrentUser.Id.Value);
+            domain.ComplianceStatus = ComplianceStatus.UnderRevision;
+            framework.ComplianceStatus = ComplianceStatus.UnderRevision;
+            await Repository.UpdateAsync(domain);
+            await _frameworkRepository.UpdateAsync(framework);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task ApproveCompliance(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            _domainManager.CanApproveCompliance(domain, framework.OwnerId, CurrentUser.Id.Value);
+            domain.ComplianceStatus = ComplianceStatus.Approved;
+            await Repository.UpdateAsync(domain);
+            await NotifyUsersAsync("DomainApproveCompliance", domain.ResponsibleId.Value, NotificationSource.DomainApproveCompliance, NotySource.DomainApproveCompliance, domain.Id);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task ReturnToResponsible(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            _domainManager.CanReturnToResponsible(domain, framework.OwnerId, CurrentUser.Id.Value);
+            domain.ComplianceStatus = ComplianceStatus.UnderInternalReAssessment;
+            await Repository.UpdateAsync(domain);
+            await NotifyUsersAsync("DomainReturnToResponsible", domain.ResponsibleId.Value, NotificationSource.DomainReturnToResponsible, NotySource.DomainReturnToResponsible, domain.Id);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task SendToOwner(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            _domainManager.CanSendToOwner(domain, CurrentUser.Id.Value);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            domain.ComplianceStatus = ComplianceStatus.UnderReRevision;
+            await Repository.UpdateAsync(domain);
+            await NotifyUsersAsync("DomainSentToOwner", framework.OwnerId, NotificationSource.DomainSentToOwner, NotySource.DomainSentToOwner, domain.Id);
+        }
 
         private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, NotificationSource notificationSource, NotySource notySource, Guid refId)
         {
@@ -260,6 +317,11 @@ namespace RMG.ComplianceSystem.Domains
                     };
                     break;
                 default:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
                     break;
             }
 
@@ -321,10 +383,5 @@ namespace RMG.ComplianceSystem.Domains
             }
         }
 
-        public async Task DeleteMany(List<Guid> ids)
-        {
-            await CheckDeletePolicyAsync();
-            await Repository.DeleteManyAsync(ids);
-        }
     }
 }
