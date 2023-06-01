@@ -557,6 +557,7 @@
     "StartReviewMSG":"هل تريد أن تبدأ عملية المراجعة؟",
     "SendToOwner":"ارسال للمالك",
     "ApproveCompliance":"الموافقة على الامتثال",
-    "ReturnToResponsible":"إعادة للمسؤل"
+    "ReturnToResponsible":"إعادة للمسؤل",
+    "ComplianceStatus":"حالة الإمتثال"
   }
 }
