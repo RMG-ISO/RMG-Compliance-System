@@ -23,6 +23,7 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('domainDialog') domainDialog;
   @ViewChild('refuseCauseDialog') refuseCauseDialog;
   @ViewChild('reviewAlert') reviewAlert;
+  @ViewChild('reviewDecisionAlert') reviewDecisionAlert;
 
   SharedStatus = SharedStatus;
   FormMode = FormMode;
@@ -276,9 +277,30 @@ export class FrameworkViewComponent implements OnInit {
   }
 
   sendToOwner(mainDomain) {
-    this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+    this.domainService.sendToOwnerById(mainDomain.id).subscribe(r => {
       this.getMainDomainsList();
      })
   }
 
+  reviewForm:FormGroup;
+  takeReviewDecision(mainDomain) {
+    this.reviewForm = new FormGroup({
+      action: new FormControl(null, Validators.required)
+    });
+
+    let ref = this.matDialog.open(this.reviewDecisionAlert, {
+      disableClose:true,
+      panelClass:['app-dialog', 'confirm-alert']
+    });
+
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        console.log(this.reviewForm)
+        // this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+        //  this.getMainDomainsList();
+        // })
+      }
+    })
+
+  }
 }

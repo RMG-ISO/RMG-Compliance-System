@@ -344,16 +344,21 @@
                                             {{ '::EndInternalAssessment' | abpLocalization }}
                                         </button>
 
-                                        <button class="mr-3" mat-button
+                                        <!-- <button class="mr-3" mat-button
                                             *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderRevision"
                                             (click)="sendToOwner(mainDomain); $event.stopPropagation()">
                                             {{ '::SendToOwner' | abpLocalization }}
-                                        </button>
+                                        </button> -->
                                     </ng-container>
                                     <ng-container *ngIf="frameWorkData?.ownerId == userId">
                                         <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
                                             {{ '::StartReview' | abpLocalization }}
                                         </button>
+
+                                        <button (click)="takeReviewDecision(mainDomain); $event.stopPropagation()" mat-button *ngIf="frameWorkData.complianceStatus == ComplianceStatus.UnderRevision">
+                                            {{ '::TakeDecision' | abpLocalization }}
+                                        </button>
+
                                     </ng-container>
 
                                 </div>
@@ -527,7 +532,6 @@
 </ng-template>
 
 
-
 <ng-template #reviewAlert let-data let-ref="dialogRef">
     <h2 mat-dialog-title>
         {{ '::StartReview' | abpLocalization }}
@@ -545,5 +549,34 @@
                 {{ '::yes' | abpLocalization }}
             </button>
         </mat-dialog-actions>
+    </mat-dialog-content>
+</ng-template>
+
+<ng-template #reviewDecisionAlert let-data let-ref="dialogRef">
+    <h2 mat-dialog-title>
+        {{ '::TakeDecision' | abpLocalization }}
+    </h2>
+    <mat-dialog-content class="mat-typography">
+        <form [formGroup]="reviewForm">
+            <div class="form-group">
+                <label>
+                    {{ '::IsSystemApplicable' | abpLocalization }}
+                </label>
+                <mat-radio-group formControlName="action" color="primary" class="d-flex">
+                    <mat-radio-button class="ml-3 mr-3" [value]="true"> {{ '::ApproveCompliance' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ml-3 mr-3" [value]="false"> {{ '::ReturnToResponsible' | abpLocalization }} </mat-radio-button>
+                </mat-radio-group>
+            </div>
+    
+            <mat-dialog-actions align="end" class="actions">
+                <button mat-button class="red" (click)="ref.close()">
+                    {{ '::Cancel' | abpLocalization }}
+                </button>
+            
+                <button mat-button cdkFocusInitial class="green" [disabled]="reviewForm.invalid" (click)="ref.close(true)">
+                    {{ '::Save' | abpLocalization }}
+                </button>
+            </mat-dialog-actions>
+        </form>
     </mat-dialog-content>
 </ng-template>

@@ -555,6 +555,8 @@
     "ComplianceSystem:Framework:014": "يجب أن يكون الإطار قيد التجهيز لتتمكن من إرساله للامتثال الداخلي",
     "StartReview":"بدء المراجعة",
     "StartReviewMSG":"هل تريد أن تبدأ عملية المراجعة؟",
-    "SendToOwner":"ارسال للمالك"
+    "SendToOwner":"ارسال للمالك",
+    "ApproveCompliance":"الموافقة على الامتثال",
+    "ReturnToResponsible":"إعادة للمسؤل"
   }
 }
