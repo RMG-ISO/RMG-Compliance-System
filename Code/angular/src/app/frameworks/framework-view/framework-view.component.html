@@ -162,6 +162,14 @@
                         {{ '::SendForInternalAssessment' | abpLocalization }}
                     </button>
 
+                    <button (click)="approveFramework()" class="round" mat-raised-button color="primary"
+                        *ngIf="
+                        frameWorkData?.canSendForInternalAssessment &&
+                        frameWorkData?.ownerId == userId &&
+                        frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision && allDomainsApproved ">
+                        {{ '::FrameworkApprove' | abpLocalization }}
+                    </button>
+
 
                     <!-- <div class="col-md-6">
                         <div class="form-group">
@@ -344,21 +352,21 @@
                                             {{ '::EndInternalAssessment' | abpLocalization }}
                                         </button>
 
-                                        <!-- <button class="mr-3" mat-button
-                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderRevision"
+                                        <button class="mr-3" mat-button
+                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderInternalReAssessment"
                                             (click)="sendToOwner(mainDomain); $event.stopPropagation()">
                                             {{ '::SendToOwner' | abpLocalization }}
-                                        </button> -->
+                                        </button>
                                     </ng-container>
                                     <ng-container *ngIf="frameWorkData?.ownerId == userId">
-                                        <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
+                                        <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button *ngIf="mainDomain.complianceStatus == ComplianceStatus.ReadyForRevision">
                                             {{ '::StartReview' | abpLocalization }}
                                         </button>
 
-                                        <button (click)="takeReviewDecision(mainDomain); $event.stopPropagation()" mat-button *ngIf="frameWorkData.complianceStatus == ComplianceStatus.UnderRevision">
+                                        <button (click)="takeReviewDecision(mainDomain); $event.stopPropagation()" mat-button
+                                        *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderRevision || mainDomain.complianceStatus == ComplianceStatus.UnderReRevision">
                                             {{ '::TakeDecision' | abpLocalization }}
                                         </button>
-
                                     </ng-container>
 
                                 </div>
@@ -559,9 +567,9 @@
     <mat-dialog-content class="mat-typography">
         <form [formGroup]="reviewForm">
             <div class="form-group">
-                <label>
+                <!-- <label>
                     {{ '::IsSystemApplicable' | abpLocalization }}
-                </label>
+                </label> -->
                 <mat-radio-group formControlName="action" color="primary" class="d-flex">
                     <mat-radio-button class="ml-3 mr-3" [value]="true"> {{ '::ApproveCompliance' | abpLocalization }} </mat-radio-button>
                     <mat-radio-button class="ml-3 mr-3" [value]="false"> {{ '::ReturnToResponsible' | abpLocalization }} </mat-radio-button>

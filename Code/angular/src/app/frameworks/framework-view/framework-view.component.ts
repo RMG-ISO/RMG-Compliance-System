@@ -98,12 +98,14 @@ export class FrameworkViewComponent implements OnInit {
 
   mainDomainsItems;
   allReadyForRevision = true;
+  allDomainsApproved = true;
   getMainDomainsList(search = null) {
     const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.mainDomainsItems = response.items;
       response.items.map(item => {
         if(item.complianceStatus !== ComplianceStatus.ReadyForRevision) this.allReadyForRevision = false;
+        if(item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
       });
       this.selectedToDelete = {};
       this.deleteLength = 0;
@@ -295,12 +297,18 @@ export class FrameworkViewComponent implements OnInit {
 
     ref.afterClosed().subscribe(con => {
       if(con) {
-        console.log(this.reviewForm)
-        // this.domainService.startReviewById(mainDomain.id).subscribe(r => {
-        //  this.getMainDomainsList();
-        // })
+        (this.reviewForm.value.action ? this.domainService.approveComplianceById(mainDomain.id) : this.domainService.returnToResponsibleById(mainDomain.id) )
+        .subscribe(r => {
+         this.getMainDomainsList();
+        })
       }
     })
 
+  }
+
+  approveFramework() {
+    this.frameworkService.approveComplianceById(this.frameWorkData.id).subscribe( r => {
+      window.location.reload();
+    })
   }
 }
