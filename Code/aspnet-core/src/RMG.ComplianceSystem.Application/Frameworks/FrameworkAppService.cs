@@ -487,6 +487,9 @@ namespace RMG.ComplianceSystem.Frameworks
             if (framework.OwnerId != CurrentUser.Id)
                 throw new EntityNotFoundException(typeof(Framework), id);
 
+            if (framework.ComplianceStatus != ComplianceStatus.UnderPreparation)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkMustBeUnderPreparationToSendForInternalAssessment);
+
             var canSend = CanSendForInternalAssessment(framework);
             if (!canSend.Item1)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.TheFollowingControlsDonotHaveAssessmentsYet)
@@ -498,6 +501,21 @@ namespace RMG.ComplianceSystem.Frameworks
             {
                 domain.ComplianceStatus = ComplianceStatus.ReadyForInternalAssessment;
                 await NotifyUsersAsync("DomainStartInternalAssessment", domain.ResponsibleId.Value, NotificationSource.FrameworkEndSelfAssessment, NotySource.FrameworkEndSelfAssessment, id);
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task ApproveCompliance(Guid id)
+        {
+            var framework = await Repository.GetAsync(id, false);
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            _frameworkManager.CanApproveCompliance(framework, domains, CurrentUser.Id.Value);
+            framework.ComplianceStatus = ComplianceStatus.Approved;
+            await Repository.UpdateAsync(framework);
+            foreach (var domain in domains)
+            {
+                await NotifyUsersAsync("FrameworkApproveCompliance", domain.ResponsibleId.Value, NotificationSource.FrameworkApproveCompliance, NotySource.FrameworkApproveCompliance, framework.Id);
             }
         }
 
@@ -526,7 +544,7 @@ namespace RMG.ComplianceSystem.Frameworks
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
                         Name = Creator.FullName,
-                        URL = Utility.GetURL(NotificationSource.FrameworkWorkflowAction, refId, null, null)
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
                     };
                     break;
                 case NotificationSource.FrameworkApproved:
@@ -534,7 +552,7 @@ namespace RMG.ComplianceSystem.Frameworks
                     emailTemplateModel = new FrameworkApprovedEmailDto
                     {
                         Name = Creator.FullName,
-                        URL = Utility.GetURL(NotificationSource.FrameworkWorkflowAction, refId, null, null),
+                        URL = Utility.GetURL(notificationSource, refId, null, null),
                         FrameworkNameAr = framework.NameAr,
                         FrameworkNameEn = framework.NameEn
                     };
@@ -543,10 +561,15 @@ namespace RMG.ComplianceSystem.Frameworks
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
                         Name = Creator.FullName,
-                        URL = Utility.GetURL(NotificationSource.FrameworkEndSelfAssessment, refId, null, null)
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
                     };
                     break;
                 default:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
                     break;
             }
 
@@ -555,7 +578,7 @@ namespace RMG.ComplianceSystem.Frameworks
 
             var notification = new Notification(
                 Guid.NewGuid(),
-                "ComplianceSystem",
+                "Compliance System",
                 null,
                 Creator.Email,
                 null,

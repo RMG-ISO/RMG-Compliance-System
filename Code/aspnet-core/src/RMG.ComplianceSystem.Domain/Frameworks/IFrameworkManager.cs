@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMG.ComplianceSystem.Domains;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace RMG.ComplianceSystem.Frameworks
 {
     public interface IFrameworkManager : IDomainService
     {
+        bool CanApproveCompliance(Framework framework, List<Domain> domains, Guid userId);
         bool CanStartSelfAssessment(Framework framework);
         bool CanUpdate(Framework framework);
         bool CanActivateDeactivate(Framework framework, Guid userId);

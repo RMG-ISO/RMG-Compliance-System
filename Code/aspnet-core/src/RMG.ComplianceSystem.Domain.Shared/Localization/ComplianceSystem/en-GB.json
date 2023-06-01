@@ -539,7 +539,18 @@
     "ComplianceSystem:Domain:002": "Domain must be ready for internal assessment to start internal assessment",
     "ComplianceSystem:Domain:003": "Only domain responsible can start internal assessment",
     "ComplianceSystem:Domain:004": "Domain must be under internal assessment to end internal assessment",
-    "EndInternalAssessment":"End internal assessment"
+    "EndInternalAssessment":"End internal assessment",
+    "ComplianceSystem:Domain:005": "Domain must be ready for revision to start review",
+    "ComplianceSystem:Domain:006": "Only framework owner can start review",
+    "ComplianceSystem:Domain:007": "Domain must be under revision or under re-revision to return to responsible",
+    "ComplianceSystem:Domain:008": "Only framework owner can return to responsible",
+    "ComplianceSystem:Domain:009": "Domain must be under internal re-assessment to send to owner",
+    "ComplianceSystem:Domain:010": "Only domain responsible can send to owner",
+    "ComplianceSystem:Domain:011": "Domain must be under revision or under re-revision to approve compliance",
+    "ComplianceSystem:Domain:012": "Only framework owner can approve compliance",
+    "ComplianceSystem:Framework:012": "Framework must be under revision or under re-revision to approve compliance",
+    "ComplianceSystem:Framework:013": "All framework domains must be approved first to approve framework compliance",
+    "ComplianceSystem:Framework:014": "Framework must be under preparation to send for internal assessment"
 
   }
 }

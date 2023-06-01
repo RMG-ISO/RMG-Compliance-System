@@ -28,5 +28,43 @@ namespace RMG.ComplianceSystem.Domains
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyDomainResponsibleCanStartInternalAssessment);
             return true;
         }
+
+        public bool CanStartReview(Domain domain, Guid frameworkOwnerId, Guid userId)
+        {
+            if (domain.ComplianceStatus != ComplianceStatus.ReadyForRevision)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.DomainMustBeReadyForRevisionToStartReview);
+            if (frameworkOwnerId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanStartReview);
+            return true;
+        }
+
+        public bool CanReturnToResponsible(Domain domain, Guid frameworkOwnerId, Guid userId)
+        {
+            if (domain.ComplianceStatus != ComplianceStatus.UnderRevision
+                && domain.ComplianceStatus != ComplianceStatus.UnderReRevision)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.DomainMustBeUnderRevisionOrUnderReRevisionToReturnToResponsible);
+            if (frameworkOwnerId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanReturnToResponsible);
+            return true;
+        }
+
+        public bool CanSendToOwner(Domain domain, Guid userId)
+        {
+            if (domain.ComplianceStatus != ComplianceStatus.UnderInternalReAssessment)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.DomainMustBeUnderInternalReAssessmentToSendToOwner);
+            if (domain.ResponsibleId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyDomainResponsibleCanSendToOwner);
+            return true;
+        }
+
+        public bool CanApproveCompliance(Domain domain, Guid frameworkOwnerId, Guid userId)
+        {
+            if (domain.ComplianceStatus != ComplianceStatus.UnderRevision
+                && domain.ComplianceStatus != ComplianceStatus.UnderReRevision)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.DomainMustBeUnderRevisionOrUnderReRevisionToApproveCompliance);
+            if (frameworkOwnerId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanApproveCompliance);
+            return true;
+        }
     }
 }
