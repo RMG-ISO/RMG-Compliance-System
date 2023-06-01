@@ -346,8 +346,8 @@
                                     </ng-container>
                                     <ng-container *ngIf="frameWorkData?.ownerId == userId">
                                         <button (click)="startReview(mainDomain)" class="round" mat-raised-button color="primary"
-                                        *ngIf="frameWorkData.complianceStatus == ComplianceStatus.UnderInternalAssessment">
-                                            {{ '::SendForInternalAssessment' | abpLocalization }}
+                                        *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
+                                            {{ '::StartReview' | abpLocalization }}
                                         </button>
 
                                     </ng-container>

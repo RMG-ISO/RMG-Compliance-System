@@ -550,7 +550,8 @@
     "ComplianceSystem:Domain:012": "Only framework owner can approve compliance",
     "ComplianceSystem:Framework:012": "Framework must be under revision or under re-revision to approve compliance",
     "ComplianceSystem:Framework:013": "All framework domains must be approved first to approve framework compliance",
-    "ComplianceSystem:Framework:014": "Framework must be under preparation to send for internal assessment"
+    "ComplianceSystem:Framework:014": "Framework must be under preparation to send for internal assessment",
+    "StartReview":"Start Review"
 
   }
 }
