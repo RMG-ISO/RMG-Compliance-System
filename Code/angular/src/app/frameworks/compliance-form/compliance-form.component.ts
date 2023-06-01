@@ -4,6 +4,7 @@ import { ApplicableType, AssessmentService, ComplianceLevelType, DocumentedType,
 import { finalize } from 'rxjs/operators';
 import { parseISO } from 'date-fns';
 import { ComplianceStatus } from '@proxy/shared';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
   
   constructor(
     private assessmentService: AssessmentService,
-
+    private toasterService:ToasterService
   ) { }
   
   form:FormGroup;
@@ -59,51 +60,28 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
     this.assessmentService.getByControlId(this.controlData.id).subscribe(r => {
       this.pathFormValue(r);
     });
-
-
-
-    // NotStarted = 0,
-    // UnderPreparation = 1,
-    // ReadyForInternalAssessment = 2,
-    // UnderInternalAssessment = 3,
-    // ReadyForRevision = 4,
-    // UnderRevision = 5,
-    // UnderInternalReAssessment = 6,
-    // UnderReRevision = 7,
-    // Approved = 8,
-    
-    
   }
 
   ngOnChanges() {
-    console.log(this.domainData)
-    console.log(this.frameWorkData)
-    console.log(this.userId)
-    console.log(this.form)
-
     setTimeout(() => {
       if(this.frameWorkData.ownerId !== this.userId) this.form.controls['applicable'].disable();
 
       if(this.form) {
         if(this.domainData.complianceStatus == ComplianceStatus.ReadyForInternalAssessment ||
-          this.domainData.complianceStatus == ComplianceStatus.UnderRevision ||
-          this.domainData.complianceStatus == ComplianceStatus.UnderRevision ||
           this.domainData.complianceStatus == ComplianceStatus.Approved ||
-          this.frameWorkData.complianceStatus == ComplianceStatus.Approved) {
+          this.frameWorkData.complianceStatus == ComplianceStatus.Approved|| 
+          this.domainData.complianceStatus == ComplianceStatus.ReadyForRevision) {
           this.form.disable();
         } else if (this.frameWorkData.ownerId !== this.userId &&
           (
             this.domainData.complianceStatus == ComplianceStatus.NotStarted ||
             this.domainData.complianceStatus == ComplianceStatus.UnderPreparation ||
-            this.domainData.complianceStatus == ComplianceStatus.UnderReRevision
+            this.domainData.complianceStatus == ComplianceStatus.UnderReRevision ||
+            this.domainData.complianceStatus == ComplianceStatus.UnderRevision
           ) ) this.form.disable();
         else if (
           (this.domainData.complianceStatus == ComplianceStatus.UnderInternalAssessment || this.domainData.complianceStatus == ComplianceStatus.UnderInternalReAssessment) &&
           this.domainData.responsibleId !== this.userId) this.form.disable();
-
-        // else if(this.domainData.responsibleId !== this.userId) {
-
-        // }
       }
     })
   }
@@ -181,7 +159,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe((res) => {
-      console.log(res);
+      this.toasterService.success('::SuccessfullySaved', "");
       this.pathFormValue(res);
     });
   }

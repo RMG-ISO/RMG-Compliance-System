@@ -89,10 +89,8 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   }
 
   activate(ev) {
-    console.log(this.parentPath);
     if (ev.type === 'click') {
       this.router.navigate(['/', this.parentPath, 'sub-domains', ev.row.id, 'controls'])
-      console.log(ev.row);
     }
     
   }
