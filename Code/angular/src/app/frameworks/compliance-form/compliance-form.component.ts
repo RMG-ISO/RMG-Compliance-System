@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApplicableType, AssessmentService, ComplianceLevelType, DocumentedType, EffectiveType, ImplementedType, complianceLevelTypeOptions } from '@proxy/assessments';
 import { finalize } from 'rxjs/operators';
 import { parseISO } from 'date-fns';
+import { ComplianceStatus } from '@proxy/shared';
 
 
 @Component({
@@ -10,9 +11,12 @@ import { parseISO } from 'date-fns';
   templateUrl: './compliance-form.component.html',
   styleUrls: ['./compliance-form.component.scss']
 })
-export class ComplianceFormComponent implements OnInit {
-  @Input('controlData') controlData;
+export class ComplianceFormComponent implements OnInit, OnChanges {
 
+  @Input('controlData') controlData;
+  @Input('domainData') domainData;
+  @Input('frameWorkData') frameWorkData;
+  @Input('userId') userId;
 
   ApplicableType = ApplicableType;
   ComplianceLevelType = ComplianceLevelType;
@@ -20,33 +24,18 @@ export class ComplianceFormComponent implements OnInit {
   ImplementedType = ImplementedType;
   EffectiveType = EffectiveType;
 
-
   complianceLevelTypeOptions = complianceLevelTypeOptions;
 
+  ComplianceStatus = ComplianceStatus;
+
+  
   constructor(
     private assessmentService: AssessmentService,
+
   ) { }
   
   form:FormGroup;
   ngOnInit(): void {
-
-    // "controlId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    // "applicable": 0,
-    // "complianceLevel": 1,
-    // "complianceDate": "2023-05-31T09:27:09.896Z",
-    // "nextComplianceDate": "2023-05-31T09:27:09.896Z",
-    // "documented": 0,
-    // "implemented": 0,
-    // "effective": 0,
-    // "documentedPercentage": 100,
-    // "implementedPercentage": 100,
-    // "effectivePercentage": 100,
-    // "comment": "string",
-    // "attachmentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    // "employeeIds": [
-    //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    // ]
-
     this.form = new FormGroup({
       controlId : new FormControl(this.controlData.id, Validators.required),
       applicable : new FormControl(null, Validators.required),
@@ -69,7 +58,17 @@ export class ComplianceFormComponent implements OnInit {
 
     this.assessmentService.getByControlId(this.controlData.id).subscribe(r => {
       this.pathFormValue(r);
-    })
+    });
+
+
+    if(this.frameWorkData.ownerId !== this.userId) this.form.controls['applicable'].disable();
+    
+  }
+
+  ngOnChanges() {
+    if(this.domainData.complianceStatus == ComplianceStatus.ReadyForInternalAssessment) {
+      if(this.form) this.form.disable();
+    }
   }
 
   pathFormValue(value) {
@@ -77,12 +76,6 @@ export class ComplianceFormComponent implements OnInit {
     value['nextComplianceDate'] = parseISO( value['nextComplianceDate'] );
     this.form.patchValue(value);
   }
-
-  changeApplicable(event) {
-    console.log(event);
-    event.value
-  }
-
 
   partsControls = ['documented','implemented','effective']
   changeAnswer(value, control) {
@@ -104,6 +97,8 @@ export class ComplianceFormComponent implements OnInit {
     
     this.form.controls.comment.updateValueAndValidity();
     this.form.controls.addFiles.updateValueAndValidity();
+
+    this.form.updateValueAndValidity();
   }
 
   OnFileUploaded(attachmentId: string) {
@@ -117,19 +112,24 @@ export class ComplianceFormComponent implements OnInit {
 
   OnFileEndUpload(endUpload: boolean) {
     this.uploading = false;
-    this.form.controls.addFiles.setValue(true);
+    this.uploadedCount += 1;
+    this.form.controls.addFiles.setValue(!!this.uploadedCount);
+  }
+
+  uploadedCount = 0;
+  OnDeleteFile(ev) {
+    this.uploadedCount -= 1;
+    console.log(this.uploadedCount)
+    this.form.controls.addFiles.setValue(!!this.uploadedCount ? true : null);
   }
 
   save() {
-    console.log(this.form);
     if(this.form.invalid) return;
     this.saveAssessment();
   }
 
   isSaving = false;
   saveAssessment() {
-    // this.form.value.id ? this.assessmentService.update 
-    // this.assessmentService
     this.isSaving = true;
     let value = this.form.getRawValue();
     value.applicable = value.applicable || 0;
@@ -144,10 +144,6 @@ export class ComplianceFormComponent implements OnInit {
     ).subscribe((res) => {
       console.log(res);
       this.pathFormValue(res);
-
-      // this.ref.close(res);
     });
-
-    console.log('save assessment');
   }
 }
