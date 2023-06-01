@@ -1,4 +1,4 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,7 +34,8 @@ export class DomainViewComponent implements OnInit {
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
     private controlService: ControlService,
-    private frameworkService:FrameworkService
+    private frameworkService:FrameworkService,
+    private configState:ConfigStateService
 
   ) { }
 
@@ -43,8 +44,13 @@ export class DomainViewComponent implements OnInit {
   mainDomainData;
   frameWorkData;
 
-  inAssessment = false;
+  showButton = false;
+  parentPath;
+  userId
   ngOnInit(): void {
+    this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
+    this.userId = this.configState.getAll().currentUser.id
+
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
       this.subDomainData = res;
@@ -55,10 +61,9 @@ export class DomainViewComponent implements OnInit {
 
       this.frameworkService.get(res.frameworkId).subscribe(fram => {
         this.frameWorkData = fram;
+        this.showButton = fram.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
       });
     });
-
-    this.inAssessment = this.router.url.includes('/compliance-assessment/')
   }
 
   selectedToDelete = {};
@@ -69,11 +74,16 @@ export class DomainViewComponent implements OnInit {
   }
 
   deleteItems(){
-    // deleteSelectedItem
     this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
     .subscribe(status => {
       if (status === Confirmation.Status.confirm) {
-        // this.domainService.delete(model.id).subscribe(() => this.list.get());
+        let toDeleteIds = [];
+        for(let key in this.selectedToDelete) {
+          if(this.selectedToDelete[key]) toDeleteIds.push(key)
+        }
+        this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
+          this.list.get();
+        })
       }
     });
   }
@@ -121,6 +131,19 @@ export class DomainViewComponent implements OnInit {
         if(subControlsTable) subControlsTable.list.get();
         else this.list.get();
       }
+    })
+  }
+
+
+  startInternalAssessmentById() {
+    this.domainService.startInternalAssessmentById(this.mainDomainData.id).subscribe(r => {
+      this.mainDomainData.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+    })
+  }
+
+  endInternalAssessmentById() {
+    this.domainService.endInternalAssessmentById(this.mainDomainData.id).subscribe(r => {
+      this.mainDomainData.complianceStatus = ComplianceStatus.ReadyForRevision;
     })
   }
 

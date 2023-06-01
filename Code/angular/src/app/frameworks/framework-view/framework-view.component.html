@@ -67,7 +67,7 @@
                 <h3>
                     {{ frameWorkData | lang:'name' }}
                 </h3>
-                <ng-container *ngIf="!inAssessment">
+                <ng-container *ngIf="showButton">
                     <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button
                         (click)="openFrameDialog(FormMode.Edit)">
                         <mat-icon class="mr-1">edit</mat-icon>
@@ -155,11 +155,12 @@
                     </ng-select>
 
                     <button (click)="sendForInternalAssessment()" class="round" mat-raised-button color="primary"
-                        *ngIf="frameWorkData?.canSendForInternalAssessment && frameWorkData?.ownerId == userId ">
+                        *ngIf="
+                        frameWorkData?.canSendForInternalAssessment &&
+                        frameWorkData?.ownerId == userId &&
+                        frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation ">
                         {{ '::SendForInternalAssessment' | abpLocalization }}
                     </button>
-
-
 
 
                     <!-- <div class="col-md-6">
@@ -288,7 +289,7 @@
                         <!-- {{  '::MainDomains' | abpLocalization }} -->
                     </h3>
 
-                    <div *ngIf="!inAssessment">
+                    <div *ngIf="showButton">
                         <button (click)="openDomainDialog(null, FormMode.Create, null, null)"
                             *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button
                             class="add-raised-btn mr-3" type="button">
@@ -320,14 +321,37 @@
                                 <span>
                                     {{ mainDomain | lang:'name' }}
                                 </span>
-                                <div *ngIf="!inAssessment">
+                                <div *ngIf="showButton">
                                     <button *abpPermission="'ComplianceSystem.Domain.Update'" class="mr-3" mat-button
                                         (click)="openDomainDialog(mainDomain, FormMode.Edit, null, null); $event.stopPropagation()">
                                         <mat-icon>edit</mat-icon>
                                         {{ '::Edit' | abpLocalization }}
                                     </button>
-                                    <mat-checkbox class="mr-3" (click)="$event.stopPropagation()"
-                                        (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
+                                    <mat-checkbox class="mr-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
+                                </div>
+                                
+                                <div *ngIf="!showButton">
+                                    <ng-container *ngIf="mainDomain.responsibleId == userId">
+                                        <button class="mr-3" mat-button
+                                        *ngIf="mainDomain.complianceStatus == ComplianceStatus.ReadyForInternalAssessment"
+                                        (click)="startInternalAssessmentById(mainDomain); $event.stopPropagation()">
+                                            {{ '::Compliance' | abpLocalization }}
+                                        </button>
+    
+                                        <button class="mr-3" mat-button
+                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderInternalAssessment"
+                                            (click)="endInternalAssessmentById(mainDomain); $event.stopPropagation()">
+                                            {{ '::EndInternalAssessment' | abpLocalization }}
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="frameWorkData?.ownerId == userId">
+                                        <button (click)="startReview(mainDomain)" class="round" mat-raised-button color="primary"
+                                        *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
+                                            {{ '::StartReview' | abpLocalization }}
+                                        </button>
+
+                                    </ng-container>
+
                                 </div>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
@@ -417,7 +441,7 @@
                                     <!-- {{ '::SubDomains' | abpLocalization }} -->
                                 </h4>
 
-                                <ng-container *ngIf="!inAssessment">
+                                <ng-container *ngIf="showButton">
                                     <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button
                                         class="add-raised-btn add-blue" type="button"
                                         (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
@@ -438,7 +462,7 @@
                                 </ng-container>
                             </div>
 
-                            <app-expansion-sub-domains-table #subDomainsTable [inAssessment]="inAssessment"
+                            <app-expansion-sub-domains-table #subDomainsTable [parentPath]="parentPath" [showButton]="showButton"
                                 [frameWorkData]="frameWorkData" [expanded]="panel.expanded" [frameworkId]="frameworkId"
                                 [mainDomain]="mainDomain"> </app-expansion-sub-domains-table>
                         </section>

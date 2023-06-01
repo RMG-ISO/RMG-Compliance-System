@@ -50,9 +50,10 @@ export class FrameworkViewComponent implements OnInit {
   currentLang;
   userId;
 
-  inAssessment = false;
 
   parentPath;
+  showButton = false;
+
   ngOnInit(): void {
     this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
 
@@ -62,7 +63,7 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       this.frameWorkData = fram;
 
-      this.inAssessment = !!fram.selfAssessmentStartDate;
+      this.showButton = fram.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
       this.getMainDomainsList();
     });
 
@@ -81,20 +82,29 @@ export class FrameworkViewComponent implements OnInit {
     this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
     .subscribe(status => {
       if (status === Confirmation.Status.confirm) {
-        // this.domainService.delete(model.id).subscribe(() => this.list.get());
+        let toDeleteIds = [];
+        for(let key in this.selectedToDelete) {
+          if(this.selectedToDelete[key]) toDeleteIds.push(key)
+        }
+        this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
+          this.getMainDomainsList();
+        })
       }
     });
   }
 
 
   mainDomainsItems;
+  allReadyForRevision = true;
   getMainDomainsList(search = null) {
     const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.mainDomainsItems = response.items;
+      response.items.map(item => {
+        if(item.complianceStatus !== ComplianceStatus.ReadyForRevision) this.allReadyForRevision = false;
+      });
       this.selectedToDelete = {};
       this.deleteLength = 0;
-      // this.totalCount = response.totalCount;
     });
   }
 
@@ -234,4 +244,22 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
   }
 
+
+  startInternalAssessmentById(mainDomain) {
+    this.domainService.startInternalAssessmentById(mainDomain.id).subscribe(r => {
+      mainDomain.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+    })
+  }
+
+  endInternalAssessmentById(mainDomain) {
+    this.domainService.endInternalAssessmentById(mainDomain.id).subscribe(r => {
+      mainDomain.complianceStatus = ComplianceStatus.ReadyForRevision;
+    })
+  }
+
+  startReview(mainDomain) {
+    this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+      mainDomain.complianceStatus = ComplianceStatus.UnderRevision;
+    })
+  }
 }
