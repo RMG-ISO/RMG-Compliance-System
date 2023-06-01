@@ -32,7 +32,11 @@ namespace RMG.ComplianceSystem.Notifications
         FrameworkWorkflowAction,
         FrameworkApproved,
         FrameworkEndSelfAssessment,
-        DomainResponsibleEndInternalAssessment
+        DomainResponsibleEndInternalAssessment,
+        DomainApproveCompliance,
+        DomainReturnToResponsible,
+        DomainSentToOwner,
+        FrameworkApproveCompliance
         //Compilance,
         //Document,
 
