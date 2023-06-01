@@ -345,9 +345,9 @@
                                         </button>
 
                                         <button class="mr-3" mat-button
-                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.SendToOwner"
+                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderRevision"
                                             (click)="sendToOwner(mainDomain); $event.stopPropagation()">
-                                            {{ '::EndInternalAssessment' | abpLocalization }}
+                                            {{ '::SendToOwner' | abpLocalization }}
                                         </button>
                                     </ng-container>
                                     <ng-container *ngIf="frameWorkData?.ownerId == userId">

@@ -248,13 +248,15 @@ export class FrameworkViewComponent implements OnInit {
 
   startInternalAssessmentById(mainDomain) {
     this.domainService.startInternalAssessmentById(mainDomain.id).subscribe(r => {
-      mainDomain.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+      // mainDomain.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+      this.getMainDomainsList();
     })
   }
 
   endInternalAssessmentById(mainDomain) {
     this.domainService.endInternalAssessmentById(mainDomain.id).subscribe(r => {
-      mainDomain.complianceStatus = ComplianceStatus.ReadyForRevision;
+      this.getMainDomainsList();
+      // mainDomain.complianceStatus = ComplianceStatus.ReadyForRevision;
     })
   }
 
