@@ -82,5 +82,12 @@ namespace RMG.ComplianceSystem.Controls
             return new ListResultDto<ControlDto>(ControlsDto);
         }
 
+
+        public async Task DeleteMany(List<Guid> ids)
+        {
+            await CheckDeletePolicyAsync();
+            await Repository.DeleteManyAsync(ids);
+        }
+
     }
 }

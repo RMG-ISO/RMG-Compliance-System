@@ -213,13 +213,17 @@ namespace RMG.ComplianceSystem.Domains
         {
             var domain = await Repository.GetAsync(id);
             _domainManager.CanEndInternalAssessment(domain, CurrentUser.Id.Value);
-            // ToDo: update framework end date
             domain.InternalAssessmentEndDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             await Repository.UpdateAsync(domain);
-
-            //ToDo: notify framework owner
-            //await NotifyUsersAsync("", )
+            var isLastDomain = !Repository.Any(d => d.FrameworkId == domain.FrameworkId && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
+            if (isLastDomain)
+            {
+                framework.InternalAssessmentEndDate = Clock.Now;
+                await _frameworkRepository.UpdateAsync(framework, true);
+            }
+            await NotifyUsersAsync("DomainEndInternalAssessment", framework.OwnerId, NotificationSource.DomainResponsibleEndInternalAssessment, NotySource.DomainResponsibleEndInternalAssessment, framework.Id);
         }
 
 
@@ -238,14 +242,21 @@ namespace RMG.ComplianceSystem.Domains
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
                         Name = Creator.FullName,
-                        URL = Utility.GetURL(NotificationSource.FrameworkWorkflowAction, refId, null, null)
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
                     };
                     break;
                 case NotificationSource.FrameworkEndSelfAssessment:
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
                         Name = Creator.FullName,
-                        URL = Utility.GetURL(NotificationSource.FrameworkEndSelfAssessment, refId, null, null)
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
+                    break;
+                case NotificationSource.DomainResponsibleEndInternalAssessment:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
                     };
                     break;
                 default:
@@ -308,6 +319,12 @@ namespace RMG.ComplianceSystem.Domains
                 await _notificationAppService.NotifyUser(Guid.Parse(not.To));
 
             }
+        }
+
+        public async Task DeleteMany(List<Guid> ids)
+        {
+            await CheckDeletePolicyAsync();
+            await Repository.DeleteManyAsync(ids);
         }
     }
 }
