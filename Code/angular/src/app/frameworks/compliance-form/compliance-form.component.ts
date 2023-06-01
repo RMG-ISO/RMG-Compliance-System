@@ -100,8 +100,10 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
   }
 
   pathFormValue(value) {
-    value['complianceDate'] = parseISO( value['complianceDate'] );
-    value['nextComplianceDate'] = parseISO( value['nextComplianceDate'] );
+    if(value) {
+      value['complianceDate'] = value['complianceDate'] ? parseISO( value['complianceDate'] ) : null;
+      value['nextComplianceDate'] = value['nextComplianceDate'] ? parseISO( value['nextComplianceDate'] ) : null;
+    }
     this.form.patchValue(value);
   }
 

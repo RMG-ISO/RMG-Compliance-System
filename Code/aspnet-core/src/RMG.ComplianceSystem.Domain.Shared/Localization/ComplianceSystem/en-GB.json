@@ -553,7 +553,7 @@
     "ComplianceSystem:Framework:014": "Framework must be under preparation to send for internal assessment",
     "StartReview":"Start Review",
     "StartReviewMSG":"Do you want to start the review process?",
-    "SendToOwner":"Send To Owner"
-
+    "SendToOwner":"Send To Owner",
+    "ComplianceStatus":"Compliance Status"
   }
 }
