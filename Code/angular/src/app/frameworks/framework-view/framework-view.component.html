@@ -343,13 +343,17 @@
                                             (click)="endInternalAssessmentById(mainDomain); $event.stopPropagation()">
                                             {{ '::EndInternalAssessment' | abpLocalization }}
                                         </button>
+
+                                        <button class="mr-3" mat-button
+                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.SendToOwner"
+                                            (click)="sendToOwner(mainDomain); $event.stopPropagation()">
+                                            {{ '::EndInternalAssessment' | abpLocalization }}
+                                        </button>
                                     </ng-container>
                                     <ng-container *ngIf="frameWorkData?.ownerId == userId">
-                                        <button (click)="startReview(mainDomain)" class="round" mat-raised-button color="primary"
-                                        *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
+                                        <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button *ngIf="frameWorkData.complianceStatus == ComplianceStatus.ReadyForRevision">
                                             {{ '::StartReview' | abpLocalization }}
                                         </button>
-
                                     </ng-container>
 
                                 </div>
@@ -520,4 +524,26 @@
             </div>
         </mat-dialog-content>
     </form>
+</ng-template>
+
+
+
+<ng-template #reviewAlert let-data let-ref="dialogRef">
+    <h2 mat-dialog-title>
+        {{ '::StartReview' | abpLocalization }}
+    </h2>
+    <mat-dialog-content class="mat-typography">
+        <p>
+            {{ '::StartReviewMSG' | abpLocalization }}
+        </p>
+        <mat-dialog-actions align="end" class="actions">
+            <button mat-button class="red" (click)="ref.close()">
+                {{ '::no' | abpLocalization }}
+            </button>
+        
+            <button mat-button cdkFocusInitial class="green" (click)="ref.close(true)">
+                {{ '::yes' | abpLocalization }}
+            </button>
+        </mat-dialog-actions>
+    </mat-dialog-content>
 </ng-template>

@@ -22,6 +22,7 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('frameDialog') frameDialog;
   @ViewChild('domainDialog') domainDialog;
   @ViewChild('refuseCauseDialog') refuseCauseDialog;
+  @ViewChild('reviewAlert') reviewAlert;
 
   SharedStatus = SharedStatus;
   FormMode = FormMode;
@@ -258,8 +259,24 @@ export class FrameworkViewComponent implements OnInit {
   }
 
   startReview(mainDomain) {
-    this.domainService.startReviewById(mainDomain.id).subscribe(r => {
-      mainDomain.complianceStatus = ComplianceStatus.UnderRevision;
+    let ref = this.matDialog.open(this.reviewAlert, {
+      disableClose:true,
+      panelClass:['app-dialog', 'confirm-alert']
+    });
+
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+         this.getMainDomainsList();
+        })
+      }
     })
   }
+
+  sendToOwner(mainDomain) {
+    this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+      this.getMainDomainsList();
+     })
+  }
+
 }

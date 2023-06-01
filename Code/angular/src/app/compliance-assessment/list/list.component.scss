@@ -31,24 +31,3 @@ mat-card {
     }
 }
 
-h2.mat-dialog-title {
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-mat-dialog-content {
-    width: 400px;
-    p {
-        margin: 0;
-        text-align: center;
-        font-size: 1rem;
-        margin-top: 0.5rem;
-    }
-    mat-dialog-actions {
-        margin-top: 2rem;
-        padding: 0;
-        margin-bottom: -12px;
-        justify-content: center;
-    }
-}
