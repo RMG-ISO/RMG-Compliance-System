@@ -258,6 +258,8 @@ export class FrameworkViewComponent implements OnInit {
   }
 
   startReview(mainDomain) {
-
+    this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+      mainDomain.complianceStatus = ComplianceStatus.UnderRevision;
+    })
   }
 }
