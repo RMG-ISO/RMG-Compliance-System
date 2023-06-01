@@ -65,8 +65,9 @@ namespace RMG.ComplianceSystem.Assessments
             await CheckCreatePolicyAsync();
             await ValidateCreateUpdateAsync(input);
             var entity = await MapToEntityAsync(input);
-            var control = await _controlRepository.GetAsync(input.ControlId);
-            var framework = await _frameworkRepository.GetAsync(control.Domain.FrameworkId, false);
+            var control = await _controlRepository.GetAsync(input.ControlId, false);
+            var domain = await _domainRepository.GetAsync(control.DomainId, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             _assessmentManager.CanCreateAssessment(framework.OwnerId, CurrentUser.Id.Value);
 
             if (input.EmployeeIds is not null)
