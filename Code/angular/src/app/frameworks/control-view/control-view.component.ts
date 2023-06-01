@@ -1,3 +1,4 @@
+import { ConfigStateService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +25,7 @@ export class ControlViewComponent implements OnInit {
     private domainService: DomainService,
     private router:Router,
     private frameworkService:FrameworkService,
+    private configState:ConfigStateService
 
   ) { }
 
@@ -38,6 +40,7 @@ export class ControlViewComponent implements OnInit {
   showButton = false;
   parentPath;
   frameWorkData;
+  userId;
   ngOnInit(): void {
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.subControlId = this.activatedRoute.snapshot.params.subControlId;
@@ -54,6 +57,8 @@ export class ControlViewComponent implements OnInit {
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       this.frameWorkData = fram;
     });
+
+    this.userId = this.configState.getAll().currentUser.id
 
     // this.inAssessment = this.router.url.includes('/compliance-assessment/')
   }

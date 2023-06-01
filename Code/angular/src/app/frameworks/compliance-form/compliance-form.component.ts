@@ -61,14 +61,42 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
     });
 
 
-    if(this.frameWorkData.ownerId !== this.userId) this.form.controls['applicable'].disable();
+
+    // NotStarted = 0,
+    // UnderPreparation = 1,
+    // ReadyForInternalAssessment = 2,
+    // UnderInternalAssessment = 3,
+    // ReadyForRevision = 4,
+    // UnderRevision = 5,
+    // UnderInternalReAssessment = 6,
+    // UnderReRevision = 7,
+    // Approved = 8,
+    
     
   }
 
   ngOnChanges() {
-    if(this.domainData.complianceStatus == ComplianceStatus.ReadyForInternalAssessment) {
-      if(this.form) this.form.disable();
-    }
+    console.log(this.domainData)
+    console.log(this.frameWorkData)
+    console.log(this.userId)
+    console.log(this.form)
+
+    setTimeout(() => {
+      if(this.frameWorkData.ownerId !== this.userId) this.form.controls['applicable'].disable();
+
+      if(this.form) {
+        if(this.domainData.complianceStatus == ComplianceStatus.ReadyForInternalAssessment ||
+          this.domainData.complianceStatus == ComplianceStatus.UnderRevision ||
+          this.domainData.complianceStatus == ComplianceStatus.UnderRevision ||
+          this.domainData.complianceStatus == ComplianceStatus.Approved ||
+          this.frameWorkData.complianceStatus == ComplianceStatus.Approved) {
+          this.form.disable();
+        } else if (this.frameWorkData.ownerId !== this.userId && this.domainData.complianceStatus == ComplianceStatus.NotStarted) this.form.disable();
+        // else if(this.domainData.responsibleId !== this.userId) {
+
+        // }
+      }
+    })
   }
 
   pathFormValue(value) {
