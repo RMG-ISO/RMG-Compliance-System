@@ -21,7 +21,7 @@ namespace RMG.ComplianceSystem.Authors
 
         public async Task<Author> FindByNameAsync(string name)
         {
-            return await DbSet.FirstOrDefaultAsync(author => author.Name == name);
+            return await (await GetDbSetAsync()).FirstOrDefaultAsync(author => author.Name == name);
         }
 
         public async Task<List<Author>> GetListAsync(
@@ -30,7 +30,7 @@ namespace RMG.ComplianceSystem.Authors
             string sorting,
             string filter = null)
         {
-            return await DbSet
+            return await (await GetDbSetAsync())
                 .WhereIf(
                     !filter.IsNullOrWhiteSpace(),
                     author => author.Name.Contains(filter)

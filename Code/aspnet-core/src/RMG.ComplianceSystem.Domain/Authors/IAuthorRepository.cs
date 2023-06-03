@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Authors
 {
-    public interface IAuthorRepository : IRepository<Author, Guid>, IQueryable
+    public interface IAuthorRepository : IRepository<Author, Guid>
     {
         Task<Author> FindByNameAsync(string name);
 

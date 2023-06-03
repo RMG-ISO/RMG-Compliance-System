@@ -18,6 +18,7 @@ using RMG.ComplianceSystem.EmailTemplates;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -220,7 +221,7 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             framework.ComplianceStatus = ComplianceStatus.ReadyForRevision;
             await Repository.UpdateAsync(domain);
-            var isLastDomain = !Repository.Any(d => d.FrameworkId == domain.FrameworkId && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
+            var isLastDomain = !(await Repository.GetQueryableAsync()).Any(d => d.FrameworkId == domain.FrameworkId && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
             if (isLastDomain)
             {
                 framework.InternalAssessmentEndDate = Clock.Now;
@@ -289,7 +290,7 @@ namespace RMG.ComplianceSystem.Domains
             List<Notification> notificationList = new List<Notification>();
 
             var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
-            var Creator = _employeeRepository.FirstOrDefault(x => x.Id == receiverId);
+            var Creator = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == receiverId);
             //Email Notification
 
             object emailTemplateModel = null;

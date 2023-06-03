@@ -19,6 +19,7 @@ using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.Risks.Enums;
 using Microsoft.AspNetCore.Mvc;
 using RMG.ComplianceSystem.Departments;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Risks
 {
@@ -74,7 +75,7 @@ namespace RMG.ComplianceSystem.Risks
             if (input.Type != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskAndOpportunityRepository
+                var ListRisks = (await RiskAndOpportunityRepository.GetQueryableAsync())
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
                     .WhereIf(input.Potential != null, t => t.Potential == input.Potential|| t.Potential == input.PotentialValue)
@@ -86,13 +87,13 @@ namespace RMG.ComplianceSystem.Risks
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
-                var risk = RiskAndOpportunityRepository.Where(x => x.Type == input.Type).ToList();
+                var risk = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(x => x.Type == input.Type).ToList();
                 totalCount = risk.Count;
             }
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = RiskAndOpportunityRepository
+                var ListDoc = (await RiskAndOpportunityRepository.GetQueryableAsync())
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
                     .WhereIf(input.Potential != null, t => t.Potential == input.Potential || t.Potential == input.PotentialValue || t.ReEvaluation == input.Potential)
@@ -102,7 +103,7 @@ namespace RMG.ComplianceSystem.Risks
                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
-                var risk = RiskAndOpportunityRepository.ToList();
+                var risk = (await RiskAndOpportunityRepository.GetQueryableAsync()).ToList();
                 totalCount = risk.Count;
             }
             if (!string.IsNullOrEmpty(input.Sorting))
@@ -137,7 +138,7 @@ namespace RMG.ComplianceSystem.Risks
                 }
                 if (Risk.DepartmentId != null)
                 {
-                    Risk.DepartmentName = departmentRepository.FirstOrDefault(t => t.Id == Risk.DepartmentId).Name;
+                    Risk.DepartmentName = ( await departmentRepository.FirstOrDefaultAsync(t => t.Id == Risk.DepartmentId)).Name;
                 }
                 RisksData.Add(Risk);
             }
@@ -157,7 +158,7 @@ namespace RMG.ComplianceSystem.Risks
             if (input.Type != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskAndOpportunityRepository
+                var ListRisks = (await RiskAndOpportunityRepository.GetQueryableAsync())
                     .WhereIf(input.OwnerId != null, t => t.OwnerId == input.OwnerId)
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
@@ -170,13 +171,13 @@ namespace RMG.ComplianceSystem.Risks
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
-                var risk = RiskAndOpportunityRepository.Where(x => x.Type == input.Type).ToList();
+                var risk = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(x => x.Type == input.Type).ToList();
                 totalCount = risk.Count;
             }
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = RiskAndOpportunityRepository
+                var ListDoc = (await RiskAndOpportunityRepository.GetQueryableAsync())
                     .WhereIf(input.OwnerId != null, t => t.OwnerId == input.OwnerId)
                     .WhereIf(input.DepartmentId != null, t => t.DepartmentId == input.DepartmentId)
                     .WhereIf(input.Status != null, t => t.status == input.Status)
@@ -187,7 +188,7 @@ namespace RMG.ComplianceSystem.Risks
                    .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to RiskAndOpportunityDto
                 Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListDoc);
-                var risk = RiskAndOpportunityRepository.ToList();
+                var risk = (await RiskAndOpportunityRepository.GetQueryableAsync()).ToList();
                 totalCount = risk.Count;
             }
             if (!string.IsNullOrEmpty(input.Sorting))
@@ -222,7 +223,7 @@ namespace RMG.ComplianceSystem.Risks
                 }
                 if (Risk.DepartmentId != null)
                 {
-                    Risk.DepartmentName = departmentRepository.FirstOrDefault(t => t.Id == Risk.DepartmentId).Name;
+                    Risk.DepartmentName =( await departmentRepository.FirstOrDefaultAsync(t => t.Id == Risk.DepartmentId)).Name;
                 }
                 RisksData.Add(Risk);
             }
@@ -284,7 +285,7 @@ namespace RMG.ComplianceSystem.Risks
         [HttpGet]
         public async Task<PagedResultDto<RiskAndOpportunityDto>> AllRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
-            var ListRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
+            var ListRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type).ToList();
             var Risks = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(ListRisks);
             return new PagedResultDto<RiskAndOpportunityDto>(
               ListRisks.Count,
@@ -296,7 +297,7 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<Dictionary<string, int>> GetMitigationRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var openClose = new Dictionary<string, int>();
-            var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
+            var AllRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type).ToList();
             openClose.Add("Total", AllRisks.Count);
 
             int riskItemVeryLow = 0;
@@ -345,9 +346,9 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<Dictionary<string, int>> OpenCloseRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var openClose = new Dictionary<string, int>();
-            var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
-            var OpenRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.status == 1).ToList();
-            var CloseRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.status == 2).ToList();
+            var AllRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type).ToList();
+            var OpenRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type && t.status == 1).ToList();
+            var CloseRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type && t.status == 2).ToList();
             openClose.Add("Total", AllRisks.Count);
             openClose.Add("Open", OpenRisks.Count);
             openClose.Add("Close", CloseRisks.Count);
@@ -358,9 +359,9 @@ namespace RMG.ComplianceSystem.Risks
         public async Task<Dictionary<string, int>> TreatmentRisksAndOpportunities(RiskOpportunityPagedAndSortedResultRequestDto input)
         {
             var Treatment = new Dictionary<string, int>();
-            var AllRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type).ToList();
-            var treatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment == true).ToList();
-            var NotreatmentRisks = RiskAndOpportunityRepository.Where(t => t.Type == input.Type && t.IsTreatment == false).ToList();
+            var AllRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type).ToList();
+            var treatmentRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type && t.IsTreatment == true).ToList();
+            var NotreatmentRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(t => t.Type == input.Type && t.IsTreatment == false).ToList();
             Treatment.Add("Total", AllRisks.Count);
             Treatment.Add("treatmentRisks", treatmentRisks.Count);
             Treatment.Add("NotreatmentRisks", NotreatmentRisks.Count);

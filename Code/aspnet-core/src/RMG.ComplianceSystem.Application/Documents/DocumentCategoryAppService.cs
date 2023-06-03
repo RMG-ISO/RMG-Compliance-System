@@ -40,12 +40,12 @@ namespace RMG.ComplianceSystem.DocumentCategorys
         public async Task<ListResultDto<DocumentCategoryDto>> getDocumentCategories(DocCategoryPagedAndSortedResultRequestDto input)
         {
             int totalCount=0;  
-            var DocumentCats = DocumentCateRepository.Where(x => x.IsDeleted == false && ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
+            var DocumentCats = (await DocumentCateRepository.GetQueryableAsync()).Where(x => x.IsDeleted == false && ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
              .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var DocCateDtos = ObjectMapper.Map<List<DocumentCategory>, List<DocumentCategoryDto>>(DocumentCats);
             var categories=new List<DocumentCategoryDto>();
 
-            var Categories = DocumentCateRepository.ToList();
+            var Categories = (await DocumentCateRepository.GetQueryableAsync()).ToList();
             totalCount = DocCateDtos.Count;
 
             if (!string.IsNullOrEmpty(input.Sorting))

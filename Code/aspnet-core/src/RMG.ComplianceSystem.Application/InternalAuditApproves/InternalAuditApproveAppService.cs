@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.InternalAuditApproves
@@ -50,16 +51,16 @@ namespace RMG.ComplianceSystem.InternalAuditApproves
         public async Task<PagedResultDto<InternalAuditApproveDto>> GetListAuditAppoveByFilterAsync(InternalAuditApprovePagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListAuditApproves = InternalAuditApproveRepository.WhereIf(input.IsApprove != null, e => e.IsApprove == input.IsApprove)
+            var ListAuditApproves = (await InternalAuditApproveRepository.GetQueryableAsync()).WhereIf(input.IsApprove != null, e => e.IsApprove == input.IsApprove)
                 .WhereIf(input.ApproveBy != null, e => e.ApproveBy == input.ApproveBy)
                 .WhereIf(input.approveDate != null, e => e.approveDate == input.approveDate)
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var AuditApproves = ObjectMapper.Map<List<InternalAuditApprove>, List<InternalAuditApproveDto>>(ListAuditApproves);
-            var ListAuditApprove = InternalAuditApproveRepository.ToList();
+            var ListAuditApprove = (await InternalAuditApproveRepository.GetQueryableAsync()).ToList();
             totalCount = ListAuditApprove.Count;
             foreach (var item in AuditApproves)
             {
-                var InternalAudit = _internalAuditPreparationRepository.FirstOrDefault(x => x.Id == item.InternalAuditId);
+                var InternalAudit = await _internalAuditPreparationRepository.FirstOrDefaultAsync(x => x.Id == item.InternalAuditId);
                 item.InternalAuditPreparationDto= ObjectMapper.Map<InternalAuditPreparations.InternalAuditPreparation, InternalAuditPreparationDto>(InternalAudit); 
 
                 if (item.CreatorId != null)

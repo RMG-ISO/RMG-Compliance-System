@@ -25,7 +25,7 @@ namespace RMG.ComplianceSystem.DashBoards
         }
         public async Task SendRisksAndOpportunities()
         {
-            var ListRisks = RiskAndOpportunityRepository.ToList();
+            var ListRisks = (await RiskAndOpportunityRepository.GetQueryableAsync()).ToList();
             await _notificationHubContext.Clients.All.SendAsync("RisksOpportunities", ListRisks);
         }
         //public async Task SendStatusRisks()

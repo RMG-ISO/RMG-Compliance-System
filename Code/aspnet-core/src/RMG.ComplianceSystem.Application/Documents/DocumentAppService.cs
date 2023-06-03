@@ -59,22 +59,22 @@ namespace RMG.ComplianceSystem.Policies
             if (input.CategoryId!=null)
             {
                 //get Document By CategoryId and Filters and Pagination
-                var ListDocuments = Documentrepository.Where(x => x.IsDeleted == false && x.CategoryId == (Guid)input.CategoryId &&x.IsDeleted==false&&
+                var ListDocuments = (await Documentrepository.GetQueryableAsync()).Where(x => x.IsDeleted == false && x.CategoryId == (Guid)input.CategoryId &&x.IsDeleted==false&&
                 ((x.TitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                  Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDocuments);
-                var ListDocument = Documentrepository.Where(x => x.CategoryId == (Guid)input.CategoryId).ToList();
+                var ListDocument = (await Documentrepository.GetQueryableAsync()).Where(x => x.CategoryId == (Guid)input.CategoryId).ToList();
                 totalCount = ListDocument.Count;   
             }
             else
             {
                 //get Document By CategoryId and Filters and Pagination
-              var  ListDoc = Documentrepository.Where(x => x.IsDeleted == false &&
+              var  ListDoc = (await Documentrepository.GetQueryableAsync()).Where(x => x.IsDeleted == false &&
                 ((x.TitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.TitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
 
                 Documents = ObjectMapper.Map<List<Document>, List<DocumentDto>>(ListDoc);
-                var ListDocument = Documentrepository.ToList();
+                var ListDocument = (await Documentrepository.GetQueryableAsync()).ToList();
                 totalCount = ListDocument.Count;
             }
             if (!string.IsNullOrEmpty(input.Sorting))
@@ -164,7 +164,7 @@ namespace RMG.ComplianceSystem.Policies
             // Mapping Document to DocumentDto
             var document = ObjectMapper.Map<Document, DocumentDto>(Doc);
             // get Attachments 
-            var getAttachment = _attachmentRepository.GetAsync(document.AttachmentId).Result;
+            var getAttachment = await _attachmentRepository.GetAsync(document.AttachmentId);
             // Mapping Attachment to AttachmentDto
             var Attachment = ObjectMapper.Map<RMG.ComplianceSystem.Attachments.Attachment, AttachmentDto>(getAttachment);
             //Set Attachment in document.Attachment

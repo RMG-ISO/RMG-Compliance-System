@@ -132,7 +132,7 @@ namespace RMG.ComplianceSystem.Frameworks
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
             dto.OwnerName = (await _employeeRepository.FindAsync(dto.OwnerId, false))?.FullName;
-            var empsIDs = _frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
+            var empsIDs = (await _frameworkEmployeeRepository.GetQueryableAsync()).Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
             foreach (var emp in empsIDs)
             {
                 dto.FrameworkEmpsDto.Add(new FrameworkEmpDto
@@ -145,7 +145,7 @@ namespace RMG.ComplianceSystem.Frameworks
             dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
             dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
 
-            dto.CanSendForInternalAssessment = CanSendForInternalAssessment(entity).Item1;
+            dto.CanSendForInternalAssessment = (await CanSendForInternalAssessment(entity)).Item1;
             return dto;
         }
 
@@ -163,7 +163,7 @@ namespace RMG.ComplianceSystem.Frameworks
                 #region [Employees]
                 if (input.FrameworkEmpsDto != null && input.FrameworkEmpsDto.Count > 0)
                 {
-                    var Employees = _frameworkEmployeeRepository.Where(x => x.FrameworkId == entity.Id).ToList();
+                    var Employees = (await _frameworkEmployeeRepository.GetQueryableAsync()).Where(x => x.FrameworkId == entity.Id).ToList();
                     foreach (var emp in Employees)
                     {
                         await _frameworkEmployeeRepository.DeleteAsync(emp.Id, autoSave: true);
@@ -205,8 +205,8 @@ namespace RMG.ComplianceSystem.Frameworks
             {
                 log.CreatorName = (await _employeeRepository.GetAsync(log.CreatorId.Value))?.FullName;
             }
-            var employeeIDs = _frameworkEmployeeRepository.Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
-            var employees = _employeeRepository.Where(e => employeeIDs.Contains(e.Id)).Select(e => new FrameworkEmpDto
+            var employeeIDs = (await _frameworkEmployeeRepository.GetQueryableAsync()).Where(fe => fe.FrameworkId == dto.Id).Select(fe => fe.EmployeeId).ToList();
+            var employees = (await _employeeRepository.GetQueryableAsync()).Where(e => employeeIDs.Contains(e.Id)).Select(e => new FrameworkEmpDto
             {
                 EmployeeId = e.Id,
                 EmployeeName = e.FullName,
@@ -256,7 +256,8 @@ namespace RMG.ComplianceSystem.Frameworks
             }
             if (!foundPermission)
             {
-                query = query.Where(f => _domainRepository.Where(d => d.ResponsibleId == CurrentUser.Id).Any(d => d.FrameworkId == f.Id));
+                var filterdQuery = (await _domainRepository.GetQueryableAsync()).Where(d => d.ResponsibleId == CurrentUser.Id);;
+                query = query.Where(f => filterdQuery.Any(d => d.FrameworkId == f.Id));
             }
 
             return query;
@@ -278,12 +279,12 @@ namespace RMG.ComplianceSystem.Frameworks
         public async Task<FrameworkData> GetFrameWorkWithAssesmentBYId(getFrameworkDto input)
         {
             var FrameworkDt = new FrameworkData();
-            var item = _repository.Where(t => t.Id == input.FrameworkId).FirstOrDefault();
+            var item = (await _repository.GetQueryableAsync()).Where(t => t.Id == input.FrameworkId).FirstOrDefault();
             if (item != null)
             {
                 FrameworkDt.FrameworkDto = ObjectMapper.Map<Framework, FrameworkDto>(item);
                 var ListMainDomainsDto = new List<MainDomainsDto>();
-                var domainsWithChild = _domainRepository.Where(c => c.FrameworkId == item.Id).ToList();
+                var domainsWithChild = (await _domainRepository.GetQueryableAsync()).Where(c => c.FrameworkId == item.Id).ToList();
                 foreach (var Maindomain in domainsWithChild)
                 {
                     var MainDomainsDto = new MainDomainsDto();
@@ -294,7 +295,7 @@ namespace RMG.ComplianceSystem.Frameworks
                         {
                             var subDomain = new SubDomainsDto();
                             subDomain.Subdomain = ObjectMapper.Map<Domain, DomainDto>(domain);
-                            var controlsWithChild = _controlRepository.Where(e => e.DomainId == domain.Id).ToList();
+                            var controlsWithChild = (await _controlRepository.GetQueryableAsync()).Where(e => e.DomainId == domain.Id).ToList();
 
                             var listmMaincontrol = new List<MainControlsDto>();
                             foreach (var control in controlsWithChild)
@@ -304,7 +305,7 @@ namespace RMG.ComplianceSystem.Frameworks
                                 var Ctrols = new List<SubControlsDto>();
                                 if (control.Children == null)
                                 {
-                                    var maincontrolassesment = _assessmentRepository.FirstOrDefault(u => u.ControlId == control.Id);
+                                    var maincontrolassesment = await  _assessmentRepository.FirstOrDefaultAsync(u => u.ControlId == control.Id);
                                     maincontrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(maincontrolassesment);
                                     if (maincontrolassesment != null)
                                     {
@@ -329,7 +330,7 @@ namespace RMG.ComplianceSystem.Frameworks
                                     {
                                         var Ctrol = new SubControlsDto();
                                         Ctrol.subControl = ObjectMapper.Map<Control, ControlDto>(ctrl);
-                                        var assesment = _assessmentRepository.FirstOrDefault(u => u.ControlId == ctrl.Id);
+                                        var assesment = await _assessmentRepository.FirstOrDefaultAsync(u => u.ControlId == ctrl.Id);
                                         Ctrol.AssessmentDto = ObjectMapper.Map<Assessment, AssessmentDto>(assesment);
                                         if (assesment != null)
                                         {
@@ -450,7 +451,7 @@ namespace RMG.ComplianceSystem.Frameworks
             framework.ComplianceStatus = ComplianceStatus.UnderPreparation;
             await Repository.UpdateAsync(framework);
 
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == framework.Id).ToList();
             foreach (var domain in domains)
             {
                 domain.ComplianceStatus = ComplianceStatus.UnderPreparation;
@@ -490,7 +491,7 @@ namespace RMG.ComplianceSystem.Frameworks
             if (framework.ComplianceStatus != ComplianceStatus.UnderPreparation)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkMustBeUnderPreparationToSendForInternalAssessment);
 
-            var canSend = CanSendForInternalAssessment(framework);
+            var canSend = await CanSendForInternalAssessment(framework);
             if (!canSend.Item1)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.TheFollowingControlsDonotHaveAssessmentsYet)
                     .WithData("controlsName", string.Join("، ", canSend.Item2));
@@ -509,7 +510,7 @@ namespace RMG.ComplianceSystem.Frameworks
         public async Task ApproveCompliance(Guid id)
         {
             var framework = await Repository.GetAsync(id, false);
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == framework.Id).ToList();
             _frameworkManager.CanApproveCompliance(framework, domains, CurrentUser.Id.Value);
             framework.ComplianceStatus = ComplianceStatus.Approved;
             await Repository.UpdateAsync(framework);
@@ -519,11 +520,12 @@ namespace RMG.ComplianceSystem.Frameworks
             }
         }
 
-        private Tuple<bool, List<string>, List<Domain>> CanSendForInternalAssessment(Framework framework)
+        private async Task<Tuple<bool, List<string>, List<Domain>>> CanSendForInternalAssessment(Framework framework)
         {
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
-            var controls = _controlRepository.Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
-            var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == framework.Id).ToList();
+            var controls = (await _controlRepository.GetQueryableAsync()).Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
+            var assessmentRepositoryQuerable = await _assessmentRepository.GetQueryableAsync();
+            var controlsWithoutAssessments = controls.Where( c =>  !assessmentRepositoryQuerable.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
                 return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
             return new Tuple<bool, List<string>, List<Domain>>(true, null, domains);
@@ -534,7 +536,7 @@ namespace RMG.ComplianceSystem.Frameworks
             List<Notification> notificationList = new List<Notification>();
 
             var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
-            var Creator = _employeeRepository.FirstOrDefault(x => x.Id == receiverId);
+            var Creator = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == receiverId);
             //Email Notification
 
             object emailTemplateModel = null;

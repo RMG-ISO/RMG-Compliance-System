@@ -15,6 +15,7 @@ using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 {
@@ -102,7 +103,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
             #region [Questions]
             if (input.QuestionsIds != null && input.QuestionsIds.Count > 0)
             {
-                var quesList = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
+                var quesList = (await _internalAuditQuestionListRepository.GetQueryableAsync()).Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
                 foreach (var question in quesList)
                 {
 
@@ -137,7 +138,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
 
             #region [Deleted Questions]
 
-            var quesList = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
+            var quesList = (await _internalAuditQuestionListRepository.GetQueryableAsync()).Where(x => x.InternalAuditMenuQuestionId == entity.Id).ToList();
                 foreach (var question in quesList)
                 {
 
@@ -157,7 +158,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         public async Task<PagedResultDto<InternalAuditMenuQuestionDto>> GetListQuestionByFilterAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListQuestions = InternalAuditMenuQuestionRepository.Where(x =>
+            var ListQuestions = (await InternalAuditMenuQuestionRepository.GetQueryableAsync()).Where(x =>
                      ((x.MenuTextAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
                      (x.MenuTextEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
@@ -172,13 +173,13 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
                 }
                 if (item.FrameworkId != null)
                 {
-                    var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
+                    var Framework = await _FrameworkRepository.FirstOrDefaultAsync(t => t.Id == item.FrameworkId);
                     item.Framework = ObjectMapper.Map<RMG.ComplianceSystem.Frameworks.Framework, FrameworkDto>(Framework);
                 }
 
             }
 
-            var ListQuestion = InternalAuditMenuQuestionRepository.ToList();
+            var ListQuestion = (await InternalAuditMenuQuestionRepository.GetQueryableAsync()).ToList();
             totalCount = ListQuestion.Count;
 
             if (!string.IsNullOrEmpty(input.Sorting))
@@ -199,9 +200,9 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByIdAsync(InternalAuditQuestionListPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListQuestions = _internalAuditQuestionListRepository.Where(x => x.InternalAuditMenuQuestionId == input.InternalAuditMenuQuestionId).ToList();
-            var FrameworkId = InternalAuditMenuQuestionRepository.FirstOrDefault(e=>e.Id == input.InternalAuditMenuQuestionId).FrameworkId;
-            var QuestionByFramework = _InternalAuditQuestionRepository.Where(t => t.FrameworkId ==FrameworkId).ToList();
+            var ListQuestions = (await _internalAuditQuestionListRepository.GetQueryableAsync()).Where(x => x.InternalAuditMenuQuestionId == input.InternalAuditMenuQuestionId).ToList();
+            var FrameworkId = (await InternalAuditMenuQuestionRepository.FirstOrDefaultAsync(e=>e.Id == input.InternalAuditMenuQuestionId)).FrameworkId;
+            var QuestionByFramework = (await _InternalAuditQuestionRepository.GetQueryableAsync()).Where(t => t.FrameworkId ==FrameworkId).ToList();
             var QuestionsByFramework = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(QuestionByFramework);
             var Questions = new List<InternalAuditQuestionDto>();
             foreach (var item in QuestionsByFramework)
@@ -218,7 +219,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
                 Questions.Add(item);
             }
 
-            var ListQuestion = _internalAuditQuestionListRepository.Where(x => x.Id == input.InternalAuditMenuQuestionId).ToList();
+            var ListQuestion = (await _internalAuditQuestionListRepository.GetQueryableAsync()).Where(x => x.Id == input.InternalAuditMenuQuestionId).ToList();
             totalCount = ListQuestion.Count;
 
             if (!string.IsNullOrEmpty(input.Sorting))
@@ -240,7 +241,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByFrameworkAsync(InternalAuditMenuQuestionPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var Question = _InternalAuditQuestionRepository.Where(t => t.FrameworkId == input.FrameworkId).ToList();
+            var Question = (await _InternalAuditQuestionRepository.GetQueryableAsync()).Where(t => t.FrameworkId == input.FrameworkId).ToList();
             var Questions = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(Question);
             totalCount = Questions.Count;
 
@@ -256,7 +257,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestionLists
         }
         public async Task<InternalAuditMenuQuestionDto> GetMenuQuestionByIdAsync(Guid Id)
         {
-            var ListQuestions = InternalAuditMenuQuestionRepository.FirstOrDefault(x => x.Id == Id);
+            var ListQuestions = await InternalAuditMenuQuestionRepository.FirstOrDefaultAsync(x => x.Id == Id);
             var Questions = ObjectMapper.Map<InternalAuditMenuQuestion, InternalAuditMenuQuestionDto>(ListQuestions);
             return Questions;
         }

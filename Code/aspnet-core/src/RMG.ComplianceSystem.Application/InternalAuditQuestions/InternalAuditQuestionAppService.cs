@@ -11,6 +11,7 @@ using RMG.ComplianceSystem.StaticData;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using RMG.ComplianceSystem.Frameworks;
 using RMG.ComplianceSystem.InternalAuditQuestionLists;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.InternalAuditQuestions
 {
@@ -54,12 +55,12 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
         public async Task<PagedResultDto<InternalAuditQuestionDto>> GetListQuestionByFilterAsync(InternalAuditQuestionPagedAndSortedResultRequestDto input)
         {
             int totalCount = 0;
-            var ListQuestions = InternalAuditQuestionRepository.Where(x => 
+            var ListQuestions = (await InternalAuditQuestionRepository.GetQueryableAsync()).Where(x => 
                      ((x.QuestionTextAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
                      (x.QuestionTextEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
              var Questions = ObjectMapper.Map<List<InternalAuditQuestion>, List<InternalAuditQuestionDto>>(ListQuestions);
-             var ListQuestion = InternalAuditQuestionRepository.ToList();
+             var ListQuestion = (await InternalAuditQuestionRepository.GetQueryableAsync()).ToList();
                 totalCount = ListQuestion.Count;
             foreach (var item in Questions)
             {
@@ -71,12 +72,12 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
                 }
                 if (item.FrameworkId != null)
                 {
-                    var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
+                    var Framework =await _FrameworkRepository.FirstOrDefaultAsync(t => t.Id == item.FrameworkId);
                     item.Framework = ObjectMapper.Map<Frameworks.Framework, FrameworkDto>(Framework);
                 }
                 if (item.Id != null)
                 {
-                    var QuestionIsUsed = _internalAuditQuestionListRepository.FirstOrDefault(t => t.InternalAuditQuestionId == item.Id);
+                    var QuestionIsUsed = await _internalAuditQuestionListRepository.FirstOrDefaultAsync(t => t.InternalAuditQuestionId == item.Id);
                     if (QuestionIsUsed != null) { item.CanDelete = false; }
                     else { item.CanDelete = true; } 
                 }
@@ -96,7 +97,7 @@ namespace RMG.ComplianceSystem.InternalAuditQuestions
 
         public async Task<InternalAuditQuestionDto> GetQuestionByIdAsync(Guid Id)
         {
-            var ListQuestions = InternalAuditQuestionRepository.FirstOrDefault(x =>x.Id==Id);
+            var ListQuestions = await InternalAuditQuestionRepository.FirstOrDefaultAsync(x => x.Id == Id);
             var Questions = ObjectMapper.Map<InternalAuditQuestion, InternalAuditQuestionDto>(ListQuestions);
             return Questions;
         }

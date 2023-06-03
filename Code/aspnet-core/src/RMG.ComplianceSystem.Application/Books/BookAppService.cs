@@ -45,8 +45,10 @@ namespace RMG.ComplianceSystem.Books
             await CheckGetPolicyAsync();
 
             //Prepare a query to join books and authors
-            var query = from book in Repository
-                        join author in _authorRepository on book.AuthorId equals author.Id
+            var reposiotryAsQueryable = (await Repository.GetQueryableAsync());
+            var authorRepository = (await _authorRepository.GetQueryableAsync());
+            var query = from book in reposiotryAsQueryable
+                        join author in authorRepository on book.AuthorId equals author.Id
                         where book.Id == id
                         select new { book, author };
 
@@ -68,8 +70,10 @@ namespace RMG.ComplianceSystem.Books
             await CheckGetListPolicyAsync();
 
             //Prepare a query to join books and authors
-            var query = from book in Repository
-                        join author in _authorRepository on book.AuthorId equals author.Id
+            var reposiotryAsQueryable = await Repository.GetQueryableAsync();
+            var autorRepository = await _authorRepository.GetQueryableAsync();
+            var query = from book in reposiotryAsQueryable
+                        join author in autorRepository on book.AuthorId equals author.Id
                         orderby input.Sorting
                         select new { book, author };
 

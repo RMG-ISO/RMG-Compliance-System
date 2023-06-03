@@ -68,14 +68,14 @@ namespace RMG.ComplianceSystem.Controls
 
         public async Task<ListResultDto<ControlDto>> GetListControlsByFramworkAsync(ControlPagedAndSortedResultRequestDto input)
         {
-           var   mainDomains = _domainRepository.Where(t => t.FrameworkId == input.FrameWorkId).ToList();
+           var   mainDomains = (await _domainRepository.GetQueryableAsync()).Where(t => t.FrameworkId == input.FrameWorkId).ToList();
             var ControlsDto = new List<ControlDto>();
             foreach (var domain in mainDomains)
             {
                 if (domain.Children!=null)
                 foreach (var item in domain.Children)
                 {
-                    var Controls = _repository.Where(t => t.DomainId == item.Id).ToList();
+                    var Controls = (await _repository.GetQueryableAsync()).Where(t => t.DomainId == item.Id).ToList();
                     ControlsDto = await MapToGetListOutputDtosAsync(Controls);
                 }
             }
