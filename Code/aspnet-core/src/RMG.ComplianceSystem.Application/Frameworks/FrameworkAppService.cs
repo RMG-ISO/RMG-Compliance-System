@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using Volo.Abp;
 using RMG.ComplianceSystem.Shared;
-using DocumentFormat.OpenXml.Bibliography;
 using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.Employees;
@@ -29,7 +28,6 @@ using System.Security.Policy;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
