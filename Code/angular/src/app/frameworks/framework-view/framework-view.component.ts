@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
 import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
-import { finalize } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
@@ -318,7 +318,6 @@ export class FrameworkViewComponent implements OnInit {
       window.location.reload();
     })
   }
-}
 
   uploadDownloadExcel($event , ngSelect) {
     if($event == undefined) return;
@@ -363,8 +362,10 @@ export class FrameworkViewComponent implements OnInit {
         return EMPTY;
       })
     ).subscribe(
-      () => this.toaster.success('::SuccessfullyImported', '' , { life : 4000})
+      () => { 
+        this.toaster.success('::SuccessfullyImported', '', { life: 4000 }); 
+        window.location.reload(); 
+      }
     );  
     }
-    
-  }
+}
