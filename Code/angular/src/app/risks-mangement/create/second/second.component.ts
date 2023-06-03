@@ -22,7 +22,7 @@ export class SecondComponent implements OnInit {
 
     // this.getMatrixType();
     this.getList(2, 'likelihood');
-    this.controlService.getControlsListFramwork({frameWorkId:this.itemData.frameWorkId} as any).subscribe( r => {
+    this.controlService.getListControlsByFramwork({frameWorkId:this.itemData.frameWorkId} as any).subscribe( r => {
       this.controlAssesment = r.items
     })
     // this.getList(5, 'controlAssesment');

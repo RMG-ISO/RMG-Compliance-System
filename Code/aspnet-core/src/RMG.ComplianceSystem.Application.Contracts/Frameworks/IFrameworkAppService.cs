@@ -27,6 +27,8 @@ namespace RMG.ComplianceSystem.Frameworks
 
         Task Activate(Guid id);
         Task Deactivate(Guid id);
+        Task SendForInternalAssessment(Guid id);
+        Task ApproveCompliance(Guid id);
 
         IRemoteStreamContent GetTempExcelFile();
         Task ImportExcelFileAsync(IRemoteStreamContent file, Guid id);

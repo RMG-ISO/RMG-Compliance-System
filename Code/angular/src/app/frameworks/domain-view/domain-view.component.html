@@ -1,228 +1,274 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="['/frameworks', subDomainData?.frameworkId ]" class="back-button">
+        <button mat-button [routerLink]="['/', parentPath, subDomainData?.frameworkId ]" class="back-button">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>
             <span>
-               {{ '::ReturnBack' | abpLocalization }}
+                {{ '::ReturnBack' | abpLocalization }}
             </span>
         </button>
     </header>
     <div class="card-body">
-        <section>
-           <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">
-                    {{ subDomainData | lang:'name' }}
-                </h2>
-                <ng-container *abpPermission="'ComplianceSystem.Domain.Create'">
-                    <button *ngIf="mainDomainData && !inAssessment" mat-button (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
-                        <mat-icon class="mr-1">edit</mat-icon>
-                        {{ '::Edit' | abpLocalization }}
-                    </button>
-                </ng-container>
-           </div>
-            <div class="details-table-cont">
-                <table class="table">
-                    <tr>
-                        <td>
-                            {{ '::ReferenceNumber' | abpLocalization }}
-                        </td>
-                        <td colspan="3">
-                            {{subDomainData?.reference}}
-                        </td>
-                    </tr>
+        <ng-container *ngIf="mainDomainData && subDomainData && frameWorkData">
+            <section>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">
+                        {{ subDomainData | lang:'name' }}
+                    </h2>
+                    <ng-container *abpPermission="'ComplianceSystem.Domain.Create'">
+                        <button *ngIf="showButton" mat-button
+                            (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
+                            <mat-icon class="mr-1">edit</mat-icon>
+                            {{ '::Edit' | abpLocalization }}
+                        </button>
+                    </ng-container>
 
-                    <tr>
-                        <td>
-                            {{ '::DomainNameEn' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{subDomainData?.nameEn}}
-                        </td>
-                        <td>
-                            {{ '::CreationTime' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{subDomainData?.creationTime | date:'yyyy-MM-dd' }}
-                        </td>
-                    </tr>
+                    <!-- <ng-container *ngIf="!showButton && mainDomainData.responsibleId == userId">
+                        <button *ngIf="mainDomainData.complianceStatus == ComplianceStatus.ReadyForInternalAssessment"
+                        class="add-blue" mat-button
+                        (click)="startInternalAssessmentById()">
+                            {{ '::Compliance' | abpLocalization }}
+                        </button>
 
-                    <tr>
-                        <td>
-                            {{ '::DomainDescriptionAr' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{subDomainData?.descriptionAr}}
-                        </td>
-                        <td>
-                            {{ '::DomainDescriptionEn' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{subDomainData?.descriptionEn}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> {{ '::Departments' | abpLocalization }} </td>
-                        <td colspan="3">
-                            <mat-chip-list>
-                                <mat-chip *ngFor="let department of subDomainData?.departments">
-                                    {{department.name}}
-                                </mat-chip>
-                            </mat-chip-list>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ '::Status' | abpLocalization }}
-                        </td>
-                        <td colspan="3">
-                            <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
-                                {{  ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </section>
-    
-        <section>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="m-0">
-                    {{ (frameWorkData | lang:'levelThirdName') || ('::ControlMainControls' | abpLocalization) }}
-                </h3>
+                        <button *ngIf="mainDomainData.complianceStatus == ComplianceStatus.UnderInternalAssessment"
+                        class="add-blue" mat-button
+                        (click)="endInternalAssessmentById()">
+                            {{ '::EndInternalAssessment' | abpLocalization }}
+                        </button>
 
-                <div *ngIf="!inAssessment">
-                    <button (click)="openControlDialog(null, FormMode.Create, null, null)" *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button  class="add-raised-btn mr-3" type="button">
-                        <i class="fa fa-plus mr-1"></i>
-                        <span>
-                            <ng-container *ngIf="frameWorkData | lang:'levelThirdName'; else showCreateControl">
-                                {{'::Create' | abpLocalization}}
-                                {{ frameWorkData | lang:'levelThirdName' }}
-                            </ng-container>
-                            <ng-template #showCreateControl>
-                                {{ "::CreateControl" | abpLocalization: ('::ControlMainControl' | abpLocalization) }}
-                            </ng-template>
-                        </span>
-                    </button>
-                    <button mat-raised-button class="mr-2 delete-btn"  color="warn" [disabled]="!deleteLength" (click)="deleteItems()">
-                        <mat-icon class="mr-1">delete_forever</mat-icon>
-                        {{ '::Delete' | abpLocalization }}
-                    </button>
+                    </ng-container> -->
                 </div>
-            </div>
-    
-            <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details">
-                <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title class="d-flex justify-content-between align-items-center">
+                <div class="details-table-cont">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                {{ '::ReferenceNumber' | abpLocalization }}
+                            </td>
+                            <td colspan="3">
+                                {{subDomainData?.reference}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                {{ '::DomainNameEn' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{subDomainData?.nameEn}}
+                            </td>
+                            <td>
+                                {{ '::CreationTime' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{subDomainData?.creationTime | date:'yyyy-MM-dd' }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                {{ '::DomainDescriptionAr' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{subDomainData?.descriptionAr}}
+                            </td>
+                            <td>
+                                {{ '::DomainDescriptionEn' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{subDomainData?.descriptionEn}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> {{ '::Departments' | abpLocalization }} </td>
+                            <td colspan="3">
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let department of subDomainData?.departments">
+                                        {{department.name}}
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::Status' | abpLocalization }}
+                            </td>
+                            <td>
+                                <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
+                                    {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                </button>
+                            </td>
+                            <td>
+                                {{ '::ComplianceStatus' | abpLocalization }}
+                            </td>
+                            <td>
+                                <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                    {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="m-0">
+                        {{ (frameWorkData | lang:'levelThirdName') || ('::ControlMainControls' | abpLocalization) }}
+                    </h3>
+
+                    <div *ngIf="showButton">
+                        <button (click)="openControlDialog(null, FormMode.Create, null, null)"
+                            *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button
+                            class="add-raised-btn mr-3" type="button">
+                            <i class="fa fa-plus mr-1"></i>
                             <span>
-                                {{ mainControl | lang:'name' }}
+                                <ng-container *ngIf="frameWorkData | lang:'levelThirdName'; else showCreateControl">
+                                    {{'::Create' | abpLocalization}}
+                                    {{ frameWorkData | lang:'levelThirdName' }}
+                                </ng-container>
+                                <ng-template #showCreateControl>
+                                    {{ "::CreateControl" | abpLocalization: ('::ControlMainControl' | abpLocalization) }}
+                                </ng-template>
                             </span>
-                            <div *ngIf="!inAssessment">
-                                <button *abpPermission="'ComplianceSystem.Control.Update'"  class="mr-3" mat-button (click)="openControlDialog(mainControl, FormMode.Edit, null, null); $event.stopPropagation()">
-                                    <mat-icon>edit</mat-icon>
-                                    {{ '::Edit' | abpLocalization }}
-                                </button>
-                                <mat-checkbox class="mr-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainControl.id)"></mat-checkbox>
+                        </button>
+                        <button mat-raised-button class="mr-2 delete-btn" color="warn" [disabled]="!deleteLength"
+                            (click)="deleteItems()">
+                            <mat-icon class="mr-1">delete_forever</mat-icon>
+                            {{ '::Delete' | abpLocalization }}
+                        </button>
+                    </div>
+                </div>
+
+                <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details">
+                    <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="d-flex justify-content-between align-items-center">
+                                <span>
+                                    {{ mainControl | lang:'name' }}
+                                </span>
+                                <div *ngIf="showButton">
+                                    <button *abpPermission="'ComplianceSystem.Control.Update'" class="mr-3" mat-button
+                                        (click)="openControlDialog(mainControl, FormMode.Edit, null, null); $event.stopPropagation()">
+                                        <mat-icon>edit</mat-icon>
+                                        {{ '::Edit' | abpLocalization }}
+                                    </button>
+                                    <mat-checkbox class="mr-3" (click)="$event.stopPropagation()"
+                                        (change)="selectChanged($event.checked, mainControl.id)"></mat-checkbox>
+                                </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <section>
+                            <div class="details-table-cont">
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            {{ '::ReferenceNumber' | abpLocalization }}
+                                        </td>
+                                        <td colspan="3">
+                                            {{mainControl?.reference}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            {{ '::ControlNameEn' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            {{mainControl?.nameEn}}
+                                        </td>
+                                        <td>
+                                            {{ '::CreationTime' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            {{mainControl?.creationTime | date:'yyyy-MM-dd' }}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            {{ '::ControlDescriptionAr' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            {{mainControl?.descriptionAr}}
+                                        </td>
+                                        <td>
+                                            {{ '::ControlDescriptionEn' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            {{mainControl?.descriptionEn}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            {{ '::Status' | abpLocalization }}
+                                        </td>
+                                        <td colspan="3">
+                                            <button mat-button class="status"
+                                                [class]="SharedStatus[mainControl?.status]">
+                                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    
-                    <section>
-                        <div class="details-table-cont">
-                            <table class="table">
-                                <tr>
-                                    <td>
-                                        {{ '::ReferenceNumber' | abpLocalization }}
-                                    </td>
-                                    <td colspan="3">
-                                        {{mainControl?.reference}}
-                                    </td>
-                                </tr>
-            
-                                <tr>
-                                    <td>
-                                        {{ '::ControlNameEn' | abpLocalization }}
-                                    </td>
-                                    <td>
-                                        {{mainControl?.nameEn}}
-                                    </td>
-                                    <td>
-                                        {{ '::CreationTime' | abpLocalization }}
-                                    </td>
-                                    <td>
-                                        {{mainControl?.creationTime | date:'yyyy-MM-dd' }}
-                                    </td>
-                                </tr>
-            
-                                <tr>
-                                    <td>
-                                        {{ '::ControlDescriptionAr' | abpLocalization }}
-                                    </td>
-                                    <td>
-                                        {{mainControl?.descriptionAr}}
-                                    </td>
-                                    <td>
-                                        {{ '::ControlDescriptionEn' | abpLocalization }}
-                                    </td>
-                                    <td>
-                                        {{mainControl?.descriptionEn}}
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td>
-                                        {{ '::Status' | abpLocalization }}
-                                    </td>
-                                    <td colspan="3">
-                                        <button mat-button class="status" [class]="SharedStatus[mainControl?.status]">
-                                            {{  ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-    
-                        <app-compliance-form></app-compliance-form>
 
-                        <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-                            <h4 class="m-0">
-                                {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' | abpLocalization) }}
-                            </h4>
-            
-                            <ng-container *ngIf="!inAssessment">
-                                <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button class="add-raised-btn add-blue"
-                                type="button" (click)="openControlDialog(null, FormMode.Create, mainControl, subControlsTable)">
-                                    <i class="fa fa-plus mr-1"></i>
-                                    <span>
-                                        <ng-container *ngIf="frameWorkData | lang:'levelFourName'; else showCreateSubControl">
-                                            {{'::Create' | abpLocalization}}
-                                            {{ frameWorkData | lang:'levelFourName' }}
-                                        </ng-container>
-                                        <ng-template #showCreateSubControl>
-                                            {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' | abpLocalization) }}
-                                        </ng-template>
-                                    </span>
-                                </button>
-                            </ng-container>
-                        </div>
-    
-                        <app-expansion-sub-controls-table #subControlsTable [inAssessment]="inAssessment" [expanded]="panel.expanded" 
-                        [subDomainId]="subDomainId" [mainControl]="mainControl" [frameWorkData]="frameWorkData" > </app-expansion-sub-controls-table>
-                    </section>
-    
-                </mat-expansion-panel>
-            </mat-accordion>
-        </section>
+                            <app-compliance-form
+                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath == 'compliance-assessment' "
+                                [userId]="userId"
+                                [frameWorkData]="frameWorkData"
+                                [controlData]="mainControl" [domainData]="mainDomainData"></app-compliance-form>
+                            <!-- <app-compliance-form *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted" [controlData]="mainControl"></app-compliance-form> -->
+
+                            <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+                                <h4 class="m-0">
+                                    {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' |
+                                    abpLocalization) }}
+                                </h4>
+
+                                <ng-container *ngIf="showButton">
+                                    <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button
+                                        class="add-raised-btn add-blue" type="button"
+                                        (click)="openControlDialog(null, FormMode.Create, mainControl, subControlsTable)">
+                                        <i class="fa fa-plus mr-1"></i>
+                                        <span>
+                                            <ng-container
+                                                *ngIf="frameWorkData | lang:'levelFourName'; else showCreateSubControl">
+                                                {{'::Create' | abpLocalization}}
+                                                {{ frameWorkData | lang:'levelFourName' }}
+                                            </ng-container>
+                                            <ng-template #showCreateSubControl>
+                                                {{ "::CreateControl" | abpLocalization: ('::ControlSubControl' |
+                                                abpLocalization) }}
+                                            </ng-template>
+                                        </span>
+                                    </button>
+                                </ng-container>
+                            </div>
+
+                            <app-expansion-sub-controls-table [parentPath]="parentPath" #subControlsTable
+                                [showButton]="showButton" [expanded]="panel.expanded" [subDomainId]="subDomainId"
+                                [mainControl]="mainControl" [frameWorkData]="frameWorkData">
+                            </app-expansion-sub-controls-table>
+                        </section>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </section>
+        </ng-container>
     </div>
 </div>
 
 
 <ng-template #domainDialog let-data let-ref="dialogRef">
-    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData" [mainDomain]="mainDomainData"></app-create-domain>
+    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData"
+        [mainDomain]="mainDomainData"></app-create-domain>
 </ng-template>
 
 <ng-template #controlDialog let-data let-ref="dialogRef">
-    <app-create-control [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData" [subDomainId]="subDomainId" [mainControl]="data.mainControl"></app-create-control>
+    <app-create-control [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData"
+        [subDomainId]="subDomainId" [mainControl]="data.mainControl"></app-create-control>
 </ng-template>

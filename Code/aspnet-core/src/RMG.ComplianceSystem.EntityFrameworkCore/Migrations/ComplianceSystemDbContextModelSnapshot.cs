@@ -69,8 +69,14 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<byte?>("Documented")
                         .HasColumnType("tinyint");
 
+                    b.Property<int?>("DocumentedPercentage")
+                        .HasColumnType("int");
+
                     b.Property<byte?>("Effective")
                         .HasColumnType("tinyint");
+
+                    b.Property<int?>("EffectivePercentage")
+                        .HasColumnType("int");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
@@ -78,6 +84,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<byte?>("Implemented")
                         .HasColumnType("tinyint");
+
+                    b.Property<int?>("ImplementedPercentage")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -122,6 +131,67 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("AppAssessmentEmployees");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Assessments.AssessmentVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte?>("Applicable")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid>("AssessmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ComplianceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte?>("ComplianceLevel")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<byte?>("Documented")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("DocumentedPercentage")
+                        .HasColumnType("int");
+
+                    b.Property<byte?>("Effective")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("EffectivePercentage")
+                        .HasColumnType("int");
+
+                    b.Property<byte?>("Implemented")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int?>("ImplementedPercentage")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("NextComplianceDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssessmentId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("AppAssessmentVersions");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>
@@ -758,6 +828,12 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("FrameworkId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("InternalAssessmentEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("InternalAssessmentStartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -952,7 +1028,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("ApproveUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttachmentId")
+                    b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ComplianceStatus")
@@ -992,6 +1068,12 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<byte>("FrameworkStatus")
                         .HasColumnType("tinyint");
+
+                    b.Property<DateTime?>("InternalAssessmentEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("InternalAssessmentStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1045,6 +1127,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<Guid>("ReviewUserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SelfAssessmentEndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("SelfAssessmentStartDate")
                         .HasColumnType("datetime2");
@@ -4109,6 +4194,23 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Assessments.AssessmentVersion", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Assessments.Assessment", "Assessment")
+                        .WithMany("AssessmentVersions")
+                        .HasForeignKey("AssessmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Assessment");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
@@ -4987,6 +5089,8 @@ namespace RMG.ComplianceSystem.Migrations
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.Assessment", b =>
                 {
                     b.Navigation("AssessmentEmployees");
+
+                    b.Navigation("AssessmentVersions");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>

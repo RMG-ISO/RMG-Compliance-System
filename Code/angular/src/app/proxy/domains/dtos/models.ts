@@ -26,6 +26,8 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   reference?: string;
   status: SharedStatus;
   complianceStatus: ComplianceStatus;
+  internalAssessmentStartDate?: string;
+  internalAssessmentEndDate?: string;
   parentId?: string;
   frameworkId?: string;
   responsibleId?: string;
@@ -48,6 +50,9 @@ export interface DomainWithoutPagingDto extends FullAuditedEntityWithUserDto<Ide
   descriptionEn?: string;
   reference?: string;
   status: SharedStatus;
+  complianceStatus: ComplianceStatus;
+  internalAssessmentStartDate?: string;
+  internalAssessmentEndDate?: string;
   parentId?: string;
   frameworkId?: string;
   responsibleId?: string;

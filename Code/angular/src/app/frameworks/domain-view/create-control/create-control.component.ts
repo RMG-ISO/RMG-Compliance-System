@@ -1,3 +1,4 @@
+import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ControlService } from '@proxy/controls';
@@ -24,6 +25,7 @@ export class CreateControlComponent implements OnInit {
   
   constructor(
     private controlService: ControlService,
+    private toasterService:ToasterService
 
 
   ) { }
@@ -62,6 +64,7 @@ export class CreateControlComponent implements OnInit {
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe((res) => {
+      this.toasterService.success('::SuccessfullySaved', "");
       this.ref.close(res);
     });
   }

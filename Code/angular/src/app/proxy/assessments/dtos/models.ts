@@ -5,6 +5,7 @@ import type { DocumentedType } from '../documented-type.enum';
 import type { ImplementedType } from '../implemented-type.enum';
 import type { EffectiveType } from '../effective-type.enum';
 import type { NameId } from '../../shared/models';
+import type { AssessmentVersionDto } from '../models';
 import { IdentityUserDto } from '@abp/ng.account';
 
 export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
@@ -16,9 +17,13 @@ export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUser
   documented?: DocumentedType;
   implemented?: ImplementedType;
   effective?: EffectiveType;
+  documentedPercentage?: number;
+  implementedPercentage?: number;
+  effectivePercentage?: number;
   comment?: string;
   attachmentId?: string;
   employees: NameId<string>[];
+  versions: AssessmentVersionDto[];
 }
 
 export interface CreateUpdateAssessmentDto {
@@ -30,6 +35,9 @@ export interface CreateUpdateAssessmentDto {
   documented?: DocumentedType;
   implemented?: ImplementedType;
   effective?: EffectiveType;
+  documentedPercentage?: number;
+  implementedPercentage?: number;
+  effectivePercentage?: number;
   comment?: string;
   attachmentId?: string;
   employeeIds: string[];

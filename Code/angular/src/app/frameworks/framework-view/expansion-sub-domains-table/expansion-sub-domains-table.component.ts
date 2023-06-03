@@ -22,7 +22,8 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   @Input('mainDomain') mainDomain;
   @Input('expanded') expanded;
   @Input('frameWorkData') frameWorkData;
-  @Input('inAssessment') inAssessment;
+  @Input('showButton') showButton;
+  @Input('parentPath') parentPath;
   
   constructor(
     private domainService:DomainService,
@@ -80,17 +81,16 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   items
   totalCount;
   getList() {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: false, mainDomainId: this.mainDomain.id, frameworkId: this.frameworkId });
+    const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: false, mainDomainId: this.mainDomain.id, frameworkId: this.frameworkId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.items = response.items;
-      this.totalCount = response.totalCount;
+      this.totalCount = response.items.length;
     });
   }
 
   activate(ev) {
     if (ev.type === 'click') {
-      this.router.navigate(['/frameworks', 'sub-domains', ev.row.id, 'controls'])
-      console.log(ev.row);
+      this.router.navigate(['/', this.parentPath, 'sub-domains', ev.row.id, 'controls'])
     }
     
   }

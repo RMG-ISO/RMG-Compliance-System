@@ -1,0 +1,20 @@
+<ngx-datatable
+class="material fullscreen with-row-pointer"
+[rows]="frameWorkData?.changeStatusLogs"
+[count]="frameWorkData?.changeStatusLogs?.length"
+[list]="list" appNgxdatatable>
+    <ngx-datatable-column [name]="'::Creator' | abpLocalization" prop="creatorName"> </ngx-datatable-column>
+    <ngx-datatable-column [name]="'::Comment' | abpLocalization" prop="comment"></ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            {{ ( '::' + FrameworkStatus[value] ) | abpLocalization }}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::Date' | abpLocalization" prop="creationTime">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date:'yyyy-MM-dd' }}
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

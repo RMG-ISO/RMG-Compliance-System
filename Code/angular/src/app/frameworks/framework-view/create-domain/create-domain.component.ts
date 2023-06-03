@@ -1,3 +1,4 @@
+import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentService } from '@proxy/departments';
@@ -26,7 +27,9 @@ export class CreateDomainComponent implements OnInit {
   constructor(
     private departmentService: DepartmentService,
     private domainService: DomainService,
-    private employeeService:EmployeeService
+    private employeeService:EmployeeService,
+    private toasterService:ToasterService
+
   ) { }
 
   form:FormGroup;
@@ -75,6 +78,7 @@ export class CreateDomainComponent implements OnInit {
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe((res) => {
+      this.toasterService.success('::SuccessfullySaved', "");
       this.ref.close(res);
     });
   }

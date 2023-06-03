@@ -6,8 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
-import { catchError, finalize } from 'rxjs/operators';
+import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
+import { finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
@@ -25,6 +25,8 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('frameDialog') frameDialog;
   @ViewChild('domainDialog') domainDialog;
   @ViewChild('refuseCauseDialog') refuseCauseDialog;
+  @ViewChild('reviewAlert') reviewAlert;
+  @ViewChild('reviewDecisionAlert') reviewDecisionAlert;
   @ViewChild('fileInput') fileInput : ElementRef<HTMLInputElement>;
   @ViewChild('download') downloadElement : ElementRef<HTMLAnchorElement>;
 
@@ -35,6 +37,8 @@ export class FrameworkViewComponent implements OnInit {
   SharedFrameworkStatus = FrameworkStatus;
   sharedStatusOptions = sharedStatusOptions;
   
+  ComplianceStatus = ComplianceStatus;
+
   constructor(
     public  activatedRoute:ActivatedRoute,
     private frameworkService:FrameworkService,
@@ -55,15 +59,20 @@ export class FrameworkViewComponent implements OnInit {
   currentLang;
   userId;
 
-  inAssessment = false;
+
+  parentPath;
+  showButton = false;
+
   ngOnInit(): void {
+    this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
+
     this.currentLang = this.localizationService.currentLang;
 
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
-      console.log(fram);
       this.frameWorkData = fram;
-      this.inAssessment = !!fram.selfAssessmentStartDate;
+
+      this.showButton = fram.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
       this.getMainDomainsList();
     });
 
@@ -82,20 +91,31 @@ export class FrameworkViewComponent implements OnInit {
     this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
     .subscribe(status => {
       if (status === Confirmation.Status.confirm) {
-        // this.domainService.delete(model.id).subscribe(() => this.list.get());
+        let toDeleteIds = [];
+        for(let key in this.selectedToDelete) {
+          if(this.selectedToDelete[key]) toDeleteIds.push(key)
+        }
+        this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
+          this.getMainDomainsList();
+        })
       }
     });
   }
 
 
   mainDomainsItems;
+  allReadyForRevision = true;
+  allDomainsApproved = true;
   getMainDomainsList(search = null) {
-    const bookStreamCreator = (query) => this.domainService.getList({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
+    const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.mainDomainsItems = response.items;
+      response.items.map(item => {
+        if(item.complianceStatus !== ComplianceStatus.ReadyForRevision) this.allReadyForRevision = false;
+        if(item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
+      });
       this.selectedToDelete = {};
       this.deleteLength = 0;
-      // this.totalCount = response.totalCount;
     });
   }
 
@@ -205,7 +225,21 @@ export class FrameworkViewComponent implements OnInit {
 
 
   OnFileUploaded(attachmentId: string) {
+    if(this.frameWorkData.attachmentId) return;
+
     this.frameWorkData.attachmentId = attachmentId;
+
+    let data = {...this.frameWorkData};
+
+    if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(emp => {
+      return {
+        employeeId: emp.employeeId,
+        frameworkId: this.frameWorkData?.id ? this.frameWorkData?.id : '00000000-0000-0000-0000-000000000000',
+      };
+    });
+    this.frameworkService.update(this.frameWorkData.id, data).subscribe(r => {
+      this.frameWorkData = r;
+    })
   }
 
   uploading
@@ -217,6 +251,74 @@ export class FrameworkViewComponent implements OnInit {
     this.uploading = false;
   }
 
+  sendForInternalAssessment() {
+    this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
+  }
+
+
+  startInternalAssessmentById(mainDomain) {
+    this.domainService.startInternalAssessmentById(mainDomain.id).subscribe(r => {
+      // mainDomain.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+      this.getMainDomainsList();
+    })
+  }
+
+  endInternalAssessmentById(mainDomain) {
+    this.domainService.endInternalAssessmentById(mainDomain.id).subscribe(r => {
+      this.getMainDomainsList();
+      // mainDomain.complianceStatus = ComplianceStatus.ReadyForRevision;
+    })
+  }
+
+  startReview(mainDomain) {
+    let ref = this.matDialog.open(this.reviewAlert, {
+      disableClose:true,
+      panelClass:['app-dialog', 'confirm-alert']
+    });
+
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+         this.getMainDomainsList();
+        })
+      }
+    })
+  }
+
+  sendToOwner(mainDomain) {
+    this.domainService.sendToOwnerById(mainDomain.id).subscribe(r => {
+      this.getMainDomainsList();
+     })
+  }
+
+  reviewForm:FormGroup;
+  takeReviewDecision(mainDomain) {
+    this.reviewForm = new FormGroup({
+      action: new FormControl(null, Validators.required)
+    });
+
+    let ref = this.matDialog.open(this.reviewDecisionAlert, {
+      disableClose:true,
+      panelClass:['app-dialog', 'confirm-alert']
+    });
+
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        (this.reviewForm.value.action ? this.domainService.approveComplianceById(mainDomain.id) : this.domainService.returnToResponsibleById(mainDomain.id) )
+        .subscribe(r => {
+         this.getMainDomainsList();
+        })
+      }
+    })
+
+  }
+
+  approveFramework() {
+    this.frameworkService.approveComplianceById(this.frameWorkData.id).subscribe( r => {
+      window.location.reload();
+    })
+  }
+}
 
   uploadDownloadExcel($event , ngSelect) {
     if($event == undefined) return;

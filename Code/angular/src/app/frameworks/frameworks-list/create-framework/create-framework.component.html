@@ -231,7 +231,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="Approver">
-                        {{ '::Approver' | abpLocalization }}
+                        {{ '::UserApprover' | abpLocalization }}
                     </label>
                     <span> * </span>
                     <ng-select appendTo="body" id="Approver" formControlName="approveUserId" (change)="changeSelection($event, 'reviewUserId')">

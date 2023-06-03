@@ -23,6 +23,8 @@ export class TableFilesComponent implements OnInit, OnChanges {
   @Output() OnFileBeginUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() OnFileEndUpload: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  @Output() OnDeleteFile: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Input('attachment') attachment: AttachmentDto;
 
   constructor(
@@ -30,7 +32,6 @@ export class TableFilesComponent implements OnInit, OnChanges {
     private confirmation: ConfirmationService
   ) { }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if(changes.attachmentId) {
       if(changes.attachmentId.currentValue !== changes.attachmentId.previousValue && changes.attachmentId.currentValue !== null) {
         this.getAttachment();
@@ -76,6 +77,7 @@ export class TableFilesComponent implements OnInit, OnChanges {
       if (status === Confirmation.Status.confirm) {
         this.attachmentService.deleteFileByAttachmentIdAndFileId(row.attachmentId, row.id).subscribe(r => {
           this.getAttachment();
+          this.OnDeleteFile.emit(row);
         })
       }
     });

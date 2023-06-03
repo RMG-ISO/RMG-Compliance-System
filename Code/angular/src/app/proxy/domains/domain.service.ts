@@ -9,6 +9,13 @@ import { Injectable } from '@angular/core';
 export class DomainService {
   apiName = 'Default';
 
+  approveComplianceById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/approve-compliance`,
+    },
+    { apiName: this.apiName });
+
   create = (input: CreateUpdateDomainDto) =>
     this.restService.request<any, DomainDto>({
       method: 'POST',
@@ -21,6 +28,21 @@ export class DomainService {
     this.restService.request<any, void>({
       method: 'DELETE',
       url: `/api/app/domain/${id}`,
+    },
+    { apiName: this.apiName });
+
+  deleteManyByIds = (ids: string[]) =>
+    this.restService.request<any, void>({
+      method: 'DELETE',
+      url: '/api/app/domain/many',
+      params: { ids },
+    },
+    { apiName: this.apiName });
+
+  endInternalAssessmentById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/end-internal-assessment`,
     },
     { apiName: this.apiName });
 
@@ -44,6 +66,34 @@ export class DomainService {
       method: 'GET',
       url: '/api/app/domain/without-paging',
       params: { frameworkId: input.frameworkId, mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
+  returnToResponsibleById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/return-to-responsible`,
+    },
+    { apiName: this.apiName });
+
+  sendToOwnerById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/send-to-owner`,
+    },
+    { apiName: this.apiName });
+
+  startInternalAssessmentById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/start-internal-assessment`,
+    },
+    { apiName: this.apiName });
+
+  startReviewById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/domain/${id}/start-review`,
     },
     { apiName: this.apiName });
 

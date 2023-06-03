@@ -42,14 +42,22 @@
             <ngx-datatable-column [name]="'::FrameworkShortcutAr' | abpLocalization" prop="shortcutAr"> </ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn"> </ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameWork:Owner' | abpLocalization" prop="ownerName"> </ngx-datatable-column>
+
             <ngx-datatable-column [name]="'::SelfAssessmentDate' | abpLocalization" prop="selfAssessmentStartDate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{value | date:'yyyy-MM-dd'}}
                 </ng-template>
             </ngx-datatable-column>
 
-            
+            <ngx-datatable-column [name]="'::ComplianceStatus' | abpLocalization" prop="complianceStatus">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                        {{ ('::' + ComplianceStatus[value] ) | abpLocalization }}
+                    </button>
+                </ng-template>
+            </ngx-datatable-column>
 
+            
             <!-- <ngx-datatable-column [name]="'::FrameworkStatus' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
@@ -65,11 +73,15 @@
 
             <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <ng-container *ngIf="!row.selfAssessmentStartDate">
-                        <button mat-button *abpPermission="'ComplianceSystem.Framework.Update'"
-                            (click)="$event.stopPropagation();openDialog(row)">
+                    <ng-container *ngIf="userId == row.ownerId">
+                        <button *ngIf="row.complianceStatus == ComplianceStatus.NotStarted; else showView" mat-button (click)="$event.stopPropagation();openDialog(row)">
                             <mat-icon>checklist</mat-icon>
                         </button>
+                        <ng-template #showView>
+                            <a mat-button [routerLink]="['/compliance-assessment', row.id]" >
+                                <mat-icon>visibility</mat-icon>
+                            </a>
+                        </ng-template>
                     </ng-container>
                 </ng-template>
             </ngx-datatable-column>
@@ -81,7 +93,6 @@
     <h2 mat-dialog-title>
         {{ '::SelfAssessment' | abpLocalization }}
     </h2>
-
     <mat-dialog-content class="mat-typography">
         <p>
             {{ '::StartAssessment' | abpLocalization }}

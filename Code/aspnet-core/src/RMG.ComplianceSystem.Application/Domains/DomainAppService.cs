@@ -10,6 +10,14 @@ using RMG.ComplianceSystem.Controls.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using RMG.ComplianceSystem.Employees;
 using Volo.Abp;
+using RMG.ComplianceSystem.Frameworks;
+using RMG.ComplianceSystem.Frameworks.Dtos;
+using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.Shared;
+using RMG.ComplianceSystem.EmailTemplates;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -23,15 +31,41 @@ namespace RMG.ComplianceSystem.Domains
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Domain.Delete;
 
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IFrameworkRepository _frameworkRepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly IEmailTemplateAppService _emailTemplateAppService;
+        private readonly INotificationRepository _notificationRepository;
+        private readonly INotificationAppService _notificationAppService;
+        private readonly IPermissionGrantRepository _permissionGrantRepository;
+        private readonly IdentityUserManager _identityUserManager;
+        private readonly IDomainManager _domainManager;
 
-        public DomainAppService(IDomainRepository repository, IEmployeeRepository employeeRepository) : base(repository)
+        public DomainAppService(
+            IDomainRepository repository,
+            IEmailTemplateRepository emailTemplateRepository,
+            IEmailTemplateAppService emailTemplateAppService,
+            INotificationRepository notificationRepository,
+            INotificationAppService notificationAppService,
+            IEmployeeRepository employeeRepository,
+            IPermissionGrantRepository permissionGrantRepository,
+            IdentityUserManager identityUserManager,
+            IFrameworkRepository frameworkRepository,
+            IDomainManager domainManager) : base(repository)
         {
             _employeeRepository = employeeRepository;
+            _frameworkRepository = frameworkRepository;
+            _emailTemplateRepository = emailTemplateRepository;
+            _emailTemplateAppService = emailTemplateAppService;
+            _notificationRepository = notificationRepository;
+            _notificationAppService = notificationAppService;
+            _permissionGrantRepository = permissionGrantRepository;
+            _identityUserManager = identityUserManager;
+            _domainManager = domainManager;
         }
 
         protected override async Task<IQueryable<Domain>> CreateFilteredQueryAsync(DomainPagedAndSortedResultRequestDto input)
         {
-            return (await Repository.WithDetailsAsync())
+            var query = (await Repository.WithDetailsAsync())
                 .WhereIf(input.FrameworkId.HasValue, t => t.FrameworkId == input.FrameworkId)
                 .WhereIf(input.IsMainDomain, t => t.ParentId == null)
                 .WhereIf(!input.IsMainDomain, t => t.ParentId != null)
@@ -44,6 +78,30 @@ namespace RMG.ComplianceSystem.Domains
                    t.DescriptionEn.Contains(input.Search) ||
                    t.Reference.Contains(input.Search));
 
+            var directPermission = await _permissionGrantRepository.FindAsync(ComplianceSystemPermissions.Domain.Default, "U", CurrentUser.Id.Value.ToString());
+            var rolesPermissions = (await _permissionGrantRepository.GetListAsync()).Where(t => t.ProviderName == "R" && t.Name == ComplianceSystemPermissions.Domain.Default);
+
+            bool foundPermission = false;
+            if (directPermission != null)
+                foundPermission = true;
+            else
+            {
+                foreach (var role in rolesPermissions)
+                {
+                    var users = await _identityUserManager.GetUsersInRoleAsync(role.ProviderKey);
+                    if (users.Any(u => u.Id == CurrentUser.Id.Value))
+                    {
+                        foundPermission = true;
+                        break;
+                    }
+                }
+            }
+            if (!foundPermission)
+            {
+                query = query.Where(d => d.ResponsibleId == CurrentUser.Id);
+            }
+
+            return query;
         }
 
         protected override Task<Domain> GetEntityByIdAsync(Guid id)
@@ -84,7 +142,17 @@ namespace RMG.ComplianceSystem.Domains
         public override async Task<DomainDto> UpdateAsync(Guid id, CreateUpdateDomainDto input)
         {
             await CheckUpdatePolicyAsync();
-
+            if (!input.ParentId.HasValue)
+            {
+                if (!input.ResponsibleId.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.MainDomainNeedsResponsible);
+                await _employeeRepository.GetAsync(input.ResponsibleId.Value, false);
+            }
+            else
+            {
+                var parent = await Repository.GetAsync(input.ParentId.Value);
+                input.ResponsibleId = parent.ResponsibleId;
+            }
             var entity = await GetEntityByIdAsync(id);
             entity.DomainDepartments.Clear();
             await Repository.UpdateAsync(entity, autoSave: true);
@@ -117,10 +185,203 @@ namespace RMG.ComplianceSystem.Domains
             var query = await CreateFilteredQueryAsync(input);
 
             var entities = await AsyncExecuter.ToListAsync(query);
-            
+
             var entityDtos = ObjectMapper.Map<List<Domain>, List<DomainWithoutPagingDto>>(entities);
-            
+
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
         }
+
+        [HttpPut]
+        [Authorize]
+        public async Task StartInternalAssessment(Guid id)
+        {
+            var domain = await Repository.GetAsync(id);
+            _domainManager.CanStartInternalAssessment(domain, CurrentUser.Id.Value);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            domain.InternalAssessmentStartDate = Clock.Now;
+            domain.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
+            if (!framework.InternalAssessmentStartDate.HasValue)
+            {
+                framework.InternalAssessmentStartDate = Clock.Now;
+                framework.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
+                await _frameworkRepository.UpdateAsync(framework);
+            }
+            await Repository.UpdateAsync(domain);
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task EndInternalAssessment(Guid id)
+        {
+            var domain = await Repository.GetAsync(id);
+            _domainManager.CanEndInternalAssessment(domain, CurrentUser.Id.Value);
+            domain.InternalAssessmentEndDate = Clock.Now;
+            domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            framework.ComplianceStatus = ComplianceStatus.ReadyForRevision;
+            await Repository.UpdateAsync(domain);
+            var isLastDomain = !Repository.Any(d => d.FrameworkId == domain.FrameworkId && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
+            if (isLastDomain)
+            {
+                framework.InternalAssessmentEndDate = Clock.Now;
+                await _frameworkRepository.UpdateAsync(framework, true);
+            }
+            await NotifyUsersAsync("DomainEndInternalAssessment", framework.OwnerId, NotificationSource.DomainResponsibleEndInternalAssessment, NotySource.DomainResponsibleEndInternalAssessment, framework.Id);
+        }
+
+        public async Task DeleteMany(List<Guid> ids)
+        {
+            await CheckDeletePolicyAsync();
+            await Repository.DeleteManyAsync(ids);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task StartReview(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            _domainManager.CanStartReview(domain, framework.OwnerId, CurrentUser.Id.Value);
+            domain.ComplianceStatus = ComplianceStatus.UnderRevision;
+            framework.ComplianceStatus = ComplianceStatus.UnderRevision;
+            await Repository.UpdateAsync(domain);
+            await _frameworkRepository.UpdateAsync(framework);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task ApproveCompliance(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            _domainManager.CanApproveCompliance(domain, framework.OwnerId, CurrentUser.Id.Value);
+            domain.ComplianceStatus = ComplianceStatus.Approved;
+            await Repository.UpdateAsync(domain);
+            await NotifyUsersAsync("DomainApproveCompliance", domain.ResponsibleId.Value, NotificationSource.DomainApproveCompliance, NotySource.DomainApproveCompliance, domain.Id);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task ReturnToResponsible(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            _domainManager.CanReturnToResponsible(domain, framework.OwnerId, CurrentUser.Id.Value);
+            domain.ComplianceStatus = ComplianceStatus.UnderInternalReAssessment;
+            await Repository.UpdateAsync(domain);
+            await NotifyUsersAsync("DomainReturnToResponsible", domain.ResponsibleId.Value, NotificationSource.DomainReturnToResponsible, NotySource.DomainReturnToResponsible, domain.Id);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task SendToOwner(Guid id)
+        {
+            var domain = await Repository.GetAsync(id, false);
+            _domainManager.CanSendToOwner(domain, CurrentUser.Id.Value);
+            var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            domain.ComplianceStatus = ComplianceStatus.UnderReRevision;
+            await Repository.UpdateAsync(domain);
+            await NotifyUsersAsync("DomainSentToOwner", framework.OwnerId, NotificationSource.DomainSentToOwner, NotySource.DomainSentToOwner, domain.Id);
+        }
+
+        private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, NotificationSource notificationSource, NotySource notySource, Guid refId)
+        {
+            List<Notification> notificationList = new List<Notification>();
+
+            var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
+            var Creator = _employeeRepository.FirstOrDefault(x => x.Id == receiverId);
+            //Email Notification
+
+            object emailTemplateModel = null;
+            switch (notificationSource)
+            {
+                case NotificationSource.FrameworkWorkflowAction:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
+                    break;
+                case NotificationSource.FrameworkEndSelfAssessment:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
+                    break;
+                case NotificationSource.DomainResponsibleEndInternalAssessment:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
+                    break;
+                default:
+                    emailTemplateModel = new FrameworkActionEmailDto
+                    {
+                        Name = Creator.FullName,
+                        URL = Utility.GetURL(notificationSource, refId, null, null)
+                    };
+                    break;
+            }
+
+            var expandoData = Utility.ConvertTypeToExpandoObject(emailTemplateModel);
+            var emailTemplateData = await _emailTemplateAppService.RenderTemplate(emailTemplateKey, expandoData);
+
+            var notification = new Notification(
+                Guid.NewGuid(),
+                "ComplianceSystem",
+                null,
+                Creator.Email,
+                null,
+                null,
+                emailTemplate.Subject,
+                Priority.Normal,
+                NotificationType.Email,
+                Notifications.Status.Created,
+                Clock.Now,
+                emailTemplateData.Body,
+                true,
+                true,
+                null,
+                null,
+                null,
+                null,
+                false
+            );
+            notificationList.Add(notification);
+
+            //Push Notification
+
+            var PushNotification = new Notification(
+                Guid.NewGuid(),
+                "ComplianceSystem",
+                null,
+                Creator.Id.ToString(),
+                null,
+                null,
+                emailTemplate.Subject,
+                Priority.Normal,
+                NotificationType.Push,
+                Notifications.Status.NotSeen,
+                Clock.Now,
+                emailTemplate.NotificationBody,
+                true,
+                true,
+                null,
+                Utility.GetURL(notificationSource, refId, null, null),
+                notySource,
+                null,
+                false
+            );
+            notificationList.Add(PushNotification);
+            await _notificationRepository.InsertManyAsync(notificationList, true);
+            foreach (var not in notificationList.Where(t => t.Type == NotificationType.Push))
+            {
+                await _notificationAppService.NotifyUser(Guid.Parse(not.To));
+
+            }
+        }
+
     }
 }

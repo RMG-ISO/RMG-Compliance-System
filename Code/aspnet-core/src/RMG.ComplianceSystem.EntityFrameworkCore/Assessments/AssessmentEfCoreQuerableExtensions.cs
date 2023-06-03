@@ -23,6 +23,7 @@ namespace RMG.ComplianceSystem.Assessments
                  .Include(t => t.Creator)
                  .Include(t => t.LastModifier)
                  .Include(t => t.Deleter)
+                 .Include(t => t.AssessmentVersions)
                 ;
         }
     }

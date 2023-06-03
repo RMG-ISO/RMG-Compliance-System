@@ -1,4 +1,4 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
 import { DomainService } from '@proxy/domains';
 import { FrameworkService } from '@proxy/frameworks';
-import { SharedStatus } from '@proxy/shared';
+import { ComplianceStatus, SharedStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -24,6 +24,7 @@ export class DomainViewComponent implements OnInit {
   SharedStatus = SharedStatus;
   FormMode = FormMode;
 
+  ComplianceStatus = ComplianceStatus;
   constructor(
     public activatedRoute:ActivatedRoute,
     private router:Router,
@@ -33,7 +34,8 @@ export class DomainViewComponent implements OnInit {
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
     private controlService: ControlService,
-    private frameworkService:FrameworkService
+    private frameworkService:FrameworkService,
+    private configState:ConfigStateService
 
   ) { }
 
@@ -42,11 +44,15 @@ export class DomainViewComponent implements OnInit {
   mainDomainData;
   frameWorkData;
 
-  inAssessment = false;
+  showButton = false;
+  parentPath;
+  userId
   ngOnInit(): void {
+    this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
+    this.userId = this.configState.getAll().currentUser.id
+
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
-      console.log(res);
       this.subDomainData = res;
       this.domainService.get(res.parentId).subscribe(r => {
         this.mainDomainData = r;
@@ -55,11 +61,9 @@ export class DomainViewComponent implements OnInit {
 
       this.frameworkService.get(res.frameworkId).subscribe(fram => {
         this.frameWorkData = fram;
-        this.inAssessment = !!fram.selfAssessmentStartDate;
+        this.showButton = fram.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
       });
     });
-    console.log(this.activatedRoute.snapshot.params);
-
   }
 
   selectedToDelete = {};
@@ -70,11 +74,16 @@ export class DomainViewComponent implements OnInit {
   }
 
   deleteItems(){
-    // deleteSelectedItem
     this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
     .subscribe(status => {
       if (status === Confirmation.Status.confirm) {
-        // this.domainService.delete(model.id).subscribe(() => this.list.get());
+        let toDeleteIds = [];
+        for(let key in this.selectedToDelete) {
+          if(this.selectedToDelete[key]) toDeleteIds.push(key)
+        }
+        this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
+          this.list.get();
+        })
       }
     });
   }
@@ -87,7 +96,6 @@ export class DomainViewComponent implements OnInit {
       this.mainControlsItems = response.items;
       this.selectedToDelete = {};
       this.deleteLength = 0;
-      // this.totalCount = response.totalCount;
     });
   }
 
@@ -123,6 +131,19 @@ export class DomainViewComponent implements OnInit {
         if(subControlsTable) subControlsTable.list.get();
         else this.list.get();
       }
+    })
+  }
+
+
+  startInternalAssessmentById() {
+    this.domainService.startInternalAssessmentById(this.mainDomainData.id).subscribe(r => {
+      this.mainDomainData.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+    })
+  }
+
+  endInternalAssessmentById() {
+    this.domainService.endInternalAssessmentById(this.mainDomainData.id).subscribe(r => {
+      this.mainDomainData.complianceStatus = ComplianceStatus.ReadyForRevision;
     })
   }
 

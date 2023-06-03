@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RMG.ComplianceSystem.Domains;
+using RMG.ComplianceSystem.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +37,18 @@ namespace RMG.ComplianceSystem.Frameworks
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanActivateDeactivateFramework);
             if (framework.FrameworkStatus != Shared.FrameworkStatus.Approved)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyApprovedFrameworkCanBeActivatedDeactivated);
+            return true;
+        }
+
+        public bool CanApproveCompliance(Framework framework, List<Domain> domains, Guid userId)
+        {
+            if (framework.ComplianceStatus != ComplianceStatus.UnderRevision
+                && framework.ComplianceStatus != ComplianceStatus.UnderReRevision)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkMustBeUnderRevisionOrUnderReRevisionToApproveCompliance);
+            if (framework.OwnerId != userId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanApproveCompliance);
+            if (domains.Any(d => d.ComplianceStatus != ComplianceStatus.Approved))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.AllDomainsMustBeApprovedFirstToApproveFramework);
             return true;
         }
     }

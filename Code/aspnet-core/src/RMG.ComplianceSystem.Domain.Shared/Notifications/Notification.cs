@@ -29,7 +29,14 @@ namespace RMG.ComplianceSystem.Notifications
         RiskTreatment,
         Risk,
         InternalAuditPreparation,
-        FrameworkWorkflowAction
+        FrameworkWorkflowAction,
+        FrameworkApproved,
+        FrameworkEndSelfAssessment,
+        DomainResponsibleEndInternalAssessment,
+        DomainApproveCompliance,
+        DomainReturnToResponsible,
+        DomainSentToOwner,
+        FrameworkApproveCompliance
         //Compilance,
         //Document,
 

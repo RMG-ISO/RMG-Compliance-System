@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
 import { ControlDto } from '@proxy/controls/dtos';
+import { ComplianceStatus } from '@proxy/shared';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
@@ -22,7 +23,8 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   @Input('mainControl') mainControl;
   @Input('expanded') expanded;
   @Input('frameWorkData') frameWorkData;
-  @Input('inAssessment') inAssessment;
+  @Input('showButton') showButton;
+  @Input('parentPath') parentPath;
   
   constructor(
     public readonly list: ListService,
@@ -40,6 +42,7 @@ export class ExpansionSubControlsTableComponent implements OnInit {
 
   
   isExpanded = false;
+  removeButtons
   ngOnChanges(): void {
     if(this.isExpanded) return;
     if(this.expanded) {
@@ -89,12 +92,9 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   }
 
   activate(ev) {
-    // sub-controls/:frameworkId/:subDomainId/:subControlId
     if (ev.type === 'click') {
-      this.router.navigate(['/frameworks', 'sub-controls', this.frameWorkData.id, this.subDomainId , ev.row.id ])
-      console.log(ev.row);
+      this.router.navigate(['/', this.parentPath, 'sub-controls', this.frameWorkData.id, this.subDomainId , ev.row.id ])
     }
-    
   }
 
 }

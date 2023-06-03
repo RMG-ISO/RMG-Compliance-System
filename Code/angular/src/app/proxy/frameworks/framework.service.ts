@@ -23,6 +23,13 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
+  approveComplianceById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/approve-compliance`,
+    },
+    { apiName: this.apiName });
+
   create = (input: CreateUpdateFrameworkDto) =>
     this.restService.request<any, FrameworkDto>({
       method: 'POST',
@@ -80,6 +87,13 @@ export class FrameworkService {
       method: 'PUT',
       url: `/api/app/framework/${id}/return-to-creator`,
       body: input,
+    },
+    { apiName: this.apiName });
+
+  sendForInternalAssessmentById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/framework/${id}/send-for-internal-assessment`,
     },
     { apiName: this.apiName });
 
