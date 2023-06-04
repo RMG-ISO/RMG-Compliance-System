@@ -451,12 +451,12 @@ namespace RMG.ComplianceSystem.Frameworks
             if (framework.OwnerId != CurrentUser.Id)
                 throw new EntityNotFoundException(typeof(Framework), id);
 
-            _frameworkManager.CanStartSelfAssessment(framework);
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            _frameworkManager.CanStartSelfAssessment(framework, domains.Where(d => !d.ParentId.HasValue).ToList());
             framework.SelfAssessmentStartDate = Clock.Now;
             framework.ComplianceStatus = ComplianceStatus.UnderPreparation;
             await Repository.UpdateAsync(framework);
 
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
             foreach (var domain in domains)
             {
                 domain.ComplianceStatus = ComplianceStatus.UnderPreparation;

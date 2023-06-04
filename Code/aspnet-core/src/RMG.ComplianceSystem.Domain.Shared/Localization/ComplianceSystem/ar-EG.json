@@ -569,6 +569,7 @@
     "UnderReRevision": "تحت إعادة المراجعة",
     "StartInternalAssessment": "بدأ التقييم الداخلي",
     "ComplianceSystem:Framework:015": "لا يمكن إلغاء تفعيل الإطار داخل مرحلة الامتثال",
-    "ComplianceSystem:Framework:016": "لا يمكن حذف الإطار داخل مرحلة الامتثال"
+    "ComplianceSystem:Framework:016": "لا يمكن حذف الإطار داخل مرحلة الامتثال",
+    "ComplianceSystem:Framework:017": "يجب إسناد شخص مسؤول لكل النطاقات الرئيسية حتى تبدأ الامتثال الذاتي"
   }
 }
