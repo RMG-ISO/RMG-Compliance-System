@@ -14,5 +14,6 @@ namespace RMG.ComplianceSystem.Frameworks
         bool CanStartSelfAssessment(Framework framework);
         bool CanUpdate(Framework framework);
         bool CanActivateDeactivate(Framework framework, Guid userId);
+        bool CanDelete(Framework framework);
     }
 }

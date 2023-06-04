@@ -43,6 +43,9 @@ namespace RMG.ComplianceSystem.Frameworks
         public DateTime? SelfAssessmentEndDate { get; set; }
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
+        public DateTime? ReviewStartDate { get; set; }
+        public DateTime? ReviewEndDate { get; set; }
+
 
 
         public virtual ICollection<Domain> Domains { get; set; }

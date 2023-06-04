@@ -49,6 +49,9 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
 
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
+
+        public DateTime? ReviewStartDate { get; set; }
+        public DateTime? ReviewEndDate { get; set; }
         public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; } = new List<FrameworkEmpDto>();
         public List<FrameworkChangeStatusLogDto> ChangeStatusLogs { get; set; }
 

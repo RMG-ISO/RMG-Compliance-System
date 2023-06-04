@@ -39,6 +39,8 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   canSendForInternalAssessment: boolean;
   internalAssessmentStartDate?: string;
   internalAssessmentEndDate?: string;
+  reviewStartDate?: string;
+  reviewEndDate?: string;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
