@@ -27,6 +27,7 @@
         public const string FrameworkMustBeUnderPreparationToSendForInternalAssessment = $"{ParentGroupName}:{FrameworkGroupName}:014";
         public const string CannotDeactivateFrameworkInsideComplianceLoop = $"{ParentGroupName}:{FrameworkGroupName}:015";
         public const string CannotDeleteFrameworkInsideComplianceLoop = $"{ParentGroupName}:{FrameworkGroupName}:016";
+        public const string AllMainDomainsMustHaveResponsibleToStartSelfAssessment = $"{ParentGroupName}:{FrameworkGroupName}:017";
 
         // Domain
         public const string MainDomainNeedsResponsible = $"{ParentGroupName}:{DomainGroupName}:001";

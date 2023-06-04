@@ -13,20 +13,23 @@ namespace RMG.ComplianceSystem.Frameworks
 {
     public class FrameworkManager : DomainService, IFrameworkManager
     {
-        public bool CanStartSelfAssessment(Framework framework)
+        public bool CanStartSelfAssessment(Framework framework, List<Domain> domains)
         {
-            if (framework.FrameworkStatus != Shared.FrameworkStatus.Approved)
+            if (framework.FrameworkStatus != FrameworkStatus.Approved)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkMustBeApprovedToStartSelfAssessment);
 
-            if (framework.Status != Shared.SharedStatus.Active)
+            if (framework.Status != SharedStatus.Active)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkMustBeActivatedToStartSelfAssessment);
+
+            if (domains.Any(d => !d.ResponsibleId.HasValue))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.AllMainDomainsMustHaveResponsibleToStartSelfAssessment);
 
             return true;
         }
 
         public bool CanUpdate(Framework framework)
         {
-            if (framework.ComplianceStatus != Shared.ComplianceStatus.NotStarted)
+            if (framework.ComplianceStatus != ComplianceStatus.NotStarted)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.FrameworkCannotBeUpdatedAfterStartingSelfAssessment);
 
             return true;
@@ -36,7 +39,7 @@ namespace RMG.ComplianceSystem.Frameworks
         {
             if (framework.OwnerId != userId)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanActivateDeactivateFramework);
-            if (framework.FrameworkStatus != Shared.FrameworkStatus.Approved)
+            if (framework.FrameworkStatus != FrameworkStatus.Approved)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyApprovedFrameworkCanBeActivatedDeactivated);
 
             if (framework.ComplianceStatus != ComplianceStatus.NotStarted && framework.ComplianceStatus != ComplianceStatus.Approved)
