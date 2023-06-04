@@ -568,6 +568,13 @@
     "StartInternalAssessment": "start Internal Assessment",
     "ComplianceSystem:Framework:015": "Cannot deactivate framework inside compliance loop",
     "ComplianceSystem:Framework:016": "Cannot delete framework inside compliance loop",
-    "ComplianceSystem:Framework:017": "All main domains must have responsible to start self assessment"
+    "ComplianceSystem:Framework:017": "All main domains must have responsible to start self assessment",
+    "SelfAssessmentStartDate": "Self assessment start date",
+    "SelfAssessmentEndDate": "Self assessment end date",
+    "InternalAssessmentStartDate": "Internal assessment start date",
+    "InternalAssessmentEndDate": "Internal assessment end date",
+    "ReviewStartDate": "Review start date",
+    "ReviewEndDate": "Review end date",
+    "ApprovalDate": "Approval date"
   }
 }
