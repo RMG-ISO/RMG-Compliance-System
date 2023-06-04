@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 
 namespace RMG.ComplianceSystem.Frameworks
@@ -37,6 +38,9 @@ namespace RMG.ComplianceSystem.Frameworks
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanActivateDeactivateFramework);
             if (framework.FrameworkStatus != Shared.FrameworkStatus.Approved)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyApprovedFrameworkCanBeActivatedDeactivated);
+
+            if (framework.ComplianceStatus != ComplianceStatus.NotStarted && framework.ComplianceStatus != ComplianceStatus.Approved)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotDeactivateFrameworkInsideComplianceLoop);
             return true;
         }
 
@@ -49,6 +53,13 @@ namespace RMG.ComplianceSystem.Frameworks
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyFrameworkOwnerCanApproveCompliance);
             if (domains.Any(d => d.ComplianceStatus != ComplianceStatus.Approved))
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.AllDomainsMustBeApprovedFirstToApproveFramework);
+            return true;
+        }
+        
+        public bool CanDelete(Framework framework)
+        {
+            if (framework.ComplianceStatus != ComplianceStatus.NotStarted && framework.ComplianceStatus != ComplianceStatus.Approved)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotDeleteFrameworkInsideComplianceLoop);
             return true;
         }
     }

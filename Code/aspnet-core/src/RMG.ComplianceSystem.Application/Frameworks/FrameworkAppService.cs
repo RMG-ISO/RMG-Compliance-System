@@ -33,10 +33,6 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
-    //ToDO: can't delete framework if inside compliance loop
-    //ToDo: can't deactivate framework inside comp loop
-    //ToDo: can't add domains or controls under compliance
-
     public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {
@@ -97,7 +93,13 @@ namespace RMG.ComplianceSystem.Frameworks
             _identityUserManager = identityUserManager;
         }
 
-
+        public override async Task DeleteAsync(Guid id)
+        {
+            await CheckDeletePolicyAsync();
+            var framework = await Repository.GetAsync(id, false);
+            _frameworkManager.CanDelete(framework);
+            await Repository.DeleteAsync(id, true);
+        }
 
         public override async Task<FrameworkDto> CreateAsync(CreateUpdateFrameworkDto input)
         {
@@ -516,6 +518,7 @@ namespace RMG.ComplianceSystem.Frameworks
             var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id && !d.ParentId.HasValue).ToList();
             _frameworkManager.CanApproveCompliance(framework, domains, CurrentUser.Id.Value);
             framework.ComplianceStatus = ComplianceStatus.Approved;
+            framework.ReviewEndDate = Clock.Now;
             await Repository.UpdateAsync(framework);
             foreach (var domain in domains)
             {
