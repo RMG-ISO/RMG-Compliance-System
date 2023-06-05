@@ -28,11 +28,7 @@ form {
                 border-radius: 10px;
             }
         }
-        h5 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
+        
         textarea {
             height: 75px;
         }
@@ -42,10 +38,38 @@ form {
     }
 }
 
+h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
 
 table.details-table-cont {
     box-shadow: none;
+    // margin-right: -25px;
+    // width: calc(100% + 50px);
     td {
         border: 1px solid #DDDDDD;
+    }
+    
+}
+
+mat-expansion-panel {
+    span {
+        margin-bottom: .5rem;
+        display: block;
+    }
+    ::ng-deep .mat-expansion-panel-body {
+        padding: 0;
+        .version-item {
+            background: #F2F9F6;
+            margin-bottom: 1rem;
+            .row {
+                margin: 0;
+            }
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
     }
 }
