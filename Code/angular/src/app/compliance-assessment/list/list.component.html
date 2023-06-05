@@ -51,7 +51,7 @@
 
             <ngx-datatable-column [name]="'::ComplianceStatus' | abpLocalization" prop="complianceStatus">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                    <button mat-button [class]="'status ' + ComplianceStatus[value]">
                         {{ ('::' + ComplianceStatus[value] ) | abpLocalization }}
                     </button>
                 </ng-template>
