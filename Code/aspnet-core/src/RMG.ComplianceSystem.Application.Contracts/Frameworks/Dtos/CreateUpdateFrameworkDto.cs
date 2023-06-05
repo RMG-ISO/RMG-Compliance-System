@@ -20,7 +20,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public string DescriptionEn { get; set; }
         public Guid ManagementId { get; set; }
         public Guid OwnerId { get; set; }
-        public Guid AttachmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
         public string LevelFirstNameAr { get; set; }

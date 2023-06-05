@@ -25,6 +25,8 @@ export class FrameworkViewComponent implements OnInit {
   @ViewChild('reviewAlert') reviewAlert;
   @ViewChild('reviewDecisionAlert') reviewDecisionAlert;
 
+  dateFormat = 'yyyy/MM/dd'
+  dateTimeFormat = 'yyyy/MM/dd HH:mm'
   SharedStatus = SharedStatus;
   FormMode = FormMode;
   activeTab = 'details';

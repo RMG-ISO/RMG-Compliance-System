@@ -93,7 +93,13 @@ namespace RMG.ComplianceSystem.Frameworks
             _identityUserManager = identityUserManager;
         }
 
-
+        public override async Task DeleteAsync(Guid id)
+        {
+            await CheckDeletePolicyAsync();
+            var framework = await Repository.GetAsync(id, false);
+            _frameworkManager.CanDelete(framework);
+            await Repository.DeleteAsync(id, true);
+        }
 
         public override async Task<FrameworkDto> CreateAsync(CreateUpdateFrameworkDto input)
         {
@@ -445,12 +451,12 @@ namespace RMG.ComplianceSystem.Frameworks
             if (framework.OwnerId != CurrentUser.Id)
                 throw new EntityNotFoundException(typeof(Framework), id);
 
-            _frameworkManager.CanStartSelfAssessment(framework);
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            _frameworkManager.CanStartSelfAssessment(framework, domains.Where(d => !d.ParentId.HasValue).ToList());
             framework.SelfAssessmentStartDate = Clock.Now;
             framework.ComplianceStatus = ComplianceStatus.UnderPreparation;
             await Repository.UpdateAsync(framework);
 
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
             foreach (var domain in domains)
             {
                 domain.ComplianceStatus = ComplianceStatus.UnderPreparation;
@@ -509,9 +515,10 @@ namespace RMG.ComplianceSystem.Frameworks
         public async Task ApproveCompliance(Guid id)
         {
             var framework = await Repository.GetAsync(id, false);
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id && !d.ParentId.HasValue).ToList();
             _frameworkManager.CanApproveCompliance(framework, domains, CurrentUser.Id.Value);
             framework.ComplianceStatus = ComplianceStatus.Approved;
+            framework.ReviewEndDate = Clock.Now;
             await Repository.UpdateAsync(framework);
             foreach (var domain in domains)
             {

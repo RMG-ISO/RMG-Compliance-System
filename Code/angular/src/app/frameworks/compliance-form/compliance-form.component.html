@@ -117,10 +117,6 @@
         </div>
 
         <div class="col-md-12 d-flex justify-content-end actions mt-4" *ngIf="!form.disabled">
-            <!-- <button type="button" mat-button class="red"> 
-                {{ '::Cancel' | abpLocalization }}
-            </button> -->
-        
             <button mat-button class="green" [disabled]="uploading || isSaving" type="submit" >
                 <i class="fa fa-check mr-1"></i>
                 {{ '::Save' | abpLocalization }}
@@ -128,3 +124,134 @@
         </div>
     </section>
 </form>
+
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+               {{ '::Changelog' | abpLocalization }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+            <ng-container *ngFor="let version of assessmentData?.versions">
+                <div class="version-item">
+                    <table class="table details-table-cont">
+                        <tr>
+                            <td>
+                                {{ '::Editor' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{version.creator?.name}}
+                            </td>
+                            <td>
+                                {{ '::EditDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{version.creator?.creationTime | date:'yyyy/MM/dd'}}
+                            </td>
+                        </tr>
+                    </table>
+    
+                    <div class="p-3 d-flex align-items-center">
+                        <span>
+                            {{ '::IsSystemApplicable' | abpLocalization }}
+                        </span>
+                        <mat-radio-group [value]="version.applicable" [disabled]="true" color="primary" class="mr-4 ml-4">
+                            <mat-radio-button class="ml-3 mr-3" [value]="ApplicableType.Applicable"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                            <mat-radio-button class="ml-3 mr-3" [value]="ApplicableType.NotApplicable"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div class="row" *ngIf="version.applicable == ApplicableType.Applicable">
+                        <div class="col-md-3 col-xl-2 form-group">
+                            <span>
+                                {{ '::AssessmentComplianceLevel' | abpLocalization }}
+                            </span>
+                            <p class="as-input">
+                                {{ version.complianceLevel }}
+                            </p>
+                        </div>
+                
+                        <div class="col-md-3 col-xl-2 form-group">
+                            <span> {{ '::AssessmentComplianceDate' | abpLocalization }} </span>
+                            <p class="as-input">
+                                {{ version.complianceDate | date:'yyyy/MM/dd' }}
+                            </p>
+                        </div>
+                
+                        <div class="col-md-3 col-xl-2 form-group">
+                            <span> {{ '::AssessmentNextComplianceDate' | abpLocalization }} </span>
+                            <p class="as-input">
+                                {{ version.nextComplianceDate | date:'yyyy/MM/dd' }}
+                            </p>
+                        </div>
+                
+                        <h5 class="col-md-12">
+                            {{ '::AssessmentRequirement' | abpLocalization }}
+                        </h5>
+                
+                        <div class="col-md-3 col-xl-2 form-group">
+                            <span class="d-block">
+                                {{ '::AssessmentDocumented' | abpLocalization }}
+                            </span>
+                            <mat-radio-group [value]="version.documented" [disabled]="true" color="primary">
+                                <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.Documented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.PartialDocumented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.NotDocumented"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                            </mat-radio-group>
+                            <div class="form-group mb-0 mt-2" [class.d-none]="version.documented !== DocumentedType.PartialDocumented">
+                                <p class="as-input">
+                                    {{ version.documentedPercentage }}
+                                </p>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-3 col-xl-2 form-group">
+                            <span class="d-block">
+                                {{ '::AssessmentImplemented' | abpLocalization }}
+                            </span>
+                            <mat-radio-group [value]="version.implemented" [disabled]="true" color="primary">
+                                <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.Implemented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.PartialImplemented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.NotImplemented"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                            </mat-radio-group>
+                            <div class="form-group mb-0 mt-2" [class.d-none]="version.implemented !== ImplementedType.PartialImplemented">
+                                <p class="as-input">
+                                    {{ version.implementedPercentage }}
+                                </p>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-3 col-xl-2 form-group">
+                            <label class="d-block" for="">
+                                {{ '::AssessmentEffective' | abpLocalization }}
+                            </label>
+                            <mat-radio-group [value]="version.effective" [disabled]="true" color="primary">
+                                <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.Effective"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.PartialEffective"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.NotEffective"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                            </mat-radio-group>
+                            <div class="form-group mb-0 mt-2" [class.d-none]="version.effective !== ImplementedType.PartialImplemented">
+                                <p class="as-input">
+                                    {{ version.effectivePercentage }}
+                                </p>
+                            </div>
+                        </div>
+                
+                        <div class="col-md-10 col-xl-8 form-group">
+                            <span>{{ '::AssessmentComment' | abpLocalization }}</span>
+                            <p class="as-input">
+                                {{version.comment}}
+                            </p>
+                        </div>
+                
+                        <!-- <div class="col-md-10 col-xl-8 form-group">
+                            <label for="reviewerComment">{{ '::ReviewerComment' | abpLocalization }}</label>
+                            <textarea id="reviewerComment" class="form-control" formControlName="reviewerComment"></textarea>
+                        </div> -->
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
