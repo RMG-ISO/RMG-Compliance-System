@@ -117,10 +117,6 @@
         </div>
 
         <div class="col-md-12 d-flex justify-content-end actions mt-4" *ngIf="!form.disabled">
-            <!-- <button type="button" mat-button class="red"> 
-                {{ '::Cancel' | abpLocalization }}
-            </button> -->
-        
             <button mat-button class="green" [disabled]="uploading || isSaving" type="submit" >
                 <i class="fa fa-check mr-1"></i>
                 {{ '::Save' | abpLocalization }}
@@ -128,3 +124,35 @@
         </div>
     </section>
 </form>
+
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+               سجل التعديلات
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+            <div *ngFor="let version of assessmentData?.versions">
+                <table class="table details-table-cont">
+                    <tr>
+                        <td>
+                            الشخص الذى قام بالتعديل
+                        </td>
+                        <td>
+                            {{version.creator?.name}}
+                        </td>
+                        <td>
+                            تاريخ التعديل
+                        </td>
+                        <td>
+                            {{version.creator?.creationTime | date:'yyyy/MM/dd'}}
+                        </td>
+                    </tr>
+                </table>
+
+                
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
