@@ -577,6 +577,8 @@
     "InternalAssessmentEndDate": "تاريخ انتهاء التقييم الداخلي",
     "ReviewStartDate": "تاريخ بدء المراجعة",
     "ReviewEndDate": "تاريخ انتهاء المراجعة",
-    "ApprovalDate": "تاريخ القبول"
+    "ApprovalDate": "تاريخ القبول",
+    "Editor":"الشخص الذى قام بالتعديل",
+    "EditDate":"تاريخ التعديل"
   }
 }

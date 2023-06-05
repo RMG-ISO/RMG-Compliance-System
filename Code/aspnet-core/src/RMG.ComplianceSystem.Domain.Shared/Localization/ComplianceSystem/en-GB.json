@@ -575,6 +575,9 @@
     "InternalAssessmentEndDate": "Internal assessment end date",
     "ReviewStartDate": "Review start date",
     "ReviewEndDate": "Review end date",
-    "ApprovalDate": "Approval date"
+    "ApprovalDate": "Approval date",
+    "Editor":"Editor",
+    "EditDate":"Edit Date"
+
   }
 }
