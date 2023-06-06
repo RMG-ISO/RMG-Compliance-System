@@ -578,6 +578,8 @@
     "ReviewStartDate": "تاريخ بدء المراجعة",
     "ReviewEndDate": "تاريخ انتهاء المراجعة",
     "ApprovalDate": "تاريخ القبول",
+    "Editor":"الشخص الذى قام بالتعديل",
+    "EditDate":"تاريخ التعديل",
     "CompliancePercentage": "نسبة الامتثال"
   }
 }
