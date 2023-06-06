@@ -1,6 +1,9 @@
-﻿using RMG.ComplianceSystem.Notifications;
+﻿using RMG.ComplianceSystem.Authorization;
+using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.Permissions;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BackgroundWorkers.Quartz;
 using Volo.Abp.FeatureManagement;
@@ -32,6 +35,18 @@ namespace RMG.ComplianceSystem
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+
+            //Configure<PermissionManagementOptions>(options =>
+            //{
+            //    options.ManagementProviders.Add<DynamicPermissionManagementProvider>();
+            //    options.ProviderPolicies[DynamicPermissionValueProvider.ProviderName] = ComplianceSystemPermissions.Framework.Default;
+            //});
+
+            //Configure<AbpPermissionOptions>(options =>
+            //{
+            //    options.ValueProviders.Add<DynamicPermissionValueProvider>();
+            //});
+
 
             Configure<AbpAutoMapperOptions>(options =>
             {

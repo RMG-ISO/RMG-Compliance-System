@@ -577,6 +577,7 @@
     "InternalAssessmentEndDate": "تاريخ انتهاء التقييم الداخلي",
     "ReviewStartDate": "تاريخ بدء المراجعة",
     "ReviewEndDate": "تاريخ انتهاء المراجعة",
-    "ApprovalDate": "تاريخ القبول"
+    "ApprovalDate": "تاريخ القبول",
+    "CompliancePercentage": "نسبة الامتثال"
   }
 }
