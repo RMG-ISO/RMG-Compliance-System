@@ -385,8 +385,12 @@
               </td>
             </tr>
             <tr>
+              <td>{{ '::CompliancePercentage' | abpLocalization }}</td>
+              <td>
+                {{ frameWorkData?.compliancePercentage }}
+              </td>
               <td>{{ '::Reviewers' | abpLocalization }}</td>
-              <td colspan="3">
+              <td>
                 {{ frameWorkData?.reviewUserName }}
               </td>
             </tr>
@@ -624,13 +628,19 @@
                     </td>
                   </tr>
                   <tr>
-                      <td>
-                        {{ '::ApprovalDate' | abpLocalization }}
-                      </td>
-                      <td colspan="3">
-                        {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
-                      </td>
-                    </tr>
+                    <td>
+                      {{ '::ApprovalDate' | abpLocalization }}
+                    </td>
+                    <td>
+                      {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
+                    </td>
+                    <td>
+                        {{ '::CompliancePercentage' | abpLocalization }}
+                    </td>
+                    <td>
+                      {{ mainDomain?.compliancePercentage }}
+                    </td>
+                  </tr>
                   <tr>
                     <td>
                       {{ '::Departments' | abpLocalization }}

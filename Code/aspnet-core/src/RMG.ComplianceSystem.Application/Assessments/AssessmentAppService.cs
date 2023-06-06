@@ -65,6 +65,7 @@ namespace RMG.ComplianceSystem.Assessments
             await CheckCreatePolicyAsync();
             await ValidateCreateUpdateAsync(input);
             var entity = await MapToEntityAsync(input);
+            StorePercentageValues(entity);
             var control = await _controlRepository.GetAsync(input.ControlId, false);
             var domain = await _domainRepository.GetAsync(control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
@@ -84,6 +85,61 @@ namespace RMG.ComplianceSystem.Assessments
 
             entity = await GetEntityByIdAsync(entity.Id);
             return await MapToGetOutputDtoAsync(entity);
+        }
+
+        private void StorePercentageValues(Assessment entity)
+        {
+            if (entity.Applicable.HasValue && entity.Applicable.Value == ApplicableType.Applicable)
+            {
+                if (entity.Implemented.HasValue)
+                {
+                    switch (entity.Implemented.Value)
+                    {
+                        case ImplementedType.NotImplemented:
+                            entity.ImplementedPercentage = 0;
+                            break;
+                        case ImplementedType.Implemented:
+                            entity.ImplementedPercentage = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (entity.Documented.HasValue)
+                {
+                    switch (entity.Documented.Value)
+                    {
+                        case DocumentedType.NotDocumented:
+                            entity.DocumentedPercentage = 0;
+                            break;
+                        case DocumentedType.Documented:
+                            entity.DocumentedPercentage = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (entity.Effective.HasValue)
+                {
+                    switch (entity.Effective.Value)
+                    {
+                        case EffectiveType.NotEffective:
+                            entity.EffectivePercentage = 0;
+                            break;
+                        case EffectiveType.Effective:
+                            entity.EffectivePercentage = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                entity.EffectivePercentage = 0;
+                entity.ImplementedPercentage = 0;
+                entity.DocumentedPercentage = 0;
+            }
         }
 
         [Authorize]
@@ -109,6 +165,7 @@ namespace RMG.ComplianceSystem.Assessments
             await Repository.UpdateAsync(entity, autoSave: true);
 
             await MapToEntityAsync(input, entity);
+            StorePercentageValues(entity);
             if (input.EmployeeIds is not null)
                 foreach (var item in input.EmployeeIds)
                 {
@@ -127,7 +184,6 @@ namespace RMG.ComplianceSystem.Assessments
         {
             return base.GetAsync(id);
         }
-
 
 
         [RemoteService(false)]

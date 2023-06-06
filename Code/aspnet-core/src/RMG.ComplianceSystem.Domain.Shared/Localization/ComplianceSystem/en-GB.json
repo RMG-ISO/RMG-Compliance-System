@@ -577,7 +577,7 @@
     "ReviewEndDate": "Review end date",
     "ApprovalDate": "Approval date",
     "Editor":"Editor",
-    "EditDate":"Edit Date"
-
+    "EditDate":"Edit Date",
+    "CompliancePercentage": "Compliance percentage"
   }
 }

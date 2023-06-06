@@ -23,5 +23,6 @@ namespace RMG.ComplianceSystem.Controls.Dtos
         public Guid? ParentId { get; set; }
 
         public Guid DomainId { get; set; }
+        public int CompliancePercentage { get; set; }
     }
 }
