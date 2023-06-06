@@ -1,11 +1,54 @@
-<!-- <div>
-  <button (click)="openToaster()">
-    open Toaster
-  </button>
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="card-title mb-0">
+        {{ '::الصفحة الرئيسية' | abpLocalization }}
+      </h2>
+    </div>
+  </div>
 
-  <button (click)="openAlert()">
-    open Alert
-  </button>
+  <div class="card-body">
+    <h3>
+      إحصائيات سريعة
+    </h3>
+    <div class="row">
+      <div class="col-xl-2 col-md-6 col-lg-3 col-12" *ngFor="let card of cards">
+        <div class="info-card">
+          <div class="icon-cont" [style.border-color]="card.color">
+            <mat-icon [svgIcon]="card.icon"></mat-icon>
+          </div>
+          <span style="width:24px"></span>
+          <div class="text-cont">
+            <p>
+              {{ card.title | abpLocalization }}
+            </p>
+            <span>
+              {{ card.count }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="card-content">
+            <h4>
+              نسبة الامتثال للإطـــارات
+            </h4>
+            <div echarts class="pie-chart-cont" [options]="pieOptions"></div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="card-content">
+            <h4>
+              عدد الأفعال المنفذة
+            </h4>
+            <div echarts [options]="barOption"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
-
-<div style="height: 1000px;"></div> -->
