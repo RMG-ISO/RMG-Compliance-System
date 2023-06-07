@@ -5,6 +5,7 @@ import type { SharedStatus } from '../../shared/shared-status.enum';
 export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
   nameEn?: string;
+  compliancePercentage?: number;
   descriptionAr?: string;
   descriptionEn?: string;
   reference?: string;

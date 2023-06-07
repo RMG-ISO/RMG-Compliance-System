@@ -19,6 +19,11 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
 using Microsoft.AspNetCore.Mvc;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using Volo.Abp.Domain.Entities;
+using RMG.ComplianceSystem.Assessments;
+using RMG.ComplianceSystem.Controls;
+using RMG.ComplianceSystem.Assessments.Dtos;
+using RMG.ComplianceSystem.Authorization;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -32,6 +37,8 @@ namespace RMG.ComplianceSystem.Domains
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Domain.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Domain.Delete;
 
+        private readonly IAssessmentRepository _assessmentRepository;
+        private readonly IControlRepository _controlRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IFrameworkRepository _frameworkRepository;
         private readonly IEmailTemplateRepository _emailTemplateRepository;
@@ -41,6 +48,7 @@ namespace RMG.ComplianceSystem.Domains
         private readonly IPermissionGrantRepository _permissionGrantRepository;
         private readonly IdentityUserManager _identityUserManager;
         private readonly IDomainManager _domainManager;
+        private readonly IPermissionManager _permissionManager;
 
         public DomainAppService(
             IDomainRepository repository,
@@ -52,6 +60,9 @@ namespace RMG.ComplianceSystem.Domains
             IPermissionGrantRepository permissionGrantRepository,
             IdentityUserManager identityUserManager,
             IFrameworkRepository frameworkRepository,
+            IAssessmentRepository assessmentRepository,
+            IControlRepository controlRepositor,
+            IPermissionManager permissionManager,
             IDomainManager domainManager) : base(repository)
         {
             _employeeRepository = employeeRepository;
@@ -63,6 +74,9 @@ namespace RMG.ComplianceSystem.Domains
             _permissionGrantRepository = permissionGrantRepository;
             _identityUserManager = identityUserManager;
             _domainManager = domainManager;
+            _assessmentRepository = assessmentRepository;
+            _controlRepository = controlRepositor;
+            _permissionManager = permissionManager;
         }
 
         protected override async Task<IQueryable<Domain>> CreateFilteredQueryAsync(DomainPagedAndSortedResultRequestDto input)
@@ -98,10 +112,10 @@ namespace RMG.ComplianceSystem.Domains
                     }
                 }
             }
-            if (!foundPermission)
-            {
-                query = query.Where(d => d.ResponsibleId == CurrentUser.Id);
-            }
+            //if (!foundPermission)
+            //{
+            //    query = query.Where(d => d.ResponsibleId == CurrentUser.Id);
+            //}
 
             return query;
         }
@@ -119,6 +133,7 @@ namespace RMG.ComplianceSystem.Domains
                 if (!input.ResponsibleId.HasValue)
                     throw new BusinessException(ComplianceSystemDomainErrorCodes.MainDomainNeedsResponsible);
                 await _employeeRepository.GetAsync(input.ResponsibleId.Value, false);
+                //await GrantDomainResponsibleRequiredPermissionsAsync(input.ResponsibleId.Value);
             }
             else
             {
@@ -179,6 +194,7 @@ namespace RMG.ComplianceSystem.Domains
         protected override async Task<DomainDto> MapToGetOutputDtoAsync(Domain entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
+            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id, dto.ParentId.HasValue);
             if (dto.ResponsibleId.HasValue)
                 dto.ResponsibleName = (await _employeeRepository.GetAsync(dto.ResponsibleId.Value))?.FullName;
             return dto;
@@ -192,7 +208,13 @@ namespace RMG.ComplianceSystem.Domains
             var entities = await AsyncExecuter.ToListAsync(query);
 
             var entityDtos = ObjectMapper.Map<List<Domain>, List<DomainWithoutPagingDto>>(entities);
-
+            if (input.IsMainDomain)
+            {
+                foreach (var dto in entityDtos)
+                {
+                    dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+                }
+            }
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
         }
 
@@ -399,6 +421,25 @@ namespace RMG.ComplianceSystem.Domains
         }
 
 
+        private int CalculateCompliancePercentage(Guid id, bool hasParent = false)
+        {
+            var controls = new List<Guid>();
+            if (hasParent)
+                controls = _controlRepository.Where(c => c.DomainId == id).Select(c => c.Id).ToList();
+            else
+            {
+                var subDomains = Repository.Where(d => d.ParentId == id).Select(d => d.Id).ToList();
+                controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
+            }
+            var assessments = _assessmentRepository.Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
+            {
+                DocumentedPercentage = a.DocumentedPercentage,
+                EffectivePercentage = a.EffectivePercentage,
+                ImplementedPercentage = a.ImplementedPercentage
+            }).ToList();
+            return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
+        }
+
         private void UpdateSubdomains(
             Guid parentId,
             ComplianceStatus status,
@@ -422,5 +463,15 @@ namespace RMG.ComplianceSystem.Domains
             }
         }
 
+
+        //private async Task GrantDomainResponsibleRequiredPermissionsAsync(Guid userId)
+        //{
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Framework.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Domain.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Control.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Assessment.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Assessment.Update, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+
+        //}
     }
 }

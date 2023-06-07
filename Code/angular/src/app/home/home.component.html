@@ -1,11 +1,82 @@
-<!-- <div>
-  <button (click)="openToaster()">
-    open Toaster
-  </button>
+<div class="card" *ngIf="dashboardData">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="card-title mb-0">
+        {{ '::HomePage' | abpLocalization }}
+      </h2>
+    </div>
+  </div>
 
-  <button (click)="openAlert()">
-    open Alert
-  </button>
+  <div class="card-body">
+    <h3>
+      {{ '::QuickStats' | abpLocalization }}
+    </h3>
+    <div class="row mb-3">
+      <div class="col-xl-2 col-md-6 col-lg-3 col-12" *ngFor="let card of cards">
+        <div class="info-card">
+          <div class="icon-cont" [style.border-color]="card.color">
+            <mat-icon [svgIcon]="card.icon"></mat-icon>
+          </div>
+          <span style="width:24px"></span>
+          <div class="text-cont">
+            <p>
+              {{ card.title | abpLocalization }}
+            </p>
+            <span>
+              {{ dashboardData[card.key] }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="card-content">
+            <h4>
+              {{ '::FrameworksCompliancePercentage' | abpLocalization }}
+            </h4>
+            <div echarts class="pie-chart-cont" [options]="complianceChartOptions"></div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="card-content">
+            <h4>
+              {{ '::NumberOfActionsPerformed' | abpLocalization }}
+            </h4>
+            <div echarts [options]="actionsChartOptions"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-content">
+            <h4>
+              {{ '::RiskStatistics' | abpLocalization }}
+            </h4>
+            <div echarts [options]="risksChartOptions"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-content">
+            <h4>
+              {{ '::SeverityStatistics' | abpLocalization }}
+            </h4>
+            <div echarts [options]="risksLevelChartOptions"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-content">
+            <h4>
+              {{ '::AuditsNumber' | abpLocalization }}
+            </h4>
+            <div echarts [options]="auditsOptions"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
 </div>
-
-<div style="height: 1000px;"></div> -->

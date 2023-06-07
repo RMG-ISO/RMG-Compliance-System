@@ -11,6 +11,7 @@ import type { DomainDto } from '../../domains/dtos/models';
 export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   managementName?: string;
   reviewUserName?: string;
+  compliancePercentage?: number;
   ownerName?: string;
   nameAr?: string;
   nameEn?: string;
