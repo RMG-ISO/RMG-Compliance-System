@@ -31,7 +31,7 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public string Comment { get; set; }
 
         public Guid? AttachmentId { get; set; }
-
+        public int CompliancePercentage { get; set; }
         public List<NameId<Guid>> Employees { get; set; }
         public List<AssessmentVersionDto> Versions { get; set; } = new List<AssessmentVersionDto>();
 

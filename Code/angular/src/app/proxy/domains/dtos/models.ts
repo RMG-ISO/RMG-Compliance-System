@@ -21,6 +21,7 @@ export interface CreateUpdateDomainDto {
 export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
   nameEn?: string;
+  compliancePercentage?: number;
   descriptionAr?: string;
   descriptionEn?: string;
   reference?: string;

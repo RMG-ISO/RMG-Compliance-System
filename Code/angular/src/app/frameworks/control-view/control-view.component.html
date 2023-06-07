@@ -74,10 +74,16 @@
                         <td>
                             {{ '::Status' | abpLocalization }}
                         </td>
-                        <td colspan="3">
+                        <td>
                             <button mat-button class="status" [class]="SharedStatus[subControlData?.status]">
                                 {{  ('::Enum:SharedStatus:' + subControlData?.status) | abpLocalization }}
                             </button>
+                        </td>
+                        <td>
+                            {{ '::CompliancePercentage' | abpLocalization }}
+                        </td>
+                        <td>
+                          {{ subControlData?.compliancePercentage }}
                         </td>
                     </tr>
                 </table>

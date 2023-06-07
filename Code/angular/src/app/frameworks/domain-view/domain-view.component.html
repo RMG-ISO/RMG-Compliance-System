@@ -107,6 +107,14 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                {{ '::CompliancePercentage' | abpLocalization }}
+                            </td>
+                            <td colspan="3">
+                              {{ subDomainData?.compliancePercentage }}
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </section>
@@ -200,12 +208,17 @@
                                             {{mainControl?.descriptionEn}}
                                         </td>
                                     </tr>
-
                                     <tr>
+                                        <td>
+                                            {{ '::CompliancePercentage' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                          {{ mainControl?.compliancePercentage }}
+                                        </td>
                                         <td>
                                             {{ '::Status' | abpLocalization }}
                                         </td>
-                                        <td colspan="3">
+                                        <td>
                                             <button mat-button class="status"
                                                 [class]="SharedStatus[mainControl?.status]">
                                                 {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}

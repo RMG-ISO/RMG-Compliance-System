@@ -13,6 +13,7 @@ export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUser
   applicable?: ApplicableType;
   complianceLevel?: ComplianceLevelType;
   complianceDate?: string;
+  compliancePercentage?: number;
   nextComplianceDate?: string;
   documented?: DocumentedType;
   implemented?: ImplementedType;
