@@ -2,14 +2,14 @@
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="card-title mb-0">
-        {{ '::الصفحة الرئيسية' | abpLocalization }}
+        {{ '::HomePage' | abpLocalization }}
       </h2>
     </div>
   </div>
 
   <div class="card-body">
     <h3>
-      إحصائيات سريعة
+      {{ '::QuickStats' | abpLocalization }}
     </h3>
     <div class="row mb-3">
       <div class="col-xl-2 col-md-6 col-lg-3 col-12" *ngFor="let card of cards">
@@ -35,7 +35,7 @@
         <div class="col-lg-5">
           <div class="card-content">
             <h4>
-              نسبة الامتثال للإطـــارات
+              {{ '::FrameworksCompliancePercentage' | abpLocalization }}
             </h4>
             <div echarts class="pie-chart-cont" [options]="complianceChartOptions"></div>
           </div>
@@ -43,7 +43,7 @@
         <div class="col-lg-7">
           <div class="card-content">
             <h4>
-              عدد الأفعال المنفذة
+              {{ '::NumberOfActionsPerformed' | abpLocalization }}
             </h4>
             <div echarts [options]="actionsChartOptions"></div>
           </div>
@@ -52,7 +52,7 @@
         <div class="col-lg-4">
           <div class="card-content">
             <h4>
-              احصائيات المخــاطر
+              {{ '::RiskStatistics' | abpLocalization }}
             </h4>
             <div echarts [options]="risksChartOptions"></div>
           </div>
@@ -61,7 +61,7 @@
         <div class="col-lg-4">
           <div class="card-content">
             <h4>
-              احصائيات درجات الخطورة
+              {{ '::SeverityStatistics' | abpLocalization }}
             </h4>
             <div echarts [options]="risksLevelChartOptions"></div>
           </div>
@@ -70,7 +70,7 @@
         <div class="col-lg-4">
           <div class="card-content">
             <h4>
-              عدد التدقـيقــات
+              {{ '::AuditsNumber' | abpLocalization }}
             </h4>
             <div echarts [options]="auditsOptions"></div>
           </div>
