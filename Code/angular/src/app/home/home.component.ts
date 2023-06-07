@@ -1,3 +1,4 @@
+import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@proxy/dashboards';
 
@@ -9,55 +10,55 @@ import { DashboardService } from '@proxy/dashboards';
 export class HomeComponent implements OnInit {
   cards = [
     {
-      title: 'المستخدمين على النظام',
+      title: 'UsersOnSystem',
       icon: 'metro-users',
       color: '#2B657D',
       key:'usersCount'
     },
     {
-      title: 'المستخدمين الفعالين',
+      title: 'ActiveUsers',
       icon: 'user-check',
       color: '#1CAE40',
       key:'activeUsersCount'
     },
     {
-      title: 'عدد الإدارات',
+      title: 'DepartmentsCount',
       icon: 'network-wired',
       color: '#3B76B1',
       key:'departmentsCount'
     },
     {
-      title: 'عدد الإطارات المضافة',
+      title: 'AddedFrameworksCount',
       icon: 'layer-group',
       color: '#F9CE1A',
       key:'frameworksCount'
     },
     {
-      title: 'عدد الإطارات الفعالة',
+      title: 'ActiveFrameworksCount',
       icon: 'layer-group-button',
       color: '#76F094',
       key:'activeFrameworksCount'
     },
     {
-      title: 'إطارات طُبق الامتثال عليها',
+      title: 'ComplianceAppliedFrames',
       icon: 'layer-group-check',
       color: '#2896E9',
       key:'implementedCompliantFrameworksCount'
     },
     {
-      title: 'عدد المخاطر',
+      title: 'CountOfRisks',
       icon: 'warning',
       color: '#DF1E39',
       key:'risksCount'
     },
     {
-      title: 'الأفعال المتخذة على النظام',
+      title: 'TakenActions',
       icon: 'th-list',
       color: '#7467F0',
       key:'actionsCount'
     },
     {
-      title: 'عدد التدقيقات',
+      title: 'AuditsCount',
       icon: 'tasks',
       color: '#36D1DC',
       key:'auditsCount'
@@ -86,9 +87,9 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: 'غير ممتثل', itemStyle: { color: '#FE5957' } },
-          { value: 0, name: 'ممتثل', itemStyle: { color: '#12A751' } },
-          { value: 0, name: 'ممتثل جزئي', itemStyle: { color: '#FAB800' } },
+          { value: 0, name: this.localizationService.instant('::NonComply'), itemStyle: { color: '#FE5957' } },
+          { value: 0, name: this.localizationService.instant('::Comply'), itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('::PartiallyComply'), itemStyle: { color: '#FAB800' } },
         ],
       },
     ],
@@ -116,9 +117,9 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: 'مفتوحة', itemStyle: { color: '#12A751' } },
-          { value: 0, name: 'مغلقة', itemStyle: { color: '#8D8D8D' } },
-          { value: 0, name: 'قيد المراجعة', itemStyle: { color: '#1C6BD4' } },
+          { value: 0, name: this.localizationService.instant('Opened'), itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('Closed'), itemStyle: { color: '#8D8D8D' } },
+          { value: 0, name: this.localizationService.instant('UnderReview'), itemStyle: { color: '#1C6BD4' } },
         ],
       },
     ],
@@ -146,9 +147,9 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: 'مرتفعة', itemStyle: { color: '#CC334C' } },
-          { value: 0, name: 'متوسطة', itemStyle: { color: '#FAB800' } },
-          { value: 0, name: 'منخفضة', itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('high'), itemStyle: { color: '#CC334C' } },
+          { value: 0, name: this.localizationService.instant('medium'), itemStyle: { color: '#FAB800' } },
+          { value: 0, name: this.localizationService.instant('low'), itemStyle: { color: '#12A751' } },
         ],
       },
     ],
@@ -176,10 +177,10 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: 'قيد الإعداد', itemStyle: { color: '#8D8D8D' } },
-          { value: 0, name: 'قيد التنفيذ', itemStyle: { color: '#1C6BD4' } },
-          { value: 0, name: 'تمت', itemStyle: { color: '#12A751' } },
-          { value: 0, name: 'متأخرة', itemStyle: { color: '#CC334C' } },
+          { value: 0, name: this.localizationService.instant('InPreparation'), itemStyle: { color: '#8D8D8D' } },
+          { value: 0, name: this.localizationService.instant('UnderExecution'), itemStyle: { color: '#1C6BD4' } },
+          { value: 0, name: this.localizationService.instant('Completed'), itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('Late'), itemStyle: { color: '#CC334C' } },
         ],
       },
     ],
@@ -188,7 +189,7 @@ export class HomeComponent implements OnInit {
   actionsChartOptions = {
     xAxis: {
       type: 'category',
-      data: ['لم تبدأ', 'قيد التنفيذ', 'تمت' , 'متأخرة']
+      data: [this.localizationService.instant('NotStarted'), this.localizationService.instant('UnderExecution'), this.localizationService.instant('Completed') , this.localizationService.instant('Late')]
     },
     yAxis: {
       type: 'value'
@@ -234,7 +235,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
-    private dashboardService:DashboardService
+    private dashboardService:DashboardService,
+    private localizationService:LocalizationService
   ) {}
 
   dashboardData;
