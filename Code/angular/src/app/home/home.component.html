@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="dashboardData">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="card-title mb-0">
@@ -11,7 +11,7 @@
     <h3>
       إحصائيات سريعة
     </h3>
-    <div class="row">
+    <div class="row mb-3">
       <div class="col-xl-2 col-md-6 col-lg-3 col-12" *ngFor="let card of cards">
         <div class="info-card">
           <div class="icon-cont" [style.border-color]="card.color">
@@ -23,7 +23,7 @@
               {{ card.title | abpLocalization }}
             </p>
             <span>
-              {{ card.count }}
+              {{ dashboardData[card.key] }}
             </span>
           </div>
         </div>
@@ -37,7 +37,7 @@
             <h4>
               نسبة الامتثال للإطـــارات
             </h4>
-            <div echarts class="pie-chart-cont" [options]="pieOptions"></div>
+            <div echarts class="pie-chart-cont" [options]="complianceChartOptions"></div>
           </div>
         </div>
         <div class="col-lg-7">
@@ -45,9 +45,37 @@
             <h4>
               عدد الأفعال المنفذة
             </h4>
-            <div echarts [options]="barOption"></div>
+            <div echarts [options]="actionsChartOptions"></div>
           </div>
         </div>
+
+        <div class="col-lg-4">
+          <div class="card-content">
+            <h4>
+              احصائيات المخــاطر
+            </h4>
+            <div echarts [options]="risksChartOptions"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-content">
+            <h4>
+              احصائيات درجات الخطورة
+            </h4>
+            <div echarts [options]="risksLevelChartOptions"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-content">
+            <h4>
+              عدد التدقـيقــات
+            </h4>
+            <div echarts [options]="auditsOptions"></div>
+          </div>
+        </div>
+
       </div>
     </section>
   </div>
