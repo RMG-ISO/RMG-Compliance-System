@@ -20,7 +20,7 @@
           <span style="width:24px"></span>
           <div class="text-cont">
             <p>
-              {{ card.title | abpLocalization }}
+              {{ ('::' + card.title) | abpLocalization }}
             </p>
             <span>
               {{ dashboardData[card.key] }}

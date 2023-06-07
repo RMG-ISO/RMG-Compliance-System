@@ -7,6 +7,12 @@
     box-shadow: 0 0 6px rgba(0,0,0,.16);
     height: 100%;
     border-radius: 8px;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+    &:hover{
+        background-color: #f1f1f1;
+        box-shadow: 0 0 8px rgba(0,0,0,.5);
+    }
 
     .icon-cont {
         width: 50px;

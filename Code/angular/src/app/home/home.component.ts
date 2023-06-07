@@ -10,7 +10,7 @@ import { DashboardService } from '@proxy/dashboards';
 export class HomeComponent implements OnInit {
   cards = [
     {
-      title: 'UsersOnSystem',
+      title: 'SystemUsers',
       icon: 'metro-users',
       color: '#2B657D',
       key:'usersCount'
@@ -117,9 +117,9 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: this.localizationService.instant('Opened'), itemStyle: { color: '#12A751' } },
-          { value: 0, name: this.localizationService.instant('Closed'), itemStyle: { color: '#8D8D8D' } },
-          { value: 0, name: this.localizationService.instant('UnderReview'), itemStyle: { color: '#1C6BD4' } },
+          { value: 0, name: this.localizationService.instant('::Opened'), itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('::Closed'), itemStyle: { color: '#8D8D8D' } },
+          { value: 0, name: this.localizationService.instant('::UnderReview'), itemStyle: { color: '#1C6BD4' } },
         ],
       },
     ],
@@ -147,9 +147,9 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: this.localizationService.instant('high'), itemStyle: { color: '#CC334C' } },
-          { value: 0, name: this.localizationService.instant('medium'), itemStyle: { color: '#FAB800' } },
-          { value: 0, name: this.localizationService.instant('low'), itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('::high'), itemStyle: { color: '#CC334C' } },
+          { value: 0, name: this.localizationService.instant('::medium'), itemStyle: { color: '#FAB800' } },
+          { value: 0, name: this.localizationService.instant('::low'), itemStyle: { color: '#12A751' } },
         ],
       },
     ],
@@ -177,10 +177,10 @@ export class HomeComponent implements OnInit {
           },
         },
         data: [
-          { value: 0, name: this.localizationService.instant('InPreparation'), itemStyle: { color: '#8D8D8D' } },
-          { value: 0, name: this.localizationService.instant('UnderExecution'), itemStyle: { color: '#1C6BD4' } },
-          { value: 0, name: this.localizationService.instant('Completed'), itemStyle: { color: '#12A751' } },
-          { value: 0, name: this.localizationService.instant('Late'), itemStyle: { color: '#CC334C' } },
+          { value: 0, name: this.localizationService.instant('::InPreparation'), itemStyle: { color: '#8D8D8D' } },
+          { value: 0, name: this.localizationService.instant('::UnderExecution'), itemStyle: { color: '#1C6BD4' } },
+          { value: 0, name: this.localizationService.instant('::Completed'), itemStyle: { color: '#12A751' } },
+          { value: 0, name: this.localizationService.instant('::Late'), itemStyle: { color: '#CC334C' } },
         ],
       },
     ],
@@ -189,7 +189,7 @@ export class HomeComponent implements OnInit {
   actionsChartOptions = {
     xAxis: {
       type: 'category',
-      data: [this.localizationService.instant('NotStarted'), this.localizationService.instant('UnderExecution'), this.localizationService.instant('Completed') , this.localizationService.instant('Late')]
+      data: [this.localizationService.instant('::NotStarted'), this.localizationService.instant('::UnderExecution'), this.localizationService.instant('::Completed') , this.localizationService.instant('::Late')]
     },
     yAxis: {
       type: 'value'
