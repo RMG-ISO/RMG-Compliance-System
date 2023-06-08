@@ -9,14 +9,14 @@ function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.remove(['AbpUiNavigation::Menu:Administration'])
     routesService.add([
-      {
-        path:'/dashboard',
-        name:'::Dashboard:Title',
-        iconClass: 'fas fa-chart-line',
-        order: 1,
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Framework'
-      },
+      // {
+      //   path:'/dashboard',
+      //   name:'::Dashboard:Title',
+      //   iconClass: 'fas fa-chart-line',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.Framework'
+      // },
       {
         path: '/home',
         name: '::Menu:Home',
