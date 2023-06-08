@@ -31,7 +31,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid? AttachmentId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
-        public string approveUserName { get; set; }
+        public string ApproveUserName { get; set; }
         public string LevelFirstNameAr { get; set; }
         public string LevelFirstNameEn { get; set; }
         public string LevelSecondNameAr { get; set; }

@@ -155,7 +155,7 @@ namespace RMG.ComplianceSystem.Frameworks
             }
             dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
             dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
-            dto.approveUserName = (await _employeeRepository.FindAsync(dto.ApproveUserId, false))?.FullName;
+            dto.ApproveUserName = (await _employeeRepository.FindAsync(dto.ApproveUserId, false))?.FullName;
 
             dto.CanSendForInternalAssessment = CanSendForInternalAssessment(entity).Item1;
             dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
