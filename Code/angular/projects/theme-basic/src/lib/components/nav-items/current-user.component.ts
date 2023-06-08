@@ -113,6 +113,7 @@ export class CurrentUserComponent implements OnInit {
   }
 
   get dropdownLanguages$(): Observable<LanguageInfo[]> {
+    // this.languages$.subscribe(r => console.log(r))
     return this.languages$.pipe(
       map(
         languages =>
