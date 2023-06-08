@@ -27,5 +27,7 @@ namespace RMG.ComplianceSystem.Frameworks
         Task Deactivate(Guid id);
         Task SendForInternalAssessment(Guid id);
         Task ApproveCompliance(Guid id);
+
+        int CalculateCompliancePercentage(Guid id);
     }
 }

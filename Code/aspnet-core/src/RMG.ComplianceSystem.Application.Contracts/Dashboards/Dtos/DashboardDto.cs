@@ -55,7 +55,7 @@ namespace RMG.ComplianceSystem.Dashboards.Dtos
 
     public class DashboardFrameworkCompliancePercentage
     {
-        public Guid FrameworkId { get; set; }
+        public Guid? FrameworkId { get; set; }
         public int CompliantCount { get; set; }
         public int PartialCompliantCount { get; set; }
         public int NotCompliantCount { get; set; }
