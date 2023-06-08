@@ -29,14 +29,14 @@ namespace RMG.ComplianceSystem.Dashboards
         private readonly IHubContext<NotificationHub> _notificationHubContext;
         private readonly IRiskTreatmentRepository _riskTreatmentRepository;
         private readonly IInternalAuditPreparationRepository _internalAuditPreparationRepository;
-        private readonly IdentityUserManager _identityUserManager;
+        private readonly IIdentityUserRepository _identityUserRepository;
 
         public DashboardAppService(
             IRiskAndOpportunityRepository riskAndOpportunityRepository, 
             IHubContext<NotificationHub> notificationHubContext, 
             IRiskTreatmentRepository riskTreatmentRepository,
             IFrameworkAppService frameworkAppService,
-            IdentityUserManager identityUserManager,
+            IIdentityUserRepository identityUserRepository,
             IInternalAuditPreparationRepository internalAuditPreparationRepository,
             IDepartmentRepository departmentRepository,
             IFrameworkRepository frameworkRepository)
@@ -47,25 +47,25 @@ namespace RMG.ComplianceSystem.Dashboards
             _frameworkRepository = frameworkRepository;
             _departmentRepository = departmentRepository;
             _frameworkAppService = frameworkAppService;
-            _identityUserManager = identityUserManager;
+            _identityUserRepository = identityUserRepository;
             _internalAuditPreparationRepository = internalAuditPreparationRepository;
         }
 
         public async Task<DashboardDto> GetDashboard()
         {
-            var usersCount = _identityUserManager.Users.Count();
+            var usersCount = await _identityUserRepository.GetCountAsync();
             var rnd = new Random();
             var dashboard = new DashboardDto
             {
                 ActionsCount = _riskTreatmentRepository.Count(),
                 ActiveFrameworksCount = _frameworkRepository.Count(f => f.Status == SharedStatus.Active),
-                ActiveUsersCount = usersCount,
+                ActiveUsersCount = (int)usersCount,
                 AuditsCount = _internalAuditPreparationRepository.Count(),
                 DepartmentsCount = _departmentRepository.Count(),
                 FrameworksCount = _frameworkRepository.Count(),
                 ImplementedCompliantFrameworksCount = _frameworkRepository.Count(f => f.ComplianceStatus == ComplianceStatus.Approved),
                 RisksCount = _riskAndOpportunityRepository.Count(r => r.Type == (int)TypeRiskAndOpportunity.Risk),
-                UsersCount = usersCount,
+                UsersCount = (int)usersCount,
                 ActionsDto = new DashboardActionsDto
                 {
                     DoneActionsCount = rnd.Next(0, 100),
