@@ -25,6 +25,7 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   attachmentId?: string;
   reviewUserId?: string;
   approveUserId?: string;
+  approveUserName?: string;
   levelFirstNameAr?: string;
   levelFirstNameEn?: string;
   levelSecondNameAr?: string;
@@ -44,6 +45,7 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   reviewEndDate?: string;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
+  hasMainControl: boolean
 }
 
 export interface FrameworkEmpDto {

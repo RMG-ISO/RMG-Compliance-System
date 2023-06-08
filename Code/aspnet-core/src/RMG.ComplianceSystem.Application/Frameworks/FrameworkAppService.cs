@@ -155,9 +155,11 @@ namespace RMG.ComplianceSystem.Frameworks
             }
             dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
             dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
+            dto.ApproveUserName = (await _employeeRepository.FindAsync(dto.ApproveUserId, false))?.FullName;
 
             dto.CanSendForInternalAssessment = CanSendForInternalAssessment(entity).Item1;
             dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+            dto.HasMainControl = HasMainControl(dto.Id);
             return dto;
         }
 
@@ -661,8 +663,14 @@ namespace RMG.ComplianceSystem.Frameworks
 
         //}
 
+        private bool HasMainControl(Guid frameworkId)
+        {
+            var domains = _domainRepository.Where(d => d.FrameworkId == frameworkId).Select(d => d.Id).ToList();
+            return _controlRepository.Any(c => !c.ParentId.HasValue && domains.Contains(c.DomainId));
+        }
 
-        private int CalculateCompliancePercentage(Guid id)
+        [RemoteService(false)]
+        public int CalculateCompliancePercentage(Guid id)
         {
             var controls = new List<Guid>();
             var subDomains = _domainRepository.Where(d => d.FrameworkId == id && d.ParentId.HasValue).Select(d => d.Id).ToList();
