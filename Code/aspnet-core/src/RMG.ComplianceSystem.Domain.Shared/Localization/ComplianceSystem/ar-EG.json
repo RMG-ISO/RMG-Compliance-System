@@ -607,6 +607,7 @@
     "InPreparation":"قيد الإعداد",
     "UnderExecution":"قيد التنفيذ",
     "Completed":"تمت",
-    "Late":"متأخرة"
+    "Late":"متأخرة",
+    "Login":"تسجيل الدخول"
   }
 }

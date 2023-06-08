@@ -1,4 +1,4 @@
-import { AuthService, ConfigStateService } from '@abp/ng.core';
+import { AuthService, ConfigStateService, SessionStateService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, InjectionToken, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,26 +23,39 @@ export class LoginComponent implements OnInit {
     private toasterService: ToasterService,
     private authService: AuthService,
     private configState: ConfigStateService,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute:ActivatedRoute,
+    private sessionState: SessionStateService,
   ) {
     // this.authWrapperKey = "Account.AuthWrapperComponent" /* AuthWrapper */;
   }
+
+  directions = {
+    "ar-EG" : {
+      label:'English',
+      value:"en-GB"
+    },
+    "en-GB" : {
+      label:'العربية',
+      value:"ar-EG"
+    },
+  }
+  currentLang;
   ngOnInit() {
-    this.init();
-    this.buildForm();
-  }
-  init() {
-    this.isSelfRegistrationEnabled =
-      (this.configState.getSetting('Abp.Account.IsSelfRegistrationEnabled') || '').toLowerCase() !==
-      'false';
-  }
-  buildForm() {
     this.form = this.fb.group({
-      username: ['', [Validators.required, Validators.maxLength(255)]],
-      password: ['', [Validators.required, Validators.maxLength(128)]],
+      username: [null, [Validators.required, Validators.maxLength(255)]],
+      password: [null, [Validators.required, Validators.maxLength(128)]],
       rememberMe: [false],
     });
+
+    this.currentLang = this.sessionState.getLanguage();
   }
+ 
+  onChangeLang(cultureName: string) {
+    this.sessionState.setLanguage(cultureName);
+    window.location.reload();
+  }
+
+
 
   inProgress = false;
   onSubmit() {

@@ -55,34 +55,37 @@
   </abp-button>
 </form> -->
 
+<form [formGroup]="form" (ngSubmit)="onSubmit()" validateOnSubmit>
+  <img src="assets/logo.png" alt="">
+  <mat-card>
+    <h2>
+      {{ '::Login' | abpLocalization }}
+    </h2>
+    <div class="form-group">
+      <label for="username">
+        {{ 'AbpAccount::UserNameOrEmailAddress' | abpLocalization }}
+      </label>
+      <input formControlName="username" autocomplete="username" autofocus id="username" type="text"
+        class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="password">
+        {{ 'AbpAccount::Password' | abpLocalization }}
+      </label>
+      <input class="form-control" formControlName="password" autocomplete="current-password" id="password" type="password">
+    </div>
+    <div class="d-flex justify-content-between align-item-center">
+      <mat-checkbox color="primary" formControlName="rememberMe">
+        {{ 'AbpAccount::RememberMe' | abpLocalization }}
+      </mat-checkbox>
 
-<form [formGroup]="form">
-    <img src="assets/logo.png" alt="">
-    <mat-card>
-        <h2>
-            تسجيل دخول
-        </h2>
-        <div class="form-group">
-            <label for="username">
-                {{ 'AbpAccount::UserNameOrEmailAddress' | abpLocalization }}
-            </label>
-            <input formControlName="username" autocomplete="username" autofocus id="username" type="text" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="password">
-                {{ 'AbpAccount::Password' | abpLocalization }}
-            </label>
-            <input formControlName="password" autocomplete="current-password" id="password" type="password" class="form-control">
-        </div>
-        <div class="d-flex justify-content-between align-item-center">
-            <mat-checkbox color="primary" formControlName="rememberMe">
-                {{ 'AbpAccount::RememberMe' | abpLocalization }}
-            </mat-checkbox>
-
-            <a routerLink="/account/forgot-password">{{ 'AbpAccount::ForgotPassword' | abpLocalization }}</a>
-        </div>
-        <button class="save" mat-raised-button  [disabled]="inProgress">
-            {{ 'AbpAccount::Login' | abpLocalization }}
-        </button>
-    </mat-card>
+      <a routerLink="/account/forgot-password">{{ 'AbpAccount::ForgotPassword' | abpLocalization }}</a>
+    </div>
+    <button class="save" mat-raised-button [disabled]="inProgress">
+      {{ 'AbpAccount::Login' | abpLocalization }}
+    </button>
+    <button type="button" class="lang" mat-button (click)="onChangeLang(directions[currentLang].value)">
+      {{ directions[currentLang].label }}
+    </button >
+  </mat-card>
 </form>

@@ -605,6 +605,7 @@
     "InPreparation":"In Preparation",
     "UnderExecution":"Under Execution",
     "Completed":"Completed",
-    "Late":"Late"
+    "Late":"Late",
+    "Login":"Login"
   }
 }
