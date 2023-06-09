@@ -7,4 +7,5 @@ export const enum eThemeBasicComponents {
   NavItems = 'Theme.NavItemsComponent',
   CurrentUser = 'Theme.CurrentUserComponent',
   Languages = 'Theme.LanguagesComponent',
+  ResetPassword = "Account.ResetPasswordComponent"
 }
