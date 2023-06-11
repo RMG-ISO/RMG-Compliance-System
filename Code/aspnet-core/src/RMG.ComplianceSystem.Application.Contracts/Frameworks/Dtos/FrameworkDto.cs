@@ -28,7 +28,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid ManagementId { get; set; }
         public SharedStatus Status { get; set; }
         public FrameworkStatus FrameworkStatus { get; set; }
-        public Guid AttachmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
         public string LevelFirstNameAr { get; set; }
@@ -49,6 +49,9 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
 
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
+
+        public DateTime? ReviewStartDate { get; set; }
+        public DateTime? ReviewEndDate { get; set; }
         public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; } = new List<FrameworkEmpDto>();
         public List<FrameworkChangeStatusLogDto> ChangeStatusLogs { get; set; }
 

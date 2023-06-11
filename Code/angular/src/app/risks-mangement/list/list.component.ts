@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
 import { Type, Status, HistoryAction } from '../module.enums';
 import * as moment from 'moment';
-import { IdentityUserService } from '@abp/ng.identity';
+import { IdentityUserService } from '@abp/ng.identity/proxy';
 import { DepartmentService } from '@proxy/departments';
 
 

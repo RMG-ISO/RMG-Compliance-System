@@ -20,10 +20,11 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
 import { storeLocaleData } from '@abp/ng.core/locale';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
 import(
-/* webpackChunkName: "_locale-your-locale-js"*/
-/* webpackMode: "eager" */
-'@angular/common/locales/ar-EG.js'
-).then(m => storeLocaleData(m.default, 'ar-EG'));
+  /* webpackInclude: /(de|de-AT|en|en-GB)\.mjs$/ */
+  'node_modules/@angular/common/locales/ar-EG'
+).then((module) => {
+  registerLocaleData(module.default);
+});
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -34,6 +35,8 @@ import { VALIDATION_BLUEPRINTS } from '@ngx-validate/core';
 import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
+import { RouterModule } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
 
 
 // export let AppInjector: Injector;
@@ -41,6 +44,7 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
 
 @NgModule({
   imports: [
+    RouterModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

@@ -23,11 +23,28 @@ mat-card {
             }
             div {
                 width: 100%;
-                
             }
-
-           
         }
     }
 }
 
+.status {
+    min-width: 150px;
+
+  &.UnderPreparation {
+    background-color: #2CCCFF !important;
+  }
+  &.ReadyForInternalAssessment, &.ReadyForRevision, &.UnderReRevision {
+    background-color: #FBE83A;
+    color: #000;
+  }
+  &.UnderInternalAssessment, &.UnderRevision, &.UnderInternalReAssessment {
+    background-color: #FFB302;
+    color: #000;
+  }
+  &.Approved {
+    background-color: var(--main-color);
+    color: #fff;
+  }
+
+}

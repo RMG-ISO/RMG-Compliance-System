@@ -6,7 +6,7 @@ import type { ImplementedType } from '../implemented-type.enum';
 import type { EffectiveType } from '../effective-type.enum';
 import type { NameId } from '../../shared/models';
 import type { AssessmentVersionDto } from '../models';
-import { IdentityUserDto } from '@abp/ng.account';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface AssessmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   controlId?: string;

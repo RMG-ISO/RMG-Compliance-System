@@ -1,6 +1,6 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { IdentityUserDto } from '@abp/ng.account';
-import { UserData } from '@abp/ng.identity';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
+import { UserData } from '@abp/ng.identity/proxy'
 import { AttachmentDto } from '@proxy/attachments/dtos';
 
 export interface CreateUpdateDocumentDto {

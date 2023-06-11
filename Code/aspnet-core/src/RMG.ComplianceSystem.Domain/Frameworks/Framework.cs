@@ -22,7 +22,7 @@ namespace RMG.ComplianceSystem.Frameworks
         public string DescriptionEn { get; set; }
         public SharedStatus Status { get; set; }
         public FrameworkStatus FrameworkStatus { get; set; }
-        public Guid AttachmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
         public Guid ManagementId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
@@ -43,6 +43,9 @@ namespace RMG.ComplianceSystem.Frameworks
         public DateTime? SelfAssessmentEndDate { get; set; }
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
+        public DateTime? ReviewStartDate { get; set; }
+        public DateTime? ReviewEndDate { get; set; }
+
 
 
         public virtual ICollection<Domain> Domains { get; set; }

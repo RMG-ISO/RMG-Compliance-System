@@ -1,5 +1,5 @@
-import { IdentityUserDto } from '@abp/ng.account';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface CreateUpdateDepartmentDto {
   name?: string;

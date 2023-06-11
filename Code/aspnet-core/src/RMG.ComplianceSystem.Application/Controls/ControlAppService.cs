@@ -15,6 +15,8 @@ using RMG.ComplianceSystem.Risks.Entity;
 
 namespace RMG.ComplianceSystem.Controls
 {
+    // ToDo: can add/update/delete control if framework inside compliance loop?
+
     public class ControlAppService : CrudAppService<Control, ControlDto, Guid, ControlPagedAndSortedResultRequestDto, CreateUpdateControlDto, CreateUpdateControlDto>,
         IControlAppService
     {

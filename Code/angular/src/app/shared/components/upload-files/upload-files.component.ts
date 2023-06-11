@@ -4,7 +4,6 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { AttachmentService } from '@proxy/attachments';
 import { AttachmentDto } from '@proxy/attachments/dtos';
 import * as mime from 'mime';
-
 export interface IFileUploaderErrors {
   fileName: string,
   errors: Array<string>

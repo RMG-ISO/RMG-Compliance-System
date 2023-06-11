@@ -22,6 +22,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Domains
 {
+    // ToDo: can add/update/delete domain if framework inside compliance loop?
     public class DomainAppService : CrudAppService<Domain, DomainDto, Guid, DomainPagedAndSortedResultRequestDto, CreateUpdateDomainDto, CreateUpdateDomainDto>,
         IDomainAppService
     {
@@ -124,6 +125,9 @@ namespace RMG.ComplianceSystem.Domains
                 var parent = await Repository.GetAsync(input.ParentId.Value);
                 input.ResponsibleId = parent.ResponsibleId;
             }
+            //var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            //if (framework.ComplianceStatus != ComplianceStatus.NotStarted && framework.ComplianceStatus != ComplianceStatus.Approved)
+            //    throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainIfFrameworkInsideComplianceLoop);
             var entity = await MapToEntityAsync(input);
 
             if (input.DepartmentIds is not null)
@@ -201,6 +205,7 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             domain.InternalAssessmentStartDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
+            await UpdateSubdomains(id, ComplianceStatus.UnderInternalAssessment, true);
             if (!framework.InternalAssessmentStartDate.HasValue)
             {
                 framework.InternalAssessmentStartDate = Clock.Now;
@@ -218,10 +223,11 @@ namespace RMG.ComplianceSystem.Domains
             _domainManager.CanEndInternalAssessment(domain, CurrentUser.Id.Value);
             domain.InternalAssessmentEndDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;
+            await UpdateSubdomains(id, ComplianceStatus.ReadyForRevision, false, true);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             framework.ComplianceStatus = ComplianceStatus.ReadyForRevision;
             await Repository.UpdateAsync(domain);
-            var isLastDomain = !(await Repository.GetQueryableAsync()).Any(d => d.FrameworkId == domain.FrameworkId && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
+            var isLastDomain = !(await Repository.GetQueryableAsync()).Any(d => d.FrameworkId == domain.FrameworkId && !d.ParentId.HasValue && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
             if (isLastDomain)
             {
                 framework.InternalAssessmentEndDate = Clock.Now;
@@ -244,7 +250,11 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             _domainManager.CanStartReview(domain, framework.OwnerId, CurrentUser.Id.Value);
             domain.ComplianceStatus = ComplianceStatus.UnderRevision;
+            domain.ReviewStartDate = Clock.Now;
+            await UpdateSubdomains(id, ComplianceStatus.UnderRevision, false, false, true);
             framework.ComplianceStatus = ComplianceStatus.UnderRevision;
+            if (!framework.ReviewStartDate.HasValue)
+                framework.ReviewStartDate = Clock.Now;
             await Repository.UpdateAsync(domain);
             await _frameworkRepository.UpdateAsync(framework);
         }
@@ -257,6 +267,8 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             _domainManager.CanApproveCompliance(domain, framework.OwnerId, CurrentUser.Id.Value);
             domain.ComplianceStatus = ComplianceStatus.Approved;
+            domain.ReviewEndDate = Clock.Now;
+            await UpdateSubdomains(id, ComplianceStatus.Approved, false, false, false, true);
             await Repository.UpdateAsync(domain);
             await NotifyUsersAsync("DomainApproveCompliance", domain.ResponsibleId.Value, NotificationSource.DomainApproveCompliance, NotySource.DomainApproveCompliance, domain.Id);
         }
@@ -269,6 +281,7 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             _domainManager.CanReturnToResponsible(domain, framework.OwnerId, CurrentUser.Id.Value);
             domain.ComplianceStatus = ComplianceStatus.UnderInternalReAssessment;
+            await UpdateSubdomains(id, ComplianceStatus.UnderInternalReAssessment);
             await Repository.UpdateAsync(domain);
             await NotifyUsersAsync("DomainReturnToResponsible", domain.ResponsibleId.Value, NotificationSource.DomainReturnToResponsible, NotySource.DomainReturnToResponsible, domain.Id);
         }
@@ -281,6 +294,7 @@ namespace RMG.ComplianceSystem.Domains
             _domainManager.CanSendToOwner(domain, CurrentUser.Id.Value);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             domain.ComplianceStatus = ComplianceStatus.UnderReRevision;
+            await UpdateSubdomains(id, ComplianceStatus.UnderReRevision);
             await Repository.UpdateAsync(domain);
             await NotifyUsersAsync("DomainSentToOwner", framework.OwnerId, NotificationSource.DomainSentToOwner, NotySource.DomainSentToOwner, domain.Id);
         }
@@ -381,6 +395,30 @@ namespace RMG.ComplianceSystem.Domains
             {
                 await _notificationAppService.NotifyUser(Guid.Parse(not.To));
 
+            }
+        }
+
+
+        private async Task UpdateSubdomains(
+            Guid parentId,
+            ComplianceStatus status,
+            bool updateInternalAssessmentStartDate = false,
+            bool updateInternalAssessmentEndDate = false,
+            bool updateReviewStartDate = false,
+            bool updateReviewEndDate = false)
+        {
+            var children = (await Repository.GetQueryableAsync()).Where(d => d.ParentId == parentId).ToList();
+            foreach (var child in children)
+            {
+                child.ComplianceStatus = status;
+                if (updateInternalAssessmentStartDate)
+                    child.InternalAssessmentStartDate = Clock.Now;
+                if (updateInternalAssessmentEndDate)
+                    child.InternalAssessmentEndDate = Clock.Now;
+                if (updateReviewStartDate)
+                    child.ReviewStartDate = Clock.Now;
+                if (updateReviewEndDate)
+                    child.ReviewEndDate = Clock.Now;
             }
         }
 

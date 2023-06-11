@@ -63,7 +63,8 @@ export const LAYOUTS = [ApplicationLayoutComponent, AccountLayoutComponent, Empt
     MatButtonModule,
     MatMenuModule
   ],
-  entryComponents: [...LAYOUTS, ValidationErrorComponent, CurrentUserComponent, LanguagesComponent],
+  // commented beacuse is depreacted (They are no longer required with the Ivy compiler and runtime)
+  //entryComponents: [...LAYOUTS, ValidationErrorComponent, CurrentUserComponent, LanguagesComponent],
 })
 export class BaseThemeBasicModule {}
 

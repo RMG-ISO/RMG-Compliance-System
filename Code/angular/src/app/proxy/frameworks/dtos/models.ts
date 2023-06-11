@@ -1,5 +1,4 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { IdentityUserDto } from '@abp/ng.account';
 import type { SharedStatus } from '../../shared/shared-status.enum';
 import type { FrameworkStatus } from '../../shared/framework-status.enum';
 import type { ComplianceStatus } from '../../shared/compliance-status.enum';
@@ -7,6 +6,7 @@ import type { FrameworkChangeStatusLogDto } from '../models';
 import type { ControlDto } from '../../controls/dtos/models';
 import type { AssessmentDto } from '../../assessments/dtos/models';
 import type { DomainDto } from '../../domains/dtos/models';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   managementName?: string;
@@ -39,6 +39,8 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   canSendForInternalAssessment: boolean;
   internalAssessmentStartDate?: string;
   internalAssessmentEndDate?: string;
+  reviewStartDate?: string;
+  reviewEndDate?: string;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
