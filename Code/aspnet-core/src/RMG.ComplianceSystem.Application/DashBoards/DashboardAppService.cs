@@ -68,15 +68,15 @@ namespace RMG.ComplianceSystem.Dashboards
                 UsersCount = (int)usersCount,
                 ActionsDto = new DashboardActionsDto
                 {
-                    DoneActionsCount = rnd.Next(0, 100),
-                    InProgressActionsCount = rnd.Next(0, 100),
-                    LateActionsCount = rnd.Next(0, 100),
-                    NotStartedActionsCount = rnd.Next(0, 100),
+                    DoneActionsCount = _riskTreatmentRepository.Count(a => a.Status == 4),
+                    InProgressActionsCount = _riskTreatmentRepository.Count(a => a.Status == 3),
+                    LateActionsCount = _riskTreatmentRepository.Count(a => a.Status == 5),
+                    NotStartedActionsCount = _riskTreatmentRepository.Count(a => a.Status == 1),
                 },
                 AuditsDto = new DashboardAuditsDto
                 {
-                    DoneAuditsCount = rnd.Next(0, 100),
-                    LateAuditsCount = rnd.Next(0, 100),
+                    DoneAuditsCount = _internalAuditPreparationRepository.Count(a => a.IsApprove.HasValue && a.IsApprove.Value && a.approveDate.HasValue && a.approveDate.Value <= a.EndDate),
+                    LateAuditsCount = _internalAuditPreparationRepository.Count(a => (!a.IsApprove.HasValue && a.EndDate < Clock.Now) || (a.IsApprove.HasValue && a.IsApprove.Value && a.approveDate.HasValue && a.approveDate.Value >= a.EndDate)),
                     UnderExecutionAuditsCount = rnd.Next(0, 100),
                     UnderPreparationAuditsCount = rnd.Next(0, 100),
                 },
