@@ -6,6 +6,7 @@ import { ApplicationLayoutComponent } from '../components/application-layout/app
 import { EmptyLayoutComponent } from '../components/empty-layout/empty-layout.component';
 import styles from '../constants/styles';
 import { eThemeBasicComponents } from '../enums/components';
+import { ResetPasswordComponent } from 'src/app/account/reset-password/reset-password.component';
 
 export const BASIC_THEME_STYLES_PROVIDERS = [
   {
@@ -39,5 +40,9 @@ function initLayouts(replaceableComponents: ReplaceableComponentsService) {
   replaceableComponents.add({
     key: eThemeBasicComponents.EmptyLayout,
     component: EmptyLayoutComponent,
+  });
+  replaceableComponents.add({
+    key: eThemeBasicComponents.ResetPassword,
+    component: ResetPasswordComponent,
   });
 }

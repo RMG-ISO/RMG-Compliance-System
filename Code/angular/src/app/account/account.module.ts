@@ -6,12 +6,14 @@ import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
