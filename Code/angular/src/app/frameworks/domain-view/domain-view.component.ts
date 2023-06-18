@@ -1,5 +1,6 @@
 import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
+import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,7 +36,8 @@ export class DomainViewComponent implements OnInit {
     private localizationService:LocalizationService,
     private controlService: ControlService,
     private frameworkService:FrameworkService,
-    private configState:ConfigStateService
+    private configState:ConfigStateService,
+    private location:Location
 
   ) { }
 
@@ -46,10 +48,14 @@ export class DomainViewComponent implements OnInit {
 
   showButton = false;
   parentPath;
-  userId
+  userId;
+  expandedMainControlId;
   ngOnInit(): void {
     this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
     this.userId = this.configState.getAll().currentUser.id
+    console.log(this.activatedRoute.snapshot.queryParams);
+    this.expandedMainControlId = this.activatedRoute.snapshot.queryParams.expandedMainControlId;
+    console.log('this.expandedMainControlId', this.expandedMainControlId);
 
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
@@ -145,6 +151,12 @@ export class DomainViewComponent implements OnInit {
     this.domainService.endInternalAssessmentById(this.mainDomainData.id).subscribe(r => {
       this.mainDomainData.complianceStatus = ComplianceStatus.ReadyForRevision;
     })
+  }
+
+
+  expansionOpened(control) {
+    const url = this.router.createUrlTree([], {relativeTo: this.activatedRoute, queryParams: {expandedMainControlId: control.id}}).toString()
+    this.location.go(url);
   }
 
 }

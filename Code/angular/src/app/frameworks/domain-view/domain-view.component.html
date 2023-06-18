@@ -1,6 +1,6 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="['/', parentPath, subDomainData?.frameworkId ]" class="back-button">
+        <button mat-button [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains' ]" class="back-button" [queryParams]="{expandedDomainId:mainDomainData?.id}">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>
@@ -149,7 +149,7 @@
                 </div>
 
                 <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details">
-                    <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]">
+                    <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]"  (opened)="expansionOpened(mainControl)" [expanded]="expandedMainControlId == mainControl.id">
                         <mat-expansion-panel-header>
                             <mat-panel-title class="d-flex justify-content-between align-items-center">
                                 <span>

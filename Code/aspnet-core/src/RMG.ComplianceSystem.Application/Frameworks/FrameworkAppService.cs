@@ -562,9 +562,9 @@ namespace RMG.ComplianceSystem.Frameworks
             framework.ComplianceStatus = ComplianceStatus.Approved;
             framework.ReviewEndDate = Clock.Now;
             await Repository.UpdateAsync(framework);
-            foreach (var domain in domains)
+            foreach (var responsible in domains.Where(d => d.ResponsibleId.HasValue).Select(d => d.ResponsibleId.Value).Distinct())
             {
-                await NotifyUsersAsync("FrameworkApproveCompliance", domain.ResponsibleId.Value, NotificationSource.FrameworkApproveCompliance, NotySource.FrameworkApproveCompliance, framework.Id);
+                await NotifyUsersAsync("FrameworkApproveCompliance", responsible, NotificationSource.FrameworkApproveCompliance, NotySource.FrameworkApproveCompliance, framework.Id);
             }
         }
 

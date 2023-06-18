@@ -6,6 +6,9 @@ import { FrameworkViewComponent } from './framework-view/framework-view.componen
 import { FrameworksListComponent } from './frameworks-list/frameworks-list.component';
 import { DomainViewComponent } from './domain-view/domain-view.component';
 import { ControlViewComponent } from './control-view/control-view.component';
+import { FrameDetailsViewComponent } from './framework-view/frame-details-view/frame-details-view.component';
+import { MainDomainsViewComponent } from './framework-view/main-domains-view/main-domains-view.component';
+import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
 
 const routes: Routes = [
   {
@@ -23,6 +26,25 @@ const routes: Routes = [
   {
     path:':frameworkId',
     component:FrameworkViewComponent,
+    children:[
+      {
+        path:'details',
+        component:FrameDetailsViewComponent
+      },
+      {
+        path:'domains',
+        component:MainDomainsViewComponent
+      },
+      {
+        path:'changelog',
+        component:ChangeLogComponent
+      },
+      {
+        path:'',
+        redirectTo:'details',
+        pathMatch:'full'
+      }
+    ]
     // children:[
     //   {
     //     path:'',

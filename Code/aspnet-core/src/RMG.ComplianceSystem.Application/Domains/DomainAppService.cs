@@ -292,7 +292,7 @@ namespace RMG.ComplianceSystem.Domains
             domain.ReviewEndDate = Clock.Now;
             UpdateSubdomains(id, ComplianceStatus.Approved, false, false, false, true);
             await Repository.UpdateAsync(domain);
-            await NotifyUsersAsync("DomainApproveCompliance", domain.ResponsibleId.Value, NotificationSource.DomainApproveCompliance, NotySource.DomainApproveCompliance, domain.Id);
+            await NotifyUsersAsync("DomainApproveCompliance", domain.ResponsibleId.Value, NotificationSource.DomainApproveCompliance, NotySource.DomainApproveCompliance, domain.FrameworkId);
         }
 
         [Authorize]
@@ -305,7 +305,7 @@ namespace RMG.ComplianceSystem.Domains
             domain.ComplianceStatus = ComplianceStatus.UnderInternalReAssessment;
             UpdateSubdomains(id, ComplianceStatus.UnderInternalReAssessment);
             await Repository.UpdateAsync(domain);
-            await NotifyUsersAsync("DomainReturnToResponsible", domain.ResponsibleId.Value, NotificationSource.DomainReturnToResponsible, NotySource.DomainReturnToResponsible, domain.Id);
+            await NotifyUsersAsync("DomainReturnToResponsible", domain.ResponsibleId.Value, NotificationSource.DomainReturnToResponsible, NotySource.DomainReturnToResponsible, domain.FrameworkId);
         }
 
         [Authorize]
@@ -318,7 +318,7 @@ namespace RMG.ComplianceSystem.Domains
             domain.ComplianceStatus = ComplianceStatus.UnderReRevision;
             UpdateSubdomains(id, ComplianceStatus.UnderReRevision);
             await Repository.UpdateAsync(domain);
-            await NotifyUsersAsync("DomainSentToOwner", framework.OwnerId, NotificationSource.DomainSentToOwner, NotySource.DomainSentToOwner, domain.Id);
+            await NotifyUsersAsync("DomainSentToOwner", framework.OwnerId, NotificationSource.DomainSentToOwner, NotySource.DomainSentToOwner, domain.FrameworkId);
         }
 
         private async Task NotifyUsersAsync(string emailTemplateKey, Guid receiverId, NotificationSource notificationSource, NotySource notySource, Guid refId)
