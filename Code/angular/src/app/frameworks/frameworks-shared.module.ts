@@ -17,6 +17,8 @@ import { FrameworkViewComponent } from './framework-view/framework-view.componen
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
 import { FrameworksRoutingModule } from './frameworks-routing.module';
 import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
+import { FrameDetailsViewComponent } from './framework-view/frame-details-view/frame-details-view.component';
+import { MainDomainsViewComponent } from './framework-view/main-domains-view/main-domains-view.component';
 
 
 
@@ -31,7 +33,9 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
     ControlViewComponent,
-    ChangeLogComponent
+    ChangeLogComponent,
+    FrameDetailsViewComponent,
+    MainDomainsViewComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +57,9 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
     ControlViewComponent,
-    ChangeLogComponent
+    ChangeLogComponent,
+    FrameDetailsViewComponent,
+    MainDomainsViewComponent
   ]
 })
 export class FrameworksSharedModule { }

@@ -65,7 +65,7 @@ export class ListComponent implements OnInit {
 
 
   activate(ev) {
-    if (ev.type === 'click') this.router.navigate(['/compliance-assessment', ev.row.id]);
+    if (ev.type === 'click') this.router.navigate(['/compliance-assessment', ev.row.id, 'domains']);
   }
 
 

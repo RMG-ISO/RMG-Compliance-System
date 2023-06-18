@@ -20,10 +20,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 })
 export class FrameworkViewComponent implements OnInit {
   @ViewChild('frameDialog') frameDialog;
-  @ViewChild('domainDialog') domainDialog;
   @ViewChild('refuseCauseDialog') refuseCauseDialog;
-  @ViewChild('reviewAlert') reviewAlert;
-  @ViewChild('reviewDecisionAlert') reviewDecisionAlert;
 
   dateFormat = 'yyyy/MM/dd'
   dateTimeFormat = 'yyyy/MM/dd HH:mm'
@@ -66,53 +63,63 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       this.frameWorkData = fram;
+      this.frameWorkData['parentPath'] = this.parentPath;
 
       this.showButton = fram.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
-      this.getMainDomainsList();
+      // this.getMainDomainsList();
     });
 
     this.userId = this.configState.getAll().currentUser.id
   }
 
-  selectedToDelete = {};
-  deleteLength = 0;
-  selectChanged(checked, id){
-    this.selectedToDelete[id] = checked;
-    this.deleteLength = checked ? this.deleteLength + 1 : this.deleteLength - 1;
-  }
-
-  deleteItems(){
-    // deleteSelectedItem
-    this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
-    .subscribe(status => {
-      if (status === Confirmation.Status.confirm) {
-        let toDeleteIds = [];
-        for(let key in this.selectedToDelete) {
-          if(this.selectedToDelete[key]) toDeleteIds.push(key)
-        }
-        this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
-          this.getMainDomainsList();
-        })
-      }
-    });
+  activeComponent;
+  changeRoute(component) {
+    console.log(component)
+    this.activeComponent = component;
+    component.frameWorkData = this.frameWorkData;
+    // this.activeComponent['canBeEdited'] = this.canBeEdited;
   }
 
 
-  mainDomainsItems;
-  allReadyForRevision = true;
-  allDomainsApproved = true;
-  getMainDomainsList(search = null) {
-    const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
-    this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
-      this.mainDomainsItems = response.items;
-      response.items.map(item => {
-        if(item.complianceStatus !== ComplianceStatus.ReadyForRevision) this.allReadyForRevision = false;
-        if(item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
-      });
-      this.selectedToDelete = {};
-      this.deleteLength = 0;
-    });
-  }
+  // selectedToDelete = {};
+  // deleteLength = 0;
+  // selectChanged(checked, id){
+  //   this.selectedToDelete[id] = checked;
+  //   this.deleteLength = checked ? this.deleteLength + 1 : this.deleteLength - 1;
+  // }
+
+  // deleteItems(){
+  //   // deleteSelectedItem
+  //   this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
+  //   .subscribe(status => {
+  //     if (status === Confirmation.Status.confirm) {
+  //       let toDeleteIds = [];
+  //       for(let key in this.selectedToDelete) {
+  //         if(this.selectedToDelete[key]) toDeleteIds.push(key)
+  //       }
+  //       this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
+  //         this.getMainDomainsList();
+  //       })
+  //     }
+  //   });
+  // }
+
+
+  // mainDomainsItems;
+  // allReadyForRevision = true;
+  // allDomainsApproved = true;
+  // getMainDomainsList(search = null) {
+  //   const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
+  //   this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+  //     this.mainDomainsItems = response.items;
+  //     response.items.map(item => {
+  //       if(item.complianceStatus !== ComplianceStatus.ReadyForRevision) this.allReadyForRevision = false;
+  //       if(item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
+  //     });
+  //     this.selectedToDelete = {};
+  //     this.deleteLength = 0;
+  //   });
+  // }
 
 
   form:FormGroup;
@@ -201,22 +208,7 @@ export class FrameworkViewComponent implements OnInit {
   }
   
 
-  openDomainDialog(data = null, mode = FormMode.Create, mainDomain, subDomainsTable) {
-    let ref = this.matDialog.open(this.domainDialog, {
-      data:{
-        data,
-        mode,
-        mainDomain
-      },
-      disableClose:true
-    });
-    ref.afterClosed().subscribe(con => {
-      if(con) {
-        if(subDomainsTable) subDomainsTable.list.get();
-        else this.list.get();
-      }
-    })
-  }
+
 
 
   OnFileUploaded(attachmentId: string) {
@@ -250,67 +242,11 @@ export class FrameworkViewComponent implements OnInit {
     this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
   }
 
-
-  startInternalAssessmentById(mainDomain) {
-    this.domainService.startInternalAssessmentById(mainDomain.id).subscribe(r => {
-      // mainDomain.complianceStatus = ComplianceStatus.UnderInternalAssessment;
-      this.getMainDomainsList();
-    })
-  }
-
-  endInternalAssessmentById(mainDomain) {
-    this.domainService.endInternalAssessmentById(mainDomain.id).subscribe(r => {
-      this.getMainDomainsList();
-      // mainDomain.complianceStatus = ComplianceStatus.ReadyForRevision;
-    })
-  }
-
-  startReview(mainDomain) {
-    let ref = this.matDialog.open(this.reviewAlert, {
-      disableClose:true,
-      panelClass:['app-dialog', 'confirm-alert']
-    });
-
-    ref.afterClosed().subscribe(con => {
-      if(con) {
-        this.domainService.startReviewById(mainDomain.id).subscribe(r => {
-         this.getMainDomainsList();
-        })
-      }
-    })
-  }
-
-  sendToOwner(mainDomain) {
-    this.domainService.sendToOwnerById(mainDomain.id).subscribe(r => {
-      this.getMainDomainsList();
-     })
-  }
-
-  reviewForm:FormGroup;
-  takeReviewDecision(mainDomain) {
-    this.reviewForm = new FormGroup({
-      action: new FormControl(null, Validators.required)
-    });
-
-    let ref = this.matDialog.open(this.reviewDecisionAlert, {
-      disableClose:true,
-      panelClass:['app-dialog', 'confirm-alert']
-    });
-
-    ref.afterClosed().subscribe(con => {
-      if(con) {
-        (this.reviewForm.value.action ? this.domainService.approveComplianceById(mainDomain.id) : this.domainService.returnToResponsibleById(mainDomain.id) )
-        .subscribe(r => {
-         this.getMainDomainsList();
-        })
-      }
-    })
-
-  }
-
   approveFramework() {
     this.frameworkService.approveComplianceById(this.frameWorkData.id).subscribe( r => {
       window.location.reload();
     })
   }
+
+  
 }
