@@ -1,6 +1,6 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]" class="back-button">
+        <button mat-button [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]" class="back-button" [queryParams]="{expandedMainControlId:subControlData?.parentId}">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>

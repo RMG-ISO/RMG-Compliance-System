@@ -178,11 +178,11 @@
       </div>
     </div>
 
-    <div class="tabs d-flex align-items-center">
+    <!-- <div class="tabs d-flex align-items-center">
       <button mat-raised-button (click)="activeTab = 'details'" [class.active]="activeTab === 'details'">
         {{ '::FrameWorkDetails' | abpLocalization }}
       </button>
-      <button mat-raised-button (click)="activeTab = 'levels'" [class.active]="activeTab === 'levels'">
+      <button mat-raised-button (click)="activeTab = 'domains'" [class.active]="activeTab === 'domains'">
         {{ '::FrameworkLevels' | abpLocalization }}
       </button>
       <button mat-raised-button>
@@ -194,413 +194,30 @@
       <button mat-raised-button (click)="activeTab = 'Changelog'" [class.active]="activeTab === 'Changelog'">
         {{ '::Changelog' | abpLocalization }}
       </button>
+    </div> -->
+    <div class="tabs d-flex align-items-center">
+      <button mat-raised-button routerLink="details" routerLinkActive="active">
+        {{ '::FrameWorkDetails' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="domains" routerLinkActive="active" >
+        {{ '::FrameworkLevels' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="reports" routerLinkActive="active" >
+        {{ '::Reports' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="attachments" routerLinkActive="active" >
+        {{ '::Attachments' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="changelog" routerLinkActive="active">
+        {{ '::Changelog' | abpLocalization }}
+      </button>
     </div>
 
-    <ng-container [ngSwitch]="activeTab">
-      <section *ngSwitchCase="'details'">
-        <h3>
-          {{ '::FrameWorkDetails' | abpLocalization }}
-        </h3>
-        <div class="details-table-cont">
-          <table class="table">
-            <tr>
-              <td>
-                {{ '::FrameWork:Owner' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.ownerName }}
-              </td>
-              <td>{{ '::CompliancePercentage' | abpLocalization }}</td>
-              <td>
-                {{ frameWorkData?.compliancePercentage }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ '::FrameworkShortcutAr' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.shortcutAr }}
-              </td>
-              <td>
-                {{ '::FrameworkShortcutEn' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.shortcutEn }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ '::FrameworkDescriptionAr' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.descriptionAr }}
-              </td>
-              <td>
-                {{ '::FrameworkDescriptionEn' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.descriptionEn }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ '::SelfAssessmentStartDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.selfAssessmentStartDate | date : dateTimeFormat }}
-              </td>
-              <td>
-                {{ '::SelfAssessmentEndDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.selfAssessmentEndDate | date : dateTimeFormat }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ '::InternalAssessmentStartDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.internalAssessmentStartDate | date : dateTimeFormat }}
-              </td>
-              <td>
-                {{ '::InternalAssessmentEndDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.internalAssessmentEndDate | date : dateTimeFormat }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ '::ReviewStartDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.reviewStartDate | date : dateTimeFormat }}
-              </td>
-              <td>
-                {{ '::ReviewEndDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.reviewEndDate | date : dateTimeFormat }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{ '::ApprovalDate' | abpLocalization }}
-              </td>
-              <td>
-                {{ frameWorkData?.reviewEndDate | date : dateTimeFormat }}
-              </td>
-              <td>
-                {{ '::ComplianceStatus' | abpLocalization }}
-              </td>
-              <td>
-                {{ '::' + ComplianceStatus[frameWorkData?.complianceStatus] | abpLocalization }}
-              </td>
-            </tr>
-            <tr>
-              <td> {{ '::Reviewer' | abpLocalization }} </td>
-              <td>
-                {{ frameWorkData?.reviewUserName }}
-              </td>
-              <td> {{ '::UserApprover' | abpLocalization }} </td>
-              <td>
-                {{ frameWorkData?.approveUserName }}
-              </td>
-            </tr>
-            <tr>
-              <td>{{ '::Departments' | abpLocalization }}</td>
-              <td colspan="3">
-                {{ frameWorkData?.managementName }}
-              </td>
-            </tr>
-            <tr>
-              <td>{{ '::WorkTeamMembers' | abpLocalization }}</td>
-              <td colspan="3">
-                <mat-chip-list>
-                  <mat-chip *ngFor="let emp of frameWorkData?.frameworkEmpsDto">
-                    {{ emp.employeeName }}
-                  </mat-chip>
-                </mat-chip-list>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </section>
-      <section *ngSwitchCase="'levels'">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="m-0">
-            {{ (frameWorkData | lang : 'levelFirstName') || ('::MainDomains' | abpLocalization) }}
-            <!-- {{  '::MainDomains' | abpLocalization }} -->
-          </h3>
 
-          <div *ngIf="showButton">
-            <button (click)="openDomainDialog(null, FormMode.Create, null, null)"
-              *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button class="add-raised-btn mr-3"
-              type="button">
-              <i class="fa fa-plus mr-1"></i>
-              <span>
-                <ng-container *ngIf="frameWorkData | lang : 'levelFirstName'; else showCreateDomain">
-                  {{ '::Create' | abpLocalization }}
-                  {{ frameWorkData | lang : 'levelFirstName' }}
-                </ng-container>
-                <ng-template #showCreateDomain>
-                  {{
-                  '::CreateDomain' | abpLocalization : ('::DomainMainDomain' | abpLocalization)
-                  }}
-                </ng-template>
+    <router-outlet (activate)="changeRoute($event)" *ngIf="frameWorkData"></router-outlet>
+    
 
-                <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainMainDomain' | abpLocalization) }} -->
-              </span>
-            </button>
-            <button mat-raised-button class="mr-2 delete-btn" color="warn" [disabled]="!deleteLength"
-              (click)="deleteItems()">
-              <mat-icon class="mr-1">delete_forever</mat-icon>
-              {{ '::Delete' | abpLocalization }}
-            </button>
-          </div>
-        </div>
-
-        <mat-accordion *ngFor="let mainDomain of mainDomainsItems" class="table-details">
-          <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainDomain.id]">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="d-flex justify-content-between align-items-center">
-                <span>
-                  {{ mainDomain | lang : 'name' }}
-                </span>
-                <div *ngIf="showButton">
-                  <button *abpPermission="'ComplianceSystem.Domain.Update'" class="mr-3" mat-button (click)="
-                      openDomainDialog(mainDomain, FormMode.Edit, null, null);
-                      $event.stopPropagation()
-                    ">
-                    <mat-icon>edit</mat-icon>
-                    {{ '::Edit' | abpLocalization }}
-                  </button>
-                  <mat-checkbox class="mr-3" (click)="$event.stopPropagation()"
-                    (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
-                </div>
-
-                <div *ngIf="!showButton">
-                  <ng-container *ngIf="mainDomain.responsibleId == userId">
-                    <button class="mr-3" mat-button *ngIf="
-                        mainDomain.complianceStatus == ComplianceStatus.ReadyForInternalAssessment
-                      " (click)="startInternalAssessmentById(mainDomain); $event.stopPropagation()">
-                      {{ '::StartInternalAssessment' | abpLocalization }}
-                    </button>
-
-                    <button class="mr-3" mat-button *ngIf="
-                        mainDomain.complianceStatus == ComplianceStatus.UnderInternalAssessment
-                      " (click)="endInternalAssessmentById(mainDomain); $event.stopPropagation()">
-                      {{ '::EndInternalAssessment' | abpLocalization }}
-                    </button>
-
-                    <button class="mr-3" mat-button *ngIf="
-                        mainDomain.complianceStatus == ComplianceStatus.UnderInternalReAssessment
-                      " (click)="sendToOwner(mainDomain); $event.stopPropagation()">
-                      {{ '::SendToOwner' | abpLocalization }}
-                    </button>
-                  </ng-container>
-                  <ng-container *ngIf="frameWorkData?.ownerId == userId">
-                    <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button
-                      *ngIf="mainDomain.complianceStatus == ComplianceStatus.ReadyForRevision">
-                      {{ '::StartReview' | abpLocalization }}
-                    </button>
-
-                    <button (click)="takeReviewDecision(mainDomain); $event.stopPropagation()" mat-button *ngIf="
-                        mainDomain.complianceStatus == ComplianceStatus.UnderRevision ||
-                        mainDomain.complianceStatus == ComplianceStatus.UnderReRevision
-                      ">
-                      {{ '::TakeDecision' | abpLocalization }}
-                    </button>
-                  </ng-container>
-                </div>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <section>
-              <div class="details-table-cont">
-                <table class="table">
-                  <tr>
-                    <td>
-                      {{ '::ReferenceNumber' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain.reference }}
-                    </td>
-
-                    <td>
-                      {{ '::Creator' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.responsibleName }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::DomainNameEn' | abpLocalization }}
-                    </td>
-                    <td colspan="3">
-                      {{ mainDomain?.nameEn }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::DomainDescriptionAr' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.descriptionAr }}
-                    </td>
-                    <td>
-                      {{ '::DomainDescriptionEn' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.descriptionEn }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::SelfAssessmentStartDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.selfAssessmentStartDate | date : dateTimeFormat }}
-                    </td>
-                    <td>
-                      {{ '::SelfAssessmentEndDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.selfAssessmentEndDate | date : dateTimeFormat }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::InternalAssessmentStartDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.internalAssessmentStartDate | date : dateTimeFormat }}
-                    </td>
-                    <td>
-                      {{ '::InternalAssessmentEndDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.internalAssessmentEndDate | date : dateTimeFormat }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::ReviewStartDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.reviewStartDate | date : dateTimeFormat }}
-                    </td>
-                    <td>
-                      {{ '::ReviewEndDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::ApprovalDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
-                    </td>
-                    <td>
-                      {{ '::CompliancePercentage' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain?.compliancePercentage }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::Departments' | abpLocalization }}
-                    </td>
-                    <td colspan="3">
-                      <mat-chip-list>
-                        <mat-chip *ngFor="let department of mainDomain.departments">
-                          {{ department.name }}
-                        </mat-chip>
-                      </mat-chip-list>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::Status' | abpLocalization }}
-                    </td>
-                    <td>
-                      <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
-                        {{ '::Enum:SharedStatus:' + mainDomain.status | abpLocalization }}
-                      </button>
-                    </td>
-                    <td>
-                      {{ '::ComplianceStatus' | abpLocalization }}
-                    </td>
-                    <td>
-                      <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
-                        {{
-                        '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization
-                        }}
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {{ '::CreatedDate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain.creationTime | date : 'yyyy-MM-dd' }}
-                    </td>
-                    <td>
-                      {{ '::FrameworkLastUpdate' | abpLocalization }}
-                    </td>
-                    <td>
-                      {{ mainDomain.lastModificationTime | fromNow }}
-                    </td>
-                  </tr>
-                </table>
-              </div>
-
-              <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-                <h4 class="m-0">
-                  {{
-                  (frameWorkData | lang : 'levelSecondName') || ('::SubDomains' | abpLocalization)
-                  }}
-                  <!-- {{ '::SubDomains' | abpLocalization }} -->
-                </h4>
-
-                <ng-container *ngIf="showButton">
-                  <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button
-                    class="add-raised-btn add-blue" type="button"
-                    (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
-                    <i class="fa fa-plus mr-1"></i>
-                    <span>
-                      <ng-container *ngIf="frameWorkData | lang : 'levelSecondName'; else showCreateSubDomain">
-                        {{ '::Create' | abpLocalization }}
-                        {{ frameWorkData | lang : 'levelSecondName' }}
-                      </ng-container>
-                      <ng-template #showCreateSubDomain>
-                        {{
-                        '::CreateDomain'
-                        | abpLocalization : ('::DomainSubDomain' | abpLocalization)
-                        }}
-                      </ng-template>
-                      <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }} -->
-                    </span>
-                  </button>
-                </ng-container>
-              </div>
-
-              <app-expansion-sub-domains-table #subDomainsTable [parentPath]="parentPath" [showButton]="showButton"
-                [frameWorkData]="frameWorkData" [expanded]="panel.expanded" [frameworkId]="frameworkId"
-                [mainDomain]="mainDomain">
-              </app-expansion-sub-domains-table>
-            </section>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </section>
+    <!-- <ng-container [ngSwitch]="activeTab">
       <section *ngSwitchCase="'attachments'">
         <app-table-files class="mt-3 d-block" [attachment]="{ isMultiple: false }"
           [attachmentId]="frameWorkData.attachmentId" [disabled]="disabled" (OnFileUploaded)="OnFileUploaded($event)"
@@ -610,7 +227,7 @@
       <section *ngSwitchCase="'Changelog'">
         <app-change-log [frameWorkData]="frameWorkData"></app-change-log>
       </section>
-    </ng-container>
+    </ng-container> -->
   </div>
 </section>
 
@@ -653,25 +270,7 @@
   </form>
 </ng-template>
 
-<ng-template #reviewAlert let-data let-ref="dialogRef">
-  <h2 mat-dialog-title>
-    {{ '::StartReview' | abpLocalization }}
-  </h2>
-  <mat-dialog-content class="mat-typography">
-    <p>
-      {{ '::StartReviewMSG' | abpLocalization }}
-    </p>
-    <mat-dialog-actions align="end" class="actions">
-      <button mat-button class="red" (click)="ref.close()">
-        {{ '::no' | abpLocalization }}
-      </button>
 
-      <button mat-button cdkFocusInitial class="green" (click)="ref.close(true)">
-        {{ '::yes' | abpLocalization }}
-      </button>
-    </mat-dialog-actions>
-  </mat-dialog-content>
-</ng-template>
 
 <ng-template #reviewDecisionAlert let-data let-ref="dialogRef">
   <h2 mat-dialog-title>
