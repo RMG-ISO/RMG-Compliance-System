@@ -24,11 +24,11 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
 
         public EffectiveType? Effective { get; set; }
 
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int? DocumentedPercentage { get; set; }
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int? ImplementedPercentage { get; set; }
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int? EffectivePercentage { get; set; }
 
         public string Comment { get; set; }
