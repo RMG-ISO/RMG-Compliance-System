@@ -129,6 +129,16 @@ namespace RMG.ComplianceSystem.Frameworks
 
                 var Framework = await GetEntityByIdAsync(entity.Id);
 
+
+                // Notify reviewer
+                await NotifyUsersAsync("FrameworkCreatedForReviewer", entity.ReviewUserId, NotificationSource.FrameworkCreatedForReviewer, NotySource.FrameworkCreatedForReviewer, entity.Id);
+
+                // Notify approver
+                await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ReviewUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
+
+                // Notify owner
+                await NotifyUsersAsync("FrameworkCreatedForOwner", entity.ReviewUserId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
+
                 return await MapToGetOutputDtoAsync(Framework);
             }
             catch (Exception)
@@ -168,8 +178,18 @@ namespace RMG.ComplianceSystem.Frameworks
             try
             {
                 //await GrantOwnerRequiredPermissionsAsync(input.OwnerId);
+                bool shouldNotifyReviewer = false;
+                bool shouldNotifyApprover = false;
+                bool shouldNotifyOwner = false;
                 var entity = await GetEntityByIdAsync(id);
                 _frameworkManager.CanUpdate(entity);
+                if (input.ReviewUserId != entity.ReviewUserId)
+                    shouldNotifyReviewer = true;
+                if (input.ApproveUserId != entity.ApproveUserId)
+                    shouldNotifyApprover = true;
+                if (input.OwnerId != entity.OwnerId)
+                    shouldNotifyOwner = true;
+
                 await MapToEntityAsync(input, entity);
 
                 await Repository.UpdateAsync(entity, autoSave: true);
@@ -194,13 +214,21 @@ namespace RMG.ComplianceSystem.Frameworks
                     await _frameworkEmployeeRepository.InsertManyAsync(ModelList, autoSave: true);
 
                 }
-
-
                 #endregion
 
-
-
                 var audit = await GetEntityByIdAsync(id);
+
+                // Notify reviewer
+                if (shouldNotifyReviewer)
+                    await NotifyUsersAsync("FrameworkCreatedForReviewer", entity.ReviewUserId, NotificationSource.FrameworkCreatedForReviewer, NotySource.FrameworkCreatedForReviewer, entity.Id);
+
+                // Notify approver
+                if (shouldNotifyApprover)
+                    await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ReviewUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
+
+                // Notify owner
+                if (shouldNotifyOwner)
+                    await NotifyUsersAsync("FrameworkCreatedForOwner", entity.ReviewUserId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
 
                 return await MapToGetOutputDtoAsync(audit);
             }
@@ -569,22 +597,29 @@ namespace RMG.ComplianceSystem.Frameworks
                     };
                     break;
                 case NotificationSource.FrameworkApproved:
-                    var framework = await Repository.GetAsync(refId, false);
-                    emailTemplateModel = new FrameworkApprovedEmailDto
                     {
-                        Name = Creator.FullName,
-                        URL = Utility.GetURL(notificationSource, refId, null, null),
-                        FrameworkNameAr = framework.NameAr,
-                        FrameworkNameEn = framework.NameEn
-                    };
-                    break;
-                case NotificationSource.FrameworkEndSelfAssessment:
-                    emailTemplateModel = new FrameworkActionEmailDto
+                        var framework = await Repository.GetAsync(refId, false);
+                        emailTemplateModel = new FrameworkApprovedEmailDto
+                        {
+                            Name = Creator.FullName,
+                            URL = Utility.GetURL(notificationSource, refId, null, null),
+                            FrameworkNameAr = framework.NameAr,
+                            FrameworkNameEn = framework.NameEn
+                        };
+                        break;
+                    }
+                case >= NotificationSource.FrameworkCreatedForReviewer and <= NotificationSource.FrameworkCreatedForOwner:
                     {
-                        Name = Creator.FullName,
-                        URL = Utility.GetURL(notificationSource, refId, null, null)
-                    };
-                    break;
+                        var framework = await Repository.GetAsync(refId, false);
+                        emailTemplateModel = new FrameworkActionEmailDto
+                        {
+                            FrameworkNameAr = framework.NameAr,
+                            FrameworkNameEn = framework.NameEn,
+                            Name = Creator.FullName,
+                            URL = Utility.GetURL(notificationSource, refId, null, null)
+                        };
+                        break;
+                    }
                 default:
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
