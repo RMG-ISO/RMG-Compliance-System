@@ -523,7 +523,7 @@
 
     "ComplianceSystem:Assessment:001": "You must start self assessment for framework first",
     "ComplianceSystem:Assessment:002": "You must enter percentage for partial answers",
-    "ComplianceSystem:Assessment:003": "You must provide comment and attachments when answering partial or yes",
+    "ComplianceSystem:Assessment:003": "You must provide comment when answering partial or yes",
     "ComplianceSystem:Framework:008": "You must provide compliance info for the following controls first: {controlsName}",
     "ComplianceSystem:Framework:009": "Only framework owner can activate or deactivate framework",
     "ComplianceSystem:Framework:010": "Only approved frameworks can be activated or deactivated",
@@ -577,8 +577,8 @@
     "ReviewStartDate": "Review start date",
     "ReviewEndDate": "Review end date",
     "ApprovalDate": "Approval date",
-    "Editor":"Editor",
-    "EditDate":"Edit Date",
+    "Editor": "Editor",
+    "EditDate": "Edit Date",
     "CompliancePercentage": "Compliance percentage",
     "HomePage":"Home Page",
     "QuickStats":"Quick Stats",
@@ -608,6 +608,7 @@
     "Completed":"Completed",
     "Late":"Late",
     "Login":"Login",
-    "Priority":"Priority"
+    "Priority":"Priority",
+    "ComplianceSystem:Assessment:008": "You must answer priority question"
   }
 }
