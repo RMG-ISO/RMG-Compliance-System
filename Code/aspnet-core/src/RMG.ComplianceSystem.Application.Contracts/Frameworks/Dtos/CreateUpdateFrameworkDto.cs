@@ -34,6 +34,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
 
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
+        public bool HasPriority { get; set; }
 
         public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; }
 

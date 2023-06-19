@@ -35,7 +35,6 @@ using RMG.ComplianceSystem.Authorization;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
-    //ToDo: send notifications to selected users when creating/updating framework
     public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {
@@ -168,6 +167,7 @@ namespace RMG.ComplianceSystem.Frameworks
             dto.ApproveUserName = (await _employeeRepository.FindAsync(dto.ApproveUserId, false))?.FullName;
 
             dto.CanSendForInternalAssessment = CanSendForInternalAssessment(entity).Item1;
+            dto.CanApproveCompliance = _domainRepository.Where(d => d.FrameworkId == dto.Id && !d.ParentId.HasValue).All(d => d.ComplianceStatus == ComplianceStatus.Approved);
             dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
             dto.HasMainControl = HasMainControl(dto.Id);
             return dto;

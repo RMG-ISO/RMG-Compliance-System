@@ -21,6 +21,7 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public DocumentedType? Documented { get; set; }
 
         public ImplementedType? Implemented { get; set; }
+        public PriorityType? Priority { get; set; }
 
         public EffectiveType? Effective { get; set; }
 
