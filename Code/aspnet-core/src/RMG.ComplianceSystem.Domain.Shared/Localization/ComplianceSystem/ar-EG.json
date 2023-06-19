@@ -240,9 +240,10 @@
     "Menu:Framework": "أطر العمل",
     "Framework": "أطر العمل",
     "FrameworkNameAr": "الاسم  بالعربية",
-    "FrameworkNameEn": "الاسم  بالانجليزية",
+    "FrameworkNameEn": "الاسم بالانجليزية",
     "FrameworkShortcutAr": "الاختصار بالعربية",
     "FrameworkShortcutEn": "الاختصار بالانجليزي",
+    "Shortcut":"الاختصار",
     "FrameworkDescriptionAr": "الوصف بالعربية",
     "FrameworkDescriptionEn": "الوصف بالانجليزية",
     "FrameworkStatus": "الحالة",
@@ -608,6 +609,7 @@
     "UnderExecution":"قيد التنفيذ",
     "Completed":"تمت",
     "Late":"متأخرة",
-    "Login":"تسجيل الدخول"
+    "Login":"تسجيل الدخول",
+    "Priority":"الأهمية"
   }
 }

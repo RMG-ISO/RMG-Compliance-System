@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ApplicableType,
@@ -13,6 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { parseISO } from 'date-fns';
 import { ComplianceStatus } from '@proxy/shared';
 import { ToasterService } from '@abp/ng.theme.shared';
+import { priorityOptions } from '@proxy/notifications';
 
 @Component({
   selector: 'app-compliance-form',
@@ -24,7 +25,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
   @Input('domainData') domainData;
   @Input('frameWorkData') frameWorkData;
   @Input('userId') userId;
-
+  
   ApplicableType = ApplicableType;
   ComplianceLevelType = ComplianceLevelType;
   DocumentedType = DocumentedType;
@@ -35,6 +36,8 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
 
   ComplianceStatus = ComplianceStatus;
 
+  priorityOptions = priorityOptions;
+  
   constructor(
     private assessmentService: AssessmentService,
     private toasterService: ToasterService
@@ -61,6 +64,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
       addFiles: new FormControl(null),
       id: new FormControl(null),
       employeeIds: new FormControl(null),
+      priority: new FormControl(null, this.frameWorkData.priority ? Validators.required : null),
     });
 
     this.assessmentService.getByControlId(this.controlData.id).subscribe(r => {

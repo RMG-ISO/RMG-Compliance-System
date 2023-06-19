@@ -9,6 +9,7 @@ import { ControlViewComponent } from './control-view/control-view.component';
 import { FrameDetailsViewComponent } from './framework-view/frame-details-view/frame-details-view.component';
 import { MainDomainsViewComponent } from './framework-view/main-domains-view/main-domains-view.component';
 import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
+import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path:'domains',
         component:MainDomainsViewComponent
+      },
+      {
+        path:'attachments',
+        component:FrameFilesComponent
       },
       {
         path:'changelog',

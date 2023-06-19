@@ -51,16 +51,21 @@ export class FrameworkViewComponent implements OnInit {
   currentLang;
   userId;
 
-
   parentPath;
   showButton = false;
 
   ngOnInit(): void {
-    this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
-
+    this.parentPath  = this.activatedRoute.snapshot.parent.routeConfig.path;
     this.currentLang = this.localizationService.currentLang;
-
     this.frameworkId = this.activatedRoute.snapshot.params.frameworkId;
+    this.userId = this.configState.getAll().currentUser.id;
+
+
+    this.getFrameWork();
+  }
+
+  getFrameWork() {
+    this.frameWorkData = null;
     this.frameworkService.get(this.frameworkId).subscribe(fram => {
       this.frameWorkData = fram;
       this.frameWorkData['parentPath'] = this.parentPath;
@@ -68,65 +73,23 @@ export class FrameworkViewComponent implements OnInit {
       this.showButton = fram.complianceStatus === ComplianceStatus.NotStarted && this.parentPath !== 'compliance-assessment';
       // this.getMainDomainsList();
     });
-
-    this.userId = this.configState.getAll().currentUser.id
   }
 
   activeComponent;
   changeRoute(component) {
-    console.log(component)
     this.activeComponent = component;
     component.frameWorkData = this.frameWorkData;
-    // this.activeComponent['canBeEdited'] = this.canBeEdited;
+    component.parent = this;
+
   }
-
-
-  // selectedToDelete = {};
-  // deleteLength = 0;
-  // selectChanged(checked, id){
-  //   this.selectedToDelete[id] = checked;
-  //   this.deleteLength = checked ? this.deleteLength + 1 : this.deleteLength - 1;
-  // }
-
-  // deleteItems(){
-  //   // deleteSelectedItem
-  //   this.confirmation.warn('::DeleteSelectedItem', '::AreYouSure')
-  //   .subscribe(status => {
-  //     if (status === Confirmation.Status.confirm) {
-  //       let toDeleteIds = [];
-  //       for(let key in this.selectedToDelete) {
-  //         if(this.selectedToDelete[key]) toDeleteIds.push(key)
-  //       }
-  //       this.domainService.deleteManyByIds(toDeleteIds).subscribe(r => {
-  //         this.getMainDomainsList();
-  //       })
-  //     }
-  //   });
-  // }
-
-
-  // mainDomainsItems;
-  // allReadyForRevision = true;
-  // allDomainsApproved = true;
-  // getMainDomainsList(search = null) {
-  //   const bookStreamCreator = (query) => this.domainService.getListWithoutPaging({ ...query, isMainDomain: true, search: search, frameworkId: this.frameworkId, maxResultCount:null });
-  //   this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
-  //     this.mainDomainsItems = response.items;
-  //     response.items.map(item => {
-  //       if(item.complianceStatus !== ComplianceStatus.ReadyForRevision) this.allReadyForRevision = false;
-  //       if(item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
-  //     });
-  //     this.selectedToDelete = {};
-  //     this.deleteLength = 0;
-  //   });
-  // }
 
 
   form:FormGroup;
 
   changeCreateFrameStatus(cond) {
     if(cond) this.frameworkService.sendToReviewerById(this.frameWorkData.id).subscribe(r => {
-      window.location.reload();
+      // window.location.reload();
+      this.getFrameWork();
     })
   }
 
@@ -148,7 +111,8 @@ export class FrameworkViewComponent implements OnInit {
     ref.afterClosed().subscribe(con => {
       if(con) {
         this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
-          window.location.reload();
+          // window.location.reload();
+          this.getFrameWork();
         });
       } else ngSelect.clearModel();
     })
@@ -159,7 +123,8 @@ export class FrameworkViewComponent implements OnInit {
 
     if(cond) {
       this.frameworkService.approveById(this.frameWorkData.id).subscribe(r => {
-        window.location.reload();
+        // window.location.reload();
+        this.getFrameWork();
       });
       return;
     }
@@ -172,7 +137,8 @@ export class FrameworkViewComponent implements OnInit {
     ref.afterClosed().subscribe(con => {
       if(con) {
         this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
-          window.location.reload();
+          // window.location.reload();
+          this.getFrameWork();
         });
       } else ngSelect.clearModel();
     })
@@ -187,7 +153,8 @@ export class FrameworkViewComponent implements OnInit {
     func(this.frameWorkData.id)
     .pipe( finalize(() => this.isSendingStatus = false) )
     .subscribe(r => {
-      window.location.reload();
+      // window.location.reload();
+      this.getFrameWork();
     })
   }
 
@@ -206,37 +173,34 @@ export class FrameworkViewComponent implements OnInit {
       }
     })
   }
-  
 
 
+  // OnFileUploaded(attachmentId: string) {
+  //   if(this.frameWorkData.attachmentId) return;
 
+  //   this.frameWorkData.attachmentId = attachmentId;
 
-  OnFileUploaded(attachmentId: string) {
-    if(this.frameWorkData.attachmentId) return;
+  //   let data = {...this.frameWorkData};
 
-    this.frameWorkData.attachmentId = attachmentId;
+  //   if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(emp => {
+  //     return {
+  //       employeeId: emp.employeeId,
+  //       frameworkId: this.frameWorkData?.id ? this.frameWorkData?.id : '00000000-0000-0000-0000-000000000000',
+  //     };
+  //   });
+  //   this.frameworkService.update(this.frameWorkData.id, data).subscribe(r => {
+  //     this.frameWorkData = r;
+  //   })
+  // }
 
-    let data = {...this.frameWorkData};
+  // uploading
+  // OnFileBeginUpload(beginUpload: boolean) {
+  //   this.uploading = true;
+  // }
 
-    if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(emp => {
-      return {
-        employeeId: emp.employeeId,
-        frameworkId: this.frameWorkData?.id ? this.frameWorkData?.id : '00000000-0000-0000-0000-000000000000',
-      };
-    });
-    this.frameworkService.update(this.frameWorkData.id, data).subscribe(r => {
-      this.frameWorkData = r;
-    })
-  }
-
-  uploading
-  OnFileBeginUpload(beginUpload: boolean) {
-    this.uploading = true;
-  }
-
-  OnFileEndUpload(endUpload: boolean) {
-    this.uploading = false;
-  }
+  // OnFileEndUpload(endUpload: boolean) {
+  //   this.uploading = false;
+  // }
 
   sendForInternalAssessment() {
     this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
@@ -244,7 +208,8 @@ export class FrameworkViewComponent implements OnInit {
 
   approveFramework() {
     this.frameworkService.approveComplianceById(this.frameWorkData.id).subscribe( r => {
-      window.location.reload();
+      // window.location.reload();
+      this.getFrameWork();
     })
   }
 

@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
-import { ComplianceStatus, sharedStatusOptions } from '@proxy/shared';
+import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -22,6 +22,9 @@ export class FrameworksListComponent implements OnInit {
 
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
+  FrameworkStatus = FrameworkStatus;
+  SharedStatus = SharedStatus;
+  
   items: FrameworkDto[];
   totalCount: number;
   isModalOpen: boolean = false;

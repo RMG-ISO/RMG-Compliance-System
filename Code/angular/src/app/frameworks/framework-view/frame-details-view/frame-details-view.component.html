@@ -4,6 +4,14 @@
   <div class="details-table-cont">
     <table class="table">
       <tr>
+        <td colspan="4" *ngIf="userId == frameWorkData?.ownerId && inCompliance">
+          <mat-slide-toggle [checked]="" (toggleChange)="toggleChange($event)">
+            هل يوجد أهمية للضوابط الرئيسة و الضوابط الفرعية
+            <!-- if there is a priority for controls and sub controls -->
+          </mat-slide-toggle>
+        </td>
+      </tr>
+      <tr>
         <td>
           {{ '::FrameWork:Owner' | abpLocalization }}
         </td>
@@ -96,10 +104,10 @@
         </td>
         <ng-container *ngIf="inCompliance">
             <td>
-                {{ '::ComplianceStatus' | abpLocalization }}
+              {{ '::ComplianceStatus' | abpLocalization }}
             </td>
             <td>
-                {{ '::' + ComplianceStatus[frameWorkData?.complianceStatus] | abpLocalization }}
+              {{ '::' + ComplianceStatus[frameWorkData?.complianceStatus] | abpLocalization }}
             </td>
         </ng-container>
       </tr>
@@ -129,5 +137,6 @@
           </mat-chip-list>
         </td>
       </tr>
+     
     </table>
   </div>
