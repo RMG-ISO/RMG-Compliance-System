@@ -47,10 +47,11 @@
         // Assessment
         public const string YouMustStartSelfAssessmentForFrameworkFirst = $"{ParentGroupName}:{AssessmentGroupName}:001";
         public const string YouMustProvidePercentageForPartialAnswers = $"{ParentGroupName}:{AssessmentGroupName}:002";
-        public const string YouMustProvideCommentAndAttachmentWhenPartialOrFullAnswers = $"{ParentGroupName}:{AssessmentGroupName}:003";
+        public const string YouMustProvideCommentWhenPartialOrFullAnswers = $"{ParentGroupName}:{AssessmentGroupName}:003";
         public const string OnlyFrameworkOwnerCanChangeAssessmentApplicable = $"{ParentGroupName}:{AssessmentGroupName}:004";
         public const string OnlyFrameworkOwnerCanStartAssessmentForControl = $"{ParentGroupName}:{AssessmentGroupName}:005";
         public const string AssessmentCanBeUpdatedByFrameworkOwnerWhenComplianceUnderPreparationOrUnderRevision = $"{ParentGroupName}:{AssessmentGroupName}:006";
         public const string AssessmentCanOnlyBeUpdatedByDomainResponsibleWhenComplianceUnderInternalAssessment = $"{ParentGroupName}:{AssessmentGroupName}:007";
+        public const string YouMustAnswerPriorityQuestionForThisFrameworkControls = $"{ParentGroupName}:{AssessmentGroupName}:008";
     }
 }

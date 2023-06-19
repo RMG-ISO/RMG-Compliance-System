@@ -45,8 +45,10 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public ComplianceStatus ComplianceStatus { get; set; }
         public DateTime? SelfAssessmentStartDate { get; set; }
         public DateTime? SelfAssessmentEndDate { get; set; }
+        public bool HasPriority { get; set; }
 
         public bool CanSendForInternalAssessment { get; set; } = false;
+        public bool CanApproveCompliance { get; set; }
 
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
