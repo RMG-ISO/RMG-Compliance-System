@@ -11,7 +11,6 @@ import type { DomainDto } from '../../domains/dtos/models';
 export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   managementName?: string;
   reviewUserName?: string;
-  compliancePercentage?: number;
   ownerName?: string;
   nameAr?: string;
   nameEn?: string;
@@ -35,17 +34,20 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   ownerId?: string;
   levelFourNameAr?: string;
   levelFourNameEn?: string;
+  hasMainControl: boolean;
   complianceStatus: ComplianceStatus;
   selfAssessmentStartDate?: string;
   selfAssessmentEndDate?: string;
+  hasPriority: boolean;
   canSendForInternalAssessment: boolean;
+  canApproveCompliance: boolean;
   internalAssessmentStartDate?: string;
   internalAssessmentEndDate?: string;
   reviewStartDate?: string;
   reviewEndDate?: string;
+  compliancePercentage: number;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
-  hasMainControl: boolean
 }
 
 export interface FrameworkEmpDto {
@@ -74,6 +76,7 @@ export interface CreateUpdateFrameworkDto {
   levelThirdNameEn?: string;
   levelFourNameAr?: string;
   levelFourNameEn?: string;
+  hasPriority: boolean;
   frameworkEmpsDto: FrameworkEmpDto[];
 }
 

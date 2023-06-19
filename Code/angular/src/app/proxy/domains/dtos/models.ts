@@ -21,7 +21,6 @@ export interface CreateUpdateDomainDto {
 export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
   nameEn?: string;
-  compliancePercentage?: number;
   descriptionAr?: string;
   descriptionEn?: string;
   reference?: string;
@@ -33,6 +32,7 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   selfAssessmentEndDate?: string;
   reviewStartDate?: string;
   reviewEndDate?: string;
+  compliancePercentage: number;
   parentId?: string;
   frameworkId?: string;
   responsibleId?: string;
@@ -46,6 +46,8 @@ export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResu
   isMainDomain: boolean;
   search?: string;
   status?: SharedStatus;
+  mainDomainNameAr?: string;
+  mainDomainNameEn?: string;
 }
 
 export interface DomainWithoutPagingDto extends DomainDto {
