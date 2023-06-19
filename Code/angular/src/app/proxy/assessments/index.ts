@@ -6,4 +6,5 @@ export * from './documented-type.enum';
 export * from './effective-type.enum';
 export * from './implemented-type.enum';
 export * from './models';
+export * from './priority-type.enum';
 export { Dtos };

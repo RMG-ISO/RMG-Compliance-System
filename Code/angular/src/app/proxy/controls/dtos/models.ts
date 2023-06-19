@@ -5,13 +5,13 @@ import type { SharedStatus } from '../../shared/shared-status.enum';
 export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;
   nameEn?: string;
-  compliancePercentage?: number;
   descriptionAr?: string;
   descriptionEn?: string;
   reference?: string;
   status: SharedStatus;
   parentId?: string;
   domainId?: string;
+  compliancePercentage: number;
 }
 
 export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
@@ -21,6 +21,8 @@ export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedRes
   status?: SharedStatus;
   domainId?: string;
   frameWorkId?: string;
+  mainControlNameAr?: string;
+  mainControlNameEn?: string;
 }
 
 export interface CreateUpdateControlDto {
