@@ -53,9 +53,8 @@ export class DomainViewComponent implements OnInit {
   ngOnInit(): void {
     this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
     this.userId = this.configState.getAll().currentUser.id
-    console.log(this.activatedRoute.snapshot.queryParams);
+
     this.expandedMainControlId = this.activatedRoute.snapshot.queryParams.expandedMainControlId;
-    console.log('this.expandedMainControlId', this.expandedMainControlId);
 
     this.subDomainId = this.activatedRoute.snapshot.params.subDomainId;
     this.domainService.get(this.subDomainId).subscribe(res => {
