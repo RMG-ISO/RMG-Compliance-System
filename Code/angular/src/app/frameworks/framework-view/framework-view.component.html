@@ -170,7 +170,7 @@
               frameWorkData?.canSendForInternalAssessment &&
               frameWorkData?.ownerId == userId &&
               frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision &&
-              allDomainsApproved
+              frameWorkData?.canApproveCompliance
             ">
             {{ '::FrameworkApprove' | abpLocalization }}
           </button>

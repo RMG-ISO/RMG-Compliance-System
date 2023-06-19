@@ -65,13 +65,11 @@ export class MainDomainsViewComponent implements OnInit {
       }).pipe(
         map((res => {
           if(this.frameWorkData.parentPath === 'compliance-assessment') res.items = res.items.filter(x => {
-            console.log(x.responsibleId == this.userId);
             return x.responsibleId == this.userId || this.frameWorkData.ownerId == this.userId;
           } )
-          console.log(res)
           return res
         }))
-      )
+      );
     this.list.hookToQuery(bookStreamCreator).subscribe(response => {
       this.mainDomainsItems = response.items;
       response.items.map(item => {
@@ -79,6 +77,7 @@ export class MainDomainsViewComponent implements OnInit {
           this.allReadyForRevision = false;
         if (item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
       });
+      console.log('response.i', response.items)
       this.selectedToDelete = {};
       this.deleteLength = 0;
     });

@@ -63,12 +63,13 @@ namespace RMG.ComplianceSystem.Assessments
         public override async Task<AssessmentDto> CreateAsync(CreateUpdateAssessmentDto input)
         {
             await CheckCreatePolicyAsync();
-            await ValidateCreateUpdateAsync(input);
-            var entity = await MapToEntityAsync(input);
-            StorePercentageValues(entity);
             var control = await _controlRepository.GetAsync(input.ControlId, false);
             var domain = await _domainRepository.GetAsync(control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            await ValidateCreateUpdateAsync(input, framework);
+            var entity = await MapToEntityAsync(input);
+            StorePercentageValues(entity);
+            
             _assessmentManager.CanCreateAssessment(framework.OwnerId, CurrentUser.Id.Value);
 
             if (input.EmployeeIds is not null)
@@ -157,7 +158,7 @@ namespace RMG.ComplianceSystem.Assessments
             if (input.Applicable != entity.Applicable)
                 _assessmentManager.CanUpdateApplicableProperty(framework.OwnerId, CurrentUser.Id.Value);
 
-            await ValidateCreateUpdateAsync(input);
+            await ValidateCreateUpdateAsync(input, framework, entity);
             await SaveVersion(entity);
 
             // ToDo: keep this property in form?
@@ -216,7 +217,7 @@ namespace RMG.ComplianceSystem.Assessments
             return dto;
         }
 
-        private async Task ValidateCreateUpdateAsync(CreateUpdateAssessmentDto input)
+        private async Task ValidateCreateUpdateAsync(CreateUpdateAssessmentDto input, Frameworks.Framework framework, Assessment assessment = null)
         {
             if (input.Documented.HasValue && input.Documented.Value == DocumentedType.PartialDocumented && !input.DocumentedPercentage.HasValue)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
@@ -227,11 +228,15 @@ namespace RMG.ComplianceSystem.Assessments
             if (input.Effective.HasValue && input.Effective.Value == EffectiveType.PartialEffective && !input.EffectivePercentage.HasValue)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
 
-            if (((input.Documented.HasValue && input.Documented.Value != DocumentedType.NotDocumented) ||
-                (input.Implemented.HasValue && input.Implemented.Value != ImplementedType.NotImplemented) ||
-                (input.Effective.HasValue && input.Effective.Value != EffectiveType.NotEffective)) &&
-                (input.Comment.IsNullOrWhiteSpace() || !input.AttachmentId.HasValue))
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvideCommentAndAttachmentWhenPartialOrFullAnswers);
+            if (((input.Documented.HasValue && input.Documented.Value != DocumentedType.NotDocumented && (assessment == null || input.Documented != assessment.Documented)) ||
+                (input.Implemented.HasValue && input.Implemented.Value != ImplementedType.NotImplemented && (assessment == null || input.Implemented != assessment.Implemented)) ||
+                (input.Effective.HasValue && input.Effective.Value != EffectiveType.NotEffective && (assessment == null || input.Effective != assessment.Effective))) &&
+                input.Comment.IsNullOrWhiteSpace())
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvideCommentWhenPartialOrFullAnswers);
+
+            if (framework.HasPriority && !input.Priority.HasValue)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustAnswerPriorityQuestionForThisFrameworkControls);
+
         }
 
         private async Task SaveVersion(Assessment assessment)

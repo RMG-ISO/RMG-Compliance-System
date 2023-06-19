@@ -19,6 +19,8 @@ import { FrameworksRoutingModule } from './frameworks-routing.module';
 import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
 import { FrameDetailsViewComponent } from './framework-view/frame-details-view/frame-details-view.component';
 import { MainDomainsViewComponent } from './framework-view/main-domains-view/main-domains-view.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
 
 
 
@@ -35,7 +37,8 @@ import { MainDomainsViewComponent } from './framework-view/main-domains-view/mai
     ControlViewComponent,
     ChangeLogComponent,
     FrameDetailsViewComponent,
-    MainDomainsViewComponent
+    MainDomainsViewComponent,
+    FrameFilesComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,9 @@ import { MainDomainsViewComponent } from './framework-view/main-domains-view/mai
     MatExpansionModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSlideToggleModule,
+    
   ],
   exports:[
     CreateFrameworkComponent,
@@ -59,7 +64,8 @@ import { MainDomainsViewComponent } from './framework-view/main-domains-view/mai
     ControlViewComponent,
     ChangeLogComponent,
     FrameDetailsViewComponent,
-    MainDomainsViewComponent
+    MainDomainsViewComponent,
+    FrameFilesComponent
   ]
 })
 export class FrameworksSharedModule { }

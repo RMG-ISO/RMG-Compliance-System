@@ -21,7 +21,7 @@
 
     <section *ngIf="form.controls.applicable.value == ApplicableType.Applicable">
         <div class="row">
-            <div class="col-md-3 col-xl-2 form-group">
+            <div class="col-md-3 form-group">
                 <label for="">
                     {{ '::AssessmentComplianceLevel' | abpLocalization }}
                 </label>
@@ -32,23 +32,32 @@
                 </ng-select>
             </div>
     
-            <div class="col-md-3 col-xl-2 form-group">
+            <div class="col-md-3 form-group">
                 <label for="complianceDate"> {{ '::AssessmentComplianceDate' | abpLocalization }} </label>
                 <input #complianceDate="ngbDatepicker" class="form-control" id="complianceDate" name="date" formControlName="complianceDate"
                 ngbDatepicker (click)="complianceDate.toggle()" />
             </div>
     
-            <div class="col-md-3 col-xl-2 form-group">
+            <div class="col-md-3 form-group">
                 <label for="complianceDate"> {{ '::AssessmentNextComplianceDate' | abpLocalization }} </label>
                 <input #nextDate="ngbDatepicker" class="form-control" id="nextDate" name="nextDate" formControlName="nextComplianceDate"
                 ngbDatepicker (click)="nextDate.toggle()" />
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label for="Priority"> {{ '::Priority' | abpLocalization }} </label>
+                <ng-select formControlName="priority">
+                    <ng-option *ngFor="let item of priorityOptions" [value]="item.value">
+                        {{ item.value }}
+                    </ng-option>
+                </ng-select>
             </div>
     
             <h5 class="col-md-12">
                 {{ '::AssessmentRequirement' | abpLocalization }}
             </h5>
     
-            <div class="col-md-3 col-xl-2 form-group">
+            <div class="col-md-3 form-group">
                 <label class="d-block" for="">
                     {{ '::AssessmentDocumented' | abpLocalization }}
                 </label>
@@ -62,7 +71,7 @@
                 </div>
             </div>
     
-            <div class="col-md-3 col-xl-2 form-group">
+            <div class="col-md-3 form-group">
                 <label class="d-block" for="">
                     {{ '::AssessmentImplemented' | abpLocalization }}
                 </label>
@@ -76,7 +85,7 @@
                 </div>
             </div>
     
-            <div class="col-md-3 col-xl-2 form-group">
+            <div class="col-md-3 form-group">
                 <label class="d-block" for="">
                     {{ '::AssessmentEffective' | abpLocalization }}
                 </label>
@@ -163,7 +172,7 @@
                     </div>
 
                     <div class="row" *ngIf="version.applicable == ApplicableType.Applicable">
-                        <div class="col-md-3 col-xl-2 form-group">
+                        <div class="col-md-3 form-group">
                             <span>
                                 {{ '::AssessmentComplianceLevel' | abpLocalization }}
                             </span>
@@ -172,14 +181,14 @@
                             </p>
                         </div>
                 
-                        <div class="col-md-3 col-xl-2 form-group">
+                        <div class="col-md-3 form-group">
                             <span> {{ '::AssessmentComplianceDate' | abpLocalization }} </span>
                             <p class="as-input">
                                 {{ version.complianceDate | date:'yyyy/MM/dd' }}
                             </p>
                         </div>
                 
-                        <div class="col-md-3 col-xl-2 form-group">
+                        <div class="col-md-3 form-group">
                             <span> {{ '::AssessmentNextComplianceDate' | abpLocalization }} </span>
                             <p class="as-input">
                                 {{ version.nextComplianceDate | date:'yyyy/MM/dd' }}
@@ -190,7 +199,7 @@
                             {{ '::AssessmentRequirement' | abpLocalization }}
                         </h5>
                 
-                        <div class="col-md-3 col-xl-2 form-group">
+                        <div class="col-md-3 form-group">
                             <span class="d-block">
                                 {{ '::AssessmentDocumented' | abpLocalization }}
                             </span>
@@ -206,7 +215,7 @@
                             </div>
                         </div>
                 
-                        <div class="col-md-3 col-xl-2 form-group">
+                        <div class="col-md-3 form-group">
                             <span class="d-block">
                                 {{ '::AssessmentImplemented' | abpLocalization }}
                             </span>
@@ -222,7 +231,7 @@
                             </div>
                         </div>
                 
-                        <div class="col-md-3 col-xl-2 form-group">
+                        <div class="col-md-3 form-group">
                             <label class="d-block" for="">
                                 {{ '::AssessmentEffective' | abpLocalization }}
                             </label>

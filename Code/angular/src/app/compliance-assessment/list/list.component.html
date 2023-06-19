@@ -37,10 +37,36 @@
         [list]="list"
         appNgxdatatable
         (activate)="activate($event)">
-            <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+            <!-- <ngx-datatable-column [name]="'::FrameworkNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkNameEn' | abpLocalization" prop="nameEn"> </ngx-datatable-column>
             <ngx-datatable-column [name]="'::FrameworkShortcutAr' | abpLocalization" prop="shortcutAr"> </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn"> </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::FrameworkShortcutEn' | abpLocalization" prop="shortcutEn"> </ngx-datatable-column> -->
+
+
+            <ngx-datatable-column [name]="'::FrameworkName' | abpLocalization" >
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                   {{ row | lang:'name' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::FrameworkShortcut' | abpLocalization" >
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                   {{ row | lang:'shortcut' }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            
+            <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="creator.name">
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]="'::CreatedDate' | abpLocalization" prop="creationTime">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date:'yyyy/MM/dd'}}
+                </ng-template>
+            </ngx-datatable-column>
+
+
+
             <ngx-datatable-column [name]="'::FrameWork:Owner' | abpLocalization" prop="ownerName"> </ngx-datatable-column>
 
             <ngx-datatable-column [name]="'::SelfAssessmentDate' | abpLocalization" prop="selfAssessmentStartDate">
@@ -49,11 +75,16 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::ComplianceStatus' | abpLocalization" prop="complianceStatus">
+            <ngx-datatable-column [name]="'::ComplianceStatus' | abpLocalization" prop="complianceStatus" width="190">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    <button mat-button [class]="'status ' + ComplianceStatus[value]">
+                    <!-- <button mat-button [class]="'status ' + ComplianceStatus[value]">
                         {{ ('::' + ComplianceStatus[value] ) | abpLocalization }}
-                    </button>
+                    </button> -->
+
+                    <span class="status" [class]="ComplianceStatus[value]">
+                        {{ ('::' + ComplianceStatus[value] ) | abpLocalization }}
+                    </span>
+
                 </ng-template>
             </ngx-datatable-column>
 

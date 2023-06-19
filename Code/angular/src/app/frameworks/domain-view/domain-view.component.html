@@ -52,6 +52,25 @@
 
                         <tr>
                             <td>
+                                {{ '::FrameworkName' | abpLocalization }}
+                            </td>
+                            <td>
+                                <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'details']">
+                                    {{frameWorkData | lang:'name'}}
+                                </a>
+                            </td>
+                            <td>
+                                {{ (frameWorkData | lang : 'levelFirstName') || ('::MainDomainName' | abpLocalization) }}
+                            </td>
+                            <td>
+                                <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains']" [queryParams]="{expandedDomainId:mainDomainData?.id}">
+                                    {{mainDomainData | lang:'name'}}
+                                </a>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
                                 {{ '::DomainNameEn' | abpLocalization }}
                             </td>
                             <td>
@@ -79,6 +98,7 @@
                                 {{subDomainData?.descriptionEn}}
                             </td>
                         </tr>
+
                         <tr>
                             <td> {{ '::Departments' | abpLocalization }} </td>
                             <td colspan="3">
@@ -89,24 +109,32 @@
                                 </mat-chip-list>
                             </td>
                         </tr>
+
                         <tr>
                             <td>
                                 {{ '::Status' | abpLocalization }}
                             </td>
                             <td>
-                                <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
+                                <span class="status" [class]="SharedStatus[subDomainData?.status]">
                                     {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
-                                </button>
+                                </span>
+                                <!-- <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
+                                    {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                </button> -->
                             </td>
                             <td>
                                 {{ '::ComplianceStatus' | abpLocalization }}
                             </td>
                             <td>
-                                <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                <span class="status"  [class]="ComplianceStatus[subDomainData?.complianceStatus]">
                                     {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
-                                </button>
+                                </span>
+                                <!-- <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                    {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
+                                </button> -->
                             </td>
                         </tr>
+
                         <tr>
                             <td>
                                 {{ '::CompliancePercentage' | abpLocalization }}
@@ -123,6 +151,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="m-0">
                         {{ (frameWorkData | lang:'levelThirdName') || ('::ControlMainControls' | abpLocalization) }}
+                        ( {{ mainControlsItems?.length }} )
                     </h3>
 
                     <div *ngIf="showButton">
@@ -219,10 +248,13 @@
                                             {{ '::Status' | abpLocalization }}
                                         </td>
                                         <td>
-                                            <button mat-button class="status"
+                                            <span class="status" [class]="SharedStatus[mainControl?.status]">
+                                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                                            </span>
+                                            <!-- <button mat-button class="status"
                                                 [class]="SharedStatus[mainControl?.status]">
                                                 {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
-                                            </button>
+                                            </button> -->
                                         </td>
                                     </tr>
                                 </table>
@@ -230,7 +262,7 @@
 
 
                             <app-compliance-form
-                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath == 'compliance-assessment' "
+                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath == 'compliance-assessment' && !subControlsTable.hasSubControls "
                                 [userId]="userId"
                                 [frameWorkData]="frameWorkData"
                                 [controlData]="mainControl" [domainData]="mainDomainData"></app-compliance-form>
@@ -238,8 +270,8 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
                                 <h4 class="m-0">
-                                    {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' |
-                                    abpLocalization) }}
+                                    {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' | abpLocalization) }}
+                                    ( {{ subControlsTable?.items?.length }} )
                                 </h4>
 
                                 <ng-container *ngIf="showButton">

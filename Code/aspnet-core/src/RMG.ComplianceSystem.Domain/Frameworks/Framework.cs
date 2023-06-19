@@ -38,6 +38,8 @@ namespace RMG.ComplianceSystem.Frameworks
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
 
+        public bool HasPriority { get; set; }
+
         public ComplianceStatus ComplianceStatus { get; set; }
         public DateTime? SelfAssessmentStartDate { get; set; }
         public DateTime? SelfAssessmentEndDate { get; set; }
