@@ -322,6 +322,14 @@ namespace RMG.ComplianceSystem.Frameworks
             return new ListResultDto<FrameworkDto>(ObjectMapper.Map<List<Framework>, List<FrameworkDto>>(data));
         }
 
+        [HttpPut]
+        public async Task TogglePriority(Guid id)
+        {
+            await CheckUpdatePolicyAsync();
+            var entity = await Repository.GetAsync(id, false);
+            entity.HasPriority = !entity.HasPriority;
+            await Repository.UpdateAsync(entity);
+        }
 
         public async Task<FrameworkData> GetFrameWorkWithAssesmentBYId(getFrameworkDto input)
         {

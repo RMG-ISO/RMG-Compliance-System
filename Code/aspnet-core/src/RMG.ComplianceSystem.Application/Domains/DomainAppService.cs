@@ -82,8 +82,6 @@ namespace RMG.ComplianceSystem.Domains
         protected override async Task<IQueryable<Domain>> CreateFilteredQueryAsync(DomainPagedAndSortedResultRequestDto input)
         {
             var query = (await Repository.WithDetailsAsync())
-                .WhereIf(!input.MainDomainNameAr.IsNullOrEmpty(), t => t.Parent != null && t.Parent.NameAr.Contains(input.MainDomainNameAr))
-                .WhereIf(!input.MainDomainNameEn.IsNullOrEmpty(), t => t.Parent != null && t.Parent.NameEn.Contains(input.MainDomainNameEn))
                 .WhereIf(input.FrameworkId.HasValue, t => t.FrameworkId == input.FrameworkId)
                 .WhereIf(input.IsMainDomain, t => t.ParentId == null)
                 .WhereIf(!input.IsMainDomain, t => t.ParentId != null)

@@ -57,7 +57,7 @@ export class DomainService {
     this.restService.request<any, PagedResultDto<DomainDto>>({
       method: 'GET',
       url: '/api/app/domain',
-      params: { frameworkId: input.frameworkId, mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, status: input.status, mainDomainNameAr: input.mainDomainNameAr, mainDomainNameEn: input.mainDomainNameEn, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { frameworkId: input.frameworkId, mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
@@ -65,7 +65,7 @@ export class DomainService {
     this.restService.request<any, ListResultDto<DomainWithoutPagingDto>>({
       method: 'GET',
       url: '/api/app/domain/without-paging',
-      params: { frameworkId: input.frameworkId, mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, status: input.status, mainDomainNameAr: input.mainDomainNameAr, mainDomainNameEn: input.mainDomainNameEn, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { frameworkId: input.frameworkId, mainDomainId: input.mainDomainId, isMainDomain: input.isMainDomain, search: input.search, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
 
