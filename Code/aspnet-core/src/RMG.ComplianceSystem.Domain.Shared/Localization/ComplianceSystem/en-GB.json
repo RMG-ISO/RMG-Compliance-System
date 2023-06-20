@@ -610,6 +610,7 @@
     "Login": "Login",
     "Priority": "Priority",
     "ComplianceSystem:Assessment:008": "You must answer priority question",
-    "ComplianceSystem:Assessment:009": "You cannot assess main control if it has sub controls"
+    "ComplianceSystem:Assessment:009": "You cannot assess main control if it has sub controls",
+    "PriorityQuestion":"Is there any importance to the main controls and sub-controls ?"
   }
 }
