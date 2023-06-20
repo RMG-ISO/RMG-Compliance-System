@@ -26,6 +26,9 @@
                     {{ '::AssessmentComplianceLevel' | abpLocalization }}
                 </label>
                 <ng-select formControlName="complianceLevel">
+                    <ng-option [value]="0">
+                        0
+                     </ng-option>
                     <ng-option *ngFor="let item of complianceLevelTypeOptions" [value]="item.value">
                         {{ item.value }}
                     </ng-option>
@@ -47,7 +50,7 @@
             <div class="col-md-3 form-group">
                 <label for="Priority"> {{ '::Priority' | abpLocalization }} </label>
                 <ng-select formControlName="priority">
-                    <ng-option *ngFor="let item of priorityOptions" [value]="item.value">
+                    <ng-option *ngFor="let item of priorityTypeOptions" [value]="item.value">
                         {{ item.value }}
                     </ng-option>
                 </ng-select>
@@ -119,9 +122,9 @@
                 (OnDeleteFile)="OnDeleteFile($event)">
                 </app-table-files>
                 
-                <p *ngIf="form.controls.addFiles.invalid" class="invalid-feedback d-block mt-2">
+                <!-- <p *ngIf="form.controls.addFiles.invalid" class="invalid-feedback d-block mt-2">
                     {{ '::RequiredAttachment' | abpLocalization }}
-                </p>
+                </p> -->
             </div>
         </div>
 

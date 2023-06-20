@@ -1,0 +1,22 @@
+section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0, .15);
+    mat-card {
+        padding: 2rem 4rem;
+        text-align: center;
+        min-width: 350px;
+        mat-card-header.mat-card-header {
+            justify-content: center;
+        }
+        mat-card-content {
+            margin: 1rem 0;
+        }
+        button {
+            color: var(--main-color);
+        }
+    }
+}

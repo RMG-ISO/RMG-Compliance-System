@@ -34,10 +34,11 @@ import { VALIDATION_BLUEPRINTS } from '@ngx-validate/core';
 import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
+import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
+import { MatCardModule } from "@angular/material/card";
 
 // export let AppInjector: Injector;
-
 
 @NgModule({
   imports: [
@@ -48,7 +49,17 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
       environment,
       registerLocaleFn: registerLocale(),
     }),
-    ThemeSharedModule.forRoot(),
+    ThemeSharedModule.forRoot(
+      {
+        httpErrorConfig: {
+          errorScreen: {
+            component: ErrorInterceptComponent,
+            forWhichErrors: [401, 403, 404, 500],
+            hideCloseIcon: true,
+          },
+        },
+      }
+    ),
     AccountConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),
     TenantManagementConfigModule.forRoot(),
@@ -61,6 +72,7 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
+    MatCardModule,
 
     NgxValidateCoreModule.forRoot({
       blueprints:{
@@ -83,6 +95,7 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
   declarations: [
     AppComponent,
     ComplianceLayoutComponent,
+    ErrorInterceptComponent
   ],
   providers: [
     APP_ROUTE_PROVIDER,

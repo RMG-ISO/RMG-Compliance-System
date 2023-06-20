@@ -8,12 +8,14 @@ import {
   EffectiveType,
   ImplementedType,
   complianceLevelTypeOptions,
+  priorityTypeOptions,
 } from '@proxy/assessments';
 import { finalize } from 'rxjs/operators';
 import { parseISO } from 'date-fns';
 import { ComplianceStatus } from '@proxy/shared';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { priorityOptions } from '@proxy/notifications';
+import { DateValidators } from 'src/app/shared/validators/date-validator';
 
 @Component({
   selector: 'app-compliance-form',
@@ -36,7 +38,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
 
   ComplianceStatus = ComplianceStatus;
 
-  priorityOptions = priorityOptions;
+  priorityTypeOptions = priorityTypeOptions;
   
   constructor(
     private assessmentService: AssessmentService,
@@ -49,7 +51,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
     this.form = new FormGroup({
       controlId: new FormControl(this.controlData.id, Validators.required),
       applicable: new FormControl(null, Validators.required),
-      complianceLevel: new FormControl(0),
+      complianceLevel: new FormControl(null, Validators.required),
       complianceDate: new FormControl(null, Validators.required),
       nextComplianceDate: new FormControl(null, Validators.required),
       documented: new FormControl(null, Validators.required),
@@ -61,10 +63,14 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
       comment: new FormControl(null),
       reviewerComment: new FormControl(null),
       attachmentId: new FormControl(null),
-      addFiles: new FormControl(null),
+      // addFiles: new FormControl(null),
       id: new FormControl(null),
       employeeIds: new FormControl(null),
-      priority: new FormControl(null, this.frameWorkData.priority ? Validators.required : null),
+      priority: new FormControl(null, this.frameWorkData.hasPriority ? Validators.required : null),
+    }, {
+      validators:[
+        DateValidators.ValidateTwoDates('complianceDate', 'nextComplianceDate')
+      ]
     });
 
     this.assessmentService.getByControlId(this.controlData.id).subscribe(r => {
@@ -130,10 +136,10 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
     }
 
     this.form.controls.comment.setValidators(mustAddFiles);
-    this.form.controls.addFiles.setValidators(mustAddFiles);
+    // this.form.controls.addFiles.setValidators(mustAddFiles);
 
     this.form.controls.comment.updateValueAndValidity();
-    this.form.controls.addFiles.updateValueAndValidity();
+    // this.form.controls.addFiles.updateValueAndValidity();
 
     this.form.updateValueAndValidity();
   }
@@ -150,14 +156,14 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
   OnFileEndUpload(endUpload: boolean) {
     this.uploading = false;
     this.uploadedCount += 1;
-    this.form.controls.addFiles.setValue(!!this.uploadedCount);
+    // this.form.controls.addFiles.setValue(!!this.uploadedCount);
   }
 
   uploadedCount = 0;
   OnDeleteFile(ev) {
     this.uploadedCount -= 1;
     console.log(this.uploadedCount);
-    this.form.controls.addFiles.setValue(!!this.uploadedCount ? true : null);
+    // this.form.controls.addFiles.setValue(!!this.uploadedCount ? true : null);
   }
 
   save() {

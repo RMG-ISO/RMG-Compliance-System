@@ -38,7 +38,7 @@
                         <td>
                             <a [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]"
                             [queryParams]="{expandedMainControlId:subControlData?.parentId}">
-                                {{ subControlData | lang:'parentName' }}
+                                {{ subControlData | lang:'mainControlName' }}
                             </a>
                         </td>
                     </tr>

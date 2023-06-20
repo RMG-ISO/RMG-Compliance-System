@@ -64,6 +64,8 @@ namespace RMG.ComplianceSystem.Assessments
         {
             await CheckCreatePolicyAsync();
             var control = await _controlRepository.GetAsync(input.ControlId, false);
+            if (!control.ParentId.HasValue && _controlRepository.Any(c => c.ParentId == control.Id))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAssessMainControlIfItHasSubs);
             var domain = await _domainRepository.GetAsync(control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             await ValidateCreateUpdateAsync(input, framework);
@@ -149,6 +151,9 @@ namespace RMG.ComplianceSystem.Assessments
             //ToDo: what if resp is not granted required permission?
             await CheckUpdatePolicyAsync();
             var entity = await GetEntityByIdAsync(id);
+            var control = await _controlRepository.GetAsync(input.ControlId, false);
+            if (!control.ParentId.HasValue && _controlRepository.Any(c => c.ParentId == control.Id))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAssessMainControlIfItHasSubs); 
             var domain = await _domainRepository.GetAsync(entity.Control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             if (framework.OwnerId == CurrentUser.Id)

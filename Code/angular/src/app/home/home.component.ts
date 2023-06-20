@@ -1,6 +1,7 @@
 import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '@proxy/dashboards';
+import { SharedStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-home',
@@ -13,55 +14,75 @@ export class HomeComponent implements OnInit {
       title: 'SystemUsers',
       icon: 'metro-users',
       color: '#2B657D',
-      key:'usersCount'
+      key:'usersCount',
+      url:'/settings/identity/users',
+      queryParams:{}
     },
     {
       title: 'ActiveUsers',
       icon: 'user-check',
       color: '#1CAE40',
-      key:'activeUsersCount'
+      key:'activeUsersCount',
+      url:'/settings/identity/users',
+      queryParams:{}
     },
     {
       title: 'DepartmentsCount',
       icon: 'network-wired',
       color: '#3B76B1',
-      key:'departmentsCount'
+      key:'departmentsCount',
+      url:'/settings/department/list',
+      queryParams:{}
     },
     {
       title: 'AddedFrameworksCount',
       icon: 'layer-group',
       color: '#F9CE1A',
-      key:'frameworksCount'
+      key:'frameworksCount',
+      url:'/frameworks/list',
+      queryParams:{}
     },
     {
       title: 'ActiveFrameworksCount',
       icon: 'layer-group-button',
       color: '#76F094',
-      key:'activeFrameworksCount'
+      key:'activeFrameworksCount',
+      url:'/frameworks/list',
+      queryParams:{
+        status: SharedStatus.Active
+      }
     },
     {
       title: 'ComplianceAppliedFrames',
       icon: 'layer-group-check',
       color: '#2896E9',
-      key:'implementedCompliantFrameworksCount'
+      key:'implementedCompliantFrameworksCount',
+      url:'/compliance-assessment/list',
+      queryParams:{}
     },
     {
       title: 'CountOfRisks',
       icon: 'warning',
       color: '#DF1E39',
-      key:'risksCount'
+      key:'risksCount',
+      url:'/risks-management/riskopportunity',
+      queryParams:{}
     },
     {
       title: 'TakenActions',
       icon: 'th-list',
       color: '#7467F0',
-      key:'actionsCount'
+      key:'actionsCount',
+      url:'/risks-management/riskopportunity',
+      queryParams:{}
     },
     {
       title: 'AuditsCount',
       icon: 'tasks',
       color: '#36D1DC',
-      key:'auditsCount'
+      key:'auditsCount',
+      url:'/internal-audit/audit-setup/list',
+      queryParams:{}
     },
   ];
 

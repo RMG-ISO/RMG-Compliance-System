@@ -53,5 +53,6 @@
         public const string AssessmentCanBeUpdatedByFrameworkOwnerWhenComplianceUnderPreparationOrUnderRevision = $"{ParentGroupName}:{AssessmentGroupName}:006";
         public const string AssessmentCanOnlyBeUpdatedByDomainResponsibleWhenComplianceUnderInternalAssessment = $"{ParentGroupName}:{AssessmentGroupName}:007";
         public const string YouMustAnswerPriorityQuestionForThisFrameworkControls = $"{ParentGroupName}:{AssessmentGroupName}:008";
+        public const string CannotAssessMainControlIfItHasSubs = $"{ParentGroupName}:{AssessmentGroupName}:009";
     }
 }
