@@ -22,6 +22,7 @@ namespace RMG.ComplianceSystem.Domains
                 .Include(t => t.DomainDepartments).ThenInclude(t=>t.Department.Creator)
                 .Include(t => t.DomainDepartments).ThenInclude(t=>t.Department.LastModifier)
                 .Include(t => t.DomainDepartments).ThenInclude(t=>t.Department.Deleter)
+                .Include(t => t.Framework)
                 .Include(t => t.Framework.Creator)
                 .Include(t => t.Framework.LastModifier)
                 .Include(t => t.Framework.Deleter)

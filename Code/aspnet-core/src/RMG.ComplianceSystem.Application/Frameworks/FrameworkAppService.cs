@@ -579,7 +579,9 @@ namespace RMG.ComplianceSystem.Frameworks
         private Tuple<bool, List<string>, List<Domain>> CanSendForInternalAssessment(Framework framework)
         {
             var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
-            var controls = _controlRepository.Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
+            var controls = _controlRepository
+                .Where(c => domains.Select(d => d.Id).Contains(c.DomainId) 
+                    && (c.ParentId.HasValue || (!c.ParentId.HasValue && !_controlRepository.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
             var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
                 return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
