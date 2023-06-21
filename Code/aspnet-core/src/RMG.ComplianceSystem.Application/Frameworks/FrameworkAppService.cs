@@ -323,12 +323,16 @@ namespace RMG.ComplianceSystem.Frameworks
         }
 
         [HttpPut]
-        public async Task TogglePriority(Guid id)
+        public async Task<TogglePriorityOutputDto> TogglePriority(Guid id)
         {
             await CheckUpdatePolicyAsync();
             var entity = await Repository.GetAsync(id, false);
             entity.HasPriority = !entity.HasPriority;
             await Repository.UpdateAsync(entity);
+            return new TogglePriorityOutputDto
+            {
+                HasPriority = entity.HasPriority
+            };
         }
 
         public async Task<FrameworkData> GetFrameWorkWithAssesmentBYId(getFrameworkDto input)
