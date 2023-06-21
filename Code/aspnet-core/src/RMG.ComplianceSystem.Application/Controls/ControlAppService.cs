@@ -46,8 +46,6 @@ namespace RMG.ComplianceSystem.Controls
         protected override async Task<IQueryable<Control>> CreateFilteredQueryAsync(ControlPagedAndSortedResultRequestDto input)
         {
             return (await Repository.WithDetailsAsync())
-                .WhereIf(!input.MainControlNameAr.IsNullOrEmpty(), t => t.Parent != null && t.Parent.NameAr.Contains(input.MainControlNameAr))
-                .WhereIf(!input.MainControlNameEn.IsNullOrEmpty(), t => t.Parent != null && t.Parent.NameEn.Contains(input.MainControlNameEn))
                 .WhereIf(input.IsMainControl, t => t.ParentId == null)
                 .WhereIf(!input.IsMainControl, t => t.ParentId != null)
                 .WhereIf(input.MainControlId != null, t => t.ParentId == input.MainControlId)

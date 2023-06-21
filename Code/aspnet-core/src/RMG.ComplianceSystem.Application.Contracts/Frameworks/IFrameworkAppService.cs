@@ -29,5 +29,7 @@ namespace RMG.ComplianceSystem.Frameworks
         Task ApproveCompliance(Guid id);
 
         int CalculateCompliancePercentage(Guid id);
+
+        Task TogglePriority(Guid id);
     }
 }

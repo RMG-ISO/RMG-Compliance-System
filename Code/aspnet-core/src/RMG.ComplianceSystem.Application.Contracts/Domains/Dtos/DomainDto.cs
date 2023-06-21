@@ -30,6 +30,8 @@ namespace RMG.ComplianceSystem.Domains.Dtos
         public int CompliancePercentage { get; set; }
         public Guid? ParentId { get; set; }
 
+        public string MainDomainNameAr { get; set; }
+        public string MainDomainNameEn { get; set; }
         public Guid FrameworkId { get; set; }
         public Guid? ResponsibleId { get; set; }
         public string ResponsibleName { get; set; }

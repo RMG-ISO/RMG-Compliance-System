@@ -103,12 +103,19 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateEmployeeDto, Employee>(MemberList.Source);
             CreateMap<CreateUpdateDomainDto, Domain>();
             CreateMap<Domain, DomainDto>()
+                .ForMember(t => t.MainDomainNameAr, ops => ops.MapFrom(t => t.Parent != null ? t.Parent.NameAr : null))
+                .ForMember(t => t.MainDomainNameEn, ops => ops.MapFrom(t => t.Parent != null ? t.Parent.NameEn : null))
                 .ForMember(t => t.ResponsibleName, ops => ops.MapFrom(t => t.Responsible != null ? t.Responsible.FullName : null))
                 .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
             CreateMap<Domain, DomainWithoutPagingDto>()
+                .ForMember(t => t.MainDomainNameAr, ops => ops.MapFrom(t => t.Parent != null ? t.Parent.NameAr : null))
+                .ForMember(t => t.MainDomainNameEn, ops => ops.MapFrom(t => t.Parent != null ? t.Parent.NameEn : null))
                 .ForMember(t => t.ResponsibleName, ops => ops.MapFrom(t => t.Responsible != null ? t.Responsible.FullName : null))
                 .ForMember(t => t.Departments, ops => ops.MapFrom(t => t.DomainDepartments.Select(r => new NameId<Guid>(r.Department.Name, r.DepartmentId))));
-            CreateMap<Control, ControlDto>();
+            CreateMap<Control, ControlDto>()
+                .ForMember(t => t.MainControlNameAr, ops => ops.MapFrom(t => t.Parent != null ? t.Parent.NameAr : null))
+                .ForMember(t => t.MainControlNameEn, ops => ops.MapFrom(t => t.Parent != null ? t.Parent.NameEn : null));
+
             CreateMap<CreateUpdateControlDto, Control>(MemberList.Source);
             CreateMap<Assessment, AssessmentDto>()
                 .ForMember(t => t.Versions, ops => ops.MapFrom(t => t.AssessmentVersions))

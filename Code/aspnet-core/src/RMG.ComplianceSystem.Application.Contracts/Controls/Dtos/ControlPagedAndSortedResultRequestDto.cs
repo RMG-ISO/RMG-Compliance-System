@@ -14,7 +14,5 @@ namespace RMG.ComplianceSystem.Controls.Dtos
         public SharedStatus? Status { get; set; }
         public Guid? DomainId { get; set; }
         public Guid? FrameWorkId { get; set; }
-        public string MainControlNameAr { get; set; }
-        public string MainControlNameEn { get; set; }
     }
 }

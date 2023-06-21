@@ -118,6 +118,13 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
+  togglePriorityById = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/framework/${id}/toggle-priority`,
+    },
+    { apiName: this.apiName });
+
   update = (id: string, input: CreateUpdateFrameworkDto) =>
     this.restService.request<any, FrameworkDto>({
       method: 'PUT',
