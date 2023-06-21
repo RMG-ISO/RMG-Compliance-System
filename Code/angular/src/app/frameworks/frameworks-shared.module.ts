@@ -17,6 +17,7 @@ import { FrameworkViewComponent } from './framework-view/framework-view.componen
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
 import { FrameworksRoutingModule } from './frameworks-routing.module';
 import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 
 
@@ -41,7 +42,10 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
     MatExpansionModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   exports:[
     CreateFrameworkComponent,
