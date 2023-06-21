@@ -11,7 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { ExpansionSubDomainsTableComponent } from './framework-view/expansion-sub-domains-table/expansion-sub-domains-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CreateDomainComponent } from './framework-view/create-domain/create-domain.component';
+import { CreateDomainComponent } from './framework-view/main-domains-view/create-domain/create-domain.component';
 import { DomainViewComponent } from './domain-view/domain-view.component';
 import { CreateControlComponent } from './domain-view/create-control/create-control.component';
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';

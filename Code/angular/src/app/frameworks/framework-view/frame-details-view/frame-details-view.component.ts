@@ -1,4 +1,5 @@
 import { ConfigStateService } from '@abp/ng.core';
+import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FrameworkService } from '@proxy/frameworks';
 import { ComplianceStatus } from '@proxy/shared';
@@ -16,7 +17,9 @@ export class FrameDetailsViewComponent implements OnInit {
 
   constructor(
     private configState:ConfigStateService,
-    private frameworkService:FrameworkService
+    private frameworkService:FrameworkService,
+    private toasterService:ToasterService
+
   ) { }
 
   inCompliance = false;
@@ -29,12 +32,10 @@ export class FrameDetailsViewComponent implements OnInit {
 
 
   toggleChange(ev) {
-    console.log(ev);
-    console.log(this.frameWorkData);
-    this.frameworkService.update(this.frameWorkData.id, this.frameWorkData).subscribe((r) => {
-
-      // this.toasterService.success('::SuccessfullySaved', "");
-      // this.ref.close(r);
+    this.frameworkService.togglePriorityById(this.frameWorkData.id).subscribe((r) => {
+      this.toasterService.success('::SuccessfullySaved', "");
+      this.parent.frameWorkData.hasPriority = ev.checked;
+      // this.parent.getFrameWork();
     });
 
   }

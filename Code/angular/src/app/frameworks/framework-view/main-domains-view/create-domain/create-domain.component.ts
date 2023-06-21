@@ -1,3 +1,4 @@
+import { ConfigStateService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -28,14 +29,15 @@ export class CreateDomainComponent implements OnInit {
     private departmentService: DepartmentService,
     private domainService: DomainService,
     private employeeService:EmployeeService,
-    private toasterService:ToasterService
+    private toasterService:ToasterService,
 
   ) { }
 
   form:FormGroup;
 
   departments;
-  employees
+  employees;
+
   ngOnInit(): void {
     this.form = new FormGroup({
       id: new FormControl(null),
@@ -55,7 +57,7 @@ export class CreateDomainComponent implements OnInit {
     if(!this.mainDomain) {
       this.form.addControl('responsibleId', new FormControl(null, Validators.required));
       this.employeeService.getEmployeeListLookup().subscribe(r => {
-        this.employees = r.items;
+        this.employees = r.items.filter(x => x.id !== this.frameWorkData.ownerId);
       });
     }
 
