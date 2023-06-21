@@ -185,7 +185,7 @@
       <button mat-raised-button (click)="activeTab = 'domains'" [class.active]="activeTab === 'domains'">
         {{ '::FrameworkLevels' | abpLocalization }}
       </button>
-      <button mat-raised-button>
+      <button mat-raised-button (click)="activeTab = 'reports'" [class.active]="activeTab === 'reports'">
         {{ '::Reports' | abpLocalization }}
       </button>
       <button mat-raised-button (click)="activeTab = 'attachments'" [class.active]="activeTab === 'attachments'">

@@ -21,6 +21,8 @@ import { FrameDetailsViewComponent } from './framework-view/frame-details-view/f
 import { MainDomainsViewComponent } from './framework-view/main-domains-view/main-domains-view.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { FrameReportComponent } from './framework-view/frame-report/frame-report.component';
 
 
 
@@ -38,7 +40,8 @@ import { FrameFilesComponent } from './framework-view/frame-files/frame-files.co
     ChangeLogComponent,
     FrameDetailsViewComponent,
     MainDomainsViewComponent,
-    FrameFilesComponent
+    FrameFilesComponent,
+    FrameReportComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +53,9 @@ import { FrameFilesComponent } from './framework-view/frame-files/frame-files.co
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSlideToggleModule,
-    
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   exports:[
     CreateFrameworkComponent,
@@ -65,7 +70,8 @@ import { FrameFilesComponent } from './framework-view/frame-files/frame-files.co
     ChangeLogComponent,
     FrameDetailsViewComponent,
     MainDomainsViewComponent,
-    FrameFilesComponent
+    FrameFilesComponent,
+    FrameReportComponent
   ]
 })
 export class FrameworksSharedModule { }

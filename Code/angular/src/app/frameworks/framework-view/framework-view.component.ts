@@ -27,6 +27,7 @@ export class FrameworkViewComponent implements OnInit {
   SharedStatus = SharedStatus;
   FormMode = FormMode;
   activeTab = 'details';
+  activeSubTab = 'statistics';
 
   SharedFrameworkStatus = FrameworkStatus;
   sharedStatusOptions = sharedStatusOptions;

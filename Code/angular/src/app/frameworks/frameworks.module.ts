@@ -19,6 +19,7 @@ import { ComplianceFormComponent } from './compliance-form/compliance-form.compo
 import { MatRadioModule } from '@angular/material/radio';
 import { ControlViewComponent } from './control-view/control-view.component';
 import { FrameworksSharedModule } from './frameworks-shared.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FrameworksSharedModule } from './frameworks-shared.module';
     MatChipsModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    FrameworksSharedModule
+    FrameworksSharedModule,
+  
   ]
 })
 export class FrameworksModule { }
