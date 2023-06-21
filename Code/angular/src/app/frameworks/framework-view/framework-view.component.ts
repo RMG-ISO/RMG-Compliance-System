@@ -1,5 +1,5 @@
 import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
-import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +27,7 @@ export class FrameworkViewComponent implements OnInit {
   SharedStatus = SharedStatus;
   FormMode = FormMode;
   activeTab = 'details';
+  activeSubTab = 'statistics';
 
   SharedFrameworkStatus = FrameworkStatus;
   sharedStatusOptions = sharedStatusOptions;
@@ -42,7 +43,8 @@ export class FrameworkViewComponent implements OnInit {
     public  matDialog: MatDialog,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
-    private configState:ConfigStateService
+    private configState:ConfigStateService,
+    private toasterService:ToasterService
   ) { }
 
   frameworkId;
@@ -80,7 +82,6 @@ export class FrameworkViewComponent implements OnInit {
     this.activeComponent = component;
     component.frameWorkData = this.frameWorkData;
     component.parent = this;
-
   }
 
 
@@ -89,6 +90,7 @@ export class FrameworkViewComponent implements OnInit {
   changeCreateFrameStatus(cond) {
     if(cond) this.frameworkService.sendToReviewerById(this.frameWorkData.id).subscribe(r => {
       // window.location.reload();
+      this.toasterService.success('::SuccessfullySaved', "");
       this.getFrameWork();
     })
   }
@@ -98,32 +100,8 @@ export class FrameworkViewComponent implements OnInit {
 
     if(cond) {
       this.frameworkService.sendToOwnerById(this.frameWorkData.id).subscribe(r => {
-        window.location.reload();
-      });
-      return;
-    }
-
-    this.form = new FormGroup({
-      reason: new FormControl(null, Validators.required)
-    });
-
-    let ref = this.matDialog.open(this.refuseCauseDialog);
-    ref.afterClosed().subscribe(con => {
-      if(con) {
-        this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
-          // window.location.reload();
-          this.getFrameWork();
-        });
-      } else ngSelect.clearModel();
-    })
-  }
-
-  changeApproveFrameStatus(cond, ngSelect) {
-    if(cond == undefined) return;
-
-    if(cond) {
-      this.frameworkService.approveById(this.frameWorkData.id).subscribe(r => {
         // window.location.reload();
+        this.toasterService.success('::SuccessfullySaved', "");
         this.getFrameWork();
       });
       return;
@@ -138,6 +116,35 @@ export class FrameworkViewComponent implements OnInit {
       if(con) {
         this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
           // window.location.reload();
+          this.toasterService.success('::SuccessfullySaved', "");
+          this.getFrameWork();
+        });
+      } else ngSelect.clearModel();
+    })
+  }
+
+  changeApproveFrameStatus(cond, ngSelect) {
+    if(cond == undefined) return;
+
+    if(cond) {
+      this.frameworkService.approveById(this.frameWorkData.id).subscribe(r => {
+        // window.location.reload();
+        this.toasterService.success('::SuccessfullySaved', "");
+        this.getFrameWork();
+      });
+      return;
+    }
+
+    this.form = new FormGroup({
+      reason: new FormControl(null, Validators.required)
+    });
+
+    let ref = this.matDialog.open(this.refuseCauseDialog);
+    ref.afterClosed().subscribe(con => {
+      if(con) {
+        this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
+          // window.location.reload();
+          this.toasterService.success('::SuccessfullySaved', "");
           this.getFrameWork();
         });
       } else ngSelect.clearModel();
@@ -154,6 +161,7 @@ export class FrameworkViewComponent implements OnInit {
     .pipe( finalize(() => this.isSendingStatus = false) )
     .subscribe(r => {
       // window.location.reload();
+      this.toasterService.success('::SuccessfullySaved', "");
       this.getFrameWork();
     })
   }
@@ -174,34 +182,6 @@ export class FrameworkViewComponent implements OnInit {
     })
   }
 
-
-  // OnFileUploaded(attachmentId: string) {
-  //   if(this.frameWorkData.attachmentId) return;
-
-  //   this.frameWorkData.attachmentId = attachmentId;
-
-  //   let data = {...this.frameWorkData};
-
-  //   if (data.frameworkEmpsDto) data.frameworkEmpsDto = data.frameworkEmpsDto.map(emp => {
-  //     return {
-  //       employeeId: emp.employeeId,
-  //       frameworkId: this.frameWorkData?.id ? this.frameWorkData?.id : '00000000-0000-0000-0000-000000000000',
-  //     };
-  //   });
-  //   this.frameworkService.update(this.frameWorkData.id, data).subscribe(r => {
-  //     this.frameWorkData = r;
-  //   })
-  // }
-
-  // uploading
-  // OnFileBeginUpload(beginUpload: boolean) {
-  //   this.uploading = true;
-  // }
-
-  // OnFileEndUpload(endUpload: boolean) {
-  //   this.uploading = false;
-  // }
-
   sendForInternalAssessment() {
     this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
   }
@@ -209,6 +189,7 @@ export class FrameworkViewComponent implements OnInit {
   approveFramework() {
     this.frameworkService.approveComplianceById(this.frameWorkData.id).subscribe( r => {
       // window.location.reload();
+      this.toasterService.success('::SuccessfullySaved', "");
       this.getFrameWork();
     })
   }

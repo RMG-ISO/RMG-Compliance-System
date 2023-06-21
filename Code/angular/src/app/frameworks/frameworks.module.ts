@@ -11,7 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { ExpansionSubDomainsTableComponent } from './framework-view/expansion-sub-domains-table/expansion-sub-domains-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CreateDomainComponent } from './framework-view/create-domain/create-domain.component';
+import { CreateDomainComponent } from './framework-view/main-domains-view/create-domain/create-domain.component';
 import { DomainViewComponent } from './domain-view/domain-view.component';
 import { CreateControlComponent } from './domain-view/create-control/create-control.component';
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';
@@ -19,6 +19,7 @@ import { ComplianceFormComponent } from './compliance-form/compliance-form.compo
 import { MatRadioModule } from '@angular/material/radio';
 import { ControlViewComponent } from './control-view/control-view.component';
 import { FrameworksSharedModule } from './frameworks-shared.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FrameworksSharedModule } from './frameworks-shared.module';
     MatChipsModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    FrameworksSharedModule
+    FrameworksSharedModule,
+  
   ]
 })
 export class FrameworksModule { }
