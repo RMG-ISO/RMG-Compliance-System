@@ -11,6 +11,7 @@ import { MainDomainsViewComponent } from './framework-view/main-domains-view/mai
 import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
 import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
 import { FrameReportComponent } from './framework-view/frame-report/frame-report.component';
+import { PermissionGuard } from '@abp/ng.core';
 
 const routes: Routes = [
   {
@@ -19,8 +20,14 @@ const routes: Routes = [
   },
   {
     path:'sub-domains/:subDomainId/controls',
-    component:DomainViewComponent
-  },
+    component:DomainViewComponent,
+    // canActivate:[
+    //   PermissionGuard
+    // ],
+    // data:{
+    //   requiredPolicy:'ComplianceSystem.Domain'
+    // }
+  },//ComplianceSystem.Control
   {
     path:'sub-controls/:frameworkId/:subDomainId/:subControlId',
     component:ControlViewComponent

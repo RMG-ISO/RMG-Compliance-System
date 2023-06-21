@@ -1,5 +1,5 @@
 import { ConfigStateService, ListService } from '@abp/ng.core';
-import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
+import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,7 +34,8 @@ export class MainDomainsViewComponent implements OnInit {
     private router:Router,
     private activatedRoute:ActivatedRoute,
     private location:Location,
-    private configState:ConfigStateService
+    private configState:ConfigStateService,
+    private toasterService:ToasterService
   ) {}
 
   showButton = false;
@@ -47,14 +48,13 @@ export class MainDomainsViewComponent implements OnInit {
     this.showButton =
       this.frameWorkData.complianceStatus === ComplianceStatus.NotStarted &&
       this.frameWorkData.parentPath !== 'compliance-assessment';
-    this.getMainDomainsList();
+      this.getMainDomainsList();
   }
 
   mainDomainsItems;
   allReadyForRevision = true;
   allDomainsApproved = true;
   getMainDomainsList(search = null) {
-    console.log(this.userId);
     const bookStreamCreator = query =>
       this.domainService.getListWithoutPaging({
         ...query,
@@ -77,7 +77,6 @@ export class MainDomainsViewComponent implements OnInit {
           this.allReadyForRevision = false;
         if (item.complianceStatus !== ComplianceStatus.Approved) this.allDomainsApproved = false;
       });
-      console.log('response.i', response.items)
       this.selectedToDelete = {};
       this.deleteLength = 0;
     });
@@ -125,12 +124,14 @@ export class MainDomainsViewComponent implements OnInit {
   startInternalAssessmentById(mainDomain) {
     this.domainService.startInternalAssessmentById(mainDomain.id).subscribe(r => {
       // mainDomain.complianceStatus = ComplianceStatus.UnderInternalAssessment;
+      this.toasterService.success('::SuccessfullySaved', "");
       this.getMainDomainsList();
     });
   }
 
   endInternalAssessmentById(mainDomain) {
     this.domainService.endInternalAssessmentById(mainDomain.id).subscribe(r => {
+      this.toasterService.success('::SuccessfullySaved', "");
       this.getMainDomainsList();
       // mainDomain.complianceStatus = ComplianceStatus.ReadyForRevision;
     });
@@ -145,6 +146,7 @@ export class MainDomainsViewComponent implements OnInit {
     ref.afterClosed().subscribe(con => {
       if (con) {
         this.domainService.startReviewById(mainDomain.id).subscribe(r => {
+          this.toasterService.success('::SuccessfullySaved', "");
           this.getMainDomainsList();
         });
       }
@@ -153,6 +155,7 @@ export class MainDomainsViewComponent implements OnInit {
 
   sendToOwner(mainDomain) {
     this.domainService.sendToOwnerById(mainDomain.id).subscribe(r => {
+      this.toasterService.success('::SuccessfullySaved', "");
       this.getMainDomainsList();
     });
   }
@@ -174,6 +177,7 @@ export class MainDomainsViewComponent implements OnInit {
           ? this.domainService.approveComplianceById(mainDomain.id)
           : this.domainService.returnToResponsibleById(mainDomain.id)
         ).subscribe(r => {
+          this.toasterService.success('::SuccessfullySaved', "");
           this.getMainDomainsList();
         });
       }
