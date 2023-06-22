@@ -19,10 +19,17 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
 
 import { storeLocaleData } from '@abp/ng.core/locale';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
+
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '@angular/common/locales/ar-EG.js'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
 import(
 /* webpackChunkName: "_locale-your-locale-js"*/
 /* webpackMode: "eager" */
-'@angular/common/locales/ar-EG.js'
+'../../node_modules/@angular/common/locales/ar-EG.mjs'
 ).then(m => storeLocaleData(m.default, 'ar-EG'));
 
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -110,3 +117,12 @@ export class AppModule {
   //   AppInjector = this.injector;
   // }
 }
+
+
+/*
+{
+  "input": "node_modules/@abp/ng.theme.shared/styles/bootstrap-rtl.min.css",
+  "inject": false,
+  "bundleName": "bootstrap-rtl.min"
+},
+*/

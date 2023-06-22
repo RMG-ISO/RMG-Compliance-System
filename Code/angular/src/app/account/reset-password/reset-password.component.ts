@@ -1,4 +1,4 @@
-import { AccountService } from '@abp/ng.account';
+import { AccountService } from '@abp/ng.account.core/proxy';
 import { Component, Injector, OnInit } from '@angular/core';
 
 import { ToasterService, getPasswordValidators } from '@abp/ng.theme.shared';

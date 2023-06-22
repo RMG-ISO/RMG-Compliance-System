@@ -2,7 +2,7 @@ import type { CreateUpdateRiskAndOpportunityDto, RiskAndOpportunityDto,matrixMod
 import { RestService } from '@abp/ng.core';
 import type {PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import { IdentityUserDto } from '@abp/ng.account';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 import { List } from 'echarts';
 
 @Injectable({

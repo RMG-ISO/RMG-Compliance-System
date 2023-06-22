@@ -1,7 +1,7 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { InternalAuditQuestionDto } from '@proxy/InternalAuditQuestions/dtos/models';
 
-import { IdentityUserDto } from '@abp/ng.account';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface CreateUpdateInternalAuditMenuQuestionDto {
   FrameworkId?: string;

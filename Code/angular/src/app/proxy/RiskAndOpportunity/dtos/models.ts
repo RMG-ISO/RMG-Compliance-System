@@ -1,5 +1,5 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { IdentityUserDto } from '@abp/ng.account';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface CreateUpdateRiskAndOpportunityDto {
   NameAr ?:string ;

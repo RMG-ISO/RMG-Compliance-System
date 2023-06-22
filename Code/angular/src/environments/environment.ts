@@ -47,7 +47,7 @@ export const environment = {
       rootNamespace: 'RMG.ComplianceSystem',
     },
     local: {
-      url: 'https://localhost:44375',
+      url: 'https://iso.digitaltransformationinstitute.org:11000',
       rootNamespace: 'RMG.ComplianceSystem',
     },
   },

@@ -3,7 +3,7 @@ import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } fro
 import type { ComplianceStatus } from '../../shared/compliance-status.enum';
 import type { NameId } from '../../shared/models';
 import type { ControlDto } from '../../controls/dtos/models';
-import { IdentityUserDto } from '@abp/ng.account';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface CreateUpdateDomainDto {
   nameAr?: string;
