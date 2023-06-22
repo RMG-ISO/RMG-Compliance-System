@@ -1,7 +1,8 @@
 /* Styles for the home component */
 
 .info-card {
-    padding: 36px 22px;
+    padding: 34px 20px;
+    text-decoration: none;
     display: flex;
     align-items: center;
     box-shadow: 0 0 6px rgba(0,0,0,.16);
@@ -42,6 +43,7 @@
             display: block;
             text-align: center;
             font-family: arial;
+            color:#000000;
         }
     }
 }

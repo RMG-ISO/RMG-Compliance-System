@@ -1,0 +1,78 @@
+@import'../../../../styles/mixins';
+
+.v-align-vertical{
+    vertical-align: middle;
+}
+.table-bordered td, .table-bordered th{
+    border: 1px solid #d0d0d0;
+}
+table {
+    tr {
+        text-align: center;
+        td {
+            text-align: center;
+            
+        }
+        th {
+            text-align: center;
+        }
+    }
+
+    thead{
+        tr {
+            th{
+                color:#fff;
+            }
+        }
+    } 
+}
+
+.bg-1{
+    background:#89cd9a;
+}
+
+.bg-2{
+    background:#b3dbc7;
+}
+
+.bg-3{
+    background:#51b86a;
+}
+
+.bg-4{
+    background:#e1e7e4;
+}
+
+.bg-5{
+    background:#5eb774;
+}
+
+.tabs {
+    // background: #6B6E6C;
+    padding: 32px 0px 16px;
+    flex-wrap: wrap;
+    button {
+        border-radius: 6px 0;
+        border: 1px solid #54C16F;
+        box-shadow: none;
+        margin-left: 16px;
+        min-width: 145px;
+
+        margin-bottom: 16px;
+
+        &.active {
+            background-color: #54C16F;
+            color: #fff;
+        }
+
+        margin-left: 16px;
+        @include nb-ltr(){
+            margin-right: 16px;
+            margin-left: 0;
+        }
+
+       
+
+
+    }
+}

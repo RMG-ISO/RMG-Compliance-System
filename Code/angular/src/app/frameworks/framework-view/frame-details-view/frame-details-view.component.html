@@ -4,10 +4,12 @@
   <div class="details-table-cont">
     <table class="table">
       <tr>
-        <td colspan="4" *ngIf="userId == frameWorkData?.ownerId && inCompliance">
-          <mat-slide-toggle [checked]="" (toggleChange)="toggleChange($event)">
-            هل يوجد أهمية للضوابط الرئيسة و الضوابط الفرعية
-            <!-- if there is a priority for controls and sub controls -->
+        <td colspan="4" *ngIf="inCompliance">
+          <mat-slide-toggle
+          [disabled]="userId !== frameWorkData?.ownerId || frameWorkData?.complianceStatus == ComplianceStatus.NotStarted"
+          [checked]="frameWorkData?.hasPriority" #toggle
+          (toggleChange)="toggleChange(toggle)" color="primary">
+            {{ '::PriorityQuestion' | abpLocalization }}
           </mat-slide-toggle>
         </td>
       </tr>

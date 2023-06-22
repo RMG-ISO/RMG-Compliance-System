@@ -199,6 +199,13 @@
                     <input id="level4_en" class="form-control" formControlName="levelFourNameEn" >
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <mat-slide-toggle formControlName="hasPriority" color="primary">
+                        {{ '::PriorityQuestion' | abpLocalization }}
+                      </mat-slide-toggle>
+                </div>
+            </div>
         </div>
         
         <div [class.d-none]=" activeTab !== 3" class="row" formGroupName="frameTeam">

@@ -138,6 +138,10 @@ export interface SubDomainsDto {
   childrenControls: MainControlsDto[];
 }
 
+export interface TogglePriorityOutputDto {
+  hasPriority: boolean;
+}
+
 export interface getFrameworkDto {
   frameworkId?: string;
 }

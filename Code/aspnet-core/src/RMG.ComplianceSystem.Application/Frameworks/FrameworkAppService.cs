@@ -133,10 +133,10 @@ namespace RMG.ComplianceSystem.Frameworks
                 await NotifyUsersAsync("FrameworkCreatedForReviewer", entity.ReviewUserId, NotificationSource.FrameworkCreatedForReviewer, NotySource.FrameworkCreatedForReviewer, entity.Id);
 
                 // Notify approver
-                await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ReviewUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
+                await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ApproveUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
 
                 // Notify owner
-                await NotifyUsersAsync("FrameworkCreatedForOwner", entity.ReviewUserId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
+                await NotifyUsersAsync("FrameworkCreatedForOwner", entity.OwnerId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
 
                 return await MapToGetOutputDtoAsync(Framework);
             }
@@ -224,11 +224,11 @@ namespace RMG.ComplianceSystem.Frameworks
 
                 // Notify approver
                 if (shouldNotifyApprover)
-                    await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ReviewUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
+                    await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ApproveUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
 
                 // Notify owner
                 if (shouldNotifyOwner)
-                    await NotifyUsersAsync("FrameworkCreatedForOwner", entity.ReviewUserId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
+                    await NotifyUsersAsync("FrameworkCreatedForOwner", entity.OwnerId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
 
                 return await MapToGetOutputDtoAsync(audit);
             }
@@ -322,6 +322,18 @@ namespace RMG.ComplianceSystem.Frameworks
             return new ListResultDto<FrameworkDto>(ObjectMapper.Map<List<Framework>, List<FrameworkDto>>(data));
         }
 
+        [HttpPut]
+        public async Task<TogglePriorityOutputDto> TogglePriority(Guid id)
+        {
+            await CheckUpdatePolicyAsync();
+            var entity = await Repository.GetAsync(id, false);
+            entity.HasPriority = !entity.HasPriority;
+            await Repository.UpdateAsync(entity);
+            return new TogglePriorityOutputDto
+            {
+                HasPriority = entity.HasPriority
+            };
+        }
 
         public async Task<FrameworkData> GetFrameWorkWithAssesmentBYId(getFrameworkDto input)
         {
@@ -571,7 +583,9 @@ namespace RMG.ComplianceSystem.Frameworks
         private Tuple<bool, List<string>, List<Domain>> CanSendForInternalAssessment(Framework framework)
         {
             var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
-            var controls = _controlRepository.Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
+            var controls = _controlRepository
+                .Where(c => domains.Select(d => d.Id).Contains(c.DomainId) 
+                    && (c.ParentId.HasValue || (!c.ParentId.HasValue && !_controlRepository.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
             var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
                 return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);

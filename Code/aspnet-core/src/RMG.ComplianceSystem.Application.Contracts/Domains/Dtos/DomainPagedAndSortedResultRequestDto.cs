@@ -13,8 +13,14 @@ namespace RMG.ComplianceSystem.Domains.Dtos
         public bool IsMainDomain { get; set; }
         public string Search { get; set; }
         public SharedStatus? Status { get; set; }
-        public string MainDomainNameAr { get; set; }
-        public string MainDomainNameEn { get; set; }
+
+        public bool? HasPriority { get; set; }
+        public bool? IsDocumented { get; set; }
+        public bool? IsEffective { get; set; }
+        public bool? IsImplemented { get; set; }
+        public int? Level { get; set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? OwnerId { get; set; }
 
     }
 }

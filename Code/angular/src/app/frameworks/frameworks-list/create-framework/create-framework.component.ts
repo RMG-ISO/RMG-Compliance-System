@@ -56,6 +56,7 @@ export class CreateFrameworkComponent implements OnInit {
         levelThirdNameEn: new FormControl(null, Validators.required),
         levelFourNameAr: new FormControl(null, Validators.required),
         levelFourNameEn: new FormControl(null, Validators.required),
+        hasPriority: new FormControl(false, Validators.required),
       }),
       frameTeam: new FormGroup({
         ownerId: new FormControl(null, Validators.required),

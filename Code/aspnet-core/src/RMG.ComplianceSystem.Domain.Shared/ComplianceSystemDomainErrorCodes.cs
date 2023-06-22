@@ -42,7 +42,7 @@
         public const string OnlyDomainResponsibleCanSendToOwner = $"{ParentGroupName}:{DomainGroupName}:010";
         public const string DomainMustBeUnderRevisionOrUnderReRevisionToApproveCompliance = $"{ParentGroupName}:{DomainGroupName}:011";
         public const string OnlyFrameworkOwnerCanApproveCompliance = $"{ParentGroupName}:{DomainGroupName}:012";
-
+        public const string CannotAddDomainResponsibleSameAsFrameworkOwner = $"{ParentGroupName}:{DomainGroupName}:013";
 
         // Assessment
         public const string YouMustStartSelfAssessmentForFrameworkFirst = $"{ParentGroupName}:{AssessmentGroupName}:001";
@@ -53,5 +53,6 @@
         public const string AssessmentCanBeUpdatedByFrameworkOwnerWhenComplianceUnderPreparationOrUnderRevision = $"{ParentGroupName}:{AssessmentGroupName}:006";
         public const string AssessmentCanOnlyBeUpdatedByDomainResponsibleWhenComplianceUnderInternalAssessment = $"{ParentGroupName}:{AssessmentGroupName}:007";
         public const string YouMustAnswerPriorityQuestionForThisFrameworkControls = $"{ParentGroupName}:{AssessmentGroupName}:008";
+        public const string CannotAssessMainControlIfItHasSubs = $"{ParentGroupName}:{AssessmentGroupName}:009";
     }
 }

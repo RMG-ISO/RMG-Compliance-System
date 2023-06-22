@@ -82,8 +82,9 @@ namespace RMG.ComplianceSystem.Domains
         protected override async Task<IQueryable<Domain>> CreateFilteredQueryAsync(DomainPagedAndSortedResultRequestDto input)
         {
             var query = (await Repository.WithDetailsAsync())
-                .WhereIf(!input.MainDomainNameAr.IsNullOrEmpty(), t => t.Parent != null && t.Parent.NameAr.Contains(input.MainDomainNameAr))
-                .WhereIf(!input.MainDomainNameEn.IsNullOrEmpty(), t => t.Parent != null && t.Parent.NameEn.Contains(input.MainDomainNameEn))
+                .WhereIf(input.HasPriority.HasValue, t => t.Framework.HasPriority == input.HasPriority.Value)
+                .WhereIf(input.DepartmentId.HasValue, t => t.DomainDepartments.Any(dd => dd.DepartmentId == input.DepartmentId.Value))
+                .WhereIf(input.OwnerId.HasValue, t => t.Framework.OwnerId == input.OwnerId.Value)
                 .WhereIf(input.FrameworkId.HasValue, t => t.FrameworkId == input.FrameworkId)
                 .WhereIf(input.IsMainDomain, t => t.ParentId == null)
                 .WhereIf(!input.IsMainDomain, t => t.ParentId != null)
@@ -142,10 +143,13 @@ namespace RMG.ComplianceSystem.Domains
                 var parent = await Repository.GetAsync(input.ParentId.Value);
                 input.ResponsibleId = parent.ResponsibleId;
             }
-            //var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            var entity = await MapToEntityAsync(input);
+            if (entity.ResponsibleId == framework.OwnerId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainResponsibleSameAsFrameworkOwner);
+
             //if (framework.ComplianceStatus != ComplianceStatus.NotStarted && framework.ComplianceStatus != ComplianceStatus.Approved)
             //    throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainIfFrameworkInsideComplianceLoop);
-            var entity = await MapToEntityAsync(input);
 
             if (input.DepartmentIds is not null)
                 foreach (var item in input.DepartmentIds)
@@ -176,6 +180,10 @@ namespace RMG.ComplianceSystem.Domains
                 input.ResponsibleId = parent.ResponsibleId;
             }
             var entity = await GetEntityByIdAsync(id);
+            var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            if (input.ResponsibleId == framework.OwnerId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainResponsibleSameAsFrameworkOwner);
+
             entity.DomainDepartments.Clear();
             await Repository.UpdateAsync(entity, autoSave: true);
 
