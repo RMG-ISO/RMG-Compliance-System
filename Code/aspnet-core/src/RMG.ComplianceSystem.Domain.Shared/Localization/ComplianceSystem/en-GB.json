@@ -611,12 +611,13 @@
     "Priority": "Priority",
     "ComplianceSystem:Assessment:008": "You must answer priority question",
     "ComplianceSystem:Assessment:009": "You cannot assess main control if it has sub controls",
-    "PriorityQuestion":"Is there any importance to the main controls and sub-controls ?",
-    "Error":"Error",
-    "ErrorMsg:401":"You are not authorized to enter",
-    "ErrorMsg:403":"forbidden",
-    "ErrorMsg:404":"Not Found",
-    "ErrorMsg:500":"Internal Server Error",
-    "BackToHome":"Back To Home"
+    "PriorityQuestion": "Is there any importance to the main controls and sub-controls ?",
+    "Error": "Error",
+    "ErrorMsg:401": "You are not authorized to enter",
+    "ErrorMsg:403": "You do not have permission",
+    "ErrorMsg:404": "Not Found",
+    "ErrorMsg:500": "Internal Server Error",
+    "BackToHome": "Back To Home",
+    "ComplianceSystem:Domain:013": "Domain responsible cannot be the same as framework owner"
   }
 }
