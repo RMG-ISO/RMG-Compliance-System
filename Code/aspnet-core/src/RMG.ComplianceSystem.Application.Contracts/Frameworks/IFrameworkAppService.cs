@@ -30,6 +30,6 @@ namespace RMG.ComplianceSystem.Frameworks
 
         int CalculateCompliancePercentage(Guid id);
 
-        Task TogglePriority(Guid id);
+        Task<TogglePriorityOutputDto> TogglePriority(Guid id);
     }
 }
