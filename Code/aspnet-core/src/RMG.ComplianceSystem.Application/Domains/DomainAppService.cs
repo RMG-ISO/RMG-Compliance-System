@@ -143,10 +143,13 @@ namespace RMG.ComplianceSystem.Domains
                 var parent = await Repository.GetAsync(input.ParentId.Value);
                 input.ResponsibleId = parent.ResponsibleId;
             }
-            //var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            var entity = await MapToEntityAsync(input);
+            if (entity.ResponsibleId == framework.OwnerId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainResponsibleSameAsFrameworkOwner);
+
             //if (framework.ComplianceStatus != ComplianceStatus.NotStarted && framework.ComplianceStatus != ComplianceStatus.Approved)
             //    throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainIfFrameworkInsideComplianceLoop);
-            var entity = await MapToEntityAsync(input);
 
             if (input.DepartmentIds is not null)
                 foreach (var item in input.DepartmentIds)
@@ -177,6 +180,10 @@ namespace RMG.ComplianceSystem.Domains
                 input.ResponsibleId = parent.ResponsibleId;
             }
             var entity = await GetEntityByIdAsync(id);
+            var framework = await _frameworkRepository.GetAsync(input.FrameworkId, false);
+            if (input.ResponsibleId == framework.OwnerId)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAddDomainResponsibleSameAsFrameworkOwner);
+
             entity.DomainDepartments.Clear();
             await Repository.UpdateAsync(entity, autoSave: true);
 

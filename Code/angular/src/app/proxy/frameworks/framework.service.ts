@@ -1,4 +1,4 @@
-import type { CreateUpdateFrameworkDto, FrameworkData, FrameworkDto, FrameworkPagedAndSortedResultRequestDto, RejectFrameworkDto, getFrameworkDto } from './dtos/models';
+import type { CreateUpdateFrameworkDto, FrameworkData, FrameworkDto, FrameworkPagedAndSortedResultRequestDto, RejectFrameworkDto, TogglePriorityOutputDto, getFrameworkDto } from './dtos/models';
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -119,8 +119,8 @@ export class FrameworkService {
     { apiName: this.apiName });
 
   togglePriorityById = (id: string) =>
-    this.restService.request<any, void>({
-      method: 'POST',
+    this.restService.request<any, TogglePriorityOutputDto>({
+      method: 'PUT',
       url: `/api/app/framework/${id}/toggle-priority`,
     },
     { apiName: this.apiName });

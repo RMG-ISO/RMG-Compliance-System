@@ -42,7 +42,7 @@
         public const string OnlyDomainResponsibleCanSendToOwner = $"{ParentGroupName}:{DomainGroupName}:010";
         public const string DomainMustBeUnderRevisionOrUnderReRevisionToApproveCompliance = $"{ParentGroupName}:{DomainGroupName}:011";
         public const string OnlyFrameworkOwnerCanApproveCompliance = $"{ParentGroupName}:{DomainGroupName}:012";
-
+        public const string CannotAddDomainResponsibleSameAsFrameworkOwner = $"{ParentGroupName}:{DomainGroupName}:013";
 
         // Assessment
         public const string YouMustStartSelfAssessmentForFrameworkFirst = $"{ParentGroupName}:{AssessmentGroupName}:001";

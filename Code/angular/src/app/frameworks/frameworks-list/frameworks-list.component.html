@@ -101,14 +101,17 @@
             </ngx-datatable-column>
 
             
-            <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="creator.name">
-            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="creator.name"> </ngx-datatable-column>
 
             <ngx-datatable-column [name]="'::CreatedDate' | abpLocalization" prop="creationTime">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{value | date:'yyyy/MM/dd'}}
                 </ng-template>
             </ngx-datatable-column>
+
+
+            <ngx-datatable-column [name]="'::FrameWork:Owner' | abpLocalization" prop="ownerName"> </ngx-datatable-column>
+
 
             <ngx-datatable-column [name]="'::FrameworkStatus' | abpLocalization" prop="frameworkStatus">
                 <ng-template let-value="value" ngx-datatable-cell-template>
