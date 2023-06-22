@@ -5,7 +5,7 @@
 @use "./styles/table.scss";
 @use "./styles/dialog.scss";
 @use "./styles/print.scss";
-@use "~@ng-select/ng-select/themes/default.theme.css";
+@use "@ng-select/ng-select/themes/default.theme.css";
 
 @keyframes donut-spin {
   0% {
@@ -52,10 +52,12 @@ body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif
   font-style: normal;
 }
 
-$custom-typography: mat-typography-config(
-  $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
-);
-@include mat-core($custom-typography);
+// $custom-typography: mat-typography-config(
+//   $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+// );
+// @include mat-core($custom-typography);
+
+
 
 // $primary: mat-palette($mat-blue,200);
 // $accent: mat-palette($mat-orange,200);
