@@ -26,10 +26,17 @@ import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout
 // '@angular/common/locales/ar-EG.js'
 // ).then(m => storeLocaleData(m.default, 'ar-EG'));
 
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '../../node_modules/@angular/common/locales/ar-EG.mjs'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
+
 import(
 /* webpackChunkName: "_locale-your-locale-js"*/
 /* webpackMode: "eager" */
-'../../node_modules/@angular/common/locales/ar-EG.mjs'
+'../../node_modules/@angular/common/locales/ar-EG.mjs' ||   '../../node_modules/@angular/common/locales/en.mjs'
 ).then(m => storeLocaleData(m.default, 'ar-EG'));
 
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -44,6 +51,8 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
 import { MatCardModule } from "@angular/material/card";
+import { OAuthService } from 'angular-oauth2-oidc';
+import { of } from 'rxjs';
 
 // export let AppInjector: Injector;
 
@@ -122,6 +131,23 @@ import { MatCardModule } from "@angular/material/card";
     //     max: "::Validations:Max[{{ max }}]",
     //   },
     // },
+
+  //   {
+  //     provide: OAuthService,
+  //     useValue: {
+  //         hasValidAccessToken: () => true, // return token status
+  //         configure: () => {
+  //         },
+  //         loadDiscoveryDocument: () => Promise.resolve(),
+  //         events: of(),
+  //         tryLogin: () => {
+  //         },
+  //         setupAutomaticSilentRefresh: () => {
+  //         },
+  //         getAccessToken: () => '' // return access token
+  //     }
+  // },
+  
   ],
   bootstrap: [AppComponent],
 })
