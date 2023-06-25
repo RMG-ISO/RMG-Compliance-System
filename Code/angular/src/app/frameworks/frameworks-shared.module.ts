@@ -11,7 +11,7 @@ import { ControlViewComponent } from './control-view/control-view.component';
 import { CreateControlComponent } from './domain-view/create-control/create-control.component';
 import { DomainViewComponent } from './domain-view/domain-view.component';
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';
-import { CreateDomainComponent } from './framework-view/create-domain/create-domain.component';
+import { CreateDomainComponent } from './framework-view/main-domains-view/create-domain/create-domain.component';
 import { ExpansionSubDomainsTableComponent } from './framework-view/expansion-sub-domains-table/expansion-sub-domains-table.component';
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
