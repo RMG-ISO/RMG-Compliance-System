@@ -141,7 +141,7 @@ namespace RMG.ComplianceSystem.Reports
             return new List<CompliancePriorityTableDto>
             {
                 new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()s },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
                 new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()},
             };
         }
