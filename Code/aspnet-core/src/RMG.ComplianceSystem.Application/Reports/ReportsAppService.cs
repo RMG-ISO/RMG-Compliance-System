@@ -127,16 +127,6 @@ namespace RMG.ComplianceSystem.Reports
             }
             
             // if main domains doesn't have at least Controller
-            if (!domains.Any(x => x.Chi.Count > 0))
-            {
-                return new List<CompliancePriorityTableDto>
-                {
-                    new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 },
-                    new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 },
-                    new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 },
-                };
-            };
-
             var controllers = domains.Select(x => Tuple.Create(x.NameAr,x.Controls.ToList()));
 
             //if at least one sub controller exist
@@ -151,7 +141,7 @@ namespace RMG.ComplianceSystem.Reports
             return new List<CompliancePriorityTableDto>
             {
                 new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()s },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
                 new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()},
             };
         }
