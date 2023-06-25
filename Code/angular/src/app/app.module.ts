@@ -37,6 +37,8 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
 import { MatCardModule } from "@angular/material/card";
+import { PermissionManagementComponent } from './permission-management/permission-management.component';
+import { MyRolesModule } from './my-roles/my-roles.module';
 
 // export let AppInjector: Injector;
 
@@ -90,12 +92,14 @@ import { MatCardModule } from "@angular/material/card";
       targetSelector:'.form-group',
       errorTemplate:ValidationErrorComponent,
       invalidClasses:'is-invalid'
-    })
+    }),
+      MyRolesModule
   ],
   declarations: [
     AppComponent,
     ComplianceLayoutComponent,
-    ErrorInterceptComponent
+    ErrorInterceptComponent,
+    PermissionManagementComponent
   ],
   providers: [
     APP_ROUTE_PROVIDER,
