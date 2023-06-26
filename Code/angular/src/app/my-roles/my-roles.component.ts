@@ -56,12 +56,13 @@ export class MyRolesComponent implements OnInit {
 
   ngOnInit() {
     this.hookToQuery();
-    console.log(this.data);
   }
 
   buildForm() {
     const data = new FormPropData(this.injector, this.selected);
+    console.log(this.injector);
     this.form = generateFormFromProps(data);
+    console.log(this.form);
   }
 
   openModal() {
@@ -98,7 +99,10 @@ export class MyRolesComponent implements OnInit {
   }
 
   delete(id: string, name: string) {
-    this.confirmationService
+    console.log(id);
+    console.log(name);
+
+  /*   this.confirmationService
       .warn('AbpIdentity::RoleDeletionConfirmationMessage', 'AbpIdentity::AreYouSure', {
         messageLocalizationParams: [name],
       })
@@ -106,11 +110,14 @@ export class MyRolesComponent implements OnInit {
         if (status === Confirmation.Status.confirm) {
           this.service.delete(id).subscribe(() => this.list.get());
         }
-      });
+      }); */
   }
 
   private hookToQuery() {
-    this.list.hookToQuery(query => this.service.getList(query)).subscribe(res => (this.data = res));
+    this.list.hookToQuery(query => this.service.getList(query)).subscribe(res => {
+      this.data = res;
+      console.log(res);
+    });
   }
 
   openPermissionsModal(providerKey: string) {

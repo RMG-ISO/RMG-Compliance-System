@@ -62,19 +62,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td >D.01- Data Governance </td>
-                <td class="bg-4" >18</td>
-                <td class="bg-4" >12</td>
-                <td >55</td>
-                <td >11</td>
-                <td class="bg-4" >43</td>
-                <td class="bg-4" >56</td>
-                <td >98</td>
-                <td class="bg-4" >26</td>
-                <td >18</td>
+
+              <tr *ngFor="let item of PriorityLevelByFrameworkId_chartData | keyvalue">
+                <td >{{item.key}}</td>
+                <td class="bg-4" >{{item.value[1]['controllersCount']}}</td>
+                <td class="bg-4" >{{item.value[1]['complianceCount']}}</td>
+                <td >{{item.value[2]['complianceCount']}}</td>
+                <td >{{item.value[2]['complianceCount']}}</td>
+                <td class="bg-4" >{{item.value[3]['complianceCount']}}</td>
+                <td class="bg-4" >{{item.value[3]['complianceCount']}}</td>
+                <td >{{item.value[1]['percentage']}}</td>
+                <td class="bg-4" >{{item.value[2]['percentage']}}</td>
+                <td >{{item.value[3]['percentage']}}</td>
               </tr>
-              <tr>
+              
+              <!-- <tr>
                 <td >D.01- Data Governance </td>
                 <td class="bg-4" >18</td>
                 <td class="bg-4" >12</td>
@@ -97,7 +99,7 @@
                 <td  class="bg-2">98</td>
                 <td  class="bg-2">26</td>
                 <td  class="bg-2">18</td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
 
@@ -140,19 +142,6 @@
                 <td class="bg-4">{{item.effectiveNo}}</td>
                 <td class="bg-4">{{item.effectivePartially}}</td>
               </tr>
-
-           <!--    <tr>
-                <td >D.01- Data Governance </td>
-                <td class="bg-4" >18</td>
-                <td class="bg-4">12</td>
-                <td >55</td>
-                <td >11</td>
-                <td class="bg-4">43</td>
-                <td class="bg-4">56</td>
-                <td >98</td>
-                <td  class="bg-4">26</td>
-                <td >18</td>
-              </tr> -->
            
             </tbody>
           </table>
@@ -179,7 +168,7 @@
           <div class="col-md-4">
             <h4 class="text-center">Priority(3)</h4>
             <div>
-              <div echarts [options]="ChartOptions2"    class="demo-chart" style="height: 300px;"></div>
+              <div echarts [options]="ChartOptions3"    class="demo-chart" style="height: 300px;"></div>
             </div>
           </div>
         </div>
@@ -189,7 +178,7 @@
           
           <div class="col-md-6">
               <h4 class="text-center">ﻧﺴﺒﺔ اﻹﻣﺘﺜﺎل</h4>
-              <div echarts [options]="ChartOptions3"    class="demo-chart" style="height: 400px;"></div>
+              <div echarts [options]="ChartOptions5"    class="demo-chart" style="height: 400px;"></div>
           </div>
 
           <div class="col-md-6">
@@ -207,28 +196,28 @@
 
               <tr>
                 <td>Priority (1)</td>
-                <td>78</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_1"]['controllersCounts']}}</td>
                 <td>40.8% </td>
                 <td>18</td>
                 <td>10% </td>
               </tr>
               <tr>
                 <td>Priority (2)</td>
-                <td>78</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_2"]['controllersCounts']}}</td>
                 <td>40.8% </td>
                 <td>18</td>
                 <td>10% </td>
               </tr>
               <tr>
                 <td>Priority (3)</td>
-                <td>78</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_3"]['controllersCounts']}}</td>
                 <td>40.8% </td>
                 <td>18</td>
                 <td>10% </td>
               </tr>
               <tr>
                 <td>Total</td>
-                <td>191</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"]}}</td>
                 <td>100%</td>
                 <td>69</td>
                 <td>60%</td>
