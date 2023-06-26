@@ -114,7 +114,6 @@
                 <th  colspan="3" class="bg-3">Effective</th>
               </tr>
               <tr>
-
                 <th  class="bg-3">Yes</th>
                 <th  class="bg-3">No</th>
                 <th  class="bg-1">Partially</th>
@@ -128,7 +127,21 @@
             </thead>
             <tbody>
           
-              <tr>
+
+              <tr *ngFor="let item of PhaseByFrameworkId">
+                <td > {{item.domainName}} </td>
+                <td class="bg-4" >{{item.documentedYes}}</td>
+                <td class="bg-4">{{item.documentedPartially}}</td>
+                <td class="bg-4">{{item.documentedNo}}</td>
+                <td class="bg-4">{{item.implementedYes}}</td>
+                <td class="bg-4">{{item.implementedNo}}</td>
+                <td class="bg-4">{{item.implementedPartially}}</td>
+                <td class="bg-4">{{item.effectiveYes}}</td>
+                <td class="bg-4">{{item.effectiveNo}}</td>
+                <td class="bg-4">{{item.effectivePartially}}</td>
+              </tr>
+
+           <!--    <tr>
                 <td >D.01- Data Governance </td>
                 <td class="bg-4" >18</td>
                 <td class="bg-4">12</td>
@@ -139,7 +152,7 @@
                 <td >98</td>
                 <td  class="bg-4">26</td>
                 <td >18</td>
-              </tr>
+              </tr> -->
            
             </tbody>
           </table>
@@ -173,10 +186,12 @@
 
         <div class="row">
           <h4 class="col-12">ﻧﺴﺒﺔ اﻹﻣﺘﺜﺎل ﻟﺠﻤﻴﻊ اﻟﻤﺠﺎﻻت ﻣﻘﺴﻤﺔ ﺑﺎﻷوﻟﻮﻳﺔ</h4>
+          
           <div class="col-md-6">
               <h4 class="text-center">ﻧﺴﺒﺔ اﻹﻣﺘﺜﺎل</h4>
               <div echarts [options]="ChartOptions3"    class="demo-chart" style="height: 400px;"></div>
           </div>
+
           <div class="col-md-6">
             <h4 class="text-center">عدد الضوابط الممتثلة لكل مجال</h4>
             <table class="table table-bordered text-center">
@@ -221,9 +236,9 @@
 
             </table>
           </div>
+
           <div class="col-md-12">
-            <h4 class="text-center">نسبة مستوي إمتثال الضوابط لكل مجال مقسمة بناء علي مستويات الإمتثال</h4>
-            
+            <h4 class="text-center">نسبة مستوي إمتثال الضوابط لكل مجال مقسمة بناء علي مستويات الإمتثال</h4>            
             <table class="table table-bordered text-center">
               <thead>
                   <tr>
@@ -240,17 +255,18 @@
                 </tr>
               </thead>
 
-              <tr>
-                <td>D.01 - Data Governance</td>
-                <td>78</td>
-                <td>18</td>
-                <td>45</td>
-                <td>21</td>
-                <td>31</td>
-                <td>67</td>
+
+              <tr *ngFor="let item of ComplianceLevelByFrameworkId">
+                <td > {{item.domainName}} </td>
+                <td class="bg-4" >{{item.notImplemented}}</td>
+                <td class="bg-4">{{item.intial}}</td>
+                <td class="bg-4">{{item.defined}}</td>
+                <td class="bg-4">{{item.effective}}</td>
+                <td class="bg-4">{{item.measurable}}</td>
+                <td class="bg-4">{{item.mature}}</td>
               </tr>
 
-              <tr>
+             <!--  <tr>
                 <td>D.02 - Data Catalog and Metadata</td>
                 <td>78</td>
                 <td>18</td>
@@ -258,16 +274,16 @@
                 <td>21</td>
                 <td>31</td>
                 <td>67</td>
-              </tr>
+              </tr> -->
               
               <tr>
-                <td>D.03 - Data Quality</td>
-                <td>78</td>
-                <td>18</td>
-                <td>45</td>
-                <td>21</td>
-                <td>31</td>
-                <td>67</td>
+                <td>Total</td>
+                <td>{{getSum('notImplemented')}}</td>
+                <td>{{getSum('intial')}}</td>
+                <td>{{getSum('defined')}}</td>
+                <td>{{getSum('effective')}}</td>
+                <td>{{getSum('measurable')}}</td>
+                <td>{{getSum('mature')}}</td>
               </tr>
             </table>
 
