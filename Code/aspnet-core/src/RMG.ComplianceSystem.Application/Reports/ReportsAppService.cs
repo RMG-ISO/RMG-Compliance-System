@@ -139,12 +139,14 @@ namespace RMG.ComplianceSystem.Reports
             var mainDomains = domains.Where(x => x.ParentId == null);
             var child = mainDomains.SelectMany(x => x.Children);
             var mainDomainsDict = new Dictionary<Domain, IList<Control>>();
+            bool subController = false;
             foreach (var domain in mainDomains)
             {
                 var subDomains = _domainRepository.Where(d => d.ParentId == domain.Id).Select(d => d.Id).ToList();
                 var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
                 if (controls.Any(x => x.Children != null))
                 {
+                    subController = true;
                     controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
                 }
                 mainDomainsDict.Add(domain, controls);
@@ -152,17 +154,21 @@ namespace RMG.ComplianceSystem.Reports
                 //mainDomains.ToDictionary(mainDomain => mainDomain, mainDomain => mainDomain.Children.SelectMany(domain => domain.Controls.SelectMany(controls => controls.Children)) ?? mainDomain.Children.SelectMany(x => x.Controls));
             return new List<CompliancePriorityTableDto>
             {
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()},
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id,subController) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()},
             };
         }
 
-        private int GetComplianceControlCountByDomainId(Guid domainId)
+        private int GetComplianceControlCountByDomainId(Guid domainId, bool subController)
         {
             var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
-            var controlsIds = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
-            return _assessmentRepository.Count(a => controlsIds.Contains(a.ControlId));
+            var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+            if (subController)
+            {
+                controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
+            }
+            return _assessmentRepository.Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
         }
 
         
