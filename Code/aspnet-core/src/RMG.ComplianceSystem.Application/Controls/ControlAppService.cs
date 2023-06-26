@@ -67,8 +67,8 @@ namespace RMG.ComplianceSystem.Controls
         protected override async Task<ControlDto> MapToGetOutputDtoAsync(Control entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
-            var assessments = _assessmentRepository.Where(a => a.ControlId == dto.Id).ToList();
-            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => a.ControlId == dto.Id).ToList();
+            dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
             return dto;
         }
 
@@ -103,7 +103,7 @@ namespace RMG.ComplianceSystem.Controls
         {
             await CheckDeletePolicyAsync();
             await base.DeleteAsync(id);
-            await Repository.DeleteManyAsync(Repository.Where(c => c.ParentId == id).Select(c => c.Id));
+            await Repository.DeleteManyAsync((await Repository.GetQueryableAsync()).Where(c => c.ParentId == id).Select(c => c.Id));
         }
 
         public async Task DeleteMany(List<Guid> ids)
@@ -112,13 +112,13 @@ namespace RMG.ComplianceSystem.Controls
             await Repository.DeleteManyAsync(ids);
             foreach (var item in ids)
             {
-                await Repository.DeleteManyAsync(Repository.Where(c => c.ParentId == item).Select(c => c.Id));
+                await Repository.DeleteManyAsync((await Repository.GetQueryableAsync()).Where(c => c.ParentId == item).Select(c => c.Id));
             }
         }
 
-        private int CalculateCompliancePercentage(Guid id)
+        private async Task<int> CalculateCompliancePercentage(Guid id)
         {
-            var assessments = _assessmentRepository.Where(a => a.ControlId == id).Select(a => new AssessmentCompliancePercentageDto
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => a.ControlId == id).Select(a => new AssessmentCompliancePercentageDto
             {
                 DocumentedPercentage = a.DocumentedPercentage,
                 EffectivePercentage = a.EffectivePercentage,

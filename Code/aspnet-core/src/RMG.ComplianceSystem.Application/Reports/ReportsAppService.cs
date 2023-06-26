@@ -19,11 +19,11 @@ namespace RMG.ComplianceSystem.Reports
 
 
 
-        public  List<ComplianceLevelTableDto> GetControllersByComplianceLevel([Required] Guid frameworkId)
+        public  async Task<List<ComplianceLevelTableDto>> GetControllersByComplianceLevel([Required] Guid frameworkId)
         {
             var result = new List<ComplianceLevelTableDto>();
 
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(x => x.FrameworkId == frameworkId);
             // if framework doesn't have any main domain
             if (!domains.Any())
             {
@@ -63,9 +63,9 @@ namespace RMG.ComplianceSystem.Reports
             return result;
         }
 
-        public List<CompliancePhaseTableDto> GetControllersByPhase([Required] Guid frameworkId)
+        public async Task<List<CompliancePhaseTableDto>> GetControllersByPhase([Required] Guid frameworkId)
         {
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(x => x.FrameworkId == frameworkId);
             var result = new List<CompliancePhaseTableDto>();
             // if framework doesn't have any main domain
             if (!domains.Any())

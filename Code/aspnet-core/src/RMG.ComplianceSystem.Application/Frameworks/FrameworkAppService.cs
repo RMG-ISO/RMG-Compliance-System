@@ -28,7 +28,6 @@ using System.Security.Policy;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Security;
 using RMG.ComplianceSystem.Authorization;
 
@@ -165,10 +164,10 @@ namespace RMG.ComplianceSystem.Frameworks
             dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
             dto.ApproveUserName = (await _employeeRepository.FindAsync(dto.ApproveUserId, false))?.FullName;
 
-            dto.CanSendForInternalAssessment = CanSendForInternalAssessment(entity).Item1;
-            dto.CanApproveCompliance = _domainRepository.Where(d => d.FrameworkId == dto.Id && !d.ParentId.HasValue).All(d => d.ComplianceStatus == ComplianceStatus.Approved);
-            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
-            dto.HasMainControl = HasMainControl(dto.Id);
+            dto.CanSendForInternalAssessment = (await CanSendForInternalAssessment(entity)).Item1;
+            dto.CanApproveCompliance = (await  _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == dto.Id && !d.ParentId.HasValue).All(d => d.ComplianceStatus == ComplianceStatus.Approved);
+            dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
+            dto.HasMainControl = await HasMainControl(dto.Id);
             dto.CanSendForInternalAssessment = (await CanSendForInternalAssessment(entity)).Item1;
             return dto;
         }
@@ -582,11 +581,13 @@ namespace RMG.ComplianceSystem.Frameworks
 
         private async Task<Tuple<bool, List<string>, List<Domain>>> CanSendForInternalAssessment(Framework framework)
         {
-            var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
-            var controls = _controlRepository
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == framework.Id).ToList();
+            var controlRepo = await _controlRepository.GetQueryableAsync();
+            var assessmentRepo = await _assessmentRepository.GetQueryableAsync();
+            var controls = (await _controlRepository.GetQueryableAsync())
                 .Where(c => domains.Select(d => d.Id).Contains(c.DomainId) 
-                    && (c.ParentId.HasValue || (!c.ParentId.HasValue && !_controlRepository.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
-            var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
+                    && (c.ParentId.HasValue || (!c.ParentId.HasValue && !controlRepo.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
+            var controlsWithoutAssessments = controls.Where(c => !assessmentRepo.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
                 return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
             return new Tuple<bool, List<string>, List<Domain>>(true, null, domains);
@@ -712,19 +713,19 @@ namespace RMG.ComplianceSystem.Frameworks
 
         //}
 
-        private bool HasMainControl(Guid frameworkId)
+        private async Task<bool> HasMainControl(Guid frameworkId)
         {
-            var domains = _domainRepository.Where(d => d.FrameworkId == frameworkId).Select(d => d.Id).ToList();
-            return _controlRepository.Any(c => !c.ParentId.HasValue && domains.Contains(c.DomainId));
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == frameworkId).Select(d => d.Id).ToList();
+            return await _controlRepository.AnyAsync(c => !c.ParentId.HasValue && domains.Contains(c.DomainId));
         }
 
         [RemoteService(false)]
-        public int CalculateCompliancePercentage(Guid id)
+        public async Task<int> CalculateCompliancePercentage(Guid id)
         {
             var controls = new List<Guid>();
-            var subDomains = _domainRepository.Where(d => d.FrameworkId == id && d.ParentId.HasValue).Select(d => d.Id).ToList();
-            controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
-            var assessments = _assessmentRepository.Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
+            var subDomains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == id && d.ParentId.HasValue).Select(d => d.Id).ToList();
+            controls = (await _controlRepository.GetQueryableAsync()).Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
             {
                 DocumentedPercentage = a.DocumentedPercentage,
                 EffectivePercentage = a.EffectivePercentage,

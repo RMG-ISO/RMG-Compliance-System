@@ -19,7 +19,6 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Domain.Repositories;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Volo.Abp.Domain.Entities;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Controls;
@@ -205,7 +204,7 @@ namespace RMG.ComplianceSystem.Domains
         protected override async Task<DomainDto> MapToGetOutputDtoAsync(Domain entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
-            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id, dto.ParentId.HasValue);
+            dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id, dto.ParentId.HasValue);
             if (dto.ResponsibleId.HasValue)
                 dto.ResponsibleName = (await _employeeRepository.GetAsync(dto.ResponsibleId.Value))?.FullName;
             return dto;
@@ -223,7 +222,7 @@ namespace RMG.ComplianceSystem.Domains
             {
                 foreach (var dto in entityDtos)
                 {
-                    dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+                    dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
                 }
             }
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
@@ -432,17 +431,17 @@ namespace RMG.ComplianceSystem.Domains
         }
 
 
-        private int CalculateCompliancePercentage(Guid id, bool hasParent = false)
+        private async Task<int> CalculateCompliancePercentage(Guid id, bool hasParent = false)
         {
             var controls = new List<Guid>();
             if (hasParent)
-                controls = _controlRepository.Where(c => c.DomainId == id).Select(c => c.Id).ToList();
+                controls = (await _controlRepository.GetQueryableAsync()).Where(c => c.DomainId == id).Select(c => c.Id).ToList();
             else
             {
-                var subDomains = Repository.Where(d => d.ParentId == id).Select(d => d.Id).ToList();
-                controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
+                var subDomains = (await Repository.GetQueryableAsync()).Where(d => d.ParentId == id).Select(d => d.Id).ToList();
+                controls = (await _controlRepository.GetQueryableAsync()).Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
             }
-            var assessments = _assessmentRepository.Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
             {
                 DocumentedPercentage = a.DocumentedPercentage,
                 EffectivePercentage = a.EffectivePercentage,
