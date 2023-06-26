@@ -19,12 +19,25 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
 
 import { storeLocaleData } from '@abp/ng.core/locale';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
+
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '@angular/common/locales/ar-EG.js'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '../../node_modules/@angular/common/locales/ar-EG.mjs'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
+
 import(
-  /* webpackInclude: /(de|de-AT|en|en-GB)\.mjs$/ */
-  'node_modules/@angular/common/locales/ar-EG'
-).then((module) => {
-  registerLocaleData(module.default);
-});
+/* webpackChunkName: "_locale-your-locale-js"*/
+/* webpackMode: "eager" */
+'../../node_modules/@angular/common/locales/ar-EG.mjs' ||   '../../node_modules/@angular/common/locales/en.mjs'
+).then(m => storeLocaleData(m.default, 'ar-EG'));
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -38,12 +51,13 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
 import { MatCardModule } from "@angular/material/card";
+import { OAuthService } from 'angular-oauth2-oidc';
+import { of } from 'rxjs';
 
 // export let AppInjector: Injector;
 
 @NgModule({
   imports: [
-    RouterModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -117,6 +131,23 @@ import { MatCardModule } from "@angular/material/card";
     //     max: "::Validations:Max[{{ max }}]",
     //   },
     // },
+
+  //   {
+  //     provide: OAuthService,
+  //     useValue: {
+  //         hasValidAccessToken: () => true, // return token status
+  //         configure: () => {
+  //         },
+  //         loadDiscoveryDocument: () => Promise.resolve(),
+  //         events: of(),
+  //         tryLogin: () => {
+  //         },
+  //         setupAutomaticSilentRefresh: () => {
+  //         },
+  //         getAccessToken: () => '' // return access token
+  //     }
+  // },
+  
   ],
   bootstrap: [AppComponent],
 })
@@ -125,3 +156,12 @@ export class AppModule {
   //   AppInjector = this.injector;
   // }
 }
+
+
+/*
+{
+  "input": "node_modules/@abp/ng.theme.shared/styles/bootstrap-rtl.min.css",
+  "inject": false,
+  "bundleName": "bootstrap-rtl.min"
+},
+*/

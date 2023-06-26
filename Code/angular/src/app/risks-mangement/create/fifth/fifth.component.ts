@@ -1,5 +1,6 @@
 import { Type } from './../../module.enums';
-import { IdentityUserService } from '@abp/ng.identity/proxy';
+import { IdentityUserService} from '@abp/ng.identity/proxy';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 import { Status } from '../../module.enums';

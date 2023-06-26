@@ -1,6 +1,6 @@
 import { finalize } from 'rxjs/operators';
 import { ToasterService } from '@abp/ng.theme.shared';
-import { IdentityUserService } from '@abp/ng.identity/proxy';
+import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

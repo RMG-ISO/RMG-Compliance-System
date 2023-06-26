@@ -1,5 +1,5 @@
-import type { FullAuditedEntityWithUserDto } from '@abp/ng.core';
 import { IdentityUserDto } from '@abp/ng.identity/proxy';
+import type { FullAuditedEntityWithUserDto } from '@abp/ng.core';
 
 export interface AttachmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   isMultiple: boolean;
