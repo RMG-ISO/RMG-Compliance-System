@@ -83,11 +83,18 @@ export class ExpansionSubControlsTableComponent implements OnInit {
 
   items
   totalCount;
+  hasSubControls = true;
+  isSet = false;
   getList() {
     const bookStreamCreator = (query) => this.controlService.getList({ ...query, isMainControl: false, mainControlId: this.mainControl.id, domainId: this.subDomainId });
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
+
       this.items = response.items;
       this.totalCount = response.totalCount;
+      if(!this.isSet) {
+        this.hasSubControls = !!response.items.length;
+      }
+      this.isSet = true;
     });
   }
 

@@ -35,7 +35,18 @@
             
             <ngx-datatable-column [name]=" '::Status' | abpLocalization " prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ ('::' + Status[row.status]) | abpLocalization  }}
+                   <span [class]="Status[row.status]">
+                        {{ ('::' + Status[row.status]) | abpLocalization  }}
+                   </span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [name]=" '::Date' | abpLocalization " prop="creationTime">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <!-- {{ ('::' + Status[row.status]) | abpLocalization  }} -->
+                    <span class="date">
+                        {{ value | date:'yyyy/MM/dd    HH:mm'}}
+                    </span>
                 </ng-template>
             </ngx-datatable-column>
 

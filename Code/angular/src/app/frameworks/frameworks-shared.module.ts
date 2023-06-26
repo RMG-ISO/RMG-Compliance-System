@@ -11,12 +11,18 @@ import { ControlViewComponent } from './control-view/control-view.component';
 import { CreateControlComponent } from './domain-view/create-control/create-control.component';
 import { DomainViewComponent } from './domain-view/domain-view.component';
 import { ExpansionSubControlsTableComponent } from './domain-view/expansion-sub-controls-table/expansion-sub-controls-table.component';
-import { CreateDomainComponent } from './framework-view/create-domain/create-domain.component';
+import { CreateDomainComponent } from './framework-view/main-domains-view/create-domain/create-domain.component';
 import { ExpansionSubDomainsTableComponent } from './framework-view/expansion-sub-domains-table/expansion-sub-domains-table.component';
 import { FrameworkViewComponent } from './framework-view/framework-view.component';
 import { CreateFrameworkComponent } from './frameworks-list/create-framework/create-framework.component';
 import { FrameworksRoutingModule } from './frameworks-routing.module';
 import { ChangeLogComponent } from './framework-view/change-log/change-log.component';
+import { FrameDetailsViewComponent } from './framework-view/frame-details-view/frame-details-view.component';
+import { MainDomainsViewComponent } from './framework-view/main-domains-view/main-domains-view.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { FrameReportComponent } from './framework-view/frame-report/frame-report.component';
 
 
 
@@ -31,7 +37,11 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
     ControlViewComponent,
-    ChangeLogComponent
+    ChangeLogComponent,
+    FrameDetailsViewComponent,
+    MainDomainsViewComponent,
+    FrameFilesComponent,
+    FrameReportComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +51,11 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
     MatExpansionModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSlideToggleModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   exports:[
     CreateFrameworkComponent,
@@ -53,7 +67,11 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
     ExpansionSubControlsTableComponent,
     ComplianceFormComponent,
     ControlViewComponent,
-    ChangeLogComponent
+    ChangeLogComponent,
+    FrameDetailsViewComponent,
+    MainDomainsViewComponent,
+    FrameFilesComponent,
+    FrameReportComponent
   ]
 })
 export class FrameworksSharedModule { }

@@ -108,6 +108,9 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<DateTime?>("NextComplianceDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte?>("Priority")
+                        .HasColumnType("tinyint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ControlId");
@@ -187,6 +190,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<DateTime?>("NextComplianceDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte?>("Priority")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -1083,6 +1089,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<byte>("FrameworkStatus")
                         .HasColumnType("tinyint");
+
+                    b.Property<bool>("HasPriority")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("InternalAssessmentEndDate")
                         .HasColumnType("datetime2");

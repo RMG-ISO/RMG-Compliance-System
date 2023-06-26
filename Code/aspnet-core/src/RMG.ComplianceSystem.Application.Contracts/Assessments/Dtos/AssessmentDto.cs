@@ -22,6 +22,7 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public DocumentedType? Documented { get; set; }
 
         public ImplementedType? Implemented { get; set; }
+        public PriorityType? Priority { get; set; }
 
         public EffectiveType? Effective { get; set; }
 
@@ -31,7 +32,7 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public string Comment { get; set; }
 
         public Guid? AttachmentId { get; set; }
-
+        public int CompliancePercentage { get; set; }
         public List<NameId<Guid>> Employees { get; set; }
         public List<AssessmentVersionDto> Versions { get; set; } = new List<AssessmentVersionDto>();
 

@@ -36,7 +36,10 @@ namespace RMG.ComplianceSystem.Notifications
         DomainApproveCompliance,
         DomainReturnToResponsible,
         DomainSentToOwner,
-        FrameworkApproveCompliance
+        FrameworkApproveCompliance,
+        FrameworkCreatedForReviewer,
+        FrameworkCreatedForApprover,
+        FrameworkCreatedForOwner
         //Compilance,
         //Document,
 

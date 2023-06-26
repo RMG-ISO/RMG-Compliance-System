@@ -24,6 +24,7 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   attachmentId?: string;
   reviewUserId?: string;
   approveUserId?: string;
+  approveUserName?: string;
   levelFirstNameAr?: string;
   levelFirstNameEn?: string;
   levelSecondNameAr?: string;
@@ -33,14 +34,18 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   ownerId?: string;
   levelFourNameAr?: string;
   levelFourNameEn?: string;
+  hasMainControl: boolean;
   complianceStatus: ComplianceStatus;
   selfAssessmentStartDate?: string;
   selfAssessmentEndDate?: string;
+  hasPriority: boolean;
   canSendForInternalAssessment: boolean;
+  canApproveCompliance: boolean;
   internalAssessmentStartDate?: string;
   internalAssessmentEndDate?: string;
   reviewStartDate?: string;
   reviewEndDate?: string;
+  compliancePercentage: number;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
 }
@@ -71,6 +76,7 @@ export interface CreateUpdateFrameworkDto {
   levelThirdNameEn?: string;
   levelFourNameAr?: string;
   levelFourNameEn?: string;
+  hasPriority: boolean;
   frameworkEmpsDto: FrameworkEmpDto[];
 }
 
@@ -130,6 +136,10 @@ export interface SubControlsDto {
 export interface SubDomainsDto {
   subdomain: DomainDto;
   childrenControls: MainControlsDto[];
+}
+
+export interface TogglePriorityOutputDto {
+  hasPriority: boolean;
 }
 
 export interface getFrameworkDto {

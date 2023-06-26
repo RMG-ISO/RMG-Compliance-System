@@ -50,6 +50,9 @@ table.details-table-cont {
     // width: calc(100% + 50px);
     td {
         border: 1px solid #DDDDDD;
+        &:nth-of-type(odd) {
+            width: 220px;
+        }
     }
     
 }

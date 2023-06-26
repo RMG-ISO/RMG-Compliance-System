@@ -71,14 +71,19 @@ namespace RMG.ComplianceSystem.Shared
                     return "https://iso.digitaltransformationinstitute.org:11001/risks-management/" + id +"/edit";
                 case NotificationSource.InternalAuditPreparation:
                     return "https://iso.digitaltransformationinstitute.org:11001/internal-audit/audit-setup/" + id + "/edit";
-                case NotificationSource.FrameworkWorkflowAction:
+                case NotificationSource.FrameworkWorkflowAction 
+                    or NotificationSource.FrameworkApproved 
+                    or NotificationSource.FrameworkCreatedForReviewer
+                    or NotificationSource.FrameworkCreatedForApprover
+                    or NotificationSource.FrameworkCreatedForOwner:
                     return "https://iso.digitaltransformationinstitute.org:11001/frameworks/" + id;
-                case NotificationSource.FrameworkApproved:
-                    return "https://iso.digitaltransformationinstitute.org:11001/frameworks/" + id;
-                case NotificationSource.FrameworkEndSelfAssessment:
-                    return "https://iso.digitaltransformationinstitute.org:11001/assessment/" + id;
-                case NotificationSource.DomainResponsibleEndInternalAssessment:
-                    return "https://iso.digitaltransformationinstitute.org:11001/assessment/" + id;
+                case NotificationSource.FrameworkEndSelfAssessment
+                    or NotificationSource.DomainResponsibleEndInternalAssessment
+                    or NotificationSource.DomainApproveCompliance
+                    or NotificationSource.DomainReturnToResponsible
+                    or NotificationSource.DomainSentToOwner
+                    or NotificationSource.FrameworkApproveCompliance:
+                    return "https://iso.digitaltransformationinstitute.org:11001/compliance-assessment/" + id;
                 default:
                     break;
             }

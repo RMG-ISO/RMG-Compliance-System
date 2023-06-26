@@ -34,14 +34,14 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule)
   },
-  {
-    path:'dashboard',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    data:{
-      requiredPolicy:'ComplianceSystem.Framework'
-    }
-  },
+  // {
+  //   path:'dashboard',
+  //   canActivate: [AuthGuard, PermissionGuard],
+  //   loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+  //   data:{
+  //     requiredPolicy:'ComplianceSystem.Framework'
+  //   }
+  // },
   {
     path:'documents-management',
     canActivate: [AuthGuard, PermissionGuard],
@@ -68,9 +68,13 @@ const routes: Routes = [
 
 
 
+  // {
+  //   path: 'account',
+  //   loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
+  // },
   {
     path: 'account',
-    loadChildren: () => import('@abp/ng.account').then(m => m.AccountModule.forLazy()),
+    loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
   },
 
   {

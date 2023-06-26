@@ -12,6 +12,9 @@ using Volo.Abp.ObjectMapping;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Risks.Dtos;
 using RMG.ComplianceSystem.Risks.Entity;
+using RMG.ComplianceSystem.Assessments;
+using RMG.ComplianceSystem.Assessments.Dtos;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Controls
 {
@@ -27,14 +30,19 @@ namespace RMG.ComplianceSystem.Controls
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Control.Delete;
         private readonly IDomainRepository _domainRepository;
         private readonly IControlRepository _repository;
+        private readonly IAssessmentRepository _assessmentRepository;
 
-        public ControlAppService(IControlRepository repository, IDomainRepository domainRepository) : base(repository)
+        public ControlAppService(
+            IControlRepository repository,
+            IDomainRepository domainRepository,
+            IAssessmentRepository assessmentRepository) : base(repository)
         {
             _repository = repository;
-            _domainRepository = domainRepository;   
+            _domainRepository = domainRepository;
+            _assessmentRepository = assessmentRepository;
         }
 
-     
+
         protected override async Task<IQueryable<Control>> CreateFilteredQueryAsync(ControlPagedAndSortedResultRequestDto input)
         {
             return (await Repository.WithDetailsAsync())
@@ -56,6 +64,13 @@ namespace RMG.ComplianceSystem.Controls
             return Repository.GetAsync(id);
         }
 
+        protected override async Task<ControlDto> MapToGetOutputDtoAsync(Control entity)
+        {
+            var dto = await base.MapToGetOutputDtoAsync(entity);
+            var assessments = _assessmentRepository.Where(a => a.ControlId == dto.Id).ToList();
+            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+            return dto;
+        }
 
         [Authorize(ComplianceSystemPermissions.Assessment.Default)]
         public async Task<ListResultDto<ControlDto>> GetListWithoutPagingAsync(ControlPagedAndSortedResultRequestDto input)
@@ -84,12 +99,32 @@ namespace RMG.ComplianceSystem.Controls
             return new ListResultDto<ControlDto>(ControlsDto);
         }
 
+        public override async Task DeleteAsync(Guid id)
+        {
+            await CheckDeletePolicyAsync();
+            await base.DeleteAsync(id);
+            await Repository.DeleteManyAsync(Repository.Where(c => c.ParentId == id).Select(c => c.Id));
+        }
 
         public async Task DeleteMany(List<Guid> ids)
         {
             await CheckDeletePolicyAsync();
             await Repository.DeleteManyAsync(ids);
+            foreach (var item in ids)
+            {
+                await Repository.DeleteManyAsync(Repository.Where(c => c.ParentId == item).Select(c => c.Id));
+            }
         }
 
+        private int CalculateCompliancePercentage(Guid id)
+        {
+            var assessments = _assessmentRepository.Where(a => a.ControlId == id).Select(a => new AssessmentCompliancePercentageDto
+            {
+                DocumentedPercentage = a.DocumentedPercentage,
+                EffectivePercentage = a.EffectivePercentage,
+                ImplementedPercentage = a.ImplementedPercentage
+            }).ToList();
+            return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
+        }
     }
 }
