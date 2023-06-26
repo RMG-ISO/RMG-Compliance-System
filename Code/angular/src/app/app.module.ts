@@ -53,11 +53,13 @@ import { ErrorInterceptComponent } from './shared/components/error-intercept/err
 import { MatCardModule } from "@angular/material/card";
 import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
+import { AbpOAuthModule } from '@abp/ng.oauth';
 
 // export let AppInjector: Injector;
 
 @NgModule({
   imports: [
+    AbpOAuthModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

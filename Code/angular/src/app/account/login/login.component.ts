@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import snq from 'snq';
+import { AbpOAuthService } from '@abp/ng.oauth';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
     private injector: Injector,
     private fb: FormBuilder,
     private toasterService: ToasterService,
-    private authService: AuthService,
+    private authService: AbpOAuthService,
     private configState: ConfigStateService,
     private activatedRoute:ActivatedRoute,
     private sessionState: SessionStateService,
