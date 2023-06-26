@@ -51,6 +51,7 @@ import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
 import { MatCardModule } from "@angular/material/card";
+import { AbpOAuthModule, AbpOAuthService } from '@abp/ng.oauth';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 
@@ -60,6 +61,7 @@ import { of } from 'rxjs';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AbpOAuthModule.forRoot(),
     AppRoutingModule,
     CoreModule.forRoot({
       environment,
@@ -132,21 +134,21 @@ import { of } from 'rxjs';
     //   },
     // },
 
-  //   {
-  //     provide: OAuthService,
-  //     useValue: {
-  //         hasValidAccessToken: () => true, // return token status
-  //         configure: () => {
-  //         },
-  //         loadDiscoveryDocument: () => Promise.resolve(),
-  //         events: of(),
-  //         tryLogin: () => {
-  //         },
-  //         setupAutomaticSilentRefresh: () => {
-  //         },
-  //         getAccessToken: () => '' // return access token
-  //     }
-  // },
+    {
+      provide: AbpOAuthService,
+      useValue: {
+          hasValidAccessToken: () => true, // return token status
+          configure: () => {
+          },
+          loadDiscoveryDocument: () => Promise.resolve(),
+          events: of(),
+          tryLogin: () => {
+          },
+          setupAutomaticSilentRefresh: () => {
+          },
+          getAccessToken: () => '' // return access token
+      }
+  },
   
   ],
   bootstrap: [AppComponent],

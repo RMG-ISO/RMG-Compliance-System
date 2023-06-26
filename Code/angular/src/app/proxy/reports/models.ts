@@ -20,4 +20,4 @@ export interface CompliancePhaseTableDto {
   effectiveYes: number;
   effectiveNo: number;
   effectivePartially: number;
-}
+              }
