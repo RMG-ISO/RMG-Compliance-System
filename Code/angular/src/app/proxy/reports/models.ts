@@ -1,3 +1,10 @@
+import type { PriorityType } from '../assessments/priority-type.enum';
+
+export interface ComplianceControllerDto {
+  domainName?: string;
+  controllersCount: number;
+  complianceCount: number;
+}
 
 export interface ComplianceLevelTableDto {
   domainName?: string;
@@ -20,4 +27,9 @@ export interface CompliancePhaseTableDto {
   effectiveYes: number;
   effectiveNo: number;
   effectivePartially: number;
+}
+
+export interface CompliancePriorityTableDto {
+  priority: PriorityType;
+  domains: ComplianceControllerDto[];
 }

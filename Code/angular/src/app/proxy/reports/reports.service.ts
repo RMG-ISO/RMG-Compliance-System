@@ -1,4 +1,4 @@
-import type { ComplianceLevelTableDto, CompliancePhaseTableDto } from './models';
+import type { ComplianceLevelTableDto, CompliancePhaseTableDto, CompliancePriorityTableDto } from './models';
 import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
@@ -7,6 +7,13 @@ import { Injectable } from '@angular/core';
 })
 export class ReportsService {
   apiName = 'Default';
+
+  getControllerByPriorityLevelByFrameworkId = (frameworkId: string) =>
+    this.restService.request<any, CompliancePriorityTableDto[]>({
+      method: 'GET',
+      url: `/api/app/reports/controller-by-priority-level/${frameworkId}`,
+    },
+    { apiName: this.apiName });
 
   getControllersByComplianceLevelByFrameworkId = (frameworkId: string) =>
     this.restService.request<any, ComplianceLevelTableDto[]>({
