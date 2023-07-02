@@ -102,11 +102,11 @@
                         <tr>
                             <td> {{ '::Departments' | abpLocalization }} </td>
                             <td colspan="3">
-                                <mat-chip-list>
+                                <mat-chip-listbox>
                                     <mat-chip *ngFor="let department of subDomainData?.departments">
                                         {{department.name}}
                                     </mat-chip>
-                                </mat-chip-list>
+                                </mat-chip-listbox>
                             </td>
                         </tr>
 

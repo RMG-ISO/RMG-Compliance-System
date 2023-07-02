@@ -2,7 +2,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountConfigModule } from '@abp/ng.account/config';
 import { CoreModule, ListService, SubscriptionService } from '@abp/ng.core';
-// import { registerLocale } from '@abp/ng.core/locale';
+import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
@@ -17,22 +17,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 
-// import { storeLocaleData } from '@abp/ng.core/locale';
+import { storeLocaleData } from '@abp/ng.core/locale';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
-// import(
-//   /* webpackInclude: /(de|de-AT|en|en-GB)\.mjs$/ */
-//   'node_modules/@angular/common/locales/ar-EG'
-// ).then((module) => {
-//   registerLocaleData(module.default);
-// });
 
-
-// import { storeLocaleData } from '@abp/ng.core/locale';
 // import(
-//   /* webpackChunkName: "_locale-your-locale-js"*/
-//   /* webpackMode: "eager" */
-//   '../assets/locales/ar-EG.js'
-// ).then((m) => storeLocaleData(m.default, 'your-locale'));
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '@angular/common/locales/ar-EG.js'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '../../node_modules/@angular/common/locales/ar-EG.mjs'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
+import(
+  /* webpackChunkName: "_locale-your-locale-js"*/
+  /* webpackMode: "eager" */
+  '../../node_modules/@angular/common/locales/ar-EG.mjs' ||
+    '../../node_modules/@angular/common/locales/en.mjs'
+).then(m => storeLocaleData(m.default, 'ar-EG'));
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -45,43 +50,36 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
-import { MatCardModule } from "@angular/material/card";
+import { MatCardModule } from '@angular/material/card';
+import { AbpOAuthModule, AbpOAuthService } from '@abp/ng.oauth';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
-import { AbpOAuthModule } from '@abp/ng.oauth';
-
 
 // export let AppInjector: Injector;
 
-// import { ThemeLeptonXModule } from '@abp/ng.theme.lepton-x';
-
-import { AbpOAuthModule } from '@abp/ng.oauth';
-
-
-
-import { differentLocales } from '@abp/ng.core';
-import { RouterModule } from '@angular/router';
-export function registerLocale(locale: string) {
-  console.log('registerLocale', locale, differentLocales)
-  try {
-    import('../assets/locales/ar-EG.js').then(m => console.log(m))
-    return import(
-      /* webpackChunkName: "_locale-[request]"*/
-      /* webpackInclude: /[/\\](en|fr).js/ */
-      /* webpackExclude: /[/\\]global|extra/ */
-      `../assets/locales/${differentLocales[locale] || locale}.js`
-    )
-  } catch(e) {
-    console.log('eeeeeeee', e)
-  }
-}
-
-
-
-
 @NgModule({
   imports: [
-    RouterModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AbpOAuthModule.forRoot(),
+    AppRoutingModule,
+    CoreModule.forRoot({
+      environment,
+      registerLocaleFn: registerLocale(),
+    }),
+    ThemeSharedModule.forRoot({
+      httpErrorConfig: {
+        errorScreen: {
+          component: ErrorInterceptComponent,
+          forWhichErrors: [401, 403, 404, 500],
+          hideCloseIcon: true,
+        },
+      },
+    }),
+    AccountConfigModule.forRoot(),
+    IdentityConfigModule.forRoot(),
+    TenantManagementConfigModule.forRoot(),
+    SettingManagementConfigModule.forRoot(),
     NgxsModule.forRoot(),
     ThemeBasicModule.forRoot(),
     MatSidenavModule,
@@ -93,46 +91,24 @@ export function registerLocale(locale: string) {
     MatCardModule,
 
     NgxValidateCoreModule.forRoot({
-      blueprints:{
+      blueprints: {
         ...DEFAULT_VALIDATION_BLUEPRINTS,
-        minLength: "::Validations:MinLength[{{ minLength }}]",
-        maxLength: "::Validations:MaxLength[{{ maxLength }}]",
+        minLength: '::Validations:MinLength[{{ minLength }}]',
+        maxLength: '::Validations:MaxLength[{{ maxLength }}]',
         minToday: '::Validations:MinDateToday',
-        minDate:'::Validations:MinDate[{{ minDate }}]',
-        maxDate:'::Validations:MaxDate[{{ maxDate }}]',
+        minDate: '::Validations:MinDate[{{ minDate }}]',
+        maxDate: '::Validations:MaxDate[{{ maxDate }}]',
         lessThanStart: '::Validations:DueDateLessThanStart',
-        min: "::Validations:Min[{{ min }}]",
-        max: "::Validations:Max[{{ max }}]",
+        min: '::Validations:Min[{{ min }}]',
+        max: '::Validations:Max[{{ max }}]',
       },
-      validateOnSubmit:true,
-      targetSelector:'.form-group',
-      errorTemplate:ValidationErrorComponent,
-      invalidClasses:'is-invalid'
+      validateOnSubmit: true,
+      targetSelector: '.form-group',
+      errorTemplate: ValidationErrorComponent,
+      invalidClasses: 'is-invalid',
     }),
-
-
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    CoreModule.forRoot({
-      environment,
-      registerLocaleFn: registerLocale,
-    }),
-    AbpOAuthModule.forRoot(),
-    ThemeSharedModule.forRoot(),
-    AccountConfigModule.forRoot(),
-    IdentityConfigModule.forRoot(),
-    TenantManagementConfigModule.forRoot(),
-    SettingManagementConfigModule.forRoot(),
-    // ThemeLeptonXModule.forRoot(),
-
-    
   ],
-  declarations: [
-    AppComponent,
-    ComplianceLayoutComponent,
-    ErrorInterceptComponent
-  ],
+  declarations: [AppComponent, ComplianceLayoutComponent, ErrorInterceptComponent],
   providers: [
     APP_ROUTE_PROVIDER,
     // ListService,
@@ -152,22 +128,18 @@ export function registerLocale(locale: string) {
     //   },
     // },
 
-  //   {
-  //     provide: OAuthService,
-  //     useValue: {
-  //         hasValidAccessToken: () => true, // return token status
-  //         configure: () => {
-  //         },
-  //         loadDiscoveryDocument: () => Promise.resolve(),
-  //         events: of(),
-  //         tryLogin: () => {
-  //         },
-  //         setupAutomaticSilentRefresh: () => {
-  //         },
-  //         getAccessToken: () => '' // return access token
-  //     }
-  // },
-  
+    {
+      provide: AbpOAuthService,
+      useValue: {
+        hasValidAccessToken: () => true, // return token status
+        configure: () => {},
+        loadDiscoveryDocument: () => Promise.resolve(),
+        events: of(),
+        tryLogin: () => {},
+        setupAutomaticSilentRefresh: () => {},
+        getAccessToken: () => '', // return access token
+      },
+    },
   ],
   bootstrap: [AppComponent],
 })
@@ -176,7 +148,6 @@ export class AppModule {
   //   AppInjector = this.injector;
   // }
 }
-
 
 /*
 {
