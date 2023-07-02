@@ -11,11 +11,42 @@
     </div>
   
     <div class="card-body">
-      <abp-extensible-table
+     <!--  <abp-extensible-table
         [data]="data.items"
+        actionsText="Your Action"
         [recordsTotal]="data.totalCount"
         [list]="list"
-      ></abp-extensible-table>
+      ></abp-extensible-table> -->
+
+      <ngx-datatable
+      
+        class="material fullscreen with-row-pointer"
+        [rows]="data.items"
+        [count]="data.totalCount"
+        [list]="list"
+        appNgxdatatable>
+
+        <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="name"> 
+
+          <ng-template let-row="row" ngx-datatable-cell-template>
+
+            <ng-container >
+                <button mat-button 
+                (click)="$event.stopPropagation();openPermissionsModal(row.id)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </ng-container>
+
+          </ng-template>
+
+
+        </ngx-datatable-column>
+
+
+
+    </ngx-datatable>
+
+
     </div>
   </div>
   
