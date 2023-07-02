@@ -97,17 +97,19 @@
                         <td>
                             {{ '::Status' | abpLocalization }}
                         </td>
-                        <td>
+                        <td [attr.colspan]="parentPath === 'compliance-assessment' ? 1 : 3">
                             <button mat-button class="status" [class]="SharedStatus[subControlData?.status]">
                                 {{  ('::Enum:SharedStatus:' + subControlData?.status) | abpLocalization }}
                             </button>
                         </td>
-                        <td>
-                            {{ '::CompliancePercentage' | abpLocalization }}
-                        </td>
-                        <td>
-                          {{ subControlData?.compliancePercentage }}
-                        </td>
+                        <ng-container *ngIf="parentPath === 'compliance-assessment'">
+                            <td>
+                                {{ '::CompliancePercentage' | abpLocalization }}
+                            </td>
+                            <td>
+                              {{ subControlData?.compliancePercentage }}
+                            </td>
+                        </ng-container>
                     </tr>
                 </table>
             </div>

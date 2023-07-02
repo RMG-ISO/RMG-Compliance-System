@@ -110,39 +110,62 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>
-                                {{ '::Status' | abpLocalization }}
-                            </td>
-                            <td>
-                                <span class="status" [class]="SharedStatus[subDomainData?.status]">
-                                    {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
-                                </span>
-                                <!-- <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
-                                    {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
-                                </button> -->
-                            </td>
-                            <td>
-                                {{ '::ComplianceStatus' | abpLocalization }}
-                            </td>
-                            <td>
-                                <span class="status"  [class]="ComplianceStatus[subDomainData?.complianceStatus]">
-                                    {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
-                                </span>
-                                <!-- <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
-                                    {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
-                                </button> -->
-                            </td>
-                        </tr>
+                        <ng-container *ngIf="parentPath === 'compliance-assessment'; else InFrameworks">
+                            <tr>
+                                <td>
+                                    {{ '::Status' | abpLocalization }}
+                                </td>
+                                <td>
+                                    <span class="status" [class]="SharedStatus[subDomainData?.status]">
+                                        {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                    </span>
+                                    <!-- <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
+                                        {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                    </button> -->
+                                </td>
+    
+                                
+                                <td>
+                                    {{ '::ComplianceStatus' | abpLocalization }}
+                                </td>
+                                <td>
+                                    <span class="status"  [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                        {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
+                                    </span>
+                                    <!-- <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                        {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
+                                    </button> -->
+                                </td>
+                            </tr>
+    
+                            <tr>
+                                <td>
+                                    {{ '::CompliancePercentage' | abpLocalization }}
+                                </td>
+                                <td colspan="3">
+                                  {{ subDomainData?.compliancePercentage }}
+                                </td>
+                            </tr>
+                        </ng-container>
+                        
+                        <ng-template #InFrameworks>
+                            <tr>
+                                <td>
+                                    {{ '::Status' | abpLocalization }}
+                                </td>
+                                <td>
+                                    <span class="status" [class]="SharedStatus[subDomainData?.status]">
+                                        {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                    </span>
+                                    <!-- <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
+                                        {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                    </button> -->
+                                </td>
+                            </tr>
+                        </ng-template>
+                        
 
-                        <tr>
-                            <td>
-                                {{ '::CompliancePercentage' | abpLocalization }}
-                            </td>
-                            <td colspan="3">
-                              {{ subDomainData?.compliancePercentage }}
-                            </td>
-                        </tr>
+                        
                     </table>
                 </div>
             </section>
@@ -237,7 +260,7 @@
                                             {{mainControl?.descriptionEn}}
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr *ngIf="parentPath === 'compliance-assessment'; else name">
                                         <td>
                                             {{ '::CompliancePercentage' | abpLocalization }}
                                         </td>
@@ -257,12 +280,23 @@
                                             </button> -->
                                         </td>
                                     </tr>
+                                    <ng-template #name>
+                                        <td>
+                                            {{ '::Status' | abpLocalization }}
+                                        </td>
+                                        <td colspan="3">
+                                            <span class="status" [class]="SharedStatus[mainControl?.status]">
+                                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                                            </span>
+                                        </td>
+                                    </ng-template>
+                                    
                                 </table>
                             </div>
 
 
                             <app-compliance-form
-                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath == 'compliance-assessment' && !subControlsTable.hasSubControls "
+                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath === 'compliance-assessment' && !subControlsTable.hasSubControls "
                                 [userId]="userId"
                                 [frameWorkData]="frameWorkData"
                                 [controlData]="mainControl" [domainData]="mainDomainData"></app-compliance-form>
