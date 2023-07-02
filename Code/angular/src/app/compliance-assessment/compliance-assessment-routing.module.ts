@@ -8,6 +8,7 @@ import { FrameDetailsViewComponent } from '../frameworks/framework-view/frame-de
 import { MainDomainsViewComponent } from '../frameworks/framework-view/main-domains-view/main-domains-view.component';
 import { ChangeLogComponent } from '../frameworks/framework-view/change-log/change-log.component';
 import { FrameFilesComponent } from '../frameworks/framework-view/frame-files/frame-files.component';
+import { FrameReportComponent } from '../frameworks/framework-view/frame-report/frame-report.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path:'attachments',
         component:FrameFilesComponent
+      },
+      {
+        path:'reports',
+        component:FrameReportComponent
       },
       {
         path:'changelog',

@@ -202,7 +202,7 @@
       <button mat-raised-button routerLink="domains" routerLinkActive="active" >
         {{ '::FrameworkLevels' | abpLocalization }}
       </button>
-      <button mat-raised-button routerLink="reports" routerLinkActive="active" >
+      <button mat-raised-button routerLink="reports" routerLinkActive="active" *ngIf="parentPath == 'compliance-assessment'" >
         {{ '::Reports' | abpLocalization }}
       </button>
       <button mat-raised-button routerLink="attachments" routerLinkActive="active" >

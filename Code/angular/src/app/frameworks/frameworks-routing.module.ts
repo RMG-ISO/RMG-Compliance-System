@@ -48,10 +48,10 @@ const routes: Routes = [
         path:'attachments',
         component:FrameFilesComponent
       },
-      {
-        path:'reports',
-        component:FrameReportComponent
-      },
+      // {
+      //   path:'reports',
+      //   component:FrameReportComponent
+      // },
       {
         path:'changelog',
         component:ChangeLogComponent
