@@ -12,6 +12,7 @@ export const environment = {
   
   oAuthConfig: {
     issuer: 'https://iso.digitaltransformationinstitute.org:11000',
+    // issuer: 'https://localhost:44375',
     redirectUri: baseUrl,
     clientId: 'ComplianceSystem_App',
     responseType: 'code',
@@ -20,6 +21,7 @@ export const environment = {
   },
   // oAuthConfig: {
   //   issuer: 'https://iso.digitaltransformationinstitute.org:11000',
+  //   issuer: 'https://localhost:44375',
   //   clientId: 'ComplianceSystem_App',
   //   dummyClientSecret: '1q2w3e*',
   //   scope: 'offline_access openid profile role email phone ComplianceSystem',
@@ -28,29 +30,10 @@ export const environment = {
   apis: {
     default: {
       url: 'https://iso.digitaltransformationinstitute.org:11000',
+      // url: 'https://localhost:44375',
       rootNamespace: 'RMG.ComplianceSystem',
     },
   },
-
-
-  // oAuthConfig: {
-  //   issuer: 'https://iso.digitaltransformationinstitute.org:11000',
-  //   clientId: 'ComplianceSystem_App',
-  //   dummyClientSecret: '1q2w3e*',
-  //   scope: 'offline_access openid profile role email phone ComplianceSystem',
-  // },
-
-
-  // apis: {
-  //   default: {
-  //     url: 'https://iso.digitaltransformationinstitute.org:11000',
-  //     rootNamespace: 'RMG.ComplianceSystem',
-  //   },
-  //   local: {
-  //     url: 'https://localhost:44375',
-  //     rootNamespace: 'RMG.ComplianceSystem',
-  //   },
-  // },
 
 
   // oAuthConfig: {
