@@ -4,6 +4,10 @@ import { ListComponent } from './list/list.component';
 import { DomainViewComponent } from '../frameworks/domain-view/domain-view.component';
 import { ControlViewComponent } from '../frameworks/control-view/control-view.component';
 import { FrameworkViewComponent } from '../frameworks/framework-view/framework-view.component';
+import { FrameDetailsViewComponent } from '../frameworks/framework-view/frame-details-view/frame-details-view.component';
+import { MainDomainsViewComponent } from '../frameworks/framework-view/main-domains-view/main-domains-view.component';
+import { ChangeLogComponent } from '../frameworks/framework-view/change-log/change-log.component';
+import { FrameFilesComponent } from '../frameworks/framework-view/frame-files/frame-files.component';
 
 const routes: Routes = [
   {
@@ -21,6 +25,29 @@ const routes: Routes = [
   {
     path:':frameworkId',
     component:FrameworkViewComponent,
+    children:[
+      {
+        path:'details',
+        component:FrameDetailsViewComponent
+      },
+      {
+        path:'domains',
+        component:MainDomainsViewComponent
+      },
+      {
+        path:'attachments',
+        component:FrameFilesComponent
+      },
+      {
+        path:'changelog',
+        component:ChangeLogComponent
+      },
+      {
+        path:'',
+        redirectTo:'details',
+        pathMatch:'full'
+      }
+    ]
   },
   {
     path:'',

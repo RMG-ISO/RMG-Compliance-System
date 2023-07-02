@@ -31,6 +31,7 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid? AttachmentId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
+        public string ApproveUserName { get; set; }
         public string LevelFirstNameAr { get; set; }
         public string LevelFirstNameEn { get; set; }
         public string LevelSecondNameAr { get; set; }
@@ -40,18 +41,22 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public Guid OwnerId { get; set; }
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
-
+        public bool HasMainControl { get; set; }
         public ComplianceStatus ComplianceStatus { get; set; }
         public DateTime? SelfAssessmentStartDate { get; set; }
         public DateTime? SelfAssessmentEndDate { get; set; }
+        public bool HasPriority { get; set; }
 
         public bool CanSendForInternalAssessment { get; set; } = false;
+        public bool CanApproveCompliance { get; set; }
 
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
 
         public DateTime? ReviewStartDate { get; set; }
         public DateTime? ReviewEndDate { get; set; }
+
+        public int CompliancePercentage { get; set; }
         public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; } = new List<FrameworkEmpDto>();
         public List<FrameworkChangeStatusLogDto> ChangeStatusLogs { get; set; }
 

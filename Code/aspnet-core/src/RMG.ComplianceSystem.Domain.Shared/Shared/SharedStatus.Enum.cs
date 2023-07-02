@@ -29,7 +29,10 @@ namespace RMG.ComplianceSystem.Shared
         DomainApproveCompliance,
         DomainReturnToResponsible,
         DomainSentToOwner,
-        FrameworkApproveCompliance
+        FrameworkApproveCompliance,
+        FrameworkCreatedForReviewer,
+        FrameworkCreatedForApprover,
+        FrameworkCreatedForOwner
     }
     public enum Status
     {

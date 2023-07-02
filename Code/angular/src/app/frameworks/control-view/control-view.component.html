@@ -1,6 +1,6 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]" class="back-button">
+        <button mat-button [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]" class="back-button" [queryParams]="{expandedMainControlId:subControlData?.parentId}">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>
@@ -29,17 +29,40 @@
                         <td>
                             {{ '::ReferenceNumber' | abpLocalization }}
                         </td>
-                        <td colspan="3">
+                        <td>
                             {{subControlData?.reference}}
                         </td>
-                        <!-- <td>
-                            {{ '::Reviewer' | abpLocalization }}
+                        <td>
+                            {{ ( frameWorkData | lang : 'levelSecondName' ) || ('::SubDomains' | abpLocalization) }}
                         </td>
                         <td>
-                            اسم المراجع
-                        </td> -->
+                            <a [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]"
+                            [queryParams]="{expandedMainControlId:subControlData?.parentId}">
+                                {{ subControlData | lang:'mainControlName' }}
+                            </a>
+                        </td>
                     </tr>
     
+                    <tr>
+                        <td>
+                            {{ '::FrameworkName' | abpLocalization }}
+                        </td>
+                        <td>
+                            <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'details']">
+                                {{frameWorkData | lang:'name'}}
+                            </a>
+                        </td>
+                        <td>
+                            {{ (frameWorkData | lang : 'levelFirstName') || ('::MainDomainName' | abpLocalization) }}
+                        </td>
+                        <td>
+                            <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains']" [queryParams]="{expandedDomainId:subDomainData?.id}">
+                                {{ subDomainData | lang:'mainDomainName' }}
+                            </a>
+                        </td>
+                    </tr>
+
+
                     <tr>
                         <td>
                             {{ '::ControlNameEn' | abpLocalization }}
@@ -74,10 +97,16 @@
                         <td>
                             {{ '::Status' | abpLocalization }}
                         </td>
-                        <td colspan="3">
+                        <td>
                             <button mat-button class="status" [class]="SharedStatus[subControlData?.status]">
                                 {{  ('::Enum:SharedStatus:' + subControlData?.status) | abpLocalization }}
                             </button>
+                        </td>
+                        <td>
+                            {{ '::CompliancePercentage' | abpLocalization }}
+                        </td>
+                        <td>
+                          {{ subControlData?.compliancePercentage }}
                         </td>
                     </tr>
                 </table>

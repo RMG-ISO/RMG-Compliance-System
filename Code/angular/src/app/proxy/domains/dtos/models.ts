@@ -32,7 +32,10 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   selfAssessmentEndDate?: string;
   reviewStartDate?: string;
   reviewEndDate?: string;
+  compliancePercentage: number;
   parentId?: string;
+  mainDomainNameAr?: string;
+  mainDomainNameEn?: string;
   frameworkId?: string;
   responsibleId?: string;
   responsibleName?: string;

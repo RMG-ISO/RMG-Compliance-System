@@ -4,7 +4,7 @@ import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { RiskTreatmentService } from '@proxy/RiskTreatments';
 import { ActivatedRoute } from '@angular/router';
-import { IdentityUserService } from '@abp/ng.identity/proxy';
+import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { StaticDataService } from '@proxy/StaticData';
 import { HistoryAction, Status } from '../../module.enums';
 import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';

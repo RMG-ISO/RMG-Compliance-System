@@ -63,11 +63,15 @@ namespace RMG.ComplianceSystem.Assessments
         public override async Task<AssessmentDto> CreateAsync(CreateUpdateAssessmentDto input)
         {
             await CheckCreatePolicyAsync();
-            await ValidateCreateUpdateAsync(input);
-            var entity = await MapToEntityAsync(input);
             var control = await _controlRepository.GetAsync(input.ControlId, false);
+            if (!control.ParentId.HasValue && await _controlRepository.AnyAsync(c => c.ParentId == control.Id))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAssessMainControlIfItHasSubs);
             var domain = await _domainRepository.GetAsync(control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
+            await ValidateCreateUpdateAsync(input, framework);
+            var entity = await MapToEntityAsync(input);
+            StorePercentageValues(entity);
+            
             _assessmentManager.CanCreateAssessment(framework.OwnerId, CurrentUser.Id.Value);
 
             if (input.EmployeeIds is not null)
@@ -86,12 +90,70 @@ namespace RMG.ComplianceSystem.Assessments
             return await MapToGetOutputDtoAsync(entity);
         }
 
+        private void StorePercentageValues(Assessment entity)
+        {
+            if (entity.Applicable.HasValue && entity.Applicable.Value == ApplicableType.Applicable)
+            {
+                if (entity.Implemented.HasValue)
+                {
+                    switch (entity.Implemented.Value)
+                    {
+                        case ImplementedType.NotImplemented:
+                            entity.ImplementedPercentage = 0;
+                            break;
+                        case ImplementedType.Implemented:
+                            entity.ImplementedPercentage = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (entity.Documented.HasValue)
+                {
+                    switch (entity.Documented.Value)
+                    {
+                        case DocumentedType.NotDocumented:
+                            entity.DocumentedPercentage = 0;
+                            break;
+                        case DocumentedType.Documented:
+                            entity.DocumentedPercentage = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (entity.Effective.HasValue)
+                {
+                    switch (entity.Effective.Value)
+                    {
+                        case EffectiveType.NotEffective:
+                            entity.EffectivePercentage = 0;
+                            break;
+                        case EffectiveType.Effective:
+                            entity.EffectivePercentage = 100;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                entity.EffectivePercentage = 0;
+                entity.ImplementedPercentage = 0;
+                entity.DocumentedPercentage = 0;
+            }
+        }
+
         [Authorize]
         public override async Task<AssessmentDto> UpdateAsync(Guid id, CreateUpdateAssessmentDto input)
         {
             //ToDo: what if resp is not granted required permission?
             await CheckUpdatePolicyAsync();
             var entity = await GetEntityByIdAsync(id);
+            var control = await _controlRepository.GetAsync(input.ControlId, false);
+            if (!control.ParentId.HasValue && await _controlRepository.AnyAsync(c => c.ParentId == control.Id))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAssessMainControlIfItHasSubs); 
             var domain = await _domainRepository.GetAsync(entity.Control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             if (framework.OwnerId == CurrentUser.Id)
@@ -101,7 +163,7 @@ namespace RMG.ComplianceSystem.Assessments
             if (input.Applicable != entity.Applicable)
                 _assessmentManager.CanUpdateApplicableProperty(framework.OwnerId, CurrentUser.Id.Value);
 
-            await ValidateCreateUpdateAsync(input);
+            await ValidateCreateUpdateAsync(input, framework, entity);
             await SaveVersion(entity);
 
             // ToDo: keep this property in form?
@@ -109,6 +171,7 @@ namespace RMG.ComplianceSystem.Assessments
             await Repository.UpdateAsync(entity, autoSave: true);
 
             await MapToEntityAsync(input, entity);
+            StorePercentageValues(entity);
             if (input.EmployeeIds is not null)
                 foreach (var item in input.EmployeeIds)
                 {
@@ -127,7 +190,6 @@ namespace RMG.ComplianceSystem.Assessments
         {
             return base.GetAsync(id);
         }
-
 
 
         [RemoteService(false)]
@@ -160,7 +222,7 @@ namespace RMG.ComplianceSystem.Assessments
             return dto;
         }
 
-        private async Task ValidateCreateUpdateAsync(CreateUpdateAssessmentDto input)
+        private async Task ValidateCreateUpdateAsync(CreateUpdateAssessmentDto input, Frameworks.Framework framework, Assessment assessment = null)
         {
             if (input.Documented.HasValue && input.Documented.Value == DocumentedType.PartialDocumented && !input.DocumentedPercentage.HasValue)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
@@ -171,11 +233,15 @@ namespace RMG.ComplianceSystem.Assessments
             if (input.Effective.HasValue && input.Effective.Value == EffectiveType.PartialEffective && !input.EffectivePercentage.HasValue)
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
 
-            if (((input.Documented.HasValue && input.Documented.Value != DocumentedType.NotDocumented) ||
-                (input.Implemented.HasValue && input.Implemented.Value != ImplementedType.NotImplemented) ||
-                (input.Effective.HasValue && input.Effective.Value != EffectiveType.NotEffective)) &&
-                (input.Comment.IsNullOrWhiteSpace() || !input.AttachmentId.HasValue))
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvideCommentAndAttachmentWhenPartialOrFullAnswers);
+            if (((input.Documented.HasValue && input.Documented.Value != DocumentedType.NotDocumented && (assessment == null || input.Documented != assessment.Documented)) ||
+                (input.Implemented.HasValue && input.Implemented.Value != ImplementedType.NotImplemented && (assessment == null || input.Implemented != assessment.Implemented)) ||
+                (input.Effective.HasValue && input.Effective.Value != EffectiveType.NotEffective && (assessment == null || input.Effective != assessment.Effective))) &&
+                input.Comment.IsNullOrWhiteSpace())
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvideCommentWhenPartialOrFullAnswers);
+
+            if (framework.HasPriority && !input.Priority.HasValue)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustAnswerPriorityQuestionForThisFrameworkControls);
+
         }
 
         private async Task SaveVersion(Assessment assessment)

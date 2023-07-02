@@ -3,7 +3,11 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AttachmentService } from '@proxy/attachments';
 import { AttachmentDto } from '@proxy/attachments/dtos';
-import * as mime from 'mime';
+import * as mime from 'node_modules/mime';
+
+// import {  }  from 'mime';
+
+
 export interface IFileUploaderErrors {
   fileName: string,
   errors: Array<string>

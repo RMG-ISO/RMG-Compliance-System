@@ -28,14 +28,16 @@ using System.Security.Policy;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
+using System.Security;
+using RMG.ComplianceSystem.Authorization;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
     public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {
-        //protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
-        //protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
+        protected override string GetPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
+        protected override string GetListPolicyName { get; set; } = ComplianceSystemPermissions.Framework.Default;
         protected override string CreatePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Create;
         protected override string UpdatePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Update;
         protected override string DeletePolicyName { get; set; } = ComplianceSystemPermissions.Framework.Delete;
@@ -52,24 +54,25 @@ namespace RMG.ComplianceSystem.Frameworks
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationAppService _notificationAppService;
         private readonly IDepartmentRepository _departmentRepository;
-        private readonly IdentityUserManager _identityUserManager; 
+        private readonly IdentityUserManager _identityUserManager;
         private readonly IConfiguration _configuration;
         private readonly IFrameworkManager _frameworkManager;
-        private readonly IPermissionGrantRepository _permissionGrantRepository;
+        private readonly IPermissionManager _permissionManager;
+
 
         public FrameworkAppService(IFrameworkRepository repository,
             IDomainRepository domainRepository,
             IControlRepository controlRepository,
             IAssessmentRepository assessmentRepository,
-            IdentityUserManager identityUserManager, 
+            IdentityUserManager identityUserManager,
             IEmployeeRepository employeeRepository,
             IEmailTemplateRepository emailTemplateRepository,
             IEmailTemplateAppService emailTemplateAppService,
             INotificationRepository notificationRepository,
             INotificationAppService notificationAppService,
-            IPermissionGrantRepository permissionGrantRepository,
             IConfiguration configuration,
             IDepartmentRepository departmentRepository,
+            IPermissionManager permissionManager,
             IFrameworkManager frameworkManager,
             IFrameworkEmployeeRepository frameworkEmployeeRepository
             ) : base(repository)
@@ -87,8 +90,8 @@ namespace RMG.ComplianceSystem.Frameworks
             _configuration = configuration;
             _departmentRepository = departmentRepository;
             _frameworkManager = frameworkManager;
-            _permissionGrantRepository = permissionGrantRepository;
             _identityUserManager = identityUserManager;
+            _permissionManager = permissionManager;
         }
 
         public override async Task DeleteAsync(Guid id)
@@ -103,6 +106,7 @@ namespace RMG.ComplianceSystem.Frameworks
         {
             try
             {
+                //await GrantOwnerRequiredPermissionsAsync(input.OwnerId);
                 var entity = await MapToEntityAsync(input);
                 TryToSetTenantId(entity);
                 entity.Status = SharedStatus.Inactive;
@@ -121,6 +125,16 @@ namespace RMG.ComplianceSystem.Frameworks
 
 
                 var Framework = await GetEntityByIdAsync(entity.Id);
+
+
+                // Notify reviewer
+                await NotifyUsersAsync("FrameworkCreatedForReviewer", entity.ReviewUserId, NotificationSource.FrameworkCreatedForReviewer, NotySource.FrameworkCreatedForReviewer, entity.Id);
+
+                // Notify approver
+                await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ApproveUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
+
+                // Notify owner
+                await NotifyUsersAsync("FrameworkCreatedForOwner", entity.OwnerId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
 
                 return await MapToGetOutputDtoAsync(Framework);
             }
@@ -148,7 +162,12 @@ namespace RMG.ComplianceSystem.Frameworks
             }
             dto.ManagementName = (await _departmentRepository.FindAsync(dto.ManagementId, false))?.Name;
             dto.ReviewUserName = (await _employeeRepository.FindAsync(dto.ReviewUserId, false))?.FullName;
+            dto.ApproveUserName = (await _employeeRepository.FindAsync(dto.ApproveUserId, false))?.FullName;
 
+            dto.CanSendForInternalAssessment = (await CanSendForInternalAssessment(entity)).Item1;
+            dto.CanApproveCompliance = (await  _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == dto.Id && !d.ParentId.HasValue).All(d => d.ComplianceStatus == ComplianceStatus.Approved);
+            dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
+            dto.HasMainControl = await HasMainControl(dto.Id);
             dto.CanSendForInternalAssessment = (await CanSendForInternalAssessment(entity)).Item1;
             return dto;
         }
@@ -157,8 +176,19 @@ namespace RMG.ComplianceSystem.Frameworks
         {
             try
             {
+                //await GrantOwnerRequiredPermissionsAsync(input.OwnerId);
+                bool shouldNotifyReviewer = false;
+                bool shouldNotifyApprover = false;
+                bool shouldNotifyOwner = false;
                 var entity = await GetEntityByIdAsync(id);
                 _frameworkManager.CanUpdate(entity);
+                if (input.ReviewUserId != entity.ReviewUserId)
+                    shouldNotifyReviewer = true;
+                if (input.ApproveUserId != entity.ApproveUserId)
+                    shouldNotifyApprover = true;
+                if (input.OwnerId != entity.OwnerId)
+                    shouldNotifyOwner = true;
+
                 await MapToEntityAsync(input, entity);
 
                 await Repository.UpdateAsync(entity, autoSave: true);
@@ -183,13 +213,21 @@ namespace RMG.ComplianceSystem.Frameworks
                     await _frameworkEmployeeRepository.InsertManyAsync(ModelList, autoSave: true);
 
                 }
-
-
                 #endregion
 
-
-
                 var audit = await GetEntityByIdAsync(id);
+
+                // Notify reviewer
+                if (shouldNotifyReviewer)
+                    await NotifyUsersAsync("FrameworkCreatedForReviewer", entity.ReviewUserId, NotificationSource.FrameworkCreatedForReviewer, NotySource.FrameworkCreatedForReviewer, entity.Id);
+
+                // Notify approver
+                if (shouldNotifyApprover)
+                    await NotifyUsersAsync("FrameworkCreatedForApprover", entity.ApproveUserId, NotificationSource.FrameworkCreatedForApprover, NotySource.FrameworkCreatedForApprover, entity.Id);
+
+                // Notify owner
+                if (shouldNotifyOwner)
+                    await NotifyUsersAsync("FrameworkCreatedForOwner", entity.OwnerId, NotificationSource.FrameworkCreatedForOwner, NotySource.FrameworkCreatedForOwner, entity.Id);
 
                 return await MapToGetOutputDtoAsync(audit);
             }
@@ -221,9 +259,11 @@ namespace RMG.ComplianceSystem.Frameworks
         }
 
         [Authorize]
-        public override Task<PagedResultDto<FrameworkDto>> GetListAsync(FrameworkPagedAndSortedResultRequestDto input)
+        public override async Task<PagedResultDto<FrameworkDto>> GetListAsync(FrameworkPagedAndSortedResultRequestDto input)
         {
-            return base.GetListAsync(input);
+            //await _permissionManager.SetAsync(ComplianceSystemPermissions.Framework.Default, "Dynamic", "bc963b63-307d-e31c-b4fb-3a0b980bbfa3", false);
+
+            return await base.GetListAsync(input);
         }
 
         protected override async Task<IQueryable<Framework>> CreateFilteredQueryAsync(FrameworkPagedAndSortedResultRequestDto input)
@@ -239,30 +279,32 @@ namespace RMG.ComplianceSystem.Frameworks
                 .WhereIf(input.Status.HasValue, t => t.Status == input.Status)
                 .WhereIf(input.FrameworkStatus.HasValue, t => t.FrameworkStatus == input.FrameworkStatus);
 
+            //var userRoles = await _identityUserManager.GetRolesAsync(await _identityUserManager.GetByIdAsync(CurrentUser.Id.Value));
+            //var dynamicPermission = await _permissionManager.GetAsync(ComplianceSystemPermissions.Framework.Default, DynamicPermissionValueProvider.ProviderName, CurrentUser.Id.Value.ToString());
+            //var directPermission = await _permissionManager.GetAsync(ComplianceSystemPermissions.Framework.Default, "U", CurrentUser.Id.Value.ToString());
 
-            var directPermission = await _permissionGrantRepository.FindAsync(ComplianceSystemPermissions.Framework.Default, "U", CurrentUser.Id.Value.ToString());
-            var rolesPermissions = (await _permissionGrantRepository.GetListAsync()).Where(t => t.ProviderName == "R" && t.Name == ComplianceSystemPermissions.Framework.Default);
-
-            bool foundPermission = false;
-            if (directPermission != null)
-                foundPermission = true;
-            else
-            {
-                foreach (var role in rolesPermissions)
-                {
-                    var users = await _identityUserManager.GetUsersInRoleAsync(role.ProviderKey);
-                    if (users.Any(u => u.Id == CurrentUser.Id.Value))
-                    {
-                        foundPermission = true;
-                        break;
-                    }
-                }
-            }
-            if (!foundPermission)
-            {
-                var filterdQuery = (await _domainRepository.GetQueryableAsync()).Where(d => d.ResponsibleId == CurrentUser.Id);;
-                query = query.Where(f => filterdQuery.Any(d => d.FrameworkId == f.Id));
-            }
+            //bool foundPermission = false;
+            //if (directPermission.IsGranted)
+            //    foundPermission = true;
+            //else
+            //{
+            //    foreach (var role in userRoles)
+            //    {
+            //        var permission = await _permissionManager.GetForRoleAsync(role, ComplianceSystemPermissions.Framework.Default);
+            //        if (permission.IsGranted)
+            //        {
+            //            foundPermission = true;
+            //            break;
+            //        }
+            //    }
+            //}
+            //if (!foundPermission)
+            //{
+            //    query = query.Where(f => _domainRepository.Where(d => d.ResponsibleId == CurrentUser.Id).Any(d => d.FrameworkId == f.Id)
+            //                        || f.OwnerId == CurrentUser.Id
+            //                        || f.ReviewUserId == CurrentUser.Id
+            //                        || f.ApproveUserId == CurrentUser.Id);
+            //}
 
             return query;
         }
@@ -279,6 +321,18 @@ namespace RMG.ComplianceSystem.Frameworks
             return new ListResultDto<FrameworkDto>(ObjectMapper.Map<List<Framework>, List<FrameworkDto>>(data));
         }
 
+        [HttpPut]
+        public async Task<TogglePriorityOutputDto> TogglePriority(Guid id)
+        {
+            await CheckUpdatePolicyAsync();
+            var entity = await Repository.GetAsync(id, false);
+            entity.HasPriority = !entity.HasPriority;
+            await Repository.UpdateAsync(entity);
+            return new TogglePriorityOutputDto
+            {
+                HasPriority = entity.HasPriority
+            };
+        }
 
         public async Task<FrameworkData> GetFrameWorkWithAssesmentBYId(getFrameworkDto input)
         {
@@ -519,18 +573,21 @@ namespace RMG.ComplianceSystem.Frameworks
             framework.ComplianceStatus = ComplianceStatus.Approved;
             framework.ReviewEndDate = Clock.Now;
             await Repository.UpdateAsync(framework);
-            foreach (var domain in domains)
+            foreach (var responsible in domains.Where(d => d.ResponsibleId.HasValue).Select(d => d.ResponsibleId.Value).Distinct())
             {
-                await NotifyUsersAsync("FrameworkApproveCompliance", domain.ResponsibleId.Value, NotificationSource.FrameworkApproveCompliance, NotySource.FrameworkApproveCompliance, framework.Id);
+                await NotifyUsersAsync("FrameworkApproveCompliance", responsible, NotificationSource.FrameworkApproveCompliance, NotySource.FrameworkApproveCompliance, framework.Id);
             }
         }
 
         private async Task<Tuple<bool, List<string>, List<Domain>>> CanSendForInternalAssessment(Framework framework)
         {
             var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == framework.Id).ToList();
-            var controls = (await _controlRepository.GetQueryableAsync()).Where(c => domains.Select(d => d.Id).Contains(c.DomainId)).Select(c => new { c.Id, c.NameAr }).ToList();
-            var assessmentRepositoryQuerable = await _assessmentRepository.GetQueryableAsync();
-            var controlsWithoutAssessments = controls.Where( c =>  !assessmentRepositoryQuerable.Any(a => a.ControlId == c.Id)).ToList();
+            var controlRepo = await _controlRepository.GetQueryableAsync();
+            var assessmentRepo = await _assessmentRepository.GetQueryableAsync();
+            var controls = (await _controlRepository.GetQueryableAsync())
+                .Where(c => domains.Select(d => d.Id).Contains(c.DomainId) 
+                    && (c.ParentId.HasValue || (!c.ParentId.HasValue && !controlRepo.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
+            var controlsWithoutAssessments = controls.Where(c => !assessmentRepo.Any(a => a.ControlId == c.Id)).ToList();
             if (controlsWithoutAssessments.Any())
                 return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
             return new Tuple<bool, List<string>, List<Domain>>(true, null, domains);
@@ -555,22 +612,29 @@ namespace RMG.ComplianceSystem.Frameworks
                     };
                     break;
                 case NotificationSource.FrameworkApproved:
-                    var framework = await Repository.GetAsync(refId, false);
-                    emailTemplateModel = new FrameworkApprovedEmailDto
                     {
-                        Name = Creator.FullName,
-                        URL = Utility.GetURL(notificationSource, refId, null, null),
-                        FrameworkNameAr = framework.NameAr,
-                        FrameworkNameEn = framework.NameEn
-                    };
-                    break;
-                case NotificationSource.FrameworkEndSelfAssessment:
-                    emailTemplateModel = new FrameworkActionEmailDto
+                        var framework = await Repository.GetAsync(refId, false);
+                        emailTemplateModel = new FrameworkApprovedEmailDto
+                        {
+                            Name = Creator.FullName,
+                            URL = Utility.GetURL(notificationSource, refId, null, null),
+                            FrameworkNameAr = framework.NameAr,
+                            FrameworkNameEn = framework.NameEn
+                        };
+                        break;
+                    }
+                case >= NotificationSource.FrameworkCreatedForReviewer and <= NotificationSource.FrameworkCreatedForOwner:
                     {
-                        Name = Creator.FullName,
-                        URL = Utility.GetURL(notificationSource, refId, null, null)
-                    };
-                    break;
+                        var framework = await Repository.GetAsync(refId, false);
+                        emailTemplateModel = new FrameworkActionEmailDto
+                        {
+                            FrameworkNameAr = framework.NameAr,
+                            FrameworkNameEn = framework.NameEn,
+                            Name = Creator.FullName,
+                            URL = Utility.GetURL(notificationSource, refId, null, null)
+                        };
+                        break;
+                    }
                 default:
                     emailTemplateModel = new FrameworkActionEmailDto
                     {
@@ -638,6 +702,37 @@ namespace RMG.ComplianceSystem.Frameworks
             }
         }
 
+        //private async Task GrantOwnerRequiredPermissionsAsync(Guid userId)
+        //{
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Framework.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Domain.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Control.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Assessment.Default, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Assessment.Create, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+        //    await _permissionManager.SetAsync(ComplianceSystemPermissions.Assessment.Update, DynamicPermissionValueProvider.ProviderName, userId.ToString(), true);
+
+        //}
+
+        private async Task<bool> HasMainControl(Guid frameworkId)
+        {
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == frameworkId).Select(d => d.Id).ToList();
+            return await _controlRepository.AnyAsync(c => !c.ParentId.HasValue && domains.Contains(c.DomainId));
+        }
+
+        [RemoteService(false)]
+        public async Task<int> CalculateCompliancePercentage(Guid id)
+        {
+            var controls = new List<Guid>();
+            var subDomains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == id && d.ParentId.HasValue).Select(d => d.Id).ToList();
+            controls = (await _controlRepository.GetQueryableAsync()).Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
+            {
+                DocumentedPercentage = a.DocumentedPercentage,
+                EffectivePercentage = a.EffectivePercentage,
+                ImplementedPercentage = a.ImplementedPercentage
+            }).ToList();
+            return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
+        }
 
     }
 }

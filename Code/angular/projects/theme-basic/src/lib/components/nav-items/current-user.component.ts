@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import snq from 'snq';
 import { environment } from 'src/environments/environment.prod';
+import { AbpOAuthService } from '@abp/ng.oauth';
 
 @Component({
   selector: 'abp-current-user',
@@ -31,7 +32,7 @@ export class CurrentUserComponent implements OnInit {
 
   constructor(
     @Inject(NAVIGATE_TO_MANAGE_PROFILE) public navigateToManageProfile,
-    private authService: AuthService,
+    private authService: AbpOAuthService,
     private configState: ConfigStateService,
     private sessionState: SessionStateService,
     private notificationService:NotificationService,
@@ -113,6 +114,7 @@ export class CurrentUserComponent implements OnInit {
   }
 
   get dropdownLanguages$(): Observable<LanguageInfo[]> {
+    // this.languages$.subscribe(r => console.log(r))
     return this.languages$.pipe(
       map(
         languages =>

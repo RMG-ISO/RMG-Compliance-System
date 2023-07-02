@@ -6,6 +6,9 @@ import { LocalizationService } from '@abp/ng.core';
 import { SignalrService } from '@proxy/signalrService';
 import { NotifyUserDto } from '@proxy/notifications/dtos';
 import { NotificationService } from '@proxy/notifications';
+import { RegisteredIcons } from './registered-icons';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +24,8 @@ export class AppComponent {
   constructor (
     private replaceableComponent: ReplaceableComponentsService,
     private localizationService:LocalizationService,
+    private matIconRegistry:MatIconRegistry,
+    private domSanitizer:DomSanitizer
   ){
     if( this.localizationService.currentLang == 'ar-EG') document.body.dir = 'rtl'
     this.replaceableComponent.add({
@@ -28,6 +33,12 @@ export class AppComponent {
       key: eThemeBasicComponents.ApplicationLayout,
     });
 
-   
+
+    for(let icon of RegisteredIcons) {
+      this.matIconRegistry.addSvgIcon(
+        icon.name,
+        this.domSanitizer.bypassSecurityTrustResourceUrl(icon.path)
+      );
+    }
   }
 }

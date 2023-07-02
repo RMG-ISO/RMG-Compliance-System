@@ -17,6 +17,7 @@ namespace RMG.ComplianceSystem.Assessments
         public DateTime? ComplianceDate { get; set; }
         public DateTime? NextComplianceDate { get; set; }
         public DocumentedType? Documented { get; set; }
+        public PriorityType? Priority { get; set; }
         public int? DocumentedPercentage { get; set; }
         public ImplementedType? Implemented { get; set; }
         public int? ImplementedPercentage { get; set; }

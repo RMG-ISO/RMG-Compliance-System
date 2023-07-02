@@ -43,9 +43,12 @@ import { VALIDATION_BLUEPRINTS } from '@ngx-validate/core';
 import { DEFAULT_VALIDATION_BLUEPRINTS } from '@abp/ng.theme.shared';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
-import { RouterModule } from '@angular/router';
-import { registerLocaleData } from '@angular/common';
+import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
+import { MatCardModule } from "@angular/material/card";
+import { OAuthService } from 'angular-oauth2-oidc';
+import { of } from 'rxjs';
+import { AbpOAuthModule } from '@abp/ng.oauth';
 
 
 // export let AppInjector: Injector;
@@ -57,6 +60,7 @@ import { AbpOAuthModule } from '@abp/ng.oauth';
 
 
 import { differentLocales } from '@abp/ng.core';
+import { RouterModule } from '@angular/router';
 export function registerLocale(locale: string) {
   console.log('registerLocale', locale, differentLocales)
   try {
@@ -86,6 +90,7 @@ export function registerLocale(locale: string) {
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
+    MatCardModule,
 
     NgxValidateCoreModule.forRoot({
       blueprints:{
@@ -126,6 +131,7 @@ export function registerLocale(locale: string) {
   declarations: [
     AppComponent,
     ComplianceLayoutComponent,
+    ErrorInterceptComponent
   ],
   providers: [
     APP_ROUTE_PROVIDER,
@@ -145,6 +151,23 @@ export function registerLocale(locale: string) {
     //     max: "::Validations:Max[{{ max }}]",
     //   },
     // },
+
+  //   {
+  //     provide: OAuthService,
+  //     useValue: {
+  //         hasValidAccessToken: () => true, // return token status
+  //         configure: () => {
+  //         },
+  //         loadDiscoveryDocument: () => Promise.resolve(),
+  //         events: of(),
+  //         tryLogin: () => {
+  //         },
+  //         setupAutomaticSilentRefresh: () => {
+  //         },
+  //         getAccessToken: () => '' // return access token
+  //     }
+  // },
+  
   ],
   bootstrap: [AppComponent],
 })
@@ -153,3 +176,12 @@ export class AppModule {
   //   AppInjector = this.injector;
   // }
 }
+
+
+/*
+{
+  "input": "node_modules/@abp/ng.theme.shared/styles/bootstrap-rtl.min.css",
+  "inject": false,
+  "bundleName": "bootstrap-rtl.min"
+},
+*/
