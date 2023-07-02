@@ -7,7 +7,6 @@ import { throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { AbpOAuthService } from '@abp/ng.oauth';
 import snq from 'snq';
-import { AbpOAuthService } from '@abp/ng.oauth';
 
 
 @Component({
