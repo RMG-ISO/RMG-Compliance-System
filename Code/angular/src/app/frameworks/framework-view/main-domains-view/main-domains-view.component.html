@@ -123,92 +123,157 @@
                             {{ mainDomain?.descriptionEn }}
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            {{ '::SelfAssessmentStartDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.selfAssessmentStartDate | date : dateTimeFormat }}
-                        </td>
-                        <td>
-                            {{ '::SelfAssessmentEndDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.selfAssessmentEndDate | date : dateTimeFormat }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ '::InternalAssessmentStartDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.internalAssessmentStartDate | date : dateTimeFormat }}
-                        </td>
-                        <td>
-                            {{ '::InternalAssessmentEndDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.internalAssessmentEndDate | date : dateTimeFormat }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ '::ReviewStartDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.reviewStartDate | date : dateTimeFormat }}
-                        </td>
-                        <td>
-                            {{ '::ReviewEndDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ '::ApprovalDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
-                        </td>
-                        <td>
-                            {{ '::CompliancePercentage' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain?.compliancePercentage }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ '::Departments' | abpLocalization }}
-                        </td>
-                        <td colspan="3">
-                            <mat-chip-list>
-                                <mat-chip *ngFor="let department of mainDomain.departments">
-                                    {{ department.name }}
-                                </mat-chip>
-                            </mat-chip-list>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {{ '::Status' | abpLocalization }}
-                        </td>
-                        <td>
-                            <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
-                                {{ '::Enum:SharedStatus:' + mainDomain.status | abpLocalization }}
-                            </button>
-                        </td>
-                        <td>
-                            {{ '::ComplianceStatus' | abpLocalization }}
-                        </td>
-                        <td>
-                            <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
-                                {{ '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization }}
-                            </button>
-                        </td>
-                    </tr>
+
+                    <ng-container *ngIf="inCompliance; else inFrameworks">
+                        <tr>
+                            <td>
+                                {{ '::SelfAssessmentStartDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.selfAssessmentStartDate | date : dateTimeFormat }}
+                            </td>
+                            <td>
+                                {{ '::SelfAssessmentEndDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.selfAssessmentEndDate | date : dateTimeFormat }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::InternalAssessmentStartDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.internalAssessmentStartDate | date : dateTimeFormat }}
+                            </td>
+                            <td>
+                                {{ '::InternalAssessmentEndDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.internalAssessmentEndDate | date : dateTimeFormat }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::ReviewStartDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.reviewStartDate | date : dateTimeFormat }}
+                            </td>
+                            <td>
+                                {{ '::ReviewEndDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::ApprovalDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
+                            </td>
+                            <td>
+                                {{ '::CompliancePercentage' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.compliancePercentage }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::Departments' | abpLocalization }}
+                            </td>
+                            <td colspan="3">
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let department of mainDomain.departments">
+                                        {{ department.name }}
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::Status' | abpLocalization }}
+                            </td>
+                            <td>
+                                <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
+                                    {{ '::Enum:SharedStatus:' + mainDomain.status | abpLocalization }}
+                                </button>
+                            </td>
+                            <td>
+                                {{ '::ComplianceStatus' | abpLocalization }}
+                            </td>
+                            <td>
+                                <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
+                                    {{ '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization }}
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-template #inFrameworks>
+                        <!-- <tr>
+                            <td>
+                                {{ '::ReviewStartDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.reviewStartDate | date : dateTimeFormat }}
+                            </td>
+                            <td>
+                                {{ '::ReviewEndDate' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
+                            </td>
+                        </tr> -->
+                        <!-- <tr>
+                            <td>
+                                {{ '::ApprovalDate' | abpLocalization }}
+                            </td>
+                            <td colspan="3">
+                                {{ mainDomain?.reviewEndDate | date : dateTimeFormat }}
+                            </td>
+                            <td>
+                                {{ '::CompliancePercentage' | abpLocalization }}
+                            </td>
+                            <td>
+                                {{ mainDomain?.compliancePercentage }}
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td>
+                                {{ '::Departments' | abpLocalization }}
+                            </td>
+                            <td colspan="3">
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let department of mainDomain.departments">
+                                        {{ department.name }}
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{ '::Status' | abpLocalization }}
+                            </td>
+                            <td  colspan="3">
+                                <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
+                                    {{ '::Enum:SharedStatus:' + mainDomain.status | abpLocalization }}
+                                </button>
+                            </td>
+                            <!-- <td>
+                                {{ '::ComplianceStatus' | abpLocalization }}
+                            </td>
+                            <td>
+                                <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
+                                    {{ '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization }}
+                                </button>
+                            </td> -->
+                        </tr>
+                    </ng-template>
+                    
+                    
                     <tr>
                         <td>
                             {{ '::CreatedDate' | abpLocalization }}

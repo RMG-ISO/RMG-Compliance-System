@@ -41,9 +41,12 @@ export class MainDomainsViewComponent implements OnInit {
   showButton = false;
   expandedDomainId;
   userId;
+  inCompliance;
   ngOnInit(): void {
     this.userId = this.configState.getAll().currentUser.id
     this.expandedDomainId = this.activatedRoute.snapshot.queryParams.expandedDomainId;
+
+    this.inCompliance = this.frameWorkData.parentPath == 'compliance-assessment';
 
     this.showButton =
       this.frameWorkData.complianceStatus === ComplianceStatus.NotStarted &&
