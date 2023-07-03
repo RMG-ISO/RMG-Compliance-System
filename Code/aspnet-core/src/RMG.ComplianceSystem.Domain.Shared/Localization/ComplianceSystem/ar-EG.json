@@ -623,6 +623,8 @@
     "ComplianceSystem:Domain:013": "لا يمكن أن يكون مسرول النطاق نفس مالك الإطار",
     "ComplianceData":"بيانات الإمتثال",
     "ReviewApproveData":"بيانات المراجعة والإعتماد",
-    "ApprovalStartDate":"تاريخ بداية الإعتماد"
+    "ApprovalStartDate":"تاريخ بداية الإعتماد",
+    "ComplianceReviewStartDate":"تاريخ بداية مراجعة الإمتثال",
+    "ComplianceReviewEndDate":"تاريخ انتهاء مراجعة الإمتثال"
   }
 }
