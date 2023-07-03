@@ -1,5 +1,5 @@
-import type { ComplianceLevelTableDto, CompliancePhaseTableDto, CompliancePriorityTableDto } from './models';
-import { RestService } from '@abp/ng.core';
+import type { ComplianceLevelTableDto, CompliancePhaseTableDto, CompliancePriorityTableDto, ControlsCountByPriorityTableDto } from './models';
+import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,27 +7,38 @@ import { Injectable } from '@angular/core';
 })
 export class ReportsService {
   apiName = 'Default';
+  
 
-  getControllerByPriorityLevelByFrameworkId = (frameworkId: string) =>
+  getControllerByPriorityLevelByFrameworkId = (frameworkId: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, CompliancePriorityTableDto[]>({
       method: 'GET',
       url: `/api/app/reports/controller-by-priority-level/${frameworkId}`,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  getControllersByComplianceLevelByFrameworkId = (frameworkId: string) =>
+  getControllersByComplianceLevelByFrameworkId = (frameworkId: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, ComplianceLevelTableDto[]>({
       method: 'GET',
       url: `/api/app/reports/controllers-by-compliance-level/${frameworkId}`,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  getControllersByPhaseByFrameworkId = (frameworkId: string) =>
+  getControllersByPhaseByFrameworkId = (frameworkId: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, CompliancePhaseTableDto[]>({
       method: 'GET',
       url: `/api/app/reports/controllers-by-phase/${frameworkId}`,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
+
+  getControlsCountByPriorityByFrameworkId = (frameworkId: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, ControlsCountByPriorityTableDto[]>({
+      method: 'GET',
+      url: `/api/app/reports/controls-count-by-priority/${frameworkId}`,
+    },
+    { apiName: this.apiName,...config });
 
   constructor(private restService: RestService) {}
 }
