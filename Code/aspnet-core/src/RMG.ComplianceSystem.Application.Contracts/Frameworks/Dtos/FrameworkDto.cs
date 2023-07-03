@@ -56,6 +56,13 @@ namespace RMG.ComplianceSystem.Frameworks.Dtos
         public DateTime? ReviewStartDate { get; set; }
         public DateTime? ReviewEndDate { get; set; }
 
+
+        public DateTime? ApprovalStartDate { get; set; }
+        public DateTime? ApprovalEndDate { get; set; }
+
+        public DateTime? ComplianceReviewStartDate { get; set; }
+        public DateTime? ComplianceReviewEndDate { get; set; }
+
         public int CompliancePercentage { get; set; }
         public List<FrameworkEmpDto> FrameworkEmpsDto { get; set; } = new List<FrameworkEmpDto>();
         public List<FrameworkChangeStatusLogDto> ChangeStatusLogs { get; set; }

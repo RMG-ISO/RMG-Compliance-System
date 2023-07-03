@@ -439,6 +439,8 @@ namespace RMG.ComplianceSystem.Frameworks
             //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyCreatorUserCanSendToReviewer);
 
             entity.FrameworkStatus = FrameworkStatus.UnderReview;
+            if (!entity.ReviewStartDate.HasValue)
+                entity.ReviewStartDate = Clock.Now;
             await Repository.UpdateAsync(entity, autoSave: true);
             entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.UnderReview, entity.Id));
 
@@ -457,6 +459,12 @@ namespace RMG.ComplianceSystem.Frameworks
             //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyReviewerUserCanSendToOwner);
 
             entity.FrameworkStatus = FrameworkStatus.UnderApproval;
+            if (!entity.ReviewEndDate.HasValue)
+            {
+                entity.ReviewEndDate = Clock.Now;
+                if (!entity.ApprovalStartDate.HasValue)
+                    entity.ApprovalStartDate = Clock.Now;
+            }
             await Repository.UpdateAsync(entity, autoSave: true);
             entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.UnderApproval, entity.Id));
 
@@ -491,6 +499,7 @@ namespace RMG.ComplianceSystem.Frameworks
             //    throw new BusinessException(ComplianceSystemDomainErrorCodes.BIAOnlyOwnerUserCanApprove);
 
             entity.FrameworkStatus = FrameworkStatus.Approved;
+            entity.ApprovalEndDate = Clock.Now;
             await Repository.UpdateAsync(entity);
             entity.ChangeStatusLogs.Add(new FrameworkChangeStatusLog(Guid.NewGuid(), FrameworkStatus.Approved, entity.Id));
             await NotifyUsersAsync("FrameworkApproved", entity.OwnerId, NotificationSource.FrameworkApproved, NotySource.FrameworkApproved, entity.Id);
@@ -571,7 +580,7 @@ namespace RMG.ComplianceSystem.Frameworks
             var domains = (await _domainRepository.GetQueryableAsync()).Where(d => d.FrameworkId == framework.Id && !d.ParentId.HasValue).ToList();
             _frameworkManager.CanApproveCompliance(framework, domains, CurrentUser.Id.Value);
             framework.ComplianceStatus = ComplianceStatus.Approved;
-            framework.ReviewEndDate = Clock.Now;
+            framework.ComplianceReviewEndDate = Clock.Now;
             await Repository.UpdateAsync(framework);
             foreach (var responsible in domains.Where(d => d.ResponsibleId.HasValue).Select(d => d.ResponsibleId.Value).Distinct())
             {
@@ -588,6 +597,16 @@ namespace RMG.ComplianceSystem.Frameworks
                 .Where(c => domains.Select(d => d.Id).Contains(c.DomainId) 
                     && (c.ParentId.HasValue || (!c.ParentId.HasValue && !controlRepo.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
             var controlsWithoutAssessments = controls.Where(c => !assessmentRepo.Any(a => a.ControlId == c.Id)).ToList();
+
+
+            // var domains = _domainRepository.Where(d => d.FrameworkId == framework.Id).ToList();
+            // var controls = _controlRepository
+            //     .Where(c => domains.Select(d => d.Id).Contains(c.DomainId)
+            //         && (c.ParentId.HasValue || (!c.ParentId.HasValue && !_controlRepository.Any(sc => sc.ParentId == c.Id)))).Select(c => new { c.Id, c.NameAr }).ToList();
+            // var controlsWithoutAssessments = controls.Where(c => !_assessmentRepository.Any(a => a.ControlId == c.Id)).ToList();
+
+
+
             if (controlsWithoutAssessments.Any())
                 return new Tuple<bool, List<string>, List<Domain>>(false, controlsWithoutAssessments.Select(c => c.NameAr).ToList(), null);
             return new Tuple<bool, List<string>, List<Domain>>(true, null, domains);

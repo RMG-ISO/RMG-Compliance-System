@@ -54,6 +54,8 @@ import { MatCardModule } from '@angular/material/card';
 import { AbpOAuthModule, AbpOAuthService } from '@abp/ng.oauth';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
+import { PermissionManagementComponent } from './permission-management/permission-management.component';
+import { MyRolesModule } from './my-roles/my-roles.module';
 
 // export let AppInjector: Injector;
 
@@ -102,13 +104,19 @@ import { of } from 'rxjs';
         min: '::Validations:Min[{{ min }}]',
         max: '::Validations:Max[{{ max }}]',
       },
-      validateOnSubmit: true,
-      targetSelector: '.form-group',
-      errorTemplate: ValidationErrorComponent,
-      invalidClasses: 'is-invalid',
+      validateOnSubmit:true,
+      targetSelector:'.form-group',
+      errorTemplate:ValidationErrorComponent,
+      invalidClasses:'is-invalid'
     }),
+    MyRolesModule
   ],
-  declarations: [AppComponent, ComplianceLayoutComponent, ErrorInterceptComponent],
+  declarations: [
+    AppComponent,
+    ComplianceLayoutComponent,
+    ErrorInterceptComponent,
+    PermissionManagementComponent
+  ],
   providers: [
     APP_ROUTE_PROVIDER,
     // ListService,

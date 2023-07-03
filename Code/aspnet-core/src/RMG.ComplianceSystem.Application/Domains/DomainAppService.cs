@@ -285,8 +285,8 @@ namespace RMG.ComplianceSystem.Domains
             domain.ReviewStartDate = Clock.Now;
             await UpdateSubdomains(id, ComplianceStatus.UnderRevision, false, false, true);
             framework.ComplianceStatus = ComplianceStatus.UnderRevision;
-            if (!framework.ReviewStartDate.HasValue)
-                framework.ReviewStartDate = Clock.Now;
+            if (!framework.ComplianceReviewStartDate.HasValue)
+                framework.ComplianceReviewStartDate = Clock.Now;
             await Repository.UpdateAsync(domain);
             await _frameworkRepository.UpdateAsync(framework);
         }

@@ -58,11 +58,11 @@ const routes: Routes = [
     loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
   },
  
-  {
-    path:'internal-audit',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./internal-audit/internal-audit.module').then(m => m.InternalAuditModule)
-  },
+  // {
+  //   path:'internal-audit',
+  //   canActivate: [AuthGuard, PermissionGuard],
+  //   loadChildren: () => import('./internal-audit/internal-audit.module').then(m => m.InternalAuditModule)
+  // },
 
 
 

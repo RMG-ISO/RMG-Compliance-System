@@ -12,8 +12,30 @@
     <div class="card-body">
         <ng-container *ngIf="subDomainData && subControlData && frameWorkData">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">
-                    {{ subControlData | lang:'name' }}
+                <h2 class="mb-0 d-flex align-items-center">
+                    <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'details']">
+                        {{frameWorkData | lang:'name'}}
+                    </a>
+
+                    <mat-icon>chevron_left</mat-icon>
+
+                    <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains']" [queryParams]="{expandedDomainId:subDomainData?.id}">
+                        {{ subDomainData | lang:'mainDomainName' }}
+                    </a>
+
+                    <mat-icon>chevron_left</mat-icon>
+
+                    <a [routerLink]="[ '/', parentPath, 'sub-domains' , subDomainId, 'controls' ]"
+                    [queryParams]="{expandedMainControlId:subControlData?.parentId}">
+                        {{ subControlData | lang:'mainControlName' }}
+                    </a>
+
+                    <mat-icon>chevron_left</mat-icon>
+
+
+                    <span>
+                        {{ subControlData | lang:'name' }}
+                    </span>
                 </h2>
                 <ng-container *abpPermission="'ComplianceSystem.Control.Update'">
                     <button *ngIf="showButton" mat-button (click)="openDialog()" class="add-blue">
@@ -29,10 +51,10 @@
                         <td>
                             {{ '::ReferenceNumber' | abpLocalization }}
                         </td>
-                        <td>
+                        <td colspan="3">
                             {{subControlData?.reference}}
                         </td>
-                        <td>
+                        <!-- <td>
                             {{ ( frameWorkData | lang : 'levelSecondName' ) || ('::SubDomains' | abpLocalization) }}
                         </td>
                         <td>
@@ -40,10 +62,12 @@
                             [queryParams]="{expandedMainControlId:subControlData?.parentId}">
                                 {{ subControlData | lang:'mainControlName' }}
                             </a>
-                        </td>
+                        </td> -->
                     </tr>
     
-                    <tr>
+
+
+                    <!-- <tr>
                         <td>
                             {{ '::FrameworkName' | abpLocalization }}
                         </td>
@@ -60,7 +84,7 @@
                                 {{ subDomainData | lang:'mainDomainName' }}
                             </a>
                         </td>
-                    </tr>
+                    </tr> -->
 
 
                     <tr>
@@ -93,20 +117,38 @@
                         </td>
                     </tr>
     
-                    <tr>
+                    <!-- <tr>
                         <td>
                             {{ '::Status' | abpLocalization }}
                         </td>
-                        <td>
+                        <td [attr.colspan]="parentPath === 'compliance-assessment' ? 1 : 3">
                             <button mat-button class="status" [class]="SharedStatus[subControlData?.status]">
                                 {{  ('::Enum:SharedStatus:' + subControlData?.status) | abpLocalization }}
                             </button>
                         </td>
+                        <ng-container *ngIf="parentPath === 'compliance-assessment'">
+                            <td>
+                                {{ '::CompliancePercentage' | abpLocalization }}
+                            </td>
+                            <td>
+                              {{ subControlData?.compliancePercentage }}
+                            </td>
+                        </ng-container>
+                    </tr> -->
+                    <tr *ngIf="parentPath === 'compliance-assessment'">
+                        <!-- <td>
+                            {{ '::Status' | abpLocalization }}
+                        </td>
+                        <td [attr.colspan]="parentPath === 'compliance-assessment' ? 1 : 3">
+                            <button mat-button class="status" [class]="SharedStatus[subControlData?.status]">
+                                {{  ('::Enum:SharedStatus:' + subControlData?.status) | abpLocalization }}
+                            </button>
+                        </td> -->
                         <td>
                             {{ '::CompliancePercentage' | abpLocalization }}
                         </td>
-                        <td>
-                          {{ subControlData?.compliancePercentage }}
+                        <td colspan="3">
+                            {{ subControlData?.compliancePercentage }}
                         </td>
                     </tr>
                 </table>

@@ -3,26 +3,25 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMG.ComplianceSystem.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
-#nullable disable
-
 namespace RMG.ComplianceSystem.Migrations
 {
     [DbContext(typeof(ComplianceSystemDbContext))]
-    partial class ComplianceSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230703075759_framework_review_approval_dates")]
+    partial class framework_review_approval_dates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "7.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.17")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.Assessment", b =>
                 {
@@ -121,7 +120,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppAssessments", (string)null);
+                    b.ToTable("AppAssessments");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.AssessmentEmployee", b =>
@@ -136,7 +135,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("AppAssessmentEmployees", (string)null);
+                    b.ToTable("AppAssessmentEmployees");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.AssessmentVersion", b =>
@@ -200,7 +199,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("AppAssessmentVersions", (string)null);
+                    b.ToTable("AppAssessmentVersions");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.Attachment", b =>
@@ -265,7 +264,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppAttachments", (string)null);
+                    b.ToTable("AppAttachments");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Attachments.AttachmentFile", b =>
@@ -328,7 +327,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppAttachmentFiles", (string)null);
+                    b.ToTable("AppAttachmentFiles");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Authors.Author", b =>
@@ -391,7 +390,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AppAuthors", (string)null);
+                    b.ToTable("AppAuthors");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Books.Book", b =>
@@ -446,7 +445,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("AppBooks", (string)null);
+                    b.ToTable("AppBooks");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Controls.Control", b =>
@@ -530,7 +529,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("AppControls", (string)null);
+                    b.ToTable("AppControls");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.DepartmentUsers.DepartmentUser", b =>
@@ -592,7 +591,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppDepartmentUsers", (string)null);
+                    b.ToTable("AppDepartmentUsers");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Departments.Department", b =>
@@ -651,7 +650,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppDepartments", (string)null);
+                    b.ToTable("AppDepartments");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.Document", b =>
@@ -726,7 +725,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppDocuments", (string)null);
+                    b.ToTable("AppDocuments");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentCategory", b =>
@@ -791,7 +790,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppDocumentCategories", (string)null);
+                    b.ToTable("AppDocumentCategories");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
@@ -901,7 +900,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("ResponsibleId");
 
-                    b.ToTable("AppDomains", (string)null);
+                    b.ToTable("AppDomains");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.DomainDepartment", b =>
@@ -916,7 +915,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("AppDomainDepartments", (string)null);
+                    b.ToTable("AppDomainDepartments");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.EmailTemplates.EmailTemplate", b =>
@@ -968,7 +967,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppEmailTemplates", (string)null);
+                    b.ToTable("AppEmailTemplates");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Employees.Employee", b =>
@@ -1038,7 +1037,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppEmployees", (string)null);
+                    b.ToTable("AppEmployees");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.Framework", b =>
@@ -1055,7 +1054,7 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("ApproveUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttachmentId")
+                    b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ComplianceReviewEndDate")
@@ -1193,7 +1192,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppFrameworks", (string)null);
+                    b.ToTable("AppFrameworks");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.FrameworkChangeStatusLog", b =>
@@ -1222,7 +1221,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("FrameworkId");
 
-                    b.ToTable("AppFrameworkChangeStatusLogs", (string)null);
+                    b.ToTable("AppFrameworkChangeStatusLogs");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Frameworks.FrameworkEmployee", b =>
@@ -1360,7 +1359,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppInternalAuditApproves", (string)null);
+                    b.ToTable("AppInternalAuditApproves");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditPreparations.InternalAuditPreparation", b =>
@@ -1482,7 +1481,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("RiskOpportunityId");
 
-                    b.ToTable("AppInternalAuditPreparations", (string)null);
+                    b.ToTable("AppInternalAuditPreparations");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditPreparations.InternalAuditRisk", b =>
@@ -1544,7 +1543,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppInternalAuditRisks", (string)null);
+                    b.ToTable("AppInternalAuditRisks");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditPreparations.InternalAuditor", b =>
@@ -1612,7 +1611,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppInternalAuditors", (string)null);
+                    b.ToTable("AppInternalAuditors");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditQuestionLists.InternalAuditMenuQuestion", b =>
@@ -1682,7 +1681,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppInternalAuditMenuQuestions", (string)null);
+                    b.ToTable("AppInternalAuditMenuQuestions");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditQuestionLists.InternalAuditQuestionList", b =>
@@ -1744,7 +1743,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppInternalAuditQuestionLists", (string)null);
+                    b.ToTable("AppInternalAuditQuestionLists");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.InternalAuditQuestions.InternalAuditQuestion", b =>
@@ -1817,7 +1816,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppInternalAuditQuestions", (string)null);
+                    b.ToTable("AppInternalAuditQuestions");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Notifications.Notification", b =>
@@ -1911,7 +1910,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppNotifications", (string)null);
+                    b.ToTable("AppNotifications");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
@@ -2007,7 +2006,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("RiskOpportunityId");
 
-                    b.ToTable("AppRisksTreatment", (string)null);
+                    b.ToTable("AppRisksTreatment");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.HistoryRiskOpportunity", b =>
@@ -2058,7 +2057,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppHistoryRisksOpportunities", (string)null);
+                    b.ToTable("AppHistoryRisksOpportunities");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>
@@ -2207,7 +2206,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppRisksOpportunities", (string)null);
+                    b.ToTable("AppRisksOpportunities");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.StaticData.StaticDatatb", b =>
@@ -2278,7 +2277,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.ToTable("AppStaticDatatb", (string)null);
+                    b.ToTable("AppStaticDatatb");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2355,28 +2354,16 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ImpersonatorTenantId");
 
-                    b.Property<string>("ImpersonatorTenantName")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)")
-                        .HasColumnName("ImpersonatorTenantName");
-
                     b.Property<Guid?>("ImpersonatorUserId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("ImpersonatorUserId");
-
-                    b.Property<string>("ImpersonatorUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnName("ImpersonatorUserName");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("TenantId");
 
                     b.Property<string>("TenantName")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)")
-                        .HasColumnName("TenantName");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
                         .HasMaxLength(256)
@@ -2398,7 +2385,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogs", (string)null);
+                    b.ToTable("AbpAuditLogs");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -2448,7 +2435,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("TenantId", "ServiceName", "MethodName", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogActions", (string)null);
+                    b.ToTable("AbpAuditLogActions");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityChange", b =>
@@ -2498,7 +2485,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("TenantId", "EntityTypeFullName", "EntityId");
 
-                    b.ToTable("AbpEntityChanges", (string)null);
+                    b.ToTable("AbpEntityChanges");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityPropertyChange", b =>
@@ -2540,7 +2527,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable("AbpEntityPropertyChanges", (string)null);
+                    b.ToTable("AbpEntityPropertyChanges");
                 });
 
             modelBuilder.Entity("Volo.Abp.BackgroundJobs.BackgroundJobRecord", b =>
@@ -2598,96 +2585,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("IsAbandoned", "NextTryTime");
 
-                    b.ToTable("AbpBackgroundJobs", (string)null);
-                });
-
-            modelBuilder.Entity("Volo.Abp.FeatureManagement.FeatureDefinitionRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AllowedProviders")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("DefaultValue")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<bool>("IsAvailableToHost")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsVisibleToClients")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ParentName")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ValueType")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupName");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("AbpFeatures", (string)null);
-                });
-
-            modelBuilder.Entity("Volo.Abp.FeatureManagement.FeatureGroupDefinitionRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("AbpFeatureGroups", (string)null);
+                    b.ToTable("AbpBackgroundJobs");
                 });
 
             modelBuilder.Entity("Volo.Abp.FeatureManagement.FeatureValue", b =>
@@ -2716,11 +2614,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey")
-                        .IsUnique()
-                        .HasFilter("[ProviderName] IS NOT NULL AND [ProviderKey] IS NOT NULL");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey");
 
-                    b.ToTable("AbpFeatureValues", (string)null);
+                    b.ToTable("AbpFeatureValues");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityClaimType", b =>
@@ -2766,7 +2662,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpClaimTypes", (string)null);
+                    b.ToTable("AbpClaimTypes");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityLinkUser", b =>
@@ -2792,7 +2688,7 @@ namespace RMG.ComplianceSystem.Migrations
                         .IsUnique()
                         .HasFilter("[SourceTenantId] IS NOT NULL AND [TargetTenantId] IS NOT NULL");
 
-                    b.ToTable("AbpLinkUsers", (string)null);
+                    b.ToTable("AbpLinkUsers");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRole", b =>
@@ -2805,9 +2701,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)")
                         .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<int>("EntityVersion")
-                        .HasColumnType("int");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
@@ -2843,7 +2736,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("NormalizedName");
 
-                    b.ToTable("AbpRoles", (string)null);
+                    b.ToTable("AbpRoles");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRoleClaim", b =>
@@ -2871,7 +2764,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AbpRoleClaims", (string)null);
+                    b.ToTable("AbpRoleClaims");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentitySecurityLog", b =>
@@ -2945,7 +2838,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpSecurityLogs", (string)null);
+                    b.ToTable("AbpSecurityLogs");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUser", b =>
@@ -2993,16 +2886,9 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("EmailConfirmed");
 
-                    b.Property<int>("EntityVersion")
-                        .HasColumnType("int");
-
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit")
-                        .HasColumnName("IsActive");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -3103,7 +2989,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("UserName");
 
-                    b.ToTable("AbpUsers", (string)null);
+                    b.ToTable("AbpUsers");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserClaim", b =>
@@ -3131,7 +3017,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AbpUserClaims", (string)null);
+                    b.ToTable("AbpUserClaims");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserLogin", b =>
@@ -3160,7 +3046,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AbpUserLogins", (string)null);
+                    b.ToTable("AbpUserLogins");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserOrganizationUnit", b =>
@@ -3187,7 +3073,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("UserId", "OrganizationUnitId");
 
-                    b.ToTable("AbpUserOrganizationUnits", (string)null);
+                    b.ToTable("AbpUserOrganizationUnits");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserRole", b =>
@@ -3206,7 +3092,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("RoleId", "UserId");
 
-                    b.ToTable("AbpUserRoles", (string)null);
+                    b.ToTable("AbpUserRoles");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserToken", b =>
@@ -3231,7 +3117,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AbpUserTokens", (string)null);
+                    b.ToTable("AbpUserTokens");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnit", b =>
@@ -3273,9 +3159,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("DisplayName");
 
-                    b.Property<int>("EntityVersion")
-                        .HasColumnType("int");
-
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
@@ -3307,7 +3190,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("AbpOrganizationUnits", (string)null);
+                    b.ToTable("AbpOrganizationUnits");
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnitRole", b =>
@@ -3334,7 +3217,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("RoleId", "OrganizationUnitId");
 
-                    b.ToTable("AbpOrganizationUnitRoles", (string)null);
+                    b.ToTable("AbpOrganizationUnitRoles");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResource", b =>
@@ -3408,7 +3291,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityServerApiResources", (string)null);
+                    b.ToTable("IdentityServerApiResources");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceClaim", b =>
@@ -3422,7 +3305,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ApiResourceId", "Type");
 
-                    b.ToTable("IdentityServerApiResourceClaims", (string)null);
+                    b.ToTable("IdentityServerApiResourceClaims");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceProperty", b =>
@@ -3440,7 +3323,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ApiResourceId", "Key", "Value");
 
-                    b.ToTable("IdentityServerApiResourceProperties", (string)null);
+                    b.ToTable("IdentityServerApiResourceProperties");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceScope", b =>
@@ -3454,7 +3337,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ApiResourceId", "Scope");
 
-                    b.ToTable("IdentityServerApiResourceScopes", (string)null);
+                    b.ToTable("IdentityServerApiResourceScopes");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceSecret", b =>
@@ -3479,7 +3362,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ApiResourceId", "Type", "Value");
 
-                    b.ToTable("IdentityServerApiResourceSecrets", (string)null);
+                    b.ToTable("IdentityServerApiResourceSecrets");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiScopes.ApiScope", b =>
@@ -3555,7 +3438,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityServerApiScopes", (string)null);
+                    b.ToTable("IdentityServerApiScopes");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiScopes.ApiScopeClaim", b =>
@@ -3569,7 +3452,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ApiScopeId", "Type");
 
-                    b.ToTable("IdentityServerApiScopeClaims", (string)null);
+                    b.ToTable("IdentityServerApiScopeClaims");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiScopes.ApiScopeProperty", b =>
@@ -3587,7 +3470,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ApiScopeId", "Key", "Value");
 
-                    b.ToTable("IdentityServerApiScopeProperties", (string)null);
+                    b.ToTable("IdentityServerApiScopeProperties");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.Client", b =>
@@ -3771,7 +3654,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("IdentityServerClients", (string)null);
+                    b.ToTable("IdentityServerClients");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientClaim", b =>
@@ -3789,7 +3672,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "Type", "Value");
 
-                    b.ToTable("IdentityServerClientClaims", (string)null);
+                    b.ToTable("IdentityServerClientClaims");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientCorsOrigin", b =>
@@ -3803,7 +3686,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "Origin");
 
-                    b.ToTable("IdentityServerClientCorsOrigins", (string)null);
+                    b.ToTable("IdentityServerClientCorsOrigins");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientGrantType", b =>
@@ -3817,7 +3700,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "GrantType");
 
-                    b.ToTable("IdentityServerClientGrantTypes", (string)null);
+                    b.ToTable("IdentityServerClientGrantTypes");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientIdPRestriction", b =>
@@ -3831,7 +3714,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "Provider");
 
-                    b.ToTable("IdentityServerClientIdPRestrictions", (string)null);
+                    b.ToTable("IdentityServerClientIdPRestrictions");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientPostLogoutRedirectUri", b =>
@@ -3845,7 +3728,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "PostLogoutRedirectUri");
 
-                    b.ToTable("IdentityServerClientPostLogoutRedirectUris", (string)null);
+                    b.ToTable("IdentityServerClientPostLogoutRedirectUris");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientProperty", b =>
@@ -3863,7 +3746,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "Key", "Value");
 
-                    b.ToTable("IdentityServerClientProperties", (string)null);
+                    b.ToTable("IdentityServerClientProperties");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientRedirectUri", b =>
@@ -3877,7 +3760,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "RedirectUri");
 
-                    b.ToTable("IdentityServerClientRedirectUris", (string)null);
+                    b.ToTable("IdentityServerClientRedirectUris");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientScope", b =>
@@ -3891,7 +3774,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "Scope");
 
-                    b.ToTable("IdentityServerClientScopes", (string)null);
+                    b.ToTable("IdentityServerClientScopes");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientSecret", b =>
@@ -3916,7 +3799,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("ClientId", "Type", "Value");
 
-                    b.ToTable("IdentityServerClientSecrets", (string)null);
+                    b.ToTable("IdentityServerClientSecrets");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Devices.DeviceFlowCodes", b =>
@@ -3988,7 +3871,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("UserCode");
 
-                    b.ToTable("IdentityServerDeviceFlowCodes", (string)null);
+                    b.ToTable("IdentityServerDeviceFlowCodes");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Grants.PersistedGrant", b =>
@@ -4054,7 +3937,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
-                    b.ToTable("IdentityServerPersistedGrants", (string)null);
+                    b.ToTable("IdentityServerPersistedGrants");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.IdentityResources.IdentityResource", b =>
@@ -4130,7 +4013,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityServerIdentityResources", (string)null);
+                    b.ToTable("IdentityServerIdentityResources");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.IdentityResources.IdentityResourceClaim", b =>
@@ -4144,7 +4027,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("IdentityResourceId", "Type");
 
-                    b.ToTable("IdentityServerIdentityResourceClaims", (string)null);
+                    b.ToTable("IdentityServerIdentityResourceClaims");
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.IdentityResources.IdentityResourceProperty", b =>
@@ -4162,60 +4045,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("IdentityResourceId", "Key", "Value");
 
-                    b.ToTable("IdentityServerIdentityResourceProperties", (string)null);
-                });
-
-            modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionDefinitionRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<byte>("MultiTenancySide")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ParentName")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Providers")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("StateCheckers")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupName");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("AbpPermissions", (string)null);
+                    b.ToTable("IdentityServerIdentityResourceProperties");
                 });
 
             modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionGrant", b =>
@@ -4245,39 +4075,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TenantId", "Name", "ProviderName", "ProviderKey")
-                        .IsUnique()
-                        .HasFilter("[TenantId] IS NOT NULL");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey");
 
-                    b.ToTable("AbpPermissionGrants", (string)null);
-                });
-
-            modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionGroupDefinitionRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("AbpPermissionGroups", (string)null);
+                    b.ToTable("AbpPermissionGrants");
                 });
 
             modelBuilder.Entity("Volo.Abp.SettingManagement.Setting", b =>
@@ -4306,11 +4106,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey")
-                        .IsUnique()
-                        .HasFilter("[ProviderName] IS NOT NULL AND [ProviderKey] IS NOT NULL");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey");
 
-                    b.ToTable("AbpSettings", (string)null);
+                    b.ToTable("AbpSettings");
                 });
 
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
@@ -4340,9 +4138,6 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<int>("EntityVersion")
-                        .HasColumnType("int");
-
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
@@ -4370,7 +4165,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AbpTenants", (string)null);
+                    b.ToTable("AbpTenants");
                 });
 
             modelBuilder.Entity("Volo.Abp.TenantManagement.TenantConnectionString", b =>
@@ -4389,7 +4184,7 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.HasKey("TenantId", "Name");
 
-                    b.ToTable("AbpTenantConnectionStrings", (string)null);
+                    b.ToTable("AbpTenantConnectionStrings");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.Assessment", b =>

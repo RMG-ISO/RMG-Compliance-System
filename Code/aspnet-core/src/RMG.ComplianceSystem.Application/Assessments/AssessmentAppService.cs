@@ -224,24 +224,26 @@ namespace RMG.ComplianceSystem.Assessments
 
         private async Task ValidateCreateUpdateAsync(CreateUpdateAssessmentDto input, Frameworks.Framework framework, Assessment assessment = null)
         {
-            if (input.Documented.HasValue && input.Documented.Value == DocumentedType.PartialDocumented && !input.DocumentedPercentage.HasValue)
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
+            if (input.Applicable.HasValue && input.Applicable.Value == ApplicableType.Applicable)
+            {
+                if (input.Documented.HasValue && input.Documented.Value == DocumentedType.PartialDocumented && !input.DocumentedPercentage.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
 
-            if (input.Implemented.HasValue && input.Implemented.Value == ImplementedType.PartialImplemented && !input.ImplementedPercentage.HasValue)
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
+                if (input.Implemented.HasValue && input.Implemented.Value == ImplementedType.PartialImplemented && !input.ImplementedPercentage.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
 
-            if (input.Effective.HasValue && input.Effective.Value == EffectiveType.PartialEffective && !input.EffectivePercentage.HasValue)
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
+                if (input.Effective.HasValue && input.Effective.Value == EffectiveType.PartialEffective && !input.EffectivePercentage.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvidePercentageForPartialAnswers);
 
-            if (((input.Documented.HasValue && input.Documented.Value != DocumentedType.NotDocumented && (assessment == null || input.Documented != assessment.Documented)) ||
-                (input.Implemented.HasValue && input.Implemented.Value != ImplementedType.NotImplemented && (assessment == null || input.Implemented != assessment.Implemented)) ||
-                (input.Effective.HasValue && input.Effective.Value != EffectiveType.NotEffective && (assessment == null || input.Effective != assessment.Effective))) &&
-                input.Comment.IsNullOrWhiteSpace())
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvideCommentWhenPartialOrFullAnswers);
+                if (((input.Documented.HasValue && input.Documented.Value != DocumentedType.NotDocumented && (assessment == null || input.Documented != assessment.Documented)) ||
+                    (input.Implemented.HasValue && input.Implemented.Value != ImplementedType.NotImplemented && (assessment == null || input.Implemented != assessment.Implemented)) ||
+                    (input.Effective.HasValue && input.Effective.Value != EffectiveType.NotEffective && (assessment == null || input.Effective != assessment.Effective))) &&
+                    input.Comment.IsNullOrWhiteSpace())
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustProvideCommentWhenPartialOrFullAnswers);
 
-            if (framework.HasPriority && !input.Priority.HasValue)
-                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustAnswerPriorityQuestionForThisFrameworkControls);
-
+                if (framework.HasPriority && !input.Priority.HasValue)
+                    throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustAnswerPriorityQuestionForThisFrameworkControls);
+            }
         }
 
         private async Task SaveVersion(Assessment assessment)

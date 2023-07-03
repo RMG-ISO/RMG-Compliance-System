@@ -1,4 +1,8 @@
-﻿using RMG.ComplianceSystem.Assessments;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using MimeKit.Encodings;
+using RMG.ComplianceSystem.Assessments;
+using RMG.ComplianceSystem.Assessments.Dtos;
+using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Domains;
 using System;
 using System.Collections.Generic;
@@ -12,9 +16,13 @@ namespace RMG.ComplianceSystem.Reports
     public class ReportsAppService : ComplianceSystemAppService
     {
         private readonly IDomainRepository _domainRepository;
-        public ReportsAppService(IDomainRepository domainRepository)
+        private readonly IAssessmentRepository _assessmentRepository;
+        private readonly IControlRepository _controlRepository;
+        public ReportsAppService(IDomainRepository domainRepository, IAssessmentRepository assesmentRepository, IControlRepository controlRepository)
         {
             _domainRepository = domainRepository;
+            _assessmentRepository = assesmentRepository;
+            _controlRepository = controlRepository;
         }
 
 
@@ -106,6 +114,61 @@ namespace RMG.ComplianceSystem.Reports
                 });
             }
             return result;
+        }
+
+        public List<CompliancePriorityTableDto> GetControllerByPriorityLevel([Required] Guid frameworkId)
+        {
+            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var result = new List<CompliancePriorityTableDto>();
+            // if framework doesn't have any main domain
+            if (!domains.Any())
+            {
+                return result;
+            }
+            
+            // if main domains doesn't have at least Controller
+
+            var controllers = domains.Select(x => Tuple.Create(x.NameAr,x.Controls.ToList()));
+
+            //if at least one sub controller exist
+            if (domains.Any(x => x.Controls.Count > 0) && domains.SelectMany(x => x.Controls.SelectMany(y => y.Children)).Any())
+            {
+                controllers = controllers.Select(x => Tuple.Create(x.Item1,x.Item2.SelectMany(y => y.Children).ToList()));
+            }
+
+            var mainDomains = domains.Where(x => x.ParentId == null);
+            var child = mainDomains.SelectMany(x => x.Children);
+            var mainDomainsDict = new Dictionary<Domain, IList<Control>>();
+            bool subController = false;
+            foreach (var domain in mainDomains)
+            {
+                var subDomains = _domainRepository.Where(d => d.ParentId == domain.Id).Select(d => d.Id).ToList();
+                var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+                if (controls.Any(x => x.Children != null))
+                {
+                    subController = true;
+                    controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
+                }
+                mainDomainsDict.Add(domain, controls);
+            }
+                //mainDomains.ToDictionary(mainDomain => mainDomain, mainDomain => mainDomain.Children.SelectMany(domain => domain.Controls.SelectMany(controls => controls.Children)) ?? mainDomain.Children.SelectMany(x => x.Controls));
+            return new List<CompliancePriorityTableDto>
+            {
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id,subController) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList() },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 ,  Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr}).ToList()},
+            };
+        }
+
+        private int GetComplianceControlCountByDomainId(Guid domainId, bool subController)
+        {
+            var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
+            var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+            if (subController)
+            {
+                controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
+            }
+            return _assessmentRepository.Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
         }
 
         
