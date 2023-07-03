@@ -1,5 +1,19 @@
 @import "../../../../styles/mixins";
 
+.mat-dialog-title {
+    button {
+        color: #000000;
+        mat-icon {
+            @include nb-ltr(){
+                transform: rotate(180deg);
+            }
+        }
+        &:disabled {
+            color: rgba(0,0,0,.5);
+            opacity: 0;
+        }
+    }
+}
 .navs {
     width: 100%;
     // margin-left: -32px;
@@ -121,21 +135,11 @@
 
 :host {
     mat-dialog-actions {
-        justify-content: space-between;
+        // justify-content: space-between;
         padding-left: 16px;
         padding-right: 16px;
         margin-bottom: 0;
-        button {
-            color: #000000;
-            mat-icon {
-                @include nb-ltr(){
-                    transform: rotate(180deg);
-                }
-            }
-            &:disabled {
-                color: rgba(0,0,0,.5);
-            }
-        }
+       
     }
 }
 

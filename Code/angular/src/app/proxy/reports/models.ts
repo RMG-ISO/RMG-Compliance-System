@@ -33,3 +33,15 @@ export interface CompliancePriorityTableDto {
   priority: PriorityType;
   domains: ComplianceControllerDto[];
 }
+
+export interface ControlsCountByPriorityTableDto {
+  priority: PriorityType;
+  controlsCount: number;
+  percentageOfTotal: number;
+  documentedCount: number;
+  documentedPercentage: number;
+  implementedCount: number;
+  implementedPercentage: number;
+  effectiveCount: number;
+  effectivePrecentage: number;
+}

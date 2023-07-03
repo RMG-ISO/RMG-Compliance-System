@@ -51,7 +51,7 @@ export class DomainViewComponent implements OnInit {
   userId;
   expandedMainControlId;
   ngOnInit(): void {
-    console.log(this.activatedRoute.snapshot.params)
+    
     this.parentPath = this.activatedRoute.snapshot.parent.routeConfig.path;
     this.userId = this.configState.getAll().currentUser.id
 

@@ -49,6 +49,11 @@ namespace RMG.ComplianceSystem.Frameworks
         public DateTime? ReviewEndDate { get; set; }
 
 
+        public DateTime? ApprovalStartDate { get; set; }
+        public DateTime? ApprovalEndDate { get; set; }
+
+        public DateTime? ComplianceReviewStartDate { get; set; }
+        public DateTime? ComplianceReviewEndDate { get; set; }
 
         public virtual ICollection<Domain> Domains { get; set; }
         public virtual ICollection<FrameworkChangeStatusLog> ChangeStatusLogs { get; set; } = new HashSet<FrameworkChangeStatusLog>();

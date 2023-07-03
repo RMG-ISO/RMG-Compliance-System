@@ -618,6 +618,12 @@
     "ErrorMsg:404": "Not Found",
     "ErrorMsg:500": "Internal Server Error",
     "BackToHome": "Back To Home",
-    "ComplianceSystem:Domain:013": "Domain responsible cannot be the same as framework owner"
+    "ComplianceSystem:Domain:013": "Domain responsible cannot be the same as framework owner",
+    "ComplianceData":"Compliance Data",
+    "ReviewApproveData":"Review and approval data",
+    "ApprovalStartDate":"Approval Start Date",
+    "ComplianceReviewStartDate":"Compliance Review Start Date",
+    "ComplianceReviewEndDate":"Compliance Review End Date"
+
   }
 }
