@@ -90,13 +90,13 @@
           <td>
             {{ '::ComplianceReviewStartDate' | abpLocalization }}
           </td>
-          <td>
+          <td class="date">
             {{ frameWorkData?.ComplianceReviewStartDate | date : dateTimeFormat }}
           </td>
           <td>
             {{ '::ComplianceReviewEndDate' | abpLocalization }}
           </td>
-          <td>
+          <td class="date">
             {{ frameWorkData?.ComplianceReviewEndDate | date : dateTimeFormat }}
           </td>
         </tr>
@@ -106,13 +106,13 @@
             <td>
               {{ '::SelfAssessmentStartDate' | abpLocalization }}
             </td>
-            <td>
+            <td class="date">
               {{ frameWorkData?.selfAssessmentStartDate | date : dateTimeFormat }}
             </td>
             <td>
               {{ '::SelfAssessmentEndDate' | abpLocalization }}
             </td>
-            <td>
+            <td class="date">
               {{ frameWorkData?.selfAssessmentEndDate | date : dateTimeFormat }}
             </td>
           </tr>
@@ -120,13 +120,13 @@
             <td>
               {{ '::InternalAssessmentStartDate' | abpLocalization }}
             </td>
-            <td>
+            <td class="date">
               {{ frameWorkData?.internalAssessmentStartDate | date : dateTimeFormat }}
             </td>
             <td>
               {{ '::InternalAssessmentEndDate' | abpLocalization }}
             </td>
-            <td>
+            <td class="date">
               {{ frameWorkData?.internalAssessmentEndDate | date : dateTimeFormat }}
             </td>
           </tr>
@@ -176,7 +176,7 @@
           <td>
             {{ '::ReviewStartDate' | abpLocalization }}
           </td>
-          <td>
+          <td class="date">
             {{ frameWorkData?.reviewStartDate | date : dateTimeFormat }}
           </td>
           <td>
@@ -197,13 +197,13 @@
           <td>
             {{ '::ApprovalStartDate' | abpLocalization }}
           </td>
-          <td>
+          <td class="date">
             {{ frameWorkData?.approvalStartDate | date : dateTimeFormat }}
           </td>
           <td>
             {{ '::ApprovalDate' | abpLocalization }}
           </td>
-          <td>
+          <td class="date">
             {{ frameWorkData?.approvalEndDate | date : dateTimeFormat }}
           </td>
         </tr>
