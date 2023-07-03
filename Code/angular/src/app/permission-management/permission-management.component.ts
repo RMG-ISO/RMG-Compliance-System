@@ -1,7 +1,6 @@
 import { ConfigStateService, CurrentUserDto, ReplaceableComponents } from '@abp/ng.core';
 import {
-  GetPermissionListResultDto,
-  PermissionGrantInfoDto, PermissionGroupDto, PermissionManagement, PermissionsService, ProviderInfoDto, UpdatePermissionDto
+PermissionManagement
 } from '@abp/ng.permission-management';
 import { LocaleDirection } from '@abp/ng.theme.shared';
 import {
@@ -10,9 +9,44 @@ import {
 } from '@angular/core';
 import { of } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
+import { PermissionsService } from '@abp/ng.permission-management/proxy';
 
-type PermissionWithStyle = PermissionGrantInfoDto & {
+
+type  GetPermissionListResultDto  = {
+  entityDisplayName: string;
+  groups: PermissionGroupDto[];
+}
+type  PermissionGrantInfoDto  = {
+  name: string;
+  displayName: string;
+  parentName: string;
+  isGranted: boolean;
+  allowedProviders: string[];
+  grantedProviders: ProviderInfoDto[];
+}
+type  PermissionGroupDto  = {
+  name: string;
+  displayName: string;
+  permissions: PermissionGrantInfoDto[];
+}
+type  ProviderInfoDto  = {
+  providerName: string;
+  providerKey: string;
+}
+type  UpdatePermissionDto  = {
+  name: string;
+  isGranted: boolean;
+}
+type  UpdatePermissionsDto  = {
+  permissions: UpdatePermissionDto[];
+}
+
+
+type PermissionWithStyle = {
   style: string;
+  name: string;
+  displayName: string;
+  permissions: PermissionGrantInfoDto[];
 };
 
 @Component({
@@ -181,7 +215,7 @@ export class PermissionManagementComponent
   }
 
   setTabCheckboxState() {
-    const selectedPermissions = this.selectedGroupPermissions.filter(per => per.isGranted);
+    const selectedPermissions = this.selectedGroupPermissions.filter(per => per['isGranted']);
     const element = document.querySelector('#select-all-in-this-tabs') as any;
 
     if (selectedPermissions.length === this.selectedGroupPermissions.length) {
@@ -212,7 +246,7 @@ export class PermissionManagementComponent
 
   onClickSelectThisTab() {
     this.selectedGroupPermissions.forEach(permission => {
-      if (permission.isGranted && this.isGrantedByOtherProviderName(permission.grantedProviders))
+      if (permission['isGranted'] && this.isGrantedByOtherProviderName(permission['grantedProviders']))
         return;
 
       const index = this.permissions.findIndex(per => per.name === permission.name);
