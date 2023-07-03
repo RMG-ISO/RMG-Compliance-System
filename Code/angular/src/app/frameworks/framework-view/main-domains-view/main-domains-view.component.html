@@ -123,8 +123,42 @@
                             {{ mainDomain?.descriptionEn }}
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            {{ '::Departments' | abpLocalization }}
+                        </td>
+                        <td colspan="3">
+                            <mat-chip-list>
+                                <mat-chip *ngFor="let department of mainDomain.departments">
+                                    {{ department.name }}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </td>
+                    </tr>
 
-                    <ng-container *ngIf="inCompliance; else inFrameworks">
+                    <tr>
+                        <td>
+                            {{ '::CreatedDate' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{ mainDomain.creationTime | date : 'yyyy-MM-dd' }}
+                        </td>
+                        <td>
+                            {{ '::FrameworkLastUpdate' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{ mainDomain.lastModificationTime | fromNow }}
+                        </td>
+                    </tr>
+
+                    <ng-container *ngIf="inCompliance;">
+                        <tr>
+                            <td colspan="4">
+                              <span>
+                                {{ '::ComplianceData' | abpLocalization }}
+                              </span>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 {{ '::SelfAssessmentStartDate' | abpLocalization }}
@@ -181,34 +215,26 @@
                                 {{ mainDomain?.compliancePercentage }}
                             </td>
                         </tr>
+                        
                         <tr>
-                            <td>
-                                {{ '::Departments' | abpLocalization }}
-                            </td>
-                            <td colspan="3">
-                                <mat-chip-list>
-                                    <mat-chip *ngFor="let department of mainDomain.departments">
-                                        {{ department.name }}
-                                    </mat-chip>
-                                </mat-chip-list>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
+                            <!-- <td>
                                 {{ '::Status' | abpLocalization }}
                             </td>
                             <td>
                                 <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
                                     {{ '::Enum:SharedStatus:' + mainDomain.status | abpLocalization }}
                                 </button>
-                            </td>
+                            </td> -->
                             <td>
                                 {{ '::ComplianceStatus' | abpLocalization }}
                             </td>
-                            <td>
-                                <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
+                            <td colspan="3">
+                                <span class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
                                     {{ '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization }}
-                                </button>
+                                </span>
+                                <!-- <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
+                                    {{ '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization }}
+                                </button> -->
                             </td>
                         </tr>
                     </ng-container>
@@ -241,19 +267,8 @@
                                 {{ mainDomain?.compliancePercentage }}
                             </td>
                         </tr> -->
-                        <tr>
-                            <td>
-                                {{ '::Departments' | abpLocalization }}
-                            </td>
-                            <td colspan="3">
-                                <mat-chip-list>
-                                    <mat-chip *ngFor="let department of mainDomain.departments">
-                                        {{ department.name }}
-                                    </mat-chip>
-                                </mat-chip-list>
-                            </td>
-                        </tr>
-                        <tr>
+                        
+                        <!--<tr>
                             <td>
                                 {{ '::Status' | abpLocalization }}
                             </td>
@@ -262,32 +277,19 @@
                                     {{ '::Enum:SharedStatus:' + mainDomain.status | abpLocalization }}
                                 </button>
                             </td>
-                            <!-- <td>
+                             <td>
                                 {{ '::ComplianceStatus' | abpLocalization }}
                             </td>
                             <td>
                                 <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
                                     {{ '::' + ComplianceStatus[mainDomain?.complianceStatus] | abpLocalization }}
                                 </button>
-                            </td> -->
-                        </tr>
+                            </td> 
+                        </tr>-->
                     </ng-template>
                     
                     
-                    <tr>
-                        <td>
-                            {{ '::CreatedDate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain.creationTime | date : 'yyyy-MM-dd' }}
-                        </td>
-                        <td>
-                            {{ '::FrameworkLastUpdate' | abpLocalization }}
-                        </td>
-                        <td>
-                            {{ mainDomain.lastModificationTime | fromNow }}
-                        </td>
-                    </tr>
+                   
                 </table>
             </div>
 

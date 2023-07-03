@@ -44,7 +44,7 @@ export class CreateControlComponent implements OnInit {
       descriptionEn: new FormControl(null),
       reference: new FormControl(null, Validators.required),
       domainId: new FormControl(this.subDomainId, Validators.required),
-      status: new FormControl(null, Validators.required),
+      // status: new FormControl(null, Validators.required),
       parentId: new FormControl(this.mainControl ? this.mainControl.id : null, this.mainControl ? Validators.required : null ),
     })
 
