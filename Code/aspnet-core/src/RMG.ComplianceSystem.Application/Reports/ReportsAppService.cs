@@ -171,6 +171,73 @@ namespace RMG.ComplianceSystem.Reports
             return _assessmentRepository.Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
         }
 
+        public List<ControlsCountByPriorityTableDto> GetControlsCountByPriority([Required]Guid frameworkId)
+        {
+            var domainsIds = _domainRepository.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
+            var controls = _controlRepository.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
+            var result = new List<ControlsCountByPriorityTableDto>();
+
+            #region Priority1
+            int controlsCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            #endregion
+
+            #region Priority2
+            int controlsCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityTwo= _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            #endregion
+
+            #region Priority3 
+            int controlsCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            #endregion
+            return new List<ControlsCountByPriorityTableDto>
+            {
+                new ControlsCountByPriorityTableDto () 
+                { 
+                  Priority = PriorityType.Priority1 , 
+                  ControlsCount = controlsCountPriorityOne, 
+                  DocumentedCount =  documentedCountPriorityOne,
+                  DocumentedPercentage = ( documentedCountPriorityOne / controlsCountPriorityOne ) * 100,
+                  EffectiveCount = effectiveCountPriorityOne,
+                  ImplementedCount = implementedCountPriorityOne,
+                  ImplementedPercentage = (implementedCountPriorityOne / controlsCountPriorityOne ) * 100,
+                  EffectivePrecentage  = ( effectiveCountPriorityOne / controlsCountPriorityOne) * 100,
+                  PercentageOfTotal = ( controlsCountPriorityOne / controls.Count() ) * 100,
+                },
+                new ControlsCountByPriorityTableDto ()
+                {
+                    Priority = PriorityType .Priority2 ,
+                    ControlsCount = controlsCountPriorityTwo,
+                    DocumentedCount = documentedCountPriorityTwo,
+                    EffectiveCount= effectiveCountPriorityTwo,
+                    ImplementedCount = implementedCountPriorityTwo,
+                    DocumentedPercentage = controlsCountPriorityTwo != 0 ? (documentedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
+                    EffectivePrecentage = controlsCountPriorityTwo != 0 ? (effectiveCountPriorityTwo / controlsCountPriorityTwo) *100 : 0,
+                    ImplementedPercentage = controlsCountPriorityTwo !=0 ? (implementedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
+                    PercentageOfTotal = controlsCountPriorityTwo != 0 ? (controlsCountPriorityOne / controls.Count() ) * 100 : 0,
+                },
+                new ControlsCountByPriorityTableDto ()
+                {
+                    Priority = PriorityType .Priority3 ,
+                    ControlsCount = controlsCountPriorityThree,
+                    DocumentedCount = documentedCountPriorityThree,
+                    EffectiveCount= effectiveCountPriorityThree,
+                    ImplementedCount = implementedCountPriorityThree,
+                    DocumentedPercentage = controlsCountPriorityThree != 0 ?  (documentedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
+                    EffectivePrecentage = controlsCountPriorityThree != 0 ?  (effectiveCountPriorityThree / controlsCountPriorityThree) *100: 0,
+                    ImplementedPercentage = controlsCountPriorityThree != 0 ? (implementedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
+                    PercentageOfTotal = controlsCountPriorityThree != 0 ? (controlsCountPriorityThree / controls.Count() ) * 100 :0,
+                }
+            };
+        }
+
         
     }
 }
