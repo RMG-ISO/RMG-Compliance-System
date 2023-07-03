@@ -1,3 +1,17 @@
+@import'../../../styles/mixins';
+
+:host {
+    h2 {
+        mat-icon {
+            margin-left: 5px;
+            margin-right: 5px;
+            @include nb-ltr(){
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
 section {
     margin-bottom: 3rem;
     header {

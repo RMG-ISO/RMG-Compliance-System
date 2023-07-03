@@ -26,18 +26,6 @@
               </ng-template>
             </h2>
           </ng-template>
-
-
-        <div class="actions">
-            <button type="button" mat-button (click)="ref.close()" class="red"> 
-                {{ '::Cancel' | abpLocalization }}
-            </button>
-        
-            <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
-                <i class="fa fa-check mr-1"></i>
-                {{ '::Save' | abpLocalization }}
-            </button>
-        </div>
     </div>
     
     <mat-dialog-content class="mat-typography">
@@ -77,7 +65,7 @@
                     <input type="text" id="control-reference" class="form-control" formControlName="reference" />
                 </div>
             </div>
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <div class="form-group">
                     <label for="status">{{ '::ControlStatus' | abpLocalization }}</label><span> * </span>
                     <ng-select appendTo="body" id="status" formControlName="status" [searchable]="false" [clearable]="true">
@@ -87,7 +75,17 @@
                         </ng-option>
                     </ng-select>
                 </div>
-            </div>
+            </div> -->
         </div>
     </mat-dialog-content>
+    <mat-dialog-actions class="actions">
+        <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+            <i class="fa fa-check mr-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+
+        <button type="button" mat-button (click)="ref.close()" class="red"> 
+            {{ '::Cancel' | abpLocalization }}
+        </button>
+    </mat-dialog-actions>
 </form>

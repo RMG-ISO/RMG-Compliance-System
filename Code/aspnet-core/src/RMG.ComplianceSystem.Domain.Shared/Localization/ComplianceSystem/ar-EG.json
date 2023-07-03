@@ -463,7 +463,7 @@
     "AuditSetps": "خطوات التدقيق",
     "AuditGoals": "اهداف التدقيق",
     "ApprovedBy": "الإعتماد بواسطة",
-    "Approved": "مقبول",
+    "Approved": "معتمد",
     "Declined": "مرفوض",
     "UserApprover": "الشخص المعتمد",
     "ConfirmationDeleteMessage": "هل أنت متأكد من حذف {0} ؟",
@@ -578,7 +578,7 @@
     "InternalAssessmentEndDate": "تاريخ انتهاء التقييم الداخلي",
     "ReviewStartDate": "تاريخ بدء المراجعة",
     "ReviewEndDate": "تاريخ انتهاء المراجعة",
-    "ApprovalDate": "تاريخ القبول",
+    "ApprovalDate": "تاريخ الإعتماد",
     "Editor": "الشخص الذى قام بالتعديل",
     "EditDate": "تاريخ التعديل",
     "CompliancePercentage": "نسبة الامتثال",
@@ -620,6 +620,9 @@
     "ErrorMsg:404": "غير موجود",
     "ErrorMsg:500": "خطأ في الخادم الداخلي",
     "BackToHome": "عودة للرئيسية",
-    "ComplianceSystem:Domain:013": "لا يمكن أن يكون مسرول النطاق نفس مالك الإطار"
+    "ComplianceSystem:Domain:013": "لا يمكن أن يكون مسرول النطاق نفس مالك الإطار",
+    "ComplianceData":"بيانات الإمتثال",
+    "ReviewApproveData":"بيانات المراجعة والإعتماد",
+    "ApprovalStartDate":"تاريخ بداية الإعتماد"
   }
 }

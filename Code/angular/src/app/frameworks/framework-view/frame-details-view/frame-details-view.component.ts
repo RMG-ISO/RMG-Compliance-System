@@ -2,7 +2,7 @@ import { ConfigStateService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FrameworkService } from '@proxy/frameworks';
-import { ComplianceStatus } from '@proxy/shared';
+import { ComplianceStatus, FrameworkStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-frame-details-view',
@@ -14,6 +14,7 @@ export class FrameDetailsViewComponent implements OnInit {
   dateTimeFormat = 'yyyy/MM/dd HH:mm';
   ComplianceStatus = ComplianceStatus;
   parent;
+  SharedFrameworkStatus = FrameworkStatus;
 
   constructor(
     private configState:ConfigStateService,
