@@ -15,6 +15,7 @@ export class FrameReportComponent implements OnInit {
   ChartOptions3;
   ChartOptions4;
   ChartOptions5;
+  math = Math;
   constructor(
     private reportsService:ReportsService,
     private configState:ConfigStateService,
@@ -63,6 +64,7 @@ export class FrameReportComponent implements OnInit {
       }
     });
 
+
     this.reportsService.getControllersByPhaseByFrameworkId(this.frameWorkData.id).subscribe((r) => {
       this.PhaseByFrameworkId = r;
     });
@@ -73,8 +75,10 @@ export class FrameReportComponent implements OnInit {
       let ser = [];
       let grand_total_controllersCounts = 0;
       let grand_total_complianceCounts = 0;
+      let grand_total_compliancepercentage = 0;
+
       for (var item of r) {
-        console.log(item); 
+        console.log(item);
         let domains  = item['domains'];
         let priority  = item['priority'];
         let total_complianceCounts = 0;
@@ -82,7 +86,7 @@ export class FrameReportComponent implements OnInit {
         for (var domain of domains) {
           let domainName = domain['domainName'];
           let complianceCount = domain['complianceCount'];
-          let controllersCount = domain['complianceCount'];
+          let controllersCount = domain['controllersCount'];
 
           total_complianceCounts += complianceCount;
           total_controllersCounts += controllersCount;
@@ -96,21 +100,36 @@ export class FrameReportComponent implements OnInit {
           }
          
 
-          let percentage = Math.floor((complianceCount/controllersCount)*100);
+          let percentage = 0;
+          if(complianceCount != 0){
+            percentage = Math.floor((complianceCount/controllersCount)*100);
+          }
+          
           domain['percentage'] = percentage;
+
           this.PriorityLevelByFrameworkId_chartData[domainName][priority] = domain;
 
           this.PriorityLevelByFrameworkId_chartData2["percentage"]["priority_"+priority].push(percentage);
 
-          
+          let priority_percentage = Math.floor((controllersCount/total_controllersCounts)*100);
+          let priority_compliance_percentage = Math.floor((complianceCount/controllersCount)*100);
           this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['complianceCounts'] = total_complianceCounts;
           this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['controllersCounts'] = total_controllersCounts;
+          //this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['percentage'] = priority_percentage;
+          this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['priority_compliance_percentage'] = priority_compliance_percentage;
 
+          
+          grand_total_compliancepercentage = Math.floor((total_complianceCounts/grand_total_complianceCounts)*100);
+          
           this.PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"] = grand_total_controllersCounts;
           this.PriorityLevelByFrameworkId_chartData2["grand_total_complianceCounts"] = grand_total_complianceCounts;
+          this.PriorityLevelByFrameworkId_chartData2["grand_total_compliancepercentage"] = grand_total_compliancepercentage;
+
 
           this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['complianceCount'].push({value:complianceCount});
           this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['controllersCount'].push({value:controllersCount});
+         
+         
           let check = this.PriorityLevelByFrameworkId_chartData2["xAxisData"].includes(domainName)
           if(!check){
             this.PriorityLevelByFrameworkId_chartData2["xAxisData"].push(domainName);

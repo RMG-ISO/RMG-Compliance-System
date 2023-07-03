@@ -16,7 +16,7 @@
 
           <div class="row">
             <div class="col-6 col-sm-4">
-              <div></div>
+              <div>{{ '::Phase' | abpLocalization }}</div>
               <ng-select appendTo="body" [searchable]="false" [clearable]="true">
                   <ng-option [value]="'documented'">Documented</ng-option>
                   <ng-option [value]="'implemented'">Implemented</ng-option>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-6 col-sm-4">
-              <div></div>
+              <div>{{ '::Status' | abpLocalization }}</div>
               <ng-select appendTo="body" [searchable]="false" [clearable]="true">
                   <ng-option [value]="'yes'">Yes</ng-option>
                   <ng-option [value]="'no'">No</ng-option>
@@ -76,30 +76,7 @@
                 <td >{{item.value[3]['percentage']}}</td>
               </tr>
               
-              <!-- <tr>
-                <td >D.01- Data Governance </td>
-                <td class="bg-4" >18</td>
-                <td class="bg-4" >12</td>
-                <td >55</td>
-                <td >11</td>
-                <td class="bg-4" >43</td>
-                <td class="bg-4" >56</td>
-                <td >98</td>
-                <td class="bg-4" >26</td>
-                <td >18</td>
-              </tr>
-              <tr>
-                <td > Total </td>
-                <td  class="bg-3">78</td>
-                <td  class="bg-3">40.8</td>
-                <td  class="bg-3">55</td>
-                <td  class="bg-3">11</td>
-                <td  class="bg-3">43</td>
-                <td  class="bg-3">56</td>
-                <td  class="bg-2">98</td>
-                <td  class="bg-2">26</td>
-                <td  class="bg-2">18</td>
-              </tr> -->
+              
             </tbody>
           </table>
 
@@ -183,6 +160,18 @@
 
           <div class="col-md-6">
             <h4 class="text-center">عدد الضوابط الممتثلة لكل مجال</h4>
+            
+            <div class="row">
+              <div class="col mb-3">
+                <div>{{ '::Phase' | abpLocalization }}</div>
+                <ng-select appendTo="body" [searchable]="false" [clearable]="true">
+                    <ng-option [value]="'documented'" selected>Documented</ng-option>
+                    <ng-option [value]="'implemented'">Implemented</ng-option>
+                    <ng-option [value]="'effective'">Effective</ng-option>
+                </ng-select>
+              </div>
+            </div>
+
             <table class="table table-bordered text-center">
               <thead>
                 <tr>
@@ -197,30 +186,30 @@
               <tr>
                 <td>Priority (1)</td>
                 <td>{{PriorityLevelByFrameworkId_chartData2["priority_1"]['controllersCounts']}}</td>
-                <td>40.8% </td>
-                <td>18</td>
-                <td>10% </td>
+                <td>{{math.floor((PriorityLevelByFrameworkId_chartData2["priority_1"]['controllersCounts']/PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"])*100)}}% </td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_1"]['complianceCounts']}}</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_1"]['priority_compliance_percentage']}}%</td>
               </tr>
               <tr>
                 <td>Priority (2)</td>
                 <td>{{PriorityLevelByFrameworkId_chartData2["priority_2"]['controllersCounts']}}</td>
-                <td>40.8% </td>
-                <td>18</td>
-                <td>10% </td>
+                <td>{{math.floor((PriorityLevelByFrameworkId_chartData2["priority_2"]['controllersCounts']/PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"])*100)}}% </td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_2"]['complianceCounts']}}</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_2"]['priority_compliance_percentage']}}%</td>
               </tr>
               <tr>
                 <td>Priority (3)</td>
                 <td>{{PriorityLevelByFrameworkId_chartData2["priority_3"]['controllersCounts']}}</td>
-                <td>40.8% </td>
-                <td>18</td>
-                <td>10% </td>
+                <td>{{math.floor((PriorityLevelByFrameworkId_chartData2["priority_3"]['controllersCounts']/PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"])*100)}}% </td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_3"]['complianceCounts']}}</td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["priority_3"]['priority_compliance_percentage']}}%</td>
               </tr>
               <tr>
                 <td>Total</td>
                 <td>{{PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"]}}</td>
-                <td>100%</td>
-                <td>69</td>
-                <td>60%</td>
+                <td></td>
+                <td>{{PriorityLevelByFrameworkId_chartData2["grand_total_complianceCounts"]}}</td>
+                <td></td>
               </tr>
 
             </table>
