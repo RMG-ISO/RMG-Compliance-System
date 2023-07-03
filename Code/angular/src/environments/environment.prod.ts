@@ -11,7 +11,7 @@ export const environment = {
   },
   
   // oAuthConfig: {
-  //   issuer: 'https://iso.digitaltransformationinstitute.org:11000',
+  //   issuer: 'https://iso.digitaltransformationinstitute.org:11100',
   //   redirectUri: baseUrl,
   //   clientId: 'ComplianceSystem_App',
   //   responseType: 'code',
@@ -19,14 +19,14 @@ export const environment = {
   //   requireHttps: true
   // },
   oAuthConfig: {
-    issuer: 'https://iso.digitaltransformationinstitute.org:11000',
+    issuer: 'https://iso.digitaltransformationinstitute.org:11100',
     clientId: 'ComplianceSystem_App',
     dummyClientSecret: '1q2w3e*',
     scope: 'offline_access ComplianceSystem',
   },
   apis: {
     default: {
-      url: 'https://iso.digitaltransformationinstitute.org:11000',
+      url: 'https://iso.digitaltransformationinstitute.org:11100',
       rootNamespace: 'RMG.ComplianceSystem',
     },
   },

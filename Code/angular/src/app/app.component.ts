@@ -11,8 +11,9 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { ePermissionManagementComponents } from '@abp/ng.permission-management';
-import { eIdentityComponents, IdentityRoleDto, IdentityRoleService, RolesComponent } from '@abp/ng.identity';
+import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { MyRolesComponent } from './my-roles/my-roles.component';
+import { IdentityRoleDto, IdentityRoleService } from '@abp/ng.identity/proxy';
 
 @Component({
   selector: 'app-root',
