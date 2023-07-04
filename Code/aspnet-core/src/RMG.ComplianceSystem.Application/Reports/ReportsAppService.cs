@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿//using DocumentFormat.OpenXml.Office2010.Excel;
 using MimeKit.Encodings;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
@@ -118,7 +118,7 @@ namespace RMG.ComplianceSystem.Reports
 
         public List<CompliancePriorityTableDto> GetControllerByPriorityLevel([Required] Guid frameworkId)
         {
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var domains = _domainRepository.GetQueryableAsync().Result.Where(x => x.FrameworkId == frameworkId);
             var result = new List<CompliancePriorityTableDto>();
             // if framework doesn't have any main domain
             if (!domains.Any())
@@ -142,8 +142,8 @@ namespace RMG.ComplianceSystem.Reports
             bool subController = false;
             foreach (var domain in mainDomains)
             {
-                var subDomains = _domainRepository.Where(d => d.ParentId == domain.Id).Select(d => d.Id).ToList();
-                var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+                var subDomains = _domainRepository.GetQueryableAsync().Result.Where(d => d.ParentId == domain.Id).Select(d => d.Id).ToList();
+                var controls = _controlRepository.GetQueryableAsync().Result.Where(c => subDomains.Contains(c.DomainId)).ToList();
                 if (controls.Any(x => x.Children != null))
                 {
                     subController = true;
@@ -162,13 +162,13 @@ namespace RMG.ComplianceSystem.Reports
 
         private int GetComplianceControlCountByDomainId(Guid domainId, bool subController)
         {
-            var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
-            var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+            var subDomains = _domainRepository.GetQueryableAsync().Result.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
+            var controls = _controlRepository.GetQueryableAsync().Result.Where(c => subDomains.Contains(c.DomainId)).ToList();
             if (subController)
             {
                 controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
             }
-            return _assessmentRepository.Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            return _assessmentRepository.GetQueryableAsync().Result.Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
         }
 
         
