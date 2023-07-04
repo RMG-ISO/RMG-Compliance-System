@@ -4,6 +4,15 @@ export interface ComplianceControllerDto {
   domainName?: string;
   controllersCount: number;
   complianceCount: number;
+  documentedYes: number;
+  documentedPartially: number;
+  documentedNo: number;
+  implementedYes: number;
+  implementedNo: number;
+  implementedPartially: number;
+  effectiveYes: number;
+  effectiveNo: number;
+  effectivePartially: number;
 }
 
 export interface ComplianceLevelTableDto {
@@ -43,5 +52,5 @@ export interface ControlsCountByPriorityTableDto {
   implementedCount: number;
   implementedPercentage: number;
   effectiveCount: number;
-  effectivePrecentage: number;
+  effectivePercentage: number;
 }
