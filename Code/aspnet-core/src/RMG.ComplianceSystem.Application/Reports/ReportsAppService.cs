@@ -208,7 +208,7 @@ namespace RMG.ComplianceSystem.Reports
                   EffectiveCount = effectiveCountPriorityOne,
                   ImplementedCount = implementedCountPriorityOne,
                   ImplementedPercentage = controlsCountPriorityOne != 0 ?(implementedCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
-                  EffectivePrecentage  = controlsCountPriorityOne != 0 ?(effectiveCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
+                  EffectivePercentage  = controlsCountPriorityOne != 0 ?(effectiveCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
                   PercentageOfTotal = ( controlsCountPriorityOne / controls.Count() ) * 100,
                 },
                 new ControlsCountByPriorityTableDto ()
@@ -219,7 +219,7 @@ namespace RMG.ComplianceSystem.Reports
                     EffectiveCount= effectiveCountPriorityTwo,
                     ImplementedCount = implementedCountPriorityTwo,
                     DocumentedPercentage = controlsCountPriorityTwo != 0 ? (documentedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
-                    EffectivePrecentage = controlsCountPriorityTwo != 0 ? (effectiveCountPriorityTwo / controlsCountPriorityTwo) *100 : 0,
+                    EffectivePercentage = controlsCountPriorityTwo != 0 ? (effectiveCountPriorityTwo / controlsCountPriorityTwo) *100 : 0,
                     ImplementedPercentage = controlsCountPriorityTwo !=0 ? (implementedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
                     PercentageOfTotal = controlsCountPriorityTwo != 0 ? (controlsCountPriorityOne / controls.Count() ) * 100 : 0,
                 },
@@ -231,7 +231,7 @@ namespace RMG.ComplianceSystem.Reports
                     EffectiveCount= effectiveCountPriorityThree,
                     ImplementedCount = implementedCountPriorityThree,
                     DocumentedPercentage = controlsCountPriorityThree != 0 ?  (documentedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
-                    EffectivePrecentage = controlsCountPriorityThree != 0 ?  (effectiveCountPriorityThree / controlsCountPriorityThree) *100: 0,
+                    EffectivePercentage = controlsCountPriorityThree != 0 ?  (effectiveCountPriorityThree / controlsCountPriorityThree) *100: 0,
                     ImplementedPercentage = controlsCountPriorityThree != 0 ? (implementedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
                     PercentageOfTotal = controlsCountPriorityThree != 0 ? (controlsCountPriorityThree / controls.Count() ) * 100 :0,
                 }

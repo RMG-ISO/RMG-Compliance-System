@@ -16,6 +16,6 @@ namespace RMG.ComplianceSystem.Reports
         public int ImplementedCount { get; set; }
         public int ImplementedPercentage { get; set; }
         public int EffectiveCount { get; set; }
-        public int EffectivePrecentage { get; set; }
+        public int EffectivePercentage { get; set; }
     }
 }
