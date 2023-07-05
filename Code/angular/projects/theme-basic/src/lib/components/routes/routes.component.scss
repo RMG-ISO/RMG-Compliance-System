@@ -29,6 +29,7 @@
         position: relative;
         padding-left: 28px;
         padding-right: 28px;
+        justify-content: flex-start;
         &:hover, &.active {
             // background-color: var(--main-color); 
             // color: #fff;

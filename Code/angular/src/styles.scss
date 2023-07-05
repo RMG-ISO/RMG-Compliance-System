@@ -5,7 +5,9 @@
 @use "./styles/table.scss";
 @use "./styles/dialog.scss";
 @use "./styles/print.scss";
+@use "./styles/rtl.scss";
 @use "@ng-select/ng-select/themes/default.theme.css";
+@import "./styles/theme.style.scss";
 
 
 @keyframes donut-spin {
@@ -34,8 +36,8 @@
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif; }
+// html, body { height: 100%; }
+// body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif; }
 
 
 

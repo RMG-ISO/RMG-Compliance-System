@@ -1,24 +1,160 @@
-$indigo-palette: (
-    50: #e9ecff,
-    100: #c7cfff,
-    200: #a0b0ff,
-    300: #7390ff,
-    400:#4b75ff,
-    500:#015afc,
-    600:#0051f0,
-    700:#0046e4,
-    800:#003ad9,
-    900:#0025c0,
-    contrast: (
-        50: rgba(black, 0.87),
-        100: rgba(black, 0.87),
-        200: rgba(black, 0.87),
-        300: white,
-        400: white,
-        500: white,
-        600: white,
-        700: white,
-        800: white,
-        900: white,
-    )
+@use '@angular/material' as mat;
+@use "sass:map";
+
+@include mat.core();
+@include mat.all-component-typographies(
+  mat.define-typography-config($font-family: 'Times')
 );
+
+$bright-navy-blue-palette: (
+  50: #e7e8f7,
+  100: #c1c6eb,
+  200: #98a2de,
+  300: #6e7dd0,
+  400: #4d61c7,
+  500: #2545bc,
+  600: #1f3eb2,
+  700: #1234a7,
+  800: #00299b,
+  900: #001688,
+  A100: #c1c6eb,
+  A200: #4d61c7,
+  A400: #1f9eff,
+  A700: rgb(0, 72, 128),
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+$gainsboro-palette: (
+  50: #f9f9fa,
+  100: #f3f3f4,
+  200: #ebebec,
+  300: #dcdcdd,
+  400: #b9b9ba,
+  500: #99999a,
+  600: #707071,
+  700: #5d5d5e,
+  800: #3e3e3f,
+  900: #1d1d1e,
+  A100: #f5f5f5,
+  A200: #eaeaeb,
+  A400: #d6d6d7,
+  A700: #838386,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: white,
+  )
+);
+$crimson-palette: (
+  50: #ffebef,
+  100: #ffcdc5,
+  200: #f0999f,
+  300: #e77179,
+  400: #f24e58,
+  500: #f83a40,
+  600: #e9313e,
+  700: #d72638,
+  800: #ca1e30,
+  900: #bb0d24,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+$bluesky-primary: mat.define-palette($bright-navy-blue-palette, 700, 300, 900);
+$bluesky-accent: mat.define-palette($gainsboro-palette, 300, 100, 500);
+$bluesky-warn: mat.define-palette($crimson-palette, 700);
+$bluesky-theme: mat.define-light-theme((
+  color: (
+    primary: $bluesky-primary,
+    accent: $bluesky-accent,
+    warn: $bluesky-warn,
+  ),
+
+  typography:
+    mat.define-typography-config(
+      $font-family: '"ElMessiri","Helvetica Neue", sans-serif',
+    ),
+    density: 0,
+
+));
+@include mat.all-component-themes($bluesky-theme);
+
+
+input {
+  background-color: #FBFBFB;
+  border: 1px solid #e9e9e9;
+  color: #101010;
+  padding: 15px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  font-family: "ElMessiri", "Helvetica Neue", sans-serif, arial;
+  transition: all .5s ease-in-out;
+  &:focus {
+    background-color: #ffffff;
+    border: 1px solid #002899;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: "ElMessiri","Helvetica Neue", sans-serif, arial; }
+
+p,span,h1,h2,h3,h4,h5,h6,label,input,textarea,div,section {
+    font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
+}
+.mat-typography {
+    p,span,h1,h2,h3,h4,h5,h6,label,input,textarea,div,section {
+        font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
+    }
+}
+
+// .invalid-feedback {
+//   font-size: 12px;
+//   padding: 0;
+//   display: inline-block;
+//   color:  map.get($crimson-palette, 900);
+//   margin-bottom: 8px;
+// }
+
+
+* {
+  box-sizing: border-box;
+}
