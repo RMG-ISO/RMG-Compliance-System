@@ -23,12 +23,7 @@ import { AbpOAuthService } from '@abp/ng.oauth';
   styleUrls:['./current-user.component.scss']
 })
 export class CurrentUserComponent implements OnInit {
-  currentUser$: Observable<CurrentUserDto> = this.configState.getOne$('currentUser');
-  selectedTenant$ = this.sessionState.getTenant$();
-  Status = Status;
-  get smallScreen(): boolean {
-    return window.innerWidth < 992;
-  }
+
 
   constructor(
     @Inject(NAVIGATE_TO_MANAGE_PROFILE) public navigateToManageProfile,
@@ -38,11 +33,24 @@ export class CurrentUserComponent implements OnInit {
     private notificationService:NotificationService,
     private signalrService:SignalrService,
     private router:Router
-  ) {}
+  ) {
+    this.currentUser$ = this.configState.getOne$('currentUser');
+    this.selectedTenant$ = this.sessionState.getTenant$();
+  }
+  currentUser$: Observable<CurrentUserDto>
+  selectedTenant$ ;
+
+  Status = Status;
+  get smallScreen(): boolean {
+    return window.innerWidth < 992;
+  }
 
   notificationItems;
   notificationItemsCount = 0;
+  languages$: Observable<LanguageInfo[]>;
   ngOnInit(): void {
+    this.languages$ = this.configState.getDeep$('localization.languages');
+
     this.signalrService.initiateSignalrConnection();
     this.signalrService.connection.on('ReceiveNotification', (result: NotifyUserDto) => {
       // console.log("ReceiveNotification",result);
@@ -99,7 +107,6 @@ export class CurrentUserComponent implements OnInit {
   }
 
 
-  languages$: Observable<LanguageInfo[]> = this.configState.getDeep$('localization.languages');
 
   get defaultLanguage$(): Observable<string> {
     return this.languages$.pipe(

@@ -44,11 +44,17 @@ import snq from 'snq';
   `,
 })
 export class LanguagesComponent {
+  constructor(private sessionState: SessionStateService, private configState: ConfigStateService) {
+    this.languages$ = this.configState.getDeep$('localization.languages');
+
+  }
+
+
   get smallScreen(): boolean {
     return window.innerWidth < 992;
   }
 
-  languages$: Observable<LanguageInfo[]> = this.configState.getDeep$('localization.languages');
+  languages$: Observable<LanguageInfo[]> ;
 
   get defaultLanguage$(): Observable<string> {
     return this.languages$.pipe(
@@ -76,7 +82,6 @@ export class LanguagesComponent {
     return this.sessionState.getLanguage();
   }
 
-  constructor(private sessionState: SessionStateService, private configState: ConfigStateService) {}
 
   onChangeLang(cultureName: string) {
     this.sessionState.setLanguage(cultureName);
