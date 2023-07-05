@@ -15,6 +15,7 @@ export class FrameReportComponent implements OnInit {
   ChartOptions3;
   ChartOptions4;
   ChartOptions5;
+  math = Math;
   constructor(
     private reportsService:ReportsService,
     private configState:ConfigStateService,
@@ -47,9 +48,29 @@ export class FrameReportComponent implements OnInit {
     grand_total_controllersCounts:0,
     grand_total_complianceCounts:0
   };
+
+  DomainControllersCount = {};
+
+  CountByPriorityByFrameworkId = {
+    total_1:0,
+    total_2:0,
+    total_3:0,
+    total_4:0,
+  };
+
+  phase: string = '';
+  status: string = '';
+  priority_phase: string = '';
+  phase_status_filter: string = '';
+  
+
   
   ngOnInit(): void {
-
+    this.phase = 'documented';
+    this.priority_phase = 'documented';
+    this.status = 'Yes';
+    this.phase_status_filter = this.priority_phase+""+this.status;
+    
     this.reportsService.getControllersByComplianceLevelByFrameworkId(this.frameWorkData.id).subscribe((r) => {
       this.ComplianceLevelByFrameworkId = r;
       for (var item of r) {
@@ -63,18 +84,48 @@ export class FrameReportComponent implements OnInit {
       }
     });
 
+
     this.reportsService.getControllersByPhaseByFrameworkId(this.frameWorkData.id).subscribe((r) => {
       this.PhaseByFrameworkId = r;
     });
 
 
+
+    this.reportsService.getControlsCountByPriorityByFrameworkId(this.frameWorkData.id).subscribe((r) => {
+        for (var item of r) {
+          let priority  = item['priority'];
+          let controllersCount = "controllersCount_"+priority;
+          if(this.CountByPriorityByFrameworkId[controllersCount] == undefined){
+              this.CountByPriorityByFrameworkId[controllersCount] = {};
+          }
+          this.CountByPriorityByFrameworkId[controllersCount] = item; 
+        }
+        console.log(this.phase);
+        this.CountByPriorityByFrameworkId['total_1'] = this.CountByPriorityByFrameworkId['controllersCount_1']['controlsCount']+this.CountByPriorityByFrameworkId['controllersCount_2']['controlsCount']+this.CountByPriorityByFrameworkId['controllersCount_3']['controlsCount'];
+
+
+        this.CountByPriorityByFrameworkId['total_2'] = this.CountByPriorityByFrameworkId['controllersCount_1']['percentageOfTotal']+this.CountByPriorityByFrameworkId['controllersCount_2']['percentageOfTotal']+this.CountByPriorityByFrameworkId['controllersCount_3']['percentageOfTotal'];
+
+
+        this.CountByPriorityByFrameworkId['total_3'] = this.CountByPriorityByFrameworkId['controllersCount_1'][this.phase+'Count']+
+                                                       this.CountByPriorityByFrameworkId['controllersCount_2'][this.phase+'Count']+
+                                                       this.CountByPriorityByFrameworkId['controllersCount_3'][this.phase+'Count'];
+        
+        this.CountByPriorityByFrameworkId['total_4'] = this.CountByPriorityByFrameworkId['controllersCount_1'][this.phase+'Percentage']+
+                                                       this.CountByPriorityByFrameworkId['controllersCount_2'][this.phase+'Percentage']+
+                                                       this.CountByPriorityByFrameworkId['controllersCount_3'][this.phase+'Percentage'];
+    });
+
+
+
     this.reportsService.getControllerByPriorityLevelByFrameworkId(this.frameWorkData.id).subscribe((r) => {
+      
       this.PriorityLevelByFrameworkId = r;
       let ser = [];
       let grand_total_controllersCounts = 0;
       let grand_total_complianceCounts = 0;
+      let grand_total_compliancepercentage = 0;
       for (var item of r) {
-        console.log(item); 
         let domains  = item['domains'];
         let priority  = item['priority'];
         let total_complianceCounts = 0;
@@ -82,48 +133,63 @@ export class FrameReportComponent implements OnInit {
         for (var domain of domains) {
           let domainName = domain['domainName'];
           let complianceCount = domain['complianceCount'];
-          let controllersCount = domain['complianceCount'];
+          let controllersCount = domain['controllersCount'];
 
-          total_complianceCounts += complianceCount;
-          total_controllersCounts += controllersCount;
+          if(this.DomainControllersCount[domainName] == undefined){
+            this.DomainControllersCount[domainName] = {};
+          }
+
+          let total_controllersCounts = this.DomainControllersCount[domainName]['total_controllersCounts']??0;
+          this.DomainControllersCount[domainName]['total_controllersCounts'] = controllersCount + total_controllersCounts; 
+
+        }
+      }
+
+
+      for (var item of r) {
+        let domains  = item['domains'];
+        let priority  = item['priority'];
+        let total_complianceCounts = 0;
+        let total_controllersCounts = 0;
+        for (var domain of domains) {
+          let domainName = domain['domainName'];
+          let complianceCount = domain['complianceCount'];
+          let controllersCount = domain['controllersCount'];
           
-          grand_total_complianceCounts += complianceCount;
-          grand_total_controllersCounts += controllersCount;
-
+          //total_complianceCounts += complianceCount;
+          //total_controllersCounts += controllersCount;
+         
 
           if(this.PriorityLevelByFrameworkId_chartData[domainName] == undefined){
             this.PriorityLevelByFrameworkId_chartData[domainName] = {};
           }
          
 
-          let percentage = Math.floor((complianceCount/controllersCount)*100);
+          total_controllersCounts = this.DomainControllersCount[domainName]['total_controllersCounts'] ;
+
+          let percentage = 0;
+          if(total_controllersCounts != 0){
+            percentage = Math.floor((controllersCount/total_controllersCounts)*100);
+          }
+          
           domain['percentage'] = percentage;
+
           this.PriorityLevelByFrameworkId_chartData[domainName][priority] = domain;
 
           this.PriorityLevelByFrameworkId_chartData2["percentage"]["priority_"+priority].push(percentage);
 
-          
-          this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['complianceCounts'] = total_complianceCounts;
-          this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['controllersCounts'] = total_controllersCounts;
-
-          this.PriorityLevelByFrameworkId_chartData2["grand_total_controllersCounts"] = grand_total_controllersCounts;
-          this.PriorityLevelByFrameworkId_chartData2["grand_total_complianceCounts"] = grand_total_complianceCounts;
-
           this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['complianceCount'].push({value:complianceCount});
           this.PriorityLevelByFrameworkId_chartData2["priority_"+priority]['controllersCount'].push({value:controllersCount});
+         
           let check = this.PriorityLevelByFrameworkId_chartData2["xAxisData"].includes(domainName)
           if(!check){
             this.PriorityLevelByFrameworkId_chartData2["xAxisData"].push(domainName);
           }
-
         }
       }
 
-      console.log(this.PriorityLevelByFrameworkId_chartData2);
-      //console.log(this.PriorityLevelByFrameworkId_chartData);
-
     });
-
+    
 
 
     let xAxisData = [];
@@ -172,7 +238,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
-          data: this.PriorityLevelByFrameworkId_chartData2["priority_1"]["complianceCount"],
+          data: this.PriorityLevelByFrameworkId_chartData2["priority_1"]["controllersCount"],
           barWidth: 15,
         },
         {
@@ -180,7 +246,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
-          data: this.PriorityLevelByFrameworkId_chartData2["priority_1"]["controllersCount"],
+          data: this.PriorityLevelByFrameworkId_chartData2["priority_1"]["complianceCount"],
           barWidth: 15,
         },
       
@@ -213,7 +279,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
-          data: this.PriorityLevelByFrameworkId_chartData2["priority_2"]["complianceCount"],
+          data: this.PriorityLevelByFrameworkId_chartData2["priority_2"]["controllersCount"],
           barWidth: 15,
         },
         {
@@ -221,7 +287,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
-          data: this.PriorityLevelByFrameworkId_chartData2["priority_2"]["controllersCount"],
+          data: this.PriorityLevelByFrameworkId_chartData2["priority_2"]["complianceCount"],
           barWidth: 15,
         },
       
@@ -254,7 +320,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
-          data: this.PriorityLevelByFrameworkId_chartData2["priority_3"]["complianceCount"],
+          data: this.PriorityLevelByFrameworkId_chartData2["priority_3"]["controllersCount"],
           barWidth: 15,
         },
         {
@@ -262,7 +328,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
-          data: this.PriorityLevelByFrameworkId_chartData2["priority_3"]["controllersCount"],
+          data: this.PriorityLevelByFrameworkId_chartData2["priority_3"]["complianceCount"],
           barWidth: 15,
         },
       
@@ -295,6 +361,7 @@ export class FrameReportComponent implements OnInit {
           type: 'bar',
           stack: 'one',
           emphasis: emphasisStyle,
+          //data: data1,
           data: this.PriorityLevelByFrameworkId_chartData2["percentage"]["priority_1"],
           barWidth: 15,
         },
@@ -304,6 +371,7 @@ export class FrameReportComponent implements OnInit {
           stack: 'one',
           emphasis: emphasisStyle,
           data: this.PriorityLevelByFrameworkId_chartData2["percentage"]["priority_2"],
+          //data: data2,
           barWidth: 15,
         },
         {
@@ -312,6 +380,7 @@ export class FrameReportComponent implements OnInit {
           stack: 'one',
           emphasis: emphasisStyle,
           data: this.PriorityLevelByFrameworkId_chartData2["percentage"]["priority_3"],
+          //data: data3,
           barWidth: 15,
         },
       ]
@@ -392,6 +461,26 @@ export class FrameReportComponent implements OnInit {
     };
 
 
+  }
+
+  PhaseChanged(val){
+    console.log(this.PriorityLevelByFrameworkId_chartData2);
+    this.phase = val;
+  }
+
+  PriorityPhaseChanged(val){
+    console.log(this.DomainControllersCount);
+    this.priority_phase = val;
+    this.phase_status_filter = this.priority_phase+""+this.status;
+    console.log(this.phase_status_filter);
+
+  }
+
+  StatusChanged(val){
+    console.log(this.PriorityLevelByFrameworkId_chartData);
+    this.status = val.charAt(0).toUpperCase() + val.slice(1);;
+    this.phase_status_filter = this.priority_phase+""+this.status;
+    console.log(this.phase_status_filter);
   }
 
 
