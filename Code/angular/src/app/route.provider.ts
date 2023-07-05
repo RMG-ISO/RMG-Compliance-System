@@ -9,14 +9,14 @@ function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.remove(['AbpUiNavigation::Menu:Administration'])
     routesService.add([
-      {
-        path:'/dashboard',
-        name:'::Dashboard:Title',
-        iconClass: 'fas fa-chart-line',
-        order: 1,
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.Framework'
-      },
+      // {
+      //   path:'/dashboard',
+      //   name:'::Dashboard:Title',
+      //   iconClass: 'fas fa-chart-line',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.Framework'
+      // },
       {
         path: '/home',
         name: '::Menu:Home',
@@ -94,51 +94,49 @@ function configureRoutes(routesService: RoutesService) {
 
 
        //Internal Audit
-       {
-        path:'/internal-audit',
-        name:'::AuditManagement',
-        iconClass: 'fa-solid fa-arrow-up-right-dots',
-        order: 1,
-        layout: eLayoutType.application,
-      },
-      {
-        path:'/internal-audit/questions',
-        name:'::AuditQuestions',
-        iconClass: 'fa-solid fa-question',
-        order: 2,
-        parentName:'::AuditManagement',
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.InternalAuditQuestion'
-      },
-      {
-        path:'/internal-audit/checklists',
-        name:'::CheckLists',
-        iconClass: 'fa-solid fa-list-check',
-        order: 2,
-        parentName:'::AuditManagement',
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.InternalAuditQuestionList'
-      },
-      {
-        path:'/internal-audit/audit-setup',
-        name:'::AuditSetup',
-        iconClass: 'fa-solid fa-file-lines',
-        order: 2,
-        parentName:'::AuditManagement',
-        layout: eLayoutType.application,
-        requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
-      },
-      {
-        path:'/internal-audit/approved-audits',
-        name:'::AuditsStatus',
-        iconClass: 'fa-solid fa-check',
-        order: 2,
-        parentName:'::AuditManagement',
-        layout: eLayoutType.application,
-
-        requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
-
-      },
+      //  {
+      //   path:'/internal-audit',
+      //   name:'::AuditManagement',
+      //   iconClass: 'fa-solid fa-arrow-up-right-dots',
+      //   order: 1,
+      //   layout: eLayoutType.application,
+      // },
+      // {
+      //   path:'/internal-audit/questions',
+      //   name:'::AuditQuestions',
+      //   iconClass: 'fa-solid fa-question',
+      //   order: 2,
+      //   parentName:'::AuditManagement',
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.InternalAuditQuestion'
+      // },
+      // {
+      //   path:'/internal-audit/checklists',
+      //   name:'::CheckLists',
+      //   iconClass: 'fa-solid fa-list-check',
+      //   order: 2,
+      //   parentName:'::AuditManagement',
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.InternalAuditQuestionList'
+      // },
+      // {
+      //   path:'/internal-audit/audit-setup',
+      //   name:'::AuditSetup',
+      //   iconClass: 'fa-solid fa-file-lines',
+      //   order: 2,
+      //   parentName:'::AuditManagement',
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
+      // },
+      // {
+      //   path:'/internal-audit/approved-audits',
+      //   name:'::AuditsStatus',
+      //   iconClass: 'fa-solid fa-check',
+      //   order: 2,
+      //   parentName:'::AuditManagement',
+      //   layout: eLayoutType.application,
+      //   requiredPolicy:'ComplianceSystem.InternalAuditPreparation'
+      // },
 
 
       {

@@ -1,1 +1,74 @@
 /* Styles for the home component */
+
+.info-card {
+    padding: 34px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 6px rgba(0,0,0,.16);
+    height: 100%;
+    border-radius: 8px;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+    &:hover{
+        background-color: #f1f1f1;
+        box-shadow: 0 0 8px rgba(0,0,0,.5);
+    }
+
+    .icon-cont {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        mat-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    .text-cont {
+        flex: 1;
+        text-align: center;
+        p {
+            font-size: 14px;
+            color: #8D8D8D;
+            font-weight: bold;
+        }
+        span {
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            font-family: arial;
+            color:#000000;
+        }
+    }
+}
+
+.col-xl-2.col-md-6 {
+    margin-bottom: 32px;
+}
+
+h3,h4 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.card-content {
+    padding: 1rem;
+    box-shadow: 0 0 6px rgba(0,0,0, .16);
+    border-radius: 8px;
+    margin-bottom: 3rem;
+}
+
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}

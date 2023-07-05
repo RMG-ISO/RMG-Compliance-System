@@ -21,14 +21,15 @@ namespace RMG.ComplianceSystem.Assessments.Dtos
         public DocumentedType? Documented { get; set; }
 
         public ImplementedType? Implemented { get; set; }
+        public PriorityType? Priority { get; set; }
 
         public EffectiveType? Effective { get; set; }
 
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int? DocumentedPercentage { get; set; }
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int? ImplementedPercentage { get; set; }
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int? EffectivePercentage { get; set; }
 
         public string Comment { get; set; }

@@ -21,7 +21,10 @@ namespace RMG.ComplianceSystem.Controls.Dtos
         public SharedStatus Status { get; set; }
 
         public Guid? ParentId { get; set; }
+        public string MainControlNameAr { get; set; }
+        public string MainControlNameEn { get; set; }
 
         public Guid DomainId { get; set; }
+        public int CompliancePercentage { get; set; }
     }
 }

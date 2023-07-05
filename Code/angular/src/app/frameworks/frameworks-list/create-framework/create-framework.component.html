@@ -5,13 +5,28 @@
         </h2>
 
         <div class="actions">
-            <button type="button" mat-button (click)="ref.close()" class="red"> 
+            <!-- <button type="button" mat-button (click)="ref.close()" class="red"> 
                 {{ '::Cancel' | abpLocalization }}
             </button>
         
             <button mat-button cdkFocusInitial class="green" type="submit" >
                 <i class="fa fa-check mr-1"></i>
                 {{ '::Save' | abpLocalization }}
+            </button> -->
+
+            
+            <button type="button" mat-button [disabled]="activeTab == 1" (click)="activeTab = activeTab - 1">
+                <mat-icon>
+                    keyboard_double_arrow_right
+                </mat-icon> 
+                {{ '::Previous' | abpLocalization }}
+            </button>
+
+            <button mat-button type="button" [disabled]="activeTab == 3"  (click)="navNext()">
+                {{ '::Next' | abpLocalization }}
+                <mat-icon>
+                    keyboard_double_arrow_left
+                </mat-icon> 
             </button>
         </div>
     </div>
@@ -199,6 +214,13 @@
                     <input id="level4_en" class="form-control" formControlName="levelFourNameEn" >
                 </div>
             </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <mat-slide-toggle formControlName="hasPriority" color="primary">
+                        {{ '::PriorityQuestion' | abpLocalization }}
+                      </mat-slide-toggle>
+                </div>
+            </div>
         </div>
         
         <div [class.d-none]=" activeTab !== 3" class="row" formGroupName="frameTeam">
@@ -257,19 +279,14 @@
         </div>
         
     </mat-dialog-content>
-    <mat-dialog-actions>
-        <button type="button" mat-button [disabled]="activeTab == 1" (click)="activeTab = activeTab - 1">
-            <mat-icon>
-                keyboard_double_arrow_right
-            </mat-icon> 
-            {{ '::Previous' | abpLocalization }}
+    <mat-dialog-actions align="end">
+        <button mat-button cdkFocusInitial class="green" type="submit" >
+            <i class="fa fa-check mr-1"></i>
+            {{ '::Save' | abpLocalization }}
         </button>
 
-      <button mat-button type="submit" [disabled]="activeTab == 3"  (click)="navNext()">
-        {{ '::Next' | abpLocalization }}
-        <mat-icon>
-            keyboard_double_arrow_left
-        </mat-icon> 
-      </button>
+        <button type="button" mat-button (click)="ref.close()" class="red"> 
+            {{ '::Cancel' | abpLocalization }}
+        </button>    
     </mat-dialog-actions>
 </form>

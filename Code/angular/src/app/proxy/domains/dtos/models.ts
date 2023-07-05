@@ -28,7 +28,14 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   complianceStatus: ComplianceStatus;
   internalAssessmentStartDate?: string;
   internalAssessmentEndDate?: string;
+  selfAssessmentStartDate?: string;
+  selfAssessmentEndDate?: string;
+  reviewStartDate?: string;
+  reviewEndDate?: string;
+  compliancePercentage: number;
   parentId?: string;
+  mainDomainNameAr?: string;
+  mainDomainNameEn?: string;
   frameworkId?: string;
   responsibleId?: string;
   responsibleName?: string;
@@ -43,20 +50,6 @@ export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResu
   status?: SharedStatus;
 }
 
-export interface DomainWithoutPagingDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
-  nameAr?: string;
-  nameEn?: string;
-  descriptionAr?: string;
-  descriptionEn?: string;
-  reference?: string;
-  status: SharedStatus;
-  complianceStatus: ComplianceStatus;
-  internalAssessmentStartDate?: string;
-  internalAssessmentEndDate?: string;
-  parentId?: string;
-  frameworkId?: string;
-  responsibleId?: string;
-  responsibleName?: string;
-  departments: NameId<string>[];
+export interface DomainWithoutPagingDto extends DomainDto {
   controls: ControlDto[];
 }

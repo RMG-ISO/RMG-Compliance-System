@@ -22,7 +22,7 @@ namespace RMG.ComplianceSystem.Frameworks
         public string DescriptionEn { get; set; }
         public SharedStatus Status { get; set; }
         public FrameworkStatus FrameworkStatus { get; set; }
-        public Guid AttachmentId { get; set; }
+        public Guid? AttachmentId { get; set; }
         public Guid ManagementId { get; set; }
         public Guid ReviewUserId { get; set; }
         public Guid ApproveUserId { get; set; }
@@ -38,12 +38,22 @@ namespace RMG.ComplianceSystem.Frameworks
         public string LevelFourNameAr { get; set; }
         public string LevelFourNameEn { get; set; }
 
+        public bool HasPriority { get; set; }
+
         public ComplianceStatus ComplianceStatus { get; set; }
         public DateTime? SelfAssessmentStartDate { get; set; }
         public DateTime? SelfAssessmentEndDate { get; set; }
         public DateTime? InternalAssessmentStartDate { get; set; }
         public DateTime? InternalAssessmentEndDate { get; set; }
+        public DateTime? ReviewStartDate { get; set; }
+        public DateTime? ReviewEndDate { get; set; }
 
+
+        public DateTime? ApprovalStartDate { get; set; }
+        public DateTime? ApprovalEndDate { get; set; }
+
+        public DateTime? ComplianceReviewStartDate { get; set; }
+        public DateTime? ComplianceReviewEndDate { get; set; }
 
         public virtual ICollection<Domain> Domains { get; set; }
         public virtual ICollection<FrameworkChangeStatusLog> ChangeStatusLogs { get; set; } = new HashSet<FrameworkChangeStatusLog>();

@@ -10,7 +10,10 @@ export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto
   reference?: string;
   status: SharedStatus;
   parentId?: string;
+  mainControlNameAr?: string;
+  mainControlNameEn?: string;
   domainId?: string;
+  compliancePercentage: number;
 }
 
 export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

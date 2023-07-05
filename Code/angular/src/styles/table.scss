@@ -3,9 +3,11 @@
     background: var(--main-green) !important;
     .datatable-header-cell-template-wrap {
         color: #fff !important;
-        font-size: 14px;
+        // font-size: 14px;
     }
 }
+
+
 
 ngx-datatable {
     &.with-row-pointer {
@@ -25,6 +27,7 @@ ngx-datatable {
 
     datatable-body-cell, datatable-header-cell {
         text-align: center !important;
+        font-size: 1rem !important;
     }
     datatable-scroller {
         display: block !important;
@@ -81,7 +84,7 @@ ngx-datatable {
 .details-table-cont {
     box-shadow: 0 0 5px rgba(0,0,0,0.2);
     border-radius: 5px;
-    overflow: hidden;
+    overflow: auto;
     table {
         margin: 0;
         tr {
@@ -93,10 +96,12 @@ ngx-datatable {
                 border-left: 1px solid #DDDDDD;
                 border-right: 1px solid #DDDDDD;
                 border-top: none;
+                font-size: 1rem;
                 &:nth-of-type(odd) {
                     color: #888888;
                     font-weight: bold;
-                    min-width: 150px;
+                    // min-width: 150px;
+                    min-width: 215px;
                 }
                 &:nth-of-type(even) {
                     width: 50%;
@@ -191,4 +196,106 @@ mat-accordion.table-details {
             padding-top: 2rem;
         }
     }
+}
+
+.as-input {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 2.5;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #4b74ff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    background-color: #ffffff;
+    border-radius: 10px;
+    height: calc(1.5em + 0.75rem + 12px);
+}
+
+
+.date {
+    direction: ltr;
+    // font-family: sans-serif, arial;
+}
+span.status {
+    // color: #21D500;
+    // font-weight: bold;
+    // margin-bottom: 16px;
+    font-weight: bold;
+    font-size: 14px;
+    &::before{
+        content: "";
+        width: 8px;
+        height: 8px;
+        // background: #21D500;
+        display: inline-block;
+        border-radius: 8px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    &.Active {
+        color:#21D500;
+        &::before{
+            background:#21D500;
+        }
+    }
+    &.Inactive {
+        color:#FF0000;
+        &::before{
+            background:#FF0000;
+        }
+    }
+    &.Approved  {
+        color:var(--main-color);
+        &::before{
+            background:var(--main-color);
+        }
+    }
+    &.NewFramework {
+        color:#607D8B;
+        &::before{
+            background:#607D8B;
+        }
+    }
+    &.UnderReview {
+        color:#FF8F00;
+        &::before{
+            background:#FF8F00;
+        }
+    }
+    &.UnderApproval {
+        color:#6bac7b;
+        &::before{
+            background:#6bac7b;
+        }
+    }
+    &.ReturnedToCreator {
+        color:#f4511e;
+        &::before{
+            background:#f4511e;
+        }
+    }
+    &.UnderPreparation {
+        color:#2CCCFF;
+        &::before{
+            background:#2CCCFF;
+        }
+    }
+    &.ReadyForInternalAssessment, &.ReadyForRevision, &.UnderReRevision {
+        color:#9E9D24;
+        &::before{
+            background:#9E9D24;
+        }
+    }
+    &.UnderInternalAssessment, &.UnderRevision, &.UnderInternalReAssessment {
+        color:#9E9D24;
+        &::before{
+            background:#9E9D24;
+        }
+    }
+
+
 }

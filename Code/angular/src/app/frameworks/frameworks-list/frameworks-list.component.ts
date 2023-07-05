@@ -1,12 +1,12 @@
 import { ListService, LocalizationService, SessionStateService } from '@abp/ng.core';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FrameworkService } from '@proxy/frameworks';
 import { FrameworkDto } from '@proxy/frameworks/dtos';
-import { ComplianceStatus, sharedStatusOptions } from '@proxy/shared';
+import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } from '@proxy/shared';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -16,12 +16,15 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
   styleUrls: ['./frameworks-list.component.scss'],
   providers:[ListService]
 })
-export class FrameworksListComponent implements OnInit {
+export class FrameworksListComponent implements OnInit, AfterViewInit {
   @ViewChild('formDirective') formDirective;
   @ViewChild('dialog') dialog;
 
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
+  FrameworkStatus = FrameworkStatus;
+  SharedStatus = SharedStatus;
+  
   items: FrameworkDto[];
   totalCount: number;
   isModalOpen: boolean = false;
@@ -37,19 +40,25 @@ export class FrameworksListComponent implements OnInit {
     private confirmation: ConfirmationService,
     private router: Router,
     private localizationService: LocalizationService,
+    private activatedRoute:ActivatedRoute
   ) { }
+
+  ngAfterViewInit(): void {
+    // this.getList();
+  }
 
 
   filterForm:FormGroup;
   ComplianceStatus = ComplianceStatus;
 
   ngOnInit(): void {
-    this.getList();
-
     this.filterForm = new FormGroup({
       search:new FormControl(),
-      status:new FormControl(null),
+      status:new FormControl(this.activatedRoute.snapshot.queryParams.status || null),
     });
+
+
+    this.getList();
 
     this.filterForm.valueChanges.pipe(
     debounceTime(1000),
@@ -59,9 +68,10 @@ export class FrameworksListComponent implements OnInit {
     });
   }
 
+
   showFilters = false;
   getList() {
-    const streamCreator = (query) => this.frameworkService.getList({ ...query,...this.filterForm.value, });
+    const streamCreator = (query) => this.frameworkService.getList({ ...query,...this.filterForm.getRawValue(), });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

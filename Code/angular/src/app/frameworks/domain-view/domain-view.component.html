@@ -1,6 +1,6 @@
 <div class="card">
     <header class="card-header">
-        <button mat-button [routerLink]="['/', parentPath, subDomainData?.frameworkId ]" class="back-button">
+        <button mat-button [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains' ]" class="back-button" [queryParams]="{expandedDomainId:mainDomainData?.id}">
             <mat-icon>
                 arrow_back_ios
             </mat-icon>
@@ -13,7 +13,38 @@
         <ng-container *ngIf="mainDomainData && subDomainData && frameWorkData">
             <section>
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="mb-0">
+                    <h2 class="mb-0 d-flex align-items-center">
+                        <!-- <tr>
+                            <td>
+                                {{ '::FrameworkName' | abpLocalization }}
+                            </td>
+                            <td>
+                                <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'details']">
+                                    {{frameWorkData | lang:'name'}}
+                                </a>
+                            </td>
+                            <td>
+                                {{ (frameWorkData | lang : 'levelFirstName') || ('::MainDomainName' | abpLocalization) }}
+                            </td>
+                            <td>
+                                <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains']" [queryParams]="{expandedDomainId:mainDomainData?.id}">
+                                    {{mainDomainData | lang:'name'}}
+                                </a>
+                            </td>
+                        </tr> -->
+
+                        <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'details']">
+                            {{frameWorkData | lang:'name'}}
+                        </a>
+
+                        <mat-icon>chevron_left</mat-icon>
+
+                        <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains']" [queryParams]="{expandedDomainId:mainDomainData?.id}">
+                            {{mainDomainData | lang:'name'}}
+                        </a>
+
+                        <mat-icon>chevron_left</mat-icon>
+
                         {{ subDomainData | lang:'name' }}
                     </h2>
                     <ng-container *abpPermission="'ComplianceSystem.Domain.Create'">
@@ -50,6 +81,25 @@
                             </td>
                         </tr>
 
+                        <!-- <tr>
+                            <td>
+                                {{ '::FrameworkName' | abpLocalization }}
+                            </td>
+                            <td>
+                                <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'details']">
+                                    {{frameWorkData | lang:'name'}}
+                                </a>
+                            </td>
+                            <td>
+                                {{ (frameWorkData | lang : 'levelFirstName') || ('::MainDomainName' | abpLocalization) }}
+                            </td>
+                            <td>
+                                <a [routerLink]="['/', parentPath, subDomainData?.frameworkId, 'domains']" [queryParams]="{expandedDomainId:mainDomainData?.id}">
+                                    {{mainDomainData | lang:'name'}}
+                                </a>
+                            </td>
+                        </tr> -->
+                        
                         <tr>
                             <td>
                                 {{ '::DomainNameEn' | abpLocalization }}
@@ -79,6 +129,7 @@
                                 {{subDomainData?.descriptionEn}}
                             </td>
                         </tr>
+
                         <tr>
                             <td> {{ '::Departments' | abpLocalization }} </td>
                             <td colspan="3">
@@ -89,24 +140,56 @@
                                 </mat-chip-list>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                {{ '::Status' | abpLocalization }}
-                            </td>
-                            <td>
-                                <button mat-button class="status" [class]="SharedStatus[subDomainData?.status]">
-                                    {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
-                                </button>
-                            </td>
-                            <td>
-                                {{ '::ComplianceStatus' | abpLocalization }}
-                            </td>
-                            <td>
-                                <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
-                                    {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
-                                </button>
-                            </td>
-                        </tr>
+
+                        <ng-container *ngIf="parentPath === 'compliance-assessment'; else InFrameworks">
+                            <tr>
+                                <!-- <td>
+                                    {{ '::Status' | abpLocalization }}
+                                </td>
+                                <td>
+                                    <span class="status" [class]="SharedStatus[subDomainData?.status]">
+                                        {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                    </span>
+                                </td> -->
+    
+                                
+                                <td>
+                                    {{ '::ComplianceStatus' | abpLocalization }}
+                                </td>
+                                <td>
+                                    <span class="status"  [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                        {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
+                                    </span>
+                                    <!-- <button mat-button class="status" [class]="ComplianceStatus[subDomainData?.complianceStatus]">
+                                        {{ ('::' + ComplianceStatus[subDomainData?.complianceStatus] ) | abpLocalization }}
+                                    </button> -->
+                                </td>
+
+                                <td>
+                                    {{ '::CompliancePercentage' | abpLocalization }}
+                                </td>
+                                <td colspan="3">
+                                  {{ subDomainData?.compliancePercentage }}
+                                </td>
+
+                            </tr>
+                        </ng-container>
+                        
+                        <ng-template #InFrameworks>
+                            <!-- <tr>
+                                <td>
+                                    {{ '::Status' | abpLocalization }}
+                                </td>
+                                <td>
+                                    <span class="status" [class]="SharedStatus[subDomainData?.status]">
+                                        {{ ('::Enum:SharedStatus:' + subDomainData?.status) | abpLocalization }}
+                                    </span>
+                                </td>
+                            </tr> -->
+                        </ng-template>
+                        
+
+                        
                     </table>
                 </div>
             </section>
@@ -115,6 +198,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="m-0">
                         {{ (frameWorkData | lang:'levelThirdName') || ('::ControlMainControls' | abpLocalization) }}
+                        ( {{ mainControlsItems?.length }} )
                     </h3>
 
                     <div *ngIf="showButton">
@@ -141,7 +225,7 @@
                 </div>
 
                 <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details">
-                    <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]">
+                    <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]"  (opened)="expansionOpened(mainControl)" [expanded]="expandedMainControlId == mainControl.id">
                         <mat-expansion-panel-header>
                             <mat-panel-title class="d-flex justify-content-between align-items-center">
                                 <span>
@@ -200,24 +284,38 @@
                                             {{mainControl?.descriptionEn}}
                                         </td>
                                     </tr>
-
-                                    <tr>
+                                    <tr *ngIf="parentPath === 'compliance-assessment';">
+                                        <td>
+                                            {{ '::CompliancePercentage' | abpLocalization }}
+                                        </td>
+                                        <td colspan="3">
+                                          {{ mainControl?.compliancePercentage }}
+                                        </td>
+                                        <!-- <td>
+                                            {{ '::Status' | abpLocalization }}
+                                        </td>
+                                        <td>
+                                            <span class="status" [class]="SharedStatus[mainControl?.status]">
+                                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                                            </span>
+                                        </td> -->
+                                    </tr>
+                                    <!-- <ng-template #name>
                                         <td>
                                             {{ '::Status' | abpLocalization }}
                                         </td>
                                         <td colspan="3">
-                                            <button mat-button class="status"
-                                                [class]="SharedStatus[mainControl?.status]">
+                                            <span class="status" [class]="SharedStatus[mainControl?.status]">
                                                 {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
-                                            </button>
+                                            </span>
                                         </td>
-                                    </tr>
+                                    </ng-template> -->
                                 </table>
                             </div>
 
 
                             <app-compliance-form
-                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath == 'compliance-assessment' "
+                                *ngIf="subDomainData?.complianceStatus !== ComplianceStatus.NotStarted && parentPath === 'compliance-assessment' && !subControlsTable.hasSubControls "
                                 [userId]="userId"
                                 [frameWorkData]="frameWorkData"
                                 [controlData]="mainControl" [domainData]="mainDomainData"></app-compliance-form>
@@ -225,8 +323,8 @@
 
                             <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
                                 <h4 class="m-0">
-                                    {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' |
-                                    abpLocalization) }}
+                                    {{ (frameWorkData | lang:'levelFourName') || ('::ControlSubControls' | abpLocalization) }}
+                                    ( {{ subControlsTable?.items?.length }} )
                                 </h4>
 
                                 <ng-container *ngIf="showButton">

@@ -1,610 +1,282 @@
 <section class="card">
-    <header class="card-header">
-        <div class="d-flex justify-content-between align-items-center">
-            <button mat-button [routerLink]="['/', parentPath, 'list']" class="back-button">
-                <mat-icon>
-                    arrow_back_ios
-                </mat-icon>
-                <span>
-                    {{ '::ReturnBack' | abpLocalization }}
-                </span>
-            </button>
-            <!-- <h2 class="card-title mb-0">
+  <header class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <button mat-button [routerLink]="['/', parentPath, 'list']" class="back-button">
+        <mat-icon> arrow_back_ios </mat-icon>
+        <span>
+          {{ '::ReturnBack' | abpLocalization }}
+        </span>
+      </button>
+      <!-- <h2 class="card-title mb-0">
                     {{ '::MainFrameWorks' | abpLocalization }}
                 </h2> -->
-            <!-- <div class="pt-2 d-flex justify-content-end">
+      <!-- <div class="pt-2 d-flex justify-content-end">
                 <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
                     <i class="fa fa-plus mr-1"></i>
                     <span>{{ "::CreateFramework" | abpLocalization }}</span>
                 </button>
             </div> -->
-        </div>
-    </header>
-    <div class="card-body">
-        <div class="navs d-flex align-items-center">
-            <button mat-button type="button" class="active" disabled="true">
-                <div class="icon-cont">
-                    <mat-icon>description</mat-icon>
-                    <mat-icon class="done">done</mat-icon>
-                </div>
-                <h3>
-                    {{ "::FrameworkCreation" | abpLocalization }}
-                </h3>
-            </button>
-            <span class="line active"
-                [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderReview  && frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator">
-                <span class="prog"></span>
-            </span>
-            <button mat-button type="button"
-                [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval && frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator"
-                disabled="true">
-                <div class="icon-cont">
-                    <mat-icon>edit_document</mat-icon>
-                    <mat-icon class="done">done</mat-icon>
-                </div>
-                <h3>
-                    {{ "::FrameworkReview" | abpLocalization }}
-                </h3>
-            </button>
-            <span class="line"
-                [class.active]="frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval && frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator">
-                <span class="prog"></span>
-            </span>
-            <button mat-button type="button"
-                [class.active]="frameWorkData?.frameworkStatus == SharedFrameworkStatus.Approved" disabled="true">
-                <div class="icon-cont">
-                    <mat-icon>task</mat-icon>
-                    <mat-icon class="done">done</mat-icon>
-                </div>
-                <h3>
-                    {{ "::FrameworkApprove" | abpLocalization }}
-                </h3>
-            </button>
-        </div>
-
-        <div class="info">
-            <div class="card-top">
-                <h3>
-                    {{ frameWorkData | lang:'name' }}
-                </h3>
-                <ng-container *ngIf="showButton">
-                    <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button
-                        (click)="openFrameDialog(FormMode.Edit)">
-                        <mat-icon class="mr-1">edit</mat-icon>
-                        {{ '::Edit' | abpLocalization }}
-                    </button>
-                </ng-container>
-            </div>
-            <div>
-                <div *ngIf="currentLang === 'ar-EG'; else OtherName">
-                    <span>
-                        {{ '::FrameworkNameEn' | abpLocalization }}
-                    </span>
-                    <h4>
-                        {{frameWorkData?.nameEn}}
-                    </h4>
-                </div>
-                <ng-template #OtherName>
-                    <div>
-                        <span>
-                            {{ '::FrameworkNameAr' | abpLocalization }}
-                        </span>
-                        <h4>
-                            {{frameWorkData?.nameAr}}
-                        </h4>
-                    </div>
-                </ng-template>
-
-
-                <div>
-                    <span>
-                        {{ '::CreationTime' | abpLocalization }}
-                    </span>
-                    <h4>
-                        {{frameWorkData?.lastModificationTime | date:'yyyy/MM/dd'}}
-                    </h4>
-                </div>
-                <div>
-                    <span>
-                        {{ '::Activation' | abpLocalization }}
-                    </span>
-                    <span class="status" [class]="SharedStatus[frameWorkData?.status]">
-                        {{ ( '::Enum:SharedStatus:' + frameWorkData?.status ) | abpLocalization }}
-                    </span>
-                </div>
-
-                <div>
-                    <ng-select #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
-                        <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
-                        <ng-option [value]="true">
-                            {{ '::Import' | abpLocalization }}
-                        </ng-option>
-                        <ng-option [value]="false">
-                            <a #download style="display: none;"></a>
-                            {{ '::DownloadTemp' | abpLocalization }}
-                        </ng-option>
-                    </ng-select>
-                </div>
-                <div>
-                    <ng-select
-                        *ngIf="(frameWorkData?.frameworkStatus === SharedFrameworkStatus.NewFramework ||
-                    frameWorkData?.frameworkStatus === SharedFrameworkStatus.ReturnedToCreator) && frameWorkData?.creatorId == userId"
-                        [placeholder]="'::SelectAction' | abpLocalization" (change)="changeCreateFrameStatus($event)">
-                        <ng-option [value]="true">
-                            {{ '::SendToReview' | abpLocalization }}
-                        </ng-option>
-                    </ng-select>
-                    <ng-select #ngSelect (change)="changeReviewFrameStatus($event, ngSelect)"
-                        *ngIf="frameWorkData?.frameworkStatus === SharedFrameworkStatus.UnderReview && frameWorkData?.reviewUserId == userId"
-                        [placeholder]="'::SelectAction' | abpLocalization">
-                        <ng-option [value]="true">
-                            {{ '::SendToApprove' | abpLocalization }}
-                        </ng-option>
-                        <ng-option [value]="false">
-                            {{ '::ReturnToCreator' | abpLocalization }}
-                        </ng-option>
-                    </ng-select>
-                    <ng-select #ngSelectApprove (change)="changeApproveFrameStatus($event, ngSelectApprove)"
-                        *ngIf="frameWorkData?.frameworkStatus === SharedFrameworkStatus.UnderApproval && frameWorkData?.approveUserId == userId"
-                        [placeholder]="'::SelectAction' | abpLocalization">
-                        <ng-option [value]="true">
-                            {{ '::Approve' | abpLocalization }}
-                        </ng-option>
-                        <ng-option [value]="false">
-                            {{ '::ReturnToCreator' | abpLocalization }}
-                        </ng-option>
-                    </ng-select>
-
-
-                    <ng-select [disabled]="isSendingStatus" (change)="changeFrameActivityStatus($event)" *ngIf="
-                            frameWorkData?.frameworkStatus === SharedFrameworkStatus.Approved &&
-                            frameWorkData?.ownerId == userId &&
-                            frameWorkData?.complianceStatus == ComplianceStatus.NotStarted
-                        " [placeholder]="'::ChangeStatus' | abpLocalization">
-                        <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
-                            {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
-                        </ng-option>
-                    </ng-select>
-
-                    <button (click)="sendForInternalAssessment()" class="round" mat-raised-button color="primary"
-                        *ngIf="
-                        frameWorkData?.canSendForInternalAssessment &&
-                        frameWorkData?.ownerId == userId &&
-                        frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation ">
-                        {{ '::SendForInternalAssessment' | abpLocalization }}
-                    </button>
-
-                    <button (click)="approveFramework()" class="round" mat-raised-button color="primary"
-                        *ngIf="
-                        frameWorkData?.canSendForInternalAssessment &&
-                        frameWorkData?.ownerId == userId &&
-                        frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision && allDomainsApproved ">
-                        {{ '::FrameworkApprove' | abpLocalization }}
-                    </button>
-
-
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="status">
-                                {{ '::FrameworkStatus' | abpLocalization }}
-                            </label>
-                            <span> * </span>
-                            <ng-select appendTo="body" id="status" formControlName="status">
-                                <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
-                                    {{ ( '::Enum:SharedStatus:' + stauts.value ) | abpLocalization }}
-                                </ng-option>
-                            </ng-select>
-                        </div>
-                    </div> -->
-
-                </div>
-
-
-                <!-- <div class="status" [class]="SharedStatus[frameWorkData?.status]">
-                    {{ ( '::Enum:SharedStatus:' + frameWorkData?.status ) | abpLocalization }}
-                </div> -->
-            </div>
-        </div>
-
-
-
-        <div class="tabs d-flex align-items-center">
-            <button mat-raised-button (click)=" activeTab = 'details' " [class.active]="activeTab === 'details'">
-                {{ '::FrameWorkDetails' | abpLocalization }}
-            </button>
-            <button mat-raised-button (click)=" activeTab = 'levels' " [class.active]="activeTab === 'levels'">
-                {{ '::FrameworkLevels' | abpLocalization }}
-            </button>
-            <button mat-raised-button>
-                {{ '::Reports' | abpLocalization }}
-            </button>
-            <button mat-raised-button (click)=" activeTab = 'attachments' "
-                [class.active]="activeTab === 'attachments'">
-                {{ '::Attachments' | abpLocalization }}
-            </button>
-            <button mat-raised-button (click)=" activeTab = 'Changelog' " [class.active]="activeTab === 'Changelog'">
-                {{ '::Changelog' | abpLocalization }}
-            </button>
-        </div>
-
-
-        <ng-container [ngSwitch]="activeTab">
-            <section *ngSwitchCase="'details'">
-                <h3>
-                    {{ '::FrameWorkDetails' | abpLocalization }}
-                </h3>
-                <div class="details-table-cont">
-                    <table class="table">
-                        <tr>
-                            <td>
-                                {{ '::FrameWork:Owner' | abpLocalization }}
-                            </td>
-                            <td colspan="3">
-                                {{frameWorkData?.ownerName}}
-                            </td>
-                            <!-- <td>
-                                مالك الإطار بالانجليزى 
-                            </td>
-                            <td>
-                                Owner name 
-                            </td> -->
-                        </tr>
-                        <tr>
-                            <td>
-                                {{ '::FrameworkShortcutAr' | abpLocalization }}
-                            </td>
-                            <td>
-                                {{frameWorkData?.shortcutAr}}
-                            </td>
-                            <td>
-                                {{ '::FrameworkShortcutEn' | abpLocalization }}
-                            </td>
-                            <td>
-                                {{frameWorkData?.shortcutEn}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {{ '::FrameworkDescriptionAr' | abpLocalization }}
-                            </td>
-                            <td>
-                                {{frameWorkData?.descriptionAr}}
-                            </td>
-                            <td>
-                                {{ '::FrameworkDescriptionEn' | abpLocalization }}
-                            </td>
-                            <td>
-                                {{frameWorkData?.descriptionEn}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> {{ '::Reviewers' | abpLocalization }} </td>
-                            <td colspan="3">
-                                {{ frameWorkData?.reviewUserName }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> {{ '::Departments' | abpLocalization }} </td>
-                            <td colspan="3">
-                                {{frameWorkData?.managementName}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> {{ '::WorkTeamMembers' | abpLocalization }} </td>
-                            <td colspan="3">
-                                <mat-chip-list>
-                                    <mat-chip *ngFor="let emp of frameWorkData?.frameworkEmpsDto">
-                                        {{emp.employeeName}}
-                                    </mat-chip>
-                                </mat-chip-list>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </section>
-            <section *ngSwitchCase="'levels'">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="m-0">
-                        {{ (frameWorkData | lang:'levelFirstName') || ('::MainDomains' | abpLocalization) }}
-                        <!-- {{  '::MainDomains' | abpLocalization }} -->
-                    </h3>
-
-                    <div *ngIf="showButton">
-                        <button (click)="openDomainDialog(null, FormMode.Create, null, null)"
-                            *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button
-                            class="add-raised-btn mr-3" type="button">
-                            <i class="fa fa-plus mr-1"></i>
-                            <span>
-                                <ng-container *ngIf="frameWorkData | lang:'levelFirstName'; else showCreateDomain">
-                                    {{'::Create' | abpLocalization}}
-                                    {{ frameWorkData | lang:'levelFirstName' }}
-                                </ng-container>
-                                <ng-template #showCreateDomain>
-                                    {{ "::CreateDomain" | abpLocalization: ('::DomainMainDomain' | abpLocalization) }}
-                                </ng-template>
-
-                                <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainMainDomain' | abpLocalization) }} -->
-                            </span>
-                        </button>
-                        <button mat-raised-button class="mr-2 delete-btn" color="warn" [disabled]="!deleteLength"
-                            (click)="deleteItems()">
-                            <mat-icon class="mr-1">delete_forever</mat-icon>
-                            {{ '::Delete' | abpLocalization }}
-                        </button>
-                    </div>
-                </div>
-
-                <mat-accordion *ngFor="let mainDomain of mainDomainsItems" class="table-details">
-                    <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainDomain.id]">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="d-flex justify-content-between align-items-center">
-                                <span>
-                                    {{ mainDomain | lang:'name' }}
-                                </span>
-                                <div *ngIf="showButton">
-                                    <button *abpPermission="'ComplianceSystem.Domain.Update'" class="mr-3" mat-button
-                                        (click)="openDomainDialog(mainDomain, FormMode.Edit, null, null); $event.stopPropagation()">
-                                        <mat-icon>edit</mat-icon>
-                                        {{ '::Edit' | abpLocalization }}
-                                    </button>
-                                    <mat-checkbox class="mr-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
-                                </div>
-                                
-                                <div *ngIf="!showButton">
-                                    <ng-container *ngIf="mainDomain.responsibleId == userId">
-                                        <button class="mr-3" mat-button
-                                        *ngIf="mainDomain.complianceStatus == ComplianceStatus.ReadyForInternalAssessment"
-                                        (click)="startInternalAssessmentById(mainDomain); $event.stopPropagation()">
-                                            {{ '::StartInternalAssessment' | abpLocalization }}
-                                        </button>
-    
-                                        <button class="mr-3" mat-button
-                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderInternalAssessment"
-                                            (click)="endInternalAssessmentById(mainDomain); $event.stopPropagation()">
-                                            {{ '::EndInternalAssessment' | abpLocalization }}
-                                        </button>
-
-                                        <button class="mr-3" mat-button
-                                            *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderInternalReAssessment"
-                                            (click)="sendToOwner(mainDomain); $event.stopPropagation()">
-                                            {{ '::SendToOwner' | abpLocalization }}
-                                        </button>
-                                    </ng-container>
-                                    <ng-container *ngIf="frameWorkData?.ownerId == userId">
-                                        <button (click)="startReview(mainDomain); $event.stopPropagation()" mat-button *ngIf="mainDomain.complianceStatus == ComplianceStatus.ReadyForRevision">
-                                            {{ '::StartReview' | abpLocalization }}
-                                        </button>
-
-                                        <button (click)="takeReviewDecision(mainDomain); $event.stopPropagation()" mat-button
-                                        *ngIf="mainDomain.complianceStatus == ComplianceStatus.UnderRevision || mainDomain.complianceStatus == ComplianceStatus.UnderReRevision">
-                                            {{ '::TakeDecision' | abpLocalization }}
-                                        </button>
-                                    </ng-container>
-
-                                </div>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-
-                        <section>
-                            <div class="details-table-cont">
-                                <table class="table">
-                                    <tr>
-                                        <td>
-                                            {{ '::ReferenceNumber' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{ mainDomain.reference }}
-                                        </td>
-
-                                        <td>
-                                            {{ '::Creator' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{ mainDomain?.responsibleName }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {{ '::DomainNameEn' | abpLocalization }}
-                                        </td>
-                                        <td colspan="3">
-                                            {{mainDomain?.nameEn}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {{ '::DomainDescriptionAr' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{ mainDomain?.descriptionAr }}
-                                        </td>
-                                        <td>
-                                            {{ '::DomainDescriptionEn' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{ mainDomain?.descriptionEn }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {{ '::Departments' | abpLocalization }}
-                                        </td>
-                                        <td colspan="3">
-                                            <mat-chip-list>
-                                                <mat-chip *ngFor="let department of mainDomain.departments">
-                                                    {{department.name}}
-                                                </mat-chip>
-                                            </mat-chip-list>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {{ '::Status' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            <button mat-button class="status" [class]="SharedStatus[mainDomain.status]">
-                                                {{ ('::Enum:SharedStatus:' + mainDomain.status) | abpLocalization }}
-                                            </button>
-                                        </td>
-                                        <td>
-                                            {{ '::ComplianceStatus' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            <button mat-button class="status" [class]="ComplianceStatus[mainDomain?.complianceStatus]">
-                                                {{ ('::' + ComplianceStatus[mainDomain?.complianceStatus] ) | abpLocalization }}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            {{ '::CreatedDate' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{ mainDomain.creationTime | date:'yyyy-MM-dd' }}
-                                        </td>
-                                        <td>
-                                            {{ '::FrameworkLastUpdate' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{ mainDomain.lastModificationTime | fromNow }}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-                                <h4 class="m-0">
-                                    {{ (frameWorkData | lang:'levelSecondName') || ('::SubDomains' | abpLocalization) }}
-                                    <!-- {{ '::SubDomains' | abpLocalization }} -->
-                                </h4>
-
-                                <ng-container *ngIf="showButton">
-                                    <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button
-                                        class="add-raised-btn add-blue" type="button"
-                                        (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
-                                        <i class="fa fa-plus mr-1"></i>
-                                        <span>
-                                            <ng-container
-                                                *ngIf="frameWorkData | lang:'levelSecondName'; else showCreateSubDomain">
-                                                {{'::Create' | abpLocalization}}
-                                                {{ frameWorkData | lang:'levelSecondName' }}
-                                            </ng-container>
-                                            <ng-template #showCreateSubDomain>
-                                                {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' |
-                                                abpLocalization) }}
-                                            </ng-template>
-                                            <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainSubDomain' | abpLocalization) }} -->
-                                        </span>
-                                    </button>
-                                </ng-container>
-                            </div>
-
-                            <app-expansion-sub-domains-table #subDomainsTable [parentPath]="parentPath" [showButton]="showButton"
-                                [frameWorkData]="frameWorkData" [expanded]="panel.expanded" [frameworkId]="frameworkId"
-                                [mainDomain]="mainDomain"> </app-expansion-sub-domains-table>
-                        </section>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </section>
-            <section *ngSwitchCase="'attachments'">
-                <app-table-files class="mt-3 d-block" [attachment]="{isMultiple:false}"
-                    [attachmentId]="frameWorkData.attachmentId" [disabled]="disabled"
-                    (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
-                    (OnFileEndUpload)="OnFileEndUpload($event)">
-                </app-table-files>
-            </section>
-            <section *ngSwitchCase="'Changelog'">
-                <app-change-log [frameWorkData]="frameWorkData"></app-change-log>
-            </section>
-        </ng-container>
     </div>
+  </header>
+  <div class="card-body">
+    <div class="navs d-flex align-items-center">
+      <button mat-button type="button" class="active" disabled="true">
+        <div class="icon-cont">
+          <mat-icon>description</mat-icon>
+          <mat-icon class="done">done</mat-icon>
+        </div>
+        <h3>
+          {{ '::FrameworkCreation' | abpLocalization }}
+        </h3>
+      </button>
+      <span class="line active" [class.active]="
+          frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderReview &&
+          frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator
+        ">
+        <span class="prog"></span>
+      </span>
+      <button mat-button type="button" [class.active]="
+          frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval &&
+          frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator
+        " disabled="true">
+        <div class="icon-cont">
+          <mat-icon>edit_document</mat-icon>
+          <mat-icon class="done">done</mat-icon>
+        </div>
+        <h3>
+          {{ '::FrameworkReview' | abpLocalization }}
+        </h3>
+      </button>
+      <span class="line" [class.active]="
+          frameWorkData?.frameworkStatus >= SharedFrameworkStatus.UnderApproval &&
+          frameWorkData?.frameworkStatus !== SharedFrameworkStatus.ReturnedToCreator
+        ">
+        <span class="prog"></span>
+      </span>
+      <button mat-button type="button" [class.active]="frameWorkData?.frameworkStatus == SharedFrameworkStatus.Approved"
+        disabled="true">
+        <div class="icon-cont">
+          <mat-icon>task</mat-icon>
+          <mat-icon class="done">done</mat-icon>
+        </div>
+        <h3>
+          {{ '::FrameworkApprove' | abpLocalization }}
+        </h3>
+      </button>
+    </div>
+
+    <div class="info">
+      <div class="card-top">
+        <h3>
+          {{ frameWorkData | lang : 'name' }}
+        </h3>
+        <ng-container *ngIf="showButton">
+          <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button
+            (click)="openFrameDialog(FormMode.Edit)">
+            <mat-icon class="mr-1">edit</mat-icon>
+            {{ '::Edit' | abpLocalization }}
+          </button>
+        </ng-container>
+      </div>
+      <div>
+        <div *ngIf="currentLang === 'ar-EG'; else OtherName">
+          <span>
+            {{ '::FrameworkNameEn' | abpLocalization }}
+          </span>
+          <h4>
+            {{ frameWorkData?.nameEn }}
+          </h4>
+        </div>
+        <ng-template #OtherName>
+          <div>
+            <span>
+              {{ '::FrameworkNameAr' | abpLocalization }}
+            </span>
+            <h4>
+              {{ frameWorkData?.nameAr }}
+            </h4>
+          </div>
+        </ng-template>
+
+        <div>
+          <span>
+            {{ '::CreationTime' | abpLocalization }}
+          </span>
+          <h4>
+            {{ frameWorkData?.lastModificationTime | date : 'yyyy/MM/dd' }}
+          </h4>
+        </div>
+        <div>
+          <span>
+            {{ '::Activation' | abpLocalization }}
+          </span>
+          <span class="status" [class]="SharedStatus[frameWorkData?.status]">
+            {{ '::Enum:SharedStatus:' + frameWorkData?.status | abpLocalization }}
+          </span>
+        </div>
+        <div>
+          <ng-select #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
+              <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
+              <ng-option [value]="true">
+                  {{ '::Import' | abpLocalization }}
+              </ng-option>
+              <ng-option [value]="false">
+                  <a #download style="display: none;"></a>
+                  {{ '::DownloadTemp' | abpLocalization }}
+              </ng-option>
+          </ng-select>
+      </div>
+        <div *ngIf="frameWorkData?.hasMainControl">
+          <ng-select *ngIf="
+              (frameWorkData?.frameworkStatus === SharedFrameworkStatus.NewFramework ||
+                frameWorkData?.frameworkStatus === SharedFrameworkStatus.ReturnedToCreator) &&
+              frameWorkData?.creatorId == userId
+            " [placeholder]="'::SelectAction' | abpLocalization" (change)="changeCreateFrameStatus($event)">
+            <ng-option [value]="true">
+              {{ '::SendToReview' | abpLocalization }}
+            </ng-option>
+          </ng-select>
+          <ng-select #ngSelect (change)="changeReviewFrameStatus($event, ngSelect)" *ngIf="
+              frameWorkData?.frameworkStatus === SharedFrameworkStatus.UnderReview &&
+              frameWorkData?.reviewUserId == userId
+            " [placeholder]="'::SelectAction' | abpLocalization">
+            <ng-option [value]="true">
+              {{ '::SendToApprove' | abpLocalization }}
+            </ng-option>
+            <ng-option [value]="false">
+              {{ '::ReturnToCreator' | abpLocalization }}
+            </ng-option>
+          </ng-select>
+          <ng-select #ngSelectApprove (change)="changeApproveFrameStatus($event, ngSelectApprove)" *ngIf="
+              frameWorkData?.frameworkStatus === SharedFrameworkStatus.UnderApproval &&
+              frameWorkData?.approveUserId == userId
+            " [placeholder]="'::SelectAction' | abpLocalization">
+            <ng-option [value]="true">
+              {{ '::Approve' | abpLocalization }}
+            </ng-option>
+            <ng-option [value]="false">
+              {{ '::ReturnToCreator' | abpLocalization }}
+            </ng-option>
+          </ng-select>
+
+          <ng-select [disabled]="isSendingStatus" (change)="changeFrameActivityStatus($event)" *ngIf="
+              frameWorkData?.frameworkStatus === SharedFrameworkStatus.Approved &&
+              frameWorkData?.ownerId == userId &&
+              frameWorkData?.complianceStatus == ComplianceStatus.NotStarted
+            " [placeholder]="'::ChangeStatus' | abpLocalization">
+            <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
+              {{ '::Enum:SharedStatus:' + stauts.value | abpLocalization }}
+            </ng-option>
+          </ng-select>
+
+          <button (click)="sendForInternalAssessment()" class="round" mat-raised-button color="primary" *ngIf="
+              frameWorkData?.canSendForInternalAssessment &&
+              frameWorkData?.ownerId == userId &&
+              frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation
+            ">
+            {{ '::SendForInternalAssessment' | abpLocalization }}
+          </button>
+
+          <button (click)="approveFramework()" class="round" mat-raised-button color="primary" *ngIf="
+              frameWorkData?.canSendForInternalAssessment &&
+              frameWorkData?.ownerId == userId &&
+              frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision &&
+              frameWorkData?.canApproveCompliance
+            ">
+            {{ '::FrameworkApprove' | abpLocalization }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="tabs d-flex align-items-center">
+      <button mat-raised-button (click)="activeTab = 'details'" [class.active]="activeTab === 'details'">
+        {{ '::FrameWorkDetails' | abpLocalization }}
+      </button>
+      <button mat-raised-button (click)="activeTab = 'domains'" [class.active]="activeTab === 'domains'">
+        {{ '::FrameworkLevels' | abpLocalization }}
+      </button>
+      <button mat-raised-button (click)="activeTab = 'reports'" [class.active]="activeTab === 'reports'">
+        {{ '::Reports' | abpLocalization }}
+      </button>
+      <button mat-raised-button (click)="activeTab = 'attachments'" [class.active]="activeTab === 'attachments'">
+        {{ '::Attachments' | abpLocalization }}
+      </button>
+      <button mat-raised-button (click)="activeTab = 'Changelog'" [class.active]="activeTab === 'Changelog'">
+        {{ '::Changelog' | abpLocalization }}
+      </button>
+    </div> -->
+    <div class="tabs d-flex align-items-center">
+      <button mat-raised-button routerLink="details" routerLinkActive="active">
+        {{ '::FrameWorkDetails' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="domains" routerLinkActive="active" >
+        {{ '::FrameworkLevels' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="reports" routerLinkActive="active" *ngIf="parentPath == 'compliance-assessment'" >
+        {{ '::Reports' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="attachments" routerLinkActive="active" >
+        {{ '::Attachments' | abpLocalization }}
+      </button>
+      <button mat-raised-button routerLink="changelog" routerLinkActive="active">
+        {{ '::Changelog' | abpLocalization }}
+      </button>
+    </div>
+
+
+    <router-outlet (activate)="changeRoute($event)" *ngIf="frameWorkData"></router-outlet>
+    
+
+    <!-- <ng-container [ngSwitch]="activeTab">
+      <section *ngSwitchCase="'attachments'">
+        <app-table-files class="mt-3 d-block" [attachment]="{ isMultiple: false }"
+          [attachmentId]="frameWorkData.attachmentId" [disabled]="disabled" (OnFileUploaded)="OnFileUploaded($event)"
+          (OnFileBeginUpload)="OnFileBeginUpload($event)" (OnFileEndUpload)="OnFileEndUpload($event)">
+        </app-table-files>
+      </section>
+      <section *ngSwitchCase="'Changelog'">
+        <app-change-log [frameWorkData]="frameWorkData"></app-change-log>
+      </section>
+    </ng-container> -->
+  </div>
 </section>
 
-
 <ng-template #frameDialog let-data let-ref="dialogRef">
-    <app-create-framework [data]="data.data" [ref]="ref" [mode]="data.mode"></app-create-framework>
+  <app-create-framework [data]="data.data" [ref]="ref" [mode]="data.mode"></app-create-framework>
 </ng-template>
 
 <ng-template #domainDialog let-data let-ref="dialogRef">
-    <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData"
-        [mainDomain]="data.mainDomain"></app-create-domain>
+  <app-create-domain [data]="data.data" [ref]="ref" [mode]="data.mode" [frameWorkData]="frameWorkData"
+    [mainDomain]="data.mainDomain"></app-create-domain>
 </ng-template>
 
 <ng-template #refuseCauseDialog let-ref="dialogRef">
-    <form [formGroup]="form" (ngSubmit)="ref.close(true)" class="app-dialog">
-        <div mat-dialog-title class="d-flex align-items-center justify-content-between">
-            <h2>
-                {{ '::RefuseCause' | abpLocalization }}
-                <!-- {{ (data?.id ? '::EditControl' : '::CreateControl' ) | abpLocalization:( ( mainControl ? '::ControlSubControl' : '::ControlMainControl' ) | abpLocalization ) }} -->
-            </h2>
+  <form [formGroup]="form" (ngSubmit)="ref.close(true)" class="app-dialog">
+    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+      <h2>
+        {{ '::RefuseCause' | abpLocalization }}
+        <!-- {{ (data?.id ? '::EditControl' : '::CreateControl' ) | abpLocalization:( ( mainControl ? '::ControlSubControl' : '::ControlMainControl' ) | abpLocalization ) }} -->
+      </h2>
 
-            <div class="actions">
-                <button type="button" mat-button (click)="ref.close(false)" class="red">
-                    {{ '::Cancel' | abpLocalization }}
-                </button>
+      <div class="actions">
+        <button type="button" mat-button (click)="ref.close(false)" class="red">
+          {{ '::Cancel' | abpLocalization }}
+        </button>
 
-                <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="form.invalid">
-                    <i class="fa fa-check mr-1"></i>
-                    {{ '::Save' | abpLocalization }}
-                </button>
-            </div>
-        </div>
+        <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="form.invalid">
+          <i class="fa fa-check mr-1"></i>
+          {{ '::Save' | abpLocalization }}
+        </button>
+      </div>
+    </div>
 
-        <mat-dialog-content class="mat-typography">
-            <div class="form-group">
-                <label for="control-nameAr"> {{ '::RefuseCause' | abpLocalization }} </label> <span> * </span>
-                <textarea id="control-nameAr" class="form-control" formControlName="reason"></textarea>
-            </div>
-        </mat-dialog-content>
-    </form>
-</ng-template>
-
-
-<ng-template #reviewAlert let-data let-ref="dialogRef">
-    <h2 mat-dialog-title>
-        {{ '::StartReview' | abpLocalization }}
-    </h2>
     <mat-dialog-content class="mat-typography">
-        <p>
-            {{ '::StartReviewMSG' | abpLocalization }}
-        </p>
-        <mat-dialog-actions align="end" class="actions">
-            <button mat-button class="red" (click)="ref.close()">
-                {{ '::no' | abpLocalization }}
-            </button>
-        
-            <button mat-button cdkFocusInitial class="green" (click)="ref.close(true)">
-                {{ '::yes' | abpLocalization }}
-            </button>
-        </mat-dialog-actions>
+      <div class="form-group">
+        <label for="control-nameAr"> {{ '::RefuseCause' | abpLocalization }} </label>
+        <span> * </span>
+        <textarea id="control-nameAr" class="form-control" formControlName="reason"></textarea>
+      </div>
     </mat-dialog-content>
-</ng-template>
-
-<ng-template #reviewDecisionAlert let-data let-ref="dialogRef">
-    <h2 mat-dialog-title>
-        {{ '::TakeDecision' | abpLocalization }}
-    </h2>
-    <mat-dialog-content class="mat-typography">
-        <form [formGroup]="reviewForm">
-            <div class="form-group">
-                <!-- <label>
-                    {{ '::IsSystemApplicable' | abpLocalization }}
-                </label> -->
-                <mat-radio-group formControlName="action" color="primary" class="d-flex">
-                    <mat-radio-button class="ml-3 mr-3" [value]="true"> {{ '::ApproveCompliance' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="false"> {{ '::ReturnToResponsible' | abpLocalization }} </mat-radio-button>
-                </mat-radio-group>
-            </div>
-    
-            <mat-dialog-actions align="end" class="actions">
-                <button mat-button class="red" (click)="ref.close()">
-                    {{ '::Cancel' | abpLocalization }}
-                </button>
-            
-                <button mat-button cdkFocusInitial class="green" [disabled]="reviewForm.invalid" (click)="ref.close(true)">
-                    {{ '::Save' | abpLocalization }}
-                </button>
-            </mat-dialog-actions>
-        </form>
-    </mat-dialog-content>
+  </form>
 </ng-template>

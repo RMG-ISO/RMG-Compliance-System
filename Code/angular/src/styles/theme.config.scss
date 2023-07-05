@@ -19,6 +19,11 @@ body[dir="rtl"] {
 
 }
 
+.rtl, [dir="rtl"] {
+    text-align: right;
+    direction: rtl;
+}
+
 button.back-button {
     border: 2px solid #383838;
     border-radius: 50px;
@@ -370,7 +375,7 @@ button.status {
     border-radius: 50px;
     height: 30px;
     line-height: 30px;
-    background: #607D8B;
+    background: #A4ABB6;
     &.Active {
         background: var(--main-color);
     }

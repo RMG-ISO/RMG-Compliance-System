@@ -1,0 +1,233 @@
+<h3>
+    {{ '::FrameWorkDetails' | abpLocalization }}
+  </h3>
+  <div class="details-table-cont">
+    <table class="table">
+      <tr>
+        <td colspan="4" *ngIf="inCompliance">
+          <mat-slide-toggle
+          [disabled]="userId !== frameWorkData?.ownerId || frameWorkData?.complianceStatus == ComplianceStatus.NotStarted"
+          [checked]="frameWorkData?.hasPriority" #toggle
+          (toggleChange)="toggleChange(toggle)" color="primary">
+            {{ '::PriorityQuestion' | abpLocalization }}
+          </mat-slide-toggle>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {{ '::FrameWork:Owner' | abpLocalization }}
+        </td>
+        <td>
+          {{ frameWorkData?.ownerName }}
+        </td>
+       
+        <td>
+          {{ '::creatorName' | abpLocalization }}
+        </td>
+        <td>
+          {{ frameWorkData?.creator.name }}
+        </td>
+       
+      </tr>
+      <tr>
+        <td>
+          {{ '::FrameworkShortcutAr' | abpLocalization }}
+        </td>
+        <td>
+          {{ frameWorkData?.shortcutAr }}
+        </td>
+        <td>
+          {{ '::FrameworkShortcutEn' | abpLocalization }}
+        </td>
+        <td>
+          {{ frameWorkData?.shortcutEn }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {{ '::FrameworkDescriptionAr' | abpLocalization }}
+        </td>
+        <td colspan="3">
+          {{ frameWorkData?.descriptionAr }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {{ '::FrameworkDescriptionEn' | abpLocalization }}
+        </td>
+        <td colspan="3">
+          {{ frameWorkData?.descriptionEn }}
+        </td>
+      </tr>
+     
+      <tr>
+        <td>{{ '::Departments' | abpLocalization }}</td>
+        <td colspan="3">
+          {{ frameWorkData?.managementName }}
+        </td>
+      </tr>
+      <tr>
+        <td>{{ '::WorkTeamMembers' | abpLocalization }}</td>
+        <td colspan="3">
+          <mat-chip-list>
+            <mat-chip *ngFor="let emp of frameWorkData?.frameworkEmpsDto">
+              {{ emp.employeeName }}
+            </mat-chip>
+          </mat-chip-list>
+        </td>
+      </tr>
+
+
+      <ng-container *ngIf="inCompliance; else inFramework">
+        <tr>
+          <td colspan="4">
+            <span>
+              {{ '::ComplianceData' | abpLocalization }}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{ '::ComplianceReviewStartDate' | abpLocalization }}
+          </td>
+          <td class="date">
+            {{ frameWorkData?.ComplianceReviewStartDate | date : dateTimeFormat }}
+          </td>
+          <td>
+            {{ '::ComplianceReviewEndDate' | abpLocalization }}
+          </td>
+          <td class="date">
+            {{ frameWorkData?.ComplianceReviewEndDate | date : dateTimeFormat }}
+          </td>
+        </tr>
+       
+
+        <tr>
+            <td>
+              {{ '::SelfAssessmentStartDate' | abpLocalization }}
+            </td>
+            <td class="date">
+              {{ frameWorkData?.selfAssessmentStartDate | date : dateTimeFormat }}
+            </td>
+            <td>
+              {{ '::SelfAssessmentEndDate' | abpLocalization }}
+            </td>
+            <td class="date">
+              {{ frameWorkData?.selfAssessmentEndDate | date : dateTimeFormat }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {{ '::InternalAssessmentStartDate' | abpLocalization }}
+            </td>
+            <td class="date">
+              {{ frameWorkData?.internalAssessmentStartDate | date : dateTimeFormat }}
+            </td>
+            <td>
+              {{ '::InternalAssessmentEndDate' | abpLocalization }}
+            </td>
+            <td class="date">
+              {{ frameWorkData?.internalAssessmentEndDate | date : dateTimeFormat }}
+            </td>
+          </tr>
+
+          <tr>
+            <!-- <td>
+              {{ '::ApprovalDate' | abpLocalization }}
+            </td>
+            <td>
+              {{ frameWorkData?.reviewEndDate | date : dateTimeFormat }}
+            </td> -->
+            <!-- <ng-container *ngIf="inCompliance"> -->
+              <td>
+                {{ '::ComplianceStatus' | abpLocalization }}
+              </td>
+              <td>
+                <span class="status" [class]="ComplianceStatus[frameWorkData?.complianceStatus]">
+                  {{ '::' + ComplianceStatus[frameWorkData?.complianceStatus] | abpLocalization }}
+                </span>
+              </td>
+              <td>{{ '::CompliancePercentage' | abpLocalization }}</td>
+              <td>
+                {{ frameWorkData?.compliancePercentage }}
+              </td>
+            <!-- </ng-container> -->
+          </tr>
+
+      </ng-container>
+
+     
+      <ng-template #inFramework>
+        <tr>
+          <td colspan="4">
+            <span>
+              {{ '::ReviewApproveData' | abpLocalization }}
+            </span>
+          </td>
+        </tr>
+        <tr >
+          <td> {{ '::Reviewer' | abpLocalization }} </td>
+          <td colspan="3">
+            {{ frameWorkData?.reviewUserName }}
+          </td>
+        </tr>
+        
+        <tr>
+          <td>
+            {{ '::ReviewStartDate' | abpLocalization }}
+          </td>
+          <td class="date">
+            {{ frameWorkData?.reviewStartDate | date : dateTimeFormat }}
+          </td>
+          <td>
+            {{ '::ReviewEndDate' | abpLocalization }}
+          </td>
+          <td>
+            {{ frameWorkData?.reviewEndDate | date : dateTimeFormat }}
+          </td>
+        </tr>
+
+        <tr>
+          <td> {{ '::UserApprover' | abpLocalization }} </td>
+          <td colspan="3">
+            {{ frameWorkData?.approveUserName }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{ '::ApprovalStartDate' | abpLocalization }}
+          </td>
+          <td class="date">
+            {{ frameWorkData?.approvalStartDate | date : dateTimeFormat }}
+          </td>
+          <td>
+            {{ '::ApprovalDate' | abpLocalization }}
+          </td>
+          <td class="date">
+            {{ frameWorkData?.approvalEndDate | date : dateTimeFormat }}
+          </td>
+        </tr>
+
+        <tr>
+          <!-- <td>
+            {{ '::ApprovalDate' | abpLocalization }}
+          </td>
+          <td>
+            {{ frameWorkData?.reviewEndDate | date : dateTimeFormat }}
+          </td> -->
+          <!-- <ng-container *ngIf="inCompliance"> -->
+            <td>
+              {{ '::Status' | abpLocalization }}
+            </td>
+            <td colspan="3">
+              <span class="status" [class]="SharedFrameworkStatus[frameWorkData?.frameworkStatus]">
+                {{ '::' + SharedFrameworkStatus[frameWorkData?.frameworkStatus] | abpLocalization }}
+              </span>
+            </td>
+          <!-- </ng-container> -->
+        </tr>
+
+      </ng-template>
+
+    </table>
+  </div>

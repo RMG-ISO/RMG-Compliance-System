@@ -1,5 +1,5 @@
 import { ConfigStateService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ControlService } from '@proxy/controls';
@@ -14,7 +14,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
   styleUrls: ['./control-view.component.scss']
 })
 export class ControlViewComponent implements OnInit {
-  controlDialog;
+  @ViewChild('controlDialog') controlDialog;
   SharedStatus = SharedStatus;
   ComplianceStatus = ComplianceStatus;
   
@@ -70,10 +70,10 @@ export class ControlViewComponent implements OnInit {
     })
   }
 
-  openDialog(data = null) {
+  openDialog() {
     let ref = this.matDialog.open(this.controlDialog, {
       data:{
-        data,
+        data:this.subControlData,
         mode:FormMode.Edit,
       }
     });

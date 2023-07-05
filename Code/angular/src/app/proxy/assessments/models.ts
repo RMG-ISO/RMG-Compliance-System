@@ -3,10 +3,11 @@ import type { ApplicableType } from './applicable-type.enum';
 import type { ComplianceLevelType } from './compliance-level-type.enum';
 import type { DocumentedType } from './documented-type.enum';
 import type { ImplementedType } from './implemented-type.enum';
+import type { PriorityType } from './priority-type.enum';
 import type { EffectiveType } from './effective-type.enum';
 import { IdentityUserDto } from '@abp/ng.account';
 
-export interface AssessmentVersionDto extends CreationAuditedEntityWithUserDto<IdentityUserDto, string> {
+export interface AssessmentVersionDto extends CreationAuditedEntityWithUserDto<string, IdentityUserDto> {
   assessmentId?: string;
   applicable?: ApplicableType;
   complianceLevel?: ComplianceLevelType;
@@ -15,6 +16,7 @@ export interface AssessmentVersionDto extends CreationAuditedEntityWithUserDto<I
   documented?: DocumentedType;
   documentedPercentage?: number;
   implemented?: ImplementedType;
+  priority?: PriorityType;
   implementedPercentage?: number;
   effective?: EffectiveType;
   effectivePercentage?: number;

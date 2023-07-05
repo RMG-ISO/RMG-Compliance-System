@@ -1,4 +1,4 @@
-<nav class="app-nav d-flex align-items-center justify-content-between" >
+<!-- <nav class="app-nav d-flex align-items-center justify-content-between" >
 
   <div>
     <abp-logo *abpReplaceableTemplate="{ componentKey: service.logoComponentKey }"></abp-logo>
@@ -8,7 +8,6 @@
   <abp-current-user #user></abp-current-user>
 </nav>
 
-<!-- [@slideFromBottom]="outlet.isActivated && outlet.activatedRoute?.routeConfig?.path" TODO: throws ExpressionChangedAfterItHasBeenCheck when animation is active. It should be fixed -->
 <div class="container">
   <abp-page-alert-container></abp-page-alert-container>
   <abp-auth-wrapper
@@ -18,4 +17,8 @@
   >
     <router-outlet #outlet="outlet"></router-outlet>
   </abp-auth-wrapper>
-</div>
+</div> -->
+
+
+<router-outlet></router-outlet>
+

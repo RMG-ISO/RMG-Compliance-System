@@ -105,6 +105,9 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<DateTime?>("NextComplianceDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte?>("Priority")
+                        .HasColumnType("tinyint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ControlId");
@@ -184,6 +187,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<DateTime?>("NextComplianceDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte?>("Priority")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -863,6 +869,18 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid?>("ResponsibleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("ReviewEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReviewStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("SelfAssessmentEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("SelfAssessmentStartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
 
@@ -1025,11 +1043,23 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("ApprovalEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ApprovalStartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("ApproveUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AttachmentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ComplianceReviewEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ComplianceReviewStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ComplianceStatus")
                         .HasColumnType("int");
@@ -1068,6 +1098,9 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<byte>("FrameworkStatus")
                         .HasColumnType("tinyint");
+
+                    b.Property<bool>("HasPriority")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("InternalAssessmentEndDate")
                         .HasColumnType("datetime2");
@@ -1124,6 +1157,12 @@ namespace RMG.ComplianceSystem.Migrations
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ReviewEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReviewStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ReviewUserId")
                         .HasColumnType("uniqueidentifier");
