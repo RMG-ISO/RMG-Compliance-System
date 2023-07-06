@@ -4,6 +4,8 @@ import { MyRolesComponent } from './my-roles.component';
 import { PermissionManagementModule } from '@abp/ng.permission-management';
 import { UiExtensionsModule } from '@abp/ng.theme.shared/extensions';
 import { SharedModule } from '../shared/shared.module';
+import { NgbCollapseModule,NgbAccordionModule,NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
@@ -14,11 +16,12 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     SharedModule, 
-    UiExtensionsModule, 
+    UiExtensionsModule,
+    MatExpansionModule,
     PermissionManagementModule
   ],
   exports: [
-    MyRolesComponent
+    MyRolesComponent,
   ]
 })
 export class MyRolesModule { }
