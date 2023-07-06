@@ -10,6 +10,7 @@ import {
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-my-roles',
@@ -28,6 +29,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class MyRolesComponent implements OnInit {
   data: PagedResultDto<IdentityRoleDto> = { items: [], totalCount: 0 };
+  panelOpenState: boolean = false;
 
   form: FormGroup;
 
@@ -60,7 +62,7 @@ export class MyRolesComponent implements OnInit {
 
   buildForm() {
     const data = new FormPropData(this.injector, this.selected);
-    console.log(this.injector);
+    console.log(data);
     this.form = generateFormFromProps(data);
     console.log(this.form);
   }
@@ -99,10 +101,7 @@ export class MyRolesComponent implements OnInit {
   }
 
   delete(id: string, name: string) {
-    console.log(id);
-    console.log(name);
-
-  /*   this.confirmationService
+    this.confirmationService
       .warn('AbpIdentity::RoleDeletionConfirmationMessage', 'AbpIdentity::AreYouSure', {
         messageLocalizationParams: [name],
       })
@@ -110,7 +109,7 @@ export class MyRolesComponent implements OnInit {
         if (status === Confirmation.Status.confirm) {
           this.service.delete(id).subscribe(() => this.list.get());
         }
-      }); */
+      });
   }
 
   private hookToQuery() {

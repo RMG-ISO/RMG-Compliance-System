@@ -1,5 +1,35 @@
-<abp-modal [visible]="isVisible" (visibleChange)="onVisibleChange($event)" [busy]="modalBusy">
-    <ng-container *ngIf="data.entityDisplayName">
+<!-- <div class="row">
+  <div class="col-sm-6">
+        sadasdasd
+  </div>
+  <div class="col-sm-6">
+    <div class="row">
+        <div class="ml-4">dadasdsad</div>
+        <div class="ml-4">dadasdsad</div>
+        <div class="ml-4">dadasdsad</div>
+        <div class="ml-4">dadasdsad</div>
+        <div class="ml-4">dadasdsad</div>
+        <div class="ml-4">dadasdsad</div>
+    </div>
+  </div>
+</div> -->
+
+
+                        <!--  {{ permission.displayName }} -->
+                        <!-- [ngStyle]="permission.style" -->
+                        <!-- { "margin-right.px": 20 }   -->
+                        <!-- {{permission.isParent?'aaa':'ssss'}} -->
+                        <!-- {{permission.isParent?'':'col-sm-6'}} -->
+                        <!-- class="{{permission.isParent?'col-sm-6':'row'}}" -->
+
+
+
+   
+
+
+
+<abp-modal [visible]="isVisible"   size="Large" (visibleChange)="onVisibleChange($event)" [busy]="modalBusy">
+    <ng-container *ngIf="data.entityDisplayName" >
       <ng-template #abpHeader>
         <h4>
           {{ 'AbpPermissionManagement::Permissions' | abpLocalization }} -
@@ -22,72 +52,102 @@
         </div>
   
         <hr class="mt-2 mb-2" />
+
+      
+
         <div class="row">
-          <div class="overflow-scroll col-md-4">
-            <ul class="nav nav-pills flex-column">
-              <li *ngFor="let group of data.groups; trackBy: trackByFn" class="nav-item">
-                <a
-                  *ngIf="{ assignedCount: getAssignedCount(group.name) } as count"
-                  class="nav-link pointer"
-                  [class.active]="selectedGroup?.name === group?.name"
-                  (click)="onChangeGroup(group)"
-                >
-                  <div [class.font-weight-bold]="count.assignedCount">
-                    {{ group?.displayName }}
-                    <span>({{ count.assignedCount }})</span>
+          
+
+
+           <div class="overflow-scroll col-md-12" id="permissions_list_tabs">
+            <mat-accordion> 
+              <mat-expansion-panel hideToggle  #panel  *ngFor="let group of data.groups; trackBy: trackByFn" (opened)="onChangeGroup(group)"  [expanded]="selectedGroup?.name === group?.name"  class=" mb-3">
+                  <mat-expansion-panel-header class="panel_header">
+                    <mat-panel-title>
+                      <div class="mr-3 ml-1">
+                        <mat-icon >{{panel.expanded? 'remove_circle' : 'add_circle'}}</mat-icon>
+                      </div>
+                      
+                      <div class="mt-1">
+                        {{group?.displayName}}
+                      </div>
+
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+
+                  <div class="row mt-4" style="position: relative;top:20px">
+                    <div class="col-sm-4">
+                      كل الصلاحيات
+                    </div>
+                      <div class="col-sm-4">
+                        <div class="custom-checkbox custom-control">
+                          <input
+                            type="checkbox"
+                            id="select-all-in-this-tabs"
+                            name="select-all-in-this-tabs"
+                            class="custom-control-input"
+                            [(ngModel)]="selectThisTab"
+                            (click)="onClickSelectThisTab()"
+                          />
+                          <label class="custom-control-label" for="select-all-in-this-tabs">الكل</label>
+                        </div>
+                      </div>
                   </div>
-                </a>
-              </li>
-            </ul>
+
+
+                  
+                  <div  >
+                    <div
+                      *ngFor="let permission of selectedGroupPermissions; let i = index; trackBy: trackByFn"
+                      [style.width]="permission.isParent?'':'100%'"
+                      [style.float]="permission.isParent?'right':''"
+                      [style.margin-top]="permission.isParent?'5px':'50px'"
+                      [style.padding-top]="permission.isParent?'':'20px'"
+                      [style.clear]="permission.isParent?'':'both'"
+                      [style.font-weight]="permission.isParent?'':'bold'"
+                      [style.font-size]="permission.isParent?'':'15px'"
+                      [style.color]="permission.isParent?'#848484':''"
+                      [style.border-top]="permission.isParent?'':'1px dashed #ccc'"
+                  
+
+                      class="custom-checkbox custom-control !">
+
+                        <!-- <div *ngIf="!permission.isParent">
+                          <br>
+                        </div> -->
+  
+
+
+                        <div>
+                          <input
+                            #permissionCheckbox
+                            type="checkbox"
+                            [checked]="getChecked(permission.name)"
+                            [value]="getChecked(permission.name)"
+                            [attr.id]="permission.name"
+                            class="custom-control-input"
+                            [disabled]="isGrantedByOtherProviderName(permission.grantedProviders)"
+                          />
+                        
+                          <label
+                            class="custom-control-label"
+                            [attr.for]="permission.name"
+                            (click)="onClickCheckbox(permission, permissionCheckbox.value)"
+                            >{{ permission.displayName }}
+                          </label>
+                      </div>
+
+                      <div style="clear:both"></div>
+
+
+                    </div>
+                </div>
+
+              </mat-expansion-panel>
+            </mat-accordion>
           </div>
-          <div class="col-md-8 overflow-scroll">
-            <h4>{{ selectedGroup?.displayName }}</h4>
-            <hr class="mt-2 mb-3" />
-            <div class="pl-1 pt-1">
-              <div class="custom-checkbox custom-control mb-2">
-                <input
-                  type="checkbox"
-                  id="select-all-in-this-tabs"
-                  name="select-all-in-this-tabs"
-                  class="custom-control-input"
-                  [(ngModel)]="selectThisTab"
-                  (click)="onClickSelectThisTab()"
-                />
-                <label class="custom-control-label" for="select-all-in-this-tabs">{{
-                  'AbpPermissionManagement::SelectAllInThisTab' | abpLocalization
-                }}</label>
-              </div>
-              <hr class="mb-3" />
-              <div
-                *ngFor="let permission of selectedGroupPermissions; let i = index; trackBy: trackByFn"
-                [ngStyle]="permission.style"
-                class="custom-checkbox custom-control mb-2"
-              >
-                <input
-                  #permissionCheckbox
-                  type="checkbox"
-                  [checked]="getChecked(permission.name)"
-                  [value]="getChecked(permission.name)"
-                  [attr.id]="permission.name"
-                  class="custom-control-input"
-                  [disabled]="isGrantedByOtherProviderName(permission.grantedProviders)"
-                />
-                <label
-                  class="custom-control-label"
-                  [attr.for]="permission.name"
-                  (click)="onClickCheckbox(permission, permissionCheckbox.value)"
-                  >{{ permission.displayName }}
-                  <ng-container *ngIf="!hideBadges">
-                    <span
-                      *ngFor="let provider of permission.grantedProviders"
-                      class="badge badge-light"
-                      >{{ provider.providerName }}: {{ provider.providerKey }}</span
-                    >
-                  </ng-container>
-                </label>
-              </div>
-            </div>
-          </div>
+
         </div>
       </ng-template>
       <ng-template #abpFooter>
