@@ -65,4 +65,38 @@ $custom-typography: mat-typography-config(
 // @include angular-material-theme($theme);
 
 
+.dropdown-toggle.dropDownCustom::after{
+    display:none!important;
+}
+/* ,.panel_header:hover */
+.panel_header {
+  background:#e9efec!important;
+}
 
+.panel_header.mat-expanded{
+  background:#55c270!important;
+}
+
+
+.panel_header.mat-expansion-panel-header.mat-expanded{
+  height:48px!important;
+}
+.panel_header .mat-expansion-panel-header-title{
+  color:#000!important;
+}
+
+.panel_header.mat-expanded .mat-expansion-panel-header-title{
+  color:#fff!important;
+
+}
+
+#permissions_list_tabs .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before,
+#permissions_list_tabs .custom-control-input:checked ~ .custom-control-label::before{
+  border-color: #55c270 ;
+  background-color: #55c270 ;
+}
+
+.permission_setting_modal_body .modal-dialog{
+  max-width:90%!important;
+  min-width: 80%;;
+}

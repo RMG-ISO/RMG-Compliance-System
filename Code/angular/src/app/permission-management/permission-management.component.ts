@@ -6,10 +6,13 @@ import {
 import { LocaleDirection } from '@abp/ng.theme.shared';
 import {
   Component,
-  EventEmitter, Inject, Input, Optional, Output, TrackByFunction
+  EventEmitter, Inject, Input, Optional, Output, TrackByFunction,ViewChild
 } from '@angular/core';
 import { of } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatDialog } from '@angular/material/dialog';
+import { DOCUMENT } from '@angular/common';
 
 type PermissionWithStyle = PermissionGrantInfoDto & {
   style: string;
@@ -18,6 +21,7 @@ type PermissionWithStyle = PermissionGrantInfoDto & {
 @Component({
   selector: 'app-permission-management',
   templateUrl: './permission-management.component.html',
+  styleUrls: ['permission-management.component.scss'],
   styles: [
     `
       .overflow-scroll {
@@ -27,11 +31,13 @@ type PermissionWithStyle = PermissionGrantInfoDto & {
     `,
   ],
 })
+  
 export class PermissionManagementComponent
   implements
   PermissionManagement.PermissionManagementComponentInputs,
   PermissionManagement.PermissionManagementComponentOutputs {
   protected _providerName: string;
+  @ViewChild('content') content: Input;
   @Input()
   get providerName(): string {
     if (this.replaceableData) return this.replaceableData.inputs.providerName;
@@ -105,7 +111,7 @@ export class PermissionManagementComponent
   modalBusy = false;
 
   trackByFn: TrackByFunction<PermissionGroupDto> = (_, item) => item.name;
-
+  fac =false;
   get selectedGroupPermissions(): PermissionWithStyle[] {
     if (!this.selectedGroup) return [];
 
@@ -117,14 +123,21 @@ export class PermissionManagementComponent
       group => group.name === this.selectedGroup.name,
     ).permissions;
 
-    return permissions.map(
+    let dad=  permissions.map(
       permission =>
         ({
           ...permission,
           style: { [margin]: findMargin(permissions, permission) },
+          isParent: findMargin(permissions, permission,true),
           isGranted: this.permissions.find(per => per.name === permission.name).isGranted,
         } as unknown as PermissionWithStyle),
     );
+
+    if(!this.fac){
+      console.log(dad);
+      this.fac = true;
+    }
+    return dad;
   }
 
   get isVisible(): boolean {
@@ -134,18 +147,26 @@ export class PermissionManagementComponent
   }
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     @Optional()
     @Inject('REPLACEABLE_DATA')
+    
     public replaceableData: ReplaceableComponents.ReplaceableTemplateData<
       PermissionManagement.PermissionManagementComponentInputs,
       PermissionManagement.PermissionManagementComponentOutputs
     >,
     private service: PermissionsService,
-    private configState: ConfigStateService
+    private configState: ConfigStateService,
+    private config: NgbModalConfig, 
+    public  matDialog: MatDialog,
+    private modalService: NgbModal
   ) {}
 
+  @ViewChild('dialog') dialog;
+
   getChecked(name: string) {
-    return (this.permissions.find(per => per.name === name) || { isGranted: false }).isGranted;
+    let fc = (this.permissions.find(per => per.name === name) || { isGranted: false }).isGranted;
+    return fc;
   }
 
   isGrantedByOtherProviderName(grantedProviders: ProviderInfoDto[]): boolean {
@@ -287,7 +308,9 @@ export class PermissionManagementComponent
       }),
     );
   }
-
+  ngOnInit(){
+    this.document.body.classList.add('permission_setting_modal_body');
+ }
   initModal() {
     this.setTabCheckboxState();
     this.setGrantCheckboxState();
@@ -320,15 +343,17 @@ export class PermissionManagementComponent
   }
 }
 
-function findMargin(permissions: PermissionGrantInfoDto[], permission: PermissionGrantInfoDto) {
+function findMargin(permissions: PermissionGrantInfoDto[], permission: PermissionGrantInfoDto,returnBool = false) {
   const parentPermission = permissions.find(per => per.name === permission.parentName);
-
-  if (parentPermission && parentPermission.parentName) {
-    let margin = 20;
-    return (margin += findMargin(permissions, parentPermission));
+  if(returnBool){
+    return parentPermission;
+  }else{
+    if (parentPermission && parentPermission.parentName) {
+      let margin = 20;
+      return (margin += findMargin(permissions, parentPermission));
+    }
+    return parentPermission ? 20 : 0;
   }
-
-  return parentPermission ? 20 : 0;
 }
 
 function getPermissions(groups: PermissionGroupDto[]): PermissionGrantInfoDto[] {
