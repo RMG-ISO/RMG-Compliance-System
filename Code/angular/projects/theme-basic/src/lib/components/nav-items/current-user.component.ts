@@ -27,7 +27,7 @@ export class CurrentUserComponent implements OnInit {
 
   constructor(
     @Inject(NAVIGATE_TO_MANAGE_PROFILE) public navigateToManageProfile,
-    private authService: AbpOAuthService,
+    private authService: AuthService,
     private configState: ConfigStateService,
     private sessionState: SessionStateService,
     private notificationService:NotificationService,
@@ -36,6 +36,7 @@ export class CurrentUserComponent implements OnInit {
   ) {
     this.currentUser$ = this.configState.getOne$('currentUser');
     this.selectedTenant$ = this.sessionState.getTenant$();
+    console.log(this.authService);
   }
   currentUser$: Observable<CurrentUserDto>
   selectedTenant$ ;

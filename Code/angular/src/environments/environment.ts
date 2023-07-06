@@ -13,9 +13,9 @@ export const environment = {
   oAuthConfig: {
     issuer: 'https://iso.digitaltransformationinstitute.org:11100',
     // issuer: 'https://localhost:44375',
-    redirectUri: baseUrl,
+    // redirectUri: baseUrl,
     clientId: 'ComplianceSystem_App',
-    responseType: 'code',
+    // responseType: 'code',
     scope: 'offline_access openid profile role email phone ComplianceSystem',
     requireHttps: true,
   },

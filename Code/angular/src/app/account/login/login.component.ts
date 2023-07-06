@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private injector: Injector,
     private fb: FormBuilder,
     private toasterService: ToasterService,
-    private authService: AbpOAuthService,
+    private authService: AuthService,
     private configState: ConfigStateService,
     private activatedRoute:ActivatedRoute,
     private sessionState: SessionStateService,
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.currentLang = this.sessionState.getLanguage();
+    console.log('in login')
   }
  
   onChangeLang(cultureName: string) {
