@@ -24,6 +24,14 @@ using RMG.ComplianceSystem.Employees;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.TextTemplating.VirtualFiles;
 using RMG.ComplianceSystem.Departments;
+using System.IO;
+using Volo.Abp.Content;
+using ClosedXML.Excel;
+using static RMG.ComplianceSystem.ComplianceSystemConsts;
+using System.Data;
+using FastMember;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Domain.Entities;
 using System.Security.Policy;
 using Volo.Abp.Domain.Repositories;
@@ -742,5 +750,127 @@ namespace RMG.ComplianceSystem.Frameworks
             return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
         }
 
+        public async Task ImportExcelFileAsync([FromBody]IRemoteStreamContent file,Guid id)
+        {
+            var framework = await Repository.GetAsync(id);
+
+            string extension = Path.GetExtension(file.FileName);
+
+            if (extension != ".xlsx" && extension != ".xls")
+                throw new UserFriendlyException(L["InvalidFileContent"]);
+
+            var stream = file.GetStream();
+
+            var mainDomainsList = new List<Domain>();
+            framework.Domains = mainDomainsList;
+            using (var workbook = new XLWorkbook(stream))
+            {
+
+                foreach (var worksheet in workbook.Worksheets.Where(sheet => sheet.Visibility == XLWorksheetVisibility.Visible))
+                {
+                    //excel worksheet validation
+                    var rows = worksheet.RangeUsed().Rows().Where(x => !x.IsMerged()).TakeWhile(x => !x.IsEmpty());
+
+                    // get header row
+                    var headerRow = rows.FirstOrDefault();
+
+                    if (headerRow is not null)
+                    {
+                        var excelheaderAsString = headerRow.CellsUsed().Where(x => !x.IsEmpty()).Select(cell => cell.GetValue<string>().Trim().Replace(" ", string.Empty)).Take(FrameworkExcelFileHeaders.Count).ToList();
+
+                        var result = FrameworkExcelFileHeaders.SequenceEqual(excelheaderAsString);
+                        if (!result)
+                        {
+                            continue;
+                        }
+                    }
+                    else continue;
+
+                    // get all rows that contains data without header row
+
+                    int colindex = 1;
+                    int domainRefIndex = 1, domainNameIndex = 1, controllerNumIndex = 1, controllerNameIndex = 1, subControllerNumIndex = 1, subControllerNameIndex = 1;
+
+                    foreach (var cell in headerRow.CellsUsed().Take(FrameworkExcelFileHeaders.Count))
+                    {
+                        switch (cell.GetValue<string>().Trim().Replace(" ", string.Empty))
+                        {
+                            case DomainReference:
+                                domainRefIndex = colindex;
+                                break;
+                            case DomainName:
+                                domainNameIndex = colindex;
+                                break;
+                            case ControllerName:
+                                controllerNameIndex = colindex;
+                                break;
+                            case ControllerNumber:
+                                controllerNumIndex = colindex;
+                                break;
+                            case SubControllerNum:
+                                subControllerNumIndex = colindex;
+                                break;
+                            case SubControllerName:
+                                subControllerNameIndex = colindex;
+                                break;
+                        }
+                        colindex++;
+                    }
+
+                    //skip header row
+                    rows = rows.Skip(1);
+
+                    // create main domain (worksheet name)
+                    var mainDomain = new Domain(GuidGenerator.Create(), worksheet.Name.Contains("-") ? worksheet.Name.Split('-')[1] : worksheet.Name,null, null, null, null, Shared.SharedStatus.Inactive, parentId: null, framework.Id);
+                    mainDomainsList.Add(mainDomain);
+                    // create sub Controllers and assigned it to main domain
+                    var subDomainControllersLookup = rows.ToLookup(x => Tuple.Create(x.Cell(domainRefIndex).GetValue<string>(), x.Cell(domainNameIndex).GetValue<string>()), x => Tuple.Create(x.Cell(controllerNumIndex).GetValue<string>(), x.Cell(controllerNameIndex).GetValue<string>()));
+
+                    var subControllersLookup = rows.ToLookup(x => x.Cell(controllerNumIndex).GetValue<string>(), x => Tuple.Create(x.Cell(subControllerNumIndex).GetValue<string>(), x.Cell(subControllerNameIndex).GetValue<string>()));
+                    var subDomainsList = new List<Domain>();
+                    mainDomain.Children = subDomainsList;
+                    foreach (var item in subDomainControllersLookup.Where(x => !x.Key.Item2.IsNullOrEmpty()).Select(x => x.Key))
+                    {
+                        var subDomain = new Domain(GuidGenerator.Create(), item.Item2,null , null, null, item.Item1, Shared.SharedStatus.Inactive, parentId: mainDomain.Id, framework.Id);
+                        subDomainsList.Add(subDomain);
+
+                        subDomain.Controls = subDomainControllersLookup[item].Select(x => new Control(GuidGenerator.Create(),  x.Item2,null, null, null, x.Item1, Shared.SharedStatus.Inactive, parentId: null, subDomain.Id)).ToList();
+
+                        var controllersDict = subDomain.Controls.ToDictionary(x => x.Id);
+
+                        foreach (var key in controllersDict.Keys)
+                        {
+                            var mainControl = controllersDict[key];
+                            mainControl.Children = subControllersLookup[mainControl.Reference].Select(x => new Control(GuidGenerator.Create(), x.Item2,null, null, null, null, Shared.SharedStatus.Inactive, mainControl.Id, mainControl.DomainId)).ToList();
+                        }
+
+                    }
+                }
+            }
+            await Repository.UpdateAsync(framework, autoSave: true);
+        }
+        
+        public IRemoteStreamContent GetTempExcelFile()
+        {
+            var dataTable = new DataTable();
+
+            using (var reader = ObjectReader.Create(new List<string> { }, ExcelFileHeaderColumnsName.ToArray()))
+            {
+                dataTable.Load(reader);
+            }
+
+            using (var workbook = new XLWorkbook())
+            {
+                var workSheet = workbook.Worksheets.Add(dataTable, "Domain Name");
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    var streamConent = new RemoteStreamContent(new MemoryStream(content), fileName: "Framework Template.xlsx");
+                    streamConent.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    return streamConent;
+                }
+            }
+        }
     }
 }

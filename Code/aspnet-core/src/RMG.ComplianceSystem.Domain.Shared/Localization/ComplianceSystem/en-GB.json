@@ -623,7 +623,14 @@
     "ReviewApproveData":"Review and approval data",
     "ApprovalStartDate":"Approval Start Date",
     "ComplianceReviewStartDate":"Compliance Review Start Date",
-    "ComplianceReviewEndDate":"Compliance Review End Date"
+    "ComplianceReviewEndDate":"Compliance Review End Date",
+    "InvalidFileContent": "Invalid File Content \n the file should be excel file with this extension (.xlsx - .xls)",
+    "ExcelFileError": "Unexpected error while upload excel file",
+    "ExcelFile": "Excel File",
+    "Import": "Import",
+    "DownloadTemp": "Download Temp Excel",
+    "SuccessfullyDownloaded": "Successfully Downloaded",
+    "SuccessfullyImported": "Successfully Imported"
 
   }
 }

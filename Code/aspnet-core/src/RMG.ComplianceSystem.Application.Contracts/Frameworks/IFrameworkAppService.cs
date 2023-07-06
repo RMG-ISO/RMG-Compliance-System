@@ -1,8 +1,10 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Content;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
@@ -31,5 +33,8 @@ namespace RMG.ComplianceSystem.Frameworks
         int CalculateCompliancePercentage(Guid id);
 
         Task<TogglePriorityOutputDto> TogglePriority(Guid id);
+
+        IRemoteStreamContent GetTempExcelFile();
+        Task ImportExcelFileAsync(IRemoteStreamContent file, Guid id);
     }
 }

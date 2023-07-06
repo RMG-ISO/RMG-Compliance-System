@@ -625,6 +625,18 @@
     "ReviewApproveData":"بيانات المراجعة والإعتماد",
     "ApprovalStartDate":"تاريخ بداية الإعتماد",
     "ComplianceReviewStartDate":"تاريخ بداية مراجعة الإمتثال",
-    "ComplianceReviewEndDate":"تاريخ انتهاء مراجعة الإمتثال"
+    "ComplianceReviewEndDate":"تاريخ انتهاء مراجعة الإمتثال",
+    "InvalidFileContent": "الملف غير صالح .يحب ان يكون ملف اكسل ذو اللاوحق (.xlsx - .xls)",
+    "ExcelFileError": "خطأ غير متوقع أثناء رفع ملف الاكسيل",
+    "ExcelFile": "ملف الاكسل",
+    "Import": "تحميل",
+    "DownloadTemp": "تنزيل قالب",
+    "SuccessfullyDownloaded": "تم التنزيل بنجاح",
+    "SuccessfullyImported" :  "تم الرفع الملف بنجاح"
+
+
+
+
+
   }
 }
