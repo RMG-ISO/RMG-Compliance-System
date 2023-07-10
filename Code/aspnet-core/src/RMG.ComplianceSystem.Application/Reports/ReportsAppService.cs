@@ -4,12 +4,14 @@ using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Domains;
+using RMG.ComplianceSystem.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp;
 
 namespace RMG.ComplianceSystem.Reports
 {
@@ -18,11 +20,13 @@ namespace RMG.ComplianceSystem.Reports
         private readonly IDomainRepository _domainRepository;
         private readonly IAssessmentRepository _assessmentRepository;
         private readonly IControlRepository _controlRepository;
-        public ReportsAppService(IDomainRepository domainRepository, IAssessmentRepository assesmentRepository, IControlRepository controlRepository)
+        private readonly IFrameworkRepository _frameworkRepository;
+        public ReportsAppService(IDomainRepository domainRepository, IAssessmentRepository assesmentRepository, IControlRepository controlRepository, IFrameworkRepository frameworkRepository)
         {
             _domainRepository = domainRepository;
             _assessmentRepository = assesmentRepository;
             _controlRepository = controlRepository;
+            _frameworkRepository = frameworkRepository;
         }
 
 
@@ -31,7 +35,7 @@ namespace RMG.ComplianceSystem.Reports
         {
             var result = new List<ComplianceLevelTableDto>();
 
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId && x.ParentId == null);
             // if framework doesn't have any main domain
             if (!domains.Any())
             {
@@ -39,20 +43,8 @@ namespace RMG.ComplianceSystem.Reports
             }
 
             // if main domains doesn't have at least Controller
-            if (!domains.Any(x => x.Controls.Count > 0))
-            {
-                return domains.Select(x => new ComplianceLevelTableDto { DomainName = x.NameAr }).ToList();
-            }
 
-            var controllers = domains.SelectMany(x => x.Controls);
-
-            //if at least one sub controller exist
-            if (controllers.Any() && controllers.Any(x => x.Children.Count > 0))
-            {
-                controllers = controllers.SelectMany(x => x.Children);
-            }
-
-            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr, x => controllers.SelectMany(x => x.Assessments).ToList());
+            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr, x => GetAssessmentsByMainDomainIds(x.Id));
 
 
             foreach (var item in mainDomainNamesDict)
@@ -73,7 +65,7 @@ namespace RMG.ComplianceSystem.Reports
 
         public List<CompliancePhaseTableDto> GetControllersByPhase([Required] Guid frameworkId)
         {
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId && x.ParentId == null);
             var result = new List<CompliancePhaseTableDto>();
             // if framework doesn't have any main domain
             if (!domains.Any())
@@ -81,21 +73,8 @@ namespace RMG.ComplianceSystem.Reports
                 return result;
             }
 
-            // if main domains doesn't have at least Controller
-            if (!domains.Any(x => x.Controls.Count > 0))
-            {
-                return domains.Select(x => new CompliancePhaseTableDto { DomainName = x.NameAr }).ToList();
-            }
 
-            var controllers = domains.SelectMany(x => x.Controls);
-
-            //if at least one sub controller exist
-            if (controllers.Any() && controllers.Any(x => x.Children.Count > 0))
-            {
-                controllers = controllers.SelectMany(x => x.Children);
-            }
-
-            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr, x => controllers.SelectMany(x => x.Assessments).ToList());
+            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr, x => GetAssessmentsByMainDomainIds(x.Id));
 
             foreach (var item in mainDomainNamesDict)
             {
@@ -125,7 +104,7 @@ namespace RMG.ComplianceSystem.Reports
             {
                 return result;
             }
-            
+
             // if main domains doesn't have at least Controller
 
             var controllers = domains.Select(x => Tuple.Create(x.NameAr,x.Controls.ToList()));
@@ -171,51 +150,64 @@ namespace RMG.ComplianceSystem.Reports
             }
 
             return _assessmentRepository.Where(x => x.Priority == priority)
+                                        .Where(x => x.Applicable == ApplicableType.Applicable)
                                         .WhereIf(effective.HasValue, x => x.Effective == effective.Value)
                                         .WhereIf(documented.HasValue, x => x.Documented == documented.Value)
                                         .WhereIf(implemented.HasValue, x => x.Implemented == implemented.Value)
                                         .Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
         }
-
+        private IList<Assessment> GetAssessmentsByMainDomainIds(Guid domainId)
+        {
+            var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
+            var controlsIds =  _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(x => x.Id).ToList();
+            return _assessmentRepository.Where(a => controlsIds.Contains(a.ControlId) && a.Applicable == ApplicableType.Applicable).ToList();
+        }
         public List<ControlsCountByPriorityTableDto> GetControlsCountByPriority([Required]Guid frameworkId)
         {
+            var framework = _frameworkRepository.FirstOrDefault(x => x.Id == frameworkId);
+            if (!framework.HasPriority)
+            {
+                throw new UserFriendlyException(L["FrameworkPriorityError"]);
+            }
             var domainsIds = _domainRepository.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
             var controls = _controlRepository.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
             var result = new List<ControlsCountByPriorityTableDto>();
+            var total = _assessmentRepository.Where(x => x.Applicable == ApplicableType.Applicable).Count(x => controls.Select(x => x.Id).Contains(x.ControlId));
 
             #region Priority1
-            int controlsCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
 
             #region Priority2
-            int controlsCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityTwo= _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityTwo= _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
 
             #region Priority3 
-            int controlsCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Applicable == ApplicableType.Applicable ).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
             return new List<ControlsCountByPriorityTableDto>
+
             {
                 new ControlsCountByPriorityTableDto () 
                 { 
                   Priority = PriorityType.Priority1 , 
                   ControlsCount = controlsCountPriorityOne, 
                   DocumentedCount =  documentedCountPriorityOne,
-                  DocumentedPercentage = controlsCountPriorityOne !=0 ? ( documentedCountPriorityOne / controlsCountPriorityOne ) * 100 : 0,
+                  DocumentedPercentage = controlsCountPriorityOne !=0 ? ((double) documentedCountPriorityOne / controlsCountPriorityOne ) * 100 : 0,
                   EffectiveCount = effectiveCountPriorityOne,
                   ImplementedCount = implementedCountPriorityOne,
-                  ImplementedPercentage = controlsCountPriorityOne != 0 ?(implementedCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
-                  EffectivePercentage  = controlsCountPriorityOne != 0 ?(effectiveCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
-                  PercentageOfTotal = ( controlsCountPriorityOne / controls.Count() ) * 100,
+                  ImplementedPercentage = controlsCountPriorityOne != 0 ?((double)implementedCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
+                  EffectivePercentage  = controlsCountPriorityOne != 0 ?((double)effectiveCountPriorityOne / controlsCountPriorityOne) * 100 : 0,
+                  PercentageOfTotal = ( (double)controlsCountPriorityOne / total ) * 100,
                 },
                 new ControlsCountByPriorityTableDto ()
                 {
@@ -224,10 +216,10 @@ namespace RMG.ComplianceSystem.Reports
                     DocumentedCount = documentedCountPriorityTwo,
                     EffectiveCount= effectiveCountPriorityTwo,
                     ImplementedCount = implementedCountPriorityTwo,
-                    DocumentedPercentage = controlsCountPriorityTwo != 0 ? (documentedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
-                    EffectivePercentage = controlsCountPriorityTwo != 0 ? (effectiveCountPriorityTwo / controlsCountPriorityTwo) *100 : 0,
-                    ImplementedPercentage = controlsCountPriorityTwo !=0 ? (implementedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
-                    PercentageOfTotal = controlsCountPriorityTwo != 0 ? (controlsCountPriorityOne / controls.Count() ) * 100 : 0,
+                    DocumentedPercentage = controlsCountPriorityTwo != 0 ? (double)(documentedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
+                    EffectivePercentage = controlsCountPriorityTwo != 0 ? ((double)effectiveCountPriorityTwo / controlsCountPriorityTwo) *100 : 0,
+                    ImplementedPercentage = controlsCountPriorityTwo !=0 ? ((double)implementedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
+                    PercentageOfTotal = controlsCountPriorityTwo != 0 ? ((double)controlsCountPriorityOne / total ) * 100 : 0,
                 },
                 new ControlsCountByPriorityTableDto ()
                 {
@@ -236,10 +228,10 @@ namespace RMG.ComplianceSystem.Reports
                     DocumentedCount = documentedCountPriorityThree,
                     EffectiveCount= effectiveCountPriorityThree,
                     ImplementedCount = implementedCountPriorityThree,
-                    DocumentedPercentage = controlsCountPriorityThree != 0 ?  (documentedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
-                    EffectivePercentage = controlsCountPriorityThree != 0 ?  (effectiveCountPriorityThree / controlsCountPriorityThree) *100: 0,
-                    ImplementedPercentage = controlsCountPriorityThree != 0 ? (implementedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
-                    PercentageOfTotal = controlsCountPriorityThree != 0 ? (controlsCountPriorityThree / controls.Count() ) * 100 :0,
+                    DocumentedPercentage = controlsCountPriorityThree != 0 ?  ((double)documentedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
+                    EffectivePercentage = controlsCountPriorityThree != 0 ?  ((double)effectiveCountPriorityThree / controlsCountPriorityThree) *100: 0,
+                    ImplementedPercentage = controlsCountPriorityThree != 0 ? ((double)implementedCountPriorityThree / controlsCountPriorityThree ) * 100 : 0,
+                    PercentageOfTotal = controlsCountPriorityThree != 0 ? ((double)controlsCountPriorityThree / total ) * 100 :0,
                 }
             };
         }
