@@ -1,10 +1,13 @@
 
 
-
-    ::ng-deep {
-
-.dropdown-toggle.dropDownCustom::after{
-    display:none!important;
+#addBtn{
+    color: #55C270!important;
+    border: 2px solid #55C270;
+    border-radius: 5px;
+    padding: 2px 14px;
 }
 
+#addBtn:hover{
+    background: #55C270!important;
+    color: #E3FEF3!important;
 }
