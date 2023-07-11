@@ -217,7 +217,7 @@ export class PermissionManagementComponent
   }
 
   setGrantCheckboxState() {
-    const selectedAllPermissions = this.permissions.filter(per => per.isGranted);
+   /*  const selectedAllPermissions = this.permissions.filter(per => per.isGranted);
     const checkboxElement = document.querySelector('#select-all-in-all-tabs') as any;
 
     if (selectedAllPermissions.length === this.permissions.length) {
@@ -228,7 +228,7 @@ export class PermissionManagementComponent
       this.selectAllTab = false;
     } else {
       checkboxElement.indeterminate = true;
-    }
+    } */
   }
 
   onClickSelectThisTab() {
