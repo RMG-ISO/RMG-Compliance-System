@@ -1,3 +1,4 @@
+// @import "variables";
 @use '@angular/material' as mat;
 @use "sass:map";
 
@@ -134,16 +135,21 @@ input {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "ElMessiri","Helvetica Neue", sans-serif, arial; }
+html, body { 
+  margin: 0;
+  font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
+  height: 100%;
+ }
 
 p,span,h1,h2,h3,h4,h5,h6,label,input,textarea,div,section {
-    font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
+  font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
+  letter-spacing: 0;
 }
 .mat-typography {
-    p,span,h1,h2,h3,h4,h5,h6,label,input,textarea,div,section {
-        font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
-    }
+  p,span,h1,h2,h3,h4,h5,h6,label,input,textarea,div,section {
+    font-family: "ElMessiri","Helvetica Neue", sans-serif, arial;
+    letter-spacing: 0;
+  }
 }
 
 // .invalid-feedback {

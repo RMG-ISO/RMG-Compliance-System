@@ -60,6 +60,14 @@ ngx-datatable {
                 // padding-right: 10px;
                 padding-left: 10px;
                 padding-right: 10px;
+                mat-icon {
+                    margin: 0;
+                }
+                &.mat-mdc-button {
+                    mat-icon {
+                        margin: 0;
+                    }
+                }
             }
         }
     }

@@ -19,6 +19,12 @@ body[dir="rtl"] {
 
 }
 
+mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
 .rtl, [dir="rtl"] {
     text-align: right;
     direction: rtl;

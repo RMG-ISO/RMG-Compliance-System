@@ -19,10 +19,11 @@
         margin-right: 5px;
     }
 }
-.mat-menu-trigger {
+.mat-mdc-menu-trigger {
     font-size: 13px;
     padding-top: 6px;
     padding-bottom: 6px;
+    height: 50px;
     .as-avatar {
         font-size: 30px;
         text-transform: capitalize;
@@ -114,6 +115,7 @@ h4.noti-title {
     }
     i {
         font-size: 18px;
+        color: #fff;
     }
     &.active {
         color: var(--main-color);
