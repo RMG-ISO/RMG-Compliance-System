@@ -149,8 +149,7 @@ namespace RMG.ComplianceSystem.Reports
                 controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
             }
 
-            return _assessmentRepository.Where(x => x.Priority == priority)
-                                        .Where(x => x.Applicable == ApplicableType.Applicable)
+            return _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == priority)
                                         .WhereIf(effective.HasValue, x => x.Effective == effective.Value)
                                         .WhereIf(documented.HasValue, x => x.Documented == documented.Value)
                                         .WhereIf(implemented.HasValue, x => x.Implemented == implemented.Value)
@@ -164,35 +163,30 @@ namespace RMG.ComplianceSystem.Reports
         }
         public List<ControlsCountByPriorityTableDto> GetControlsCountByPriority([Required]Guid frameworkId)
         {
-            var framework = _frameworkRepository.FirstOrDefault(x => x.Id == frameworkId);
-            if (!framework.HasPriority)
-            {
-                throw new UserFriendlyException(L["FrameworkPriorityError"]);
-            }
-            var domainsIds = _domainRepository.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
-            var controls = _controlRepository.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
+            var domainsIds = _domainRepository.GetQueryableAsync().Result.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
+            var controls = _controlRepository.GetQueryableAsync().Result.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
             var result = new List<ControlsCountByPriorityTableDto>();
             var total = _assessmentRepository.Where(x => x.Applicable == ApplicableType.Applicable).Count(x => controls.Select(x => x.Id).Contains(x.ControlId));
 
             #region Priority1
-            int controlsCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
 
             #region Priority2
-            int controlsCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityTwo= _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityTwo = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityTwo = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityTwo= _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityTwo = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
 
             #region Priority3 
-            int controlsCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Applicable == ApplicableType.Applicable ).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
             return new List<ControlsCountByPriorityTableDto>
 
