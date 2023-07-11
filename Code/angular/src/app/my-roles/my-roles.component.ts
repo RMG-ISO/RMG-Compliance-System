@@ -15,6 +15,7 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-my-roles',
   templateUrl: './my-roles.component.html',
+  styleUrls: ['my-roles.component.scss'],
   providers: [
     ListService,
     {
@@ -62,9 +63,9 @@ export class MyRolesComponent implements OnInit {
 
   buildForm() {
     const data = new FormPropData(this.injector, this.selected);
-    console.log(data);
     this.form = generateFormFromProps(data);
-    console.log(this.form);
+    this.form.removeControl('isPublic');
+    this.form.removeControl('isDefault');
   }
 
   openModal() {

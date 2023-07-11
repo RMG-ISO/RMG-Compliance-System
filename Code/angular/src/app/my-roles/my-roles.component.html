@@ -2,11 +2,11 @@
     <div class="card-header">
       <div class="row">
         <div class="col col-md-6">
-          <h5 class="card-title">اﻷدوار</h5>
+          <h2 class="card-title">اﻷدوار</h2>
         </div>
         <div class="text-right col col-md-6">
           <!-- <abp-page-toolbar [record]="data.items"></abp-page-toolbar> -->
-          <button mat-button   class="btn btn-success  btn-sm "
+          <button mat-button id="addBtn"   class="btn btn-success  btn-sm "
               (click)="$event.stopPropagation();add()">
               <mat-icon>add_circle</mat-icon>
               إضافة دور
@@ -63,29 +63,22 @@
         [list]="list"
         appNgxdatatable>
 
+        <ngx-datatable-column  [name]="'#'"  prop="name">
+          <ng-template let-value="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{rowIndex+1}}
+          </ng-template>
+        </ngx-datatable-column>
+
+
         <ngx-datatable-column  [name]="'اسم الدور'"  prop="name">
           <ng-template let-value="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{value}} {{rowIndex}}
+              {{value}}
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column [name]="'الاجراء'" prop="name"> 
           <ng-template let-row="row" ngx-datatable-cell-template>
             <ng-container >
-                <!-- <button mat-button 
-                (click)="$event.stopPropagation();openPermissionsModal(row.id)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-
-                <button mat-button 
-                (click)="$event.stopPropagation();edit(row.id)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-
-                <button mat-button (click)="$event.stopPropagation();delete(row.id,row.name)">
-                    <mat-icon>delete</mat-icon>
-                </button> -->
-
 
                 <div ngbDropdown container="body">
                     <button type="button" class="btn btn-outline-primary btn-sm dropDownCustom" id="dropdownConfig" ngbDropdownToggle>
