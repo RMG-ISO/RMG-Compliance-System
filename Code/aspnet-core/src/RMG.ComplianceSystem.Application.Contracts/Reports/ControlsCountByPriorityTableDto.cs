@@ -10,12 +10,12 @@ namespace RMG.ComplianceSystem.Reports
     {
         public PriorityType Priority { get; set; }
         public int ControlsCount { get; set; }
-        public int PercentageOfTotal { get; set; }
+        public double PercentageOfTotal { get; set; }
         public int DocumentedCount { get; set; }
-        public int DocumentedPercentage { get; set; }
+        public double DocumentedPercentage { get; set; }
         public int ImplementedCount { get; set; }
-        public int ImplementedPercentage { get; set; }
+        public double ImplementedPercentage { get; set; }
         public int EffectiveCount { get; set; }
-        public int EffectivePercentage { get; set; }
+        public double EffectivePercentage { get; set; }
     }
 }

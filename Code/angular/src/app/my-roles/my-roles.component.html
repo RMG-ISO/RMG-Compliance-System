@@ -2,21 +2,58 @@
     <div class="card-header">
       <div class="row">
         <div class="col col-md-6">
-          <h5 class="card-title">My Roles</h5>
+          <h2 class="card-title">اﻷدوار</h2>
         </div>
-        <div class="text-end col col-md-6">
-          <abp-page-toolbar [record]="data.items"></abp-page-toolbar>
+        <div class="text-right col col-md-6">
+          <!-- <abp-page-toolbar [record]="data.items"></abp-page-toolbar> -->
+          <button mat-button id="addBtn"   class="btn btn-success  btn-sm "
+              (click)="$event.stopPropagation();add()">
+              <mat-icon>add_circle</mat-icon>
+              إضافة دور
+          </button>
         </div>
       </div>
     </div>
   
+   <!--  <div class="row">
+      <div class="col col-md-6">
+
+      
+        <mat-accordion>
+
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Personal data
+                </mat-panel-title>
+              
+              </mat-expansion-panel-header>
+          
+              <p>I'm visible because I am open</p>
+           
+          </mat-expansion-panel>
+
+          <mat-expansion-panel >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              
+              <p>I'm visible because I am open</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+    </div>
+  </div> -->
+
+
+
     <div class="card-body">
-     <!--  <abp-extensible-table
-        [data]="data.items"
-        actionsText="Your Action"
-        [recordsTotal]="data.totalCount"
-        [list]="list"
-      ></abp-extensible-table> -->
+    
+      
+     
+
 
       <ngx-datatable
       
@@ -26,20 +63,47 @@
         [list]="list"
         appNgxdatatable>
 
-        <ngx-datatable-column [name]="'::CreatedBy' | abpLocalization" prop="name"> 
-
-          <ng-template let-row="row" ngx-datatable-cell-template>
-
-            <ng-container >
-                <button mat-button 
-                (click)="$event.stopPropagation();openPermissionsModal(row.id)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-            </ng-container>
-
+        <ngx-datatable-column  [name]="'#'"  prop="name">
+          <ng-template let-value="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{rowIndex+1}}
           </ng-template>
+        </ngx-datatable-column>
 
 
+        <ngx-datatable-column  [name]="'اسم الدور'"  prop="name">
+          <ng-template let-value="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
+              {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'الاجراء'" prop="name"> 
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <ng-container >
+
+                <div ngbDropdown container="body">
+                    <button type="button" class="btn btn-outline-primary btn-sm dropDownCustom" id="dropdownConfig" ngbDropdownToggle>
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                        <button ngbDropdownItem  (click)="$event.stopPropagation();openPermissionsModal(row.name)">
+                          <mat-icon class="text-success">visibility</mat-icon>
+                          اذوﻧﺎت
+                        </button>
+                        <button ngbDropdownItem  (click)="$event.stopPropagation();edit(row.id)">
+                          <mat-icon class="text-primary">edit</mat-icon>
+                          ﺗﻌﺪﻳﻞ
+                        </button>
+                        <button ngbDropdownItem  (click)="$event.stopPropagation();delete(row.id,row.name)">
+                          <mat-icon class="text-danger">delete</mat-icon>
+                          ﺣﺬف
+                        </button>
+                    </div>
+                </div>
+           
+            
+
+            </ng-container>
+          </ng-template>
         </ngx-datatable-column>
 
 
@@ -52,7 +116,7 @@
   
   <abp-modal size="md" [(visible)]="isModalVisible" [busy]="modalBusy">
     <ng-template #abpHeader>
-      <h3>{{ (selected?.id ? 'AbpIdentity::Edit' : 'AbpIdentity::NewRole') | abpLocalization }}</h3>
+      <h3>{{ (selected.id? 'AbpIdentity::Edit' : 'AbpIdentity::NewRole') | abpLocalization }}</h3>
     </ng-template>
   
     <ng-template #abpBody>
@@ -70,7 +134,7 @@
       }}</abp-button>
     </ng-template>
   </abp-modal>
-  
+
   <abp-permission-management
     #abpPermissionManagement="abpPermissionManagement"
     *abpReplaceableTemplate="

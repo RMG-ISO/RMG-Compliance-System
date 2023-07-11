@@ -125,6 +125,13 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
+      getTempExcelFile = () =>
+      this.restService.request<any, Blob>({
+        method: 'GET',
+        responseType: 'blob',
+        url: '/api/app/framework/temp-excel-file',
+      },
+      { apiName: this.apiName })
   update = (id: string, input: CreateUpdateFrameworkDto) =>
     this.restService.request<any, FrameworkDto>({
       method: 'PUT',
@@ -133,5 +140,12 @@ export class FrameworkService {
     },
     { apiName: this.apiName });
 
-  constructor(private restService: RestService) {}
+      importExcelFile = (file: FormData, id: string) =>
+      this.restService.request<any, void>({
+        method: 'POST',
+        url: `/api/app/framework/${id}/import-excel-file`,
+        body: file,
+      },
+      { apiName: this.apiName });
+  constructor(private restService: RestService) { }
 }

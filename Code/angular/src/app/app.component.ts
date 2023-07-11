@@ -44,10 +44,10 @@ export class AppComponent {
       key: ePermissionManagementComponents.PermissionManagement,
     });
 
- /*    this.replaceableComponent.add({
+    this.replaceableComponent.add({
       component: MyRolesComponent,
       key: eIdentityComponents.Roles,
-    }); */
+    });
 
     
 
