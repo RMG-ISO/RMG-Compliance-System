@@ -33,7 +33,7 @@
                         {{ '::Document:Files' | abpLocalization }}
                     </h3>
                     <div class="pt-2 d-flex justify-content-end">
-                        <div class="visible-content mr-3">
+                        <div class="visible-content me-3">
                             <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
                                 <i class="fas fa-th-large"></i>
                             </button>
@@ -42,10 +42,10 @@
                             </button>
                         </div>
 
-                        <button *abpPermission="'ComplianceSystem.Document.Create'" id="create" mat-button class="add-btn mr-3"
+                        <button *abpPermission="'ComplianceSystem.Document.Create'" id="create" mat-button class="add-btn me-3"
                             type="button" (click)="openDialog()">
-                            <i class="fa fa-plus mr-2"></i>
-                            <span class="line mr-2"></span>
+                            <i class="fa fa-plus me-2"></i>
+                            <span class="line me-2"></span>
                             <span>{{ "::Document:AddFile" | abpLocalization }}</span>
                         </button>
                         <app-search (search)="searchVal = $event; getList()"></app-search>
@@ -226,7 +226,7 @@
 
         <!--added save button-->
         <button class="btn btn-primary" [disabled]="form.invalid || uploading" (click)="save()">
-            <i class="fa fa-check mr-1"></i>
+            <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
     </ng-template>

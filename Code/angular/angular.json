@@ -36,21 +36,16 @@
             "allowedCommonJsDependencies": ["chart.js", "js-sha256"],
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              {
+                "input":"node_modules/@fortawesome/fontawesome-free/css/brands.css"
+              },
+              {
+                "input":"node_modules/@fortawesome/fontawesome-free/css/solid.css"
+              },
               {
                 "input": "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
                 "inject": true,
                 "bundleName": "fontawesome-all.min"
-              },
-              {
-                "input": "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
-                "inject": true,
-                "bundleName": "fontawesome-solid.min"
-              },
-              {
-                "input": "node_modules/@fortawesome/fontawesome-free/css/v4-shims.min.css",
-                "inject": true,
-                "bundleName": "fontawesome-v4-shims.min"
               },
               {
                 "input": "node_modules/@swimlane/ngx-datatable/index.css",
@@ -69,11 +64,20 @@
               },
               {
                 "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "inject": true,
-                "bundleName": "bootstrap-ltr.min"
+                "inject": false,
+                "bundleName": "bootstrap"
+              },
+              {
+                "input": "node_modules/bootstrap/dist/css/bootstrap.rtl.min.css",
+                "inject": false,
+                "bundleName": "bootstrap-rtl"
               },
               {
                 "input": "node_modules/pace-js/themes/blue/pace-theme-flash.css",
+                "inject": true
+              },
+              {
+                "input": "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                 "inject": true
               },
               "src/styles.scss"

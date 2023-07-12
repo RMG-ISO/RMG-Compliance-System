@@ -5,14 +5,14 @@
                 <label>
                     {{ '::IsSystemApplicable' | abpLocalization }}
                 </label>
-                <mat-radio-group formControlName="applicable" color="primary" class="mr-4 ml-4">
-                    <mat-radio-button class="ml-3 mr-3" [value]="ApplicableType.Applicable"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="ApplicableType.NotApplicable"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                <mat-radio-group formControlName="applicable" color="primary" class="me-4 ms-4">
+                    <mat-radio-button class="ms-3 me-3" [value]="ApplicableType.Applicable"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="ApplicableType.NotApplicable"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
             </div>
             <div class="actions" *ngIf="form.controls.applicable.value == ApplicableType.NotApplicable && !form.disabled">
                 <button type="button" (click)="saveAssessment()" mat-button class="green" [disabled]="isSaving">
-                    <i class="fa fa-check mr-1"></i>
+                    <i class="fa fa-check me-1"></i>
                     {{ '::Save' | abpLocalization }}
                 </button>
             </div>
@@ -65,9 +65,9 @@
                     {{ '::AssessmentDocumented' | abpLocalization }}
                 </label>
                 <mat-radio-group formControlName="documented" color="primary" (change)="changeAnswer($event.value, 'documented' )">
-                    <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.Documented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.PartialDocumented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.NotDocumented"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="DocumentedType.Documented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="DocumentedType.PartialDocumented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="DocumentedType.NotDocumented"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
                 <div class="form-group mb-0 mt-2" [class.d-none]="form.controls.documented.value !== DocumentedType.PartialDocumented">
                     <input type="number" class="form-control" formControlName="documentedPercentage" />
@@ -79,9 +79,9 @@
                     {{ '::AssessmentImplemented' | abpLocalization }}
                 </label>
                 <mat-radio-group formControlName="implemented" color="primary" (change)="changeAnswer($event.value, 'implemented' )">
-                    <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.Implemented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.PartialImplemented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.NotImplemented"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="ImplementedType.Implemented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="ImplementedType.PartialImplemented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="ImplementedType.NotImplemented"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
                 <div class="form-group mb-0 mt-2" [class.d-none]="form.controls.implemented.value !== ImplementedType.PartialImplemented">
                     <input type="number" class="form-control" formControlName="implementedPercentage" />
@@ -93,9 +93,9 @@
                     {{ '::AssessmentEffective' | abpLocalization }}
                 </label>
                 <mat-radio-group formControlName="effective" color="primary" (change)="changeAnswer($event.value, 'effective' )">
-                    <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.Effective"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.PartialEffective"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
-                    <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.NotEffective"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="EffectiveType.Effective"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="EffectiveType.PartialEffective"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                    <mat-radio-button class="ms-3 me-3" [value]="EffectiveType.NotEffective"> {{ '::no' | abpLocalization }} </mat-radio-button>
                 </mat-radio-group>
                 <div class="form-group mb-0 mt-2" [class.d-none]="form.controls.effective.value !== EffectiveType.PartialEffective">
                     <input type="number" class="form-control" formControlName="effectivePercentage" />
@@ -130,7 +130,7 @@
 
         <div class="col-md-12 d-flex justify-content-end actions mt-4" *ngIf="!form.disabled">
             <button mat-button class="green" [disabled]="uploading || isSaving" type="submit" >
-                <i class="fa fa-check mr-1"></i>
+                <i class="fa fa-check me-1"></i>
                 {{ '::Save' | abpLocalization }}
             </button>
         </div>
@@ -168,9 +168,9 @@
                         <span>
                             {{ '::IsSystemApplicable' | abpLocalization }}
                         </span>
-                        <mat-radio-group [value]="version.applicable" [disabled]="true" color="primary" class="mr-4 ml-4">
-                            <mat-radio-button class="ml-3 mr-3" [value]="ApplicableType.Applicable"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                            <mat-radio-button class="ml-3 mr-3" [value]="ApplicableType.NotApplicable"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                        <mat-radio-group [value]="version.applicable" [disabled]="true" color="primary" class="me-4 ms-4">
+                            <mat-radio-button class="ms-3 me-3" [value]="ApplicableType.Applicable"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                            <mat-radio-button class="ms-3 me-3" [value]="ApplicableType.NotApplicable"> {{ '::no' | abpLocalization }} </mat-radio-button>
                         </mat-radio-group>
                     </div>
 
@@ -207,9 +207,9 @@
                                 {{ '::AssessmentDocumented' | abpLocalization }}
                             </span>
                             <mat-radio-group [value]="version.documented" [disabled]="true" color="primary">
-                                <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.Documented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                                <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.PartialDocumented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
-                                <mat-radio-button class="ml-3 mr-3" [value]="DocumentedType.NotDocumented"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="DocumentedType.Documented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="DocumentedType.PartialDocumented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="DocumentedType.NotDocumented"> {{ '::no' | abpLocalization }} </mat-radio-button>
                             </mat-radio-group>
                             <div class="form-group mb-0 mt-2" [class.d-none]="version.documented !== DocumentedType.PartialDocumented">
                                 <p class="as-input">
@@ -223,9 +223,9 @@
                                 {{ '::AssessmentImplemented' | abpLocalization }}
                             </span>
                             <mat-radio-group [value]="version.implemented" [disabled]="true" color="primary">
-                                <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.Implemented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                                <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.PartialImplemented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
-                                <mat-radio-button class="ml-3 mr-3" [value]="ImplementedType.NotImplemented"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="ImplementedType.Implemented"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="ImplementedType.PartialImplemented"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="ImplementedType.NotImplemented"> {{ '::no' | abpLocalization }} </mat-radio-button>
                             </mat-radio-group>
                             <div class="form-group mb-0 mt-2" [class.d-none]="version.implemented !== ImplementedType.PartialImplemented">
                                 <p class="as-input">
@@ -239,9 +239,9 @@
                                 {{ '::AssessmentEffective' | abpLocalization }}
                             </label>
                             <mat-radio-group [value]="version.effective" [disabled]="true" color="primary">
-                                <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.Effective"> {{ '::yes' | abpLocalization }} </mat-radio-button>
-                                <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.PartialEffective"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
-                                <mat-radio-button class="ml-3 mr-3" [value]="EffectiveType.NotEffective"> {{ '::no' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="EffectiveType.Effective"> {{ '::yes' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="EffectiveType.PartialEffective"> {{ '::Enum:DocumentedType:1' | abpLocalization }} </mat-radio-button>
+                                <mat-radio-button class="ms-3 me-3" [value]="EffectiveType.NotEffective"> {{ '::no' | abpLocalization }} </mat-radio-button>
                             </mat-radio-group>
                             <div class="form-group mb-0 mt-2" [class.d-none]="version.effective !== ImplementedType.PartialImplemented">
                                 <p class="as-input">

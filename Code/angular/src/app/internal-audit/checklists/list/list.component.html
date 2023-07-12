@@ -5,9 +5,9 @@
                 {{ '::CheckLists' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
-                <button *abpPermission="'ComplianceSystem.InternalAuditQuestionList.Create'" mat-button class="add-btn mr-3" type="button" routerLink="/internal-audit/checklists/create" >
-                    <i class="fa fa-plus mr-2"></i>
-                    <span class="line mr-2"></span>
+                <button *abpPermission="'ComplianceSystem.InternalAuditQuestionList.Create'" mat-button class="add-btn me-3" type="button" routerLink="/internal-audit/checklists/create" >
+                    <i class="fa fa-plus me-2"></i>
+                    <span class="line me-2"></span>
                     <span>{{ "::Create" | abpLocalization }}</span>
                 </button>
                 <app-search (search)="searchVal = $event;list.get()"></app-search>

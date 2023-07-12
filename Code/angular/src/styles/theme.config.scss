@@ -19,6 +19,27 @@ body[dir="rtl"] {
 
 }
 
+.mdc-button.mat-mdc-button {
+    padding: 0 1rem;
+}
+
+mat-checkbox {
+    width: 40px;
+    height: 40px;
+}
+mat-chip-listbox.mat-mdc-chip-listbox {
+    background-color: transparent;
+    padding: 0;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    label {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
+}
+
 mat-icon {
     font-size: 24px;
     width: 24px;

@@ -5,8 +5,10 @@
 @use "./styles/table.scss";
 @use "./styles/dialog.scss";
 @use "./styles/print.scss";
-@use "./styles/rtl.scss";
+// @use "./styles/rtl.scss";
 @use "@ng-select/ng-select/themes/default.theme.css";
+@use "./styles/cards.scss";
+
 @import "./styles/theme.style.scss";
 
 

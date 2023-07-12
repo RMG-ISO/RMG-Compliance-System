@@ -29,7 +29,7 @@
       </button>
 
       <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving">
-        <i class="fa fa-check mr-1"></i>
+        <i class="fa fa-check me-1"></i>
         {{ '::Save' | abpLocalization }}
       </button>
     </div> -->
@@ -74,7 +74,7 @@
 
       <!-- show only in main domains -->
       <ng-container  *ngIf="form.controls.responsibleId">
-        <div class="col-md-12 form-group">
+        <div class="col-md-6 form-group">
           <label for="responsibleId">{{ '::Creator' | abpLocalization }}</label><span> * </span>
           <ng-select id="responsibleId" formControlName="responsibleId" [items]="employees" bindLabel="fullName" bindValue="id"> </ng-select>
         </div>
@@ -94,7 +94,7 @@
   </mat-dialog-content>
   <mat-dialog-actions class="actions">
     <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving">
-      <i class="fa fa-check mr-1"></i>
+      <i class="fa fa-check me-1"></i>
       {{ '::Save' | abpLocalization }}
     </button>
 

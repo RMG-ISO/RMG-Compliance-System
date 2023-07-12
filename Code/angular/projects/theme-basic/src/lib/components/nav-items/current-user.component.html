@@ -1,6 +1,6 @@
-<button class="mr-3 ml-3 user-btn" mat-button
+<button class="me-3 ms-3 user-btn" mat-button
   *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn" [matMenuTriggerFor]="menu">
-  <i class="fas fa-caret-down ml-2 mr-2"></i>
+  <i class="fas fa-caret-down ms-2 me-2"></i>
 
   <small *ngIf="(selectedTenant$ | async)?.name as tenantName">
     <i>{{ tenantName }}</i>
@@ -41,12 +41,12 @@
 
 
 <ng-container *ngIf="(currentUser$ | async)?.isAuthenticated">
-  <button class="noti-btn mr-3 ml-3" [class.active]="notificationItemsCount" mat-button [matMenuTriggerFor]="notificationsMenu">
+  <button class="noti-btn me-3 ms-3" [class.active]="notificationItemsCount" mat-button [matMenuTriggerFor]="notificationsMenu">
     <img src="assets/icons/bell.svg" *ngIf="notificationItemsCount; else showIcon">
     <ng-template #showIcon>
       <i class="fas fa-bell"></i>
     </ng-template>
-    <span class="count ml-1" *ngIf="notificationItemsCount">
+    <span class="count ms-1" *ngIf="notificationItemsCount">
       {{ notificationItemsCount }}
     </span>
   </button>
@@ -71,10 +71,10 @@
 
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="navigateToManageProfile()">
-    <i class="fa fa-cog mr-1"></i>{{ 'AbpAccount::MyAccount' | abpLocalization }}
+    <i class="fa fa-cog me-1"></i>{{ 'AbpAccount::MyAccount' | abpLocalization }}
   </button>
   <button mat-menu-item  (click)="logout()">
-    <i class="fa fa-power-off mr-1"></i>{{ 'AbpUi::Logout' | abpLocalization }}
+    <i class="fa fa-power-off me-1"></i>{{ 'AbpUi::Logout' | abpLocalization }}
   </button>
 </mat-menu>
 

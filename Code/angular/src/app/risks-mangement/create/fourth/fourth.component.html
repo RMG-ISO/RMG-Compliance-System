@@ -5,15 +5,15 @@
         </h4>
         <div class="d-flex justify-content-between align-items-center">
             <button id="create" mat-button class="add-btn" type="button" (click)="openDialog()">
-                <i class="fa fa-plus mr-2"></i>
-                <span class="line mr-2"></span>
+                <i class="fa fa-plus me-2"></i>
+                <span class="line me-2"></span>
                 <span>{{ "::Create" | abpLocalization }}</span>
             </button>
 
 
             <ng-container *ngIf="itemData.status == Status.Open">
                 <ng-select
-                [(ngModel)]="itemData.reEvaluation" class="ml-3"
+                [(ngModel)]="itemData.reEvaluation" class="ms-3"
                 *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'"
                 [placeholder]="'::ReEvaluation' | abpLocalization" (change)="reEvaluate($event)">
                     <ng-option *ngFor="let item of potentials" [value]="item.id">
@@ -23,7 +23,7 @@
             </ng-container>
 
             <!-- <ng-container *ngIf="itemData.status == Status.Open">
-                    <button mat-button [matMenuTriggerFor]="menu" class="re-btn ml-3" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
+                    <button mat-button [matMenuTriggerFor]="menu" class="re-btn ms-3" *abpPermission="'ComplianceSystem.RiskAndOpportunity.ReEvaluation'">
                         {{ '::ReEvaluation' | abpLocalization }}
                     </button>
             </ng-container>
@@ -187,7 +187,7 @@
         </button>
 
         <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid || uploading" >
-            <i class="fa fa-check mr-1"></i>
+            <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
     </ng-template>

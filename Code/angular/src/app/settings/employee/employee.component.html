@@ -7,9 +7,9 @@
         </h3>
       </div>
       <div class="col col-md-6 pt-2 d-flex justify-content-end">
-        <!-- <button *abpPermission="'ComplianceSystem.Employee.Create'" id="create" class="btn btn-primary mr-3"
+        <!-- <button *abpPermission="'ComplianceSystem.Employee.Create'" id="create" class="btn btn-primary me-3"
                     type="button" (click)="openDialog()">
-                    <i class="fa fa-plus mr-1"></i>
+                    <i class="fa fa-plus me-1"></i>
                     <span>{{ "::CreateEmployee" | abpLocalization }}</span>
                 </button> -->
 
@@ -101,7 +101,7 @@
 
     <!--added save button-->
     <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-      <i class="fa fa-check mr-1"></i>
+      <i class="fa fa-check me-1"></i>
       {{ '::Save' | abpLocalization }}
     </button>
   </ng-template>

@@ -35,7 +35,7 @@
               <mat-expansion-panel hideToggle  #panel  *ngFor="let group of data.groups; trackBy: trackByFn" (opened)="onChangeGroup(group)"  [expanded]="selectedGroup?.name === group?.name"  class=" mb-3">
                   <mat-expansion-panel-header class="panel_header">
                     <mat-panel-title>
-                      <div class="mr-3 ml-1">
+                      <div class="me-3 ms-1">
                         <mat-icon >{{panel.expanded? 'remove_circle' : 'add_circle'}}</mat-icon>
                       </div>
                       

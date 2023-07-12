@@ -74,7 +74,7 @@
 
         </mat-card-content>
         <mat-card-actions class="actions mb-3" *ngIf="mode === FormMode.View">
-            <button color="primary" mat-raised-button type="button" routerLink="/internal-audit/approved-audits/list" class="mr-3">
+            <button color="primary" mat-raised-button type="button" routerLink="/internal-audit/approved-audits/list" class="me-3">
                 {{ '::Back' | abpLocalization }}
             </button>
         </mat-card-actions>
@@ -93,7 +93,7 @@
                         {{ '::AcceptAudit' | abpLocalization }}
                     </label>
                     <mat-radio-group color="primary" formControlName="isApprove" class="d-block" (change)="changeSelection($event)">
-                        <mat-radio-button class="mr-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
+                        <mat-radio-button class="me-4" [value]="true" > {{ '::yes' | abpLocalization }} </mat-radio-button>
                         <mat-radio-button [value]="false"> {{ '::no'  | abpLocalization }} </mat-radio-button>
                     </mat-radio-group>
                 </div>

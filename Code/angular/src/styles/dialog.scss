@@ -26,16 +26,29 @@
         margin-right: 0;
     }
     
-    mat-dialog-content {
+    mat-dialog-content.mat-mdc-dialog-content {
         border-top: 1px solid #EDEFF9;
         border-bottom: 1px solid #EDEFF9;
-        padding-top: 16px;
-        padding-bottom: 16px;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
         margin-left: 0;
         margin-right: 0;
     }
     
    
+}
+
+.mat-mdc-dialog-title, .mdc-dialog__title, .mat-mdc-dialog-title.mdc-dialog__title  {
+    padding-bottom: 0;
+    &::after{
+        display: none;
+    }
+    &::before{
+        display: none;
+    }
+    h2 {
+        padding: 1rem 0;
+    }
 }
 
 mat-dialog-actions, .actions {
