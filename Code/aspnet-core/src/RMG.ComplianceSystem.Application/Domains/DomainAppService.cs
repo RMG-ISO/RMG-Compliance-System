@@ -223,15 +223,15 @@ namespace RMG.ComplianceSystem.Domains
                 foreach (var dto in entityDtos)
                 {
                     dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
-                    var children = Repository.Where(r => r.ParentId == dto.Id).Select(r => r.Id).ToList();
-                    dto.ControlsCount = _controlRepository.Count(c => children.Contains(c.DomainId));
+                    var children = (await Repository.GetQueryableAsync()).Where(r => r.ParentId == dto.Id).Select(r => r.Id).ToList();
+                    dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => children.Contains(c.DomainId));
                 }
             }
             else
             {
                 foreach (var dto in entityDtos)
                 {
-                    dto.ControlsCount = _controlRepository.Count(c => c.DomainId == dto.Id);
+                    dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => c.DomainId == dto.Id);
                 }
             }
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
