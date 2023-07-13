@@ -157,16 +157,16 @@ namespace RMG.ComplianceSystem.Reports
         }
         private IList<Assessment> GetAssessmentsByMainDomainIds(Guid domainId)
         {
-            var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
-            var controlsIds =  _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(x => x.Id).ToList();
-            return _assessmentRepository.Where(a => controlsIds.Contains(a.ControlId) && a.Applicable == ApplicableType.Applicable).ToList();
+            var subDomains = _domainRepository.GetQueryableAsync().Result.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
+            var controlsIds =  _controlRepository.GetQueryableAsync().Result.Where(c => subDomains.Contains(c.DomainId)).Select(x => x.Id).ToList();
+            return _assessmentRepository.GetQueryableAsync().Result.Where(a => controlsIds.Contains(a.ControlId) && a.Applicable == ApplicableType.Applicable).ToList();
         }
         public List<ControlsCountByPriorityTableDto> GetControlsCountByPriority([Required]Guid frameworkId)
         {
             var domainsIds = _domainRepository.GetQueryableAsync().Result.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
             var controls = _controlRepository.GetQueryableAsync().Result.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
             var result = new List<ControlsCountByPriorityTableDto>();
-            var total = _assessmentRepository.Where(x => x.Applicable == ApplicableType.Applicable).Count(x => controls.Select(x => x.Id).Contains(x.ControlId));
+            var total = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Applicable == ApplicableType.Applicable).Count(x => controls.Select(x => x.Id).Contains(x.ControlId));
 
             #region Priority1
             int controlsCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));

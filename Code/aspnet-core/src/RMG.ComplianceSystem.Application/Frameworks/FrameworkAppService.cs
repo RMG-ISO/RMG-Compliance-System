@@ -877,8 +877,7 @@ namespace RMG.ComplianceSystem.Frameworks
                 {
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
-                    var streamConent = new RemoteStreamContent(new MemoryStream(content), fileName: "Framework Template.xlsx");
-                    streamConent.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    var streamConent = new RemoteStreamContent(new MemoryStream(content), fileName: "Framework Template.xlsx", contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
                     return streamConent;
                 }
             }
