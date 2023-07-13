@@ -40,6 +40,7 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   responsibleId?: string;
   responsibleName?: string;
   departments: NameId<string>[];
+  controlsCount: number;
 }
 
 export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

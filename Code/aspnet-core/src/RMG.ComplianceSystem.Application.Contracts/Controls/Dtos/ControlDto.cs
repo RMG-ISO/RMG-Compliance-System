@@ -8,6 +8,7 @@ namespace RMG.ComplianceSystem.Controls.Dtos
     [Serializable]
     public class ControlDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
+        public int SubControlsCount { get; set; }
         public string NameAr { get; set; }
 
         public string NameEn { get; set; }

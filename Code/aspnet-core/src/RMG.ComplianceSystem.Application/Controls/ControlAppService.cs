@@ -80,6 +80,13 @@ namespace RMG.ComplianceSystem.Controls
             var entities = await AsyncExecuter.ToListAsync(query);
             var entityDtos = await MapToGetListOutputDtosAsync(entities);
 
+            if (input.IsMainControl)
+            {
+                foreach (var dto in entityDtos)
+                {
+                    dto.SubControlsCount = await Repository.CountAsync(c => c.ParentId == dto.Id);
+                }
+            }
             return new ListResultDto<ControlDto>(entityDtos);
         }
 
