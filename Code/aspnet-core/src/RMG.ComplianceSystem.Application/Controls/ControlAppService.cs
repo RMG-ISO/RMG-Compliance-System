@@ -15,6 +15,7 @@ using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Entities.Events.Distributed;
 
 namespace RMG.ComplianceSystem.Controls
 {
@@ -70,6 +71,19 @@ namespace RMG.ComplianceSystem.Controls
             var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => a.ControlId == dto.Id).ToList();
             dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
             return dto;
+        }
+
+        public override async Task<PagedResultDto<ControlDto>> GetListAsync(ControlPagedAndSortedResultRequestDto input)
+        {
+            var list = await base.GetListAsync(input);
+            if (input.IsMainControl)
+            {
+                foreach (var dto in list.Items)
+                {
+                    dto.SubControlsCount = await Repository.CountAsync(c => c.ParentId == dto.Id);
+                }
+            }
+            return list;
         }
 
         [Authorize(ComplianceSystemPermissions.Assessment.Default)]
