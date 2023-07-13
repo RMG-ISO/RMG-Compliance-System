@@ -52,4 +52,5 @@ export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResu
 
 export interface DomainWithoutPagingDto extends DomainDto {
   controls: ControlDto[];
+  controlsCount: number;
 }

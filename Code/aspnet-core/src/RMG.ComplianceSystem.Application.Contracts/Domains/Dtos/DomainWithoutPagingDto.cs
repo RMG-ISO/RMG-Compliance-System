@@ -11,5 +11,6 @@ namespace RMG.ComplianceSystem.Domains.Dtos
     public class DomainWithoutPagingDto : DomainDto
     {
         public List<ControlDto> Controls { get; set; }
+        public int ControlsCount { get; set; }
     }
 }
