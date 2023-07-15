@@ -18,6 +18,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class MainDomainsViewComponent implements OnInit {
   @ViewChild('domainDialog') domainDialog;
+  @ViewChild('domainDetailsDialog') domainDetailsDialog;
   @ViewChild('reviewAlert') reviewAlert;
   @ViewChild('reviewDecisionAlert') reviewDecisionAlert;
 
@@ -121,6 +122,18 @@ export class MainDomainsViewComponent implements OnInit {
         if (subDomainsTable) subDomainsTable.list.get();
         else this.list.get();
       }
+    });
+  }
+
+  openDomainDetailsDialog(data) {
+    let ref = this.matDialog.open(this.domainDetailsDialog, {
+      data: {
+       data
+      },
+     
+    });
+    ref.afterClosed().subscribe(con => {
+    
     });
   }
 
