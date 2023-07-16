@@ -632,8 +632,9 @@
     "Import": "تحميل",
     "DownloadTemp": "تنزيل قالب",
     "SuccessfullyDownloaded": "تم التنزيل بنجاح",
-    "SuccessfullyImported" :  "تم الرفع الملف بنجاح"
-
+    "SuccessfullyImported" :  "تم الرفع الملف بنجاح",
+    "Number of Controls" :  " عدد الضوابط "
+    
 
 
 

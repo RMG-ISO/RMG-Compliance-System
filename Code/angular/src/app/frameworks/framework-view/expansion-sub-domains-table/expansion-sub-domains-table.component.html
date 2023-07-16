@@ -36,9 +36,112 @@
                     <mat-icon>edit</mat-icon>
                 </button>
             </ng-container>
+            <button class="mr-3 small-btn" mat-button
+            (click)="openDomainDetailsDialog(row); $event.stopPropagation()">
+                <mat-icon>
+                    visibility
+                </mat-icon>
+            </button>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>
+
+
+
+<ng-template #domainDetailsDialog let-data  let-ref="dialogRef">
+    <div class="app-dialog">
+        <div mat-dialog-title class="pt-2 pb-2 pr-3 pl-3 dialog-title d-flex align-items-center justify-content-between">
+            {{  data.data?.nameAr }}
+        </div>
+  
+        <mat-dialog-content >
+          <div class="details-table-cont">
+              <table class="table">
+                <tr>
+                  
+                  <td>
+                    {{ '::ControlReference' | abpLocalization }}
+                  </td>
+                  <td >
+                      {{data.data?.reference}}
+                  </td>
+                  <td>
+                    {{ '::ControlStatus' | abpLocalization }}
+                  </td>
+                  <td >
+                    {{ ( '::Enum:SharedStatus:' + data.data?.status ) | abpLocalization }}
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      {{ '::ControlNameAr' | abpLocalization }}
+                    </td>
+                    <td >
+                        {{data.data?.nameAr}}
+                    </td>
+                    <td>
+                      {{ '::ControlNameEn' | abpLocalization }}
+                    </td>
+                    <td >
+                        {{data.data?.nameEn}}
+                    </td>
+                </tr>
+                <tr>
+                  <td>
+                      {{ '::ControlDescriptionAr' | abpLocalization }}
+                  </td>
+                  <td>
+                      {{data.data?.descriptionAr}}
+                  </td>
+                  <td>
+                      {{ '::ControlDescriptionEn' | abpLocalization }}
+                  </td>
+                  <td>
+                      {{data.data?.descriptionEn}}
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ '::ComplianceStatus' | abpLocalization }}
+                    </td>
+                    <td>
+                        <span class="status"  [class]="ComplianceStatus[data.data?.complianceStatus]">
+                            {{ ('::' + ComplianceStatus[data.data?.complianceStatus] ) | abpLocalization }}
+                        </span>
+                    </td>
+               
+                  <td>
+                    {{ '::FrameworkLastUpdate' | abpLocalization }}
+                  </td>
+                  <td >
+                    {{data.data?.lastModificationTime | fromNow}}
+                  </td>
+                </tr>
+
+    
+                <tr>
+                    <td> {{ '::Departments' | abpLocalization }} </td>
+                    <td colspan="3">
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let department of data.data?.departments">
+                                {{department.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </td>
+                </tr>
+                  
+  
+              </table>
+          </div>
+        </mat-dialog-content>
+        
+        <mat-dialog-actions class="actions p-3 mb-0">
+            <button type="button" mat-button (click)="ref.close()" class="red"> 
+                {{ '::Close' | abpLocalization }}
+            </button>
+        </mat-dialog-actions>
+    </div>
+  </ng-template>
 
 <ng-template #showLoader>
     <mat-spinner [diameter]="40" [strokeWidth]="3"></mat-spinner>

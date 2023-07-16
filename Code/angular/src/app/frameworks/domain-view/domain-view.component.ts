@@ -21,6 +21,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 export class DomainViewComponent implements OnInit {
   @ViewChild('domainDialog') domainDialog;
   @ViewChild('controlDialog') controlDialog;
+  @ViewChild('domainDetailsDialog') domainDetailsDialog;
 
   SharedStatus = SharedStatus;
   FormMode = FormMode;
@@ -159,4 +160,17 @@ export class DomainViewComponent implements OnInit {
     this.location.go(url);
   }
 
+
+  
+  openDomainDetailsDialog(data) {
+    let ref = this.matDialog.open(this.domainDetailsDialog, {
+      data: {
+       data
+      },
+     
+    });
+    ref.afterClosed().subscribe(con => {
+    
+    });
+  }
 }
