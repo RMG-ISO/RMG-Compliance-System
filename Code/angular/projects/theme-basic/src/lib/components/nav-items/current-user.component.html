@@ -1,6 +1,6 @@
-<button class="mr-3 ml-3 user-btn" mat-button
+<button class="me-3 ms-3 user-btn" mat-button
   *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn" [matMenuTriggerFor]="menu">
-  <i class="fas fa-caret-down ml-2 mr-2"></i>
+  <i class="fas fa-caret-down ms-2 me-2"></i>
 
   <small *ngIf="(selectedTenant$ | async)?.name as tenantName">
     <i>{{ tenantName }}</i>
@@ -41,30 +41,17 @@
 
 
 <ng-container *ngIf="(currentUser$ | async)?.isAuthenticated">
-  <button class="noti-btn mr-3 ml-3" [class.active]="notificationItemsCount" mat-button [matMenuTriggerFor]="notificationsMenu">
+  <button class="noti-btn me-3 ms-3" [class.active]="notificationItemsCount" mat-button [matMenuTriggerFor]="notificationsMenu">
     <img src="assets/icons/bell.svg" *ngIf="notificationItemsCount; else showIcon">
     <ng-template #showIcon>
       <i class="fas fa-bell"></i>
     </ng-template>
-    <span class="count ml-1" *ngIf="notificationItemsCount">
+    <span class="count ms-1" *ngIf="notificationItemsCount">
       {{ notificationItemsCount }}
     </span>
   </button>
 
-  <!-- <button class="mr-3 ml-3" style="font-size: 16px;" mat-button *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn"
-    [matMenuTriggerFor]="menu">
-    <i class="fas fa-caret-down ml-2 mr-2"></i>
 
-    <small *ngIf="(selectedTenant$ | async)?.name as tenantName">
-      <i>{{ tenantName }}</i>
-      \
-    </small>
-
-    <strong>{{ (currentUser$ | async)?.userName }}</strong>
-    <span class="as-avatar">
-      {{ (currentUser$ | async)?.userName[0] }}
-    </span>
-  </button> -->
 </ng-container>
 
 <mat-menu #notificationsMenu="matMenu" class="noti-menu">
@@ -84,59 +71,11 @@
 
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="navigateToManageProfile()">
-    <i class="fa fa-cog mr-1"></i>{{ 'AbpAccount::MyAccount' | abpLocalization }}
+    <i class="fa fa-cog me-1"></i>{{ 'AbpAccount::MyAccount' | abpLocalization }}
   </button>
   <button mat-menu-item  (click)="logout()">
-    <i class="fa fa-power-off mr-1"></i>{{ 'AbpUi::Logout' | abpLocalization }}
+    <i class="fa fa-power-off me-1"></i>{{ 'AbpUi::Logout' | abpLocalization }}
   </button>
 </mat-menu>
 
 </div>
-
-
-
-<!-- <div
-  *ngIf="(currentUser$ | async)?.isAuthenticated; else loginBtn"
-  ngbDropdown
-  class="dropdown"
-  #currentUserDropdown="ngbDropdown"
-  display="static"
->
-  <a
-    ngbDropdownToggle
-    class="nav-link"
-    href="javascript:void(0)"
-    role="button"
-    id="dropdownMenuLink"
-    data-toggle="dropdown"
-    aria-haspopup="true"
-    aria-expanded="false"
-  >
-    <small *ngIf="(selectedTenant$ | async)?.name as tenantName"
-      ><i>{{ tenantName }}</i
-      >\</small
-    >
-    <strong>{{ (currentUser$ | async)?.userName }}</strong>
-  </a>
-
-
-  <div
-    class="dropdown-menu dropdown-menu-right border-0 shadow-sm"
-    aria-labelledby="dropdownMenuLink"
-    [class.d-block]="smallScreen && currentUserDropdown.isOpen()"
-  >
-    <a class="dropdown-item pointer" (click)="navigateToManageProfile()"
-      ><i class="fa fa-cog mr-1"></i>{{ 'AbpAccount::MyAccount' | abpLocalization }}</a
-    >
-    <a class="dropdown-item" href="javascript:void(0)" (click)="logout()"
-      ><i class="fa fa-power-off mr-1"></i>{{ 'AbpUi::Logout' | abpLocalization }}</a
-    >
-  </div>
-</div> -->
-
-<!-- <button mat-button [matMenuTriggerFor]="menu">
-</button>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item>Item 1</button>
-  <button mat-menu-item>Item 2</button>
-</mat-menu> -->

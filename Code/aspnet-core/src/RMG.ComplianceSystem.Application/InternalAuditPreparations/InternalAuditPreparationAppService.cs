@@ -22,6 +22,7 @@ using Volo.Abp.ObjectMapping;
 using RMG.ComplianceSystem.Risks.IRepository;
 using RMG.ComplianceSystem.Risks.Dtos;
 using RMG.ComplianceSystem.Risks.Entity;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.InternalAuditPreparations
 {
@@ -136,7 +137,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
                     #region [Auditors]
                     if (input.Auditors != null && input.Auditors.Count > 0)
                     {
-                        var Auditors = _internalAuditorRepository.Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
+                        var Auditors = (await _internalAuditorRepository.GetQueryableAsync()).Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
                         foreach (var Auditor in Auditors)
                         {
                             await _internalAuditorRepository.DeleteAsync(Auditor.Id, autoSave: true);
@@ -155,7 +156,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                     if (input.RiskOpportunityIds != null && input.RiskOpportunityIds.Count > 0)
                     {
-                        var AuditRisks = _AuditRiskRepository.Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
+                        var AuditRisks = (await _AuditRiskRepository.GetQueryableAsync()).Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
                         foreach (var AuditRisk in AuditRisks)
                         {
                             await _AuditRiskRepository.DeleteAsync(AuditRisk.Id, autoSave: true);
@@ -200,13 +201,13 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
 
                 #region [Deleted Questions]
 
-                var Auditors = _internalAuditorRepository.Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
+                var Auditors = (await _internalAuditorRepository.GetQueryableAsync()).Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
                 foreach (var auditor in Auditors)
                 {
 
                     await _internalAuditorRepository.DeleteAsync(auditor.Id, autoSave: true);
                 }
-                var AuditRisks = _AuditRiskRepository.Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
+                var AuditRisks = (await _AuditRiskRepository.GetQueryableAsync()).Where(x => x.InternalAuditPreparationId == entity.Id).ToList();
                 foreach (var AuditRisk in AuditRisks)
                 {
 
@@ -238,7 +239,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
             {
 
                 int totalCount = 0;
-                var ListQuestions = InternalAuditPreparationRepository.Where(x =>
+                var ListQuestions = (await InternalAuditPreparationRepository.GetQueryableAsync()).Where(x =>
                          ((x.AuditTitleAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) ||
                          (x.AuditTitleEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                     .WhereIf(input.DepartmentId != null, e => e.DepartmentId == input.DepartmentId)
@@ -248,7 +249,7 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
                 .WhereIf(input.approveDate != null, e => e.approveDate == input.approveDate)
                         .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 var Questions = ObjectMapper.Map<List<InternalAuditPreparation>, List<InternalAuditPreparationDto>>(ListQuestions);
-                var ListQuestion = InternalAuditPreparationRepository.ToList();
+                var ListQuestion = (await InternalAuditPreparationRepository.GetQueryableAsync()).ToList();
                 totalCount = ListQuestion.Count;
                 foreach (var item in Questions)
                 {
@@ -260,12 +261,12 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
                     }
                     if (item.FrameworkId != null)
                     {
-                        var Framework = _FrameworkRepository.FirstOrDefault(t => t.Id == item.FrameworkId);
+                        var Framework = await _FrameworkRepository.FirstOrDefaultAsync(t => t.Id == item.FrameworkId);
                         item.Framework = ObjectMapper.Map<RMG.ComplianceSystem.Frameworks.Framework, FrameworkDto>(Framework);
                     }
                     if (item.DepartmentId != null)
                     {
-                        var Department = _departmentRepository.FirstOrDefault(t => t.Id == item.DepartmentId);
+                        var Department = await _departmentRepository.FirstOrDefaultAsync(t => t.Id == item.DepartmentId);
                         item.Department = ObjectMapper.Map<Department, DepartmentDto>(Department);
                         //  var listAuditDept = _internalAuditorRepository.Where(t=>t.InternalAuditPreparationId==item.Id&&t.DepartmentId==item.DepartmentId).ToList();
 
@@ -300,21 +301,21 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         {
             try
             {
-                var audit = InternalAuditPreparationRepository.FirstOrDefault(t => t.Id == Id);
+                var audit = await InternalAuditPreparationRepository.FirstOrDefaultAsync(t => t.Id == Id);
                 var AuditDto = ObjectMapper.Map<InternalAuditPreparation, InternalAuditPreparationDto>(audit);
                 if (AuditDto != null)
                 {
                     if (AuditDto.DepartmentId != null)
                     {
-                        var listAuditDept = _internalAuditorRepository.Where(t => t.InternalAuditPreparationId == AuditDto.Id && t.DepartmentId == AuditDto.DepartmentId).ToList();
+                        var listAuditDept = (await _internalAuditorRepository.GetQueryableAsync()).Where(t => t.InternalAuditPreparationId == AuditDto.Id && t.DepartmentId == AuditDto.DepartmentId).ToList();
                         if (listAuditDept.Count > 0) AuditDto.AuditorDeptDto = ObjectMapper.Map<List<InternalAuditor>, List<InternalAuditorDto>>(listAuditDept);
 
                     }
-                    var listAudit = _internalAuditorRepository.Where(t => t.InternalAuditPreparationId == AuditDto.Id && t.IsAuditor == true).ToList();
+                    var listAudit = (await _internalAuditorRepository.GetQueryableAsync()).Where(t => t.InternalAuditPreparationId == AuditDto.Id && t.IsAuditor == true).ToList();
                     if (listAudit.Count > 0)
                     { AuditDto.AuditorDto = ObjectMapper.Map<List<InternalAuditor>, List<AuditorDto>>(listAudit); }
 
-                    var listAuditRisk = _AuditRiskRepository.Where(t => t.InternalAuditPreparationId == AuditDto.Id).ToList();
+                    var listAuditRisk = (await _AuditRiskRepository.GetQueryableAsync()).Where(t => t.InternalAuditPreparationId == AuditDto.Id).ToList();
                     if (listAuditRisk.Count > 0)
                     {
                         var ListRiskIds=new List<Guid>();
@@ -338,13 +339,13 @@ namespace RMG.ComplianceSystem.InternalAuditPreparations
         }
         public async Task<List<EmployeeDto>> GetUsersByDeptIdAsync(Guid DeptId)
         {
-            var Users = _employeeRepository.Where(e => e.DepartmentId == DeptId).ToList();
+            var Users = (await _employeeRepository.GetQueryableAsync()).Where(e => e.DepartmentId == DeptId).ToList();
             var DeptUsers = ObjectMapper.Map<List<Employee>, List<EmployeeDto>>(Users);
             return DeptUsers;
         }
         public async Task<List<RiskAndOpportunityDto>> GetRisksByFrameWorkeIdAsync(Guid FrmId)
         {
-            var Risks = RiskAndOpportunityRepository.Where(e => e.FrameWorkId == FrmId).ToList();
+            var Risks = (await RiskAndOpportunityRepository.GetQueryableAsync()).Where(e => e.FrameWorkId == FrmId).ToList();
             var RiskDtos = ObjectMapper.Map<List<RiskOpportunity>, List<RiskAndOpportunityDto>>(Risks);
             return RiskDtos;
         }

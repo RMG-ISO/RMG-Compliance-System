@@ -1,11 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/theming';
-@import "./styles/app-colors.scss";
-@import "./styles/theme.config.scss";
-@import "./styles/table.scss";
-@import "./styles/dialog.scss";
-@import "./styles/print.scss";
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@use '@angular/material' as mat;
+@use  "./styles/app-colors.scss";
+@use "./styles/theme.config.scss";
+@use "./styles/table.scss";
+@use "./styles/dialog.scss";
+@use "./styles/print.scss";
+// @use "./styles/rtl.scss";
+@use "@ng-select/ng-select/themes/default.theme.css";
+@use "./styles/cards.scss";
+
+@import "./styles/theme.style.scss";
+
 
 @keyframes donut-spin {
   0% {
@@ -33,8 +38,8 @@
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif; }
+// html, body { height: 100%; }
+// body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif; }
 
 
 
@@ -52,10 +57,12 @@ body { margin: 0; font-family: "ElMessiri", Roboto, "Helvetica Neue", sans-serif
   font-style: normal;
 }
 
-$custom-typography: mat-typography-config(
-  $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
-);
-@include mat-core($custom-typography);
+// $custom-typography: mat-typography-config(
+//   $font-family: 'ElMessiri, Roboto, Helvetica Neue,  sans-serif'
+// );
+// @include mat-core($custom-typography);
+
+
 
 // $primary: mat-palette($mat-blue,200);
 // $accent: mat-palette($mat-orange,200);

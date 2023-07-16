@@ -29,6 +29,7 @@
         position: relative;
         padding-left: 28px;
         padding-right: 28px;
+        justify-content: flex-start;
         &:hover, &.active {
             // background-color: var(--main-color); 
             // color: #fff;
@@ -99,8 +100,10 @@
             }
     
             a {
-                padding-right: 36px;
-                padding-left: 36px;
+                // padding-right: 36px;
+                // padding-left: 36px;
+                padding-right: 34px;
+                padding-left: 34px;
                 // &:last-child {
                 //     margin-bottom: 0;
                 // }

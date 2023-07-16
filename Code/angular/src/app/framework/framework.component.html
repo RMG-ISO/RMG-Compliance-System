@@ -5,7 +5,7 @@
                     {{ '::Framework' | abpLocalization }}
                 </h3>
             <div class="pt-2 d-flex justify-content-end">
-                <div class="visible-content mr-3">
+                <div class="visible-content me-3">
                     <button mat-button (click)="visibleContent = 'cards'" [class.active]="visibleContent === 'cards'">
                         <i class="fas fa-th-large"></i>
                     </button>
@@ -14,8 +14,8 @@
                     </button>
                 </div>
 
-                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
-                    <i class="fa fa-plus mr-1"></i>
+                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn me-3" type="button" (click)="openDialog()">
+                    <i class="fa fa-plus me-1"></i>
                     <span>{{ "::CreateFramework" | abpLocalization }}</span>
                 </button>
                 <app-search (search)="getList($event)"></app-search>
@@ -183,7 +183,7 @@
 
         <!--added save button-->
         <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-            <i class="fa fa-check mr-1"></i>
+            <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
     </ng-template>

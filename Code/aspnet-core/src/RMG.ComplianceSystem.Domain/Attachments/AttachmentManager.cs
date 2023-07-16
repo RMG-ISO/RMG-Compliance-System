@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Content;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 
 namespace RMG.ComplianceSystem.Attachments
@@ -82,9 +83,9 @@ namespace RMG.ComplianceSystem.Attachments
             return attachment;
         }
 
-        public AttachmentFile DeleteFile(Guid attachmentId, Guid fileId)
+        public async Task<AttachmentFile> DeleteFile(Guid attachmentId, Guid fileId)
         {
-            return _attachmentFileRepository.SingleOrDefault(t => t.Id == fileId && t.AttachmentId == attachmentId);
+            return await _attachmentFileRepository.SingleOrDefaultAsync(t => t.Id == fileId && t.AttachmentId == attachmentId);
         }
 
         private void SaveFile(IFormFile file, AttachmentFile attachmentFile)
@@ -97,7 +98,7 @@ namespace RMG.ComplianceSystem.Attachments
         }
         public async Task<IRemoteStreamContent> DownloadFile(Guid fileId)
         {
-            var file = _attachmentFileRepository.SingleOrDefault(t => t.Id == fileId);
+            var file = await _attachmentFileRepository.SingleOrDefaultAsync(t => t.Id == fileId);
             if (file != null)
             {
                 var f = await _fileContainer.GetAsync(file.Name);

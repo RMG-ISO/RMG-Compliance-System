@@ -19,10 +19,24 @@ import { APP_ROUTE_PROVIDER } from './route.provider';
 
 import { storeLocaleData } from '@abp/ng.core/locale';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
+
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '@angular/common/locales/ar-EG.js'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
+// import(
+// /* webpackChunkName: "_locale-your-locale-js"*/
+// /* webpackMode: "eager" */
+// '../../node_modules/@angular/common/locales/ar-EG.mjs'
+// ).then(m => storeLocaleData(m.default, 'ar-EG'));
+
 import(
-/* webpackChunkName: "_locale-your-locale-js"*/
-/* webpackMode: "eager" */
-'@angular/common/locales/ar-EG.js'
+  /* webpackChunkName: "_locale-your-locale-js"*/
+  /* webpackMode: "eager" */
+  '../../node_modules/@angular/common/locales/ar-EG.mjs' ||
+    '../../node_modules/@angular/common/locales/en.mjs'
 ).then(m => storeLocaleData(m.default, 'ar-EG'));
 
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -36,7 +50,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { ErrorInterceptComponent } from './shared/components/error-intercept/error-intercept.component';
 
-import { MatCardModule } from "@angular/material/card";
+import { MatCardModule } from '@angular/material/card';
+import { AbpOAuthModule, AbpOAuthService } from '@abp/ng.oauth';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { of } from 'rxjs';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { MyRolesModule } from './my-roles/my-roles.module';
 
@@ -46,22 +63,21 @@ import { MyRolesModule } from './my-roles/my-roles.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AbpOAuthModule.forRoot(),
     AppRoutingModule,
     CoreModule.forRoot({
       environment,
       registerLocaleFn: registerLocale(),
     }),
-    ThemeSharedModule.forRoot(
-      {
-        httpErrorConfig: {
-          errorScreen: {
-            component: ErrorInterceptComponent,
-            forWhichErrors: [401, 403, 404, 500],
-            hideCloseIcon: true,
-          },
+    ThemeSharedModule.forRoot({
+      httpErrorConfig: {
+        errorScreen: {
+          component: ErrorInterceptComponent,
+          forWhichErrors: [401, 403, 404, 500],
+          hideCloseIcon: true,
         },
-      }
-    ),
+      },
+    }),
     AccountConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),
     TenantManagementConfigModule.forRoot(),
@@ -77,23 +93,23 @@ import { MyRolesModule } from './my-roles/my-roles.module';
     MatCardModule,
 
     NgxValidateCoreModule.forRoot({
-      blueprints:{
+      blueprints: {
         ...DEFAULT_VALIDATION_BLUEPRINTS,
-        minLength: "::Validations:MinLength[{{ minLength }}]",
-        maxLength: "::Validations:MaxLength[{{ maxLength }}]",
+        minLength: '::Validations:MinLength[{{ minLength }}]',
+        maxLength: '::Validations:MaxLength[{{ maxLength }}]',
         minToday: '::Validations:MinDateToday',
-        minDate:'::Validations:MinDate[{{ minDate }}]',
-        maxDate:'::Validations:MaxDate[{{ maxDate }}]',
+        minDate: '::Validations:MinDate[{{ minDate }}]',
+        maxDate: '::Validations:MaxDate[{{ maxDate }}]',
         lessThanStart: '::Validations:DueDateLessThanStart',
-        min: "::Validations:Min[{{ min }}]",
-        max: "::Validations:Max[{{ max }}]",
+        min: '::Validations:Min[{{ min }}]',
+        max: '::Validations:Max[{{ max }}]',
       },
       validateOnSubmit:true,
       targetSelector:'.form-group',
       errorTemplate:ValidationErrorComponent,
       invalidClasses:'is-invalid'
     }),
-      MyRolesModule
+    MyRolesModule
   ],
   declarations: [
     AppComponent,
@@ -119,6 +135,19 @@ import { MyRolesModule } from './my-roles/my-roles.module';
     //     max: "::Validations:Max[{{ max }}]",
     //   },
     // },
+
+    {
+      provide: AbpOAuthService,
+      useValue: {
+        hasValidAccessToken: () => true, // return token status
+        configure: () => {},
+        loadDiscoveryDocument: () => Promise.resolve(),
+        events: of(),
+        tryLogin: () => {},
+        setupAutomaticSilentRefresh: () => {},
+        getAccessToken: () => '', // return access token
+      },
+    },
   ],
   bootstrap: [AppComponent],
 })
@@ -127,3 +156,11 @@ export class AppModule {
   //   AppInjector = this.injector;
   // }
 }
+
+/*
+{
+  "input": "node_modules/@abp/ng.theme.shared/styles/bootstrap-rtl.min.css",
+  "inject": false,
+  "bundleName": "bootstrap-rtl.min"
+},
+*/

@@ -15,7 +15,6 @@ using Volo.Abp.Guids;
 using Volo.Abp.Identity;
 using Volo.Abp.Timing;
 using Volo.Abp.Users;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace RMG.ComplianceSystem.Notifications
 {

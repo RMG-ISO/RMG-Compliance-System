@@ -19,7 +19,19 @@ import { Component } from '@angular/core';
     </ng-template>
   `,
   styles:[
-    `img{height: 38px;margin-bottom: -4px;}`
+    `
+      img{height: 38px;margin-bottom: -4px;}
+      .navbar-brand{
+        display: inline-block;
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+      }
+    `
   ]
 })
 export class LogoComponent {

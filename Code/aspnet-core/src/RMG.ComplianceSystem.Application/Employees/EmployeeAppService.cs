@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Data;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Employees
 {
@@ -60,7 +61,7 @@ namespace RMG.ComplianceSystem.Employees
         {
             using (_dataFilter.Disable<ISoftDelete>())
             {
-                var employee = Repository.SingleOrDefault(t => t.Id == id);
+                var employee = await Repository.SingleOrDefaultAsync(t => t.Id == id);
 
                 if (employee is null)
                     await Repository.InsertAsync(new Employee(id, fullName, email, null, false), autoSave: true);

@@ -50,7 +50,7 @@
                     <ng-container *abpPermission="'ComplianceSystem.Domain.Create'">
                         <button *ngIf="showButton" mat-button
                             (click)="openDomainDialog(FormMode.Edit)" class="add-blue">
-                            <mat-icon class="mr-1">edit</mat-icon>
+                            <mat-icon class="me-1">edit</mat-icon>
                             {{ '::Edit' | abpLocalization }}
                         </button>
                     </ng-container>
@@ -134,11 +134,11 @@
                         <tr>
                             <td> {{ '::Departments' | abpLocalization }} </td>
                             <td colspan="3">
-                                <mat-chip-list>
+                                <mat-chip-listbox>
                                     <mat-chip *ngFor="let department of subDomainData?.departments">
                                         {{department.name}}
                                     </mat-chip>
-                                </mat-chip-list>
+                                </mat-chip-listbox>
                             </td>
                         </tr>
 
@@ -206,8 +206,8 @@
                     <div *ngIf="showButton">
                         <button (click)="openControlDialog(null, FormMode.Create, null, null)"
                             *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button
-                            class="add-raised-btn mr-3" type="button">
-                            <i class="fa fa-plus mr-1"></i>
+                            class="add-raised-btn me-3" type="button">
+                            <i class="fa fa-plus me-1"></i>
                             <span>
                                 <ng-container *ngIf="frameWorkData | lang:'levelThirdName'; else showCreateControl">
                                     {{'::Create' | abpLocalization}}
@@ -218,9 +218,9 @@
                                 </ng-template>
                             </span>
                         </button>
-                        <button mat-raised-button class="mr-2 delete-btn" color="warn" [disabled]="!deleteLength"
+                        <button mat-raised-button class="me-2 delete-btn" color="warn" [disabled]="!deleteLength"
                             (click)="deleteItems()">
-                            <mat-icon class="mr-1">delete_forever</mat-icon>
+                            <mat-icon class="me-1">delete_forever</mat-icon>
                             {{ '::Delete' | abpLocalization }}
                         </button>
                     </div>
@@ -308,7 +308,7 @@
                                     <button *abpPermission="'ComplianceSystem.Control.Create'" id="create" mat-button
                                         class="add-raised-btn add-blue" type="button"
                                         (click)="openControlDialog(null, FormMode.Create, mainControl, subControlsTable)">
-                                        <i class="fa fa-plus mr-1"></i>
+                                        <i class="fa fa-plus me-1"></i>
                                         <span>
                                             <ng-container
                                                 *ngIf="frameWorkData | lang:'levelFourName'; else showCreateSubControl">

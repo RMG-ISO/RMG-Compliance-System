@@ -106,7 +106,7 @@
                         <button [disabled]="isSaving" mat-button class="primary" [disabled]="uploading">
                             <div class="d-flex align-items-center justify-content-center">
                                 <ng-template #showIcon>
-                                    <i class="fa fa-check mr-1"></i>
+                                    <i class="fa fa-check me-1"></i>
                                 </ng-template>
                                 <mat-spinner *ngIf="isSaving; else showIcon" diameter="15" [strokeWidth]="2"></mat-spinner>
                                 <span>
@@ -116,7 +116,7 @@
                         </button>
                     </ng-template>
                     <button mat-button class="send" *ngIf="form.controls.achievementPercentage.value == 100; else showOther" type="button">
-                        <i class="fas fa-paper-plane mr-1"></i>
+                        <i class="fas fa-paper-plane me-1"></i>
                         {{ '::SendRequest' | abpLocalization }}
                     </button>
                 </ng-container>

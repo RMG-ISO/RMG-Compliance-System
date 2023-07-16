@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿//using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Authorization;
 using MimeKit.Encodings;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
@@ -15,6 +16,7 @@ using Volo.Abp;
 
 namespace RMG.ComplianceSystem.Reports
 {
+    [Authorize]
     public class ReportsAppService : ComplianceSystemAppService
     {
         private readonly IDomainRepository _domainRepository;
@@ -31,11 +33,11 @@ namespace RMG.ComplianceSystem.Reports
 
 
 
-        public  List<ComplianceLevelTableDto> GetControllersByComplianceLevel([Required] Guid frameworkId)
+        public  async Task<List<ComplianceLevelTableDto>> GetControllersByComplianceLevel([Required] Guid frameworkId)
         {
             var result = new List<ComplianceLevelTableDto>();
 
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId && x.ParentId == null);
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(x => x.FrameworkId == frameworkId);
             // if framework doesn't have any main domain
             if (!domains.Any())
             {
@@ -63,9 +65,9 @@ namespace RMG.ComplianceSystem.Reports
             return result;
         }
 
-        public List<CompliancePhaseTableDto> GetControllersByPhase([Required] Guid frameworkId)
+        public async Task<List<CompliancePhaseTableDto>> GetControllersByPhase([Required] Guid frameworkId)
         {
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId && x.ParentId == null);
+            var domains = (await _domainRepository.GetQueryableAsync()).Where(x => x.FrameworkId == frameworkId);
             var result = new List<CompliancePhaseTableDto>();
             // if framework doesn't have any main domain
             if (!domains.Any())
@@ -74,22 +76,22 @@ namespace RMG.ComplianceSystem.Reports
             }
 
 
-            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr, x => GetAssessmentsByMainDomainIds(x.Id));
+            var mainDomainNamesDict = domains.ToLookup(x => x.NameAr, x => GetAssessmentsByMainDomainIds(x.Id));
 
             foreach (var item in mainDomainNamesDict)
             {
                 result.Add(new CompliancePhaseTableDto
                 {
                     DomainName = item.Key,
-                    DocumentedNo = item.Value.Count(x => x.Documented == DocumentedType.NotDocumented),
-                    DocumentedPartially = item.Value.Count(x => x.Documented == DocumentedType.PartialDocumented),
-                    DocumentedYes = item.Value.Count(x => x.Documented == DocumentedType.Documented),
-                    EffectiveNo = item.Value.Count(x => x.Effective == EffectiveType.NotEffective),
-                    EffectivePartially = item.Value.Count(x => x.Effective == EffectiveType.PartialEffective),
-                    EffectiveYes = item.Value.Count(x => x.Effective == EffectiveType.Effective),
-                    ImplementedNo = item.Value.Count(x => x.Implemented == ImplementedType.NotImplemented),
-                    ImplementedPartially = item.Value.Count(x => x.Implemented == ImplementedType.PartialImplemented),
-                    ImplementedYes = item.Value.Count(x => x.Implemented == ImplementedType.Implemented),
+                    DocumentedNo = item.SelectMany(x => x).Count(x => x.Documented == DocumentedType.NotDocumented),
+                    DocumentedPartially = item.SelectMany(x => x).Count(x => x.Documented == DocumentedType.PartialDocumented),
+                    DocumentedYes = item.SelectMany(x => x).Count(x => x.Documented == DocumentedType.Documented),
+                    EffectiveNo = item.SelectMany(x => x).Count(x => x.Effective == EffectiveType.NotEffective),
+                    EffectivePartially = item.SelectMany(x => x).Count(x => x.Effective == EffectiveType.PartialEffective),
+                    EffectiveYes = item.SelectMany(x => x).Count(x => x.Effective == EffectiveType.Effective),
+                    ImplementedNo = item.SelectMany(x => x).Count(x => x.Implemented == ImplementedType.NotImplemented),
+                    ImplementedPartially = item.SelectMany(x => x).Count(x => x.Implemented == ImplementedType.PartialImplemented),
+                    ImplementedYes = item.SelectMany(x => x).Count(x => x.Implemented == ImplementedType.Implemented),
                 });
             }
             return result;
@@ -97,7 +99,7 @@ namespace RMG.ComplianceSystem.Reports
 
         public List<CompliancePriorityTableDto> GetControllerByPriorityLevel([Required] Guid frameworkId)
         {
-            var domains = _domainRepository.Where(x => x.FrameworkId == frameworkId);
+            var domains = _domainRepository.GetQueryableAsync().Result.Where(x => x.FrameworkId == frameworkId);
             var result = new List<CompliancePriorityTableDto>();
             // if framework doesn't have any main domain
             if (!domains.Any())
@@ -121,8 +123,8 @@ namespace RMG.ComplianceSystem.Reports
             bool subController = false;
             foreach (var domain in mainDomains)
             {
-                var subDomains = _domainRepository.Where(d => d.ParentId == domain.Id).Select(d => d.Id).ToList();
-                var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+                var subDomains = _domainRepository.GetQueryableAsync().Result.Where(d => d.ParentId == domain.Id).Select(d => d.Id).ToList();
+                var controls = _controlRepository.GetQueryableAsync().Result.Where(c => subDomains.Contains(c.DomainId)).ToList();
                 if (controls.Any(x => x.Children != null))
                 {
                     subController = true;
@@ -134,23 +136,22 @@ namespace RMG.ComplianceSystem.Reports
                 //mainDomains.ToDictionary(mainDomain => mainDomain, mainDomain => mainDomain.Children.SelectMany(domain => domain.Controls.SelectMany(controls => controls.Children)) ?? mainDomain.Children.SelectMany(x => x.Controls));
             return new List<CompliancePriorityTableDto>
             {
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr , DocumentedNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1,null,DocumentedType.NotDocumented) , DocumentedPartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1, null , DocumentedType.PartialDocumented) , DocumentedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, DocumentedType.Documented) , EffectiveNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , EffectiveType.NotEffective) , EffectivePartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1,EffectiveType.PartialEffective) , EffectiveYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , EffectiveType.Effective), ImplementedNo =  GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, null , ImplementedType.NotImplemented) , ImplementedPartially  = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, null , ImplementedType.PartialImplemented) ,  ImplementedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, null , ImplementedType.Implemented)}).ToList() },
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr , DocumentedNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2,null,DocumentedType.NotDocumented) , DocumentedPartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2, null , DocumentedType.PartialDocumented) , DocumentedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, DocumentedType.Documented) , EffectiveNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , EffectiveType.NotEffective) , EffectivePartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2,EffectiveType.PartialEffective) , EffectiveYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , EffectiveType.Effective), ImplementedNo =  GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, null , ImplementedType.NotImplemented) , ImplementedPartially  = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, null , ImplementedType.PartialImplemented) ,  ImplementedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, null , ImplementedType.Implemented)}).ToList()},
-                new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ComplianceCount = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3) , ControllersCount = x.Value.Count() , DomainName = x.Key.NameAr , DocumentedNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3,null,DocumentedType.NotDocumented) , DocumentedPartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3, null , DocumentedType.PartialDocumented) , DocumentedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, DocumentedType.Documented) , EffectiveNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , EffectiveType.NotEffective) , EffectivePartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3,EffectiveType.PartialEffective) , EffectiveYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , EffectiveType.Effective), ImplementedNo =  GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, null , ImplementedType.NotImplemented) , ImplementedPartially  = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, null , ImplementedType.PartialImplemented) ,  ImplementedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, null , ImplementedType.Implemented)}).ToList()},
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority1 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto {  ControllersCount = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3) , DomainName = x.Key.NameAr , DocumentedNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1,null,DocumentedType.NotDocumented) , DocumentedPartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1, null , DocumentedType.PartialDocumented) , DocumentedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, DocumentedType.Documented) , EffectiveNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , EffectiveType.NotEffective) , EffectivePartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1,EffectiveType.PartialEffective) , EffectiveYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , EffectiveType.Effective), ImplementedNo =  GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, null , ImplementedType.NotImplemented) , ImplementedPartially  = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, null , ImplementedType.PartialImplemented) ,  ImplementedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority1 , null, null , ImplementedType.Implemented)}).ToList() },
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority2 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto {  ControllersCount = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3) , DomainName = x.Key.NameAr , DocumentedNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2,null,DocumentedType.NotDocumented) , DocumentedPartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2, null , DocumentedType.PartialDocumented) , DocumentedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, DocumentedType.Documented) , EffectiveNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , EffectiveType.NotEffective) , EffectivePartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2,EffectiveType.PartialEffective) , EffectiveYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , EffectiveType.Effective), ImplementedNo =  GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, null , ImplementedType.NotImplemented) , ImplementedPartially  = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, null , ImplementedType.PartialImplemented) ,  ImplementedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority2 , null, null , ImplementedType.Implemented)}).ToList()},
+                new CompliancePriorityTableDto () { Priority = PriorityType.Priority3 , Domains = mainDomainsDict.Select(x => new ComplianceControllerDto { ControllersCount = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3) , DomainName = x.Key.NameAr , DocumentedNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3,null,DocumentedType.NotDocumented) , DocumentedPartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3, null , DocumentedType.PartialDocumented) , DocumentedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, DocumentedType.Documented) , EffectiveNo = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , EffectiveType.NotEffective) , EffectivePartially = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3,EffectiveType.PartialEffective) , EffectiveYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , EffectiveType.Effective), ImplementedNo =  GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, null , ImplementedType.NotImplemented) , ImplementedPartially  = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, null , ImplementedType.PartialImplemented) ,  ImplementedYes = GetComplianceControlCountByDomainId(x.Key.Id, subController, PriorityType.Priority3 , null, null , ImplementedType.Implemented)}).ToList()},
             };
         }
 
         private int GetComplianceControlCountByDomainId(Guid domainId, bool subController , PriorityType priority, EffectiveType? effective =null, DocumentedType? documented =null, ImplementedType? implemented= null)
         {
-            var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
-            var controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).ToList();
+            var subDomains = _domainRepository.GetQueryableAsync().Result.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
+            var controls = _controlRepository.GetQueryableAsync().Result.Where(c => subDomains.Contains(c.DomainId)).ToList();
             if (subController)
             {
                 controls = controls.Where(x => x.Children != null).SelectMany(x => x.Children).ToList();
             }
 
-            return _assessmentRepository.Where(x => x.Priority == priority)
-                                        .Where(x => x.Applicable == ApplicableType.Applicable)
+            return _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == priority)
                                         .WhereIf(effective.HasValue, x => x.Effective == effective.Value)
                                         .WhereIf(documented.HasValue, x => x.Documented == documented.Value)
                                         .WhereIf(implemented.HasValue, x => x.Implemented == implemented.Value)
@@ -158,41 +159,36 @@ namespace RMG.ComplianceSystem.Reports
         }
         private IList<Assessment> GetAssessmentsByMainDomainIds(Guid domainId)
         {
-            var subDomains = _domainRepository.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
-            var controlsIds =  _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(x => x.Id).ToList();
-            return _assessmentRepository.Where(a => controlsIds.Contains(a.ControlId) && a.Applicable == ApplicableType.Applicable).ToList();
+            var subDomains = _domainRepository.GetQueryableAsync().Result.Where(d => d.ParentId == domainId).Select(d => d.Id).ToList();
+            var controlsIds =  _controlRepository.GetQueryableAsync().Result.Where(c => subDomains.Contains(c.DomainId)).Select(x => x.Id).ToList();
+            return _assessmentRepository.GetQueryableAsync().Result.Where(a => controlsIds.Contains(a.ControlId) && a.Applicable == ApplicableType.Applicable).ToList();
         }
         public List<ControlsCountByPriorityTableDto> GetControlsCountByPriority([Required]Guid frameworkId)
         {
-            var framework = _frameworkRepository.FirstOrDefault(x => x.Id == frameworkId);
-            if (!framework.HasPriority)
-            {
-                throw new UserFriendlyException(L["FrameworkPriorityError"]);
-            }
-            var domainsIds = _domainRepository.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
-            var controls = _controlRepository.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
+            var domainsIds = _domainRepository.GetQueryableAsync().Result.Where(x => x.FrameworkId == frameworkId).Select(x => x.Id);
+            var controls = _controlRepository.GetQueryableAsync().Result.Where(c => domainsIds.Contains(c.DomainId) && c.ParentId != null);
             var result = new List<ControlsCountByPriorityTableDto>();
-            var total = _assessmentRepository.Where(x => x.Applicable == ApplicableType.Applicable).Count(x => controls.Select(x => x.Id).Contains(x.ControlId));
+            var total = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Applicable == ApplicableType.Applicable).Count(x => controls.Select(x => x.Id).Contains(x.ControlId));
 
             #region Priority1
-            int controlsCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityOne = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityOne = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority1 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
 
             #region Priority2
-            int controlsCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityTwo= _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityTwo = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityTwo = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityTwo = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityTwo= _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityTwo = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority2 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
 
             #region Priority3 
-            int controlsCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Applicable == ApplicableType.Applicable ).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int documentedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int effectiveCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
-            int implementedCountPriorityThree = _assessmentRepository.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented && x.Applicable == ApplicableType.Applicable).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int controlsCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int documentedCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3 && x.Documented == DocumentedType.Documented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int effectiveCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3 && x.Effective == EffectiveType.Effective).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
+            int implementedCountPriorityThree = _assessmentRepository.GetQueryableAsync().Result.Where(x => x.Priority == PriorityType.Priority3 && x.Implemented == ImplementedType.Implemented).Count(a => controls.Select(x => x.Id).Contains(a.ControlId));
             #endregion
             return new List<ControlsCountByPriorityTableDto>
 
@@ -216,7 +212,7 @@ namespace RMG.ComplianceSystem.Reports
                     DocumentedCount = documentedCountPriorityTwo,
                     EffectiveCount= effectiveCountPriorityTwo,
                     ImplementedCount = implementedCountPriorityTwo,
-                    DocumentedPercentage = controlsCountPriorityTwo != 0 ? (double)(documentedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
+                    DocumentedPercentage = controlsCountPriorityTwo != 0 ? ((double)documentedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
                     EffectivePercentage = controlsCountPriorityTwo != 0 ? ((double)effectiveCountPriorityTwo / controlsCountPriorityTwo) *100 : 0,
                     ImplementedPercentage = controlsCountPriorityTwo !=0 ? ((double)implementedCountPriorityTwo / controlsCountPriorityTwo ) * 100 : 0,
                     PercentageOfTotal = controlsCountPriorityTwo != 0 ? ((double)controlsCountPriorityOne / total ) * 100 : 0,

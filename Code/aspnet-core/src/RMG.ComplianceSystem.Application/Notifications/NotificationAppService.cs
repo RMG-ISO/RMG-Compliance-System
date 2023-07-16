@@ -104,7 +104,7 @@ namespace RMG.ComplianceSystem.Notifications
         [AllowAnonymous]
         public async Task SendNotifications()
         {
-            var notificationsTobeSent = _repository.Where(N => N.Status == Status.Created).ToList();
+            var notificationsTobeSent = (await _repository.GetQueryableAsync()).Where(N => N.Status == Status.Created).ToList();
 
             foreach (var item in notificationsTobeSent)
             {
@@ -167,7 +167,7 @@ namespace RMG.ComplianceSystem.Notifications
         public async Task NotifyUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();
-            var userNotifications = Repository.Where(t => t.To == userId);
+            var userNotifications = (await Repository.GetQueryableAsync()).Where(t => t.To == userId);
             var Notifications = new NotifyUserDto
             {
                 UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
@@ -188,7 +188,7 @@ namespace RMG.ComplianceSystem.Notifications
         public async Task NotifictionUser(Guid userToNotify)
         {
             string userId = userToNotify.ToString();
-            var userNotifications = Repository.Where(t => t.To == userId);
+            var userNotifications = (await Repository.GetQueryableAsync()).Where(t => t.To == userId);
             var Notifications = new NotifyUserDto
             {
                 UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),
@@ -217,7 +217,7 @@ namespace RMG.ComplianceSystem.Notifications
         public async Task<NotifyUserDto> GetCurrentUserNotificationAsync()
         {
             string userId = _currentUser.Id.ToString();
-            var userNotifications = Repository.Where(t => t.To == userId);
+            var userNotifications = (await Repository.GetQueryableAsync()).Where(t => t.To == userId);
             var Notifications = new NotifyUserDto
             {
                 UnReadNotifications = userNotifications.LongCount(t => t.Type == NotificationType.Push && t.Status == Status.NotSeen),

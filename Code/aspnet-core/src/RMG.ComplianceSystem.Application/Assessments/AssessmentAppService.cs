@@ -64,7 +64,7 @@ namespace RMG.ComplianceSystem.Assessments
         {
             await CheckCreatePolicyAsync();
             var control = await _controlRepository.GetAsync(input.ControlId, false);
-            if (!control.ParentId.HasValue && _controlRepository.Any(c => c.ParentId == control.Id))
+            if (!control.ParentId.HasValue && await _controlRepository.AnyAsync(c => c.ParentId == control.Id))
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAssessMainControlIfItHasSubs);
             var domain = await _domainRepository.GetAsync(control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
@@ -152,7 +152,7 @@ namespace RMG.ComplianceSystem.Assessments
             await CheckUpdatePolicyAsync();
             var entity = await GetEntityByIdAsync(id);
             var control = await _controlRepository.GetAsync(input.ControlId, false);
-            if (!control.ParentId.HasValue && _controlRepository.Any(c => c.ParentId == control.Id))
+            if (!control.ParentId.HasValue && await _controlRepository.AnyAsync(c => c.ParentId == control.Id))
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotAssessMainControlIfItHasSubs); 
             var domain = await _domainRepository.GetAsync(entity.Control.DomainId, false);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);

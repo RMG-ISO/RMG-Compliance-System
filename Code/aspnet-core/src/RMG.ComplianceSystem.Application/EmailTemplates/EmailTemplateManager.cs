@@ -156,7 +156,7 @@ namespace RMG.ComplianceSystem.EmailTemplates
         }
         public async Task OnAddRiskTreatmentSendToRiskTreatment()
         {
-            var notificationList = _notificationRepository.Where(t => t.Type == NotificationType.Push).ToList();
+            var notificationList = (await _notificationRepository.GetQueryableAsync()).Where(t => t.Type == NotificationType.Push).ToList();
             foreach (var notificatio in notificationList)
             {
                 await _notificationAppService.NotifyUser(Guid.Parse(notificatio.To));

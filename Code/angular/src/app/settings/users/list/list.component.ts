@@ -1,5 +1,5 @@
 import { ListService } from '@abp/ng.core';
-import { IdentityUserService } from '@abp/ng.identity';
+import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Repositories;
 
 namespace RMG.ComplianceSystem.Breadcrumbs
 {
@@ -42,61 +43,61 @@ namespace RMG.ComplianceSystem.Breadcrumbs
             {
                 case BreadCrumbSettingsType.Framework:
                     {
-                        framework = _frameworkRepository.SingleOrDefault(t => t.Id == input.Id);
+                        framework = await _frameworkRepository.SingleOrDefaultAsync(t => t.Id == input.Id);
                     }
                     break;
                 case BreadCrumbSettingsType.MainDomain:
                     {
-                        domain = _domainRepository.SingleOrDefault(t => t.Id == input.Id);
+                        domain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == input.Id);
                         if (domain != null)
                         {
-                            framework = _frameworkRepository.SingleOrDefault(t => t.Id == domain.FrameworkId);
+                            framework = await _frameworkRepository.SingleOrDefaultAsync(t => t.Id == domain.FrameworkId);
                         }
                     }
                     break;
                 case BreadCrumbSettingsType.SubDomain:
                     {
-                        subDomain = _domainRepository.SingleOrDefault(t => t.Id == input.Id);
+                        subDomain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == input.Id);
                         if (subDomain != null)
                         {
-                            domain = _domainRepository.SingleOrDefault(t => t.Id == subDomain.ParentId);
+                            domain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == subDomain.ParentId);
 
                             if (domain != null)
-                                framework = _frameworkRepository.SingleOrDefault(t => t.Id == domain.FrameworkId);
+                                framework = await _frameworkRepository.SingleOrDefaultAsync(t => t.Id == domain.FrameworkId);
                         }
                     }
                     break;
                 case BreadCrumbSettingsType.MainControl:
                     {
-                        control = _controlRepository.SingleOrDefault(t => t.Id == input.Id);
+                        control = await _controlRepository.SingleOrDefaultAsync(t => t.Id == input.Id);
                         if (control != null)
                         {
-                            subDomain = _domainRepository.SingleOrDefault(t => t.Id == control.DomainId);
+                            subDomain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == control.DomainId);
 
                             if (subDomain != null)
-                                domain = _domainRepository.SingleOrDefault(t => t.Id == subDomain.ParentId);
+                                domain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == subDomain.ParentId);
 
                             if (domain != null)
-                                framework = _frameworkRepository.SingleOrDefault(t => t.Id == domain.FrameworkId);
+                                framework = await _frameworkRepository.SingleOrDefaultAsync(t => t.Id == domain.FrameworkId);
                         }
                     }
                     break;
                 case BreadCrumbSettingsType.SubControl:
                     {
-                        subControl = _controlRepository.SingleOrDefault(t => t.Id == input.Id);
+                        subControl = await _controlRepository.SingleOrDefaultAsync(t => t.Id == input.Id);
 
                         if (subControl != null)
                         {
-                            control = _controlRepository.SingleOrDefault(t => t.Id == subControl.ParentId);
+                            control = await _controlRepository.SingleOrDefaultAsync(t => t.Id == subControl.ParentId);
 
                             if (control != null)
-                                subDomain = _domainRepository.SingleOrDefault(t => t.Id == control.DomainId);
+                                subDomain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == control.DomainId);
 
                             if (subDomain != null)
-                                domain = _domainRepository.SingleOrDefault(t => t.Id == subDomain.ParentId);
+                                domain = await _domainRepository.SingleOrDefaultAsync(t => t.Id == subDomain.ParentId);
 
                             if (domain != null)
-                                framework = _frameworkRepository.SingleOrDefault(t => t.Id == domain.FrameworkId);
+                                framework = await _frameworkRepository.SingleOrDefaultAsync(t => t.Id == domain.FrameworkId);
                         }
                     }
                     break;

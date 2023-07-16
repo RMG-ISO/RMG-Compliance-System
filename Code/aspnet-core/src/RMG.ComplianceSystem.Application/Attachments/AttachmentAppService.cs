@@ -51,7 +51,7 @@ namespace RMG.ComplianceSystem.Attachments
 
         public async Task DeleteFile(Guid attachmentId, Guid fileId)
         {
-            var attachmentFile = _attachmentManager.DeleteFile(attachmentId, fileId);
+            var attachmentFile = await _attachmentManager.DeleteFile(attachmentId, fileId);
             if (attachmentFile != null)
             {
                 await _attachmentFileRepository.DeleteAsync(attachmentFile, autoSave: true);

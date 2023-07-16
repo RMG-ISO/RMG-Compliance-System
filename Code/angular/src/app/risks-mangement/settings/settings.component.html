@@ -32,9 +32,9 @@
                         {{ '::StaticData:Settings' | abpLocalization }}
                     </h3>
                     <div class="d-flex justify-content-end">
-                        <button *abpPermission="'ComplianceSystem.StaticData.Create'" id="create" mat-button class="add-btn mr-3" type="button" (click)="openDialog(null)">
-                            <i class="fa fa-plus mr-2"></i>
-                            <span class="line mr-2"></span>
+                        <button *abpPermission="'ComplianceSystem.StaticData.Create'" id="create" mat-button class="add-btn me-3" type="button" (click)="openDialog(null)">
+                            <i class="fa fa-plus me-2"></i>
+                            <span class="line me-2"></span>
                             <span>{{ "::StaticData:Create" | abpLocalization }}</span>
                         </button>
                         <app-search (search)="searchVal = $event;getList()"></app-search>
@@ -129,7 +129,7 @@
 
         <!--added save button-->
         <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-            <i class="fa fa-check mr-1"></i>
+            <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}
         </button>
     </ng-template>

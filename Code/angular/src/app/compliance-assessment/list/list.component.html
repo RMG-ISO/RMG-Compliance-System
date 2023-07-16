@@ -16,12 +16,12 @@
                 {{ '::Framework' | abpLocalization }}
             </h2>
             <div class="pt-2 d-flex justify-content-end">
-                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn mr-3" type="button" (click)="openDialog()">
-                    <i class="fa fa-plus mr-1"></i>
+                <button *abpPermission="'ComplianceSystem.Framework.Create'" id="create" mat-button  class="add-btn me-3" type="button" (click)="openDialog()">
+                    <i class="fa fa-plus me-1"></i>
                     <span>{{ "::CreateFramework" | abpLocalization }}</span>
                 </button>
                 
-                <button mat-button class="filter-btn mr-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
+                <button mat-button class="filter-btn me-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
                     <i class="fas fa-filter"></i>
                     {{ '::Filter' | abpLocalization }}
                 </button>

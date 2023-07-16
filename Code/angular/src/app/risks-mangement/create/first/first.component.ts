@@ -1,4 +1,4 @@
-import { IdentityUserService } from '@abp/ng.identity';
+import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { Component, Input, OnInit } from '@angular/core';
 import { StaticDataService } from '@proxy/StaticData';
 import { DepartmentService } from '@proxy/departments';

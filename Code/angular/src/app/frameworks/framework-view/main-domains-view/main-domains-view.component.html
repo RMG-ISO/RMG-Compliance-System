@@ -8,9 +8,9 @@
 
     <div *ngIf="showButton">
         <button (click)="openDomainDialog(null, FormMode.Create, null, null)"
-            *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button class="add-raised-btn mr-3"
+            *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button class="add-raised-btn me-3"
             type="button">
-            <i class="fa fa-plus mr-1"></i>
+            <i class="fa fa-plus me-1"></i>
             <span>
                 <ng-container *ngIf="frameWorkData | lang : 'levelFirstName'; else showCreateDomain">
                     {{ '::Create' | abpLocalization }}
@@ -23,9 +23,9 @@
                 <!-- {{ "::CreateDomain" | abpLocalization: ('::DomainMainDomain' | abpLocalization) }} -->
             </span>
         </button>
-        <button mat-raised-button class="mr-2 delete-btn" color="warn" [disabled]="!deleteLength"
+        <button mat-raised-button class="me-2 delete-btn" color="warn" [disabled]="!deleteLength"
             (click)="deleteItems()">
-            <mat-icon class="mr-1">delete_forever</mat-icon>
+            <mat-icon class="me-1">delete_forever</mat-icon>
             {{ '::Delete' | abpLocalization }}
         </button>
     </div>
@@ -50,19 +50,19 @@
 
                 <div *ngIf="!showButton">
                     <ng-container *ngIf="mainDomain.responsibleId == userId">
-                        <button class="mr-3" mat-button
+                        <button class="me-3" mat-button
                         *ngIf=" mainDomain.complianceStatus == ComplianceStatus.ReadyForInternalAssessment "
                         (click)="startInternalAssessmentById(mainDomain); $event.stopPropagation()">
                             {{ '::StartInternalAssessment' | abpLocalization }}
                         </button>
 
-                        <button class="mr-3" mat-button
+                        <button class="me-3" mat-button
                         *ngIf=" mainDomain.complianceStatus == ComplianceStatus.UnderInternalAssessment "
                         (click)="endInternalAssessmentById(mainDomain); $event.stopPropagation()">
                             {{ '::EndInternalAssessment' | abpLocalization }}
                         </button>
 
-                        <button class="mr-3" mat-button
+                        <button class="me-3" mat-button
                         *ngIf=" mainDomain.complianceStatus == ComplianceStatus.UnderInternalReAssessment "
                         (click)="sendToOwner(mainDomain); $event.stopPropagation()">
                             {{ '::SendToOwner' | abpLocalization }}
@@ -181,11 +181,11 @@
                             {{ '::Departments' | abpLocalization }}
                         </td>
                         <td colspan="3">
-                            <mat-chip-list>
+                            <mat-chip-listbox>
                                 <mat-chip *ngFor="let department of mainDomain.departments">
                                     {{ department.name }}
                                 </mat-chip>
-                            </mat-chip-list>
+                            </mat-chip-listbox>
                         </td>
                     </tr>
 
@@ -299,7 +299,7 @@
                     <button *abpPermission="'ComplianceSystem.Domain.Create'" id="create" mat-button
                         class="add-raised-btn add-blue" type="button"
                         (click)="openDomainDialog(null, FormMode.Create, mainDomain, subDomainsTable)">
-                        <i class="fa fa-plus mr-1"></i>
+                        <i class="fa fa-plus me-1"></i>
                         <span>
                             <ng-container *ngIf="frameWorkData | lang : 'levelSecondName'; else showCreateSubDomain">
                                 {{ '::Create' | abpLocalization }}
@@ -523,10 +523,10 @@
                       {{ '::IsSystemApplicable' | abpLocalization }}
                   </label> -->
           <mat-radio-group formControlName="action" color="primary" class="d-flex">
-            <mat-radio-button class="ml-3 mr-3" [value]="true">
+            <mat-radio-button class="ms-3 me-3" [value]="true">
               {{ '::ApproveCompliance' | abpLocalization }}
             </mat-radio-button>
-            <mat-radio-button class="ml-3 mr-3" [value]="false">
+            <mat-radio-button class="ms-3 me-3" [value]="false">
               {{ '::ReturnToResponsible' | abpLocalization }}
             </mat-radio-button>
           </mat-radio-group>

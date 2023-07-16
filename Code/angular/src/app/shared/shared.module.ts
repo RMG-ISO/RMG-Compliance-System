@@ -76,6 +76,7 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
     MatStepperModule,
     NgSelectModule,
     NgbDatepickerModule,
+    
   ],
   exports: [
     SearchComponent,
@@ -112,7 +113,7 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
     NgxdatatableCustomDirective,
     NgbDatepickerModule,
     AssessmentFormComponent,
-
+    
   ],
   providers: [
     {

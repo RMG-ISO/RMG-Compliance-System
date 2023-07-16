@@ -1,4 +1,4 @@
-import { AccountService } from '@abp/ng.account';
+import { AccountService } from '@abp/ng.account.core/proxy';
 import { Component, Injector, OnInit } from '@angular/core';
 
 import { ToasterService, getPasswordValidators } from '@abp/ng.theme.shared';
@@ -7,6 +7,7 @@ import { comparePasswords } from '@ngx-validate/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { AuthService, ConfigStateService, SessionStateService } from '@abp/ng.core';
+import { AbpOAuthService } from '@abp/ng.oauth';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

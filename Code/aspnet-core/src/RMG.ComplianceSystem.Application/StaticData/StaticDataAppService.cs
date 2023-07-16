@@ -55,7 +55,7 @@ namespace RMG.ComplianceSystem.StaticData
             if (input.Type!=null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = StaticDataRepository.Where(x => x.Type == input.Type && x.IsDeleted == false && ((x.ParentId==input.ParentId)|| input.ParentId==null) &&
+                var ListRisks = (await StaticDataRepository.GetQueryableAsync()).Where(x => x.Type == input.Type && x.IsDeleted == false && ((x.ParentId==input.ParentId)|| input.ParentId==null) &&
                 ((x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty())))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
@@ -64,7 +64,7 @@ namespace RMG.ComplianceSystem.StaticData
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-              var  ListDoc = StaticDataRepository.Where(x => x.IsDeleted == false &&
+              var  ListDoc = (await StaticDataRepository.GetQueryableAsync()).Where(x => x.IsDeleted == false &&
                 (x.NameAr.Contains(input.Search) || input.Search.IsNullOrEmpty()) || (x.NameEn.Contains(input.Search) || input.Search.IsNullOrEmpty()))
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto

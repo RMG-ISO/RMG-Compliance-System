@@ -11,7 +11,7 @@ export const environment = {
   },
   
   // oAuthConfig: {
-  //   issuer: 'https://iso.digitaltransformationinstitute.org:11000',
+  //   issuer: 'https://iso.digitaltransformationinstitute.org:11100',
   //   redirectUri: baseUrl,
   //   clientId: 'ComplianceSystem_App',
   //   responseType: 'code',

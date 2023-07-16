@@ -37,7 +37,7 @@ namespace RMG.ComplianceSystem.Frameworks
 
         public async Task<ListResultDto<FrameworkEmployeeDto>> GetFrameworkEmployees(getFrameworkDto input)
         { 
-        var listemployee= _repository.Where(t=>t.FrameworkId==input.FrameworkId).ToList();
+        var listemployee= (await _repository.GetQueryableAsync()).Where(t => t.FrameworkId == input.FrameworkId).ToList();
         return new ListResultDto<FrameworkEmployeeDto>(ObjectMapper.Map<List<FrameworkEmployee>, List<FrameworkEmployeeDto>>(listemployee));
         }
 

@@ -80,20 +80,20 @@ namespace RMG.ComplianceSystem.RiskTreatments
             if (input.RiskOpportunityId != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = RiskTreatmentRepository.Where(x => x.IsDeleted == false && x.RiskOpportunityId == input.RiskOpportunityId)
+                var ListRisks = (await RiskTreatmentRepository.GetQueryableAsync()).Where(x => x.IsDeleted == false && x.RiskOpportunityId == input.RiskOpportunityId)
                     .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListRisks);
-                var ListRisk = RiskTreatmentRepository.Where(x => x.RiskOpportunityId == input.RiskOpportunityId).ToList();
+                var ListRisk = (await RiskTreatmentRepository.GetQueryableAsync()).Where(x => x.RiskOpportunityId == input.RiskOpportunityId).ToList();
                 totalCount = ListRisk.Count;
             }
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = RiskTreatmentRepository.Where(x => x.IsDeleted == false).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                var ListDoc = (await RiskTreatmentRepository.GetQueryableAsync()).Where(x => x.IsDeleted == false).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskTreatment to RiskTreatmentDto
                 Risks = ObjectMapper.Map<List<RisksTreatment>, List<RiskTreatmentDto>>(ListDoc);
-                var ListRisk = RiskTreatmentRepository.ToList();
+                var ListRisk = (await RiskTreatmentRepository.GetQueryableAsync()).ToList();
                 totalCount = ListRisk.Count;
             }
 

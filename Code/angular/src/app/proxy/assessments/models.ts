@@ -5,7 +5,7 @@ import type { DocumentedType } from './documented-type.enum';
 import type { ImplementedType } from './implemented-type.enum';
 import type { PriorityType } from './priority-type.enum';
 import type { EffectiveType } from './effective-type.enum';
-import { IdentityUserDto } from '@abp/ng.account';
+import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface AssessmentVersionDto extends CreationAuditedEntityWithUserDto<string, IdentityUserDto> {
   assessmentId?: string;

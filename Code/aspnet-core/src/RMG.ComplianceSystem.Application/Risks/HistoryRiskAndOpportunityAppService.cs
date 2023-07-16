@@ -58,19 +58,19 @@ namespace RMG.ComplianceSystem.Risks
             List<HistoryRiskAndOpportunityDto> Risks = new List<HistoryRiskAndOpportunityDto>();
             int totalCount=0;   
             if (input.WorkFlowStages != null) {
-                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages )
+                var ListRisks = (await HistoryRiskRepository.GetQueryableAsync()).Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages )
                      .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
-                var risk = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages).ToList();
+                var risk = (await HistoryRiskRepository.GetQueryableAsync()).Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId && x.WorkFlowStages == input.WorkFlowStages).ToList();
                 totalCount = risk.Count;
             } else
             {
-                var ListRisks = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId)
+                var ListRisks = (await HistoryRiskRepository.GetQueryableAsync()).Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId)
               .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping Risk to RiskDto
                 Risks = ObjectMapper.Map<List<HistoryRiskOpportunity>, List<HistoryRiskAndOpportunityDto>>(ListRisks);
-                var risk = HistoryRiskRepository.Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId).ToList();
+                var risk = (await HistoryRiskRepository.GetQueryableAsync()).Where(x => x.RiskAndOpportunityId == input.RiskOpportunityId).ToList();
                 totalCount = risk.Count;
             }
 

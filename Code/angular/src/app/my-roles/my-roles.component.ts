@@ -1,5 +1,6 @@
 import { ListService, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
-import { eIdentityComponents, IdentityRoleDto, IdentityRoleService, RolesComponent } from '@abp/ng.identity';
+import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
+import { IdentityRoleDto, IdentityRoleService } from '@abp/ng.identity/proxy';
 import { ePermissionManagementComponents } from '@abp/ng.permission-management';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import {

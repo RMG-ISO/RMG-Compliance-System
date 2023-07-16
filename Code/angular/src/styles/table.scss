@@ -60,6 +60,14 @@ ngx-datatable {
                 // padding-right: 10px;
                 padding-left: 10px;
                 padding-right: 10px;
+                mat-icon {
+                    margin: 0;
+                }
+                &.mat-mdc-button {
+                    mat-icon {
+                        margin: 0;
+                    }
+                }
             }
         }
     }
@@ -154,8 +162,8 @@ mat-accordion.table-details {
                         }
                     }
                     mat-checkbox {
-                        width: 20px;
-                        height: 20px;
+                        width: 40px;
+                        height: 40px;
                         .mat-checkbox-inner-container {
                             width: 20px;
                             height: 20px;
@@ -226,6 +234,7 @@ span.status {
     // margin-bottom: 16px;
     font-weight: bold;
     font-size: 14px;
+    background: transparent;
     &::before{
         content: "";
         width: 8px;
@@ -298,4 +307,27 @@ span.status {
     }
 
 
+}
+
+
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529
+}
+
+.table td,.table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6
+}
+
+.table tbody+tbody {
+    border-top: 2px solid #dee2e6
 }

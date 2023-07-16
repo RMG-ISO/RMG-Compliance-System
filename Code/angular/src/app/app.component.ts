@@ -1,5 +1,5 @@
 import { ReplaceableComponentsService } from '@abp/ng.core';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { eThemeBasicComponents } from 'projects/theme-basic/src/lib/enums';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
 import { LocalizationService } from '@abp/ng.core';
@@ -11,8 +11,10 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { ePermissionManagementComponents } from '@abp/ng.permission-management';
-import { eIdentityComponents, IdentityRoleDto, IdentityRoleService, RolesComponent } from '@abp/ng.identity';
+import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { MyRolesComponent } from './my-roles/my-roles.component';
+import { IdentityRoleDto, IdentityRoleService } from '@abp/ng.identity/proxy';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -29,9 +31,15 @@ export class AppComponent {
     private replaceableComponent: ReplaceableComponentsService,
     private localizationService:LocalizationService,
     private matIconRegistry:MatIconRegistry,
-    private domSanitizer:DomSanitizer
+    private domSanitizer:DomSanitizer,
+    @Inject(DOCUMENT) private document: Document
   ){
-    if( this.localizationService.currentLang == 'ar-EG') document.body.dir = 'rtl'
+    if( this.localizationService.currentLang == 'ar-EG') {
+      document.body.dir = 'rtl';
+      this.loadStyle('bootstrap-rtl.css')
+    } else this.loadStyle('bootstrap.css')
+
+
     this.replaceableComponent.add({
       component: ComplianceLayoutComponent,
       key: eThemeBasicComponents.ApplicationLayout,
@@ -57,4 +65,16 @@ export class AppComponent {
       );
     }
   }
+
+
+
+  loadStyle(styleName: string) {
+    const head = this.document.getElementsByTagName('head')[0];
+    const style = this.document.createElement('link');
+    style.id = 'client-theme';
+    style.rel = 'stylesheet';
+    style.href = `${styleName}`;
+    head.prepend(style);
+  }
+
 }

@@ -43,7 +43,7 @@ namespace RMG.ComplianceSystem.Authors
             );
 
             var totalCount = await AsyncExecuter.CountAsync(
-                _authorRepository.WhereIf(
+                (await _authorRepository.GetQueryableAsync()).WhereIf(
                     !input.Filter.IsNullOrWhiteSpace(),
                     author => author.Name.Contains(input.Filter)
                 )

@@ -60,20 +60,20 @@ namespace RMG.ComplianceSystem.EmailTemplates
             if (input.Key != null)
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListRisks = _emailTemplateRepository.Where(x => x.Key == input.Key)
+                var ListRisks = (await _emailTemplateRepository.GetQueryableAsync()).Where(x => x.Key == input.Key)
                  .Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to EmailTemplateDto
                 Risks = ObjectMapper.Map<List<EmailTemplate>, List<EmailTemplateDto>>(ListRisks);
-                var risk = _emailTemplateRepository.Where(x => x.Key == input.Key).ToList();
+                var risk = (await _emailTemplateRepository.GetQueryableAsync()).Where(x => x.Key == input.Key).ToList();
                 totalCount = risk.Count;
             }
             else
             {
                 //get Risk By CategoryId and Filters and Pagination
-                var ListDoc = _emailTemplateRepository.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                var ListDoc = (await _emailTemplateRepository.GetQueryableAsync()).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
                 // Mapping RiskAndOpportunity to EmailTemplateDto
                 Risks = ObjectMapper.Map<List<EmailTemplate>, List<EmailTemplateDto>>(ListDoc);
-                var risk = _emailTemplateRepository.ToList();
+                var risk = (await _emailTemplateRepository.GetQueryableAsync()).ToList();
                 totalCount = risk.Count;
             }
             if (!string.IsNullOrEmpty(input.Sorting))

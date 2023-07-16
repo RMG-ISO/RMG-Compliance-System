@@ -18,12 +18,13 @@ using RMG.ComplianceSystem.EmailTemplates;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
 using Microsoft.AspNetCore.Mvc;
-using DocumentFormat.OpenXml.Office2010.Excel;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Entities;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using RMG.ComplianceSystem.Authorization;
+using Volo.Abp.Domain.Entities.Events.Distributed;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -204,9 +205,23 @@ namespace RMG.ComplianceSystem.Domains
         protected override async Task<DomainDto> MapToGetOutputDtoAsync(Domain entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
-            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id, dto.ParentId.HasValue);
+            dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id, dto.ParentId.HasValue);
             if (dto.ResponsibleId.HasValue)
                 dto.ResponsibleName = (await _employeeRepository.GetAsync(dto.ResponsibleId.Value))?.FullName;
+
+            return dto;
+        }
+
+        public override async Task<DomainDto> GetAsync(Guid id)
+        {
+            var dto = await base.GetAsync(id);
+            if (!dto.ParentId.HasValue)
+            {
+                var children = (await Repository.GetQueryableAsync()).Where(r => r.ParentId == dto.Id).Select(r => r.Id).ToList();
+                dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => children.Contains(c.DomainId));
+            }
+            else
+                dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => c.DomainId == dto.Id);
             return dto;
         }
 
@@ -222,7 +237,16 @@ namespace RMG.ComplianceSystem.Domains
             {
                 foreach (var dto in entityDtos)
                 {
-                    dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+                    dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
+                    var children = (await Repository.GetQueryableAsync()).Where(r => r.ParentId == dto.Id).Select(r => r.Id).ToList();
+                    dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => children.Contains(c.DomainId));
+                }
+            }
+            else
+            {
+                foreach (var dto in entityDtos)
+                {
+                    dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => c.DomainId == dto.Id);
                 }
             }
             return new ListResultDto<DomainWithoutPagingDto>(entityDtos);
@@ -237,7 +261,7 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             domain.InternalAssessmentStartDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.UnderInternalAssessment;
-            UpdateSubdomains(id, ComplianceStatus.UnderInternalAssessment, true);
+            await UpdateSubdomains(id, ComplianceStatus.UnderInternalAssessment, true);
             if (!framework.InternalAssessmentStartDate.HasValue)
             {
                 framework.InternalAssessmentStartDate = Clock.Now;
@@ -255,11 +279,11 @@ namespace RMG.ComplianceSystem.Domains
             _domainManager.CanEndInternalAssessment(domain, CurrentUser.Id.Value);
             domain.InternalAssessmentEndDate = Clock.Now;
             domain.ComplianceStatus = ComplianceStatus.ReadyForRevision;
-            UpdateSubdomains(id, ComplianceStatus.ReadyForRevision, false, true);
+            await UpdateSubdomains(id, ComplianceStatus.ReadyForRevision, false, true);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             framework.ComplianceStatus = ComplianceStatus.ReadyForRevision;
             await Repository.UpdateAsync(domain);
-            var isLastDomain = !Repository.Any(d => d.FrameworkId == domain.FrameworkId && !d.ParentId.HasValue && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
+            var isLastDomain = !(await Repository.GetQueryableAsync()).Any(d => d.FrameworkId == domain.FrameworkId && !d.ParentId.HasValue && d.Id != id && !d.InternalAssessmentEndDate.HasValue);
             if (isLastDomain)
             {
                 framework.InternalAssessmentEndDate = Clock.Now;
@@ -283,7 +307,7 @@ namespace RMG.ComplianceSystem.Domains
             _domainManager.CanStartReview(domain, framework.OwnerId, CurrentUser.Id.Value);
             domain.ComplianceStatus = ComplianceStatus.UnderRevision;
             domain.ReviewStartDate = Clock.Now;
-            UpdateSubdomains(id, ComplianceStatus.UnderRevision, false, false, true);
+            await UpdateSubdomains(id, ComplianceStatus.UnderRevision, false, false, true);
             framework.ComplianceStatus = ComplianceStatus.UnderRevision;
             if (!framework.ComplianceReviewStartDate.HasValue)
                 framework.ComplianceReviewStartDate = Clock.Now;
@@ -300,7 +324,7 @@ namespace RMG.ComplianceSystem.Domains
             _domainManager.CanApproveCompliance(domain, framework.OwnerId, CurrentUser.Id.Value);
             domain.ComplianceStatus = ComplianceStatus.Approved;
             domain.ReviewEndDate = Clock.Now;
-            UpdateSubdomains(id, ComplianceStatus.Approved, false, false, false, true);
+            await UpdateSubdomains(id, ComplianceStatus.Approved, false, false, false, true);
             await Repository.UpdateAsync(domain);
             await NotifyUsersAsync("DomainApproveCompliance", domain.ResponsibleId.Value, NotificationSource.DomainApproveCompliance, NotySource.DomainApproveCompliance, domain.FrameworkId);
         }
@@ -313,7 +337,7 @@ namespace RMG.ComplianceSystem.Domains
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             _domainManager.CanReturnToResponsible(domain, framework.OwnerId, CurrentUser.Id.Value);
             domain.ComplianceStatus = ComplianceStatus.UnderInternalReAssessment;
-            UpdateSubdomains(id, ComplianceStatus.UnderInternalReAssessment);
+            await UpdateSubdomains(id, ComplianceStatus.UnderInternalReAssessment);
             await Repository.UpdateAsync(domain);
             await NotifyUsersAsync("DomainReturnToResponsible", domain.ResponsibleId.Value, NotificationSource.DomainReturnToResponsible, NotySource.DomainReturnToResponsible, domain.FrameworkId);
         }
@@ -326,7 +350,7 @@ namespace RMG.ComplianceSystem.Domains
             _domainManager.CanSendToOwner(domain, CurrentUser.Id.Value);
             var framework = await _frameworkRepository.GetAsync(domain.FrameworkId, false);
             domain.ComplianceStatus = ComplianceStatus.UnderReRevision;
-            UpdateSubdomains(id, ComplianceStatus.UnderReRevision);
+            await UpdateSubdomains(id, ComplianceStatus.UnderReRevision);
             await Repository.UpdateAsync(domain);
             await NotifyUsersAsync("DomainSentToOwner", framework.OwnerId, NotificationSource.DomainSentToOwner, NotySource.DomainSentToOwner, domain.FrameworkId);
         }
@@ -336,7 +360,7 @@ namespace RMG.ComplianceSystem.Domains
             List<Notification> notificationList = new List<Notification>();
 
             var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
-            var Creator = _employeeRepository.FirstOrDefault(x => x.Id == receiverId);
+            var Creator = await _employeeRepository.FirstOrDefaultAsync(x => x.Id == receiverId);
             //Email Notification
 
             object emailTemplateModel = null;
@@ -431,17 +455,17 @@ namespace RMG.ComplianceSystem.Domains
         }
 
 
-        private int CalculateCompliancePercentage(Guid id, bool hasParent = false)
+        private async Task<int> CalculateCompliancePercentage(Guid id, bool hasParent = false)
         {
             var controls = new List<Guid>();
             if (hasParent)
-                controls = _controlRepository.Where(c => c.DomainId == id).Select(c => c.Id).ToList();
+                controls = (await _controlRepository.GetQueryableAsync()).Where(c => c.DomainId == id).Select(c => c.Id).ToList();
             else
             {
-                var subDomains = Repository.Where(d => d.ParentId == id).Select(d => d.Id).ToList();
-                controls = _controlRepository.Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
+                var subDomains = (await Repository.GetQueryableAsync()).Where(d => d.ParentId == id).Select(d => d.Id).ToList();
+                controls = (await _controlRepository.GetQueryableAsync()).Where(c => subDomains.Contains(c.DomainId)).Select(c => c.Id).ToList();
             }
-            var assessments = _assessmentRepository.Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => controls.Contains(a.ControlId)).Select(a => new AssessmentCompliancePercentageDto
             {
                 DocumentedPercentage = a.DocumentedPercentage,
                 EffectivePercentage = a.EffectivePercentage,
@@ -450,7 +474,7 @@ namespace RMG.ComplianceSystem.Domains
             return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
         }
 
-        private void UpdateSubdomains(
+        private async Task UpdateSubdomains(
             Guid parentId,
             ComplianceStatus status,
             bool updateInternalAssessmentStartDate = false,
@@ -458,7 +482,7 @@ namespace RMG.ComplianceSystem.Domains
             bool updateReviewStartDate = false,
             bool updateReviewEndDate = false)
         {
-            var children = Repository.Where(d => d.ParentId == parentId).ToList();
+            var children = (await Repository.GetQueryableAsync()).Where(d => d.ParentId == parentId).ToList();
             foreach (var child in children)
             {
                 child.ComplianceStatus = status;

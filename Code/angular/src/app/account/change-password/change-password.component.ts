@@ -1,4 +1,4 @@
-import { AccountService } from '@abp/ng.account';
+import { AccountService } from '@abp/ng.account.core/proxy';
 import { ConfigStateService, LocalizationService, SessionStateService } from '@abp/ng.core';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';

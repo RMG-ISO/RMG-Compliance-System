@@ -1,6 +1,7 @@
 @import "../../../../styles/mixins";
 
-.mat-dialog-title {
+.mat-mdc-dialog-title {
+    padding-bottom: 0;
     button {
         color: #000000;
         mat-icon {
@@ -13,18 +14,29 @@
             opacity: 0;
         }
     }
+    &::before{
+        display: none;
+    }
 }
 .navs {
     width: 100%;
     // margin-left: -32px;
     // margin-right: -32px;
-    padding: 0 16px;
+    padding: 1.25rem 16px;
     margin-bottom: 25px;
+
     button {
-        padding: 16px;
+        // padding: 16px;
+        // width: 140px;
+        // position: relative;
+        // z-index: 1;
+
+        padding: 0;
         width: 140px;
         position: relative;
         z-index: 1;
+        height: 90px;
+
         div.icon-cont {
             background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='100' ry='100' stroke='%2353BE6D' stroke-width='4' stroke-dasharray='3' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
             background-color: #fff;

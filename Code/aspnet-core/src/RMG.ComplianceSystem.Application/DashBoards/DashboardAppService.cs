@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using RMG.ComplianceSystem.Dashboards.Dtos;
 using RMG.ComplianceSystem.Departments;
 using RMG.ComplianceSystem.Frameworks;
@@ -57,33 +56,33 @@ namespace RMG.ComplianceSystem.Dashboards
             var rnd = new Random();
             var dashboard = new DashboardDto
             {
-                ActionsCount = _riskTreatmentRepository.Count(),
-                ActiveFrameworksCount = _frameworkRepository.Count(f => f.Status == SharedStatus.Active),
+                ActionsCount = (await _riskTreatmentRepository.GetQueryableAsync()).Count(),
+                ActiveFrameworksCount =  (await _frameworkRepository.GetQueryableAsync()).Count(f => f.Status == SharedStatus.Active),
                 ActiveUsersCount = (int)usersCount,
-                AuditsCount = _internalAuditPreparationRepository.Count(),
-                DepartmentsCount = _departmentRepository.Count(),
-                FrameworksCount = _frameworkRepository.Count(),
-                ImplementedCompliantFrameworksCount = _frameworkRepository.Count(f => f.ComplianceStatus == ComplianceStatus.Approved),
-                RisksCount = _riskAndOpportunityRepository.Count(r => r.Type == (int)TypeRiskAndOpportunity.Risk),
+                AuditsCount = (int) await _internalAuditPreparationRepository.GetCountAsync(),
+                DepartmentsCount = (await _departmentRepository.GetQueryableAsync()).Count(),
+                FrameworksCount = (await _frameworkRepository.GetQueryableAsync()).Count(),
+                ImplementedCompliantFrameworksCount = (await _frameworkRepository.GetQueryableAsync()).Count(f => f.ComplianceStatus == ComplianceStatus.Approved),
+                RisksCount = (await _riskAndOpportunityRepository.GetQueryableAsync()).Count(r => r.Type == (int)TypeRiskAndOpportunity.Risk),
                 UsersCount = (int)usersCount,
                 ActionsDto = new DashboardActionsDto
                 {
-                    DoneActionsCount = _riskTreatmentRepository.Count(a => a.Status == 4),
-                    InProgressActionsCount = _riskTreatmentRepository.Count(a => a.Status == 3),
-                    LateActionsCount = _riskTreatmentRepository.Count(a => a.Status == 5),
-                    NotStartedActionsCount = _riskTreatmentRepository.Count(a => a.Status == 1),
+                    DoneActionsCount = (await _riskTreatmentRepository.GetQueryableAsync()).Count(a => a.Status == 4),
+                    InProgressActionsCount = (await _riskTreatmentRepository.GetQueryableAsync()).Count(a => a.Status == 3),
+                    LateActionsCount = (await _riskTreatmentRepository.GetQueryableAsync()).Count(a => a.Status == 5),
+                    NotStartedActionsCount = (await _riskTreatmentRepository.GetQueryableAsync()).Count(a => a.Status == 1),
                 },
                 AuditsDto = new DashboardAuditsDto
                 {
-                    DoneAuditsCount = _internalAuditPreparationRepository.Count(a => a.IsApprove.HasValue && a.IsApprove.Value && a.approveDate.HasValue && a.approveDate.Value <= a.EndDate),
-                    LateAuditsCount = _internalAuditPreparationRepository.Count(a => (!a.IsApprove.HasValue && a.EndDate < Clock.Now) || (a.IsApprove.HasValue && a.IsApprove.Value && a.approveDate.HasValue && a.approveDate.Value >= a.EndDate)),
+                    DoneAuditsCount = (await _internalAuditPreparationRepository.GetQueryableAsync()).Count(a => a.IsApprove.HasValue && a.IsApprove.Value && a.approveDate.HasValue && a.approveDate.Value <= a.EndDate),
+                    LateAuditsCount = (await _internalAuditPreparationRepository.GetQueryableAsync()).Count(a => (!a.IsApprove.HasValue && a.EndDate < Clock.Now) || (a.IsApprove.HasValue && a.IsApprove.Value && a.approveDate.HasValue && a.approveDate.Value >= a.EndDate)),
                     UnderExecutionAuditsCount = rnd.Next(0, 100),
                     UnderPreparationAuditsCount = rnd.Next(0, 100),
                 },
                 RisksDto = new DashboardRisksDto
                 {
-                    ClosedRisksCount = _riskAndOpportunityRepository.Count(r => r.status == (int)status.Close),
-                    OpenRisksCount = _riskAndOpportunityRepository.Count(r => r.status == (int)status.Open),
+                    ClosedRisksCount = (await _riskAndOpportunityRepository.GetQueryableAsync()).Count(r => r.status == (int)status.Close),
+                    OpenRisksCount = (await _riskAndOpportunityRepository.GetQueryableAsync()).Count(r => r.status == (int)status.Open),
                     UnderRevisionRisksCount = rnd.Next(0, 100),
                 },
                 RisksLevelDto = new DashboardRisksLevelDto
@@ -93,11 +92,11 @@ namespace RMG.ComplianceSystem.Dashboards
                     MediumCount = rnd.Next(0, 100),
                 }
             };
-            var frameworks = _frameworkRepository.Where(f => f.ComplianceStatus == ComplianceStatus.Approved).Select(f => f.Id).ToList();
+            var frameworks = (await _frameworkRepository.GetQueryableAsync()).Where(f => f.ComplianceStatus == ComplianceStatus.Approved).Select(f => f.Id).ToList();
             var frameworksCompliance = new Dictionary<Guid, int>();
             foreach (var id in frameworks)
             {
-                frameworksCompliance.Add(id, _frameworkAppService.CalculateCompliancePercentage(id));
+                frameworksCompliance.Add(id, await _frameworkAppService.CalculateCompliancePercentage(id));
                 
             }
             dashboard.FrameworkCompliancePercentage.Add(new DashboardFrameworkCompliancePercentage
@@ -113,7 +112,7 @@ namespace RMG.ComplianceSystem.Dashboards
         [RemoteService(false)]
         public async Task SendRisksAndOpportunities()
         {
-            var ListRisks = _riskAndOpportunityRepository.ToList();
+            var ListRisks = (await _riskAndOpportunityRepository.GetQueryableAsync()).ToList();
             await _notificationHubContext.Clients.All.SendAsync("RisksOpportunities", ListRisks);
         }
         //public async Task SendStatusRisks()

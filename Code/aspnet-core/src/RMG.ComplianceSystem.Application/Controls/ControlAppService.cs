@@ -15,6 +15,7 @@ using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Entities.Events.Distributed;
 
 namespace RMG.ComplianceSystem.Controls
 {
@@ -67,9 +68,22 @@ namespace RMG.ComplianceSystem.Controls
         protected override async Task<ControlDto> MapToGetOutputDtoAsync(Control entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
-            var assessments = _assessmentRepository.Where(a => a.ControlId == dto.Id).ToList();
-            dto.CompliancePercentage = CalculateCompliancePercentage(dto.Id);
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => a.ControlId == dto.Id).ToList();
+            dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id);
             return dto;
+        }
+
+        public override async Task<PagedResultDto<ControlDto>> GetListAsync(ControlPagedAndSortedResultRequestDto input)
+        {
+            var list = await base.GetListAsync(input);
+            if (input.IsMainControl)
+            {
+                foreach (var dto in list.Items)
+                {
+                    dto.SubControlsCount = await Repository.CountAsync(c => c.ParentId == dto.Id);
+                }
+            }
+            return list;
         }
 
         [Authorize(ComplianceSystemPermissions.Assessment.Default)]
@@ -80,21 +94,28 @@ namespace RMG.ComplianceSystem.Controls
             var entities = await AsyncExecuter.ToListAsync(query);
             var entityDtos = await MapToGetListOutputDtosAsync(entities);
 
+            if (input.IsMainControl)
+            {
+                foreach (var dto in entityDtos)
+                {
+                    dto.SubControlsCount = await Repository.CountAsync(c => c.ParentId == dto.Id);
+                }
+            }
             return new ListResultDto<ControlDto>(entityDtos);
         }
 
         public async Task<ListResultDto<ControlDto>> GetListControlsByFramworkAsync(ControlPagedAndSortedResultRequestDto input)
         {
-            var mainDomains = _domainRepository.Where(t => t.FrameworkId == input.FrameWorkId).ToList();
+           var   mainDomains = (await _domainRepository.GetQueryableAsync()).Where(t => t.FrameworkId == input.FrameWorkId).ToList();
             var ControlsDto = new List<ControlDto>();
             foreach (var domain in mainDomains)
             {
-                if (domain.Children != null)
-                    foreach (var item in domain.Children)
-                    {
-                        var Controls = _repository.Where(t => t.DomainId == item.Id).ToList();
-                        ControlsDto = await MapToGetListOutputDtosAsync(Controls);
-                    }
+                if (domain.Children!=null)
+                foreach (var item in domain.Children)
+                {
+                    var Controls = (await _repository.GetQueryableAsync()).Where(t => t.DomainId == item.Id).ToList();
+                    ControlsDto = await MapToGetListOutputDtosAsync(Controls);
+                }
             }
             return new ListResultDto<ControlDto>(ControlsDto);
         }
@@ -103,7 +124,7 @@ namespace RMG.ComplianceSystem.Controls
         {
             await CheckDeletePolicyAsync();
             await base.DeleteAsync(id);
-            await Repository.DeleteManyAsync(Repository.Where(c => c.ParentId == id).Select(c => c.Id));
+            await Repository.DeleteManyAsync((await Repository.GetQueryableAsync()).Where(c => c.ParentId == id).Select(c => c.Id));
         }
 
         public async Task DeleteMany(List<Guid> ids)
@@ -112,13 +133,13 @@ namespace RMG.ComplianceSystem.Controls
             await Repository.DeleteManyAsync(ids);
             foreach (var item in ids)
             {
-                await Repository.DeleteManyAsync(Repository.Where(c => c.ParentId == item).Select(c => c.Id));
+                await Repository.DeleteManyAsync((await Repository.GetQueryableAsync()).Where(c => c.ParentId == item).Select(c => c.Id));
             }
         }
 
-        private int CalculateCompliancePercentage(Guid id)
+        private async Task<int> CalculateCompliancePercentage(Guid id)
         {
-            var assessments = _assessmentRepository.Where(a => a.ControlId == id).Select(a => new AssessmentCompliancePercentageDto
+            var assessments = (await _assessmentRepository.GetQueryableAsync()).Where(a => a.ControlId == id).Select(a => new AssessmentCompliancePercentageDto
             {
                 DocumentedPercentage = a.DocumentedPercentage,
                 EffectivePercentage = a.EffectivePercentage,

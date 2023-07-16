@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
@@ -111,7 +112,7 @@ namespace RMG.ComplianceSystem.IdentityServer
 
         private async Task<ApiScope> CreateApiScopeAsync(string name)
         {
-            var apiScope = await _apiScopeRepository.GetByNameAsync(name);
+            var apiScope = (await _apiScopeRepository.GetListByNameAsync(new[] { name })).FirstOrDefault();
             if (apiScope == null)
             {
                 apiScope = await _apiScopeRepository.InsertAsync(
