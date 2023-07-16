@@ -8,7 +8,6 @@ namespace RMG.ComplianceSystem.Reports
     {
         public string DomainName { get; set; }
         public int ControllersCount { get; set; }
-        public int ComplianceCount { get; set; }
         public int DocumentedYes { get; set; }
         public int DocumentedPartially { get; set; }
         public int DocumentedNo { get; set; }

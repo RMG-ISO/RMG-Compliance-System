@@ -3,7 +3,6 @@ import type { PriorityType } from '../assessments/priority-type.enum';
 export interface ComplianceControllerDto {
   domainName?: string;
   controllersCount: number;
-  complianceCount: number;
   documentedYes: number;
   documentedPartially: number;
   documentedNo: number;
