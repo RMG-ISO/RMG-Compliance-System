@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DomainService } from '@proxy/domains';
 import { DomainDto } from '@proxy/domains/dtos';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { ComplianceStatus, SharedStatus } from '@proxy/shared';
 
 @Component({
   selector: 'app-expansion-sub-domains-table',
@@ -24,7 +25,8 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
   @Input('frameWorkData') frameWorkData;
   @Input('showButton') showButton;
   @Input('parentPath') parentPath;
-  
+  @ViewChild('domainDetailsDialog') domainDetailsDialog;
+  ComplianceStatus = ComplianceStatus;
   constructor(
     private domainService:DomainService,
     public readonly list: ListService,
@@ -95,4 +97,18 @@ export class ExpansionSubDomainsTableComponent implements OnInit, OnChanges {
     
   }
 
+
+  
+  openDomainDetailsDialog(data) {
+    console.log(data);
+    let ref = this.matDialog.open(this.domainDetailsDialog, {
+      data: {
+       data
+      },
+     
+    });
+    ref.afterClosed().subscribe(con => {
+    
+    });
+  }
 }

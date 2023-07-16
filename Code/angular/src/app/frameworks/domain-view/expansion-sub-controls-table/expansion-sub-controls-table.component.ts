@@ -25,6 +25,7 @@ export class ExpansionSubControlsTableComponent implements OnInit {
   @Input('frameWorkData') frameWorkData;
   @Input('showButton') showButton;
   @Input('parentPath') parentPath;
+  @ViewChild('domainDetailsDialog') domainDetailsDialog;
   
   constructor(
     public readonly list: ListService,
@@ -79,6 +80,18 @@ export class ExpansionSubControlsTableComponent implements OnInit {
     })
   }
 
+  openDomainDetailsDialog(data) {
+    console.log(data);
+    let ref = this.matDialog.open(this.domainDetailsDialog, {
+      data: {
+       data
+      },
+     
+    });
+    ref.afterClosed().subscribe(con => {
+    
+    });
+  }
 
 
   items
