@@ -95,7 +95,7 @@ export class FrameworkViewComponent implements OnInit {
   changeCreateFrameStatus(cond) {
     if(cond) this.frameworkService.sendToReviewerById(this.frameWorkData.id).subscribe(r => {
       // window.location.reload();
-      this.toasterService.success('::SuccessfullySaved', "");
+      this.toasterService.success('::FrameworkSentForRevision', "");
       this.getFrameWork();
     })
   }
@@ -106,7 +106,7 @@ export class FrameworkViewComponent implements OnInit {
     if(cond) {
       this.frameworkService.sendToOwnerById(this.frameWorkData.id).subscribe(r => {
         // window.location.reload();
-        this.toasterService.success('::SuccessfullySaved', "");
+        this.toasterService.success('::FrameworkSentForApproval', "");
         this.getFrameWork();
       });
       return;
@@ -121,7 +121,7 @@ export class FrameworkViewComponent implements OnInit {
       if(con) {
         this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
           // window.location.reload();
-          this.toasterService.success('::SuccessfullySaved', "");
+          this.toasterService.success('::FrameworkReturnedToCreator', "");
           this.getFrameWork();
         });
       } else ngSelect.clearModel();
@@ -134,7 +134,7 @@ export class FrameworkViewComponent implements OnInit {
     if(cond) {
       this.frameworkService.approveById(this.frameWorkData.id).subscribe(r => {
         // window.location.reload();
-        this.toasterService.success('::SuccessfullySaved', "");
+        this.toasterService.success('::FrameworkApproved', "");
         this.getFrameWork();
       });
       return;
