@@ -1,0 +1,142 @@
+<div class="d-flex   justify-content-start align-items-center ps-3" *ngIf="mode == FormMode.Create ">
+    <div>
+        <mat-icon>arrow_forward</mat-icon>
+    </div>
+
+    
+    <a href="#" class="bread_crumb_item">
+        اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ
+    </a>
+
+    / 
+
+    <a href="#" class="bread_crumb_item">
+        السياسات
+    </a>
+
+    /
+
+    <a href="#" class="bread_crumb_item">
+        إدارة اﻟﻮﺛﺎﺋﻖ
+    </a>
+
+    /
+    
+    <a href="#" class="bread_crumb_item">
+        إضافة وثيقة
+    </a>
+</div>
+
+
+<div class="info">
+    <div class="card-top">
+      <h3>
+            <span *ngIf="mode == FormMode.Create ">
+            إضافة وثيقة
+            </span>
+            <span *ngIf="mode == FormMode.Edit ">
+
+            تعديل وثيقة
+            </span>
+      </h3>
+    </div>
+    
+      
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group p-0 m-0">
+                <label for="department-name">{{ '::DepartmentName' | abpLocalization }}</label><span> * </span>
+                <input type="text" id="department-name" class="form-control "  />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group p-0 m-0">
+                <label for="status">نوع الوثيقة</label><span> * </span>
+                <ng-select id="status" class="d-block" [searchable]="false"  [clearable]="true">
+                  <ng-option  [value]="'sq'">test</ng-option>
+                  <ng-option  [value]="'sq'">تست</ng-option>
+                </ng-select>
+              </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="form-group p-0 m-0">
+                <label for="status">ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ </label><span> * </span>
+                <ng-select id="status" class="d-block" [searchable]="false" multiple="true" [clearable]="true">
+                  <ng-option  [value]="'sq'">احمد علي</ng-option>
+                  <ng-option  [value]="'sq'">محمد سليمان</ng-option>
+                </ng-select>
+              </div>
+        </div>
+
+        <div class="col-md-6 form-group">
+            <label for="complianceDate"> تاريخ بدء الصلاحية</label>
+            <input #complianceDate="ngbDatepicker" class="form-control" id="complianceDate" name="date" 
+            ngbDatepicker (click)="complianceDate.toggle()" />
+        </div>
+        
+
+        <div class="col-md-6 form-group">
+            <label for="complianceDate2"> تاريخ انتهاء الصلاحية</label>
+            <input #complianceDate2="ngbDatepicker" class="form-control" id="complianceDate2" name="date2" 
+            ngbDatepicker (click)="complianceDate2.toggle()" />
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group p-0 m-0">
+                <label for="status">المراجعون</label><span> * </span>
+                <ng-select id="status" class="d-block" [searchable]="false" multiple="true" [clearable]="true">
+                    <ng-option  [value]="'sq'">احمد علي</ng-option>
+                    <ng-option  [value]="'sq'">محمد سليمان</ng-option>
+                    <ng-option  [value]="'sq'">اياد محمد</ng-option>
+                    <ng-option  [value]="'sq'">عبد الرحمن</ng-option>
+                </ng-select>
+              </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="form-group p-0 m-0">
+                <label for="status">المعتمدون</label><span> * </span>
+                <ng-select id="status" class="d-block" [searchable]="false" multiple="true" [clearable]="true">
+                    <ng-option  [value]="'sq'">احمد علي</ng-option>
+                    <ng-option  [value]="'sq'">محمد سليمان</ng-option>
+                    <ng-option  [value]="'sq'">عبد الرحمن</ng-option>
+                </ng-select>
+              </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group p-0 m-0">
+                <label for="status">التصنيفات</label><span> * </span>
+                <ng-select id="status" class="d-block" [searchable]="false"  [clearable]="true">
+                  <ng-option  [value]="'sq'">تصنيف 1</ng-option>
+                  <ng-option  [value]="'sq'">تصنيف 2</ng-option>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group p-0 m-0">
+                <label for="status">الوصف</label><span> * </span>
+                <textarea class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+
+
+    </div>      
+
+    <div class="d-flex justify-content-end align-items-center mb-4">
+        <button mat-raised-button color="primary"  class="save m-3" type="submit">
+            {{ 'AbpAccount::Save' | abpLocalization }}
+        </button>
+        <a   mat-raised-button class="m-3"  color="warn" routerLink="/">
+            {{ 'AbpAccount::Cancel' | abpLocalization }}
+        </a>
+    </div>
+
+</div>
+
+

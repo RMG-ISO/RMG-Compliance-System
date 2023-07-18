@@ -1,0 +1,25 @@
+:host {
+    ngx-datatable ::ng-deep{
+        datatable-body-row {
+            cursor: pointer;
+        }
+        .options .mat-icon{
+            margin:0!important;
+        }
+
+      
+   
+    }
+}
+
+
+#createBtn{
+    background-color: var(--main-green) !important; 
+    color: #fff;;
+}
+.bread_crumb_item{
+    text-decoration: none!important;
+    color: #ccc!important;
+    margin: 0 10px;
+
+}

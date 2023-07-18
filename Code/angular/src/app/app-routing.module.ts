@@ -91,6 +91,10 @@ const routes: Routes = [
     loadChildren:() => import('./settings/settings.module').then(m => m.SettingsModule)
   },
   {
+    path:'policy',
+    loadChildren:() => import('./policy/policy.module').then(m => m.PolicyModule)
+  },
+  {
     path:'',
     redirectTo:'/home',
     pathMatch:'full'
