@@ -35,5 +35,6 @@ namespace RMG.ComplianceSystem
             "اسم المخرج",
             "اسم المواصفة / عربي"
         };
+        public const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     }
 }
