@@ -619,18 +619,23 @@
     "ErrorMsg:500": "Internal Server Error",
     "BackToHome": "Back To Home",
     "ComplianceSystem:Domain:013": "Domain responsible cannot be the same as framework owner",
-    "ComplianceData":"Compliance Data",
-    "ReviewApproveData":"Review and approval data",
-    "ApprovalStartDate":"Approval Start Date",
-    "ComplianceReviewStartDate":"Compliance Review Start Date",
-    "ComplianceReviewEndDate":"Compliance Review End Date",
+    "ComplianceData": "Compliance Data",
+    "ReviewApproveData": "Review and approval data",
+    "ApprovalStartDate": "Approval Start Date",
+    "ComplianceReviewStartDate": "Compliance Review Start Date",
+    "ComplianceReviewEndDate": "Compliance Review End Date",
     "InvalidFileContent": "Invalid File Content \n the file should be excel file with this extension (.xlsx - .xls)",
     "ExcelFileError": "Unexpected error while upload excel file",
     "ExcelFile": "Excel File",
     "Import": "Import",
     "DownloadTemp": "Download Temp Excel",
     "SuccessfullyDownloaded": "Successfully Downloaded",
-    "SuccessfullyImported": "Successfully Imported"
+    "SuccessfullyImported": "Successfully Imported",
+    "Number of Controls": "Number of controls",
+    "FrameworkSentToReviewer": "Framework was sent for revision",
+    "FrameworkSentForApproval": "Framework was sent for approval",
+    "FrameworkReturnedToCreator": "Framework was returned to creator",
+    "FrameworkApproved": "Framework was approved"
 
   }
 }
