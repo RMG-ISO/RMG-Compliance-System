@@ -31,3 +31,38 @@ mat-accordion {
     }
 }
 
+.grid_addon{
+    background-color:#e0e0e0;
+    width: 100%;
+    right: 0;
+    left: 0;
+    z-index: 999999;
+    font-size: 11px;
+    .row_head{
+        background: #55c270;
+        font-weight: bold;
+        font-family: ElMessiri, Roboto, Helvetica Neue, sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: normal;
+        color:#fff !important;
+        td{
+            border: 1px solid #fff !important;
+        }
+    }
+}
+
+.grid_addon .table-bordered td{
+    border: 1px solid #fff ;
+}
+
+.small-btn{
+    padding:2px;
+    font-size: 10px;
+    line-height: 15px;
+    .mat-icon{
+        font-size: 19px;
+        position: relative;
+        top: 4px;
+    }
+}

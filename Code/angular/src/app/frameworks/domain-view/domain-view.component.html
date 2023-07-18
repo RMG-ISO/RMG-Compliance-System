@@ -70,6 +70,7 @@
 
                     </ng-container> -->
                 </div>
+
                 <div class="details-table-cont">
                     <table class="table">
                         <tr>
@@ -192,6 +193,7 @@
                         
                     </table>
                 </div>
+                
             </section>
 
             <section>
@@ -224,7 +226,7 @@
                     </div>
                 </div>
 
-                <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details">
+                <mat-accordion *ngFor="let mainControl of mainControlsItems" class="table-details domains_accordion">
                     <mat-expansion-panel #panel [class.marked-for-delete]="selectedToDelete[mainControl.id]"  (opened)="expansionOpened(mainControl)" [expanded]="expandedMainControlId == mainControl.id">
                         <mat-expansion-panel-header>
                             <mat-panel-title class="d-flex justify-content-between align-items-center">
@@ -232,86 +234,61 @@
                                     {{ mainControl | lang:'name' }}
                                 </span>
                                 <div *ngIf="showButton">
-                                    <button *abpPermission="'ComplianceSystem.Control.Update'" class="me-3" mat-button
+                                    <!-- <button *abpPermission="'ComplianceSystem.Control.Update'" class="me-3" mat-button
                                         (click)="openControlDialog(mainControl, FormMode.Edit, null, null); $event.stopPropagation()">
                                         <mat-icon>edit</mat-icon>
                                         {{ '::Edit' | abpLocalization }}
-                                    </button>
+                                    </button> -->
                                     <mat-checkbox class="me-3" (click)="$event.stopPropagation()"
                                         (change)="selectChanged($event.checked, mainControl.id)"></mat-checkbox>
                                 </div>
                             </mat-panel-title>
+
+                            <div class="grid_addon">
+                                <div class="row">
+                                    <div class="col">
+                                        <table class="table table-sm m-0 table-bordered">
+                                                <tr class="row_head">
+                                                    <td >{{ '::ReferenceNumber' | abpLocalization }}</td> 
+                                                    <td>{{ '::DomainNameEn' | abpLocalization }}</td>    
+                                                    <td>{{ '::Number of Controls' | abpLocalization }}</td>    
+                                                    <td>{{ '::FrameworkLastUpdate' | abpLocalization }}</td>    
+                                                    <td>{{ '::CompliancePercentage' | abpLocalization }}</td>    
+                                                    <td>{{ '::Options' | abpLocalization }}</td>    
+                                                </tr>
+                
+                                                <tr>
+                                                    <td> {{ mainControl.reference }}</td>
+                                                    <td> {{ mainControl?.nameEn }}</td>
+                                                    <td>{{mainControl?.subControlsCount}}</td>
+                                                    <td> {{ mainControl.lastModificationTime | fromNow }}</td>
+                                                    <td> {{ mainControl?.compliancePercentage }}</td>
+                                                    <td> 
+                                                        <div *ngIf="showButton">
+                                                            <button *abpPermission="'ComplianceSystem.Control.Update'" class="mr-3  small-btn" mat-button
+                                                                (click)="openControlDialog(mainControl, FormMode.Edit, null, null); $event.stopPropagation()">
+                                                                <mat-icon>edit</mat-icon>
+                                                            <!--  {{ '::Edit' | abpLocalization }} -->
+                                                            </button> 
+                                                        </div>
+                                                        
+                                                        <button class="mr-3 small-btn" mat-button
+                                                        (click)="openDomainDetailsDialog(mainControl); $event.stopPropagation()">
+                                                            <mat-icon>
+                                                                visibility
+                                                            </mat-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
                         </mat-expansion-panel-header>
 
                         <section>
-                            <div class="details-table-cont">
-                                <table class="table">
-                                    <tr>
-                                        <td>
-                                            {{ '::ReferenceNumber' | abpLocalization }}
-                                        </td>
-                                        <td colspan="3">
-                                            {{mainControl?.reference}}
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            {{ '::ControlNameEn' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{mainControl?.nameEn}}
-                                        </td>
-                                        <td>
-                                            {{ '::CreationTime' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{mainControl?.creationTime | date:'yyyy-MM-dd' }}
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            {{ '::ControlDescriptionAr' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{mainControl?.descriptionAr}}
-                                        </td>
-                                        <td>
-                                            {{ '::ControlDescriptionEn' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            {{mainControl?.descriptionEn}}
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="parentPath === 'compliance-assessment';">
-                                        <td>
-                                            {{ '::CompliancePercentage' | abpLocalization }}
-                                        </td>
-                                        <td colspan="3">
-                                          {{ mainControl?.compliancePercentage }}
-                                        </td>
-                                        <!-- <td>
-                                            {{ '::Status' | abpLocalization }}
-                                        </td>
-                                        <td>
-                                            <span class="status" [class]="SharedStatus[mainControl?.status]">
-                                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
-                                            </span>
-                                        </td> -->
-                                    </tr>
-                                    <!-- <ng-template #name>
-                                        <td>
-                                            {{ '::Status' | abpLocalization }}
-                                        </td>
-                                        <td colspan="3">
-                                            <span class="status" [class]="SharedStatus[mainControl?.status]">
-                                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
-                                            </span>
-                                        </td>
-                                    </ng-template> -->
-                                </table>
-                            </div>
 
 
                             <app-compliance-form
@@ -359,6 +336,93 @@
         </ng-container>
     </div>
 </div>
+
+
+<ng-template #domainDetailsDialog let-data  let-ref="dialogRef">
+    <div class="app-dialog">
+        <div mat-dialog-title class="pt-2 pb-2 pr-3 pl-3 dialog-title d-flex align-items-center justify-content-between">
+            {{  data.data?.nameEn }}
+        </div>
+
+        <mat-dialog-content >
+            <div class="details-table-cont">
+                <table class="table">
+                    <tr>
+                        <td>
+                            {{ '::ReferenceNumber' | abpLocalization }}
+                        </td>
+                        <td colspan="3">
+                            {{data.data?.reference}}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {{ '::ControlNameEn' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{data.data?.nameEn}}
+                        </td>
+                        <td>
+                            {{ '::CreationTime' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{data.data?.creationTime | date:'yyyy-MM-dd' }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            {{ '::ControlDescriptionAr' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{data.data?.descriptionAr}}
+                        </td>
+                        <td>
+                            {{ '::ControlDescriptionEn' | abpLocalization }}
+                        </td>
+                        <td>
+                            {{data.data?.descriptionEn}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="parentPath === 'compliance-assessment';">
+                        <td>
+                            {{ '::CompliancePercentage' | abpLocalization }}
+                        </td>
+                        <td colspan="3">
+                          {{ data.data?.compliancePercentage }}
+                        </td>
+                        <!-- <td>
+                            {{ '::Status' | abpLocalization }}
+                        </td>
+                        <td>
+                            <span class="status" [class]="SharedStatus[mainControl?.status]">
+                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                            </span>
+                        </td> -->
+                    </tr>
+                    <!-- <ng-template #name>
+                        <td>
+                            {{ '::Status' | abpLocalization }}
+                        </td>
+                        <td colspan="3">
+                            <span class="status" [class]="SharedStatus[mainControl?.status]">
+                                {{ ('::Enum:SharedStatus:' + mainControl?.status) | abpLocalization }}
+                            </span>
+                        </td>
+                    </ng-template> -->
+                </table>
+            </div>
+
+        </mat-dialog-content>
+        
+        <mat-dialog-actions class="actions mb-0">
+            <button type="button" mat-button (click)="ref.close()" class="red"> 
+                {{ '::Close' | abpLocalization }}
+            </button>
+        </mat-dialog-actions>
+    </div>
+</ng-template>
 
 
 <ng-template #domainDialog let-data let-ref="dialogRef">
