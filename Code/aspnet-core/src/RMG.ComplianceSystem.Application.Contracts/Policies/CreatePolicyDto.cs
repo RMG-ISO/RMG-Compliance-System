@@ -10,7 +10,6 @@ namespace RMG.ComplianceSystem.Policies
 {
     public class CreatePolicyDto : EntityDto
     {
-        public string Code { get; set; }
         [NotNull]
         public string NameEn { get; set; }
         [NotNull]

@@ -9,6 +9,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using RMG.ComplianceSystem;
 
 namespace RMG.ComplianceSystem.Policies
 {
@@ -36,9 +37,15 @@ namespace RMG.ComplianceSystem.Policies
             var categoriesIds = (await _categoryRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
             if (!categoriesIds.All(input.CategoryIds.Contains))
                 throw new UserFriendlyException(L["CategoryNotExists"]);
+
+            Random random = new Random();
+            string code = new string(
+                Enumerable.Repeat(ComplianceSystemConsts.chars, 6)
+                          .Select(s => s[random.Next(s.Length)])
+                          .ToArray());
             var policy = new Policy()
             {
-                Code = input.Code,
+                Code = code,
                 CompliancePercentage = 0,
                 NameEn = input.NameEn,
                 NameAr = input.NameAr,

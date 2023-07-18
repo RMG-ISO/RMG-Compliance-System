@@ -3,7 +3,6 @@ import type { PolicyType } from './policy-type.enum';
 import type { PolicyStatus } from './policy-status.enum';
 
 export interface CreatePolicyDto extends EntityDto {
-  code?: string;
   nameEn?: string;
   nameAr?: string;
   description?: string;
