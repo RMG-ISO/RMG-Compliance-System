@@ -37,6 +37,7 @@ using RMG.ComplianceSystem.InternalAuditPreparation.Dto;
 using RMG.ComplianceSystem.InternalAuditPreparations;
 using RMG.ComplianceSystem.InternalAuditApproves;
 using Microsoft.AspNetCore.Identity;
+using RMG.ComplianceSystem.Policies;
 
 namespace RMG.ComplianceSystem
 {
@@ -121,6 +122,12 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.Versions, ops => ops.MapFrom(t => t.AssessmentVersions))
                 .ForMember(t => t.Employees, ops => ops.MapFrom(t => t.AssessmentEmployees.Select(r => new NameId<Guid>(r.Employee.FullName, r.EmployeeId))));
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
+
+            CreateMap<Policy, PolicyDto>()
+                .ForMember(dest => dest.ApproversIds, ops => ops.MapFrom(src => src.Approvers.Select(x => x.Id)))
+                .ForMember(dest => dest.ReviewersIds, ops => ops.MapFrom(src => src.Reviewers.Select(x => x.Id)))
+                .ForMember(dest => dest.OwnersIds, ops => ops.MapFrom(src => src.Owners.Select(x => x.Id)))
+                .ForMember(dest => dest.PolicyCategoriesIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
         }
     }
 }

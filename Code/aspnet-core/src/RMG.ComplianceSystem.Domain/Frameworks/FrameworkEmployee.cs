@@ -19,9 +19,7 @@ namespace RMG.ComplianceSystem.Frameworks
 
         protected FrameworkEmployee()
         {
-            
-    }
-
+        }
         public FrameworkEmployee(   
             Guid frameworkId,
           Guid employeeId
