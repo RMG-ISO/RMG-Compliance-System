@@ -54,7 +54,7 @@ export class DocumentCreateComponent {
         compliancePercentage: new FormControl(null, Validators.required),
         status: new FormControl(null, Validators.required),
         description: new FormControl(null, Validators.required),
-        //categoryIds: new FormControl(null, Validators.required),
+        categoryIds: new FormControl(null, Validators.required),
         employeesIds: new FormControl(null, Validators.required),
     });
 

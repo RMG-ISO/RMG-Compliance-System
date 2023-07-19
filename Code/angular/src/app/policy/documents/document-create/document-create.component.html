@@ -94,15 +94,15 @@
             </div>
 
 
-            <div class="col-md-12 form-group">
+            <!-- <div class="col-md-12 form-group">
                 <label for="employeesIds">المعتمدون</label><span> * </span>
                 <ng-select id="employeesIds" class="d-block" [searchable]="false" formControlName="employeesIds"
                     multiple="true" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
-            </div>
+            </div> -->
 
-            <!-- <div class="col-md-6">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="categoryIds">التصنيفات</label><span> * </span>
                     <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
@@ -110,7 +110,7 @@
                         <ng-option  [value]="1">تصنيف 2</ng-option>
                     </ng-select>
                 </div>
-            </div> -->
+            </div>
 
             <div class="col-md-12 form-group">
                 <label for="description">الوصف</label><span> * </span>
