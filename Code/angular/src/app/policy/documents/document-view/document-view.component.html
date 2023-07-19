@@ -1,0 +1,107 @@
+<div class="d-flex   justify-content-start align-items-center ps-3">
+    <div>
+        <mat-icon>arrow_forward</mat-icon>
+    </div>
+
+    
+    <a href="#" class="bread_crumb_item">
+        اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ
+    </a>
+
+    / 
+
+    <a href="#" class="bread_crumb_item">
+        السياسات
+    </a>
+
+    /
+
+    <a href="#" class="bread_crumb_item">
+        إدارة اﻟﻮﺛﺎﺋﻖ
+    </a>
+
+    /
+    
+    <a href="#" class="bread_crumb_item">
+        ﻋﺮض اﻟﻮﺛﻴﻘﺔ
+    </a>
+</div>
+
+
+<div class="info">
+
+    <div class="card-top">
+      <h3>
+        عنوان الوثيقة
+      </h3>
+    </div>
+
+    <div>
+
+      <div>
+        <span>
+          رمز الوثيقة
+        </span>
+        <h4>
+         dddddd
+        </h4>
+      </div>
+
+      
+    <div>
+        <span>
+        مالك الوثيقة
+        </span>
+        <h4>
+            إدارة اﻟﺠﻮدة - إدارة ﺗﻜﻨﻮﻟﻮﺟﻴﺎ اﻟﻤﻌﻠﻮﻣﺎت
+        </h4>
+    </div>
+
+    <div>
+        <span>
+            {{ '::CreationTime' | abpLocalization }}
+        </span>
+        <h4>
+            <!-- {{ frameWorkData?.lastModificationTime | date : 'yyyy/MM/dd' }} -->
+            12/1/2020
+        </h4>
+    </div>
+
+    <div>
+        <span>
+        وضع الإمتثال
+        </span>
+        <span class="status" >
+            sdcvvvbb
+        </span>
+    </div>
+
+    <div>
+        <span>
+            الحالة
+        </span>
+        <span class="status" >
+            sdcvvvbb
+        </span>
+    </div>
+ 
+    </div>
+  </div>
+
+
+  <div class="tabs d-flex align-items-center p-3">
+    <button mat-raised-button routerLink="details" routerLinkActive="active">
+        معلومات الوثيقة
+    </button>
+    <button mat-raised-button routerLink="settings" routerLinkActive="active" >
+        إﻋﺪاد وﺛﻴﻘﺔ
+    </button>
+    <button mat-raised-button routerLink="activities" routerLinkActive="active" >
+      الممارسات
+    </button>
+    
+  </div>
+
+  <div class="p-3">
+    <router-outlet (activate)="changeRoute($event)"></router-outlet>
+  </div>

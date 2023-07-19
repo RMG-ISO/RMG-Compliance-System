@@ -1,0 +1,111 @@
+
+.info {
+    box-shadow: 0 2px 5px rgba(0,0,0,.35);
+    border-radius: 8px;
+    padding-left: 13px;
+    padding-right: 13px;
+    width: calc(100% - 16px);
+    margin-right: auto;
+    .card-top {
+        background: var(--main-green);
+        color: #fff;
+        padding: 12px 32px 12px;
+        border-radius: 8px;
+        margin-right: -13px;
+        width: calc(100% + 26px);
+        h3 {
+            margin-bottom: 0;
+           
+        }
+    }
+
+    &>div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        div {
+            padding: 12px 16px;
+            span {
+                color: #8D8D8D;
+                font-size: 14px;
+            }
+            h4 {
+                color: #0C4442;
+            }
+            
+
+            
+            span.status {
+                color: #21D500;
+                font-weight: bold;
+                margin-bottom: 16px;
+                &::after{
+                    content: "";
+                    width: 8px;
+                    height: 8px;
+                    background: #21D500;
+                    display: inline-block;
+                    border-radius: 8px;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                }
+                &.Inactive {
+                    color:#FF0000;
+                    &::after{
+                        background:#FF0000;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.customClass .ng-select-container {
+    height: 40px!important;;
+    min-height: 40px !important;
+    border: 2px solid #ccc!important;
+}
+
+ng-select {
+     .ng-select.ng-select-multiple ::ng-deep {
+        .ng-select-container{
+            height: 40px!important;;
+            min-height: 40px !important;
+            border: 2px solid #ccc!important;
+            .ng-value-container .ng-value{
+                padding: 2px 14px!important;
+                background-color: #336b82!important;
+                color: #fff!important;
+                border: 1px solid #ccc!important;
+
+            }
+        }
+        .ng-value-icon{
+            float: left!important;
+            border: 0!important;
+            top: 2px!important;
+            position: relative!important;
+            color:#fff!important;
+            background:transparent!important;
+        }
+    } 
+}
+
+
+input.form-control{
+    height: auto!important;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+}
+
+.form-control{
+    border: 2px solid #ccc;
+}
+
+.bread_crumb_item{
+    text-decoration: none!important;
+    color: #ccc!important;
+    margin: 0 10px;
+
+}
+
