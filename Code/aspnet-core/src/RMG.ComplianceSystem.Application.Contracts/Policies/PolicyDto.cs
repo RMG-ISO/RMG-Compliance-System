@@ -12,7 +12,8 @@ namespace RMG.ComplianceSystem.Policies
         [NotNull]
         public string Code { get; set; }
         [NotNull]
-        public string Name { get; set; }
+        public string NameEn { get; set; }
+        public string NameAr { get; set; }
         public PolicyType Type { get; set; }
         public IList<Guid> OwnersIds { get; set; }
         public IList<Guid> ReviewersIds { get; set; }

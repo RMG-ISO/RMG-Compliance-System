@@ -130,6 +130,7 @@ namespace RMG.ComplianceSystem
                 .ForMember(dest => dest.PolicyCategoriesIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
 
             CreateMap<Category, CategoryDto>();
+            CreateMap<UpdatePolicyDto, Policy>();
         }
     }
 }

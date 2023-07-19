@@ -37,10 +37,13 @@ export interface PolicyDto extends EntityDto<string> {
   status: PolicyStatus;
   description?: string;
   policyCategoriesIds: string[];
+  nameEn?: string;
+  nameAr?: string;
 }
 
 export interface UpdatePolicyDto extends EntityDto<string> {
-  name: string;
+  nameEn: string;
+  nameAr: string;
   type: PolicyType;
   ownersIds: string[];
   reviewersIds: string[];
