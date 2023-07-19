@@ -63,11 +63,20 @@ namespace RMG.ComplianceSystem.Policies
             return response;
         }
 
-        public override Task<PolicyDto> UpdateAsync(Guid id, UpdatePolicyDto input)
+        public override async Task<PolicyDto> UpdateAsync(Guid id, UpdatePolicyDto input)
         {
-            return base.UpdateAsync(id, input);
+            var policy = await Repository.GetAsync(id);
+            policy.AddReviewers(input.ReviewersIds);
+            policy.AddApprover(input.ReviewersIds);
+            policy.AddOwners(input.OwnersIds);
+            await Repository.UpdateAsync(policy);
+            return ObjectMapper.Map<Policy,PolicyDto>(policy);
         }
 
+        public override Task<PagedResultDto<PolicyDto>> GetListAsync(GetListPoliciesDto input)
+        {
+            return base.GetListAsync(input);
+        }
         public async Task<ListResultDto<CategoryDto>> GetAllCategories()
         {
             var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
