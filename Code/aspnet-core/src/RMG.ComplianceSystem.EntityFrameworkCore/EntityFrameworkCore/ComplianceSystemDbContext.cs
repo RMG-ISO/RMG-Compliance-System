@@ -111,7 +111,6 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Policy> Policies { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<PoliciesCategories> PoliciesCategories { get; set; }
         public DbSet<PolicyApprover> PolicyUsers { get; set; }
 
 
@@ -427,11 +426,6 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 b.ConfigureByConvention();
             });
 
-            builder.Entity<PoliciesCategories>(b =>
-            {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PoliciesCategories", ComplianceSystemConsts.DbSchema);
-                b.ConfigureByConvention();
-            });
 
             builder.Entity<PolicyApprover>(b =>
             {

@@ -12,5 +12,6 @@ namespace RMG.ComplianceSystem.Policies
         public string NameEn { get; set; }
         public string NameAr { get; set; }
 
+        public virtual ICollection<Policy> Policies { get; set; }
     }
 }

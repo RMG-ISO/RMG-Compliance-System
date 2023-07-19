@@ -29,8 +29,8 @@ namespace RMG.ComplianceSystem.Policies
         public override  async Task<PolicyDto> CreateAsync(CreatePolicyDto input)
         {
             // employees check (reviewers , approvals , owners)
-            //var employeesIds = (await _employeeRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
-            //if (!employeesIds.All(input.EmployeesIds.Contains))
+            var employeesIds = (await _employeeRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
+            //if (employeesIds.All(input.EmployeesIds.Contains))
             //    throw new UserFriendlyException(L["EmployeesNotExists"]);
 
             //category check
