@@ -7,13 +7,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { DocumentViewComponent } from './document-view/document-view.component';
 import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { DocumentCreateComponent } from './document-create/document-create.component';
+import { SettingsComponent } from './document-view/settings/settings.component';
 
 @NgModule({
   declarations: [
     DocumentsComponent,
     DocumentViewComponent,
     DocumentDetailsComponent,
-    DocumentCreateComponent
+    DocumentCreateComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
