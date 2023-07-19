@@ -115,7 +115,7 @@
           </span>
         </div>
         <div>
-          <ng-select #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
+          <ng-select *ngIf="frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation"  [searchable]="false" [clearable]="false" #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
               <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
               <ng-option [value]="true">
                   {{ '::Import' | abpLocalization }}

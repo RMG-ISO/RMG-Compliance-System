@@ -14,6 +14,7 @@ export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto
   mainControlNameEn?: string;
   domainId?: string;
   compliancePercentage: number;
+  subControlsCount: number;
 }
 
 export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

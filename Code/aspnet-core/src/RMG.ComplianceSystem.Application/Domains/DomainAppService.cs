@@ -24,6 +24,7 @@ using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using RMG.ComplianceSystem.Authorization;
+using Volo.Abp.Domain.Entities.Events.Distributed;
 
 namespace RMG.ComplianceSystem.Domains
 {
@@ -207,6 +208,20 @@ namespace RMG.ComplianceSystem.Domains
             dto.CompliancePercentage = await CalculateCompliancePercentage(dto.Id, dto.ParentId.HasValue);
             if (dto.ResponsibleId.HasValue)
                 dto.ResponsibleName = (await _employeeRepository.GetAsync(dto.ResponsibleId.Value))?.FullName;
+
+            return dto;
+        }
+
+        public override async Task<DomainDto> GetAsync(Guid id)
+        {
+            var dto = await base.GetAsync(id);
+            if (!dto.ParentId.HasValue)
+            {
+                var children = (await Repository.GetQueryableAsync()).Where(r => r.ParentId == dto.Id).Select(r => r.Id).ToList();
+                dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => children.Contains(c.DomainId));
+            }
+            else
+                dto.ControlsCount = (await _controlRepository.GetQueryableAsync()).Count(c => c.DomainId == dto.Id);
             return dto;
         }
 

@@ -16,13 +16,6 @@ namespace RMG.ComplianceSystem.Migrations
                 table: "AppRisksOpportunities",
                 newName: "NumberMatrix");
 
-            migrationBuilder.AlterColumn<Guid>(
-                name: "AttachmentId",
-                table: "AppFrameworks",
-                type: "uniqueidentifier",
-                nullable: true,
-                oldClrType: typeof(Guid),
-                oldType: "uniqueidentifier");
         }
 
         /// <inheritdoc />
@@ -33,15 +26,6 @@ namespace RMG.ComplianceSystem.Migrations
                 table: "AppRisksOpportunities",
                 newName: "NumberMax");
 
-            migrationBuilder.AlterColumn<Guid>(
-                name: "AttachmentId",
-                table: "AppFrameworks",
-                type: "uniqueidentifier",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
-                oldClrType: typeof(Guid),
-                oldType: "uniqueidentifier",
-                oldNullable: true);
         }
     }
 }

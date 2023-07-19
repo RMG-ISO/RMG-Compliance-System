@@ -11,7 +11,7 @@ export const environment = {
   },
   
   oAuthConfig: {
-    issuer: 'https://iso.digitaltransformationinstitute.org:11100',
+    issuer: 'https://iso.digitaltransformationinstitute.org:11000',
     // issuer: 'https://localhost:44375',
     // redirectUri: baseUrl,
     clientId: 'ComplianceSystem_App',
@@ -29,7 +29,7 @@ export const environment = {
 
   apis: {
     default: {
-      url: 'https://iso.digitaltransformationinstitute.org:11100',
+      url: 'https://iso.digitaltransformationinstitute.org:11000',
       // url: 'https://localhost:44375',
       rootNamespace: 'RMG.ComplianceSystem',
     },

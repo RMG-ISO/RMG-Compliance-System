@@ -108,6 +108,14 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<FrameworkChangeStatusLog> FrameworkChangeStatusLogs { get; set; }
         public DbSet<AssessmentVersion> AssessmentVersions { get; set; }
 
+        public DbSet<Policy> Policies { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<PoliciesCategories> PoliciesCategories { get; set; }
+        public DbSet<PolicyApprover> PolicyUsers { get; set; }
+
+
+
         #endregion
 
 
@@ -404,6 +412,48 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
                 b.HasOne(t => t.Domain).WithMany(t => t.DomainDepartments).HasForeignKey(t => t.DomainId);
                 b.HasOne(t => t.Department).WithMany(t => t.DomainDepartments).HasForeignKey(t => t.DepartmentId);
+
+            });
+
+            builder.Entity<Policy>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Policies", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+
+            builder.Entity<Category>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Categories", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+
+            builder.Entity<PoliciesCategories>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PoliciesCategories", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+
+            builder.Entity<PolicyApprover>(b =>
+            {
+
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyApprovers", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+            });
+
+            builder.Entity<PolicyOwner>(b =>
+            {
+
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyOwners", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+
+            });
+
+            builder.Entity<PolicyReviwer>(b =>
+            {
+
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyReviwers", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
 
             });
             #endregion
