@@ -15,11 +15,11 @@ namespace RMG.ComplianceSystem.Policies
 {
     public class PolicyAppService : CrudAppService<Policy, PolicyDto, Guid, GetListPoliciesDto, CreatePolicyDto, UpdatePolicyDto>
     {
-        private readonly IRepository<Policy, Guid> _repository;
+        private readonly IPolicyRepository _repository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRepository<Category, Guid> _categoryRepository;
 
-        public PolicyAppService(IRepository<Policy, Guid> repository, IEmployeeRepository employeeRepository, IRepository<Category, Guid> categoryRepository) : base(repository)
+        public PolicyAppService(IPolicyRepository repository, IEmployeeRepository employeeRepository, IRepository<Category, Guid> categoryRepository) : base(repository)
         {
             _repository = repository;
             _employeeRepository = employeeRepository;

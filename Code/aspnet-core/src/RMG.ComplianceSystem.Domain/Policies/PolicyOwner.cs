@@ -9,7 +9,7 @@ using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Policies
 {
-    public class PolicyOwner : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
+    public class PolicyOwner : AuditedEntity<Guid>
     {
         public Guid PolicyId { get; set; }
         public Guid EmployeeId { get; set; }
@@ -21,6 +21,7 @@ namespace RMG.ComplianceSystem.Policies
 
         public PolicyOwner (Guid policyId, Guid employeeId)
         {
+            this.Id = Guid.NewGuid();
             PolicyId = policyId;
             EmployeeId = employeeId;
         }

@@ -25,6 +25,7 @@ namespace RMG.ComplianceSystem.Policies
           Guid employeeId
         )
         {
+            Id = Guid.NewGuid();
             PolicyId = policyid;
             EmployeeId = employeeId;
         }
