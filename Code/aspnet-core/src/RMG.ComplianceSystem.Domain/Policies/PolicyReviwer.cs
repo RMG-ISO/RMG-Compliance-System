@@ -9,7 +9,7 @@ using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Policies
 {
-    public class PolicyReviwer : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
+    public class PolicyReviwer : AuditedEntity<Guid>
     {
         public Guid PolicyId { get; set; }
         public Guid EmployeeId { get; set; }
