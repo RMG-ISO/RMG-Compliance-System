@@ -1,14 +1,14 @@
-<div class="d-flex   justify-content-start align-items-center ps-3" *ngIf="mode == FormMode.Create ">
+<div class="d-flex   justify-content-start align-items-center ps-3 mb-2" *ngIf="mode == FormMode.Create ">
     <div>
         <mat-icon>arrow_forward</mat-icon>
     </div>
 
-    
+
     <a href="#" class="bread_crumb_item">
-        اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ
+        {{ '::Menu:Home' | abpLocalization }}
     </a>
 
-    / 
+    /
 
     <a href="#" class="bread_crumb_item">
         السياسات
@@ -21,7 +21,7 @@
     </a>
 
     /
-    
+
     <a href="#" class="bread_crumb_item">
         إضافة وثيقة
     </a>
@@ -29,96 +29,81 @@
 
 <form [formGroup]="form" (ngSubmit)="save()">
 
-<div class="info">
-    <div class="card-top">
-      <h3>
-            <span *ngIf="mode == FormMode.Create ">
-            إضافة وثيقة
-            </span>
-            <span *ngIf="mode == FormMode.Edit ">
+    <div class="info">
+        <div class="card-top">
+            <h3>
+                {{ ('::' + mode)  | abpLocalization}}
+                وثيقة
+            </h3>
+        </div>
 
-            تعديل وثيقة
-            </span>
-      </h3>
-    </div>
-    
-      
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group p-0 m-0">
-                    <label for="nameAr"></label>اسم الوثيقة<span> * </span>
-                    <input type="text" id="nameAr" class="form-control " formControlName="nameAr"  />
-                </div>
+            <div class="col-md-6 form-group">
+                <label for="nameAr">اسم الوثيقة</label>
+                <span> * </span>
+                <input type="text" id="nameAr" class="form-control " formControlName="nameAr" />
             </div>
 
-            <div class="col-md-6">
-                <div class="form-group p-0 m-0">
-                    <label for="type">نوع الوثيقة</label><span> * </span>
-                    <ng-select id="type" class="d-block" [searchable]="false"   formControlName="type" [clearable]="true">
-                        
-                        <ng-option
-                         *ngFor="let item of PolicyType | keyvalue"  [value]="item.value?.value">{{item.value?.key}}</ng-option>
-
-                    </ng-select>
-                </div>
+            <div class="col-md-6 form-group">
+                <label for="type">نوع الوثيقة</label>
+                <span> * </span>
+                <ng-select id="type" class="d-block" [searchable]="false" formControlName="type" [clearable]="true">
+                    <ng-option *ngFor="let item of PolicyType | keyvalue" [value]="item.value?.value">
+                        {{item.value?.key}}
+                    </ng-option>
+                </ng-select>
             </div>
 
-
-            <div class="col-md-12">
-                <div class="form-group p-0 m-0">
-                    <label for="ownersIds">ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ </label><span> * </span>
-                    <ng-select id="ownersIds" class="d-block" [searchable]="false"  formControlName="ownersIds"  multiple="true" [clearable]="true">
-                        <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-                    </ng-select>
-                </div>
+            <div class="col-md-12 form-group">
+                <label for="ownersIds">ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ </label><span> * </span>
+                <ng-select id="ownersIds" class="d-block" [searchable]="false" formControlName="ownersIds"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
             </div>
 
             <div class="col-md-6 form-group">
                 <label for="validationStartDate"> تاريخ بدء الصلاحية</label>
-                <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate" formControlName="validationStartDate" 
-                ngbDatepicker (click)="complianceDate.toggle()" />
+                <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
+                    formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
             </div>
-            
 
             <div class="col-md-6 form-group">
                 <label for="validationEndtDate"> تاريخ انتهاء الصلاحية</label>
-                <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate" formControlName="validationEndtDate"
-                ngbDatepicker (click)="complianceDate2.toggle()" />
+                <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
+                    formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
             </div>
 
-            <div class="col-md-12">
-                <div class="form-group p-0 m-0">
-                    <label for="reviewersIds">المراجعون</label><span> * </span>
-                    <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true"  formControlName="reviewersIds" [clearable]="true">
-                        <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-                    </ng-select>
-                </div>
-            </div>
-
-
-            <div class="col-md-12">
-                <div class="form-group p-0 m-0">
-                    <label for="approversIds">المعتمدون</label><span> * </span>
-                    <ng-select id="approversIds" class="d-block" [searchable]="false"  formControlName="approversIds" multiple="true" [clearable]="true">
-                        <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-
-                    </ng-select>
-                </div>
+            <div class="col-md-12 form-group">
+                <label for="reviewersIds">المراجعون</label><span> * </span>
+                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true"
+                    formControlName="reviewersIds" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
             </div>
 
 
-            <div class="col-md-12">
-                <div class="form-group p-0 m-0">
-                    <label for="employeesIds">المعتمدون</label><span> * </span>
-                    <ng-select id="employeesIds" class="d-block" [searchable]="false"  formControlName="employeesIds" multiple="true" [clearable]="true">
-                        <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+            <div class="col-md-12 form-group">
+                <label for="approversIds">المعتمدون</label><span> * </span>
+                <ng-select id="approversIds" class="d-block" [searchable]="false" formControlName="approversIds"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
 
-                    </ng-select>
-                </div>
+                </ng-select>
+            </div>
+
+
+            <div class="col-md-12 form-group">
+                <label for="employeesIds">المعتمدون</label><span> * </span>
+                <ng-select id="employeesIds" class="d-block" [searchable]="false" formControlName="employeesIds"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
             </div>
 
             <!-- <div class="col-md-6">
-                <div class="form-group p-0 m-0">
+                <div class="form-group">
                     <label for="categoryIds">التصنيفات</label><span> * </span>
                     <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
                         <ng-option  [value]="2">تصنيف 1</ng-option>
@@ -127,26 +112,21 @@
                 </div>
             </div> -->
 
-            <div class="col-md-12">
-                <div class="form-group p-0 m-0">
-                    <label for="description">الوصف</label><span> * </span>
-                    <textarea class="form-control" rows="5" id="description" formControlName="description"></textarea>
-                </div>
+            <div class="col-md-12 form-group">
+                <label for="description">الوصف</label><span> * </span>
+                <textarea class="form-control" rows="5" id="description" formControlName="description"></textarea>
             </div>
+        </div>
 
-
-        </div>      
-
-        <div class="d-flex justify-content-end align-items-center mb-4">
-            <button mat-raised-button color="primary"  class="save m-3" type="submit">
+        <div class="d-flex align-items-center mb-4">
+            <button mat-raised-button color="primary" class="save m-3" type="submit">
                 {{ 'AbpAccount::Save' | abpLocalization }}
             </button>
-            <a   mat-raised-button class="m-3"  color="warn" routerLink="/">
+            <a mat-raised-button class="m-3" color="warn" routerLink="/">
                 {{ 'AbpAccount::Cancel' | abpLocalization }}
             </a>
         </div>
 
-</div>
+    </div>
 
 </form>
-

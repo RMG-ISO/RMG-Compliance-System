@@ -1,16 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-@use  "./styles/app-colors.scss";
-@use "./styles/theme.config.scss";
-@use "./styles/table.scss";
-@use "./styles/dialog.scss";
-@use "./styles/print.scss";
-// @use "./styles/rtl.scss";
+// @use  "./styles/app-colors.scss";
+// @use "./styles/theme.config.scss";
+// @use "./styles/table.scss";
+// @use "./styles/dialog.scss";
+// @use "./styles/print.scss";
+
 @use "@ng-select/ng-select/themes/default.theme.css";
-@use "./styles/cards.scss";
+// @use "./styles/cards.scss";
+
 
 @import "./styles/theme.style.scss";
 
+@import "./styles/cards.scss";
+
+@import  "./styles/app-colors.scss";
+@import "./styles/table.scss";
+@import "./styles/dialog.scss";
+@import "./styles/print.scss";
+@import "./styles/theme.config.scss";
 
 @keyframes donut-spin {
   0% {
