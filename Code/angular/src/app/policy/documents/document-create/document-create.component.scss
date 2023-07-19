@@ -32,53 +32,7 @@
             h4 {
                 color: #0C4442;
             }
-            ng-select {
-                
-               /*  width: 150px;
-                margin-bottom: 16px;*/
-                &.ng-select.ng-select-single ::ng-deep {
-                    .ng-select-container {
-                        border-radius: 5px;
-                       /*  background-color: var(--main-color) !important; */
-                        /* border: none !important; */
-                        height: 38px!important;;
-                        min-height: 38px !important;
-                        border: 2px solid #ccc!important;
-
-                       /*  padding-right: 6px;
-                        padding-left: 2px;
-                        .ng-placeholder {
-                            color: #fff !important;
-                        }
-                        .ng-arrow-wrapper .ng-arrow {
-                            border-color: #fff transparent transparent;
-                        } */
-                    }
-                } 
-                &.ng-select.ng-select-multiple ::ng-deep {
-                    .ng-select-container{
-                        height: 40px!important;;
-                        min-height: 40px !important;
-                        border: 2px solid #ccc!important;
-                        .ng-value-container .ng-value{
-                            padding: 2px 14px!important;
-                            background-color: #336b82!important;
-                            color: #fff!important;
-                            border: 1px solid #ccc!important;
-
-                        }
-                    }
-                    .ng-value-icon{
-                        float: left!important;
-                        border: 0!important;
-                        top: 2px!important;
-                        position: relative!important;
-                        color:#fff!important;
-                        background:transparent!important;
-                    }
-                }
-
-            }
+            
 
             
             span.status {
@@ -105,6 +59,38 @@
         }
     }
 }
+
+.customClass .ng-select-container {
+    height: 40px!important;;
+    min-height: 40px !important;
+    border: 2px solid #ccc!important;
+}
+
+ng-select {
+     .ng-select.ng-select-multiple ::ng-deep {
+        .ng-select-container{
+            height: 40px!important;;
+            min-height: 40px !important;
+            border: 2px solid #ccc!important;
+            .ng-value-container .ng-value{
+                padding: 2px 14px!important;
+                background-color: #336b82!important;
+                color: #fff!important;
+                border: 1px solid #ccc!important;
+
+            }
+        }
+        .ng-value-icon{
+            float: left!important;
+            border: 0!important;
+            top: 2px!important;
+            position: relative!important;
+            color:#fff!important;
+            background:transparent!important;
+        }
+    } 
+}
+
 
 input.form-control{
     height: auto!important;
