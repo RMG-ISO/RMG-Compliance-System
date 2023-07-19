@@ -10,10 +10,12 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Identity;
 using RMG.ComplianceSystem.Attachments;
+using Volo.Abp;
 
 namespace RMG.ComplianceSystem.Policies
 {
     // [Authorize(ComplianceSystemPermissions.Document.Default)]
+    [RemoteService(false)]
     public class DocumentAppService :
         CrudAppService<
             Document, //The Document entity

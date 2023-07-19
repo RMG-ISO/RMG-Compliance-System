@@ -21,6 +21,7 @@ namespace RMG.ComplianceSystem.Policies
 
         public PolicyReviwer(Guid policyId, Guid employeeId)
         {
+            Id = Guid.NewGuid();
             PolicyId = policyId;
             EmployeeId = employeeId;
         }

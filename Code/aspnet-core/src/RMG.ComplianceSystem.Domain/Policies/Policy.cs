@@ -49,5 +49,10 @@ namespace RMG.ComplianceSystem.Policies
         {
             Approvers = approverIds.Select(approverId => new PolicyApprover(this.Id, approverId)).ToList();
         }
+
+        public void AddCategories(IList<Category> categories)
+        {
+            PolicyCategories = categories;
+        }
     }
 }
