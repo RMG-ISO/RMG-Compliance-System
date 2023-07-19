@@ -128,6 +128,8 @@ namespace RMG.ComplianceSystem
                 .ForMember(dest => dest.ReviewersIds, ops => ops.MapFrom(src => src.Reviewers.Select(x => x.Id)))
                 .ForMember(dest => dest.OwnersIds, ops => ops.MapFrom(src => src.Owners.Select(x => x.Id)))
                 .ForMember(dest => dest.PolicyCategoriesIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
+
+            CreateMap<Category, CategoryDto>();
         }
     }
 }

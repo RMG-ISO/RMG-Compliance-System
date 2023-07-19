@@ -30,13 +30,13 @@ namespace RMG.ComplianceSystem.Policies
         {
             // employees check (reviewers , approvals , owners)
             var employeesIds = (await _employeeRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
-            if (!employeesIds.All(input.EmployeesIds.Contains))
-                throw new UserFriendlyException(L["EmployeesNotExists"]);
+            //if (employeesIds.All(input.EmployeesIds.Contains))
+            //    throw new UserFriendlyException(L["EmployeesNotExists"]);
 
             //category check
-            var categoriesIds = (await _categoryRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
-            if (!categoriesIds.All(input.CategoryIds.Contains))
-                throw new UserFriendlyException(L["CategoryNotExists"]);
+            //var categoriesIds = (await _categoryRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
+            //if (!categoriesIds.All(input.CategoryIds.Contains))
+            //    throw new UserFriendlyException(L["CategoryNotExists"]);
 
             Random random = new Random();
             string code = new string(
@@ -66,6 +66,13 @@ namespace RMG.ComplianceSystem.Policies
         public override Task<PolicyDto> UpdateAsync(Guid id, UpdatePolicyDto input)
         {
             return base.UpdateAsync(id, input);
+        }
+
+        public async Task<ListResultDto<CategoryDto>> GetAllCategories()
+        {
+            var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
+
+            return new ListResultDto<CategoryDto>(ObjectMapper.Map<List<Category>,List<CategoryDto>>(categories));
         }
     }
 }
