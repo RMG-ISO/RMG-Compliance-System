@@ -127,7 +127,7 @@ namespace RMG.ComplianceSystem
                 .ForMember(dest => dest.ApproversIds, ops => ops.MapFrom(src => src.Approvers.Select(x => x.EmployeeId)))
                 .ForMember(dest => dest.ReviewersIds, ops => ops.MapFrom(src => src.Reviewers.Select(x => x.EmployeeId)))
                 .ForMember(dest => dest.OwnersIds, ops => ops.MapFrom(src => src.Owners.Select(x => x.EmployeeId)))
-                .ForMember(dest => dest.PolicyCategoriesIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
+                .ForMember(dest => dest.CategoryIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
 
             CreateMap<Category, CategoryDto>();
             CreateMap<UpdatePolicyDto, Policy>();
