@@ -67,8 +67,9 @@ namespace RMG.ComplianceSystem.Policies
         {
             var policy = await Repository.GetAsync(id);
             policy.AddReviewers(input.ReviewersIds);
-            policy.AddApprover(input.ReviewersIds);
+            policy.AddApprover(input.ApproversIds);
             policy.AddOwners(input.OwnersIds);
+            policy.SetValidationDate(input.ValidationStartDate, input.ValidationEndtDate);
             await Repository.UpdateAsync(policy);
             return ObjectMapper.Map<Policy,PolicyDto>(policy);
         }

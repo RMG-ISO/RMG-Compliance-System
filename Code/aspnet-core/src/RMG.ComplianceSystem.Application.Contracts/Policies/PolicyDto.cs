@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace RMG.ComplianceSystem.Policies
 {
-    public class PolicyDto : EntityDto<Guid>
+    public class PolicyDto : FullAuditedEntityDto<Guid>
     {
         [NotNull]
         public string Code { get; set; }

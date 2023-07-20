@@ -54,5 +54,10 @@ namespace RMG.ComplianceSystem.Policies
         {
             PolicyCategories = categories;
         }
+        public void SetValidationDate(DateTime startDate , DateTime endDate)
+        {
+            this.ValidationStartDate = startDate;
+            this.ValidationEndtDate = endDate;
+        }
     }
 }
