@@ -64,20 +64,17 @@ export class DocumentCreateComponent {
         validationEndtDate: new FormControl(null, Validators.required),
         compliancePercentage: new FormControl(null, Validators.required),
         description: new FormControl(null, Validators.required),
-        policyCategoriesIds: new FormControl(null, Validators.required),
+        categoriesIds: new FormControl(null, Validators.required),
     });
 
-    this.documentData['validationStartDate'] = this.documentData['validationStartDate'] ? parseISO(this.documentData['validationStartDate']) : null;
-    this.documentData['validationEndtDate'] = this.documentData['validationEndtDate'] ? parseISO(this.documentData['validationEndtDate']) : null;
-    
-    console.log(this.documentData);
+   
 
-  /*   this.documentData['ownersIds'] = 
-    [
-      "a328039d-f318-f0d3-9a2a-3a0bb19507c1"
-    ]; */
 
     if(this.mode == this.FormMode.Edit){
+      this.documentData['validationStartDate'] = this.documentData?.validationStartDate ? parseISO(this.documentData['validationStartDate']) : null;
+      this.documentData['validationEndtDate'] = this.documentData?.validationEndtDate ? parseISO(this.documentData['validationEndtDate']) : null;
+      
+      console.log(this.documentData);
       let DocumentData = Object.assign({}, this.documentData)
       delete DocumentData["code"];
       this.form.patchValue(DocumentData);
@@ -98,9 +95,10 @@ export class DocumentCreateComponent {
     
 
     data['nameEn'] = data['nameAr'] ;
+    console.log(data);
     const request = this.documentData?.id
       ? this.policyService.update(this.documentData.id, data)
-      : this.policyService.create(this.form.getRawValue());
+      : this.policyService.create(data);
 
     request.subscribe(() => {
       //this.isModalOpen = false;
