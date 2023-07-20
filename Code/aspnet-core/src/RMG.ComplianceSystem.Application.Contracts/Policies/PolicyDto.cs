@@ -7,12 +7,13 @@ using Volo.Abp.Application.Dtos;
 
 namespace RMG.ComplianceSystem.Policies
 {
-    public class PolicyDto : EntityDto<Guid>
+    public class PolicyDto : FullAuditedEntityDto<Guid>
     {
         [NotNull]
         public string Code { get; set; }
         [NotNull]
-        public string Name { get; set; }
+        public string NameEn { get; set; }
+        public string NameAr { get; set; }
         public PolicyType Type { get; set; }
         public IList<Guid> OwnersIds { get; set; }
         public IList<Guid> ReviewersIds { get; set; }
@@ -29,6 +30,6 @@ namespace RMG.ComplianceSystem.Policies
         public string Description { get; set; }
 
 
-        public  IList<Guid> PolicyCategoriesIds { get; set; }
+        public IList<Guid> CategoryIds { get; set; }
     }
 }

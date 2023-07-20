@@ -15,11 +15,11 @@ namespace RMG.ComplianceSystem.Policies
 {
     public class PolicyAppService : CrudAppService<Policy, PolicyDto, Guid, GetListPoliciesDto, CreatePolicyDto, UpdatePolicyDto>
     {
-        private readonly IRepository<Policy, Guid> _repository;
+        private readonly IPolicyRepository _repository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRepository<Category, Guid> _categoryRepository;
 
-        public PolicyAppService(IRepository<Policy, Guid> repository, IEmployeeRepository employeeRepository, IRepository<Category, Guid> categoryRepository) : base(repository)
+        public PolicyAppService(IPolicyRepository repository, IEmployeeRepository employeeRepository, IRepository<Category, Guid> categoryRepository) : base(repository)
         {
             _repository = repository;
             _employeeRepository = employeeRepository;
@@ -63,11 +63,21 @@ namespace RMG.ComplianceSystem.Policies
             return response;
         }
 
-        public override Task<PolicyDto> UpdateAsync(Guid id, UpdatePolicyDto input)
+        public override async Task<PolicyDto> UpdateAsync(Guid id, UpdatePolicyDto input)
         {
-            return base.UpdateAsync(id, input);
+            var policy = await Repository.GetAsync(id);
+            policy.AddReviewers(input.ReviewersIds);
+            policy.AddApprover(input.ApproversIds);
+            policy.AddOwners(input.OwnersIds);
+            policy.SetValidationDate(input.ValidationStartDate, input.ValidationEndtDate);
+            await Repository.UpdateAsync(policy);
+            return ObjectMapper.Map<Policy,PolicyDto>(policy);
         }
 
+        public override Task<PagedResultDto<PolicyDto>> GetListAsync(GetListPoliciesDto input)
+        {
+            return base.GetListAsync(input);
+        }
         public async Task<ListResultDto<CategoryDto>> GetAllCategories()
         {
             var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
