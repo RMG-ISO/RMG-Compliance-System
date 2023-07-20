@@ -30,6 +30,6 @@ namespace RMG.ComplianceSystem.Policies
         public string Description { get; set; }
 
 
-        public  IList<Guid> PolicyCategoriesIds { get; set; }
+        public IList<Guid> CategoryIds { get; set; }
     }
 }

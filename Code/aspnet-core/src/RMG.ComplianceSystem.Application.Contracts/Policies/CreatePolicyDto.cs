@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Volo.Abp.Application.Dtos;
@@ -19,6 +20,7 @@ namespace RMG.ComplianceSystem.Policies
         public IList<Guid> OwnersIds { get; set; }
         public IList<Guid> ReviewersIds { get; set; }
         public IList<Guid> ApproversIds { get; set; }
+        [Required]
         public IList<Guid> CategoryIds { get; set; }
 
         [JsonIgnore]

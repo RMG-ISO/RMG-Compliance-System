@@ -1,4 +1,4 @@
-import type { EntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto, FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { PolicyType } from './policy-type.enum';
 import type { PolicyStatus } from './policy-status.enum';
 
@@ -24,9 +24,10 @@ export interface GetListPoliciesDto extends PagedAndSortedResultRequestDto {
   type: PolicyType;
 }
 
-export interface PolicyDto extends EntityDto<string> {
+export interface PolicyDto extends FullAuditedEntityDto<string> {
   code?: string;
-  name?: string;
+  nameEn?: string;
+  nameAr?: string;
   type: PolicyType;
   ownersIds: string[];
   reviewersIds: string[];
@@ -36,9 +37,7 @@ export interface PolicyDto extends EntityDto<string> {
   compliancePercentage: number;
   status: PolicyStatus;
   description?: string;
-  policyCategoriesIds: string[];
-  nameEn?: string;
-  nameAr?: string;
+  categoryIds: string[];
 }
 
 export interface UpdatePolicyDto extends EntityDto<string> {
@@ -48,7 +47,7 @@ export interface UpdatePolicyDto extends EntityDto<string> {
   ownersIds: string[];
   reviewersIds: string[];
   approversIds: string[];
-  validationStartDate?: string;
-  validationEndtDate?: string;
+  validationStartDate: string;
+  validationEndtDate: string;
   description: string;
 }
