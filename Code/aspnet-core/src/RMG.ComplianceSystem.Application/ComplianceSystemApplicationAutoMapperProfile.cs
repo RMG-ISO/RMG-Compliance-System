@@ -123,11 +123,8 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.Employees, ops => ops.MapFrom(t => t.AssessmentEmployees.Select(r => new NameId<Guid>(r.Employee.FullName, r.EmployeeId))));
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
 
-            CreateMap<Policy, PolicyDto>()
-                .ForMember(dest => dest.ApproversIds, ops => ops.MapFrom(src => src.Approvers.Select(x => x.EmployeeId)))
-                .ForMember(dest => dest.ReviewersIds, ops => ops.MapFrom(src => src.Reviewers.Select(x => x.EmployeeId)))
-                .ForMember(dest => dest.OwnersIds, ops => ops.MapFrom(src => src.Owners.Select(x => x.EmployeeId)))
-                .ForMember(dest => dest.CategoryIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
+            CreateMap<Policy, PolicyDto>();
+               // .ForMember(dest => dest.CategoryIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
 
             CreateMap<Category, CategoryDto>();
             CreateMap<UpdatePolicyDto, Policy>();

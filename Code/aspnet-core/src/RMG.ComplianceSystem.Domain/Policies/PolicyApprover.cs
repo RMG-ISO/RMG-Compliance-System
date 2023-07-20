@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RMG.ComplianceSystem.Employees;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace RMG.ComplianceSystem.Policies
 
         public Guid PolicyId { get; set; }
         public Guid EmployeeId { get; set; }
+        [ForeignKey(nameof(EmployeeId))]
+        public virtual Employee Employee { get; set; }
         protected PolicyApprover()
         {
 

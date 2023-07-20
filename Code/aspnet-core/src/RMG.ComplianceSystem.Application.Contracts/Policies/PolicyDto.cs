@@ -15,9 +15,9 @@ namespace RMG.ComplianceSystem.Policies
         public string NameEn { get; set; }
         public string NameAr { get; set; }
         public PolicyType Type { get; set; }
-        public IList<Guid> OwnersIds { get; set; }
-        public IList<Guid> ReviewersIds { get; set; }
-        public IList<Guid> ApproversIds { get; set; }
+        public IList<PolicyEmployeeDto> OwnersIds { get; set; }
+        public IList<PolicyEmployeeDto> ReviewersIds { get; set; }
+        public IList<PolicyEmployeeDto> ApproversIds { get; set; }
 
         public DateTime ValidationStartDate { get; set; }
         public DateTime ValidationEndtDate { get; set; }
@@ -30,6 +30,6 @@ namespace RMG.ComplianceSystem.Policies
         public string Description { get; set; }
 
 
-        public IList<Guid> CategoryIds { get; set; }
+        public IList<CategoryDto> CategoryIds { get; set; }
     }
 }
