@@ -58,9 +58,10 @@ namespace RMG.ComplianceSystem.Policies
             policy.AddApprover(input.ApproversIds);
             policy.AddReviewers(input.ReviewersIds);
             policy.AddOwners(input.OwnersIds);
-            await Repository.InsertAsync(policy);
-            var response = ObjectMapper.Map<Policy,PolicyDto>(policy);
-            return response;
+            policy.SetValidationDate(input.ValidationStartDate, input.ValidationEndtDate);
+            var employees = (await _employeeRepository.GetQueryableAsync()).Where(x => input.EmployeesIds.Contains(x.Id)).ToList();
+            await Repository.InsertAsync(policy,autoSave :true);
+            return MapToPolicyDto(policy, employees);
         }
 
         public override async Task<PolicyDto> UpdateAsync(Guid id, UpdatePolicyDto input)
@@ -70,19 +71,40 @@ namespace RMG.ComplianceSystem.Policies
             policy.AddApprover(input.ApproversIds);
             policy.AddOwners(input.OwnersIds);
             policy.SetValidationDate(input.ValidationStartDate, input.ValidationEndtDate);
+            var employees  = (await _employeeRepository.GetQueryableAsync()).Where(x => input.EmployeesIds.Contains(x.Id)).ToList();
             await Repository.UpdateAsync(policy);
-            return ObjectMapper.Map<Policy,PolicyDto>(policy);
+            return MapToPolicyDto(policy, employees);
         }
 
-        public override Task<PagedResultDto<PolicyDto>> GetListAsync(GetListPoliciesDto input)
+        public override async Task<PagedResultDto<PolicyDto>> GetListAsync(GetListPoliciesDto input)
         {
-            return base.GetListAsync(input);
+            var policies = await _repository.GetListAsync(input.Status, input.Type, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var employees = (await _employeeRepository.GetQueryableAsync()).ToList();
+            return new PagedResultDto<PolicyDto>
+            {
+                Items = policies.Item1.Select(x => MapToPolicyDto(x, employees)).ToList(),
+                TotalCount = policies.count
+            };
         }
         public async Task<ListResultDto<CategoryDto>> GetAllCategories()
         {
             var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
 
             return new ListResultDto<CategoryDto>(ObjectMapper.Map<List<Category>,List<CategoryDto>>(categories));
+        }
+
+        protected   PolicyDto MapToPolicyDto(Policy entity,List<Employee> employees)
+        {
+            var dto = ObjectMapper.Map<Policy,PolicyDto>(entity);
+            dto.ApproversIds = entity.Approvers.Select(x => new PolicyEmployeeDto { EmployeeId = x.EmployeeId , EmployeeName = GetEmployeeNameById(x.EmployeeId , employees) }).ToList();
+            dto.OwnersIds = entity.Owners.Select(x => new PolicyEmployeeDto { EmployeeId = x.EmployeeId, EmployeeName = GetEmployeeNameById(x.EmployeeId, employees) }).ToList();
+            dto.ReviewersIds = entity.Reviewers.Select(x => new PolicyEmployeeDto { EmployeeId = x.EmployeeId, EmployeeName = GetEmployeeNameById(x.EmployeeId, employees) }).ToList();
+            dto.CategoryIds = ObjectMapper.Map<List<Category>, List<CategoryDto>>(entity.PolicyCategories.ToList());
+            return dto;
+        }
+        private string GetEmployeeNameById(Guid id , List<Employee> employees = null)
+        {
+            return employees.First(x => x.Id == id).FullName;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace RMG.ComplianceSystem.Policies
 {
     public class GetListPoliciesDto : PagedAndSortedResultRequestDto
     {
-        public PolicyStatus Status { get; set; }
-        public PolicyType Type { get; set; }
+        public PolicyStatus? Status { get; set; }
+        public PolicyType? Type { get; set; }
     }
 }

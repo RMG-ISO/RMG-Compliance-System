@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using Volo.Abp.Application.Dtos;
 
 namespace RMG.ComplianceSystem.Policies
@@ -22,5 +24,7 @@ namespace RMG.ComplianceSystem.Policies
         public DateTime ValidationEndtDate { get; set; }
         [Required]
         public string Description { get; set; }
+        [JsonIgnore]
+        public IList<Guid> EmployeesIds { get { return this.OwnersIds.Concat(this.ReviewersIds).Concat(this.ApproversIds).ToList(); } }
     }
 }

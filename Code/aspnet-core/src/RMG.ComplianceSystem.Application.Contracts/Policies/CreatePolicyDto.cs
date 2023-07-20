@@ -20,6 +20,9 @@ namespace RMG.ComplianceSystem.Policies
         public IList<Guid> OwnersIds { get; set; }
         public IList<Guid> ReviewersIds { get; set; }
         public IList<Guid> ApproversIds { get; set; }
+        public DateTime ValidationStartDate { get; set; }
+        [Required]
+        public DateTime ValidationEndtDate { get; set; }
         [Required]
         public IList<Guid> CategoryIds { get; set; }
 
