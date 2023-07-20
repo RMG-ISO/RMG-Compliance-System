@@ -30,20 +30,28 @@ export class DocumentViewComponent {
     private configState:ConfigStateService,
     private toasterService:ToasterService,
     private policyService: PolicyService,
+    private employeeService: EmployeeService,
 
   ) { }
 
+  allEmployees;
   documentId;
+  documentData;
+  employeesObj = {};
   ngOnInit(): void {
     this.documentId = this.activatedRoute.snapshot.params.documentId;
     this.getDocument();
   }
-
-  documentData;
+ 
   getDocument() {
     this.documentData = null;
     this.policyService.get(this.documentId).subscribe(data => {
       this.documentData = data;
+      this.employeeService.getEmployeeListLookup().subscribe(result => {
+        result.items.map(x => this.employeesObj[x.id]=x.fullName)
+        this.allEmployees = result.items;
+        //this.documentOwners = this.filterArray(this.allEmployees,this.documentData['ownersIds']);
+      });
     });
   }
 
@@ -51,6 +59,7 @@ export class DocumentViewComponent {
   changeRoute(component) {
     this.activeComponent = component;
     component.documentData = this.documentData;
+    component.employeesObj = this.employeesObj;
     component.parent = this;
   }
 }

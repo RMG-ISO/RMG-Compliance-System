@@ -44,11 +44,7 @@
                 <input type="text" id="name" class="form-control " formControlName="nameAr" />
             </div>
 
-           <!--  <div class="col-md-6 form-group">
-                <label for="name">اسم الوثيقة</label>
-                <span> * </span>
-                <input type="text" id="name" class="form-control " formControlName="nameEn" />
-            </div> -->
+         
 
             <div class="col-md-6 form-group">
                 <label for="type">نوع الوثيقة</label>
@@ -68,13 +64,13 @@
                 </ng-select>
             </div>
 
-            <div class="col-md-6 form-group">
+            <div class="col-md-6 form-group" >
                 <label for="validationStartDate"> تاريخ بدء الصلاحية</label>
                 <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
                     formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
             </div>
 
-            <div class="col-md-6 form-group">
+            <div class="col-md-6 form-group" >
                 <label for="validationEndtDate"> تاريخ انتهاء الصلاحية</label>
                 <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
                     formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
@@ -101,7 +97,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="categoryIds">التصنيفات</label><span> * </span>
-                    <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoriesIds" multiple="true" [clearable]="true">
+                    <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
                         <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.nameAr}}</ng-option>
                     </ng-select>
                 </div>

@@ -64,24 +64,26 @@ export class DocumentCreateComponent {
         validationEndtDate: new FormControl(null, Validators.required),
         compliancePercentage: new FormControl(null, Validators.required),
         description: new FormControl(null, Validators.required),
-        categoriesIds: new FormControl(null, Validators.required),
+        categoryIds: new FormControl(null, Validators.required),
     });
 
    
 
-
+    let DocumentData = Object.assign({}, this.documentData)
     if(this.mode == this.FormMode.Edit){
-      this.documentData['validationStartDate'] = this.documentData?.validationStartDate ? parseISO(this.documentData['validationStartDate']) : null;
-      this.documentData['validationEndtDate'] = this.documentData?.validationEndtDate ? parseISO(this.documentData['validationEndtDate']) : null;
-      
-      console.log(this.documentData);
-      let DocumentData = Object.assign({}, this.documentData)
+      DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
+      DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
       delete DocumentData["code"];
       this.form.patchValue(DocumentData);
-      console.log(DocumentData);
+
+  
+    }else if(this.mode == this.FormMode.Create){
+      //delete DocumentData["validationStartDate"];
+      //delete DocumentData["validationEndtDate"];
     }
   }
 
+  
  
   save(){
     /* if (this.form.invalid) {
@@ -93,19 +95,16 @@ export class DocumentCreateComponent {
     data['validationStartDate'] = data['validationStartDate'] ? moment(data['validationStartDate']).toISOString() : null;
     data['validationEndtDate'] = data['validationEndtDate'] ? moment(data['validationEndtDate']).toISOString() : null;
     
-
     data['nameEn'] = data['nameAr'] ;
-    console.log(data);
     const request = this.documentData?.id
       ? this.policyService.update(this.documentData.id, data)
       : this.policyService.create(data);
 
     request.subscribe(() => {
-      //this.isModalOpen = false;
-      //this.form.reset();
-      //this.list.get();
       this.toasterService.success('::SuccessfullySaved', "");
-
+      if(this.mode == this.FormMode.Create){
+        this.router.navigate(['policy/documents'])
+      }
     });
   }
 }

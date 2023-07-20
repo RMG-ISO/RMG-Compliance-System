@@ -54,7 +54,7 @@
         مالك الوثيقة
         </span>
         <h4>
-           
+            <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{employeesObj[item]}}</span>
         </h4>
     </div>
 

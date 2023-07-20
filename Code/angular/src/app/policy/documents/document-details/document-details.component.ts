@@ -11,6 +11,7 @@ export class DocumentDetailsComponent {
 
   selected;
   documentData;
+  employeesObj;
   ngOnInit(): void {
     console.log('this.documentData');
     console.log(this.documentData);
