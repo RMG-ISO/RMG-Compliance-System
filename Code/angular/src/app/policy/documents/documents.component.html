@@ -52,22 +52,36 @@
         >
             <!-- <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="name"></ngx-datatable-column> -->
 
-            <ngx-datatable-column [name]=" 'رمز الوثيقة' " prop="name"></ngx-datatable-column>
+            <ngx-datatable-column [name]=" 'رمز الوثيقة' " prop="code"></ngx-datatable-column>
             <ngx-datatable-column [name]="'اسم الوثيقة'" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'وضع الامتثال'" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'الحالة'" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'ﺗﺎرﻳﺦ ﺑﺪء اﻟﺼﻼﺣﻴﺔ'" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'ﺗﺎرﻳﺦ إﻧﺘﻬﺎء اﻟﺼﻼﺣﻴﺔ'" prop="name"></ngx-datatable-column>
+            <!-- <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name"></ngx-datatable-column> -->
+            <ngx-datatable-column [name]="'وضع الامتثال'" prop="compliancePercentage"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="status" [class]="PolicyStatus[value]">
+                        {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
+                    </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'ﺗﺎرﻳﺦ ﺑﺪء اﻟﺼﻼﺣﻴﺔ'" prop="validationStartDate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'ﺗﺎرﻳﺦ إﻧﺘﻬﺎء اﻟﺼﻼﺣﻴﺔ'" prop="validationEndtDate  ">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
                 
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="250"  [sortable]="false" cellClass="options">
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="200"  [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                    
-                    <button  mat-button color="primary" [routerLink]="['/policy/documents/','2', 'details']" >
+                    <button  mat-button color="primary" [routerLink]="['/policy/documents/',row.id, 'details']" >
                         <mat-icon>visibility</mat-icon>
                     </button>
 
-                    <button  mat-button color="success" [routerLink]="['/policy/documents/','2', 'edit']" >
+                    <button  mat-button color="success" [routerLink]="['/policy/documents/',row.id, 'edit']" >
                         <mat-icon>edit</mat-icon>
                     </button>
                     

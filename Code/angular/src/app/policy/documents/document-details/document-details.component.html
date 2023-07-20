@@ -7,7 +7,7 @@
                 </div>
 
                 <div>
-                    <a mat-flat-button class="mainGreenBg" [routerLink]="['/policy/documents/','2', 'edit']" >تعديل  
+                    <a mat-flat-button class="mainGreenBg" [routerLink]="['/policy/documents/',documentData?.id, 'edit']" >تعديل  
                         <mat-icon>edit</mat-icon>
                     </a>
 
@@ -20,7 +20,7 @@
                             اﺳﻢ اﻟﻮﺛﻴﻘﺔ
                         </td>
                         <td >
-                            عنوان اﺧﺘﺒﺎر
+                            {{ documentData?.nameAr }}
                         </td>
                      
                     </tr>
@@ -29,7 +29,8 @@
                             ﻧﻮع اﻟﻮﺛﻴﻘﺔ
                         </td>
                         <td>
-                            ﻣﺤﻤﺪ اﻟﻘﺤﻄﺎﻧﻰ
+                            {{ PolicyType[documentData?.type]['key'] }}
+                           
                         </td>
                     </tr>
     
@@ -38,7 +39,7 @@
                             ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ
                         </td>
                         <td>
-                            أﺣﻤﺪ ﻋﻠﻰ
+                           
                         </td>
                     </tr>
     
@@ -47,7 +48,7 @@
                             ﺗﺎرﻳﺦ ﺑﺪء الصلاحية 
                         </td>
                         <td>
-                            10/10/2023
+                            {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
                         </td>
                     </tr>
 
@@ -56,7 +57,7 @@
                             ﺗﺎرﻳﺦ اﻧﺘﻬﺎء الصلاحية
                         </td>
                         <td >
-                            10/10/2023
+                            {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
                         </td>
                     </tr>
 
@@ -65,7 +66,7 @@
                           المراجعون
                         </td>
                         <td >
-                           احمد علي
+                           
                         </td>
                     </tr>
 
@@ -74,7 +75,7 @@
                             المعتمدون
                         </td>
                         <td >
-                            احمد علي
+                           
                         </td>
                     </tr>
 
@@ -83,8 +84,7 @@
                             اﻟﺘﺼﻨﻴﻔﺎت
                         </td>
                         <td >
-                            ﻫﻮ ﻧﻤﻮذج اﻓﺘﺮا ﻳﻮﺿﻊ ﻓﻲ اﻟﺘﺼﺎﻣﻴﻢ ﻟﺘﻌﺮض ﻋﻠﻰ اﻟﻌﻤﻴﻞ ﻟﻴﺘﺼﻮر ﻃﺮﻳﻘﻪ وﺿﻊ اﻟﻨﺼﻮص
-                            ﺑﺎﻟﺘﺼﺎﻣﻴﻢ ﺳﻮاء ﻛﺎﻧﺖ
+                           
                         </td>
                     </tr>
 
@@ -93,7 +93,7 @@
                             اﻟﻮﺻﻒ
                         </td>
                         <td >
-                            ﻟﻮرﻳﻢ اﻳﺒﺴﻮم ﻫﻮ ﻧﻤﻮذج اﻓﺘﺮا ﻳﻮﺿﻊ ﻓﻲ اﻟﺘﺼﺎﻣﻴﻢ ﻟﺘﻌﺮض ﻋﻠﻰ اﻟﻌﻤﻴﻞ ﻟﻴﺘﺼﻮر ﻃﺮﻳﻘﻪ وﺿﻊ اﻟﻨﺼﻮص
+                            {{ documentData?.description }}
                         </td>
                     </tr>
 

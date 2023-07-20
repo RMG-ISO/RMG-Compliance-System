@@ -43,7 +43,8 @@
           رمز الوثيقة
         </span>
         <h4>
-         dddddd
+            {{ documentData?.code }}
+         
         </h4>
       </div>
 
@@ -53,7 +54,7 @@
         مالك الوثيقة
         </span>
         <h4>
-            إدارة اﻟﺠﻮدة - إدارة ﺗﻜﻨﻮﻟﻮﺟﻴﺎ اﻟﻤﻌﻠﻮﻣﺎت
+           
         </h4>
     </div>
 
@@ -62,8 +63,7 @@
             {{ '::CreationTime' | abpLocalization }}
         </span>
         <h4>
-            <!-- {{ frameWorkData?.lastModificationTime | date : 'yyyy/MM/dd' }} -->
-            12/1/2020
+            {{ documentData?.creationTime | date : 'yyyy/MM/dd' }}
         </h4>
     </div>
 
@@ -71,8 +71,8 @@
         <span>
         وضع الإمتثال
         </span>
-        <span class="status" >
-            sdcvvvbb
+        <span >
+            {{ documentData?.compliancePercentage }}
         </span>
     </div>
 
@@ -80,8 +80,8 @@
         <span>
             الحالة
         </span>
-        <span class="status" >
-            sdcvvvbb
+        <span class="status" [class]="PolicyStatus[documentData?.status]">
+            {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
         </span>
     </div>
  
@@ -103,5 +103,5 @@
   </div>
 
   <div class="p-3">
-    <router-outlet (activate)="changeRoute($event)"></router-outlet>
+    <router-outlet (activate)="changeRoute($event)" *ngIf="documentData"></router-outlet>
   </div>

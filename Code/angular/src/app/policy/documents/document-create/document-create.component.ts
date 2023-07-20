@@ -2,14 +2,15 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigStateService } from '@abp/ng.core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { PolicyService } from '@proxy/policies';
 import { EmployeeService } from '@proxy/employees';
 import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
-
+import { parseISO } from 'date-fns';
+import { timer } from 'rxjs';
 @Component({
   selector: 'app-document-create',
   templateUrl: './document-create.component.html',
@@ -22,6 +23,8 @@ export class DocumentCreateComponent {
   mode;
   FormMode = FormMode;
   PolicyType = policyTypeOptions;
+  AllCategories;
+
   constructor(
     private configStateService:ConfigStateService,
     private activatedRoute:ActivatedRoute,
@@ -34,50 +37,77 @@ export class DocumentCreateComponent {
 
   ) { }
 
+  allEmployees;
+  selected;
+  documentData;
   ngOnInit(): void {
     this.mode = this.activatedRoute.snapshot.data.mode;
-    console.log(this.mode);
-    console.log(this.PolicyType);
-    
     this.employeeService.getEmployeeListLookup().subscribe(result => {
       this.allEmployees = result.items;
     });
+
+    this.policyService.getAllCategories().subscribe(result => {
+      this.AllCategories = result.items;
+    });
+
+
     this.form = new FormGroup({
-        id: new FormControl(null),
+        //id: new FormControl(null),
         type: new FormControl(null, Validators.required),
+        name: new FormControl(null, Validators.required),
         nameAr: new FormControl(null, Validators.required),
+        nameEn: new FormControl(null),
         ownersIds: new FormControl(null),
         reviewersIds: new FormControl(null),
         approversIds: new FormControl(null, Validators.required),
         validationStartDate: new FormControl(null, Validators.required),
         validationEndtDate: new FormControl(null, Validators.required),
         compliancePercentage: new FormControl(null, Validators.required),
-        status: new FormControl(null, Validators.required),
         description: new FormControl(null, Validators.required),
-        categoryIds: new FormControl(null, Validators.required),
-        employeesIds: new FormControl(null, Validators.required),
+        policyCategoriesIds: new FormControl(null, Validators.required),
     });
 
-    //this.form.patchValue(this.selected);
+    this.documentData['validationStartDate'] = this.documentData['validationStartDate'] ? parseISO(this.documentData['validationStartDate']) : null;
+    this.documentData['validationEndtDate'] = this.documentData['validationEndtDate'] ? parseISO(this.documentData['validationEndtDate']) : null;
+    
+    console.log(this.documentData);
+
+  /*   this.documentData['ownersIds'] = 
+    [
+      "a328039d-f318-f0d3-9a2a-3a0bb19507c1"
+    ]; */
+
+    if(this.mode == this.FormMode.Edit){
+      let DocumentData = Object.assign({}, this.documentData)
+      delete DocumentData["code"];
+      this.form.patchValue(DocumentData);
+      console.log(DocumentData);
+    }
   }
 
-  allEmployees;
-  selected;
+ 
   save(){
-    console.log(this.form.getRawValue());
-   /*  if (this.form.invalid) {
+    /* if (this.form.invalid) {
       return;
     } */
 
+    let data = this.form.getRawValue();
 
-    const request = this.selected?.id
-      ? this.policyService.update(this.selected.id, this.form.getRawValue())
+    data['validationStartDate'] = data['validationStartDate'] ? moment(data['validationStartDate']).toISOString() : null;
+    data['validationEndtDate'] = data['validationEndtDate'] ? moment(data['validationEndtDate']).toISOString() : null;
+    
+
+    data['nameEn'] = data['nameAr'] ;
+    const request = this.documentData?.id
+      ? this.policyService.update(this.documentData.id, data)
       : this.policyService.create(this.form.getRawValue());
 
     request.subscribe(() => {
-  /*     this.isModalOpen = false;
-      this.form.reset();
-      this.list.get(); */
+      //this.isModalOpen = false;
+      //this.form.reset();
+      //this.list.get();
+      this.toasterService.success('::SuccessfullySaved', "");
+
     });
   }
 }

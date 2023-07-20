@@ -37,13 +37,18 @@
             </h3>
         </div>
 
-
         <div class="row">
             <div class="col-md-6 form-group">
-                <label for="nameAr">اسم الوثيقة</label>
+                <label for="name">اسم الوثيقة</label>
                 <span> * </span>
-                <input type="text" id="nameAr" class="form-control " formControlName="nameAr" />
+                <input type="text" id="name" class="form-control " formControlName="nameAr" />
             </div>
+
+           <!--  <div class="col-md-6 form-group">
+                <label for="name">اسم الوثيقة</label>
+                <span> * </span>
+                <input type="text" id="name" class="form-control " formControlName="nameEn" />
+            </div> -->
 
             <div class="col-md-6 form-group">
                 <label for="type">نوع الوثيقة</label>
@@ -77,7 +82,7 @@
 
             <div class="col-md-12 form-group">
                 <label for="reviewersIds">المراجعون</label><span> * </span>
-                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true"
+                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true" 
                     formControlName="reviewersIds" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
@@ -85,29 +90,19 @@
 
 
             <div class="col-md-12 form-group">
-                <label for="approversIds">المعتمدون</label><span> * </span>
-                <ng-select id="approversIds" class="d-block" [searchable]="false" formControlName="approversIds"
+                <label for="approversIdss">المعتمدون</label><span> * </span>
+                <ng-select id="approversIdss" class="d-block" [searchable]="false" formControlName="approversIds" *ngIf="allEmployees"
                     multiple="true" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-
                 </ng-select>
             </div>
 
 
-            <!-- <div class="col-md-12 form-group">
-                <label for="employeesIds">المعتمدون</label><span> * </span>
-                <ng-select id="employeesIds" class="d-block" [searchable]="false" formControlName="employeesIds"
-                    multiple="true" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-                </ng-select>
-            </div> -->
-
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="categoryIds">التصنيفات</label><span> * </span>
-                    <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
-                        <ng-option  [value]="2">تصنيف 1</ng-option>
-                        <ng-option  [value]="1">تصنيف 2</ng-option>
+                    <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="policyCategoriesIds" multiple="true" [clearable]="true">
+                        <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.nameAr}}</ng-option>
                     </ng-select>
                 </div>
             </div>

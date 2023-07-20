@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
 
 @Component({
   selector: 'app-document-details',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./document-details.component.scss']
 })
 export class DocumentDetailsComponent {
+  PolicyType = policyTypeOptions;
+
+  selected;
+  documentData;
+  ngOnInit(): void {
+    console.log('this.documentData');
+    console.log(this.documentData);
+  
+
+
+   
+    //this.form.patchValue(this.selected);
+  }
 
 }

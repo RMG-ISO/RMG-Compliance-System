@@ -10,7 +10,8 @@ import { DepartmentService } from '@proxy/departments';
 import { PolicyService } from '@proxy/policies';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmployeeService } from '@proxy/employees';
-
+import {  PolicyStatus  } from '@proxy/policies/policy-status.enum';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
@@ -31,6 +32,7 @@ export class DocumentsComponent {
   selected = {} as any;
   form: FormGroup;
   allEmployees;
+  PolicyStatus = PolicyStatus;
 
   constructor(
     public readonly list: ListService,
@@ -38,12 +40,14 @@ export class DocumentsComponent {
     public dialog: MatDialog,
     private employeeService: EmployeeService,
     private confirmation: ConfirmationService,
+    public  activatedRoute:ActivatedRoute,
+
   ) { }
 
-  
+  documentId;
   ngOnInit(): void {
     this.getList();
- 
+  
   }
 
   getList(search = null) {
