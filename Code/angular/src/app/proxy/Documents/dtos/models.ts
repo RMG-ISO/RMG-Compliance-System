@@ -1,7 +1,26 @@
-import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { FullAuditedEntityDto, FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { DocumentSectionStatus } from '../../policies/document-section-status.enum';
 import { IdentityUserDto } from '@abp/ng.identity/proxy';
 import { UserData } from '@abp/ng.identity/proxy';
 import { AttachmentDto } from '@proxy/attachments/dtos';
+
+export interface CreateUpdateDocumentSectionDto {
+  title: string;
+  content: string;
+  documentId: string;
+}
+
+export interface DocumentSectionDto extends FullAuditedEntityDto<string> {
+  title?: string;
+  content?: string;
+  order: number;
+  status: DocumentSectionStatus;
+  documentId?: string;
+}
+
+export interface DocumentSectionGetListInputDto extends PagedAndSortedResultRequestDto {
+  documentId?: string;
+}
 
 export interface CreateUpdateDocumentDto {
   TitleAr?: string;
