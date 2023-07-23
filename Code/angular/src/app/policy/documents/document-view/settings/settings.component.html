@@ -1,5 +1,5 @@
 <section>
-    <header class="d-flex align-items-center justify-content-between">
+    <header class="d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">
             أقسام الوثيقة
         </h2>
@@ -14,25 +14,80 @@
         </div>
     </header>
     <mat-card>
-        <mat-card-header>
-
+        <mat-card-header class="mb-4 justify-content-between">
+            <span></span>
+            <button mat-raised-button color="primary" (click)="openSectionDialog(Section)">
+                <mat-icon>add</mat-icon>
+                {{ '::Create' | abpLocalization }}
+            </button>
         </mat-card-header>
         <mat-card-content>
             <mat-accordion class="example-headers-align" multi>
                 <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Personal data
+                  <mat-expansion-panel-header >
+                    <mat-panel-title class="justify-content-between">
+                      <h3>
+                        أقسام الوثيقة
+                      </h3>
+                      <div class="d-flex align-items-center">
+                        <button mat-button color="primary">
+                            <mat-icon class="m-0">edit</mat-icon>
+                        </button>
+                        <button mat-button color="warn">
+                            <mat-icon class="m-0">delete</mat-icon>
+                        </button>
+                      </div>
                     </mat-panel-title>
-                    <mat-panel-description>
-                      Type your name and age
-                      <mat-icon>account_circle</mat-icon>
-                    </mat-panel-description>
                   </mat-expansion-panel-header>
-              
-                  
+
+                   <section>
+                        <ckeditor
+                        fullWidth
+                        #myckeditor
+                        id="myckeditor"
+                        name="myckeditor"
+                        required
+                        [config]="ckeConfig"
+                        debounce="500"
+                        [editor]="Editor"
+                        (ready)="onReady($event)"
+                        >
+                        </ckeditor>
+                        <button mat-raised-button color="primary" class="mt-3 mb-1">
+                            {{ '::Save' | abpLocalization }}
+                        </button>
+                   </section>
+
+                    <!--                     [disabled]="mode === FormMode.View" -->
                 </mat-expansion-panel>
             </mat-accordion>
         </mat-card-content>
     </mat-card>
 </section>
+
+<ng-template #Section let-data let-ref="dialogRef">
+    <form [formGroup]="sectionForm" (ngSubmit)="save()" class="app-dialog">
+        <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+            <h2>
+                {{ ('::' + data.mode) | abpLocalization }}
+            </h2>
+        </div>
+        
+        <mat-dialog-content class="mat-typography">
+            <div class="form-group">
+                <label for="control-nameAr">{{ '::Title' | abpLocalization }}</label><span> * </span>
+                <input id="control-nameAr" class="form-control" formControlName="title">
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="actions">
+            <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+                <i class="fa fa-check me-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+    
+            <button type="button" mat-button (click)="ref.close()" class="red"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

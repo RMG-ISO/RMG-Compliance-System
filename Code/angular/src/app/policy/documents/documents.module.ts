@@ -9,6 +9,8 @@ import { DocumentDetailsComponent } from './document-details/document-details.co
 import { DocumentCreateComponent } from './document-create/document-create.component';
 import { SettingsComponent } from './document-view/settings/settings.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DocumentSectionComponent } from './document-view/settings/document-section/document-section.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +18,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
     DocumentViewComponent,
     DocumentDetailsComponent,
     DocumentCreateComponent,
-    SettingsComponent
+    SettingsComponent,
+    DocumentSectionComponent
   ],
   imports: [
     CommonModule,
     DocumentsRoutingModule,
     SharedModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    CKEditorModule
   ]
 })
 export class DocumentsModule { }

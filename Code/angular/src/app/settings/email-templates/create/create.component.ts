@@ -7,6 +7,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmailTemplateService } from '@proxy/email-templates';
 import { finalize } from 'rxjs/operators';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { UploadAdapter } from 'src/app/shared/services/app-upload-adapter';
 // import { MyCustomUploadAdapterPlugin } from 'src/app/shared/services/ckeditor-uploader.class';
 
 
@@ -19,17 +20,10 @@ export class CreateComponent implements OnInit {
   @ViewChild('myckeditor') ckeditor: CKEditorComponent;
   FormMode = FormMode;
 
-  ckeConfig = {
-    language: {
-      ui: 'ar',
-      content: 'ar',
-    },
-  };
+ 
 
   form: FormGroup;
   mode;
-
-  public Editor = DecoupledEditor;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,6 +31,14 @@ export class CreateComponent implements OnInit {
     private router: Router,
     private localizationService: LocalizationService
   ) {}
+
+  ckeConfig = {
+    language: {
+      ui: 'ar',
+      content: 'ar',
+    },
+  };
+  public Editor = DecoupledEditor;
 
   public onReady(editor) {
     // if (editor.model.schema.isRegistered('image')) {
@@ -123,25 +125,6 @@ export class CreateComponent implements OnInit {
 }
 
 
-export class UploadAdapter {
-  private loader;
-  constructor(loader: any) {
-    this.loader = loader;
-  }
-
-  upload() {
-    return this.loader.file.then(
-      file =>
-        new Promise((resolve, reject) => {
-          var myReader = new FileReader();
-          myReader.onloadend = e => {
-            resolve({ default: myReader.result });
-          };
-          myReader.readAsDataURL(file);
-        })
-    );
-  }
-}
 
 
 
