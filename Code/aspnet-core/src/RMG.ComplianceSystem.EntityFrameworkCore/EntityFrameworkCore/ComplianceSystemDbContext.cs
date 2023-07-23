@@ -112,6 +112,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<PolicyApprover> PolicyUsers { get; set; }
+        public DbSet<DocumentSection> DocumentSections { get; set; }
 
 
 
@@ -151,6 +152,12 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+            builder.Entity<DocumentSection>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentSections", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<AssessmentVersion>(b =>
             {

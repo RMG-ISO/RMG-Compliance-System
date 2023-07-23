@@ -48,6 +48,9 @@ namespace RMG.ComplianceSystem
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+            CreateMap<CreateUpdateDocumentSectionDto, DocumentSection>();
+            CreateMap<DocumentSection, DocumentSectionDto>();
+
             CreateMap<FrameworkChangeStatusLog, FrameworkChangeStatusLogDto>();
 
             CreateMap<AssessmentVersion, AssessmentVersionDto>();
