@@ -11,6 +11,7 @@ import { SettingsComponent } from './document-view/settings/settings.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DocumentSectionComponent } from './document-view/settings/document-section/document-section.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DocumentSectionComponent } from './document-view/settings/document-sect
     SharedModule,
     MatCardModule,
     MatExpansionModule,
-    CKEditorModule
+    CKEditorModule,
+    DragDropModule
   ]
 })
 export class DocumentsModule { }

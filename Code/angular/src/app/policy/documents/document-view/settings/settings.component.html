@@ -22,45 +22,51 @@
             </button>
         </mat-card-header>
         <mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header >
-                    <mat-panel-title class="justify-content-between">
-                      <h3>
-                        أقسام الوثيقة
-                      </h3>
-                      <div class="d-flex align-items-center">
-                        <button mat-button color="primary" >
-                            <mat-icon class="m-0">edit</mat-icon>
-                        </button>
-                        <button mat-button color="warn">
-                            <mat-icon class="m-0">delete</mat-icon>
-                        </button>
-                      </div>
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-
-                   <section>
-                        <ckeditor
-                        fullWidth
-                        #myckeditor
-                        id="myckeditor"
-                        name="myckeditor"
-                        required
-                        [config]="ckeConfig"
-                        debounce="500"
-                        [editor]="Editor"
-                        (ready)="onReady($event)"
-                        >
-                        </ckeditor>
-                        <button mat-raised-button color="primary" class="mt-3 mb-1">
-                            {{ '::Save' | abpLocalization }}
-                        </button>
-                   </section>
-
-                    <!--                     [disabled]="mode === FormMode.View" -->
-                </mat-expansion-panel>
-            </mat-accordion>
+            <form [formGroup]="form">
+                <mat-accordion cdkDropList (cdkDropListDropped)="drop($event)" class="sections-list" multi formArrayName="sections">
+                    <mat-expansion-panel
+                    cdkDragBoundary=".sections-list" cdkDrag class="mb-3"
+                    *ngFor="let group of form.controls.sections['controls']; index as i"
+                    [formGroupName]="i">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title class="justify-content-between">
+                          <h3 class="m-0">
+                            {{ group.value.title }}
+                          </h3>
+                          <div class="d-flex align-items-center">
+                            <button mat-button color="primary" type="button" (click)="$event.stopPropagation(); openSectionDialog(Section, group.value, i)" >
+                                <mat-icon class="m-0">edit</mat-icon>
+                            </button>
+                            <button mat-button color="warn" type="button" (click)="$event.stopPropagation(); delete(i)" >
+                                <mat-icon class="m-0">delete</mat-icon>
+                            </button>
+                          </div>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+    
+                       <section>
+                            <ckeditor
+                            fullWidth
+                            #myckeditor
+                            id="myckeditor"
+                            name="myckeditor"
+                            required
+                            [config]="ckeConfig"
+                            debounce="500"
+                            [editor]="Editor"
+                            (ready)="onReady($event)"
+                            formControlName="content"
+                            >
+                            </ckeditor>
+                            <button mat-raised-button color="primary" class="mt-3 mb-1">
+                                {{ '::Save' | abpLocalization }}
+                            </button>
+                       </section>
+    
+                        <!--                     [disabled]="mode === FormMode.View" -->
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </form>
         </mat-card-content>
     </mat-card>
 </section>
