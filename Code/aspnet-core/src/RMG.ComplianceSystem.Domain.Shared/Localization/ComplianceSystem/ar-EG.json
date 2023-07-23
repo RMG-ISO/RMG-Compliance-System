@@ -637,7 +637,10 @@
     "FrameworkSentForRevision": "تم إرسال الإطار للمراجعة",
     "FrameworkSentForApproval": "تم إرسال الإطار للاعتماد",
     "FrameworkReturnedToCreator": "تم إعادة الإطار للمنشئ",
-    "FrameworkApproved": "تم اعتماد الإطار"
+    "FrameworkApproved": "تم اعتماد الإطار",
+    "CreatedSuccessfully": "تم الإضافة بنجاح",
+    "UpdatedSuccessfully": "تم التعديل بنجاح"
+
 
 
 

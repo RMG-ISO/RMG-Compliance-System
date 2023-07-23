@@ -30,7 +30,7 @@
                         أقسام الوثيقة
                       </h3>
                       <div class="d-flex align-items-center">
-                        <button mat-button color="primary">
+                        <button mat-button color="primary" >
                             <mat-icon class="m-0">edit</mat-icon>
                         </button>
                         <button mat-button color="warn">
@@ -66,7 +66,7 @@
 </section>
 
 <ng-template #Section let-data let-ref="dialogRef">
-    <form [formGroup]="sectionForm" (ngSubmit)="save()" class="app-dialog">
+    <form [formGroup]="sectionForm" (ngSubmit)="save(ref)" class="app-dialog">
         <div mat-dialog-title class="d-flex align-items-center justify-content-between">
             <h2>
                 {{ ('::' + data.mode) | abpLocalization }}
