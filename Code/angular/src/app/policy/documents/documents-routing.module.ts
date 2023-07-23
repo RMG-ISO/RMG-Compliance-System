@@ -6,6 +6,7 @@ import { DocumentViewComponent } from './document-view/document-view.component';
 import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { DocumentCreateComponent } from './document-create/document-create.component';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { SettingsComponent } from './document-view/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -41,21 +42,14 @@ const routes: Routes = [
       },
       {
         path:'settings',
-        component:DocumentDetailsComponent
+        component:SettingsComponent
       },
       {
         path:'activities',
         component:DocumentDetailsComponent
       },
-     
-     
-     
-     
     ]
-   
   },
-
-
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

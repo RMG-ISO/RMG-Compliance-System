@@ -62,4 +62,5 @@ export class DocumentViewComponent {
     component.employeesObj = this.employeesObj;
     component.parent = this;
   }
+  
 }
