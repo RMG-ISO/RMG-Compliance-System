@@ -74,6 +74,7 @@ export class DocumentCreateComponent {
       DocumentData['reviewersIds'] = DocumentData?.reviewersIds?.map(t=>t.employeeId)
       DocumentData['approversIds'] = DocumentData?.approversIds?.map(t=>t.employeeId)
       DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
+      DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
       delete DocumentData["code"];
       this.form.patchValue(DocumentData);
 
