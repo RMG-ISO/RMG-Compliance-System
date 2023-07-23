@@ -14,8 +14,9 @@ using Volo.Abp;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using RMG.ComplianceSystem.Policies;
 
-namespace RMG.ComplianceSystem.Policies
+namespace RMG.ComplianceSystem.Documents
 {
     //[Authorize(ComplianceSystemPermissions.DocumentSection.Default)]
     public class DocumentSectionAppService :

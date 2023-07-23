@@ -33,6 +33,10 @@ export const environment = {
       // url: 'https://localhost:44375',
       rootNamespace: 'RMG.ComplianceSystem',
     },
+    local: {
+      url: 'https://localhost:44375',
+      rootNamespace: 'RMG.ComplianceSystem',
+    },
   },
 
 
