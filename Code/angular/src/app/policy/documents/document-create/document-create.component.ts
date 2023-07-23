@@ -52,17 +52,15 @@ export class DocumentCreateComponent {
 
 
     this.form = new FormGroup({
-        //id: new FormControl(null),
         type: new FormControl(null, Validators.required),
-        name: new FormControl(null, Validators.required),
         nameAr: new FormControl(null, Validators.required),
         nameEn: new FormControl(null),
-        ownersIds: new FormControl(null),
-        reviewersIds: new FormControl(null),
+        ownersIds: new FormControl(null, Validators.required),
+        //reviewersIds: new FormControl({value:this.documentData?.reviewersIds?.map(t=>t.id)}, Validators.required),
+        reviewersIds: new FormControl(null, Validators.required),
         approversIds: new FormControl(null, Validators.required),
         validationStartDate: new FormControl(null, Validators.required),
         validationEndtDate: new FormControl(null, Validators.required),
-        compliancePercentage: new FormControl(null, Validators.required),
         description: new FormControl(null, Validators.required),
         categoryIds: new FormControl(null, Validators.required),
     });
@@ -73,6 +71,9 @@ export class DocumentCreateComponent {
     if(this.mode == this.FormMode.Edit){
       DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
       DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
+      DocumentData['reviewersIds'] = DocumentData?.reviewersIds?.map(t=>t.employeeId)
+      DocumentData['approversIds'] = DocumentData?.approversIds?.map(t=>t.employeeId)
+      DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
       delete DocumentData["code"];
       this.form.patchValue(DocumentData);
 
@@ -83,12 +84,25 @@ export class DocumentCreateComponent {
     }
   }
 
-  
+  findInvalidControls(f: FormGroup) {
+    const invalid = [];
+    const controls = f.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    return invalid;
+  }
  
   save(){
-    /* if (this.form.invalid) {
+    console.log(this.form);
+    let fada = this.findInvalidControls(this.form);
+    console.log(fada);
+    this.form.markAllAsTouched();
+    if (this.form.invalid) {
       return;
-    } */
+    }
 
     let data = this.form.getRawValue();
 

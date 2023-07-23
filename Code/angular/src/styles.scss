@@ -89,7 +89,7 @@
 }
 
 .panel_header.mat-expanded{
-  background:#55c270!important;
+  background:var(--main-green)!important;
 }
 
 
@@ -107,8 +107,8 @@
 
 #permissions_list_tabs .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before,
 #permissions_list_tabs .custom-control-input:checked ~ .custom-control-label::before{
-  border-color: #55c270 ;
-  background-color: #55c270 ;
+  border-color: var(--main-green)  ;
+  background-color:var(--main-green); 
 }
 
 .permission_setting_modal_body .modal-dialog{

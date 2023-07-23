@@ -10,13 +10,13 @@
 
     /
 
-    <a href="#" class="bread_crumb_item">
+    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
         السياسات
     </a>
 
     /
 
-    <a href="#" class="bread_crumb_item">
+    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
         إدارة اﻟﻮﺛﺎﺋﻖ
     </a>
 
@@ -113,7 +113,7 @@
             <button mat-raised-button color="primary" class="save m-3" type="submit">
                 {{ 'AbpAccount::Save' | abpLocalization }}
             </button>
-            <a mat-raised-button class="m-3" color="warn" routerLink="/">
+            <a mat-raised-button class="m-3" color="warn" routerLink="/policy/documents/list">
                 {{ 'AbpAccount::Cancel' | abpLocalization }}
             </a>
         </div>

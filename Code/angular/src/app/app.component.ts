@@ -26,6 +26,7 @@ import { DOCUMENT } from '@angular/common';
 export class AppComponent {
   notificationItems;
   notificationItemsCount;
+  private themeWrapper = document.querySelector('body');
 
   constructor (
     private replaceableComponent: ReplaceableComponentsService,
@@ -56,7 +57,10 @@ export class AppComponent {
       key: eIdentityComponents.Roles,
     });
 
-    
+
+    /* this.themeWrapper.style.setProperty(
+      '--main-green','#fafc22'
+    ); */
 
     for(let icon of RegisteredIcons) {
       this.matIconRegistry.addSvgIcon(

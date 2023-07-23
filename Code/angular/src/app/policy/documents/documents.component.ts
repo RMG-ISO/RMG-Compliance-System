@@ -12,6 +12,9 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmployeeService } from '@proxy/employees';
 import {  PolicyStatus  } from '@proxy/policies/policy-status.enum';
 import { ActivatedRoute, Router } from '@angular/router';
+import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
+import { ToasterService } from '@abp/ng.theme.shared';
+
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
@@ -33,7 +36,7 @@ export class DocumentsComponent {
   form: FormGroup;
   allEmployees;
   PolicyStatus = PolicyStatus;
-
+  PolicyType = policyTypeOptions;
   constructor(
     public readonly list: ListService,
     private policyService: PolicyService,
@@ -41,6 +44,7 @@ export class DocumentsComponent {
     private employeeService: EmployeeService,
     private confirmation: ConfirmationService,
     public  activatedRoute:ActivatedRoute,
+    private toasterService:ToasterService,
 
   ) { }
 
@@ -61,7 +65,10 @@ export class DocumentsComponent {
   delete(model: DepartmentDto) {
     this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.policyService.delete(model.id).subscribe(() => this.list.get());
+        this.policyService.delete(model.id).subscribe(() => {
+          this.list.get();
+          this.toasterService.success('::SuccessfullyDeleted', "");
+        });
       }
     });
   }
