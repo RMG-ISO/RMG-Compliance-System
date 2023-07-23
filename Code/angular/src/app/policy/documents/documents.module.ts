@@ -8,6 +8,7 @@ import { DocumentViewComponent } from './document-view/document-view.component';
 import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { DocumentCreateComponent } from './document-create/document-create.component';
 import { SettingsComponent } from './document-view/settings/settings.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SettingsComponent } from './document-view/settings/settings.component';
     CommonModule,
     DocumentsRoutingModule,
     SharedModule,
-    MatCardModule
+    MatCardModule,
+    MatExpansionModule
   ]
 })
 export class DocumentsModule { }
