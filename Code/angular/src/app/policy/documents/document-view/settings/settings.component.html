@@ -43,7 +43,7 @@
                           </div>
                         </mat-panel-title>
                       </mat-expansion-panel-header>
-    
+
                        <section>
                             <ckeditor
                             fullWidth
@@ -70,6 +70,16 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </form>
+<!-- 
+            <ckeditor
+            fullWidth
+            required
+            [config]="ckeConfig"
+            debounce="500"
+            [editor]="PDFEditor"
+            (ready)="onReady($event)" >
+            </ckeditor> -->
+
         </mat-card-content>
     </mat-card>
 </section>

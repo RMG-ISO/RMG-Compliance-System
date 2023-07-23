@@ -8,6 +8,13 @@ import { DocumentSectionService } from '@proxy/Documents/document-section.servic
 import { finalize } from 'rxjs';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+// import { ExportPdf } from '@ckeditor/ckeditor5-export-pdf';
+import PDFEditor from './ck-pdf';
+
+// (DecoupledEditor as any).builtinPlugins.push( ExportPdf );
+
+import ExportPdf from '@ckeditor/ckeditor5-export-pdf/src/exportpdf';
+
 
 @Component({
   selector: 'app-settings',
@@ -27,6 +34,7 @@ export class SettingsComponent implements OnInit {
   
   form:FormGroup;
   sectionsFormArr:FormArray;
+  // ExportPdf = ExportPdf;
   ngOnInit() {
     console.log(this.documentData);
     this.getSections();
@@ -49,8 +57,6 @@ export class SettingsComponent implements OnInit {
     group.patchValue(data || {documentId: this.documentData.id});
 
     this.sectionsFormArr.push(group);
-
-
   }
 
 
@@ -59,6 +65,9 @@ export class SettingsComponent implements OnInit {
       ui: 'ar',
       content: 'ar',
     },
+    toolbar:[
+      'pdfEmbed',
+    ]
   };
   public Editor = DecoupledEditor;
 
@@ -66,10 +75,15 @@ export class SettingsComponent implements OnInit {
     editor.ui
     .getEditableElement()
     .parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
+    console.log(editor.plugins);
     editor.plugins.get('FileRepository').createUploadAdapter = function (loader) {
       return new UploadAdapter(loader);
     };
+
+    console.log('DecoupledEditor', DecoupledEditor);
   }
+
+  // PDFEditor = PDFEditor;
   
   sections = [];;
   getSections() {
