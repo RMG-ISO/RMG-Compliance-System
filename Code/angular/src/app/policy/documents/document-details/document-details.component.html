@@ -1,0 +1,105 @@
+
+        <ng-container>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <b>تفاصيل الوثيقة</b>
+                </div>
+
+                <div>
+                    <a mat-flat-button class="mainGreenBg" [routerLink]="['/policy/documents/',documentData?.id, 'edit']" >تعديل  
+                        <mat-icon>edit</mat-icon>
+                    </a>
+
+                </div>
+            </div>
+            <div class="details-table-cont">
+                <table class="table">
+                    <tr>
+                        <td width="25%">
+                            اﺳﻢ اﻟﻮﺛﻴﻘﺔ
+                        </td>
+                        <td >
+                            {{ documentData?.nameAr }}
+                        </td>
+                     
+                    </tr>
+                    <tr>
+                        <td>
+                            ﻧﻮع اﻟﻮﺛﻴﻘﺔ
+                        </td>
+                        <td>
+                            {{ PolicyType[documentData?.type]['key'] }}
+                           
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td>
+                            ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ
+                        </td>
+                        <td>
+                            <span *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{employeesObj[item]}}</span>
+                        </td>
+                    </tr>
+    
+                    <tr >
+                        <td>
+                            ﺗﺎرﻳﺦ ﺑﺪء الصلاحية 
+                        </td>
+                        <td>
+                            {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
+                        </td>
+                    </tr>
+
+                    <tr >
+                        <td>
+                            ﺗﺎرﻳﺦ اﻧﺘﻬﺎء الصلاحية
+                        </td>
+                        <td >
+                            {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
+                        </td>
+                    </tr>
+
+                    <tr >
+                        <td>
+                          المراجعون
+                        </td>
+                        <td >
+                            <span class="badge" *ngFor="let item of documentData?.reviewersIds" class="badge m-1">{{employeesObj[item]}}</span>
+                        </td>
+                    </tr>
+
+                    <tr >
+                        <td>
+                            المعتمدون
+                        </td>
+                        <td >
+                            <span *ngFor="let item of documentData?.approversIds" class="badge m-1">{{employeesObj[item]}}</span>
+                        </td>
+                    </tr>
+
+                    <tr >
+                        <td>
+                            اﻟﺘﺼﻨﻴﻔﺎت
+                        </td>
+                        <td >
+                           
+                        </td>
+                    </tr>
+
+                    <tr >
+                        <td>
+                            اﻟﻮﺻﻒ
+                        </td>
+                        <td >
+                            {{ documentData?.description }}
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+    
+          
+        </ng-container>
+ 

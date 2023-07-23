@@ -305,7 +305,12 @@ span.status {
             background:#9E9D24;
         }
     }
-
+    &.Draft {
+        color:#607D8B;
+        &::before{
+            background:#607D8B;
+        }
+    }
 
 }
 

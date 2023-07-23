@@ -1,0 +1,107 @@
+<div class="d-flex   justify-content-start align-items-center ps-3">
+    <div>
+        <mat-icon>arrow_forward</mat-icon>
+    </div>
+
+    
+    <a href="#" class="bread_crumb_item">
+        اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ
+    </a>
+
+    / 
+
+    <a [routerLink]="['/policy/documents']" class="bread_crumb_item">
+        السياسات
+    </a>
+
+    /
+
+    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
+        إدارة اﻟﻮﺛﺎﺋﻖ
+    </a>
+
+    /
+    
+    <a href="#" class="bread_crumb_item">
+        ﻋﺮض اﻟﻮﺛﻴﻘﺔ
+    </a>
+</div>
+
+
+<div class="info">
+
+    <div class="card-top">
+      <h3>
+        عنوان الوثيقة
+      </h3>
+    </div>
+
+    <div>
+
+      <div>
+        <span>
+          رمز الوثيقة
+        </span>
+        <h4>
+            {{ documentData?.code }}
+         
+        </h4>
+      </div>
+
+      
+    <div>
+        <span>
+        مالك الوثيقة
+        </span>
+        <h4>
+            <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
+        </h4>
+    </div>
+
+    <div>
+        <span>
+            {{ '::CreationTime' | abpLocalization }}
+        </span>
+        <h4>
+            {{ documentData?.creationTime | date : 'yyyy/MM/dd' }}
+        </h4>
+    </div>
+
+    <div>
+        <span>
+        وضع الإمتثال
+        </span>
+        <span >
+            {{ documentData?.compliancePercentage }}
+        </span>
+    </div>
+
+    <div>
+        <span>
+            الحالة
+        </span>
+        <span class="status" [class]="PolicyStatus[documentData?.status]">
+            {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
+        </span>
+    </div>
+ 
+    </div>
+  </div>
+
+
+  <div class="tabs d-flex align-items-center p-3">
+    <button mat-raised-button routerLink="details" routerLinkActive="active">
+        معلومات الوثيقة
+    </button>
+    <button mat-raised-button routerLink="settings" routerLinkActive="active" >
+        إﻋﺪاد وﺛﻴﻘﺔ
+    </button>
+    <button mat-raised-button routerLink="activities" routerLinkActive="active" >
+      الممارسات
+    </button>
+    
+  </div>
+
+  <div class="p-3">
+    <router-outlet (activate)="changeRoute($event)" *ngIf="documentData"></router-outlet>
+  </div>

@@ -40,12 +40,12 @@
                 </span>
 
                 <div *ngIf="showButton">
-                    <!-- <button *abpPermission="'ComplianceSystem.Domain.Update'" class="mr-3" mat-button
+                    <!-- <button *abpPermission="'ComplianceSystem.Domain.Update'" class="me-3" mat-button
                     (click)="openDomainDialog(mainDomain, FormMode.Edit, null, null); $event.stopPropagation()">
                         <mat-icon>edit</mat-icon>
                         {{ '::Edit' | abpLocalization }}
                     </button> -->
-                    <mat-checkbox class="mr-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
+                    <mat-checkbox class="me-3" (click)="$event.stopPropagation()" (change)="selectChanged($event.checked, mainDomain.id)"></mat-checkbox>
                 </div>
 
                 <div *ngIf="!showButton">
