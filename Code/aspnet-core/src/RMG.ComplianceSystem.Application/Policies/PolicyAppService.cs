@@ -71,6 +71,7 @@ namespace RMG.ComplianceSystem.Policies
             policy.AddApprover(input.ApproversIds);
             policy.AddOwners(input.OwnersIds);
             policy.SetValidationDate(input.ValidationStartDate, input.ValidationEndtDate);
+            policy.Description = input.Description;
             var employees  = (await _employeeRepository.GetQueryableAsync()).Where(x => input.EmployeesIds.Contains(x.Id)).ToList();
             await Repository.UpdateAsync(policy);
             return MapToPolicyDto(policy, employees);
