@@ -85,22 +85,10 @@ export class DocumentCreateComponent {
     }
   }
 
-  findInvalidControls(f: FormGroup) {
-    const invalid = [];
-    const controls = f.controls;
-    for (const name in controls) {
-      if (controls[name].invalid) {
-        invalid.push(name);
-      }
-    }
-    return invalid;
-  }
+
  
   save(){
-    console.log(this.form);
-    let fada = this.findInvalidControls(this.form);
-    console.log(fada);
-    this.form.markAllAsTouched();
+    //this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
     }
