@@ -1,9 +1,9 @@
 
         <ng-container>
             <div class="d-flex justify-content-between align-items-center mb-4">
-
+                
                 <div>
-                    <b>تفاصيل الوثيقة</b>
+                    <b>{{ "::Policy:DocumentDetails" | abpLocalization }}</b>
                 </div>
 
                 <div>
@@ -17,7 +17,7 @@
                 <table class="table">
                     <tr>
                         <td width="25%">
-                            اﺳﻢ اﻟﻮﺛﻴﻘﺔ
+                            {{ "::Policy:DocumentName" | abpLocalization }}
                         </td>
                         <td >
                             {{ documentData?.nameAr }}
@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                         <td>
-                            ﻧﻮع اﻟﻮﺛﻴﻘﺔ
+                            {{ "::Policy:DocumentType" | abpLocalization }}
                         </td>
                         <td>
                             {{ PolicyType[documentData?.type]['key'] }}
@@ -36,16 +36,16 @@
     
                     <tr>
                         <td>
-                            ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ
+                            {{ "::Policy:DocumentOwners" | abpLocalization }}
                         </td>
                         <td>
-                            <span *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{employeesObj[item]}}</span>
+                            <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
                         </td>
                     </tr>
     
                     <tr >
                         <td>
-                            ﺗﺎرﻳﺦ ﺑﺪء الصلاحية 
+                            {{ "::Policy:validationStartDate" | abpLocalization }}
                         </td>
                         <td>
                             {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
@@ -54,7 +54,7 @@
 
                     <tr >
                         <td>
-                            ﺗﺎرﻳﺦ اﻧﺘﻬﺎء الصلاحية
+                            {{ "::Policy:validationEndDate" | abpLocalization }}
                         </td>
                         <td >
                             {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
@@ -63,34 +63,34 @@
 
                     <tr >
                         <td>
-                          المراجعون
+                            {{ "::Policy:Revisors" | abpLocalization }}
                         </td>
                         <td >
-                            <span class="badge" *ngFor="let item of documentData?.reviewersIds" class="badge m-1">{{employeesObj[item]}}</span>
+                            <span  *ngFor="let item of documentData?.reviewersIds" class="badge m-1">{{item?.employeeName}}</span>
                         </td>
                     </tr>
 
                     <tr >
                         <td>
-                            المعتمدون
+                            {{ "::Policy:Approvers" | abpLocalization }}
                         </td>
                         <td >
-                            <span *ngFor="let item of documentData?.approversIds" class="badge m-1">{{employeesObj[item]}}</span>
+                            <span  *ngFor="let item of documentData?.approversIds" class="badge m-1">{{item?.employeeName}}</span>
                         </td>
                     </tr>
 
                     <tr >
                         <td>
-                            اﻟﺘﺼﻨﻴﻔﺎت
+                            {{ "::Policy:Categories" | abpLocalization }}
                         </td>
                         <td >
-                           
+                            <span  *ngFor="let item of documentData?.categoryIds" class="badge m-1">{{item?.nameAr}}</span>
                         </td>
                     </tr>
 
                     <tr >
                         <td>
-                            اﻟﻮﺻﻒ
+                            {{ "::Policy:Description" | abpLocalization }}
                         </td>
                         <td >
                             {{ documentData?.description }}
