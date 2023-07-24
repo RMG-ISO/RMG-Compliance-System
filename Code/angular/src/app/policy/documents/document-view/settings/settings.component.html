@@ -4,7 +4,9 @@
             أقسام الوثيقة
         </h2>
         <div class="d-flex align-items-center">
-            <button mat-raised-button color="primary">
+            <button style="display: none;" #printBtn printSectionId="print-section" ngxPrint [useExistingCss]="true"> </button>
+
+            <button mat-raised-button color="primary" (click)="print(printBtn)">
                 حفظ PDF
             </button>
             <span class="space"></span>
@@ -70,15 +72,27 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </form>
-<!-- 
-            <ckeditor
+
+            <!-- <ckeditor
+            #allPages
             fullWidth
             required
             [config]="ckeConfig"
             debounce="500"
-            [editor]="PDFEditor"
-            (ready)="onReady($event)" >
+            [editor]="Editor"
+            (ready)="onReady($event, true)"
+            disabled="true"
+            [ngModel]="allContents" >
             </ckeditor> -->
+
+            <div style="display:none;">
+                <div id="print-section">
+                    <div [innerHtml]="allContents" class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only ck-blurred">
+                
+                    </div>
+                </div>
+            </div>
+
 
         </mat-card-content>
     </mat-card>

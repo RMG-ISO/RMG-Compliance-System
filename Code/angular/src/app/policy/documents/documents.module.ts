@@ -12,6 +12,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DocumentSectionComponent } from './document-view/settings/document-section/document-section.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {NgxPrintModule} from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatCardModule,
     MatExpansionModule,
     CKEditorModule,
-    DragDropModule
+    DragDropModule,
+    NgxPrintModule
   ]
 })
 export class DocumentsModule { }
