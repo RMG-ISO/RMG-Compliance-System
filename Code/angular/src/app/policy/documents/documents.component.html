@@ -9,19 +9,19 @@
                 
                     
                     <a href="#" class="bread_crumb_item">
-                        اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ
+                        {{ "::Policy:Home" | abpLocalization }}
                     </a>
                 
                     / 
                 
-                    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
-                        السياسات
+                    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">                        
+                        {{ "::Policy:Policies" | abpLocalization }}
                     </a>
                 
                     /
                 
                     <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
-                        إدارة اﻟﻮﺛﺎﺋﻖ
+                        {{ "::Policy:DocumentManagement" | abpLocalization }}
                     </a>
                 
                     
@@ -31,7 +31,7 @@
                 <a  mat-raised-button id="createBtn"  routerLink="/policy/documents/create" class="btn btn-primary me-3"
                 >
                     <i class="fa fa-plus me-1"></i>
-                    <span>إضافة وثيقة</span>
+                    <span>{{ "::Policy:AddDocument" | abpLocalization }}</span>
                 </a>
                 <app-search (search)="getList($event)"></app-search>
             </div>
@@ -53,16 +53,17 @@
         >
             <!-- <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="name"></ngx-datatable-column> -->
 
-            <ngx-datatable-column [name]=" 'رمز الوثيقة' " prop="code"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'اسم الوثيقة'" prop="nameAr"></ngx-datatable-column>
-            <!-- <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name"></ngx-datatable-column> -->
-            <ngx-datatable-column [name]="' نوع الوثيقة '" prop="type">
-             
+            <ngx-datatable-column [name]="'::Policy:DocumentCode' | abpLocalization" prop="code"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Policy:DocumentName' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+            <!-- <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name">
+                
+            </ngx-datatable-column> -->
+            <ngx-datatable-column [name]="'::Policy:DocumentType' | abpLocalization" prop="type">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{PolicyType[value]['key'] | abpLocalization }}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'نسبة الامتثال'" prop="compliancePercentage">
+            <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" prop="compliancePercentage">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{value}} %
                 </ng-template>
@@ -70,16 +71,16 @@
             <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="status" [class]="PolicyStatus[value]">
-                        {{ ( '::Enum:SharedStatus:' + value ) | abpLocalization }}
+                        {{ ( '::Enum:' + PolicyStatus[value] ) | abpLocalization }}
                     </span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'ﺗﺎرﻳﺦ ﺑﺪء اﻟﺼﻼﺣﻴﺔ'" prop="validationStartDate">
+            <ngx-datatable-column [name]="'::Policy:validationStartDate' | abpLocalization" prop="validationStartDate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'ﺗﺎرﻳﺦ إﻧﺘﻬﺎء اﻟﺼﻼﺣﻴﺔ'" prop="validationEndtDate  ">
+            <ngx-datatable-column [name]="'::Policy:validationEndDate' | abpLocalization"  [maxWidth]="200" [width]="200" prop="validationEndtDate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
                 </ng-template>

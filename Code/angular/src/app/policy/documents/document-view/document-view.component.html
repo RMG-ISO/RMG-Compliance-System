@@ -5,25 +5,25 @@
 
     
     <a href="#" class="bread_crumb_item">
-        اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ
+        {{ "::Policy:Home" | abpLocalization }}
     </a>
 
     / 
 
     <a [routerLink]="['/policy/documents']" class="bread_crumb_item">
-        السياسات
+        {{ ":::Policy:Policies" | abpLocalization }}
     </a>
 
     /
 
     <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
-        إدارة اﻟﻮﺛﺎﺋﻖ
+        {{ ":::Policy:DocumentManagement" | abpLocalization }}
     </a>
 
     /
     
     <a href="#" class="bread_crumb_item">
-        ﻋﺮض اﻟﻮﺛﻴﻘﺔ
+        {{ ":::Policy:DocumentView" | abpLocalization }}
     </a>
 </div>
 
@@ -32,7 +32,7 @@
 
     <div class="card-top">
       <h3>
-        عنوان الوثيقة
+        {{ "::Policy:DocumentTitle" | abpLocalization }}
       </h3>
     </div>
 
@@ -40,7 +40,7 @@
 
       <div>
         <span>
-          رمز الوثيقة
+          {{ "::Policy:DocumentCode" | abpLocalization }}
         </span>
         <h4>
             {{ documentData?.code }}
@@ -51,7 +51,7 @@
       
     <div>
         <span>
-        مالك الوثيقة
+          {{ "::Policy:DocumentOwner" | abpLocalization }}
         </span>
         <h4>
             <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
@@ -69,7 +69,7 @@
 
     <div>
         <span>
-        وضع الإمتثال
+            {{ '::Policy:CompliancePercentage' | abpLocalization }}
         </span>
         <span >
             {{ documentData?.compliancePercentage }}
@@ -78,7 +78,7 @@
 
     <div>
         <span>
-            الحالة
+            {{ '::Policy:Status' | abpLocalization }}
         </span>
         <span class="status" [class]="PolicyStatus[documentData?.status]">
             {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
@@ -91,13 +91,13 @@
 
   <div class="tabs d-flex align-items-center p-3">
     <button mat-raised-button routerLink="details" routerLinkActive="active">
-        معلومات الوثيقة
+        {{ '::Policy:DocumentInformation' | abpLocalization }}
     </button>
-    <button mat-raised-button routerLink="settings" routerLinkActive="active" >
-        إﻋﺪاد وﺛﻴﻘﺔ
+    <button mat-raised-button routerLink="settings" routerLinkActive="active" >    
+        {{ '::Policy:DocumentSettings' | abpLocalization }}
     </button>
     <button mat-raised-button routerLink="activities" routerLinkActive="active" >
-      الممارسات
+        {{ '::Policy:DocumentActivities' | abpLocalization }}
     </button>
     
   </div>
