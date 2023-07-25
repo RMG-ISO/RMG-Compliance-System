@@ -9,6 +9,11 @@ import { finalize } from 'rxjs';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
+import * as htmlToDocx from 'html-to-docx';
+import { ThemePalette } from '@angular/material/core';
+import { asBlob } from 'html-docx-js-typescript';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-settings',
@@ -126,6 +131,44 @@ export class SettingsComponent implements OnInit {
     button.click();
   }
 
+  // async exportDoc() {
+  //   await htmlToDocx(document.getElementById('print-section').outerHTML)
+  // }
+
+  exportDoc() {
+    // <head>
+    // <meta charset="UTF-8">
+    // <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    // <meta http-equiv="Pragma" content="no-cache" />
+    // <meta http-equiv="Expires" content="0" />
+    // <title>testTitle</title>
+    // </head>
+    const HtmlStr = `
+      <!DOCTYPE html>
+      <html lang="${document.body.dir === 'rtl' ? 'ar' : 'en'}" >
+     
+
+        ${document.head.outerHTML}
+      <body dir="lang="${document.body.dir === 'rtl' ? 'rtl' : 'ltr'}"">
+          ${document.getElementById('print-section').outerHTML}
+      </body >
+      </html >`;
+    const option = { orientation: 'portrait', margins: {} }
+    const headerConfig = {
+      leftStr: 'headerLeft',
+      centerStr: 'headerCenter',
+      rightStr: 'headerRight',
+    }
+    const footerConfig = {
+      leftStr: 'footerLeft',
+      centerStr: 'footerCenter',
+      rightStr: 'footerRight',
+    }
+    asBlob(HtmlStr, option as any).then(blobData => {
+      console.log('blobData', blobData)
+      saveAs(blobData, `testDocument.docx`) // save as docx document
+    })
+  }
 
   activeIndex;
   openSectionDialog(section, data?, index = null) {
@@ -201,6 +244,7 @@ export class SettingsComponent implements OnInit {
       this.updateOrders();
     })
   }
+
 
 }
 
