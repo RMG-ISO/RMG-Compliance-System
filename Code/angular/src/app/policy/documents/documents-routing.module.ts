@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DocumentsComponent } from './documents.component';
 import { DocumentViewComponent } from './document-view/document-view.component';
-import { DocumentDetailsComponent } from './document-details/document-details.component';
+// import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { DocumentCreateComponent } from './document-create/document-create.component';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { SettingsComponent } from './document-view/settings/settings.component';
+import { DetailsComponent } from './document-view/details/details.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,7 @@ const routes: Routes = [
     children:[
       {
         path:'details',
-        component:DocumentDetailsComponent
+        component:DetailsComponent
       },
       {
         path:'edit',
@@ -44,10 +45,10 @@ const routes: Routes = [
         path:'settings',
         component:SettingsComponent
       },
-      {
-        path:'activities',
-        component:DocumentDetailsComponent
-      },
+      // {
+      //   path:'activities',
+      //   component:DocumentDetailsComponent
+      // },
     ]
   },
 ];

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
+import { policyTypeOptions } from '@proxy/policies';
 
 @Component({
-  selector: 'app-document-details',
-  templateUrl: './document-details.component.html',
-  styleUrls: ['./document-details.component.scss']
+  selector: 'app-details',
+  templateUrl: './details.component.html',
+  styleUrls: ['./details.component.scss']
 })
-export class DocumentDetailsComponent {
+export class DetailsComponent {
   PolicyType = policyTypeOptions;
 
   selected;
@@ -21,5 +21,4 @@ export class DocumentDetailsComponent {
    
     //this.form.patchValue(this.selected);
   }
-
 }
