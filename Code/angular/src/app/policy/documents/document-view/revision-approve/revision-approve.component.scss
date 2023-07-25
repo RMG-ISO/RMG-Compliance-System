@@ -1,0 +1,31 @@
+.notes-cont {
+    font-size: 14px;
+    max-height: 70px;
+    overflow: auto;
+    margin: 0;
+}
+
+.table-actions {
+    width: 140px;
+    display: flex;
+    justify-content: space-between;
+    button {
+        padding: 0;
+        width: 40px;
+        mat-icon {
+            font-size: 24px;
+            font-weight: bold;
+            width: 28px;
+            height: 24px;
+            padding: 0;
+            // margin-top: 4px;
+            &.send {
+                color: #336B82;
+                transform: rotate(-33deg);
+                margin-top: -8px;
+                font-size: 21px;
+                height: 20px;
+            }
+        }
+    }
+}

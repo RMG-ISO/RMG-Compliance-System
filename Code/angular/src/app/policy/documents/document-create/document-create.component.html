@@ -43,17 +43,19 @@
        
 
         <div class="row">
-            <div class="col-md-6 form-group" *ngIf="mode == FormMode.Edit">
-                <label for="name">{{ "::Policy:Code" | abpLocalization }}</label>
-                <input type="text" id="name" class="form-control " formControlName="code" />
-            </div>
-            <div class="col-md-6"></div>
+            <ng-container *ngIf="mode == FormMode.Edit">
+                <div class="col-md-6 form-group">
+                    <label for="name">{{ "::Policy:Code" | abpLocalization }}</label>
+                    <input type="text" id="name" class="form-control " formControlName="code" />
+                </div>
+                <div class="col-md-6"></div>
+            </ng-container>
+
             <div class="col-md-6 form-group">
                 <label for="name">{{ "::Policy:DocumentName" | abpLocalization }}</label>
                 <span> * </span>
                 <input type="text" id="name" class="form-control " formControlName="nameAr" />
             </div>
-
             <div class="col-md-6 form-group">
                 <label for="type">
                     {{ "::Policy:DocumentType" | abpLocalization }}
