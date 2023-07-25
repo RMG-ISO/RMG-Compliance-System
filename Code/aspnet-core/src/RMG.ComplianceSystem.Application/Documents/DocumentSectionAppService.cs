@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RMG.ComplianceSystem.Attachments.Dtos;
-using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Documents.Dtos;
 using RMG.ComplianceSystem.Permissions;
 using Volo.Abp.Application.Dtos;
@@ -14,7 +13,6 @@ using Volo.Abp;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using RMG.ComplianceSystem.Policies;
 
 namespace RMG.ComplianceSystem.Documents
 {
@@ -39,13 +37,13 @@ namespace RMG.ComplianceSystem.Documents
 
         private readonly IdentityUserManager User;
         private readonly IAttachmentRepository _attachmentRepository;
-        private readonly IPolicyRepository _documentRepository;
+        private readonly IDocumentRepository _documentRepository;
 
         public DocumentSectionAppService(
             IdentityUserManager _User, 
             IAttachmentRepository attachmentRepository, 
             IRepository<DocumentSection, Guid> repository,
-            IPolicyRepository documentRepository
+            IDocumentRepository documentRepository
             ) : base(repository)
         {
             User = _User;

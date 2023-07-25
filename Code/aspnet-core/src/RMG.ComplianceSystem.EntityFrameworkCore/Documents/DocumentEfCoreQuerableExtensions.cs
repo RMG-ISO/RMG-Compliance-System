@@ -1,8 +1,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using RMG.ComplianceSystem.Documents;
 
-namespace RMG.ComplianceSystem.Policies
+namespace RMG.ComplianceSystem.Documents
 {
     public static class DocumentEfCoreQueryableExtensions
     {
@@ -15,12 +14,10 @@ namespace RMG.ComplianceSystem.Policies
 
             return queryable
                 // .Include(x => x.xxx) // TODO: AbpHelper generated
-                .Include(t => t.Attachment).ThenInclude(t=>t.Creator)
-                .Include(t => t.Attachment).ThenInclude(t=>t.LastModifier)
-                .Include(t => t.Attachment).ThenInclude(t=>t.Deleter)
-                .Include(t => t.Creator)
-                .Include(t => t.LastModifier)
-                .Include(t => t.Deleter)
+                .Include(t => t.Approvers).ThenInclude(t => t.Employee)
+                .Include(t => t.Owners).ThenInclude(t => t.Employee)
+                .Include(t => t.Reviewers).ThenInclude(t => t.Employee)
+                .Include(t => t.DocumentCategories).ThenInclude(t => t.Category)
                 ;
         }
     }

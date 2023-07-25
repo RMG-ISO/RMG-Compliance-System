@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RMG.ComplianceSystem.Policies
+namespace RMG.ComplianceSystem.Documents
 {
     public enum DocumentSectionStatus
     {

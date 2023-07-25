@@ -1,15 +1,14 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace RMG.ComplianceSystem.Policies
+namespace RMG.ComplianceSystem.Documents.Dtos
 {
-    public class PolicyListDto : FullAuditedEntityDto<Guid>
+    public class DocumentGetListInputDto : PagedAndSortedResultRequestDto
     {
         public string Code { get; set; }
-        [NotNull]
         public string Name { get; set; }
     }
 }

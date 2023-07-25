@@ -1,27 +1,36 @@
-using RMG.ComplianceSystem.Attachments.Dtos;
+﻿using JetBrains.Annotations;
+using RMG.ComplianceSystem.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Documents.Dtos
 {
-    [Serializable]
-    public class DocumentDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
+    public class DocumentDto : FullAuditedEntityDto<Guid>
     {
-        // DocumentId 
-        public Guid Id { get; set; }
-        public string TitleAr { get; set; }
-        public string TitleEn { get; set; }
-        public Guid CategoryId { get; set; }
-        public Guid AttachmentId { get; set; }
-        public string CategoryNameAr { get; set; }
-        public string CategoryNameEn { get; set; }
-        public string CreatorUserName { get; set; }
-        public string UpdateUserName { get; set; }
-        public  AttachmentDto Attachment { get; set; }
+        [NotNull]
+        public string Code { get; set; }
+        [NotNull]
+        public string NameEn { get; set; }
+        public string NameAr { get; set; }
+        public DocumentType Type { get; set; }
+        public IList<NameId<Guid>> Owners { get; set; }
+        public IList<DocumentEmployeeDto> Reviewers { get; set; }
+        public IList<DocumentEmployeeDto> Approvers { get; set; }
+
+        public DateTime ValidationStartDate { get; set; }
+        public DateTime ValidationEndtDate { get; set; }
+
+
+        [Range(0, 100)]
+        public int CompliancePercentage { get; set; }
+        public DocumentStatus Status { get; set; }
+        [NotNull]
+        public string Description { get; set; }
+
+
+        public IList<NameId<Guid>> Categories { get; set; }
     }
-
-  
-
-}      
+}

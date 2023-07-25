@@ -17,7 +17,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
-using RMG.ComplianceSystem.Policies;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.Risks;
@@ -60,7 +59,6 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
                 options.AddRepository<HistoryRiskOpportunity, HistoryRiskAndOpportunityRepository>();
                 options.AddRepository<StaticDatatb, StaticDataRepository>();
                 options.AddRepository<RisksTreatment, RiskTreatmentRepository>();
-                options.AddRepository<DocumentCategory, DocumentCategoryRepository>();
                 options.AddRepository<AttachmentFile, AttachmentFileRepository>();
                 options.AddRepository<Framework, FrameworkRepository>();
                 options.AddRepository<Notification, NotificationRepository>();

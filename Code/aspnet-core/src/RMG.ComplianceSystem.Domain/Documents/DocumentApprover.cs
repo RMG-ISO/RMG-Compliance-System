@@ -9,25 +9,29 @@ using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
-namespace RMG.ComplianceSystem.Policies
+namespace RMG.ComplianceSystem.Documents
 {
-    public class PolicyReviwer : AuditedEntity<Guid>
+    public class DocumentApprover : CreationAuditedEntity<Guid>
     {
-        public Guid PolicyId { get; set; }
+        public bool IsRequired { get; set; }
+        public Guid DocumentId { get; set; }
         public Guid EmployeeId { get; set; }
         [ForeignKey(nameof(EmployeeId))]
         public virtual Employee Employee { get; set; }
-
-        protected PolicyReviwer()
+        protected DocumentApprover()
         {
 
         }
 
-        public PolicyReviwer(Guid policyId, Guid employeeId)
+        public DocumentApprover(
+            Guid id,
+            Guid employeeId,
+            bool isRequired
+        )
         {
-            Id = Guid.NewGuid();
-            PolicyId = policyId;
+            Id = id;
             EmployeeId = employeeId;
+            IsRequired = isRequired;
         }
     }
 }

@@ -9,24 +9,25 @@ using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
-namespace RMG.ComplianceSystem.Policies
+namespace RMG.ComplianceSystem.Documents
 {
-    public class PolicyOwner : AuditedEntity<Guid>
+    public class DocumentOwner : CreationAuditedEntity<Guid>
     {
-        public Guid PolicyId { get; set; }
+        public Guid DocumentId { get; set; }
         public Guid EmployeeId { get; set; }
         [ForeignKey(nameof(EmployeeId))]
         public virtual Employee Employee { get; set; }
 
-        protected PolicyOwner()
+        protected DocumentOwner()
         {
-            
+
         }
 
-        public PolicyOwner (Guid policyId, Guid employeeId)
+        public DocumentOwner(
+            Guid id, 
+            Guid employeeId)
         {
-            this.Id = Guid.NewGuid();
-            PolicyId = policyId;
+            Id = id;
             EmployeeId = employeeId;
         }
     }

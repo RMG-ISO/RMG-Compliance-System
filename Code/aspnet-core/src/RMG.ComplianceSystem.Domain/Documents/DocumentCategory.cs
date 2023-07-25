@@ -1,17 +1,30 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Volo.Abp.Identity;
-using RMG.ComplianceSystem.Attachments;
-using System;
-using Volo.Abp.Domain.Entities.Auditing;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace RMG.ComplianceSystem.Documents
 {
-    public class DocumentCategory : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
+    public class DocumentCategory : CreationAuditedEntity<Guid>
     {
-        public string NameAr { get; set; }
-        public string NameEn { get; set; }
-        public Guid TenantId { get; set; }    
-        public virtual ICollection<Document> Documents { get; set; }
+        public Guid DocumentId { get; set; }
+        public Guid CategoryId { get; set; }
+        public Document Document { get; set; }
+        public Category Category { get; set; }
+
+        protected DocumentCategory()
+        {
+            
+        }
+
+        public DocumentCategory(
+            Guid id, 
+            Guid categoryId)
+        {
+            Id = id;
+            CategoryId = categoryId;
+        }
     }
 }

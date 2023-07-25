@@ -22,7 +22,6 @@ using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments;
-using RMG.ComplianceSystem.Policies;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.StaticData;
@@ -108,10 +107,10 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<FrameworkChangeStatusLog> FrameworkChangeStatusLogs { get; set; }
         public DbSet<AssessmentVersion> AssessmentVersions { get; set; }
 
-        public DbSet<Policy> Policies { get; set; }
+        public DbSet<Document> Policies { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<PolicyApprover> PolicyUsers { get; set; }
+        public DbSet<DocumentApprover> PolicyUsers { get; set; }
         public DbSet<DocumentSection> DocumentSections { get; set; }
 
 
@@ -421,7 +420,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
             });
 
-            builder.Entity<Policy>(b =>
+            builder.Entity<Document>(b =>
             {
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Policies", ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
@@ -434,7 +433,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             });
 
 
-            builder.Entity<PolicyApprover>(b =>
+            builder.Entity<DocumentApprover>(b =>
             {
 
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyApprovers", ComplianceSystemConsts.DbSchema);
@@ -442,7 +441,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
             });
 
-            builder.Entity<PolicyOwner>(b =>
+            builder.Entity<DocumentOwner>(b =>
             {
 
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyOwners", ComplianceSystemConsts.DbSchema);
@@ -450,7 +449,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
             });
 
-            builder.Entity<PolicyReviwer>(b =>
+            builder.Entity<DocumentReviewer>(b =>
             {
 
                 b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyReviwers", ComplianceSystemConsts.DbSchema);

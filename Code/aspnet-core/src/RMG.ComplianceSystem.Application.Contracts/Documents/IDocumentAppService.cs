@@ -1,5 +1,7 @@
 using RMG.ComplianceSystem.Documents.Dtos;
+using RMG.ComplianceSystem.Shared;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -11,10 +13,9 @@ namespace RMG.ComplianceSystem.Documents
      ICrudAppService< //Defines CRUD methods
          DocumentDto, //Used to show books
          Guid, //Primary key of the book entity
-         DocPagedAndSortedResultRequestDto, //Used for paging/sorting
-         CreateUpdateDocumentDto> //Used to create/update a book
+         DocumentGetListInputDto, //Used for paging/sorting
+         CreateDocumentDto> //Used to create/update a book
     {
-        Task<PagedResultDto<DocumentDto>> GetListDocumentByCategoryAsync(DocPagedAndSortedResultRequestDto input);
-        Task<DocumentDto> GetByIdAsync(Guid Id);
+        Task<List<NameId<Guid>>> GetAllCategories();
     }
 }
