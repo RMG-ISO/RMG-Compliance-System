@@ -16,6 +16,6 @@ namespace RMG.ComplianceSystem.Documents
          DocumentGetListInputDto, //Used for paging/sorting
          CreateDocumentDto> //Used to create/update a book
     {
-        Task<List<NameId<Guid>>> GetAllCategories();
+        Task<ListResultDto<NameId<Guid>>> GetAllCategories();
     }
 }

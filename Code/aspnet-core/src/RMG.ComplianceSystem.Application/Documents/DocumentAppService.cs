@@ -66,11 +66,11 @@ namespace RMG.ComplianceSystem.Documents
             return await MapToGetOutputDtoAsync(entity);
         }
         
-        public async Task<List<NameId<Guid>>> GetAllCategories()
+        public async Task<ListResultDto<NameId<Guid>>> GetAllCategories()
         {
             var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
 
-            return ObjectMapper.Map<List<Category>, List<NameId<Guid>>>(categories);
+            return new ListResultDto<NameId<Guid>>(ObjectMapper.Map<List<Category>, List<NameId<Guid>>>(categories));
         }
 
         protected override async Task<IQueryable<Document>> CreateFilteredQueryAsync(DocumentGetListInputDto input)
