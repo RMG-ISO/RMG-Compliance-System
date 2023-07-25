@@ -8,6 +8,7 @@ import { DocumentCreateComponent } from './document-create/document-create.compo
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { SettingsComponent } from './document-view/settings/settings.component';
 import { DetailsComponent } from './document-view/details/details.component';
+import { RevisionApproveComponent } from './document-view/revision-approve/revision-approve.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,13 @@ const routes: Routes = [
     }
   },
   {
+    path:':documentId/edit',
+    component:DocumentCreateComponent,
+    data:{
+      mode:FormMode.Edit,
+    }
+  },
+  {
     path:':documentId',
     component:DocumentViewComponent,
     children:[
@@ -34,12 +42,16 @@ const routes: Routes = [
         path:'details',
         component:DetailsComponent
       },
+      // {
+      //   path:'edit',
+      //   component:DocumentCreateComponent,
+      //   data:{
+      //     mode:FormMode.Edit,
+      //   }
+      // },
       {
-        path:'edit',
-        component:DocumentCreateComponent,
-        data:{
-          mode:FormMode.Edit,
-        }
+        path:'revision-approve',
+        component:RevisionApproveComponent
       },
       {
         path:'settings',
