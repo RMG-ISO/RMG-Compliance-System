@@ -678,7 +678,8 @@
     "Policy:Plan":"خطة",
     "Policy:Strategy":"استراتيجية",
     "CreatedSuccessfully": "تم الإضافة بنجاح",
-    "UpdatedSuccessfully": "تم التعديل بنجاح"
+    "UpdatedSuccessfully": "تم التعديل بنجاح",
+    "Policy:Code":"كود الوثيقة"
 
   }
 }
