@@ -42,6 +42,7 @@ export class DocumentCreateComponent implements OnInit{
   documentData;
   ngOnInit(): void {
     this.mode = this.activatedRoute.snapshot.data.mode;
+
     this.employeeService.getEmployeeListLookup().subscribe(result => {
       this.allEmployees = result.items;
     });
@@ -51,6 +52,7 @@ export class DocumentCreateComponent implements OnInit{
     });
 
     this.form = new FormGroup({
+        code: new FormControl({value:null, disabled:true}, Validators.required),
         type: new FormControl(null, Validators.required),
         nameAr: new FormControl(null, Validators.required),
         nameEn: new FormControl(null),
@@ -64,16 +66,20 @@ export class DocumentCreateComponent implements OnInit{
         categoryIds: new FormControl(null, Validators.required),
     });
 
-    let DocumentData = Object.assign({}, this.documentData)
-    if(this.mode == this.FormMode.Edit){
-      DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
-      DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
-      DocumentData['reviewersIds'] = DocumentData?.reviewersIds?.map(t=>t.employeeId)
-      DocumentData['approversIds'] = DocumentData?.approversIds?.map(t=>t.employeeId)
-      DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
-      DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
-      delete DocumentData["code"];
-      this.form.patchValue(DocumentData);
+    if(this.mode == this.FormMode.Edit) {
+      this.policyService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
+        this.documentData = data;
+        let DocumentData:any = {...data};
+        DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
+        DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
+        DocumentData['reviewersIds'] = DocumentData?.reviewersIds?.map(t=>t.employeeId)
+        DocumentData['approversIds'] = DocumentData?.approversIds?.map(t=>t.employeeId)
+        DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
+        DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
+        // delete DocumentData["code"];
+        this.form.patchValue(DocumentData);
+      })
+      
     } else if(this.mode == this.FormMode.Create){
       //delete DocumentData["validationStartDate"];
       //delete DocumentData["validationEndtDate"];

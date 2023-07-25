@@ -43,6 +43,11 @@
        
 
         <div class="row">
+            <div class="col-md-6 form-group" *ngIf="mode == FormMode.Edit">
+                <label for="name">{{ "::Policy:Code" | abpLocalization }}</label>
+                <input type="text" id="name" class="form-control " formControlName="code" />
+            </div>
+            <div class="col-md-6"></div>
             <div class="col-md-6 form-group">
                 <label for="name">{{ "::Policy:DocumentName" | abpLocalization }}</label>
                 <span> * </span>
@@ -58,32 +63,6 @@
                     <ng-option *ngFor="let item of PolicyType | keyvalue" [value]="item.value?.value">
                         {{ "::Policy:"+item.value?.key | abpLocalization }}
                     </ng-option>
-                </ng-select>
-            </div>
-
-            <div class="col-md-12 form-group">
-                <label for="ownersIds">{{ "::Policy:DocumentOwners" | abpLocalization }}</label><span> * </span>
-                <ng-select id="ownersIds" class="d-block" [searchable]="false" formControlName="ownersIds"
-                    multiple="true" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-                </ng-select>
-            </div>
-
-
-            <div class="col-md-12 form-group">
-                <label for="reviewersIds">{{ "::Policy:Revisors" | abpLocalization }}</label><span> * </span>
-                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true" 
-                    formControlName="reviewersIds" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
-                </ng-select>
-            </div>
-
-
-            <div class="col-md-12 form-group">
-                <label for="approversIdss">{{ "::Policy:Approvers" | abpLocalization }}</label><span> * </span>
-                <ng-select id="approversIdss" class="d-block" [searchable]="false" formControlName="approversIds" *ngIf="allEmployees"
-                    multiple="true" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
 
@@ -126,7 +105,57 @@
         </div>
 
 
-        <div class="d-flex align-items-center mb-4">
+        <div class="section-header mb-4 mt-3">
+            <span>3</span>
+            <h3>
+                معلومات الأشخاص
+            </h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label for="ownersIds">{{ "::Policy:DocumentOwners" | abpLocalization }}</label><span> * </span>
+                <ng-select id="ownersIds" class="d-block" [searchable]="false" formControlName="ownersIds"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+
+
+            <div class="col-md-12 form-group">
+                <label for="reviewersIds">{{ "::مراجعون أساسيين" | abpLocalization }}</label><span> * </span>
+                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true" 
+                    formControlName="reviewersIds" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="reviewersIds">{{ "::مراجعون اختياريين" | abpLocalization }}</label><span> * </span>
+                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true" 
+                    formControlName="reviewersIds" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+
+
+            <div class="col-md-12 form-group">
+                <label for="reviewersIds">{{ "::معتمدون أساسيين" | abpLocalization }}</label><span> * </span>
+                <ng-select id="approversIdss" class="d-block" [searchable]="false" formControlName="approversIds" *ngIf="allEmployees"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="reviewersIds">{{ "::معتمدون اختياريين" | abpLocalization }}</label><span> * </span>
+                <ng-select id="approversIdss" class="d-block" [searchable]="false" formControlName="approversIds" *ngIf="allEmployees"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+
+
+        <div class="d-flex actions align-items-center mb-4">
             <button mat-raised-button color="primary" class="save m-3" type="submit">
                 {{ 'AbpAccount::Save' | abpLocalization }}
             </button>

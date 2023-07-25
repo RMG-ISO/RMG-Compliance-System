@@ -168,3 +168,9 @@ ng-select.ng-select.ng-select-multiple ::ng-deep .ng-select-container .ng-value-
     color:#fff!important;
     background:transparent!important;
 }
+
+.actions {
+    button, a {
+        border-radius: 4px;
+    }
+}
