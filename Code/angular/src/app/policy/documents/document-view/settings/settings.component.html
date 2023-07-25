@@ -1,0 +1,126 @@
+<section>
+    <header class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="mb-0">
+            أقسام الوثيقة
+        </h2>
+        <div class="d-flex align-items-center">
+            <button style="display: none;" #printBtn printSectionId="print-section" ngxPrint [useExistingCss]="true"> </button>
+
+            <button mat-raised-button color="primary" (click)="print(printBtn)">
+                حفظ PDF
+            </button>
+            <span class="space"></span>
+            <button mat-raised-button color="accent" (click)="exportDoc()">
+                حفظ Word
+            </button>
+        </div>
+    </header>
+    <mat-card>
+        <mat-card-header class="mb-4 justify-content-between">
+            <span></span>
+            <button mat-raised-button color="primary" (click)="openSectionDialog(Section)">
+                <mat-icon>add</mat-icon>
+                {{ '::Create' | abpLocalization }}
+            </button>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="updateContent()">
+                <mat-accordion cdkDropList (cdkDropListDropped)="drop($event)" class="sections-list" multi formArrayName="sections">
+                    <mat-expansion-panel
+                    cdkDragBoundary=".sections-list" cdkDrag class="mb-3"
+                    *ngFor="let group of form.controls.sections['controls']; index as i"
+                    [formGroupName]="i">
+                      <mat-expansion-panel-header cdkDragHandle>
+                        <mat-panel-title class="justify-content-between">
+                          <h3 class="m-0">
+                            {{ group.value.title }}
+                          </h3>
+                          <div class="d-flex align-items-center">
+                            <button mat-button color="primary" type="button" (click)="$event.stopPropagation(); openSectionDialog(Section, group.value, i)" >
+                                <mat-icon class="m-0">edit</mat-icon>
+                            </button>
+                            <button mat-button color="warn" type="button" (click)="$event.stopPropagation(); delete(i)" >
+                                <mat-icon class="m-0">delete</mat-icon>
+                            </button>
+                          </div>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+
+                       <section>
+                            <ckeditor
+                            fullWidth
+                            required
+                            [config]="ckeConfig"
+                            debounce="500"
+                            [editor]="Editor"
+                            (ready)="onReady($event)"
+                            formControlName="content" >
+                            </ckeditor>
+                           
+                            <div class="d-flex">
+                                <button mat-raised-button color="primary" class="mt-3 mb-1" (click)="updatedIndex = i">
+                                    {{ '::Save' | abpLocalization }}
+                                </button>
+                                <span class="space"></span>
+                                <button type="button" mat-raised-button color="warn" class="mt-3 mb-1" (click)="resetSection(i)">
+                                    {{ '::Cancel' | abpLocalization }}
+                                </button>
+                            </div>
+                       </section>
+    
+                        <!-- [disabled]="mode === FormMode.View" -->
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </form>
+
+            <!-- <ckeditor
+            #allPages
+            fullWidth
+            required
+            [config]="ckeConfig"
+            debounce="500"
+            [editor]="Editor"
+            (ready)="onReady($event, true)"
+            disabled="true"
+            [ngModel]="allContents" >
+            </ckeditor> -->
+
+            <div style="display:none;">
+                <div id="print-section">
+                    <div [innerHtml]="allContents" class="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only ck-blurred">
+                
+                    </div>
+                </div>
+            </div>
+
+
+        </mat-card-content>
+    </mat-card>
+</section>
+
+<ng-template #Section let-data let-ref="dialogRef">
+    <form [formGroup]="sectionForm" (ngSubmit)="save(ref)" class="app-dialog">
+        <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+            <h2>
+                {{ ('::' + data.mode) | abpLocalization }}
+            </h2>
+        </div>
+        
+        <mat-dialog-content class="mat-typography">
+            <div class="form-group">
+                <label for="control-nameAr">{{ '::Title' | abpLocalization }}</label><span> * </span>
+                <input id="control-nameAr" class="form-control" formControlName="title">
+            </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="actions">
+            <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+                <i class="fa fa-check me-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+    
+            <button type="button" mat-button (click)="ref.close()" class="red"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

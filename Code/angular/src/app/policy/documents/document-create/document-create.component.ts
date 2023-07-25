@@ -2,7 +2,7 @@ import { ToasterService } from '@abp/ng.theme.shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigStateService } from '@abp/ng.core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
@@ -10,14 +10,14 @@ import { PolicyService } from '@proxy/policies';
 import { EmployeeService } from '@proxy/employees';
 import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
 import { parseISO } from 'date-fns';
-import { timer } from 'rxjs';
+
 @Component({
   selector: 'app-document-create',
   templateUrl: './document-create.component.html',
   styleUrls: ['./document-create.component.scss'],
   host: {'class': 'customClass'}
 })
-export class DocumentCreateComponent {
+export class DocumentCreateComponent implements OnInit{
   form: FormGroup;
 
   mode;
@@ -50,7 +50,6 @@ export class DocumentCreateComponent {
       this.AllCategories = result.items;
     });
 
-
     this.form = new FormGroup({
         type: new FormControl(null, Validators.required),
         nameAr: new FormControl(null, Validators.required),
@@ -65,8 +64,6 @@ export class DocumentCreateComponent {
         categoryIds: new FormControl(null, Validators.required),
     });
 
-   
-
     let DocumentData = Object.assign({}, this.documentData)
     if(this.mode == this.FormMode.Edit){
       DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
@@ -77,9 +74,7 @@ export class DocumentCreateComponent {
       DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
       delete DocumentData["code"];
       this.form.patchValue(DocumentData);
-
-  
-    }else if(this.mode == this.FormMode.Create){
+    } else if(this.mode == this.FormMode.Create){
       //delete DocumentData["validationStartDate"];
       //delete DocumentData["validationEndtDate"];
     }
@@ -88,13 +83,9 @@ export class DocumentCreateComponent {
 
  
   save(){
-    //this.form.markAllAsTouched();
-    if (this.form.invalid) {
-      return;
-    }
+    if (this.form.invalid) return;
 
     let data = this.form.getRawValue();
-
     data['validationStartDate'] = data['validationStartDate'] ? moment(data['validationStartDate']).toISOString() : null;
     data['validationEndtDate'] = data['validationEndtDate'] ? moment(data['validationEndtDate']).toISOString() : null;
     

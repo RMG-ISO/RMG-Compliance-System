@@ -1,0 +1,9 @@
+form.app-dialog {
+    min-width: 45vw;
+    min-height: 25vh;
+
+    mat-dialog-actions {
+        margin-bottom: 0.5rem;
+        margin-top: 1rem;
+    }
+}

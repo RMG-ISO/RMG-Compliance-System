@@ -661,7 +661,6 @@
     "Policy:Enum:UnderMonitoring":"تحت المراقبة",
     "Policy:Enum:Retired":"متقاعد",
     "Policy:DocumentDetails":"تفاصيل الوثيقة",
-    "Policy:DocumentName":"اﺳﻢ اﻟﻮﺛﻴﻘﺔ",
     "Policy:DocumentTitle":"عنوان الوثيقة",
     "Policy:DocumentOwners":"ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ",
     "Policy:Revisors":"المراجعون",
@@ -677,7 +676,9 @@
     "Policy:Policy":"سياسة",
     "Policy:Procedure":"إجراء",
     "Policy:Plan":"خطة",
-    "Policy:Strategy":"استراتيجية"
+    "Policy:Strategy":"استراتيجية",
+    "CreatedSuccessfully": "تم الإضافة بنجاح",
+    "UpdatedSuccessfully": "تم التعديل بنجاح"
 
   }
 }

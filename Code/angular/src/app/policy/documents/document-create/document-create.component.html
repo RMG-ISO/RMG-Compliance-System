@@ -27,15 +27,20 @@
     </a>
 </div>
 
-<form [formGroup]="form" (ngSubmit)="save()">
+<h2>
+    {{ ('::' + mode)  | abpLocalization}}
+    {{ "::Policy:Document" | abpLocalization }}
+</h2>
 
+<form [formGroup]="form" (ngSubmit)="save()">
     <div class="info">
-        <div class="card-top">
+        <div class="section-header mb-4">
+            <span>1</span>
             <h3>
-                {{ ('::' + mode)  | abpLocalization}}
-                {{ "::Policy:Document" | abpLocalization }}
+                معلومات عامة
             </h3>
         </div>
+       
 
         <div class="row">
             <div class="col-md-6 form-group">
@@ -43,8 +48,6 @@
                 <span> * </span>
                 <input type="text" id="name" class="form-control " formControlName="nameAr" />
             </div>
-
-         
 
             <div class="col-md-6 form-group">
                 <label for="type">
@@ -66,17 +69,6 @@
                 </ng-select>
             </div>
 
-            <div class="col-md-6 form-group" >
-                <label for="validationStartDate">{{ "::Policy:validationStartDate" | abpLocalization }}</label>
-                <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
-                    formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
-            </div>
-
-            <div class="col-md-6 form-group" >
-                <label for="validationEndtDate">{{ "::Policy:validationEndDate" | abpLocalization }}</label>
-                <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
-                    formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
-            </div>
 
             <div class="col-md-12 form-group">
                 <label for="reviewersIds">{{ "::Policy:Revisors" | abpLocalization }}</label><span> * </span>
@@ -110,6 +102,29 @@
                 <textarea class="form-control" rows="5" id="description" formControlName="description"></textarea>
             </div>
         </div>
+
+
+        <div class="section-header mb-4 mt-3">
+            <span>2</span>
+            <h3>
+                معلومات الصلاحية
+            </h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group" >
+                <label for="validationStartDate">{{ "::Policy:validationStartDate" | abpLocalization }}</label>
+                <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
+                    formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
+            </div>
+
+            <div class="col-md-6 form-group" >
+                <label for="validationEndtDate">{{ "::Policy:validationEndDate" | abpLocalization }}</label>
+                <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
+                    formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
+            </div>
+        </div>
+
 
         <div class="d-flex align-items-center mb-4">
             <button mat-raised-button color="primary" class="save m-3" type="submit">
