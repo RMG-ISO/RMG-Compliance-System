@@ -16,7 +16,8 @@ import {  PolicyStatus  } from '@proxy/policies/policy-status.enum';
 @Component({
   selector: 'app-document-view',
   templateUrl: './document-view.component.html',
-  styleUrls: ['./document-view.component.scss']
+  styleUrls: ['./document-view.component.scss'],
+  providers:[ListService]
 })
 export class DocumentViewComponent {
   PolicyStatus = PolicyStatus;
