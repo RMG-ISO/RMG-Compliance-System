@@ -42,11 +42,11 @@ const routes: Routes = [
   //     requiredPolicy:'ComplianceSystem.Framework'
   //   }
   // },
-  {
-    path:'documents-management',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./documents-mangement/documents-mangement.module').then(m => m.DocumentsMangementModule)
-  },
+  // {
+  //   path:'documents-management',
+  //   canActivate: [AuthGuard, PermissionGuard],
+  //   loadChildren: () => import('./documents-mangement/documents-mangement.module').then(m => m.DocumentsMangementModule)
+  // },
   {
     path:'risks-management',
     canActivate: [AuthGuard, PermissionGuard],
