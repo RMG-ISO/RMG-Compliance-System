@@ -1,8 +1,6 @@
-import { ListService, LocalizationService } from '@abp/ng.core';
-import { ConfirmationService } from '@abp/ng.theme.shared';
+import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -16,10 +14,6 @@ export class RevisionApproveComponent implements OnInit {
   constructor(
     public readonly list: ListService,
     public  matDialog: MatDialog,
-    private confirmation: ConfirmationService,
-    private router: Router,
-    private localizationService: LocalizationService,
-    private activatedRoute:ActivatedRoute
   ) { }
 
   ngOnInit(): void {

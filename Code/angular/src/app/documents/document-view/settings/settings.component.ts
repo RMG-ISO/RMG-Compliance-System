@@ -4,13 +4,11 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DocumentSectionService } from '@proxy/documents/document-section.service';
+import { DocumentSectionService } from '@proxy/Documents';
 import { finalize } from 'rxjs';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
-import * as htmlToDocx from 'html-to-docx';
-import { ThemePalette } from '@angular/material/core';
 import { asBlob } from 'html-docx-js-typescript';
 import { saveAs } from 'file-saver';
 

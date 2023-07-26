@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { DocumentService } from '@proxy/Documents';
 import { EmployeeService } from '@proxy/employees';
-import { documentTypeOptions } from '@proxy/documents/document-type.enum';
+import { documentTypeOptions } from '@proxy/Documents';
 import { parseISO } from 'date-fns';
 
 @Component({
