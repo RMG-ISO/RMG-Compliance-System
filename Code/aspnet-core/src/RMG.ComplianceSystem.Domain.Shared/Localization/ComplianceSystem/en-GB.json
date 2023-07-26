@@ -659,7 +659,6 @@
     "Policy:Enum:UnderMonitoring":"Under Monitoring",
     "Policy:Enum:Retired":"Retired",
     "Policy:DocumentDetails":"Document Details",
-    "Policy:DocumentName":"Document Name",
     "Policy:DocumentTitle":"Document Title",
     "Policy:DocumentOwners":"Document Owners",
     "Policy:Revisors":"Revisors",
