@@ -3,6 +3,7 @@ import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } fro
 import type { SharedStatus } from '../../shared/shared-status.enum';
 
 export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
+  subControlsCount: number;
   nameAr?: string;
   nameEn?: string;
   descriptionAr?: string;
@@ -14,7 +15,6 @@ export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto
   mainControlNameEn?: string;
   domainId?: string;
   compliancePercentage: number;
-  subControlsCount: number;
 }
 
 export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

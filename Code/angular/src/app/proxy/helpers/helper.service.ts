@@ -1,5 +1,5 @@
 import type { DataDecryptedReturnDto } from './models';
-import { RestService } from '@abp/ng.core';
+import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,22 +7,24 @@ import { Injectable } from '@angular/core';
 })
 export class HelperService {
   apiName = 'Default';
+  
 
-  getDecryptedDataByValue = (value: string) =>
+  getDecryptedDataByValue = (value: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, DataDecryptedReturnDto>({
       method: 'GET',
       url: '/api/app/helper/decrypted-data',
       params: { value },
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  getEncryptedDataByValue = (value: string) =>
+  getEncryptedDataByValue = (value: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, DataDecryptedReturnDto>({
       method: 'GET',
       url: '/api/app/helper/encrypted-data',
       params: { value },
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
 
   constructor(private restService: RestService) {}
 }

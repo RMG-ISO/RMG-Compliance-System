@@ -37,7 +37,6 @@ using RMG.ComplianceSystem.InternalAuditPreparation.Dto;
 using RMG.ComplianceSystem.InternalAuditPreparations;
 using RMG.ComplianceSystem.InternalAuditApproves;
 using Microsoft.AspNetCore.Identity;
-using RMG.ComplianceSystem.Policies;
 
 namespace RMG.ComplianceSystem
 {
@@ -67,9 +66,7 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateBookDto, Book>();
             CreateMap<Author, AuthorWithDetailsDto>();
             CreateMap<Document, DocumentDto>();
-            CreateMap<CreateUpdateDocumentDto, Document>();
-            CreateMap<DocumentCategory, DocumentCategoryDto>();
-            CreateMap<CreateUpdateDocumentCategoryDto, DocumentCategory>();
+            CreateMap<CreateDocumentDto, Document>();
             CreateMap<RiskOpportunity, RiskAndOpportunityDto>();
             CreateMap<CreateUpdateRiskAndOpportunityDto, RiskOpportunity>();
              CreateMap<InternalAuditQuestionList, InternalAuditQuestionListDto>();
@@ -126,11 +123,11 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.Employees, ops => ops.MapFrom(t => t.AssessmentEmployees.Select(r => new NameId<Guid>(r.Employee.FullName, r.EmployeeId))));
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
 
-            CreateMap<Policy, PolicyDto>();
+            CreateMap<Document, DocumentDto>();
                // .ForMember(dest => dest.CategoryIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
 
-            CreateMap<Category, CategoryDto>();
-            CreateMap<UpdatePolicyDto, Policy>();
+            CreateMap<Category, NameId<Guid>>();
+            CreateMap<UpdateDocumentDto, Document>();
         }
     }
 }

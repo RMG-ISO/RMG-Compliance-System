@@ -1,5 +1,4 @@
-﻿using RMG.ComplianceSystem.Policies;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +14,6 @@ namespace RMG.ComplianceSystem.Documents
         public int Order { get; set; }
         public DocumentSectionStatus Status { get; set; }
         public Guid DocumentId { get; set; }
-        public Policy Document { get; set; }
+        public Document Document { get; set; }
     }
 }

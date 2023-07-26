@@ -1,0 +1,103 @@
+
+    <div class="pb-3 pt-3">
+        <div class="row">
+            <div class="col col-md-6">
+                <div class="d-flex   justify-content-start align-items-center ps-3 mt-2">
+                    <div>
+                        <mat-icon>arrow_forward</mat-icon>
+                    </div>
+                
+                    
+                    <a href="#" class="bread_crumb_item">
+                        {{ "::Document:Home" | abpLocalization }}
+                    </a>
+                
+                    / 
+                
+                
+                    <a  [routerLink]="['/documents']" class="bread_crumb_item">
+                        {{ "::Document:DocumentManagement" | abpLocalization }}
+                    </a>
+                
+                    
+                </div>
+            </div>
+            <div class="col col-md-6 pt-2 d-flex justify-content-end">
+                <a  mat-raised-button id="createBtn"  routerLink="/documents/create" class="btn btn-primary me-3"
+                >
+                    <i class="fa fa-plus me-1"></i>
+                    <span>{{ "::Document:AddDocument" | abpLocalization }}</span>
+                </a>
+                <app-search (search)="getList($event)"></app-search>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ngx-datatable
+        class="material fullscreen"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [scrollbarH]="true"
+        #dataTable
+        [rows]="items"
+        [count]="totalCount"
+        [list]="list"
+        appNgxdatatable
+        >
+            <!-- <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="name"></ngx-datatable-column> -->
+
+            <ngx-datatable-column [name]="'::DocumentCode' | abpLocalization" prop="code"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'::DocumentName' | abpLocalization" prop="nameAr"></ngx-datatable-column>
+            <!-- <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name">
+                
+            </ngx-datatable-column> -->
+            <ngx-datatable-column [name]="'::DocumentType' | abpLocalization" prop="type">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{DocumentType[value]['key'] | abpLocalization }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" prop="compliancePercentage">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{value}} %
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="status" [class]="DocumentStatus[value]">
+                        {{ ( '::Document:Enum:' + DocumentStatus[value] ) | abpLocalization }}
+                    </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Documents:ValidationStartDate' | abpLocalization" prop="validationStartDate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'::Documents:ValidationEndDate' | abpLocalization"  [maxWidth]="200" [width]="200" prop="validationEndtDate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+                
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="200"  [sortable]="false" cellClass="options">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                   
+                    <button  mat-button color="primary" [routerLink]="['/documents/',row.id, 'details']" >
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+
+                    <button  mat-button color="success" [routerLink]="['/documents/',row.id, 'edit']" >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    
+                    <button  mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
+                        <mat-icon >delete</mat-icon>
+                    </button>
+
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+

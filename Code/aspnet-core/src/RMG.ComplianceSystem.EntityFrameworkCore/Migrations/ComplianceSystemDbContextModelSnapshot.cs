@@ -24,21 +24,6 @@ namespace RMG.ComplianceSystem.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryPolicy", b =>
-                {
-                    b.Property<Guid>("PoliciesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PolicyCategoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PoliciesId", "PolicyCategoriesId");
-
-                    b.HasIndex("PolicyCategoriesId");
-
-                    b.ToTable("CategoryPolicy");
-                });
-
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.Assessment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -669,16 +654,59 @@ namespace RMG.ComplianceSystem.Migrations
                     b.ToTable("AppDepartments", (string)null);
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppCategories", (string)null);
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttachmentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CompliancePercentage")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -702,8 +730,8 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<Guid?>("DocumentCategoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
@@ -723,25 +751,55 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<string>("TitleAr")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TitleEn")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ValidationEndtDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ValidationStartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("DeleterId");
-
-                    b.HasIndex("DocumentCategoryId");
-
-                    b.HasIndex("LastModifierId");
-
                     b.ToTable("AppDocuments", (string)null);
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentApprover", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("AppDocumentApprovers", (string)null);
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentCategory", b =>
@@ -749,11 +807,8 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2")
@@ -763,50 +818,75 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("CreatorId");
 
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TenantId")
+                    b.Property<Guid>("DocumentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("DeleterId");
-
-                    b.HasIndex("LastModifierId");
+                    b.HasIndex("DocumentId");
 
                     b.ToTable("AppDocumentCategories", (string)null);
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentOwner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("AppDocumentOwners", (string)null);
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentReviewer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("AppDocumentReviewers", (string)null);
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentSection", b =>
@@ -1984,267 +2064,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppNotifications", (string)null);
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppCategories", (string)null);
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.Policy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CompliancePercentage")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<string>("NameAr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameEn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ValidationEndtDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ValidationStartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppPolicies", (string)null);
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.PolicyApprover", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("DeleterId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("LastModifierId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.ToTable("AppPolicyApprovers", (string)null);
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.PolicyOwner", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.ToTable("AppPolicyOwners", (string)null);
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.PolicyReviwer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.ToTable("AppPolicyReviwers", (string)null);
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
@@ -4725,21 +4544,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryPolicy", b =>
-                {
-                    b.HasOne("RMG.ComplianceSystem.Policies.Policy", null)
-                        .WithMany()
-                        .HasForeignKey("PoliciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RMG.ComplianceSystem.Policies.Category", null)
-                        .WithMany()
-                        .HasForeignKey("PolicyCategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RMG.ComplianceSystem.Assessments.Assessment", b =>
                 {
                     b.HasOne("RMG.ComplianceSystem.Controls.Control", "Control")
@@ -4941,65 +4745,79 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Document", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentApprover", b =>
                 {
-                    b.HasOne("RMG.ComplianceSystem.Attachments.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
+                    b.HasOne("RMG.ComplianceSystem.Documents.Document", null)
+                        .WithMany("Approvers")
+                        .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
-                        .WithMany()
-                        .HasForeignKey("DeleterId");
-
-                    b.HasOne("RMG.ComplianceSystem.Documents.DocumentCategory", "DocumentCategory")
-                        .WithMany("Documents")
-                        .HasForeignKey("DocumentCategoryId");
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
-                        .WithMany()
-                        .HasForeignKey("LastModifierId");
-
-                    b.Navigation("Attachment");
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Deleter");
-
-                    b.Navigation("DocumentCategory");
-
-                    b.Navigation("LastModifier");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentCategory", b =>
                 {
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                    b.HasOne("RMG.ComplianceSystem.Documents.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                    b.HasOne("RMG.ComplianceSystem.Documents.Document", "Document")
+                        .WithMany("DocumentCategories")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentOwner", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Documents.Document", null)
+                        .WithMany("Owners")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("DeleterId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentReviewer", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Documents.Document", null)
+                        .WithMany("Reviewers")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("LastModifierId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Creator");
-
-                    b.Navigation("Deleter");
-
-                    b.Navigation("LastModifier");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentSection", b =>
                 {
-                    b.HasOne("RMG.ComplianceSystem.Policies.Policy", "Document")
+                    b.HasOne("RMG.ComplianceSystem.Documents.Document", "Document")
                         .WithMany()
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5335,75 +5153,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("Framework");
 
                     b.Navigation("LastModifier");
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.PolicyApprover", b =>
-                {
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
-                        .WithMany()
-                        .HasForeignKey("DeleterId");
-
-                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
-                        .WithMany()
-                        .HasForeignKey("LastModifierId");
-
-                    b.HasOne("RMG.ComplianceSystem.Policies.Policy", null)
-                        .WithMany("Approvers")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Deleter");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("LastModifier");
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.PolicyOwner", b =>
-                {
-                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RMG.ComplianceSystem.Policies.Policy", null)
-                        .WithMany("Owners")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.PolicyReviwer", b =>
-                {
-                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RMG.ComplianceSystem.Policies.Policy", null)
-                        .WithMany("Reviewers")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.RiskTreatments.RisksTreatment", b =>
@@ -5786,9 +5535,15 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("Employees");
                 });
 
-            modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentCategory", b =>
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Document", b =>
                 {
-                    b.Navigation("Documents");
+                    b.Navigation("Approvers");
+
+                    b.Navigation("DocumentCategories");
+
+                    b.Navigation("Owners");
+
+                    b.Navigation("Reviewers");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
@@ -5810,15 +5565,6 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("ChangeStatusLogs");
 
                     b.Navigation("Domains");
-                });
-
-            modelBuilder.Entity("RMG.ComplianceSystem.Policies.Policy", b =>
-                {
-                    b.Navigation("Approvers");
-
-                    b.Navigation("Owners");
-
-                    b.Navigation("Reviewers");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Risks.Entity.RiskOpportunity", b =>

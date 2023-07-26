@@ -45,6 +45,10 @@ export interface FrameworkDto extends FullAuditedEntityWithUserDto<IdentityUserD
   internalAssessmentEndDate?: string;
   reviewStartDate?: string;
   reviewEndDate?: string;
+  approvalStartDate?: string;
+  approvalEndDate?: string;
+  complianceReviewStartDate?: string;
+  complianceReviewEndDate?: string;
   compliancePercentage: number;
   frameworkEmpsDto: FrameworkEmpDto[];
   changeStatusLogs: FrameworkChangeStatusLogDto[];
@@ -80,26 +84,11 @@ export interface CreateUpdateFrameworkDto {
   frameworkEmpsDto: FrameworkEmpDto[];
 }
 
-export interface CreateUpdateFrameworkEmployeeDto {
-  frameworkId?: string;
-  employeeId?: string;
-}
-
 export interface FrameworkData {
   totalApplicable: number;
   totalNotApplicable: number;
   frameworkDto: FrameworkDto;
   domainDta: MainDomainsDto[];
-}
-
-export interface FrameworkEmployeeDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
-  frameworkId?: string;
-  employeeId?: string;
-}
-
-export interface FrameworkEmployeePagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
-  frameworkId?: string;
-  employeeId?: string;
 }
 
 export interface FrameworkPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

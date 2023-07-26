@@ -17,4 +17,5 @@ export interface EmailTemplateDto extends FullAuditedEntityDto<string> {
 export interface EmailTemplatePagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   key?: string;
   subject?: string;
+  search?: string;
 }

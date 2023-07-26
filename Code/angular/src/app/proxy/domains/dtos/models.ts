@@ -19,6 +19,7 @@ export interface CreateUpdateDomainDto {
 }
 
 export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
+  controlsCount: number;
   nameAr?: string;
   nameEn?: string;
   descriptionAr?: string;
@@ -40,7 +41,6 @@ export interface DomainDto extends FullAuditedEntityWithUserDto<IdentityUserDto,
   responsibleId?: string;
   responsibleName?: string;
   departments: NameId<string>[];
-  controlsCount: number;
 }
 
 export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
@@ -49,6 +49,13 @@ export interface DomainPagedAndSortedResultRequestDto extends PagedAndSortedResu
   isMainDomain: boolean;
   search?: string;
   status?: SharedStatus;
+  hasPriority?: boolean;
+  isDocumented?: boolean;
+  isEffective?: boolean;
+  isImplemented?: boolean;
+  level?: number;
+  departmentId?: string;
+  ownerId?: string;
 }
 
 export interface DomainWithoutPagingDto extends DomainDto {

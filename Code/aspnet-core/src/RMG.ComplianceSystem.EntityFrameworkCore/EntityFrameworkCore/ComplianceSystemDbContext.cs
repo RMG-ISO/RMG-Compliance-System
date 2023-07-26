@@ -22,7 +22,6 @@ using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Domains;
 using RMG.ComplianceSystem.Controls;
 using RMG.ComplianceSystem.Assessments;
-using RMG.ComplianceSystem.Policies;
 using RMG.ComplianceSystem.Documents;
 using RMG.ComplianceSystem.Risks.Entity;
 using RMG.ComplianceSystem.StaticData;
@@ -76,8 +75,6 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
         #region Custom Entities 
         public DbSet<Book> Books { get; set; }
-        public DbSet<Document> Documents { get; set; }
-        public DbSet<DocumentCategory> DocumentCategories { get; set; }
         public DbSet<InternalAuditApprove> InternalAuditApproves { get; set; }
         public DbSet<InternalAuditQuestionList> InternalAuditQuestionLists { get; set; }
         public DbSet<InternalAuditMenuQuestion> InternalAuditMenuQuestions { get; set; }
@@ -108,11 +105,14 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<FrameworkChangeStatusLog> FrameworkChangeStatusLogs { get; set; }
         public DbSet<AssessmentVersion> AssessmentVersions { get; set; }
 
-        public DbSet<Policy> Policies { get; set; }
+        public DbSet<Document> Documents { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<PolicyApprover> PolicyUsers { get; set; }
+        public DbSet<DocumentApprover> DocumentApprovers { get; set; }
+        public DbSet<DocumentReviewer> DocumentReviewers { get; set; }
+        public DbSet<DocumentOwner> DocumentOwners { get; set; }
         public DbSet<DocumentSection> DocumentSections { get; set; }
+        public DbSet<DocumentCategory> DocumentCategories { get; set; }
 
 
 
@@ -421,9 +421,9 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
             });
 
-            builder.Entity<Policy>(b =>
+            builder.Entity<Document>(b =>
             {
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Policies", ComplianceSystemConsts.DbSchema);
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Documents", ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
             });
 
@@ -434,26 +434,26 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             });
 
 
-            builder.Entity<PolicyApprover>(b =>
+            builder.Entity<DocumentApprover>(b =>
             {
 
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyApprovers", ComplianceSystemConsts.DbSchema);
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentApprovers", ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
 
             });
 
-            builder.Entity<PolicyOwner>(b =>
+            builder.Entity<DocumentOwner>(b =>
             {
 
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyOwners", ComplianceSystemConsts.DbSchema);
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentOwners", ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
 
             });
 
-            builder.Entity<PolicyReviwer>(b =>
+            builder.Entity<DocumentReviewer>(b =>
             {
 
-                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PolicyReviwers", ComplianceSystemConsts.DbSchema);
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentReviewers", ComplianceSystemConsts.DbSchema);
                 b.ConfigureByConvention();
 
             });

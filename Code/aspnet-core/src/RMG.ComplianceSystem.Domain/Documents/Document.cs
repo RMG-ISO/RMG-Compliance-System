@@ -1,19 +1,38 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Volo.Abp.Identity;
-using RMG.ComplianceSystem.Attachments;
+﻿using JetBrains.Annotations;
+using RMG.ComplianceSystem.Shared;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace RMG.ComplianceSystem.Documents
 {
-    public class Document : FullAuditedAggregateRootWithUser<Guid, Volo.Abp.Identity.IdentityUser>
+    public class Document : FullAuditedAggregateRoot<Guid>
     {
-        public string TitleAr { get; set; }
-        public string TitleEn { get; set; }
-        public Guid CategoryId { get; set; }
-        public Guid AttachmentId { get; set; }
-        public virtual Attachment Attachment { get; set; }
-        public virtual DocumentCategory DocumentCategory { get; set; }
+        [NotNull]
+        public string Code { get; set; }
+        [NotNull]
+        public string Name { get; set; }
+        public DocumentType Type { get; set; }
+
+        public DateTime? ValidationStartDate { get; set; }
+        public DateTime? ValidationEndtDate { get; set; }
+
+
+        [Range(0, 100)]
+        public int CompliancePercentage { get; set; }
+        public DocumentStatus Status { get; set; }
+        [NotNull]
+        public string Description { get; set; }
+
+        public virtual ICollection<DocumentOwner> Owners { get; set; } = new List<DocumentOwner>();
+        public virtual ICollection<DocumentReviewer> Reviewers { get; set; } = new List<DocumentReviewer>();
+        public virtual ICollection<DocumentApprover> Approvers { get; set; } = new HashSet<DocumentApprover>();
+
+        public virtual ICollection<DocumentCategory> DocumentCategories { get; set; } = new HashSet<DocumentCategory>();
 
     }
 }

@@ -17,13 +17,18 @@ td[colspan="4"] {
 }
 
 .small-btn{
-    padding:2px;
-    font-size: 10px;
-    line-height: 15px;
+    // padding:2px;
+    // font-size: 10px;
+    // line-height: 15px;
+
+    padding: 0;
+    min-width: 40px;
+
     .mat-icon{
-        font-size: 19px;
-        position: relative;
-        top: 4px;
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
     }
 }
 
@@ -35,22 +40,29 @@ td[colspan="4"] {
     z-index: 999999;
     font-size: 11px;
     .row_head{
-        background: #55c270;
-        font-weight: bold;
-        font-family:  ElMessiri, Roboto, Helvetica Neue, sans-serif;
-        line-height: 20px;
-        letter-spacing: normal;
-        color:#fff !important;
-        td{
-            background: #55c270!important;
+        th{
+            background: #e9efec !important;
             border: 1px solid #fff !important;
+            color: #000;
+            font-size: 12px;
+            font-weight: bold;
         }
     }
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+h4 {
+    font-size: 1.1rem;
 }
 
 .grid_addon .table-bordered td{
     /* border: 1px solid #55c270 ; */
     background: #fff;
+    padding: 0.25rem 0.75rem;
+    font-size: 12px;
+    vertical-align: middle;
 }
 
 

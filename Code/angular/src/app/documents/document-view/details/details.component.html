@@ -1,0 +1,104 @@
+
+<ng-container>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        
+        <div>
+            <b>{{ "::Document:DocumentDetails" | abpLocalization }}</b>
+        </div>
+
+        <div>
+            <a mat-flat-button class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >تعديل  
+                <mat-icon>edit</mat-icon>
+            </a>
+
+        </div>
+    </div>
+    <div class="details-table-cont">
+        <table class="table">
+            <tr>
+                <td width="25%">
+                    {{ "::Document:DocumentName" | abpLocalization }}
+                </td>
+                <td >
+                    {{ documentData?.nameAr }}
+                </td>
+             
+            </tr>
+            <tr>
+                <td>
+                    {{ "::Document:DocumentType" | abpLocalization }}
+                </td>
+                <td>
+                    {{ DocumentType[documentData?.type]['key'] }}
+                   
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ "::Document:DocumentOwners" | abpLocalization }}
+                </td>
+                <td>
+                    <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::Document:validationStartDate" | abpLocalization }}
+                </td>
+                <td>
+                    {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::Document:validationEndDate" | abpLocalization }}
+                </td>
+                <td >
+                    {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::Document:Revisors" | abpLocalization }}
+                </td>
+                <td >
+                    <span  *ngFor="let item of documentData?.reviewersIds" class="badge m-1">{{item?.employeeName}}</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::Document:Approvers" | abpLocalization }}
+                </td>
+                <td >
+                    <span  *ngFor="let item of documentData?.approversIds" class="badge m-1">{{item?.employeeName}}</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::Document:Categories" | abpLocalization }}
+                </td>
+                <td >
+                    <span  *ngFor="let item of documentData?.categoryIds" class="badge m-1">{{item?.nameAr}}</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::Document:Description" | abpLocalization }}
+                </td>
+                <td >
+                    {{ documentData?.description }}
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+  
+</ng-container>

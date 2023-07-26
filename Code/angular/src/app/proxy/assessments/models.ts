@@ -7,7 +7,7 @@ import type { PriorityType } from './priority-type.enum';
 import type { EffectiveType } from './effective-type.enum';
 import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
-export interface AssessmentVersionDto extends CreationAuditedEntityWithUserDto<string, IdentityUserDto> {
+export interface AssessmentVersionDto extends CreationAuditedEntityWithUserDto<IdentityUserDto, string> {
   assessmentId?: string;
   applicable?: ApplicableType;
   complianceLevel?: ComplianceLevelType;

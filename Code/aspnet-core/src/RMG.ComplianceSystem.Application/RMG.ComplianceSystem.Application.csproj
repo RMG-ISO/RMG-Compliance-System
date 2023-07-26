@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Policies\**" />
+    <EmbeddedResource Remove="Policies\**" />
+    <None Remove="Policies\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RMG.ComplianceSystem.Domain\RMG.ComplianceSystem.Domain.csproj" />
     <ProjectReference Include="..\RMG.ComplianceSystem.Application.Contracts\RMG.ComplianceSystem.Application.Contracts.csproj" />
   </ItemGroup>

@@ -7,6 +7,7 @@ import { DocumentService } from '@proxy/documents';
 import { DocumentCategoryDto } from '@proxy/documents/dtos';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { LocalizationService } from '@abp/ng.core';
+import { NameId } from '@proxy/shared';
 
 @Component({
   selector: 'app-categories',
@@ -18,7 +19,7 @@ export class CategoriesComponent implements OnInit {
   FormMode = FormMode;
 
 
-  items: DocumentCategoryDto[];
+  items: NameId<string>[];
   totalCount: number;
   isModalOpen: boolean = false;
   selected = {} as any;
@@ -39,28 +40,28 @@ export class CategoriesComponent implements OnInit {
   }
 
   getList(search = null) {
-    const streamCreator = (query) => this.documentservice.getListCategory({...query, search:search});
+    const streamCreator = (query) => this.documentservice.getAllCategories();
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
 
-  delete(model: DocumentCategoryDto) {
-    let title = this.localizationService.currentLang.includes('ar') ?  model['nameAr'] : model['nameEn'];
+  // delete(model: DocumentCategoryDto) {
+  //   let title = this.localizationService.currentLang.includes('ar') ?  model['nameAr'] : model['nameEn'];
 
-    this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
-      if (status === Confirmation.Status.confirm) {
-        this.documentservice.deleteCategory(model.id).subscribe(() => this.list.get());
-      }
-    });
-  }
+  //   this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[title]}).subscribe((status) => {
+  //     if (status === Confirmation.Status.confirm) {
+  //       this.documentservice.deleteCategory(model.id).subscribe(() => this.list.get());
+  //     }
+  //   });
+  // }
 
-  openDialog(data: DocumentCategoryDto) {
-    this.selected = data;
-    this.buildForm();
-    this.isModalOpen = true;
-  }
+  // openDialog(data: DocumentCategoryDto) {
+  //   this.selected = data;
+  //   this.buildForm();
+  //   this.isModalOpen = true;
+  // }
 
   buildForm() {
     this.form = new FormGroup({
@@ -72,15 +73,15 @@ export class CategoriesComponent implements OnInit {
     this.form.patchValue(this.selected);
   }
 
-  save() {
-    if (this.form.invalid) return;
+  // save() {
+  //   if (this.form.invalid) return;
 
-    const request = this.selected?.id ? this.documentservice.updateCategory(this.selected.id, this.form.value) : this.documentservice.createCategory(this.form.value);
-    request.subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.list.get();
-    });
-  }
+  //   const request = this.selected?.id ? this.documentservice.updateCategory(this.selected.id, this.form.value) : this.documentservice.createCategory(this.form.value);
+  //   request.subscribe(() => {
+  //     this.isModalOpen = false;
+  //     this.form.reset();
+  //     this.list.get();
+  //   });
+  // }
 
 }

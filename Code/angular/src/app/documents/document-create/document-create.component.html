@@ -1,0 +1,172 @@
+<div class="d-flex   justify-content-start align-items-center ps-3 mb-2" *ngIf="mode == FormMode.Create ">
+    <div>
+        <mat-icon>arrow_forward</mat-icon>
+    </div>
+
+
+    <a href="#" class="bread_crumb_item">
+        {{ "::Document:Home" | abpLocalization }}
+    </a>
+
+    / 
+
+    <a [routerLink]="['/documents']" class="bread_crumb_item">
+        {{ ":::Document:Policies" | abpLocalization }}
+    </a>
+
+    /
+
+    <a  [routerLink]="['/documents']" class="bread_crumb_item">
+        {{ ":::Document:DocumentManagement" | abpLocalization }}
+    </a>
+
+    /
+    
+    <a href="#" class="bread_crumb_item">
+        {{ ":::Document:AddDocument" | abpLocalization }}
+    </a>
+</div>
+
+<h2>
+    {{ ('::' + mode)  | abpLocalization}}
+    {{ "::Document:Document" | abpLocalization }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div class="info">
+        <div class="section-header mb-4">
+            <span>1</span>
+            <h3>
+                {{ '::GeneralInformation' | abpLocalization }}
+            </h3>
+        </div>
+       
+
+        <div class="row">
+            <ng-container *ngIf="mode == FormMode.Edit">
+                <div class="col-md-6 form-group">
+                    <label for="name">{{ "::Document:Code" | abpLocalization }}</label>
+                    <input type="text" id="name" class="form-control " formControlName="code" />
+                </div>
+                <div class="col-md-6"></div>
+            </ng-container>
+
+            <div class="col-md-6 form-group">
+                <label for="name">{{ "::Document:DocumentName" | abpLocalization }}</label>
+                <span> * </span>
+                <input type="text" id="name" class="form-control " formControlName="nameAr" />
+            </div>
+            <div class="col-md-6 form-group">
+                <label for="type">
+                    {{ "::Document:DocumentType" | abpLocalization }}
+                </label>
+                <span> * </span>
+                <ng-select id="type" class="d-block" [searchable]="false" formControlName="type" [clearable]="true">
+                    <ng-option *ngFor="let item of DocumentType | keyvalue" [value]="item.value?.value">
+                        {{ "::Document:"+item.value?.key | abpLocalization }}
+                    </ng-option>
+                </ng-select>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="categoryIds">{{ "::Document:Categories" | abpLocalization }}</label><span> * </span>
+                    <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
+                        <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.nameAr}}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-12 form-group">
+                <label for="description">{{ "::Document:Description" | abpLocalization }}</label><span> * </span>
+                <textarea class="form-control" rows="5" id="description" formControlName="description"></textarea>
+            </div>
+        </div>
+
+
+        <div class="section-header mb-4 mt-3">
+            <span>2</span>
+            <h3>
+                {{ '::ValidityInformation' | abpLocalization }}
+            </h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group" >
+                <label for="validationStartDate">{{ "::Document:validationStartDate" | abpLocalization }}</label>
+                <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
+                    formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
+            </div>
+
+            <div class="col-md-6 form-group" >
+                <label for="validationEndtDate">{{ "::Document:validationEndDate" | abpLocalization }}</label>
+                <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
+                    formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
+            </div>
+        </div>
+
+
+        <div class="section-header mb-4 mt-3">
+            <span>3</span>
+            <h3>
+                {{ '::PersonsInformation' | abpLocalization }}
+            </h3>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label for="ownersIds">{{ "::Document:DocumentOwners" | abpLocalization }}</label><span> * </span>
+                <ng-select id="ownersIds" class="d-block" [searchable]="false" formControlName="ownersIds"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+
+            <div class="col-md-12 form-group">
+                <label for="requiredReviewersIds">{{ "::RequiredReviewers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="requiredReviewersIds" class="d-block" [searchable]="false" multiple="true" 
+                    formControlName="requiredReviewersIds" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="optionalReviewersIds">{{ "::OptionalReviewers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="optionalReviewersIds" class="d-block" [searchable]="false" multiple="true" 
+                    formControlName="optionalReviewersIds" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+
+
+            <div class="col-md-12 form-group">
+                <label for="requiredApproversIds">{{ "::RequiredApprovers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="requiredApproversIds" class="d-block" [searchable]="false" formControlName="requiredApproversIds" *ngIf="allEmployees"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-12 form-group">
+                <label for="optionalApproversIds">{{ "::OptionalApprovers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="optionalApproversIds" class="d-block" [searchable]="false" formControlName="optionalApproversIds" *ngIf="allEmployees"
+                    multiple="true" [clearable]="true">
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+
+
+        <div class="d-flex actions align-items-center mb-4">
+            <button mat-raised-button color="primary" class="save m-3" type="submit">
+                {{ 'AbpAccount::Save' | abpLocalization }}
+            </button>
+            <a mat-raised-button class="m-3" color="warn" routerLink="/documents/list">
+                {{ 'AbpAccount::Cancel' | abpLocalization }}
+            </a>
+        </div>
+
+    </div>
+
+</form>
