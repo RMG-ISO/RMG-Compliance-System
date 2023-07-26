@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using RMG.ComplianceSystem.Documents.Dtos;
 using RMG.ComplianceSystem.Shared;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace RMG.ComplianceSystem.Documents
         public virtual ICollection<DocumentApprover> Approvers { get; set; } = new HashSet<DocumentApprover>();
 
         public virtual ICollection<DocumentCategory> DocumentCategories { get; set; } = new HashSet<DocumentCategory>();
+        public virtual ICollection<DocumentActionLog> ActionsLog { get; set; } = new HashSet<DocumentActionLog>();
 
     }
 }

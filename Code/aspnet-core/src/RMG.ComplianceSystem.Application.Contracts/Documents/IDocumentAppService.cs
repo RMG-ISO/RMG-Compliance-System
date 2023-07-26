@@ -22,5 +22,8 @@ namespace RMG.ComplianceSystem.Documents
         Task ReturnToCreator(Guid id, RejectWithNotes input);
         Task SendForApproval(Guid id);
         Task Approve(Guid id);
+
+        Task FinishUserRevision(Guid id);
+        Task FinishUserApproval(Guid id);
     }
 }

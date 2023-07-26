@@ -12,9 +12,12 @@ using RMG.ComplianceSystem.Documents.Dtos;
 using RMG.ComplianceSystem.Shared;
 using Volo.Abp.Data;
 using AutoMapper.Internal;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RMG.ComplianceSystem.Documents
 {
+    [Authorize]
     public class DocumentAppService : CrudAppService<Document, DocumentDto, Guid, DocumentGetListInputDto, CreateDocumentDto>, IDocumentAppService
     {
         private readonly IDataFilter _dataFilter;
@@ -24,6 +27,7 @@ namespace RMG.ComplianceSystem.Documents
         private readonly IRepository<DocumentApprover, Guid> _documentApproverRepository;
         private readonly IRepository<DocumentReviewer, Guid> _documentReviewerRepository;
         private readonly IRepository<DocumentOwner, Guid> _documentOwnerRepository;
+        private readonly IRepository<DocumentActionLog, Guid> _actionLogRepository;
 
         public DocumentAppService(
             IDocumentRepository repository,
@@ -33,6 +37,7 @@ namespace RMG.ComplianceSystem.Documents
             IRepository<DocumentApprover, Guid> documentApproverRepository,
             IRepository<DocumentReviewer, Guid> documentReviewerRepository,
             IRepository<DocumentOwner, Guid> documentOwnerRepository,
+            IRepository<DocumentActionLog, Guid> actionLogRepository,
             IDataFilter dataFilter
             ) : base(repository)
         {
@@ -43,6 +48,7 @@ namespace RMG.ComplianceSystem.Documents
             _documentOwnerRepository = documentOwnerRepository;
             _documentReviewerRepository = documentReviewerRepository;
             _documentCategoryRepository = documentCategoryRepository;
+            _actionLogRepository = actionLogRepository;
         }
 
         public override async Task<DocumentDto> CreateAsync(CreateDocumentDto input)
@@ -91,6 +97,12 @@ namespace RMG.ComplianceSystem.Documents
                 dto.CreatorName = (await _employeeRepository.GetAsync(dto.CreatorId.Value, false)).FullName;
             if (dto.LastModifierId.HasValue)
                 dto.LastModifierName = (await _employeeRepository.GetAsync(dto.LastModifierId.Value, false)).FullName;
+
+            foreach (var action in dto.ActionsLog)
+            {
+                if (action.CreatorId.HasValue)
+                    action.CreatorName = (await _employeeRepository.GetAsync(action.CreatorId.Value, false)).FullName;
+            }
             return dto;
         }
 
@@ -171,29 +183,50 @@ namespace RMG.ComplianceSystem.Documents
                 }
         }
 
-        private string GetEmployeeNameById(Guid id, List<Employee> employees = null)
+        [HttpPut]
+        public async Task SendForRevision(Guid id)
         {
-            return employees.First(x => x.Id == id).FullName;
+            var entity = await Repository.GetAsync(id, false);
+            entity.Status = DocumentStatus.UnderReview;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.UnderReview));
         }
 
-        public Task SendForRevision(Guid id)
+        [HttpPut]
+        public async Task ReturnToCreator(Guid id, RejectWithNotes input)
         {
-            throw new NotImplementedException();
+            var entity = await Repository.GetAsync(id, false);
+            entity.Status = DocumentStatus.ReturnToCreator;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator));
         }
 
-        public Task ReturnToCreator(Guid id, RejectWithNotes input)
+        [HttpPut]
+        public async Task SendForApproval(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await Repository.GetAsync(id, false);
+            entity.Status = DocumentStatus.Accepted;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Accepted));
         }
 
-        public Task SendForApproval(Guid id)
+        [HttpPut]
+        public async Task Approve(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await Repository.GetAsync(id, false);
+            entity.Status = DocumentStatus.Approved;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Approved));
         }
 
-        public Task Approve(Guid id)
+        [HttpPut]
+        public async Task FinishUserRevision(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await Repository.GetAsync(id, false);
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Accepted));
+        }
+
+        [HttpPut]
+        public async Task FinishUserApproval(Guid id)
+        {
+            var entity = await Repository.GetAsync(id, false);
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Approved));
         }
     }
 }

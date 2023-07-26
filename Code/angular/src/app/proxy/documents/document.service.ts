@@ -13,7 +13,7 @@ export class DocumentService {
 
   approveById = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/document/${id}/approve`,
     },
     { apiName: this.apiName,...config });
@@ -32,6 +32,22 @@ export class DocumentService {
     this.restService.request<any, void>({
       method: 'DELETE',
       url: `/api/app/document/${id}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  finishUserApprovalById = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/document/${id}/finish-user-approval`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  finishUserRevisionById = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/document/${id}/finish-user-revision`,
     },
     { apiName: this.apiName,...config });
   
@@ -63,7 +79,7 @@ export class DocumentService {
 
   returnToCreatorByIdAndInput = (id: string, input: RejectWithNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/document/${id}/return-to-creator`,
       body: input,
     },
@@ -72,7 +88,7 @@ export class DocumentService {
 
   sendForApprovalById = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/document/${id}/send-for-approval`,
     },
     { apiName: this.apiName,...config });
@@ -80,7 +96,7 @@ export class DocumentService {
 
   sendForRevisionById = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
-      method: 'POST',
+      method: 'PUT',
       url: `/api/app/document/${id}/send-for-revision`,
     },
     { apiName: this.apiName,...config });

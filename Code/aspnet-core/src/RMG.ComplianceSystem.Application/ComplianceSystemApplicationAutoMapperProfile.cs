@@ -48,6 +48,8 @@ namespace RMG.ComplianceSystem
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
 
+            CreateMap<DocumentActionLog, DocumentActionLogDto>();
+
             CreateMap<Employee, NameId<Guid>>()
                 .ForMember(d => d.Name, x => x.MapFrom(s => s.FullName));
             CreateMap<DocumentReviewer, DocumentEmployeeDto>()

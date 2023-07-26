@@ -33,6 +33,7 @@ using RMG.ComplianceSystem.InternalAuditQuestions;
 using RMG.ComplianceSystem.InternalAuditPreparations;
 using RMG.ComplianceSystem.InternalAuditApproves;
 using RMG.ComplianceSystem.DepartmentUsers;
+using RMG.ComplianceSystem.Documents.Dtos;
 
 namespace RMG.ComplianceSystem.EntityFrameworkCore
 {
@@ -113,6 +114,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<DocumentOwner> DocumentOwners { get; set; }
         public DbSet<DocumentSection> DocumentSections { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
+        public DbSet<DocumentActionLog> DocumentActionsLog { get; set; }
 
 
 
@@ -152,6 +154,12 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+            builder.Entity<DocumentActionLog>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "DocumentActionsLog", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<DocumentSection>(b =>
             {
