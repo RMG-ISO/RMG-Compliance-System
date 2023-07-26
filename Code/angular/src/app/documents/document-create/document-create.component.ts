@@ -73,10 +73,26 @@ export class DocumentCreateComponent implements OnInit{
       let DocumentData:any = {...data};
       DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
       DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
-      DocumentData['optionalReviewersIds'] = DocumentData?.optionalReviewersIds?.map(t=>t.employeeId)
-      DocumentData['requiredReviewersIds'] = DocumentData?.requiredReviewersIds?.map(t=>t.employeeId)
-      DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
-      DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
+      DocumentData['optionalReviewersIds'] = []
+      DocumentData['requiredReviewersIds'] = []
+      DocumentData['optionalApproversIds'] = []
+      DocumentData['requiredApproversIds'] = []
+
+      DocumentData.reviewers.map(u => {
+        if(u.isRequired) DocumentData['requiredReviewersIds'].push(u);
+        else DocumentData['optionalReviewersIds'].push(u);
+      });
+
+      DocumentData.approvers.map(u => {
+        if(u.isRequired) DocumentData['requiredApproversIds'].push(u);
+        else DocumentData['optionalApproversIds'].push(u);
+      });
+
+
+      // DocumentData['optionalReviewersIds'] = DocumentData?.optionalReviewersIds?.map(t=>t.employeeId)
+      // DocumentData['requiredReviewersIds'] = DocumentData?.requiredReviewersIds?.map(t=>t.employeeId)
+      // DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
+      // DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
       DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
       DocumentData['categoriesIds'] = DocumentData?.categories?.map(t=>t.id)
       // delete DocumentData["code"];
