@@ -72,5 +72,5 @@ export interface DocumentSectionGetListInputDto extends PagedAndSortedResultRequ
 }
 
 export interface RejectWithNotes {
-  notes?: string;
+  notes: string;
 }
