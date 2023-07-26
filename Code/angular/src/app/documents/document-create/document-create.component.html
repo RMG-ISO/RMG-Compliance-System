@@ -5,31 +5,31 @@
 
 
     <a href="#" class="bread_crumb_item">
-        {{ "::Policy:Home" | abpLocalization }}
+        {{ "::Document:Home" | abpLocalization }}
     </a>
 
     / 
 
     <a [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Policy:Policies" | abpLocalization }}
+        {{ ":::Document:Policies" | abpLocalization }}
     </a>
 
     /
 
     <a  [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Policy:DocumentManagement" | abpLocalization }}
+        {{ ":::Document:DocumentManagement" | abpLocalization }}
     </a>
 
     /
     
     <a href="#" class="bread_crumb_item">
-        {{ ":::Policy:AddDocument" | abpLocalization }}
+        {{ ":::Document:AddDocument" | abpLocalization }}
     </a>
 </div>
 
 <h2>
     {{ ('::' + mode)  | abpLocalization}}
-    {{ "::Policy:Document" | abpLocalization }}
+    {{ "::Document:Document" | abpLocalization }}
 </h2>
 
 <form [formGroup]="form" (ngSubmit)="save()">
@@ -45,25 +45,25 @@
         <div class="row">
             <ng-container *ngIf="mode == FormMode.Edit">
                 <div class="col-md-6 form-group">
-                    <label for="name">{{ "::Policy:Code" | abpLocalization }}</label>
+                    <label for="name">{{ "::Document:Code" | abpLocalization }}</label>
                     <input type="text" id="name" class="form-control " formControlName="code" />
                 </div>
                 <div class="col-md-6"></div>
             </ng-container>
 
             <div class="col-md-6 form-group">
-                <label for="name">{{ "::Policy:DocumentName" | abpLocalization }}</label>
+                <label for="name">{{ "::Document:DocumentName" | abpLocalization }}</label>
                 <span> * </span>
                 <input type="text" id="name" class="form-control " formControlName="nameAr" />
             </div>
             <div class="col-md-6 form-group">
                 <label for="type">
-                    {{ "::Policy:DocumentType" | abpLocalization }}
+                    {{ "::Document:DocumentType" | abpLocalization }}
                 </label>
                 <span> * </span>
                 <ng-select id="type" class="d-block" [searchable]="false" formControlName="type" [clearable]="true">
-                    <ng-option *ngFor="let item of PolicyType | keyvalue" [value]="item.value?.value">
-                        {{ "::Policy:"+item.value?.key | abpLocalization }}
+                    <ng-option *ngFor="let item of DocumentType | keyvalue" [value]="item.value?.value">
+                        {{ "::Document:"+item.value?.key | abpLocalization }}
                     </ng-option>
                 </ng-select>
             </div>
@@ -71,7 +71,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="categoryIds">{{ "::Policy:Categories" | abpLocalization }}</label><span> * </span>
+                    <label for="categoryIds">{{ "::Document:Categories" | abpLocalization }}</label><span> * </span>
                     <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
                         <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.nameAr}}</ng-option>
                     </ng-select>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="col-md-12 form-group">
-                <label for="description">{{ "::Policy:Description" | abpLocalization }}</label><span> * </span>
+                <label for="description">{{ "::Document:Description" | abpLocalization }}</label><span> * </span>
                 <textarea class="form-control" rows="5" id="description" formControlName="description"></textarea>
             </div>
         </div>
@@ -94,13 +94,13 @@
 
         <div class="row">
             <div class="col-md-6 form-group" >
-                <label for="validationStartDate">{{ "::Policy:validationStartDate" | abpLocalization }}</label>
+                <label for="validationStartDate">{{ "::Document:validationStartDate" | abpLocalization }}</label>
                 <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
                     formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
             </div>
 
             <div class="col-md-6 form-group" >
-                <label for="validationEndtDate">{{ "::Policy:validationEndDate" | abpLocalization }}</label>
+                <label for="validationEndtDate">{{ "::Document:validationEndDate" | abpLocalization }}</label>
                 <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
                     formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
             </div>
@@ -116,7 +116,7 @@
 
         <div class="row">
             <div class="col-md-12 form-group">
-                <label for="ownersIds">{{ "::Policy:DocumentOwners" | abpLocalization }}</label><span> * </span>
+                <label for="ownersIds">{{ "::Document:DocumentOwners" | abpLocalization }}</label><span> * </span>
                 <ng-select id="ownersIds" class="d-block" [searchable]="false" formControlName="ownersIds"
                     multiple="true" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>

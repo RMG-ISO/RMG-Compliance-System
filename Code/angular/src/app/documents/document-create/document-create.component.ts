@@ -21,7 +21,7 @@ export class DocumentCreateComponent implements OnInit{
 
   mode;
   FormMode = FormMode;
-  PolicyType = documentTypeOptions;
+  DocumentType = documentTypeOptions;
   AllCategories;
 
   constructor(

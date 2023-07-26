@@ -5,25 +5,25 @@
 
     
     <a href="#" class="bread_crumb_item">
-        {{ "::Policy:Home" | abpLocalization }}
+        {{ "::Document:Home" | abpLocalization }}
     </a>
 
     / 
 
     <a [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Policy:Policies" | abpLocalization }}
+        {{ ":::Document:Policies" | abpLocalization }}
     </a>
 
     /
 
     <a  [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Policy:DocumentManagement" | abpLocalization }}
+        {{ ":::Document:DocumentManagement" | abpLocalization }}
     </a>
 
     /
     
     <a href="#" class="bread_crumb_item">
-        {{ ":::Policy:DocumentView" | abpLocalization }}
+        {{ ":::Document:DocumentView" | abpLocalization }}
     </a>
 </div>
 
@@ -32,7 +32,7 @@
 
     <div class="card-top">
       <h3>
-        {{ "::Policy:DocumentTitle" | abpLocalization }}
+        {{ "::Document:DocumentTitle" | abpLocalization }}
       </h3>
     </div>
 
@@ -40,7 +40,7 @@
 
       <div>
         <span>
-          {{ "::Policy:DocumentCode" | abpLocalization }}
+          {{ "::Document:DocumentCode" | abpLocalization }}
         </span>
         <h4>
             {{ documentData?.code }}
@@ -51,7 +51,7 @@
       
     <div>
         <span>
-          {{ "::Policy:DocumentOwner" | abpLocalization }}
+          {{ "::Document:DocumentOwner" | abpLocalization }}
         </span>
         <h4>
             <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
@@ -69,7 +69,7 @@
 
     <div>
         <span>
-            {{ '::Policy:CompliancePercentage' | abpLocalization }}
+            {{ '::Document:CompliancePercentage' | abpLocalization }}
         </span>
         <span >
             {{ documentData?.compliancePercentage }}
@@ -78,7 +78,7 @@
 
     <div>
         <span>
-            {{ '::Policy:Status' | abpLocalization }}
+            {{ '::Document:Status' | abpLocalization }}
         </span>
         <span class="status" [class]="DocumentStatus[documentData?.status]">
             {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
@@ -91,16 +91,16 @@
 
   <div class="tabs d-flex align-items-center p-3">
     <button mat-raised-button routerLink="details" routerLinkActive="active">
-        {{ '::Policy:DocumentInformation' | abpLocalization }}
+        {{ '::Document:DocumentInformation' | abpLocalization }}
     </button>
     <button mat-raised-button routerLink="settings" routerLinkActive="active" >    
-        {{ '::Policy:DocumentSettings' | abpLocalization }}
+        {{ '::Document:DocumentSettings' | abpLocalization }}
     </button>
     <button mat-raised-button routerLink="revision-approve" routerLinkActive="active" >
         {{ '::الموافقات و الأعتمادات' | abpLocalization }}
     </button>
     <button mat-raised-button routerLink="activities" routerLinkActive="active" >
-        {{ '::Policy:DocumentActivities' | abpLocalization }}
+        {{ '::Document:DocumentActivities' | abpLocalization }}
     </button>
     
   </div>
