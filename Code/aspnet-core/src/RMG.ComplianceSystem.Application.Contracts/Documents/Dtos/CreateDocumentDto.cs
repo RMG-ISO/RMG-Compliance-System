@@ -17,8 +17,12 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         public DocumentType Type { get; set; }
         public IList<Guid> OwnersIds { get; set; }
         public IList<Guid> OptionalReviewersIds { get; set; }
+        [Required]
+        [MinLength(1)]
         public IList<Guid> RequiredReviewersIds { get; set; }
         public IList<Guid> OptionalApproversIds { get; set; }
+        [Required]
+        [MinLength(1)]
         public IList<Guid> RequiredApproversIds { get; set; }
         public DateTime ValidationStartDate { get; set; }
         [Required]
@@ -31,10 +35,16 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         {
             get
             {
-                return OwnersIds.Concat(RequiredReviewersIds)
-                    .Concat(RequiredApproversIds).ToList()
-                    .Concat(OptionalApproversIds).ToList()
-                    .Concat(OptionalReviewersIds).ToList();
+                var emps = OwnersIds.ToList();
+                if (RequiredReviewersIds != null)
+                    emps = emps.Concat(RequiredReviewersIds).ToList();
+                if (OptionalReviewersIds != null)
+                    emps = emps.Concat(OptionalReviewersIds).ToList();
+                if (RequiredApproversIds != null)
+                    emps = emps.Concat(RequiredApproversIds).ToList();
+                if (OptionalApproversIds != null)
+                    emps = emps.Concat(OptionalApproversIds).ToList();
+                return emps;
             }
         }
 

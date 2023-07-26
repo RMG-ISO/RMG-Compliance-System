@@ -17,5 +17,10 @@ namespace RMG.ComplianceSystem.Documents
          CreateDocumentDto> //Used to create/update a book
     {
         Task<ListResultDto<NameId<Guid>>> GetAllCategories();
+
+        Task SendForRevision(Guid id);
+        Task ReturnToCreator(Guid id, RejectWithNotes input);
+        Task SendForApproval(Guid id);
+        Task Approve(Guid id);
     }
 }
