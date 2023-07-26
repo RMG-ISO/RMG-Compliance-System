@@ -2,7 +2,7 @@ import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { documentService } from '@proxy/documents';
+import { DocumentService } from '@proxy/documents';
 import { DocumentDto } from '@proxy/documents/dtos';
 import { LocalizationService } from '@abp/ng.core';
 import { saveAs } from 'file-saver';
@@ -26,7 +26,7 @@ export class DocumentsComponent implements OnInit {
   visibleContent:string = 'grid';
 
   constructor(
-    private documentsService:documentService,
+    private documentsService:DocumentService,
     public readonly list: ListService,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,

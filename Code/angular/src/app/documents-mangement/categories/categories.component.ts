@@ -3,7 +3,7 @@ import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { documentService } from '@proxy/documents';
+import { DocumentService } from '@proxy/documents';
 import { DocumentCategoryDto } from '@proxy/documents/dtos';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { LocalizationService } from '@abp/ng.core';
@@ -27,7 +27,7 @@ export class CategoriesComponent implements OnInit {
 
   constructor(
     public readonly list: ListService,
-    private documentservice: documentService,
+    private documentservice: DocumentService,
     public dialog: MatDialog,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService

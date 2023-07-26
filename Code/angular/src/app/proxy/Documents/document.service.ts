@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class documentService {
+export class DocumentService {
   apiName = 'Default';
 
   create = (input: CreateUpdateDocumentDto) =>
