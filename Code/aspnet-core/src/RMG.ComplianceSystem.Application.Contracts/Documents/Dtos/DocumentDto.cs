@@ -13,8 +13,7 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         [NotNull]
         public string Code { get; set; }
         [NotNull]
-        public string NameEn { get; set; }
-        public string NameAr { get; set; }
+        public string Name { get; set; }
         public DocumentType Type { get; set; }
         public IList<NameId<Guid>> Owners { get; set; }
         public IList<DocumentEmployeeDto> Reviewers { get; set; }

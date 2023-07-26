@@ -27,8 +27,7 @@ export interface CreateUpdateDocumentSectionDto {
 
 export interface DocumentDto extends FullAuditedEntityDto<string> {
   code?: string;
-  nameEn?: string;
-  nameAr?: string;
+  name?: string;
   type: DocumentType;
   owners: NameId<string>[];
   reviewers: DocumentEmployeeDto[];
