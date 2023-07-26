@@ -5,7 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { DocumentService } from '@proxy/documents';
+import { DocumentService } from '@proxy/Documents';
 import { EmployeeService } from '@proxy/employees';
 import { documentTypeOptions } from '@proxy/documents/document-type.enum';
 import { parseISO } from 'date-fns';

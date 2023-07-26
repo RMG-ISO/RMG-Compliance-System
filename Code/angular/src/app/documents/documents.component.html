@@ -55,7 +55,7 @@
             </ngx-datatable-column> -->
             <ngx-datatable-column [name]="'::DocumentType' | abpLocalization" prop="type">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{DocumentType[value]['key'] | abpLocalization }}
+                    {{ ('::Document:' + DocumentType[value]) | abpLocalization }}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" prop="compliancePercentage">
@@ -70,30 +70,30 @@
                     </span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Documents:ValidationStartDate' | abpLocalization" prop="validationStartDate">
+            <ngx-datatable-column [name]="'::Documents:ValidationStartDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="validationStartDate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Documents:ValidationEndDate' | abpLocalization"  [maxWidth]="200" [width]="200" prop="validationEndtDate">
+            <ngx-datatable-column [name]="'::Documents:ValidationEndDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="validationEndtDate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
                 </ng-template>
             </ngx-datatable-column>
                 
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="200"  [sortable]="false" cellClass="options">
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="170"  [sortable]="false" cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                    
-                    <button  mat-button color="primary" [routerLink]="['/documents/',row.id, 'details']" >
-                        <mat-icon>visibility</mat-icon>
-                    </button>
+                    <a mat-button [routerLink]="['/documents/',row.id, 'details']" >
+                        <mat-icon color="secondary">visibility</mat-icon>
+                    </a>
 
-                    <button  mat-button color="success" [routerLink]="['/documents/',row.id, 'edit']" >
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                    <a mat-button [routerLink]="['/documents/',row.id, 'edit']" >
+                        <mat-icon color="primary">edit</mat-icon>
+                    </a>
                     
-                    <button  mat-button color="warn" (click)="$event.stopPropagation();delete(row)">
-                        <mat-icon >delete</mat-icon>
+                    <button mat-button (click)="$event.stopPropagation();delete(row)">
+                        <mat-icon color="warn">delete</mat-icon>
                     </button>
 
                 </ng-template>
