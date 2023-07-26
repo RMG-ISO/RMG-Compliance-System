@@ -20,17 +20,29 @@ namespace RMG.ComplianceSystem.Documents
         private readonly IDataFilter _dataFilter;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRepository<Category, Guid> _categoryRepository;
+        private readonly IRepository<DocumentCategory, Guid> _documentCategoryRepository;
+        private readonly IRepository<DocumentApprover, Guid> _documentApproverRepository;
+        private readonly IRepository<DocumentReviewer, Guid> _documentReviewerRepository;
+        private readonly IRepository<DocumentOwner, Guid> _documentOwnerRepository;
 
         public DocumentAppService(
-            IDocumentRepository repository, 
-            IEmployeeRepository employeeRepository, 
+            IDocumentRepository repository,
+            IEmployeeRepository employeeRepository,
             IRepository<Category, Guid> categoryRepository,
+            IRepository<DocumentCategory, Guid> documentCategoryRepository,
+            IRepository<DocumentApprover, Guid> documentApproverRepository,
+            IRepository<DocumentReviewer, Guid> documentReviewerRepository,
+            IRepository<DocumentOwner, Guid> documentOwnerRepository,
             IDataFilter dataFilter
             ) : base(repository)
         {
             _dataFilter = dataFilter;
             _employeeRepository = employeeRepository;
             _categoryRepository = categoryRepository;
+            _documentApproverRepository = documentApproverRepository;
+            _documentOwnerRepository = documentOwnerRepository;
+            _documentReviewerRepository = documentReviewerRepository;
+            _documentCategoryRepository = documentCategoryRepository;
         }
 
         public override async Task<DocumentDto> CreateAsync(CreateDocumentDto input)
@@ -43,10 +55,10 @@ namespace RMG.ComplianceSystem.Documents
                 entity.Code = "DOC-" + (await Repository.CountAsync()) + 1;
             }
             entity.Status = DocumentStatus.Draft;
-            MapCategories(entity, input.CategoriesIds.ToList());
-            MapOwners(entity, input.OwnersIds.ToList());
-            MapReviewers(entity, input.RequiredReviewersIds.ToList(), input.OptionalReviewersIds.ToList());
-            MapApprovers(entity, input.RequiredApproversIds.ToList(), input.OptionalApproversIds.ToList());
+            MapCategories(entity, input.CategoriesIds);
+            MapOwners(entity, input.OwnersIds);
+            MapReviewers(entity, input.RequiredReviewersIds, input.OptionalReviewersIds);
+            MapApprovers(entity, input.RequiredApproversIds, input.OptionalApproversIds);
 
             await Repository.InsertAsync(entity, autoSave: true);
             return await MapToGetOutputDtoAsync(entity);
@@ -55,17 +67,33 @@ namespace RMG.ComplianceSystem.Documents
         public override async Task<DocumentDto> UpdateAsync(Guid id, CreateDocumentDto input)
         {
             await CheckUpdatePolicyAsync();
+            await ValidateCreateUpdate(input);
             var entity = await Repository.GetAsync(id);
             await MapToEntityAsync(input, entity);
-            MapCategories(entity, input.CategoriesIds.ToList());
-            MapOwners(entity, input.OwnersIds.ToList());
-            MapReviewers(entity, input.RequiredReviewersIds.ToList(), input.OptionalReviewersIds.ToList());
-            MapApprovers(entity, input.RequiredApproversIds.ToList(), input.OptionalApproversIds.ToList());
+
+            await _documentCategoryRepository.DeleteAsync(x => x.DocumentId == id);
+            await _documentApproverRepository.DeleteAsync(x => x.DocumentId == id);
+            await _documentOwnerRepository.DeleteAsync(x => x.DocumentId == id);
+            await _documentReviewerRepository.DeleteAsync(x => x.DocumentId == id);
+            MapCategories(entity, input.CategoriesIds);
+            MapOwners(entity, input.OwnersIds);
+            MapReviewers(entity, input.RequiredReviewersIds, input.OptionalReviewersIds);
+            MapApprovers(entity, input.RequiredApproversIds, input.OptionalApproversIds);
 
             await Repository.UpdateAsync(entity, true);
             return await MapToGetOutputDtoAsync(entity);
         }
-        
+
+        protected override async Task<DocumentDto> MapToGetOutputDtoAsync(Document entity)
+        {
+            var dto = await base.MapToGetOutputDtoAsync(entity);
+            if (dto.CreatorId.HasValue)
+                dto.CreatorName = (await _employeeRepository.GetAsync(dto.CreatorId.Value, false)).FullName;
+            if (dto.LastModifierId.HasValue)
+                dto.LastModifierName = (await _employeeRepository.GetAsync(dto.LastModifierId.Value, false)).FullName;
+            return dto;
+        }
+
         public async Task<ListResultDto<NameId<Guid>>> GetAllCategories()
         {
             var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
@@ -75,7 +103,7 @@ namespace RMG.ComplianceSystem.Documents
 
         protected override async Task<IQueryable<Document>> CreateFilteredQueryAsync(DocumentGetListInputDto input)
         {
-            var query = await base.CreateFilteredQueryAsync(input);
+            var query = await Repository.WithDetailsAsync();
             query = query.WhereIf(!input.Code.IsNullOrEmpty(), x => x.Code.Contains(input.Code))
                         .WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.Contains(input.Name));
             return query;
@@ -95,51 +123,77 @@ namespace RMG.ComplianceSystem.Documents
 
         }
 
-        private void MapApprovers(Document document, List<Guid> requiredApprovers, List<Guid> optionalApprovers)
+        private void MapApprovers(Document document, IList<Guid> requiredApprovers, IList<Guid> optionalApprovers)
         {
-            foreach (var item in requiredApprovers)
-            {
-                document.Approvers.Add(new DocumentApprover(GuidGenerator.Create(), item, true));
-            }
+            if (requiredApprovers != null)
+                foreach (var item in requiredApprovers)
+                {
+                    document.Approvers.Add(new DocumentApprover(GuidGenerator.Create(), item, true));
+                }
 
-            foreach (var item in optionalApprovers)
-            {
-                document.Approvers.Add(new DocumentApprover(GuidGenerator.Create(), item, false));
-            }
+            if (optionalApprovers != null)
+                foreach (var item in optionalApprovers)
+                {
+                    document.Approvers.Add(new DocumentApprover(GuidGenerator.Create(), item, false));
+                }
         }
 
-        private void MapReviewers(Document document, List<Guid> requiredReviewers, List<Guid> optionalReviewers)
+        private void MapReviewers(Document document, IList<Guid> requiredReviewers, IList<Guid> optionalReviewers)
         {
-            foreach (var item in requiredReviewers)
-            {
-                document.Reviewers.Add(new DocumentReviewer(GuidGenerator.Create(), item, true));
-            }
+            if (requiredReviewers != null)
+                foreach (var item in requiredReviewers)
+                {
+                    document.Reviewers.Add(new DocumentReviewer(GuidGenerator.Create(), item, true));
+                }
 
-            foreach (var item in optionalReviewers)
-            {
-                document.Reviewers.Add(new DocumentReviewer(GuidGenerator.Create(), item, false));
-            }
+            if (optionalReviewers != null)
+                foreach (var item in optionalReviewers)
+                {
+                    document.Reviewers.Add(new DocumentReviewer(GuidGenerator.Create(), item, false));
+                }
         }
 
-        private void MapCategories(Document document, List<Guid> categories)
+        private void MapCategories(Document document, IList<Guid> categories)
         {
-            foreach (var item in categories)
-            {
-                document.DocumentCategories.Add(new DocumentCategory(GuidGenerator.Create(), item));
-            }
+            if (categories != null)
+                foreach (var item in categories)
+                {
+                    document.DocumentCategories.Add(new DocumentCategory(GuidGenerator.Create(), item));
+                }
         }
 
-        private void MapOwners(Document document, List<Guid> owners)
+        private void MapOwners(Document document, IList<Guid> owners)
         {
-            foreach (var item in owners)
-            {
-                document.Owners.Add(new DocumentOwner(GuidGenerator.Create(), item));
-            }
+            if (owners != null)
+                foreach (var item in owners)
+                {
+                    document.Owners.Add(new DocumentOwner(GuidGenerator.Create(), item));
+                }
         }
 
         private string GetEmployeeNameById(Guid id, List<Employee> employees = null)
         {
             return employees.First(x => x.Id == id).FullName;
+        }
+
+        public Task SendForRevision(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReturnToCreator(Guid id, RejectWithNotes input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SendForApproval(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Approve(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

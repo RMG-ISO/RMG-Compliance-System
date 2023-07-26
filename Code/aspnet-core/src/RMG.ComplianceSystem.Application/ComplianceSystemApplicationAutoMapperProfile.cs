@@ -47,6 +47,15 @@ namespace RMG.ComplianceSystem
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+
+            CreateMap<Employee, NameId<Guid>>()
+                .ForMember(d => d.Name, x => x.MapFrom(s => s.FullName));
+            CreateMap<DocumentReviewer, DocumentEmployeeDto>()
+                .ForMember(d => d.Name, x => x.MapFrom(s => s.Employee.FullName));
+
+            CreateMap<DocumentApprover, DocumentEmployeeDto>()
+                .ForMember(d => d.Name, x => x.MapFrom(s => s.Employee.FullName));
+
             CreateMap<CreateUpdateDocumentSectionDto, DocumentSection>();
             CreateMap<DocumentSection, DocumentSectionDto>();
 
@@ -123,8 +132,9 @@ namespace RMG.ComplianceSystem
                 .ForMember(t => t.Employees, ops => ops.MapFrom(t => t.AssessmentEmployees.Select(r => new NameId<Guid>(r.Employee.FullName, r.EmployeeId))));
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
 
-            CreateMap<Document, DocumentDto>();
-               // .ForMember(dest => dest.CategoryIds, ops => ops.MapFrom(src => src.PolicyCategories.Select(x => x.Id)));
+            CreateMap<Document, DocumentDto>()
+                .ForMember(dest => dest.Owners, ops => ops.MapFrom(src => src.Owners.Select(x => x.Employee)))
+                .ForMember(dest => dest.Categories, ops => ops.MapFrom(src => src.DocumentCategories.Select(x => x.Category)));
 
             CreateMap<Category, NameId<Guid>>();
             CreateMap<UpdateDocumentDto, Document>();
