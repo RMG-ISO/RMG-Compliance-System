@@ -3,8 +3,8 @@ import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { documentService } from '@proxy/Documents';
-import { DocumentCategoryDto } from '@proxy/Documents/dtos';
+import { documentService } from '@proxy/documents';
+import { DocumentCategoryDto } from '@proxy/documents/dtos';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { LocalizationService } from '@abp/ng.core';
 
