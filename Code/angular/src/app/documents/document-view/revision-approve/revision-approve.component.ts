@@ -1,6 +1,8 @@
-import { ListService } from '@abp/ng.core';
+import { ConfigStateService, ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DocumentService, DocumentStatus } from '@proxy/Documents';
+import { DocumentDto } from '@proxy/Documents/dtos';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -10,14 +12,66 @@ import { BehaviorSubject } from 'rxjs';
   providers:[ListService]
 })
 export class RevisionApproveComponent implements OnInit {
+  DocumentStatus = DocumentStatus;
 
   constructor(
     public readonly list: ListService,
     public  matDialog: MatDialog,
+    private documentService: DocumentService,
+    private configService:ConfigStateService,
+
+
   ) { }
 
+  documentData:DocumentDto;
+  userId
   ngOnInit(): void {
+    this.userId = this.configService.getAll().currentUser.id;
+
     this.getList();
+
+    // Draft = 0,
+    // UnderReview = 1,
+    // Accepted = 2,
+    // ReturnToCreator = 3,
+    // Approved = 4,
+    // Published = 5,
+    // Acknowledgment = 6,
+    // Implemented = 7,
+    // UnderMonitoring = 8,
+    // Retired = 9,
+
+
+    // creationTime
+    // creatorId
+    // creatorName
+    // id
+    // notes
+    // status
+
+    let actionObj;
+    if(this.documentData.status == DocumentStatus.Draft) {
+      let canSendToReviewr = false;
+      if(this.documentData.creatorId == this.userId) {
+        canSendToReviewr = true;
+      } else if( this.documentData.owners.find(item => item.id == this.userId) ) {
+        canSendToReviewr = true;
+      }
+
+      if(canSendToReviewr) {
+        console.log('yeah can add');
+       'sendForRevisionById'
+      //  actionObj = {
+      //   creationTime
+      //   creatorId
+      //   creatorName
+      //   id
+      //   notes
+      //   status
+      //  }
+      }
+    }
+    
   }
 
   items;
@@ -75,4 +129,10 @@ export class RevisionApproveComponent implements OnInit {
     ],
     totalCount:5
   })
+
+  takeAction(funcName) {
+    this.documentService[funcName](this.documentData.id).subscribe(r => {
+      console.log(r);
+    })
+  }
 }
