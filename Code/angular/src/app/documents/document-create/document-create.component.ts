@@ -65,7 +65,7 @@ export class DocumentCreateComponent implements OnInit{
       validationStartDate: new FormControl(null, Validators.required),
       validationEndtDate: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
-      categoryIds: new FormControl(null, Validators.required),
+      categoriesIds: new FormControl(null, Validators.required),
   });
 
 
@@ -82,7 +82,7 @@ export class DocumentCreateComponent implements OnInit{
       DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
       DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
       DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
-      DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
+      DocumentData['categoriesIds'] = DocumentData?.categoriesIds?.map(t=>t.id)
       // delete DocumentData["code"];
       this.form.patchValue(DocumentData);
     })

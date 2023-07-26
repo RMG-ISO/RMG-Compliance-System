@@ -687,7 +687,10 @@
     "OptionalApprovers":"معتمدون اختياريين",
     "ReviewApprove":"الموافقات و الأعتمادات",
     "Policies":"السياسات",
-    "Document:DocumentName":"اسم الوثيقة"
+    "Document:DocumentName":"اسم الوثيقة",
+    "Document:DocumentType":"نوع الوثيقة",
+    "Document:ValidationStartDate":"تاريخ بدء الصلاحية",
+    "Document:ValidationEndDate":"تاريخ انتهاء الصلاحية",
 
   }
 }

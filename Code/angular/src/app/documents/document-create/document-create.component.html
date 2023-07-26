@@ -70,8 +70,8 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="categoryIds">{{ "::Document:Categories" | abpLocalization }}</label><span> * </span>
-                    <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
+                    <label for="categoriesIds">{{ "::Document:Categories" | abpLocalization }}</label><span> * </span>
+                    <ng-select id="categoriesIds" class="d-block" [searchable]="false" formControlName="categoriesIds" multiple="true" [clearable]="true">
                         <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.name}}</ng-option>
                     </ng-select>
                 </div>
@@ -93,13 +93,13 @@
 
         <div class="row">
             <div class="col-md-6 form-group" >
-                <label for="validationStartDate">{{ "::Document:validationStartDate" | abpLocalization }}</label>
+                <label for="validationStartDate">{{ "::Document:ValidationStartDate" | abpLocalization }}</label>
                 <input #complianceDate="ngbDatepicker" class="form-control" id="validationStartDate"
                     formControlName="validationStartDate" ngbDatepicker (click)="complianceDate.toggle()" />
             </div>
 
             <div class="col-md-6 form-group" >
-                <label for="validationEndtDate">{{ "::Document:validationEndDate" | abpLocalization }}</label>
+                <label for="validationEndtDate">{{ "::Document:ValidationEndDate" | abpLocalization }}</label>
                 <input #complianceDate2="ngbDatepicker" class="form-control" id="validationEndtDate"
                     formControlName="validationEndtDate" ngbDatepicker (click)="complianceDate2.toggle()" />
             </div>
@@ -113,7 +113,7 @@
             </h3>
         </div>
 
-
+        
 
         <div class="row">
             <div class="col-md-12 form-group">
