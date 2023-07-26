@@ -338,3 +338,24 @@ span.status {
 .table tbody+tbody {
     border-top: 2px solid #dee2e6
 }
+
+
+.ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+    flex-direction: row-reverse;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+ngx-datatable datatable-body-cell {
+    justify-content: flex-start;
+    button {
+        mat-icon {
+            margin: 0 !important;
+            color: #101010;
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

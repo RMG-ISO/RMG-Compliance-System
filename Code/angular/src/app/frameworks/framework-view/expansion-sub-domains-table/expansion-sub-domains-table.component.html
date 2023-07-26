@@ -1,6 +1,6 @@
 <ngx-datatable *ngIf="items; else showLoader" class="material fullscreen with-row-pointer" #dataTable [rows]="items" [count]="totalCount" [list]="list"
     (activate)="activate($event)" appNgxdatatable>
-    <ngx-datatable-column [width]="85" [name]="'::DomainReference' | abpLocalization" prop="reference"> </ngx-datatable-column>
+    <ngx-datatable-column [name]="'::DomainReference' | abpLocalization" prop="reference"> </ngx-datatable-column>
     <ngx-datatable-column [name]="'::DomainNameAr' | abpLocalization" prop="nameAr"></ngx-datatable-column>
     <ngx-datatable-column [name]="'::DomainNameEn' | abpLocalization" prop="nameEn"></ngx-datatable-column>
     <ngx-datatable-column [name]="'::DomainDepartment' | abpLocalization" prop="departments">

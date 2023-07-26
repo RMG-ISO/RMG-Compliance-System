@@ -29,7 +29,7 @@ export class DocumentCreateComponent implements OnInit{
     private activatedRoute:ActivatedRoute,
     private router:Router,
     private toasterService:ToasterService,
-    private policyService: DocumentService,
+    private documentService: DocumentService,
     private employeeService: EmployeeService,
 
 
@@ -45,9 +45,10 @@ export class DocumentCreateComponent implements OnInit{
       this.allEmployees = result.items;
     });
 
-    this.policyService.getAllCategories().subscribe(result => {
+    this.documentService.getAllCategories().subscribe(result => {
       this.AllCategories = result.items;
     });
+
 
 
     this.form = new FormGroup({
@@ -71,7 +72,7 @@ export class DocumentCreateComponent implements OnInit{
 
 
   if(this.mode == this.FormMode.Edit) {
-    this.policyService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
+    this.documentService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
       this.documentData = data;
       let DocumentData:any = {...data};
       DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
@@ -102,8 +103,8 @@ export class DocumentCreateComponent implements OnInit{
     
     data['nameEn'] = data['nameAr'] ;
     const request = this.documentData?.id
-      ? this.policyService.update(this.documentData.id, data)
-      : this.policyService.create(data);
+      ? this.documentService.update(this.documentData.id, data)
+      : this.documentService.create(data);
 
     request.subscribe(() => {
       this.toasterService.success('::SuccessfullySaved', "");

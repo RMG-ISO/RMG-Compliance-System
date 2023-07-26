@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="m-0">
         {{ (frameWorkData | lang : 'levelFirstName') || ('::MainDomains' | abpLocalization) }}
 
@@ -89,14 +89,14 @@
                     <div class="col">
                         <table class="table table-sm m-0 table-bordered">
                                 <tr class="row_head">
-                                    <td >{{ '::ReferenceNumber' | abpLocalization }}</td> 
-                                    <td>{{ '::DomainNameEn' | abpLocalization }}</td>    
-                                    <td>{{ '::Number of Controls' | abpLocalization }}</td>    
-                                    <td>{{ '::Creator' | abpLocalization }}</td>    
-                                    <td>{{ '::FrameworkLastUpdate' | abpLocalization }}</td>    
-                                    <td>{{ '::CompliancePercentage' | abpLocalization }}</td>    
-                                    <td>{{ '::ComplianceStatus' | abpLocalization }}</td>    
-                                    <td>{{ '::Options' | abpLocalization }}</td>    
+                                    <th >{{ '::ReferenceNumber' | abpLocalization }}</th> 
+                                    <th>{{ '::DomainNameEn' | abpLocalization }}</th>    
+                                    <th>{{ '::Number of Controls' | abpLocalization }}</th>    
+                                    <th>{{ '::Creator' | abpLocalization }}</th>    
+                                    <th>{{ '::FrameworkLastUpdate' | abpLocalization }}</th>    
+                                    <th>{{ '::CompliancePercentage' | abpLocalization }}</th>    
+                                    <th>{{ '::ComplianceStatus' | abpLocalization }}</th>    
+                                    <th>{{ '::Options' | abpLocalization }}</th>    
                                 </tr>
 
                                 <tr>
@@ -136,7 +136,7 @@
 
 
 
-       <section>
+       <section class="pt-0">
              <!-- <div class="details-table-cont">
                 <table class="table">
                     <tr>
@@ -288,7 +288,7 @@
                 </table>
             </div> -->
 
-            <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
                 <h4 class="m-0">
                     {{ ( frameWorkData | lang : 'levelSecondName' ) || ('::SubDomains' | abpLocalization) }}
                     ( {{subDomainsTable?.items?.length}} )

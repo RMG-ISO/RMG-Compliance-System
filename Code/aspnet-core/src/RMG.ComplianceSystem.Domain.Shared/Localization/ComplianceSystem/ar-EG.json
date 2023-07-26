@@ -684,7 +684,8 @@
     "RequiredReviewers":"مراجعون أساسيين",
     "OptionalReviewers":"مراجعون اختياريين",
     "RequiredApprovers":"معتمدون أساسيين",
-    "OptionalApprovers":"معتمدون اختياريين"
+    "OptionalApprovers":"معتمدون اختياريين",
+    "ReviewApprove":"الموافقات و الأعتمادات"
 
   }
 }

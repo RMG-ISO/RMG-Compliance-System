@@ -10,6 +10,11 @@ ul {
             stroke: var(--main-color);
         }
     }
+
+
+    ::ng-deep .ngx-datatable .datatable-header .datatable-header-cell {
+        background-color: grey !important;
+    }
     // ngx-datatable ::ng-deep{
     //     datatable-body-row {
     //         cursor: pointer;
