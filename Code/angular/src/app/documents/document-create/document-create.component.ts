@@ -54,8 +54,7 @@ export class DocumentCreateComponent implements OnInit{
     this.form = new FormGroup({
       code: new FormControl({value:null, disabled:true}, Validators.required),
       type: new FormControl(null, Validators.required),
-      nameAr: new FormControl(null, Validators.required),
-      nameEn: new FormControl(null),
+      name: new FormControl(null, Validators.required),
       ownersIds: new FormControl(null, Validators.required),
       //reviewersIds: new FormControl({value:this.documentData?.reviewersIds?.map(t=>t.id)}, Validators.required),
       requiredReviewersIds: new FormControl(null, Validators.required),
@@ -97,8 +96,7 @@ export class DocumentCreateComponent implements OnInit{
     let data = this.form.getRawValue();
     data['validationStartDate'] = data['validationStartDate'] ? moment(data['validationStartDate']).toISOString() : null;
     data['validationEndtDate'] = data['validationEndtDate'] ? moment(data['validationEndtDate']).toISOString() : null;
-    
-    data['nameEn'] = data['nameAr'] ;
+
     const request = this.documentData?.id
       ? this.documentService.update(this.documentData.id, data)
       : this.documentService.create(data);
