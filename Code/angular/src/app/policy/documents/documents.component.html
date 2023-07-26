@@ -49,6 +49,7 @@
         [rows]="items"
         [count]="totalCount"
         [list]="list"
+        appNgxdatatable
         >
             <!-- <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="name"></ngx-datatable-column> -->
 
@@ -70,7 +71,7 @@
             <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="status" [class]="PolicyStatus[value]">
-                        {{ ( '::Enum:' + PolicyStatus[value] ) | abpLocalization }}
+                        {{ ( '::Policy:Enum:' + PolicyStatus[value] ) | abpLocalization }}
                     </span>
                 </ng-template>
             </ngx-datatable-column>
