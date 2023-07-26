@@ -685,7 +685,9 @@
     "OptionalReviewers":"مراجعون اختياريين",
     "RequiredApprovers":"معتمدون أساسيين",
     "OptionalApprovers":"معتمدون اختياريين",
-    "ReviewApprove":"الموافقات و الأعتمادات"
+    "ReviewApprove":"الموافقات و الأعتمادات",
+    "Policies":"السياسات",
+    "Document:DocumentName":"اسم الوثيقة"
 
   }
 }

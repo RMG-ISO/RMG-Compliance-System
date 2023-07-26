@@ -11,19 +11,19 @@
     / 
 
     <a [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Document:Policies" | abpLocalization }}
+        {{ "::Document:Policies" | abpLocalization }}
     </a>
 
     /
 
     <a  [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Document:DocumentManagement" | abpLocalization }}
+        {{ "::Document:DocumentManagement" | abpLocalization }}
     </a>
 
     /
     
     <a href="#" class="bread_crumb_item">
-        {{ ":::Document:AddDocument" | abpLocalization }}
+        {{ "::Document:AddDocument" | abpLocalization }}
     </a>
 </div>
 
@@ -68,12 +68,11 @@
                 </ng-select>
             </div>
 
-
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="categoryIds">{{ "::Document:Categories" | abpLocalization }}</label><span> * </span>
                     <ng-select id="categoryIds" class="d-block" [searchable]="false" formControlName="categoryIds" multiple="true" [clearable]="true">
-                        <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.nameAr}}</ng-option>
+                        <ng-option *ngFor="let cat of AllCategories" [value]="cat.id">{{cat?.name}}</ng-option>
                     </ng-select>
                 </div>
             </div>
