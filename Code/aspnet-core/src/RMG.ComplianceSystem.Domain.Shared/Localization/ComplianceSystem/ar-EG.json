@@ -649,7 +649,7 @@
     "DocumentType":"نوع الوثيقة",
     "Document:CompliancePercentage":"نسبة الامتثال",
     "Documents:ValidationStartDate":"ﺗﺎرﻳﺦ ﺑﺪء اﻟﺼﻼﺣﻴﺔ",
-    "Documents:ValidationEndDate":"ﺗﺎرﻳﺦ إﻧﺘﻬﺎء اﻟﺼﻼﺣﻴﺔ'",
+    "Documents:ValidationEndDate":"ﺗﺎرﻳﺦ إﻧﺘﻬﺎء اﻟﺼﻼﺣﻴﺔ",
     "Document:Enum:Draft":"مسودة",
     "Document:Enum:UnderReview":"قيد المراجعة",
     "Document:Enum:Accepted":"تم الموافقة",
@@ -686,11 +686,7 @@
     "RequiredApprovers":"معتمدون أساسيين",
     "OptionalApprovers":"معتمدون اختياريين",
     "ReviewApprove":"الموافقات و الأعتمادات",
-    "Policies":"السياسات",
-    "Document:DocumentName":"اسم الوثيقة",
-    "Document:DocumentType":"نوع الوثيقة",
-    "Document:ValidationStartDate":"تاريخ بدء الصلاحية",
-    "Document:ValidationEndDate":"تاريخ انتهاء الصلاحية",
+    "Policies":"السياسات"
 
   }
 }

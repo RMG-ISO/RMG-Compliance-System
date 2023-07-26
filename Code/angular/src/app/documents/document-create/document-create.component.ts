@@ -64,12 +64,9 @@ export class DocumentCreateComponent implements OnInit{
       optionalApproversIds: new FormControl(null, Validators.required),
       validationStartDate: new FormControl(null, Validators.required),
       validationEndtDate: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
+      description: new FormControl(null),
       categoriesIds: new FormControl(null, Validators.required),
   });
-
-
-
 
   if(this.mode == this.FormMode.Edit) {
     this.documentService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
@@ -82,7 +79,7 @@ export class DocumentCreateComponent implements OnInit{
       DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
       DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
       DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
-      DocumentData['categoriesIds'] = DocumentData?.categoriesIds?.map(t=>t.id)
+      DocumentData['categoriesIds'] = DocumentData?.categories?.map(t=>t.id)
       // delete DocumentData["code"];
       this.form.patchValue(DocumentData);
     })
