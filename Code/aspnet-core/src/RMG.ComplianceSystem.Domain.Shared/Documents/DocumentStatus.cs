@@ -6,6 +6,15 @@ namespace RMG.ComplianceSystem.Documents
 {
     public enum DocumentStatus
     {
-        Draft ,UnderReview,Accepted ,ReturnToCreator,Approved,Published,Acknowledgment , Implemented, UnderMonitoring,Retired
+        Draft,
+        UnderReview,
+        Accepted,
+        ReturnToCreator,
+        Approved,
+        Published,
+        Acknowledgment, 
+        Implemented, 
+        UnderMonitoring,
+        Retired
     }
 }

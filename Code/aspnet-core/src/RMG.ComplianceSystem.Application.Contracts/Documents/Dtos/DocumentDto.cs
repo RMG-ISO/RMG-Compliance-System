@@ -10,6 +10,8 @@ namespace RMG.ComplianceSystem.Documents.Dtos
 {
     public class DocumentDto : FullAuditedEntityDto<Guid>
     {
+        public string LastModifierName { get; set; }
+        public string CreatorName { get; set; }
         [NotNull]
         public string Code { get; set; }
         [NotNull]
@@ -31,5 +33,6 @@ namespace RMG.ComplianceSystem.Documents.Dtos
 
 
         public IList<NameId<Guid>> Categories { get; set; }
+        public List<DocumentActionLogDto> ActionsLog { get; set; } = new List<DocumentActionLogDto>();
     }
 }
