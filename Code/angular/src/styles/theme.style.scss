@@ -39,17 +39,18 @@ $app-primary-palette: (
     A700: white,
   )
 );
+
 $app-accent-palette: (
-  50: #f9f9fa,
-  100: #f3f3f4,
-  200: #ebebec,
-  300: #dcdcdd,
-  400: #b9b9ba,
-  500: #99999a,
-  600: #707071,
-  700: #5d5d5e,
-  800: #3e3e3f,
-  900: #1d1d1e,
+  50: #d9f1ff,
+  100: #b8dae8,
+  200: #98bed0,
+  300: #76a3b8,
+  400: #5b8ea5,
+  500: #3f7a93,
+  600: #336c82,
+  700: #24586c,
+  800: #174557,
+  900: #02303f,
   A100: #f5f5f5,
   A200: #eaeaeb,
   A400: #d6d6d7,
@@ -96,7 +97,7 @@ $crimson-palette: (
   )
 );
 $app-primary: mat.define-palette($app-primary-palette, 700, 300, 900);
-$app-accent: mat.define-palette($app-accent-palette, 300, 100, 500);
+$app-accent: mat.define-palette($app-accent-palette, 700, 300, 500);
 $app-warn: mat.define-palette($crimson-palette, 700);
 $app-theme: mat.define-light-theme((
   color: (
