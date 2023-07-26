@@ -37,7 +37,7 @@
         <div class="section-header mb-4">
             <span>1</span>
             <h3>
-                معلومات عامة
+                {{ '::GeneralInformation' | abpLocalization }}
             </h3>
         </div>
        
@@ -88,7 +88,7 @@
         <div class="section-header mb-4 mt-3">
             <span>2</span>
             <h3>
-                معلومات الصلاحية
+                {{ '::ValidityInformation' | abpLocalization }}
             </h3>
         </div>
 
@@ -110,9 +110,11 @@
         <div class="section-header mb-4 mt-3">
             <span>3</span>
             <h3>
-                معلومات الأشخاص
+                {{ '::PersonsInformation' | abpLocalization }}
             </h3>
         </div>
+
+
 
         <div class="row">
             <div class="col-md-12 form-group">
@@ -123,33 +125,32 @@
                 </ng-select>
             </div>
 
-
             <div class="col-md-12 form-group">
-                <label for="reviewersIds">{{ "::مراجعون أساسيين" | abpLocalization }}</label><span> * </span>
-                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true" 
-                    formControlName="reviewersIds" [clearable]="true">
+                <label for="requiredReviewersIds">{{ "::RequiredReviewers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="requiredReviewersIds" class="d-block" [searchable]="false" multiple="true" 
+                    formControlName="requiredReviewersIds" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
             <div class="col-md-12 form-group">
-                <label for="reviewersIds">{{ "::مراجعون اختياريين" | abpLocalization }}</label><span> * </span>
-                <ng-select id="reviewersIds" class="d-block" [searchable]="false" multiple="true" 
-                    formControlName="reviewersIds" [clearable]="true">
+                <label for="optionalReviewersIds">{{ "::OptionalReviewers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="optionalReviewersIds" class="d-block" [searchable]="false" multiple="true" 
+                    formControlName="optionalReviewersIds" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
 
 
             <div class="col-md-12 form-group">
-                <label for="reviewersIds">{{ "::معتمدون أساسيين" | abpLocalization }}</label><span> * </span>
-                <ng-select id="approversIdss" class="d-block" [searchable]="false" formControlName="approversIds" *ngIf="allEmployees"
+                <label for="requiredApproversIds">{{ "::RequiredApprovers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="requiredApproversIds" class="d-block" [searchable]="false" formControlName="requiredApproversIds" *ngIf="allEmployees"
                     multiple="true" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
             <div class="col-md-12 form-group">
-                <label for="reviewersIds">{{ "::معتمدون اختياريين" | abpLocalization }}</label><span> * </span>
-                <ng-select id="approversIdss" class="d-block" [searchable]="false" formControlName="approversIds" *ngIf="allEmployees"
+                <label for="optionalApproversIds">{{ "::OptionalApprovers" | abpLocalization }}</label><span> * </span>
+                <ng-select id="optionalApproversIds" class="d-block" [searchable]="false" formControlName="optionalApproversIds" *ngIf="allEmployees"
                     multiple="true" [clearable]="true">
                     <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>

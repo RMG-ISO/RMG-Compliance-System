@@ -677,7 +677,14 @@
     "Document:Strategy":"استراتيجية",
     "CreatedSuccessfully": "تم الإضافة بنجاح",
     "UpdatedSuccessfully": "تم التعديل بنجاح",
-    "Document:Code":"كود الوثيقة"
+    "Document:Code":"كود الوثيقة",
+    "GeneralInformation":"معلومات عامة",
+    "ValidityInformation":"معلومات الصلاحية",
+    "PersonsInformation":"معلومات الأشخاص",
+    "RequiredReviewers":"مراجعون أساسيين",
+    "OptionalReviewers":"مراجعون اختياريين",
+    "RequiredApprovers":"معتمدون أساسيين",
+    "OptionalApprovers":"معتمدون اختياريين"
 
   }
 }

@@ -49,41 +49,48 @@ export class DocumentCreateComponent implements OnInit{
       this.AllCategories = result.items;
     });
 
+
     this.form = new FormGroup({
-        code: new FormControl({value:null, disabled:true}, Validators.required),
-        type: new FormControl(null, Validators.required),
-        nameAr: new FormControl(null, Validators.required),
-        nameEn: new FormControl(null),
-        ownersIds: new FormControl(null, Validators.required),
-        //reviewersIds: new FormControl({value:this.documentData?.reviewersIds?.map(t=>t.id)}, Validators.required),
-        reviewersIds: new FormControl(null, Validators.required),
-        approversIds: new FormControl(null, Validators.required),
-        validationStartDate: new FormControl(null, Validators.required),
-        validationEndtDate: new FormControl(null, Validators.required),
-        description: new FormControl(null, Validators.required),
-        categoryIds: new FormControl(null, Validators.required),
-    });
+      code: new FormControl({value:null, disabled:true}, Validators.required),
+      type: new FormControl(null, Validators.required),
+      nameAr: new FormControl(null, Validators.required),
+      nameEn: new FormControl(null),
+      ownersIds: new FormControl(null, Validators.required),
+      //reviewersIds: new FormControl({value:this.documentData?.reviewersIds?.map(t=>t.id)}, Validators.required),
+      requiredReviewersIds: new FormControl(null, Validators.required),
+      optionalReviewersIds: new FormControl(null, Validators.required),
+      requiredApproversIds: new FormControl(null, Validators.required),
+      optionalApproversIds: new FormControl(null, Validators.required),
+      validationStartDate: new FormControl(null, Validators.required),
+      validationEndtDate: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+      categoryIds: new FormControl(null, Validators.required),
+  });
 
-    if(this.mode == this.FormMode.Edit) {
-      this.policyService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
-        this.documentData = data;
-        let DocumentData:any = {...data};
-        DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
-        DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
-        DocumentData['reviewersIds'] = DocumentData?.reviewersIds?.map(t=>t.employeeId)
-        DocumentData['approversIds'] = DocumentData?.approversIds?.map(t=>t.employeeId)
-        DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
-        DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
-        // delete DocumentData["code"];
-        this.form.patchValue(DocumentData);
-      })
-      
-    } else if(this.mode == this.FormMode.Create){
-      //delete DocumentData["validationStartDate"];
-      //delete DocumentData["validationEndtDate"];
-    }
+
+
+
+  if(this.mode == this.FormMode.Edit) {
+    this.policyService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
+      this.documentData = data;
+      let DocumentData:any = {...data};
+      DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
+      DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
+      DocumentData['optionalReviewersIds'] = DocumentData?.optionalReviewersIds?.map(t=>t.employeeId)
+      DocumentData['requiredReviewersIds'] = DocumentData?.requiredReviewersIds?.map(t=>t.employeeId)
+      DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
+      DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
+      DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
+      DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
+      // delete DocumentData["code"];
+      this.form.patchValue(DocumentData);
+    })
+    
+  } else if(this.mode == this.FormMode.Create){
+    //delete DocumentData["validationStartDate"];
+    //delete DocumentData["validationEndtDate"];
   }
-
+}
 
  
   save(){
