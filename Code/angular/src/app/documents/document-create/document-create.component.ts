@@ -3,12 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigStateService } from '@abp/ng.core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { InternalAuditPreparationService } from '@proxy/InternalAuditPreparations';
 import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { PolicyService } from '@proxy/policies';
+import { DocumentService } from '@proxy/documents';
 import { EmployeeService } from '@proxy/employees';
-import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
+import { documentTypeOptions } from '@proxy/documents/document-type.enum';
 import { parseISO } from 'date-fns';
 
 @Component({
@@ -22,16 +21,15 @@ export class DocumentCreateComponent implements OnInit{
 
   mode;
   FormMode = FormMode;
-  PolicyType = policyTypeOptions;
+  PolicyType = documentTypeOptions;
   AllCategories;
 
   constructor(
     private configStateService:ConfigStateService,
     private activatedRoute:ActivatedRoute,
-    private internalAuditPreparationService:InternalAuditPreparationService,
     private router:Router,
     private toasterService:ToasterService,
-    private policyService: PolicyService,
+    private policyService: DocumentService,
     private employeeService: EmployeeService,
 
 
@@ -103,7 +101,7 @@ export class DocumentCreateComponent implements OnInit{
     request.subscribe(() => {
       this.toasterService.success('::SuccessfullySaved', "");
       if(this.mode == this.FormMode.Create){
-        this.router.navigate(['policy/documents'])
+        this.router.navigate(['documents'])
       }
     });
   }

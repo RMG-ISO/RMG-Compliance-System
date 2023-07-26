@@ -10,13 +10,13 @@
 
     / 
 
-    <a [routerLink]="['/policy/documents']" class="bread_crumb_item">
+    <a [routerLink]="['/documents']" class="bread_crumb_item">
         {{ ":::Policy:Policies" | abpLocalization }}
     </a>
 
     /
 
-    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
+    <a  [routerLink]="['/documents']" class="bread_crumb_item">
         {{ ":::Policy:DocumentManagement" | abpLocalization }}
     </a>
 
@@ -161,7 +161,7 @@
             <button mat-raised-button color="primary" class="save m-3" type="submit">
                 {{ 'AbpAccount::Save' | abpLocalization }}
             </button>
-            <a mat-raised-button class="m-3" color="warn" routerLink="/policy/documents/list">
+            <a mat-raised-button class="m-3" color="warn" routerLink="/documents/list">
                 {{ 'AbpAccount::Cancel' | abpLocalization }}
             </a>
         </div>

@@ -1,5 +1,5 @@
 import type { BreadCrumbSettingsDto, GetBreadCrumbSettingsDto } from './dtos/models';
-import { RestService } from '@abp/ng.core';
+import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,14 +7,15 @@ import { Injectable } from '@angular/core';
 })
 export class BreadCrumbService {
   apiName = 'Default';
+  
 
-  getBreadCrumbSettingsByInput = (input: GetBreadCrumbSettingsDto) =>
+  getBreadCrumbSettingsByInput = (input: GetBreadCrumbSettingsDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, BreadCrumbSettingsDto>({
       method: 'GET',
       url: '/api/app/bread-crumb/bread-crumb-settings',
       params: { type: input.type, id: input.id },
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
 
   constructor(private restService: RestService) {}
 }

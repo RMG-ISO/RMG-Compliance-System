@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { policyTypeOptions } from '@proxy/policies';
+import { documentTypeOptions } from '@proxy/documents';
 
 @Component({
   selector: 'app-details',
@@ -7,7 +7,7 @@ import { policyTypeOptions } from '@proxy/policies';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent {
-  PolicyType = policyTypeOptions;
+  DocumentType = documentTypeOptions;
 
   selected;
   documentData;

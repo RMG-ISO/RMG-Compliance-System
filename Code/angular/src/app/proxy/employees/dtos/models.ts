@@ -13,6 +13,7 @@ export interface EmployeeDto extends FullAuditedEntityWithUserDto<IdentityUserDt
   email?: string;
   departmentId?: string;
   isManager: boolean;
+  isUse: boolean;
   departmentName?: string;
 }
 

@@ -10,13 +10,13 @@
 
     / 
 
-    <a [routerLink]="['/policy/documents']" class="bread_crumb_item">
+    <a [routerLink]="['/documents']" class="bread_crumb_item">
         {{ ":::Policy:Policies" | abpLocalization }}
     </a>
 
     /
 
-    <a  [routerLink]="['/policy/documents']" class="bread_crumb_item">
+    <a  [routerLink]="['/documents']" class="bread_crumb_item">
         {{ ":::Policy:DocumentManagement" | abpLocalization }}
     </a>
 
@@ -80,7 +80,7 @@
         <span>
             {{ '::Policy:Status' | abpLocalization }}
         </span>
-        <span class="status" [class]="PolicyStatus[documentData?.status]">
+        <span class="status" [class]="DocumentStatus[documentData?.status]">
             {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
         </span>
     </div>

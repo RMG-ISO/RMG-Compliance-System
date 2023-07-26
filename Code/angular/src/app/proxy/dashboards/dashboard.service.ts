@@ -1,5 +1,5 @@
 import type { DashboardDto } from './dtos/models';
-import { RestService } from '@abp/ng.core';
+import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,13 +7,14 @@ import { Injectable } from '@angular/core';
 })
 export class DashboardService {
   apiName = 'Default';
+  
 
-  getDashboard = () =>
+  getDashboard = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, DashboardDto>({
       method: 'GET',
       url: '/api/app/dashboard/dashboard',
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
 
   constructor(private restService: RestService) {}
 }

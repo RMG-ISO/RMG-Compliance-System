@@ -7,10 +7,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { PolicyService } from '@proxy/policies';
+import { DocumentService } from '@proxy/documents';
 import { EmployeeService } from '@proxy/employees';
-import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
-import {  PolicyStatus  } from '@proxy/policies/policy-status.enum';
+import { documentTypeOptions } from '@proxy/documents/document-type.enum';
+import {  DocumentStatus  } from '@proxy/documents/document-status.enum';
 
 
 @Component({
@@ -20,7 +20,7 @@ import {  PolicyStatus  } from '@proxy/policies/policy-status.enum';
   providers:[ListService]
 })
 export class DocumentViewComponent {
-  PolicyStatus = PolicyStatus;
+  DocumentStatus = DocumentStatus;
 
   constructor(
     public  activatedRoute:ActivatedRoute,
@@ -30,7 +30,7 @@ export class DocumentViewComponent {
     private localizationService:LocalizationService,
     private configState:ConfigStateService,
     private toasterService:ToasterService,
-    private policyService: PolicyService,
+    private documentService: DocumentService,
     private employeeService: EmployeeService,
 
   ) { }
@@ -46,7 +46,7 @@ export class DocumentViewComponent {
  
   getDocument() {
     this.documentData = null;
-    this.policyService.get(this.documentId).subscribe(data => {
+    this.documentService.get(this.documentId).subscribe(data => {
       this.documentData = data;
       this.employeeService.getEmployeeListLookup().subscribe(result => {
         result.items.map(x => this.employeesObj[x.id]=x.fullName)

@@ -91,8 +91,8 @@ const routes: Routes = [
     loadChildren:() => import('./settings/settings.module').then(m => m.SettingsModule)
   },
   {
-    path:'policy',
-    loadChildren:() => import('./policy/policy.module').then(m => m.PolicyModule)
+    path:'documents',
+    loadChildren:() => import('./documents/documents.module').then(m => m.DocumentsModule)
   },
   {
     path:'',

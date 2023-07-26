@@ -3,11 +3,11 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         
         <div>
-            <b>{{ "::Policy:DocumentDetails" | abpLocalization }}</b>
+            <b>{{ "::Document:DocumentDetails" | abpLocalization }}</b>
         </div>
 
         <div>
-            <a mat-flat-button class="mainGreenBg" [routerLink]="['/policy/documents/',documentData?.id, 'edit']" >تعديل  
+            <a mat-flat-button class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >تعديل  
                 <mat-icon>edit</mat-icon>
             </a>
 
@@ -17,7 +17,7 @@
         <table class="table">
             <tr>
                 <td width="25%">
-                    {{ "::Policy:DocumentName" | abpLocalization }}
+                    {{ "::Document:DocumentName" | abpLocalization }}
                 </td>
                 <td >
                     {{ documentData?.nameAr }}
@@ -26,17 +26,17 @@
             </tr>
             <tr>
                 <td>
-                    {{ "::Policy:DocumentType" | abpLocalization }}
+                    {{ "::Document:DocumentType" | abpLocalization }}
                 </td>
                 <td>
-                    {{ PolicyType[documentData?.type]['key'] }}
+                    {{ DocumentType[documentData?.type]['key'] }}
                    
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    {{ "::Policy:DocumentOwners" | abpLocalization }}
+                    {{ "::Document:DocumentOwners" | abpLocalization }}
                 </td>
                 <td>
                     <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
@@ -45,7 +45,7 @@
 
             <tr >
                 <td>
-                    {{ "::Policy:validationStartDate" | abpLocalization }}
+                    {{ "::Document:validationStartDate" | abpLocalization }}
                 </td>
                 <td>
                     {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
@@ -54,7 +54,7 @@
 
             <tr >
                 <td>
-                    {{ "::Policy:validationEndDate" | abpLocalization }}
+                    {{ "::Document:validationEndDate" | abpLocalization }}
                 </td>
                 <td >
                     {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
@@ -63,7 +63,7 @@
 
             <tr >
                 <td>
-                    {{ "::Policy:Revisors" | abpLocalization }}
+                    {{ "::Document:Revisors" | abpLocalization }}
                 </td>
                 <td >
                     <span  *ngFor="let item of documentData?.reviewersIds" class="badge m-1">{{item?.employeeName}}</span>
@@ -72,7 +72,7 @@
 
             <tr >
                 <td>
-                    {{ "::Policy:Approvers" | abpLocalization }}
+                    {{ "::Document:Approvers" | abpLocalization }}
                 </td>
                 <td >
                     <span  *ngFor="let item of documentData?.approversIds" class="badge m-1">{{item?.employeeName}}</span>
@@ -81,7 +81,7 @@
 
             <tr >
                 <td>
-                    {{ "::Policy:Categories" | abpLocalization }}
+                    {{ "::Document:Categories" | abpLocalization }}
                 </td>
                 <td >
                     <span  *ngFor="let item of documentData?.categoryIds" class="badge m-1">{{item?.nameAr}}</span>
@@ -90,7 +90,7 @@
 
             <tr >
                 <td>
-                    {{ "::Policy:Description" | abpLocalization }}
+                    {{ "::Document:Description" | abpLocalization }}
                 </td>
                 <td >
                     {{ documentData?.description }}

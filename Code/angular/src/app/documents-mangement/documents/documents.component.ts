@@ -2,7 +2,7 @@ import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { documentService } from '@proxy/Documents';
+import { DocumentService } from '@proxy/Documents';
 import { DocumentDto } from '@proxy/Documents/dtos';
 import { LocalizationService } from '@abp/ng.core';
 import { saveAs } from 'file-saver';
@@ -26,7 +26,7 @@ export class DocumentsComponent implements OnInit {
   visibleContent:string = 'grid';
 
   constructor(
-    private documentsService:documentService,
+    private documentService:DocumentService,
     public readonly list: ListService,
     private confirmation: ConfirmationService,
     private localizationService:LocalizationService,
@@ -44,7 +44,7 @@ export class DocumentsComponent implements OnInit {
 
 
   getCatogries(search = null) {
-    this.documentsService.getListCategory({search, maxResultCount:null}).subscribe(r => {
+    this.documentService.getAllCategories().subscribe(r => {
       this.catsList = r.items;
     })
   }
@@ -66,7 +66,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   getList() {
-    const streamCreator = (query) => this.documentsService.getList({ ...query, search: this.searchVal, CategoryId:this.selectedCatId });
+    const streamCreator = (query) => this.documentService.getList({ ...query, search: this.searchVal, CategoryId:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       response.items.map(item => {
         let split = item['attachment'].creator.name;
@@ -99,10 +99,10 @@ export class DocumentsComponent implements OnInit {
 
 
   delete(model: DocumentDto) {
-    let title = this.localizationService.currentLang.includes('ar') ?  model.TitleAr : model.TitleEn;
+    let title = model.nameEn;
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [title] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.documentsService.delete(model.id).subscribe(() => this.list.get());
+        this.documentService.delete(model.id).subscribe(() => this.list.get());
       }
     });
   }
@@ -139,7 +139,7 @@ export class DocumentsComponent implements OnInit {
 
   save() {
     if(this.form.invalid) return;
-    const request = this.selected?.id ? this.documentsService.update(this.selected.id, this.form.value) : this.documentsService.create(this.form.value);
+    const request = this.selected?.id ? this.documentService.update(this.selected.id, this.form.value) : this.documentService.create(this.form.value);
     request.subscribe(() => {
       this.isModalOpen = false;
       this.form.reset();

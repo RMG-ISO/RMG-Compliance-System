@@ -1,5 +1,5 @@
 import type { AuthorDto, CreateAuthorDto, GetAuthorListDto, UpdateAuthorDto } from './models';
-import { RestService } from '@abp/ng.core';
+import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
@@ -8,44 +8,49 @@ import { Injectable } from '@angular/core';
 })
 export class AuthorService {
   apiName = 'Default';
+  
 
-  create = (input: CreateAuthorDto) =>
+  create = (input: CreateAuthorDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, AuthorDto>({
       method: 'POST',
       url: '/api/app/author',
       body: input,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  delete = (id: string) =>
+  delete = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'DELETE',
       url: `/api/app/author/${id}`,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  get = (id: string) =>
+  get = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, AuthorDto>({
       method: 'GET',
       url: `/api/app/author/${id}`,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  getList = (input: GetAuthorListDto) =>
+  getList = (input: GetAuthorListDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<AuthorDto>>({
       method: 'GET',
       url: '/api/app/author',
       params: { filter: input.filter, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
+  
 
-  update = (id: string, input: UpdateAuthorDto) =>
+  update = (id: string, input: UpdateAuthorDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/author/${id}`,
       body: input,
     },
-    { apiName: this.apiName });
+    { apiName: this.apiName,...config });
 
   constructor(private restService: RestService) {}
 }

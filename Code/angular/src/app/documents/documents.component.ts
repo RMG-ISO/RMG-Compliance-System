@@ -7,12 +7,12 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentDto } from '@proxy/departments/dtos';
 import { DepartmentService } from '@proxy/departments';
-import { PolicyService } from '@proxy/policies';
+import { DocumentService } from '@proxy/documents';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmployeeService } from '@proxy/employees';
-import {  PolicyStatus  } from '@proxy/policies/policy-status.enum';
+import {  DocumentStatus  } from '@proxy/documents/document-status.enum';
 import { ActivatedRoute, Router } from '@angular/router';
-import { policyTypeOptions } from '@proxy/policies/policy-type.enum';
+import { documentTypeOptions } from '@proxy/documents/document-type.enum';
 import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
@@ -35,11 +35,11 @@ export class DocumentsComponent {
   selected = {} as any;
   form: FormGroup;
   allEmployees;
-  PolicyStatus = PolicyStatus;
-  PolicyType = policyTypeOptions;
+  DocumentStatus = DocumentStatus;
+  DocumentType = documentTypeOptions;
   constructor(
     public readonly list: ListService,
-    private policyService: PolicyService,
+    private documentService: DocumentService,
     public dialog: MatDialog,
     private employeeService: EmployeeService,
     private confirmation: ConfirmationService,
@@ -55,7 +55,7 @@ export class DocumentsComponent {
   }
 
   getList(search = null) {
-    const streamCreator = (query) => this.policyService.getList({...query, search:search});
+    const streamCreator = (query) => this.documentService.getList({...query, search:search});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -65,7 +65,7 @@ export class DocumentsComponent {
   delete(model: DepartmentDto) {
     this.confirmation.warn('::DeletionConfirmationMessage', '::AreYouSure',{messageLocalizationParams:[model.name]}).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
-        this.policyService.delete(model.id).subscribe(() => {
+        this.documentService.delete(model.id).subscribe(() => {
           this.list.get();
           this.toasterService.success('::SuccessfullyDeleted', "");
         });
@@ -93,8 +93,8 @@ export class DocumentsComponent {
     }
 
     const request = this.selected?.id
-      ? this.policyService.update(this.selected.id, this.form.value)
-      : this.policyService.create(this.form.value);
+      ? this.documentService.update(this.selected.id, this.form.value)
+      : this.documentService.create(this.form.value);
 
     request.subscribe(() => {
       this.isModalOpen = false;
