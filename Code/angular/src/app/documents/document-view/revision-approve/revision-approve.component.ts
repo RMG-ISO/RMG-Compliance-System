@@ -35,6 +35,7 @@ export class RevisionApproveComponent implements OnInit {
   documentData:DocumentDto;
   userId;
   
+  
   ngOnInit(): void {
     this.userId = this.configService.getAll().currentUser.id;
 
@@ -59,6 +60,8 @@ export class RevisionApproveComponent implements OnInit {
     // notes
     // status
 
+    this.actionsLog = [...this.documentData.actionsLog]
+
     let actionObj;
     if(this.documentData.status == DocumentStatus.Draft) {
       let canSendToReviewr = false;
@@ -81,8 +84,9 @@ export class RevisionApproveComponent implements OnInit {
       //  }
       }
     } else {
-      if(this.documentData.status == DocumentStatus.UnderReview) {
-        let row = this.addRow();
+      let row
+      if(this.documentData.status == DocumentStatus.UnderReview || this.documentData.status == DocumentStatus.ReturnToCreator) {
+        row = this.addRow();
         for(let reviewer of this.documentData.reviewers) {
           if(reviewer.employeeId == this.userId) {
             if(reviewer.isRequired) {
@@ -98,11 +102,31 @@ export class RevisionApproveComponent implements OnInit {
           }
         }
         console.log(row);
+      } else if (this.documentData.status == DocumentStatus.Accepted) {
+        row = this.addRow();
+        for(let approver of this.documentData.approvers) {
+          if(approver.employeeId == this.userId) {
+            if(approver.isRequired) {
+              console.log('is reqiored')
+              row.role = DocumentRoles.RequiredApprover;
+              row.requiredFunction = this.documentService.finishUserApprovalById
+              row.optionalFunction = this.documentService.sendForApprovalById
+              break;
+            } else {
+              row.role = DocumentRoles.OptionalApprover;
+              row.requiredFunction = this.documentService.finishUserApprovalById
+            }
+          }
+        }
       }
+      if(row) this.actionsLog.push(row)
     }
+
+    this.list.get();
   }
 
   addRow( ) {
+    console.log(this.configService.getAll().currentUser);
     return {
       creationTime:null,
       creatorId:null,
@@ -114,20 +138,20 @@ export class RevisionApproveComponent implements OnInit {
       requiredFunction:null,
       optionalFunction:null,
     }
-
-
   }
 
   items;
   totalCount;
+  actionsLog
   getList() {
-    const streamCreator = (query) => this.listS;
+    const streamCreator = (query) => new BehaviorSubject({items:this.actionsLog, totalCount:this.actionsLog.length});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
     });
   }
 
+  
   listS = new BehaviorSubject({
     items:[
       {
