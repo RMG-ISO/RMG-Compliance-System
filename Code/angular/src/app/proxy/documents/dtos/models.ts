@@ -1,5 +1,6 @@
 import type { DocumentType } from '../document-type.enum';
 import type { CreationAuditedEntityDto, FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { ActionLogType } from '../action-log-type.enum';
 import type { DocumentStatus } from '../document-status.enum';
 import type { NameId } from '../../shared/models';
 import type { DocumentSectionStatus } from '../document-section-status.enum';
@@ -26,6 +27,8 @@ export interface CreateUpdateDocumentSectionDto {
 }
 
 export interface DocumentActionLogDto extends CreationAuditedEntityDto<string> {
+  role?: string;
+  type: ActionLogType;
   creatorName?: string;
   notes?: string;
   status: DocumentStatus;
@@ -71,6 +74,7 @@ export interface DocumentSectionGetListInputDto extends PagedAndSortedResultRequ
   documentId?: string;
 }
 
-export interface RejectWithNotes {
+export interface TakeActionWithNotes {
   notes: string;
+  role?: string;
 }

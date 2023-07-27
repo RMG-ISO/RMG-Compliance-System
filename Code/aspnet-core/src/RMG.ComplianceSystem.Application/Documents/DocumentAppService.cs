@@ -14,6 +14,9 @@ using Volo.Abp.Data;
 using AutoMapper.Internal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.Frameworks.Dtos;
+using RMG.ComplianceSystem.EmailTemplates;
 
 namespace RMG.ComplianceSystem.Documents
 {
@@ -28,6 +31,10 @@ namespace RMG.ComplianceSystem.Documents
         private readonly IRepository<DocumentReviewer, Guid> _documentReviewerRepository;
         private readonly IRepository<DocumentOwner, Guid> _documentOwnerRepository;
         private readonly IRepository<DocumentActionLog, Guid> _actionLogRepository;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly IEmailTemplateAppService _emailTemplateAppService;
+        private readonly INotificationRepository _notificationRepository;
+        private readonly INotificationAppService _notificationAppService;
 
         public DocumentAppService(
             IDocumentRepository repository,
@@ -38,6 +45,10 @@ namespace RMG.ComplianceSystem.Documents
             IRepository<DocumentReviewer, Guid> documentReviewerRepository,
             IRepository<DocumentOwner, Guid> documentOwnerRepository,
             IRepository<DocumentActionLog, Guid> actionLogRepository,
+            IEmailTemplateRepository emailTemplateRepository,
+            IEmailTemplateAppService emailTemplateAppService,
+            INotificationRepository notificationRepository,
+            INotificationAppService notificationAppService,
             IDataFilter dataFilter
             ) : base(repository)
         {
@@ -49,6 +60,10 @@ namespace RMG.ComplianceSystem.Documents
             _documentReviewerRepository = documentReviewerRepository;
             _documentCategoryRepository = documentCategoryRepository;
             _actionLogRepository = actionLogRepository;
+            _emailTemplateRepository = emailTemplateRepository;
+            _emailTemplateAppService = emailTemplateAppService;
+            _notificationRepository = notificationRepository;
+            _notificationAppService = notificationAppService;
         }
 
         public override async Task<DocumentDto> CreateAsync(CreateDocumentDto input)
@@ -90,6 +105,67 @@ namespace RMG.ComplianceSystem.Documents
             return await MapToGetOutputDtoAsync(entity);
         }
 
+        public async Task<ListResultDto<NameId<Guid>>> GetAllCategories()
+        {
+            var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
+
+            return new ListResultDto<NameId<Guid>>(ObjectMapper.Map<List<Category>, List<NameId<Guid>>>(categories));
+        }
+
+
+        [HttpPut]
+        public async Task SendForRevision(Guid id, TakeActionWithNotes input)
+        {
+            var entity = await Repository.GetAsync(id);
+            entity.Status = DocumentStatus.UnderReview;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.UnderReview, input.Role));
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentSentForRevision), entity.Reviewers.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentSentForRevision, NotySource.DocumentSentForRevision, entity);
+        }
+
+        [HttpPut]
+        public async Task ReturnToCreator(Guid id, TakeActionWithNotes input)
+        {
+            var entity = await Repository.GetAsync(id);
+            entity.Status = DocumentStatus.ReturnToCreator;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator, input.Role));
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentReturnedToContributor), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReturnedToContributor, NotySource.DocumentReturnedToContributor, entity);
+
+        }
+
+        [HttpPut]
+        public async Task SendForApproval(Guid id, TakeActionWithNotes input)
+        {
+            var entity = await Repository.GetAsync(id);
+            entity.Status = DocumentStatus.Accepted;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Accepted, input.Role));
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentSentForApproval), entity.Approvers.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentSentForApproval, NotySource.DocumentSentForApproval, entity);
+        }
+
+        [HttpPut]
+        public async Task Approve(Guid id, TakeActionWithNotes input)
+        {
+            var entity = await Repository.GetAsync(id);
+            entity.Status = DocumentStatus.Approved;
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Approved, input.Role));
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentApproved), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApproved, NotySource.DocumentApproved, entity);
+        }
+
+        [HttpPut]
+        public async Task FinishUserRevision(Guid id, TakeActionWithNotes input)
+        {
+            var entity = await Repository.GetAsync(id);
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Accepted, input.Role));
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentReviewedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReviewedByUser, NotySource.DocumentReviewedByUser, entity, CurrentUser.Id);
+        }
+
+        [HttpPut]
+        public async Task FinishUserApproval(Guid id, TakeActionWithNotes input)
+        {
+            var entity = await Repository.GetAsync(id);
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Approved, input.Role));
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentApprovedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApprovedByUser, NotySource.DocumentApprovedByUser, entity, CurrentUser.Id);
+        }
+
         protected override async Task<DocumentDto> MapToGetOutputDtoAsync(Document entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
@@ -104,13 +180,6 @@ namespace RMG.ComplianceSystem.Documents
                     action.CreatorName = (await _employeeRepository.GetAsync(action.CreatorId.Value, false)).FullName;
             }
             return dto;
-        }
-
-        public async Task<ListResultDto<NameId<Guid>>> GetAllCategories()
-        {
-            var categories = (await _categoryRepository.GetQueryableAsync()).ToList();
-
-            return new ListResultDto<NameId<Guid>>(ObjectMapper.Map<List<Category>, List<NameId<Guid>>>(categories));
         }
 
         protected override async Task<IQueryable<Document>> CreateFilteredQueryAsync(DocumentGetListInputDto input)
@@ -183,50 +252,112 @@ namespace RMG.ComplianceSystem.Documents
                 }
         }
 
-        [HttpPut]
-        public async Task SendForRevision(Guid id)
-        {
-            var entity = await Repository.GetAsync(id, false);
-            entity.Status = DocumentStatus.UnderReview;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.UnderReview));
+
+        private async Task NotifyUsersAsync(string emailTemplateKey, List<Guid> receiversIds, NotificationSource notificationSource, NotySource notySource, Document document, Guid? actionById = null)
+        { 
+            List<Notification> notificationList = new List<Notification>();
+
+            var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
+            var employees = (await _employeeRepository.GetQueryableAsync()).Where(e => receiversIds.Contains(e.Id) || e.Id == actionById).ToList();
+            foreach (var receiverId in receiversIds)
+            {
+                var Receiver = employees.FirstOrDefault(x => x.Id == receiverId);
+                //Email Notification
+
+                object emailTemplateModel = null;
+                switch (notificationSource)
+                {
+                    case NotificationSource.DocumentSentForRevision or
+                        NotificationSource.DocumentReturnedToContributor or
+                        NotificationSource.DocumentSentForApproval or
+                        NotificationSource.DocumentApproved:
+                        emailTemplateModel = new DocumentStepAHeadWorkflowEmailDto
+                        {
+                            ReceiverName = Receiver.FullName,
+                            DocumentName = document.Name,
+                            URL = Utility.GetURL(notificationSource, document.Id, null, null)
+                        };
+                        break;
+                    case NotificationSource.DocumentReviewedByUser or
+                        NotificationSource.DocumentApprovedByUser:
+                        {
+                            emailTemplateModel = new DocumentWorkflowActionByUserEmailDto
+                            {
+                                ReceiverName = Receiver.FullName,
+                                DocumentName = document.Name,
+                                URL = Utility.GetURL(notificationSource, document.Id, null, null),
+                                ActionByName = employees.FirstOrDefault(e => e.Id == actionById)?.FullName
+                            };
+                            break;
+                        }
+                    default:
+                        emailTemplateModel = new
+                        {
+
+                        };
+                        break;
+                }
+
+                var expandoData = Utility.ConvertTypeToExpandoObject(emailTemplateModel);
+                var emailTemplateData = await _emailTemplateAppService.RenderTemplate(emailTemplateKey, expandoData);
+
+                var notification = new Notification(
+                    GuidGenerator.Create(),
+                    "Compliance System",
+                    null,
+                    Receiver.Email,
+                    null,
+                    null,
+                    emailTemplate.Subject,
+                    Priority.Normal,
+                    NotificationType.Email,
+                    Notifications.Status.Created,
+                    Clock.Now,
+                    emailTemplateData.Body,
+                    true,
+                    true,
+                    null,
+                    null,
+                    null,
+                    null,
+                    false
+                );
+                notificationList.Add(notification);
+
+                //Push Notification
+
+                var PushNotification = new Notification(
+                    Guid.NewGuid(),
+                    "ComplianceSystem",
+                    null,
+                    Receiver.Id.ToString(),
+                    null,
+                    null,
+                    emailTemplate.Subject,
+                    Priority.Normal,
+                    NotificationType.Push,
+                    Notifications.Status.NotSeen,
+                    Clock.Now,
+                    emailTemplate.NotificationBody,
+                    true,
+                    true,
+                    null,
+                    Utility.GetURL(notificationSource, document.Id, null, null),
+                    notySource,
+                    null,
+                    false
+                );
+                notificationList.Add(PushNotification);
+            }
+
+            await _notificationRepository.InsertManyAsync(notificationList, true);
+            foreach (var not in notificationList.Where(t => t.Type == NotificationType.Push))
+            {
+                await _notificationAppService.NotifyUser(Guid.Parse(not.To));
+
+            }
         }
 
-        [HttpPut]
-        public async Task ReturnToCreator(Guid id, RejectWithNotes input)
-        {
-            var entity = await Repository.GetAsync(id, false);
-            entity.Status = DocumentStatus.ReturnToCreator;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator));
-        }
 
-        [HttpPut]
-        public async Task SendForApproval(Guid id)
-        {
-            var entity = await Repository.GetAsync(id, false);
-            entity.Status = DocumentStatus.Accepted;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Accepted));
-        }
-
-        [HttpPut]
-        public async Task Approve(Guid id)
-        {
-            var entity = await Repository.GetAsync(id, false);
-            entity.Status = DocumentStatus.Approved;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Approved));
-        }
-
-        [HttpPut]
-        public async Task FinishUserRevision(Guid id)
-        {
-            var entity = await Repository.GetAsync(id, false);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Accepted));
-        }
-
-        [HttpPut]
-        public async Task FinishUserApproval(Guid id)
-        {
-            var entity = await Repository.GetAsync(id, false);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Approved));
-        }
     }
 }

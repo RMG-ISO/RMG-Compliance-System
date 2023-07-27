@@ -92,9 +92,9 @@ namespace RMG.ComplianceSystem.Frameworks
             _frameworkEmployeeRepository = frameworkEmployeeRepository;
             _emailTemplateRepository = emailTemplateRepository;
             _emailTemplateAppService = emailTemplateAppService;
-            _employeeRepository = employeeRepository;
             _notificationRepository = notificationRepository;
             _notificationAppService = notificationAppService;
+            _employeeRepository = employeeRepository;
             _configuration = configuration;
             _departmentRepository = departmentRepository;
             _frameworkManager = frameworkManager;

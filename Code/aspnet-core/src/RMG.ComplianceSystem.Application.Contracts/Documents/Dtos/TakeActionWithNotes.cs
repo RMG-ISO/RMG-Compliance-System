@@ -5,9 +5,10 @@ using System.Text;
 
 namespace RMG.ComplianceSystem.Documents.Dtos
 {
-    public class RejectWithNotes
+    public class TakeActionWithNotes
     {
         [Required]
         public string Notes { get; set; }
+        public string Role { get; set; }
     }
 }

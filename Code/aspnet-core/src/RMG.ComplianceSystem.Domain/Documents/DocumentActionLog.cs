@@ -10,6 +10,8 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         public Guid DocumentId { get; set; }
         public Document Document { get; set; }
 
+        public string Role { get; set; }
+        public ActionLogType Type { get; set; }
         public string Notes { get; set; }
         public DocumentStatus Status { get; set; }
 
@@ -18,11 +20,12 @@ namespace RMG.ComplianceSystem.Documents.Dtos
             
         }
 
-        public DocumentActionLog(Guid id, Guid documentId, string notes, DocumentStatus status)        {
+        public DocumentActionLog(Guid id, Guid documentId, string notes, DocumentStatus status, string role)        {
             Id = id;
             DocumentId = documentId;
             Notes = notes;
             Status = status;
+            Role = role;
         }
 
     }
