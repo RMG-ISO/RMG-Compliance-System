@@ -39,10 +39,15 @@ namespace RMG.ComplianceSystem.Notifications
         FrameworkApproveCompliance,
         FrameworkCreatedForReviewer,
         FrameworkCreatedForApprover,
-        FrameworkCreatedForOwner
+        FrameworkCreatedForOwner,
         //Compilance,
         //Document,
-
+        DocumentSentForRevision,
+        DocumentReturnedToContributor,
+        DocumentReviewedByUser,
+        DocumentSentForApproval,
+        DocumentApprovedByUser,
+        DocumentApproved,
     }
 
 }
