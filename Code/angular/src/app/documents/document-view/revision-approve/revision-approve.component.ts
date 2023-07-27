@@ -14,6 +14,13 @@ enum DocumentRoles {
   OptionalApprover = "OptionalApprover",
 }
 
+enum Actions {
+  NoAction = "NoAction",
+  ReturnToCreator = "ReturnToCreator",
+  Approve = "Approve",
+  Finish = "Finish"
+}
+
 @Component({
   selector: 'app-revision-approve',
   templateUrl: './revision-approve.component.html',
@@ -22,7 +29,8 @@ enum DocumentRoles {
 })
 export class RevisionApproveComponent implements OnInit {
   DocumentStatus = DocumentStatus;
-
+  Actions = Actions;
+  
   constructor(
     public readonly list: ListService,
     public  matDialog: MatDialog,
@@ -127,6 +135,7 @@ export class RevisionApproveComponent implements OnInit {
 
   addRow( ) {
     console.log(this.configService.getAll().currentUser);
+
     return {
       creationTime:null,
       creatorId:null,
@@ -135,8 +144,9 @@ export class RevisionApproveComponent implements OnInit {
       notes:null,
       status:this.documentData.status,
       role:null,
-      requiredFunction:null,
-      optionalFunction:null,
+      requiredFunction:null, // means at least finish function 
+      optionalFunction:null, // means the approve function
+      action:Actions.NoAction
     }
   }
 
@@ -198,9 +208,14 @@ export class RevisionApproveComponent implements OnInit {
     totalCount:5
   })
 
-  takeAction(funcName) {
-    this.documentService[funcName](this.documentData.id).subscribe(r => {
+  takeAction(func) {
+    func(this.documentData.id).subscribe(r => {
       console.log(r);
     })
   }
+
+  returnToCreator() {
+    
+  }
+
 }
