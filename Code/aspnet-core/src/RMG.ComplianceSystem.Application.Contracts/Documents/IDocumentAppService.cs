@@ -18,12 +18,12 @@ namespace RMG.ComplianceSystem.Documents
     {
         Task<ListResultDto<NameId<Guid>>> GetAllCategories();
 
-        Task SendForRevision(Guid id);
-        Task ReturnToCreator(Guid id, RejectWithNotes input);
-        Task SendForApproval(Guid id);
-        Task Approve(Guid id);
+        Task SendForRevision(Guid id, TakeActionWithNotes input);
+        Task ReturnToCreator(Guid id, TakeActionWithNotes input);
+        Task SendForApproval(Guid id, TakeActionWithNotes input);
+        Task Approve(Guid id, TakeActionWithNotes input);
 
-        Task FinishUserRevision(Guid id);
-        Task FinishUserApproval(Guid id);
+        Task FinishUserRevision(Guid id, TakeActionWithNotes input);
+        Task FinishUserApproval(Guid id, TakeActionWithNotes input);
     }
 }

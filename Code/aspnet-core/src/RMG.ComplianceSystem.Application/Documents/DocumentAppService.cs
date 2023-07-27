@@ -114,55 +114,55 @@ namespace RMG.ComplianceSystem.Documents
 
 
         [HttpPut]
-        public async Task SendForRevision(Guid id)
+        public async Task SendForRevision(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.UnderReview;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.UnderReview));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.UnderReview, input.Role));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentSentForRevision), entity.Reviewers.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentSentForRevision, NotySource.DocumentSentForRevision, entity);
         }
 
         [HttpPut]
-        public async Task ReturnToCreator(Guid id, RejectWithNotes input)
+        public async Task ReturnToCreator(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.ReturnToCreator;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator, input.Role));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentReturnedToContributor), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReturnedToContributor, NotySource.DocumentReturnedToContributor, entity);
 
         }
 
         [HttpPut]
-        public async Task SendForApproval(Guid id)
+        public async Task SendForApproval(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.Accepted;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Accepted));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Accepted, input.Role));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentSentForApproval), entity.Approvers.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentSentForApproval, NotySource.DocumentSentForApproval, entity);
         }
 
         [HttpPut]
-        public async Task Approve(Guid id)
+        public async Task Approve(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.Approved;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Approved));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Approved, input.Role));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentApproved), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApproved, NotySource.DocumentApproved, entity);
         }
 
         [HttpPut]
-        public async Task FinishUserRevision(Guid id)
+        public async Task FinishUserRevision(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Accepted));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Accepted, input.Role));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentReviewedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReviewedByUser, NotySource.DocumentReviewedByUser, entity, CurrentUser.Id);
         }
 
         [HttpPut]
-        public async Task FinishUserApproval(Guid id)
+        public async Task FinishUserApproval(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, null, DocumentStatus.Approved));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Approved, input.Role));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentApprovedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApprovedByUser, NotySource.DocumentApprovedByUser, entity, CurrentUser.Id);
         }
 
