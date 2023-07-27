@@ -1,8 +1,8 @@
 import { ConfigStateService, ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DocumentService, DocumentStatus } from '@proxy/Documents';
-import { DocumentDto } from '@proxy/Documents/dtos';
+import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/Documents';
+import { DocumentActionLogDto, DocumentDto } from '@proxy/Documents/dtos';
 import { BehaviorSubject } from 'rxjs';
 
 enum DocumentRoles {
@@ -14,12 +14,12 @@ enum DocumentRoles {
   OptionalApprover = "OptionalApprover",
 }
 
-enum Actions {
-  NoAction = "NoAction",
-  ReturnToCreator = "ReturnToCreator",
-  Approve = "Approve",
-  Finish = "Finish"
-}
+// enum Actions {
+//   NoAction = "NoAction",
+//   ReturnToCreator = "ReturnToCreator",
+//   Approve = "Approve",
+//   Finish = "Finish"
+// }
 
 @Component({
   selector: 'app-revision-approve',
@@ -29,7 +29,7 @@ enum Actions {
 })
 export class RevisionApproveComponent implements OnInit {
   DocumentStatus = DocumentStatus;
-  Actions = Actions;
+  ActionLogType = ActionLogType;
   
   constructor(
     public readonly list: ListService,
@@ -70,7 +70,22 @@ export class RevisionApproveComponent implements OnInit {
 
     this.actionsLog = [...this.documentData.actionsLog]
 
-    let actionObj;
+    if(this.actionsLog.length) {
+      let startStatus = this.actionsLog[this.actionsLog.length - 1].status,
+          onlyVisibleActions = [];
+      for(let i = this.actionsLog.length - 1; i >= 0; i--) {
+        if(this.actionsLog[i].status !== startStatus ) {
+          break;
+        } else {
+          onlyVisibleActions.unshift(this.actionsLog[i]);
+          if(this.actionsLog[i].creatorId == this.userId) {
+
+          }
+        }
+      }
+      console.log('onlyVisibleActions', onlyVisibleActions);
+    }
+    
     if(this.documentData.status == DocumentStatus.Draft) {
       let canSendToReviewr = false;
       if(this.documentData.creatorId == this.userId) {
@@ -100,12 +115,12 @@ export class RevisionApproveComponent implements OnInit {
             if(reviewer.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredReviewr;
-              row.requiredFunction = this.documentService.finishUserRevisionById
-              row.optionalFunction = this.documentService.sendForRevisionById
+              row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
+              row.optionalFunction = this.documentService.sendForRevisionByIdAndInput
               break;
             } else {
               row.role = DocumentRoles.OptionalReviewr;
-              row.requiredFunction = this.documentService.finishUserRevisionById
+              row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
             }
           }
         }
@@ -117,12 +132,12 @@ export class RevisionApproveComponent implements OnInit {
             if(approver.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredApprover;
-              row.requiredFunction = this.documentService.finishUserApprovalById
-              row.optionalFunction = this.documentService.sendForApprovalById
+              row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
+              row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
               break;
             } else {
               row.role = DocumentRoles.OptionalApprover;
-              row.requiredFunction = this.documentService.finishUserApprovalById
+              row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
             }
           }
         }
@@ -146,13 +161,13 @@ export class RevisionApproveComponent implements OnInit {
       role:null,
       requiredFunction:null, // means at least finish function 
       optionalFunction:null, // means the approve function
-      action:Actions.NoAction
+      action:ActionLogType.NoAction
     }
   }
 
   items;
   totalCount;
-  actionsLog
+  actionsLog:DocumentActionLogDto[]
   getList() {
     const streamCreator = (query) => new BehaviorSubject({items:this.actionsLog, totalCount:this.actionsLog.length});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
@@ -162,60 +177,21 @@ export class RevisionApproveComponent implements OnInit {
   }
 
   
-  listS = new BehaviorSubject({
-    items:[
-      {
-        name:'name 1',
-        role: 'مراجع',
-        action:'موافقة',
-        date:'2023/7/25',
-        status:1,
-        notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat'
-      },
-      {
-        name:'name 2',
-        role: 'مراجع',
-        action:'موافقة',
-        date:'2023/7/25',
-        status:2,
-        notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita'
-      },
-      {
-        name:'name 3',
-        role: 'مراجع',
-        action:'موافقة',
-        date:'2023/7/25',
-        status:1,
-        notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita'
-      },
-      {
-        name:'name 4',
-        role: 'مراجع',
-        action:'موافقة',
-        date:'2023/7/25',
-        status:1,
-        notes:'Lorem ipsum dolor sit amet, consetetur. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita'
-      },
-      {
-        name:'name 5',
-        role: 'مراجع',
-        action:'موافقة',
-        date:'2023/7/25',
-        status:1,
-        notes:'Lorem ipsum dolor sit amet dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita'
-      },
-    ],
-    totalCount:5
-  })
-
-  takeAction(func) {
-    func(this.documentData.id).subscribe(r => {
+  takeAction(row, func) {
+    func(this.documentData.id, {
+      role:row.role
+    }).subscribe(r => {
       console.log(r);
     })
   }
 
-  returnToCreator() {
-    
+  returnToCreator(row) {
+    this.documentService.returnToCreatorByIdAndInput(this.documentData.id, {
+      notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor',
+      role:row.role
+    }).subscribe(r => {
+      console.log(r);
+    })
   }
 
 }

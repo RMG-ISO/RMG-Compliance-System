@@ -38,16 +38,16 @@ appNgxdatatable>
         <ng-template let-row="row" ngx-datatable-cell-template>
            <div class="table-actions" *ngIf="row.requiredFunction || row.optionalFunction">
                 <span style="width: 40px;">
-                    <button mat-button *ngIf="row.optionalFunction && row.action == Actions.Finish" (click)="takeAction(row.optionalFunction)">
+                    <button mat-button *ngIf="row.optionalFunction && row.action == ActionLogType.Finish" (click)="takeAction(row, row.optionalFunction)">
                         <mat-icon class="ms-0 me-0 send" color="accent">send</mat-icon>
                     </button>
                 </span>
 
-                <ng-container *ngIf="row.requiredFunction && row.action == Actions.NoAction">
-                    <button mat-button (click)="takeAction(row.optionalFunction)">
+                <ng-container *ngIf="row.requiredFunction && row.action == ActionLogType.NoAction">
+                    <button mat-button (click)="takeAction(row, row.optionalFunction)">
                         <mat-icon class="ms-0 me-0" color="primary">done</mat-icon>
                     </button>
-                    <button mat-button (click)="returnToCreator()">
+                    <button mat-button (click)="returnToCreator(row)">
                         <mat-icon class="ms-0 me-0" color="warn">close</mat-icon>
                     </button>
                 </ng-container>
