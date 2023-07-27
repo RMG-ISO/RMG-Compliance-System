@@ -1,16 +1,10 @@
-import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
-import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ListService } from '@abp/ng.core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
-import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { DocumentService } from '@proxy/documents';
+import { DocumentService } from '@proxy/Documents';
 import { EmployeeService } from '@proxy/employees';
-import { documentTypeOptions } from '@proxy/documents/document-type.enum';
-import {  DocumentStatus  } from '@proxy/documents/document-status.enum';
+import {  DocumentStatus  } from '@proxy/Documents';
 
 
 @Component({
@@ -24,12 +18,7 @@ export class DocumentViewComponent {
 
   constructor(
     public  activatedRoute:ActivatedRoute,
-    private router:Router,
     public  matDialog: MatDialog,
-    private confirmation: ConfirmationService,
-    private localizationService:LocalizationService,
-    private configState:ConfigStateService,
-    private toasterService:ToasterService,
     private documentService: DocumentService,
     private employeeService: EmployeeService,
 

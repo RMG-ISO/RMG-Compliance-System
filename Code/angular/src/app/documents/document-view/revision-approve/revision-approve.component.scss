@@ -22,10 +22,18 @@
             &.send {
                 color: #336B82;
                 transform: rotate(-33deg);
-                margin-top: -8px;
+                margin-top: -8px !important;
                 font-size: 21px;
                 height: 20px;
             }
+        }
+    }
+}
+
+:host {
+    ngx-datatable ::ng-deep {
+        datatable-body {
+            height: 100% !important;
         }
     }
 }

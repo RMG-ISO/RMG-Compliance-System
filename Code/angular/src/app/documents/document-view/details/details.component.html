@@ -66,7 +66,7 @@
                     {{ "::Document:Revisors" | abpLocalization }}
                 </td>
                 <td >
-                    <span  *ngFor="let item of documentData?.reviewersIds" class="badge m-1">{{item?.employeeName}}</span>
+                    <span  *ngFor="let item of documentData?.reviewers" class="badge m-1">{{item?.name}}</span>
                 </td>
             </tr>
 
@@ -75,7 +75,7 @@
                     {{ "::Document:Approvers" | abpLocalization }}
                 </td>
                 <td >
-                    <span  *ngFor="let item of documentData?.approversIds" class="badge m-1">{{item?.employeeName}}</span>
+                    <span  *ngFor="let item of documentData?.approvers" class="badge m-1">{{item?.name}}</span>
                 </td>
             </tr>
 
