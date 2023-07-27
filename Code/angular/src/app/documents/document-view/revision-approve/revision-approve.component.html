@@ -1,8 +1,13 @@
 <ngx-datatable
 class="material fullscreen"
 [rows]="items"
-[count]="totalCount"
 [list]="list"
+[footerHeight]="0"
+[externalPaging]="true"
+[count]="100"
+[limit]="100"
+scrollbarV="true"
+[columnMode]="ColumnMode.force"
 appNgxdatatable>
 
     <ngx-datatable-column [name]="'::اسم الشخص' | abpLocalization" prop="creatorName"> </ngx-datatable-column>
@@ -38,13 +43,17 @@ appNgxdatatable>
         <ng-template let-row="row" ngx-datatable-cell-template>
            <div class="table-actions" *ngIf="row.requiredFunction || row.optionalFunction">
                 <span style="width: 40px;">
-                    <button mat-button *ngIf="row.optionalFunction && row.action == ActionLogType.Finish" (click)="takeAction(row, row.optionalFunction)">
+                    <!--   *ngIf=" (row.optionalFunction && row.type == ActionLogType.Finish) || -->
+                    <button mat-button 
+                    *ngIf=" (row.optionalFunction && row.creationTime) ||
+                    (documentData.status == DocumentStatus.Draft || documentData.status == DocumentStatus.ReturnToCreator)" (click)="takeAction(row, row.optionalFunction)">
                         <mat-icon class="ms-0 me-0 send" color="accent">send</mat-icon>
                     </button>
                 </span>
 
-                <ng-container *ngIf="row.requiredFunction && row.action == ActionLogType.NoAction">
-                    <button mat-button (click)="takeAction(row, row.optionalFunction)">
+                <!-- <ng-container *ngIf="row.requiredFunction && row.type == ActionLogType.NoAction"> -->
+                <ng-container *ngIf="row.requiredFunction && !row.creationTime">
+                    <button mat-button (click)="takeAction(row, row.requiredFunction)">
                         <mat-icon class="ms-0 me-0" color="primary">done</mat-icon>
                     </button>
                     <button mat-button (click)="returnToCreator(row)">

@@ -29,3 +29,11 @@
         }
     }
 }
+
+:host {
+    ngx-datatable ::ng-deep {
+        datatable-body {
+            height: 100% !important;
+        }
+    }
+}

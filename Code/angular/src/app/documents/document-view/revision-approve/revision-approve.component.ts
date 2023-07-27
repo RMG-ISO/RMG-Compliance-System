@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/Documents';
 import { DocumentActionLogDto, DocumentDto } from '@proxy/Documents/dtos';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 
 enum DocumentRoles {
@@ -30,7 +31,7 @@ enum DocumentRoles {
 export class RevisionApproveComponent implements OnInit {
   DocumentStatus = DocumentStatus;
   ActionLogType = ActionLogType;
-  
+  ColumnMode = ColumnMode;
   constructor(
     public readonly list: ListService,
     public  matDialog: MatDialog,
@@ -46,77 +47,64 @@ export class RevisionApproveComponent implements OnInit {
   
   ngOnInit(): void {
     this.userId = this.configService.getAll().currentUser.id;
-
     this.getList();
-
-    // Draft = 0,
-    // UnderReview = 1,
-    // Accepted = 2,
-    // ReturnToCreator = 3,
-    // Approved = 4,
-    // Published = 5,
-    // Acknowledgment = 6,
-    // Implemented = 7,
-    // UnderMonitoring = 8,
-    // Retired = 9,
-
-
-    // creationTime
-    // creatorId
-    // creatorName
-    // id
-    // notes
-    // status
-
     this.actionsLog = [...this.documentData.actionsLog]
 
     if(this.actionsLog.length) {
-      let startStatus = this.actionsLog[this.actionsLog.length - 1].status,
-          onlyVisibleActions = [];
+      let indcies = [];
       for(let i = this.actionsLog.length - 1; i >= 0; i--) {
-        if(this.actionsLog[i].status !== startStatus ) {
+        if(this.actionsLog[i].status !== this.documentData.status ) {
           break;
         } else {
-          onlyVisibleActions.unshift(this.actionsLog[i]);
           if(this.actionsLog[i].creatorId == this.userId) {
-
+            indcies.push(i);
           }
         }
       }
-      console.log('onlyVisibleActions', onlyVisibleActions);
-    }
-    
-    if(this.documentData.status == DocumentStatus.Draft) {
-      let canSendToReviewr = false;
-      if(this.documentData.creatorId == this.userId) {
-        canSendToReviewr = true;
-      } else if( this.documentData.owners.find(item => item.id == this.userId) ) {
-        canSendToReviewr = true;
-      }
 
-      if(canSendToReviewr) {
-        console.log('yeah can add');
-       'sendForRevisionById'
-      //  actionObj = {
-      //   creationTime
-      //   creatorId
-      //   creatorName
-      //   id
-      //   notes
-      //   status
-      //  }
+      console.log('indcies', indcies);
+      if(indcies.length) {
+        console.log('getting in elese')
+        let currentRow = this.actionsLog[indcies[0]];
+        this.addFunctionsAndData(currentRow);
+      } else {
+        console.log('getting in elese')
+        let row = this.addFunctionsAndData(this.addRow());
+        if(row.role) this.actionsLog.push(row as any)
       }
     } else {
-      let row
-      if(this.documentData.status == DocumentStatus.UnderReview || this.documentData.status == DocumentStatus.ReturnToCreator) {
-        row = this.addRow();
+      let row = this.addFunctionsAndData(this.addRow());
+      if(row.role) this.actionsLog.push(row as any)
+    }
+
+    this.list.get();
+  }
+
+  addFunctionsAndData(row) {
+    if(this.documentData.status == DocumentStatus.Draft || this.documentData.status == DocumentStatus.ReturnToCreator) {
+      // let canSendToReviewr = false;
+      if(this.documentData.creatorId == this.userId) {
+        // canSendToReviewr = true;
+        row.role = DocumentRoles.Creator;
+        row.optionalFunction = this.documentService.sendForRevisionByIdAndInput;
+        console.log('row.role')
+      } else if( this.documentData.owners.find(item => item.id == this.userId) ) {
+        // canSendToReviewr = true;
+        row.role = DocumentRoles.Owner;
+        row.optionalFunction = this.documentService.sendForRevisionByIdAndInput;
+        console.log('row.role')
+      }
+      console.log('row', row)
+    } else {
+      if(this.documentData.status == DocumentStatus.UnderReview) {
+        console.log('under review')
         for(let reviewer of this.documentData.reviewers) {
           if(reviewer.employeeId == this.userId) {
             if(reviewer.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredReviewr;
               row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
-              row.optionalFunction = this.documentService.sendForRevisionByIdAndInput
+              row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
               break;
             } else {
               row.role = DocumentRoles.OptionalReviewr;
@@ -126,14 +114,13 @@ export class RevisionApproveComponent implements OnInit {
         }
         console.log(row);
       } else if (this.documentData.status == DocumentStatus.Accepted) {
-        row = this.addRow();
         for(let approver of this.documentData.approvers) {
           if(approver.employeeId == this.userId) {
             if(approver.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredApprover;
               row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
-              row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
+              row.optionalFunction = this.documentService.approveByIdAndInput
               break;
             } else {
               row.role = DocumentRoles.OptionalApprover;
@@ -142,10 +129,9 @@ export class RevisionApproveComponent implements OnInit {
           }
         }
       }
-      if(row) this.actionsLog.push(row)
     }
-
-    this.list.get();
+    
+    return row;
   }
 
   addRow( ) {
@@ -173,13 +159,17 @@ export class RevisionApproveComponent implements OnInit {
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
+      console.log(this.items)
     });
   }
 
   
   takeAction(row, func) {
+    console.log(row)
+    console.log(func)
     func(this.documentData.id, {
-      role:row.role
+      role:row.role,
+      notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor',
     }).subscribe(r => {
       console.log(r);
     })
@@ -195,3 +185,61 @@ export class RevisionApproveComponent implements OnInit {
   }
 
 }
+
+
+/*
+ createRow() {
+    let row = this.addRow()
+
+    if(this.documentData.status == DocumentStatus.Draft || this.documentData.status == DocumentStatus.ReturnToCreator) {
+      // let canSendToReviewr = false;
+      if(this.documentData.creatorId == this.userId) {
+        // canSendToReviewr = true;
+        row.role = DocumentRoles.Creator;
+        row.requiredFunction = this.documentService.sendForRevisionByIdAndInput;
+        console.log('row.role')
+      } else if( this.documentData.owners.find(item => item.id == this.userId) ) {
+        // canSendToReviewr = true;
+        row.role = DocumentRoles.Owner;
+        row.requiredFunction = this.documentService.sendForRevisionByIdAndInput;
+        console.log('row.role')
+      }
+    } else {
+
+      if(this.documentData.status == DocumentStatus.UnderReview) {
+        for(let reviewer of this.documentData.reviewers) {
+          if(reviewer.employeeId == this.userId) {
+            if(reviewer.isRequired) {
+              console.log('is reqiored')
+              row.role = DocumentRoles.RequiredReviewr;
+              row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
+              row.optionalFunction = this.documentService.sendForRevisionByIdAndInput
+              break;
+            } else {
+              row.role = DocumentRoles.OptionalReviewr;
+              row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
+            }
+          }
+        }
+        console.log(row);
+      } else if (this.documentData.status == DocumentStatus.Accepted) {
+        for(let approver of this.documentData.approvers) {
+          if(approver.employeeId == this.userId) {
+            if(approver.isRequired) {
+              console.log('is reqiored')
+              row.role = DocumentRoles.RequiredApprover;
+              row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
+              row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
+              break;
+            } else {
+              row.role = DocumentRoles.OptionalApprover;
+              row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
+            }
+          }
+        }
+      }
+    }
+
+    if(row.role) this.actionsLog.push(row as any)
+  }
+*/
