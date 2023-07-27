@@ -5,6 +5,15 @@ import { DocumentService, DocumentStatus } from '@proxy/Documents';
 import { DocumentDto } from '@proxy/Documents/dtos';
 import { BehaviorSubject } from 'rxjs';
 
+enum DocumentRoles {
+  Creator = "Creator",
+  Owner = "Owner",
+  RequiredReviewr = "RequiredReviewr",
+  OptionalReviewr = "OptionalReviewr",
+  RequiredApprover = "RequiredApprover",
+  OptionalApprover = "OptionalApprover",
+}
+
 @Component({
   selector: 'app-revision-approve',
   templateUrl: './revision-approve.component.html',
@@ -24,7 +33,8 @@ export class RevisionApproveComponent implements OnInit {
   ) { }
 
   documentData:DocumentDto;
-  userId
+  userId;
+  
   ngOnInit(): void {
     this.userId = this.configService.getAll().currentUser.id;
 
@@ -70,8 +80,42 @@ export class RevisionApproveComponent implements OnInit {
       //   status
       //  }
       }
+    } else {
+      if(this.documentData.status == DocumentStatus.UnderReview) {
+        let row = this.addRow();
+        for(let reviewer of this.documentData.reviewers) {
+          if(reviewer.id == this.userId) {
+            if(reviewer.isRequired) {
+              console.log('is reqiored')
+              row.role = DocumentRoles.RequiredReviewr;
+              row.requiredFunction = this.documentService.finishUserRevisionById
+              row.optionalFunction = this.documentService.sendForRevisionById
+              break;
+            } else {
+              row.role = DocumentRoles.OptionalReviewr;
+              row.requiredFunction = this.documentService.finishUserRevisionById
+            }
+          }
+        }
+        console.log(row);
+      }
     }
-    
+  }
+
+  addRow( ) {
+    return {
+      creationTime:null,
+      creatorId:null,
+      creatorName: this.configService.getAll().currentUser.name,
+      id:this.userId,
+      notes:null,
+      status:this.documentData.status,
+      role:null,
+      requiredFunction:null,
+      optionalFunction:null,
+    }
+
+
   }
 
   items;
