@@ -79,15 +79,16 @@ export class DocumentCreateComponent implements OnInit{
       DocumentData['requiredApproversIds'] = []
 
       DocumentData.reviewers.map(u => {
-        if(u.isRequired) DocumentData['requiredReviewersIds'].push(u);
-        else DocumentData['optionalReviewersIds'].push(u);
+        if(u.isRequired) DocumentData['requiredReviewersIds'].push(u.employeeId);
+        else DocumentData['optionalReviewersIds'].push(u.employeeId);
       });
 
       DocumentData.approvers.map(u => {
-        if(u.isRequired) DocumentData['requiredApproversIds'].push(u);
-        else DocumentData['optionalApproversIds'].push(u);
+        if(u.isRequired) DocumentData['requiredApproversIds'].push(u.employeeId);
+        else DocumentData['optionalApproversIds'].push(u.employeeId);
       });
 
+      console.log(DocumentData);
 
       // DocumentData['optionalReviewersIds'] = DocumentData?.optionalReviewersIds?.map(t=>t.employeeId)
       // DocumentData['requiredReviewersIds'] = DocumentData?.requiredReviewersIds?.map(t=>t.employeeId)

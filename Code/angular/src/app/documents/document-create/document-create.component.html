@@ -128,14 +128,14 @@
                 <label for="requiredReviewersIds">{{ "::RequiredReviewers" | abpLocalization }}</label><span> * </span>
                 <ng-select id="requiredReviewersIds" class="d-block" [searchable]="false" multiple="true" 
                     formControlName="requiredReviewersIds" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.name}}</ng-option>
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
             <div class="col-md-12 form-group">
                 <label for="optionalReviewersIds">{{ "::OptionalReviewers" | abpLocalization }}</label><span> * </span>
                 <ng-select id="optionalReviewersIds" class="d-block" [searchable]="false" multiple="true" 
                     formControlName="optionalReviewersIds" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.name}}</ng-option>
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
 
@@ -144,14 +144,14 @@
                 <label for="requiredApproversIds">{{ "::RequiredApprovers" | abpLocalization }}</label><span> * </span>
                 <ng-select id="requiredApproversIds" class="d-block" [searchable]="false" formControlName="requiredApproversIds" *ngIf="allEmployees"
                     multiple="true" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.name}}</ng-option>
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
             <div class="col-md-12 form-group">
                 <label for="optionalApproversIds">{{ "::OptionalApprovers" | abpLocalization }}</label><span> * </span>
                 <ng-select id="optionalApproversIds" class="d-block" [searchable]="false" formControlName="optionalApproversIds" *ngIf="allEmployees"
                     multiple="true" [clearable]="true">
-                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.name}}</ng-option>
+                    <ng-option *ngFor="let emp of allEmployees" [value]="emp.id">{{emp?.fullName}}</ng-option>
                 </ng-select>
             </div>
         </div>

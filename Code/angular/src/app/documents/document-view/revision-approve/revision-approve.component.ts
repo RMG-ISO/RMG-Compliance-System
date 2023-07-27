@@ -84,7 +84,7 @@ export class RevisionApproveComponent implements OnInit {
       if(this.documentData.status == DocumentStatus.UnderReview) {
         let row = this.addRow();
         for(let reviewer of this.documentData.reviewers) {
-          if(reviewer.id == this.userId) {
+          if(reviewer.employeeId == this.userId) {
             if(reviewer.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredReviewr;
