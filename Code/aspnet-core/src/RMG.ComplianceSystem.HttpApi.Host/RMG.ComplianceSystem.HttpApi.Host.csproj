@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\RMG.ComplianceSystem.Subscription\RMG.ComplianceSystem.Subscription.csproj" />
     <ProjectReference Include="..\RMG.ComplianceSystem.Application\RMG.ComplianceSystem.Application.csproj" />
     <ProjectReference Include="..\RMG.ComplianceSystem.EntityFrameworkCore\RMG.ComplianceSystem.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\RMG.ComplianceSystem.HttpApi\RMG.ComplianceSystem.HttpApi.csproj" />

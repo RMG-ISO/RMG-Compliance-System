@@ -29,6 +29,7 @@ using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.AspNetCore.SignalR;
+using RMG.ComplianceSystem.Subscription;
 
 namespace RMG.ComplianceSystem
 {
@@ -203,6 +204,9 @@ namespace RMG.ComplianceSystem
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            string redirectUrl = context.GetConfiguration().GetSection("App").GetValue(typeof(string), "ClientUrl").ToString() + "/subscription";
+            app.UseMiddleware<SubscriptionMiddleware>(redirectUrl);
 
             app.UseAbpRequestLocalization();
 
