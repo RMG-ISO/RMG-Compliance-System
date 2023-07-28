@@ -20,12 +20,13 @@ namespace RMG.ComplianceSystem.Documents.Dtos
             
         }
 
-        public DocumentActionLog(Guid id, Guid documentId, string notes, DocumentStatus status, string role)        {
+        public DocumentActionLog(Guid id, Guid documentId, string notes, DocumentStatus status, string role, ActionLogType type = ActionLogType.NoAction)        {
             Id = id;
             DocumentId = documentId;
             Notes = notes;
             Status = status;
             Role = role;
+            Type = type;
         }
 
     }
