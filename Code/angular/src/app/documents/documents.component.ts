@@ -6,12 +6,12 @@ import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentDto } from '@proxy/departments/dtos';
-import { DocumentService } from '@proxy/Documents';
+import { DocumentService } from '@proxy/documents';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmployeeService } from '@proxy/employees';
-import {  DocumentStatus  } from '@proxy/Documents';
+import {  DocumentStatus  } from '@proxy/documents';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentType } from '@proxy/Documents';
+import { DocumentType } from '@proxy/documents';
 import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({

@@ -2,7 +2,7 @@ import { Type } from './../../module.enums';
 import { IdentityUserService} from '@abp/ng.identity/proxy';
 
 import { Component, Input, OnInit } from '@angular/core';
-import { StaticDataService } from '@proxy/StaticData';
+import { StaticDataService } from '@proxy/static-data';
 import { Status } from '../../module.enums';
 
 @Component({
@@ -38,7 +38,7 @@ export class FifthComponent implements OnInit {
 
 
   getList(Type, key) {
-    this.staticDataService.getList({Type:Type, search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({type:Type, search:null, maxResultCount:null }).subscribe(r => {
       this[key] = r.items;
     })
   }

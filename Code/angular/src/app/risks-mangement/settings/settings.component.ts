@@ -5,8 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { LocalizationService } from '@abp/ng.core';
-import { StaticDataService } from '@proxy/StaticData';
-import { StaticDataDto } from '@proxy/StaticData/dtos';
+import { StaticDataService } from '@proxy/static-data';
+import { StaticDataDto } from '@proxy/static-data';
 
 @Component({
   selector: 'app-settings',
@@ -41,21 +41,21 @@ export class settingsComponent implements OnInit {
   catsList;
   catsListObj = {};
   getCatogries() {
-    this.staticDataService.getListType().subscribe(r => {
+    this.staticDataService.getTypeStaticData().subscribe(r => {
       this.catsList = r;
       this.catsList.map(item => this.catsListObj[item.id] = item );
     })
   }
 
   selectedCatId;
-  selectionChange(ev) {
-    this.selectedCatId = ev.option.value;
+  selectionChange(ev, selectedOptions) {
+    this.selectedCatId = selectedOptions.selected[0].value;
     this.getList();
   }
 
   searchVal
   getList() {
-    const streamCreator = (query) => this.staticDataService.getList({ ...query, search: this.searchVal, Type:this.selectedCatId });
+    const streamCreator = (query) => this.staticDataService.getListByFilter({ ...query, search: this.searchVal, type:this.selectedCatId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

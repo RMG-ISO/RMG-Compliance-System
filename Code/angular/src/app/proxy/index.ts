@@ -1,6 +1,5 @@
 import * as Assessments from './assessments';
 import * as Attachments from './attachments';
-import * as Documents from './documents';
 import * as Authors from './authors';
 import * as Books from './books';
 import * as Breadcrumbs from './breadcrumbs';

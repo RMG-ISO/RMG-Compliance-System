@@ -1,8 +1,8 @@
 import { ConfigStateService, ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/Documents';
-import { DocumentActionLogDto, DocumentDto } from '@proxy/Documents/dtos';
+import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/documents';
+import { DocumentActionLogDto, DocumentDto } from '@proxy/documents/dtos';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 

@@ -3,13 +3,13 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService, HistoryRiskAndOpportunityService } from '@proxy/risks';
 import { HistoryAction, Status, Type, WorkFlowStages } from '../module.enums';
 import { ToasterService } from "@abp/ng.theme.shared";
 
 import * as moment from 'moment';
 import { FourthComponent } from './fourth/fourth.component';
-import { RiskTreatmentService } from '@proxy/RiskTreatments';
+import { RiskTreatmentService } from '@proxy/risk-treatments';
 
 @Component({
   selector: 'app-create',
@@ -29,6 +29,7 @@ export class CreateComponent implements OnInit {
 
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
+    private historyRiskAndOpportunityService:HistoryRiskAndOpportunityService,
     private route: ActivatedRoute,
     private location:Location,
     public readonly list: ListService,
@@ -180,7 +181,7 @@ export class CreateComponent implements OnInit {
       workFlowStages: stage,
     }
 
-    this.riskAndOpportunityService.createhistoryRisk(obj).subscribe(r => { });
+    this.historyRiskAndOpportunityService.create(obj).subscribe(r => { });
 
     this.getTreatments();
   }

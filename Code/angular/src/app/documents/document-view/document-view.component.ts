@@ -2,9 +2,9 @@ import { ListService } from '@abp/ng.core';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentService } from '@proxy/Documents';
+import { DocumentService } from '@proxy/documents';
 import { EmployeeService } from '@proxy/employees';
-import {  DocumentStatus  } from '@proxy/Documents';
+import {  DocumentStatus  } from '@proxy/documents';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StaticDataService } from '@proxy/StaticData';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { StaticDataService } from '@proxy/static-data';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { ControlService } from '@proxy/controls';
 @Component({
   selector: 'app-second',
@@ -42,7 +42,7 @@ export class SecondComponent implements OnInit {
   controlAssesment;
   likelihood;
   getList(Type, key) {
-    this.staticDataService.getList({Type:Type, search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({type:Type, search:null, maxResultCount:null }).subscribe(r => {
       this[key] = r.items;
     })
   }

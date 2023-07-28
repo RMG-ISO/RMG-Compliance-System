@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { documentTypeOptions } from '@proxy/Documents';
+import { documentTypeOptions } from '@proxy/documents';
 
 @Component({
   selector: 'app-details',

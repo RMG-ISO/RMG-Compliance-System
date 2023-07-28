@@ -1,6 +1,6 @@
 import { ListService } from '@abp/ng.core';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService, HistoryRiskAndOpportunityService } from '@proxy/risks';
 import { HistoryAction, WorkFlowStages } from '../../module.enums';
 
 @Component({
@@ -17,6 +17,7 @@ export class HistoryComponent implements OnInit, OnChanges {
 
   constructor(
     private riskAndOpportunityService:RiskAndOpportunityService,
+    private historyRiskAndOpportunityService:HistoryRiskAndOpportunityService,
     private readonly list:ListService
   ) { }
 
@@ -33,7 +34,7 @@ export class HistoryComponent implements OnInit, OnChanges {
   historyChanges;
   totalCount
   getHistory() {
-    const streamCreator = (query) => this.riskAndOpportunityService.getListhistoryRisk({
+    const streamCreator = (query) => this.historyRiskAndOpportunityService.getListHistoryByFilter({
       search:null,
       riskOpportunityId:this.id,
       maxResultCount:null,

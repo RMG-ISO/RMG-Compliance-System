@@ -1,5 +1,6 @@
+//import { getMatrix } from '@proxy/RiskAndOpportunity/dtos/models';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 
 @Component({
   selector: 'app-matrix[matrixNumber][form]',
@@ -111,7 +112,7 @@ export class MatrixComponent implements OnInit, OnChanges {
   likehood;
   impacts;
   getListMatrix(Matrix) {
-    this.riskAndOpportunityService.getMatrixType({ NumberMatrix: Matrix }).subscribe(r => {
+    this.riskAndOpportunityService.getMatrixByMatrix(this.matrixNumber).subscribe(r => {
       this.likehood = r?.likehood;
       this.impacts = r?.impact;
     });

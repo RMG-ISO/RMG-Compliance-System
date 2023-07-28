@@ -4,15 +4,15 @@ import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RiskTreatmentService } from '@proxy/RiskTreatments';
-import { StaticDataService } from '@proxy/StaticData';
+import { RiskTreatmentService } from '@proxy/risk-treatments';
+import { StaticDataService } from '@proxy/static-data';
 //import { Console } from 'console';
 import { HistoryAction } from 'src/app/risks-mangement/module.enums';
 import { DateValidators } from 'src/app/shared/validators/date-validator';
 import { parseISO } from 'date-fns';
 import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 
 @Component({
   selector: 'app-risk-treatment-modal',
@@ -65,10 +65,10 @@ export class RiskTreatmentModalComponent implements OnInit {
       this.users = r.items
     });
 
-    this.staticDataService.getList({Type:'3', search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({type:3, search:null, maxResultCount:null }).subscribe(r => {
       this.potentials = r.items;
     })
-    this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({type:9, search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
     });
 

@@ -4,7 +4,7 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DocumentSectionService } from '@proxy/Documents';
+import { DocumentSectionService } from '@proxy/documents';
 import { finalize } from 'rxjs';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
