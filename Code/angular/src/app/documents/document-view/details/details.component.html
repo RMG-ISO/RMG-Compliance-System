@@ -17,19 +17,19 @@
         <table class="table">
             <tr>
                 <td width="25%">
-                    {{ "::Document:DocumentName" | abpLocalization }}
+                    {{ "::DocumentName" | abpLocalization }}
                 </td>
                 <td >
-                    {{ documentData?.nameAr }}
+                    {{ documentData?.name }}
                 </td>
              
             </tr>
             <tr>
                 <td>
-                    {{ "::Document:DocumentType" | abpLocalization }}
+                    {{ "::DocumentType" | abpLocalization }}
                 </td>
                 <td>
-                    {{ DocumentType[documentData?.type]['key'] }}
+                    {{ ( '::Document:' + DocumentType[documentData?.type] )  | abpLocalization }}
                    
                 </td>
             </tr>
@@ -39,13 +39,13 @@
                     {{ "::Document:DocumentOwners" | abpLocalization }}
                 </td>
                 <td>
-                    <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
+                    <span  *ngFor="let item of documentData?.owners" class="badge m-1">{{item?.name}}</span>
                 </td>
             </tr>
 
             <tr >
                 <td>
-                    {{ "::Document:validationStartDate" | abpLocalization }}
+                    {{ "::Documents:ValidationStartDate" | abpLocalization }}
                 </td>
                 <td>
                     {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
@@ -54,7 +54,7 @@
 
             <tr >
                 <td>
-                    {{ "::Document:validationEndDate" | abpLocalization }}
+                    {{ "::Documents:ValidationEndDate" | abpLocalization }}
                 </td>
                 <td >
                     {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
@@ -63,19 +63,37 @@
 
             <tr >
                 <td>
-                    {{ "::Document:Revisors" | abpLocalization }}
+                    {{ "::RequiredReviewers" | abpLocalization }}
                 </td>
                 <td >
-                    <span  *ngFor="let item of documentData?.reviewers" class="badge m-1">{{item?.name}}</span>
+                    <span  *ngFor="let item of requiredReviewers" class="badge m-1">{{item?.name}}</span>
                 </td>
             </tr>
 
             <tr >
                 <td>
-                    {{ "::Document:Approvers" | abpLocalization }}
+                    {{ "::OptionalReviewers" | abpLocalization }}
                 </td>
                 <td >
-                    <span  *ngFor="let item of documentData?.approvers" class="badge m-1">{{item?.name}}</span>
+                    <span  *ngFor="let item of optionalReviewers" class="badge m-1">{{item?.name}}</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::RequiredApprovers" | abpLocalization }}
+                </td>
+                <td >
+                    <span  *ngFor="let item of requiredApprovers" class="badge m-1">{{item?.name}}</span>
+                </td>
+            </tr>
+
+            <tr >
+                <td>
+                    {{ "::OptionalApprovers" | abpLocalization }}
+                </td>
+                <td >
+                    <span  *ngFor="let item of optionalApprovers" class="badge m-1">{{item?.name}}</span>
                 </td>
             </tr>
 
@@ -84,7 +102,7 @@
                     {{ "::Document:Categories" | abpLocalization }}
                 </td>
                 <td >
-                    <span  *ngFor="let item of documentData?.categoryIds" class="badge m-1">{{item?.nameAr}}</span>
+                    <span  *ngFor="let item of documentData?.categories" class="badge m-1">{{item?.name}}</span>
                 </td>
             </tr>
 

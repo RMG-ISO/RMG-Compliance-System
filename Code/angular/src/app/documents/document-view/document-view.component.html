@@ -32,7 +32,7 @@
 
     <div class="card-top">
       <h3>
-        {{ "::Document:DocumentTitle" | abpLocalization }}
+        {{ documentData?.name }}
       </h3>
     </div>
 
@@ -40,23 +40,21 @@
 
       <div>
         <span>
-          {{ "::Document:DocumentCode" | abpLocalization }}
+          {{ "::DocumentCode" | abpLocalization }}
         </span>
         <h4>
             {{ documentData?.code }}
-         
         </h4>
       </div>
-
       
-    <div>
+    <!-- <div>
         <span>
           {{ "::Document:DocumentOwner" | abpLocalization }}
         </span>
         <h4>
-            <span  *ngFor="let item of documentData?.ownersIds" class="badge m-1">{{item?.employeeName}}</span>
+            <span  *ngFor="let item of documentData?.owners" class="badge m-1">{{item?.name}}</span>
         </h4>
-    </div>
+    </div> -->
 
     <div>
         <span>
