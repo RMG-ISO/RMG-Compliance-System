@@ -1,11 +1,12 @@
 import { ConfigStateService, ListService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/documents';
 import { DocumentActionLogDto, DocumentDto } from '@proxy/Documents/dtos';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 import { DocumentViewComponent } from '../document-view.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 enum DocumentRoles {
   Creator = "CreatorName",
@@ -30,6 +31,7 @@ enum DocumentRoles {
   providers:[ListService]
 })
 export class RevisionApproveComponent implements OnInit {
+  @ViewChild('notesDialog') notesDialog;
   parent:DocumentViewComponent;
 
   DocumentStatus = DocumentStatus;
@@ -170,24 +172,38 @@ export class RevisionApproveComponent implements OnInit {
     });
   }
 
-  
-  takeAction(row, func) {
+  actionForm:FormGroup;
+  takeAction(row, func:Function) {
     console.log(row)
-    console.log(func)
-    func(this.documentData.id, {
-      role:row.role,
-      notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor',
-    }).subscribe(r => {
-      console.log(r);
+    console.log(func);
+    
+    this.actionForm = new FormGroup({
+      notes:new FormControl(null),
+      role:new FormControl(row.role),
+    });
+
+    let dialog = this.matDialog.open(this.notesDialog, {
+      disableClose:true
+    })
+
+    dialog.afterClosed().subscribe(cond => {
+      console.log(cond)
+    })
+    return;
+
+    func(this.documentData.id, this.actionForm.value).subscribe(r => {
       this.parent.getDocument();
     })
   }
 
   returnToCreator(row) {
-    this.documentService.returnToCreatorByIdAndInput(this.documentData.id, {
-      notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor',
-      role:row.role
-    }).subscribe(r => {
+    this.actionForm = new FormGroup({
+      notes:new FormControl(null, Validators.required),
+      role:new FormControl(row.role),
+    });
+    return;
+
+    this.documentService.returnToCreatorByIdAndInput(this.documentData.id, this.actionForm.value).subscribe(r => {
       console.log(r);
       this.parent.getDocument();
     })

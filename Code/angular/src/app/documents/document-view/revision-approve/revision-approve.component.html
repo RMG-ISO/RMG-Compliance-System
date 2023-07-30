@@ -76,3 +76,33 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>
+
+<ng-template #notesDialog>
+    <form class="app-dialog" [formGroup]="actionForm">
+        <div mat-dialog-title>
+            <h2 > Action </h2>
+        </div>
+        <mat-dialog-content>
+          <div class="form-group">
+            <label for="notes" class="d-block">
+                {{ '::Notes' | abpLocalization }}
+            </label>
+            <textarea id="notes" class="form-control" cols="50" rows="5" formControlName="notes"></textarea>
+          </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="actions">
+            
+
+          <button mat-button type="button" color="warn" [mat-dialog-close]="false">
+            {{ '::Cancel' | abpLocalization }}
+          </button>
+          
+            <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="primary" [disabled]="actionForm.invalid">
+                {{ '::Save' | abpLocalization }}
+            </button>
+
+        </mat-dialog-actions>
+    </form>
+</ng-template>
+
+
