@@ -100,7 +100,7 @@
     "EndDate": "تاريخ الإنتهاء",
     "ActionName": "الفعل",
     "ActionDate": "التاريخ",
-    "creatorName": "المنشئ",
+    "CreatorName": "المنشئ",
     "WorkFlowStage": "المرحلة",
     "Changelog": "سجل النشاطات",
     "PreviousStep": "الخطوة السابقة",
@@ -686,7 +686,11 @@
     "RequiredApprovers":"معتمدون أساسيين",
     "OptionalApprovers":"معتمدون اختياريين",
     "ReviewApprove":"الموافقات و الأعتمادات",
-    "Policies":"السياسات"
-
+    "Policies":"السياسات",
+    "Owner":"مالك",
+    "RequiredReviewr":"مراجع أساسى",
+    "OptionalReviewr":"مراجع اختيارى",
+    "RequiredApprover":"معتمد أساسى",
+    "OptionalApprover":"معتمد اختيارى"
   }
 }
