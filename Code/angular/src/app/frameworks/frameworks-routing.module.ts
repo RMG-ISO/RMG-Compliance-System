@@ -12,11 +12,13 @@ import { ChangeLogComponent } from './framework-view/change-log/change-log.compo
 import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
 import { FrameReportComponent } from './framework-view/frame-report/frame-report.component';
 import { PermissionGuard } from '@abp/ng.core';
+import { SubscriptionGuard } from '../shared/guards/subscription.guard';
 
 const routes: Routes = [
   {
     path:'list',
-    component:FrameworksListComponent
+    component:FrameworksListComponent,
+    canActivate : [SubscriptionGuard]
   },
   {
     path:'sub-domains/:subDomainId/controls',

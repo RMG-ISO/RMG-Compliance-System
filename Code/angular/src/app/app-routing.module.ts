@@ -98,6 +98,10 @@ const routes: Routes = [
     path:'',
     redirectTo:'/home',
     pathMatch:'full'
+  },
+  {
+    path :'subscription',
+    loadChildren : () => import('./subscription/subscription.module').then(m => m.SubscriptionModule)
   }
 ];
 

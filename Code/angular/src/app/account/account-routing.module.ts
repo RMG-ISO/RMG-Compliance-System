@@ -4,11 +4,13 @@ import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AuthenticationFlowGuard, ResetPasswordComponent } from '@abp/ng.account';
 import { ReplaceableRouteContainerComponent } from '@abp/ng.core';
+import { SubscriptionGuard } from '../shared/guards/subscription.guard';
 
 const routes: Routes = [
   {
     path:'login',
     component:LoginComponent,
+    canActivate : [SubscriptionGuard]
     // component: ReplaceableRouteContainerComponent,
     // data:{
     //   replaceableComponent: {
