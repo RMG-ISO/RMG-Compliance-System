@@ -16,11 +16,20 @@
 <div class="details-table-cont">
     <table class="table">
         <tr>
-            <td width="25%">
+            <td>
                 {{ "::DocumentName" | abpLocalization }}
             </td>
             <td >
                 {{ documentData?.name }}
+            </td>
+            
+        </tr>
+        <tr>
+            <td>
+                {{ "::CreatorName" | abpLocalization }}
+            </td>
+            <td >
+                {{ documentData?.creatorName }}
             </td>
             
         </tr>
