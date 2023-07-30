@@ -695,11 +695,18 @@
     "PersonName":"اسم الشخص",
     "PersonRole":"دور الشخص",
     "TakenAction":"الأجراء المتخذ",
+    "TakenActionNotes":"ملاحظات الإجراء المتخذ",
     "TakenActionDate":"تاريخ الأجراء",
     "Actions:NoAction":"-",
     "Actions:ReturnToCreator":"إعادة للمعد",
     "Actions:Finish":"إنتهاء",
-    "Actions:Approve":"موافقة"
+    "Actions:Approve":"موافقة",
+    "Actions:FinishUserApproval":"تم الحفظ وإنتهاء الإعتماد",
+    "Actions:FinishUserRevision":"تم الحفظ وإنتهاء المراجعة",
+    "Actions:ReturnToCreatorMSG":"تم الإعادة للمعد",
+    "Actions:SendForApproval":"تم الإرسال للإعتماد",
+    "Actions:SendForRevision":"تم الإرسال للمراجعة",
+    "Actions:Approved":"تم إعتماد الوثيقة"
 
   }
 }

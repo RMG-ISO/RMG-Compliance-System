@@ -1,12 +1,13 @@
-import { ConfigStateService, ListService } from '@abp/ng.core';
+import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/documents';
-import { DocumentActionLogDto, DocumentDto } from '@proxy/Documents/dtos';
+import { DocumentActionLogDto, DocumentDto } from '@proxy/documents/dtos';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 import { DocumentViewComponent } from '../document-view.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToasterService } from '@abp/ng.theme.shared';
 
 enum DocumentRoles {
   Creator = "CreatorName",
@@ -39,11 +40,21 @@ export class RevisionApproveComponent implements OnInit {
   ColumnMode = ColumnMode;
   DocumentRoles = DocumentRoles;
   
+  actionsMsgs = {
+    finishUserApprovalByIdAndInput:'::Actions:FinishUserApproval',
+    finishUserRevisionByIdAndInput:'::Actions:FinishUserRevision',
+    returnToCreatorByIdAndInput:'::Actions:ReturnToCreatorMSG',
+    sendForApprovalByIdAndInput:'::Actions:SendForApproval',
+    sendForRevisionByIdAndInput:'::Actions:SendForRevision',
+    approveByIdAndInput:"::Actions:Approved"
+  }
   constructor(
     public readonly list: ListService,
     public  matDialog: MatDialog,
     private documentService: DocumentService,
     private configService:ConfigStateService,
+    private toasterService:ToasterService,
+    private localizationService:LocalizationService
 
 
   ) { }
@@ -95,12 +106,14 @@ export class RevisionApproveComponent implements OnInit {
       if(this.documentData.creatorId == this.userId) {
         // canSendToReviewr = true;
         row.role = DocumentRoles.Creator;
-        row.optionalFunction = this.documentService.sendForRevisionByIdAndInput;
+        // row.optionalFunction = this.documentService.sendForRevisionByIdAndInput;
+        row.optionalFunction = 'sendForRevisionByIdAndInput';
         console.log('row.role')
       } else if( this.documentData.owners.find(item => item.id == this.userId) ) {
         // canSendToReviewr = true;
         row.role = DocumentRoles.Owner;
-        row.optionalFunction = this.documentService.sendForRevisionByIdAndInput;
+        // row.optionalFunction = this.documentService.sendForRevisionByIdAndInput;
+        row.optionalFunction = 'sendForRevisionByIdAndInput';
         console.log('row.role')
       }
       console.log('row', row)
@@ -112,12 +125,15 @@ export class RevisionApproveComponent implements OnInit {
             if(reviewer.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredReviewr;
-              row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
-              row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
+              // row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
+              // row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
+              row.requiredFunction = 'finishUserRevisionByIdAndInput'
+              row.optionalFunction = 'sendForApprovalByIdAndInput'
               break;
             } else {
               row.role = DocumentRoles.OptionalReviewr;
-              row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
+              // row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
+              row.requiredFunction = 'finishUserRevisionByIdAndInput'
             }
           }
         }
@@ -128,12 +144,16 @@ export class RevisionApproveComponent implements OnInit {
             if(approver.isRequired) {
               console.log('is reqiored')
               row.role = DocumentRoles.RequiredApprover;
-              row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
-              row.optionalFunction = this.documentService.approveByIdAndInput
+              // row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
+              // row.optionalFunction = this.documentService.approveByIdAndInput
+              row.requiredFunction = 'finishUserApprovalByIdAndInput'
+              row.optionalFunction = 'approveByIdAndInput'
+
               break;
             } else {
               row.role = DocumentRoles.OptionalApprover;
-              row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
+              // row.requiredFunction = this.documentService.finishUserApprovalByIdAndInput
+              row.requiredFunction = 'finishUserApprovalByIdAndInput'
             }
           }
         }
@@ -173,9 +193,9 @@ export class RevisionApproveComponent implements OnInit {
   }
 
   actionForm:FormGroup;
-  takeAction(row, func:Function) {
+  takeAction(row, funcName) {
     console.log(row)
-    console.log(func);
+    // console.log(func);
     
     this.actionForm = new FormGroup({
       notes:new FormControl(null),
@@ -186,13 +206,20 @@ export class RevisionApproveComponent implements OnInit {
       disableClose:true
     })
 
+    console.log(this.actionsMsgs);
+    console.log(funcName);
+
     dialog.afterClosed().subscribe(cond => {
       console.log(cond)
-    })
-    return;
+      if(!cond) return;
 
-    func(this.documentData.id, this.actionForm.value).subscribe(r => {
-      this.parent.getDocument();
+      console.log(this.actionsMsgs[funcName]);
+
+
+      this.documentService[funcName](this.documentData.id, this.actionForm.value).subscribe(r => {
+        this.toasterService.success(this.localizationService.instant(this.actionsMsgs[funcName]));
+        this.parent.getDocument();
+      });
     })
   }
 
@@ -268,3 +295,5 @@ export class RevisionApproveComponent implements OnInit {
     if(row.role) this.actionsLog.push(row as any)
   }
 */
+
+
