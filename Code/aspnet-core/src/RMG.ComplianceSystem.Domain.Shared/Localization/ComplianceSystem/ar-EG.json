@@ -691,6 +691,10 @@
     "RequiredReviewr":"مراجع أساسى",
     "OptionalReviewr":"مراجع اختيارى",
     "RequiredApprover":"معتمد أساسى",
-    "OptionalApprover":"معتمد اختيارى"
+    "OptionalApprover":"معتمد اختيارى",
+    "PersonName":"اسم الشخص",
+    "PersonRole":"دور الشخص",
+    "TakenAction":"الأجراء المتخذ",
+    "TakenActionDate":"تاريخ الأجراء"
   }
 }
