@@ -15,9 +15,9 @@ appNgxdatatable>
     <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" prop="action"> </ngx-datatable-column>
     <!-- <ngx-datatable-column [name]="'::تاريخ الأجراء' | abpLocalization" prop="creationTime"> </ngx-datatable-column> -->
 
-    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="creationTime">
+    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="type">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            <span class="ltr">{{value | date:'yyyy/MM/dd'}}</span>
+            {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }}
         </ng-template>
     </ngx-datatable-column>
 

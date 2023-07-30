@@ -695,6 +695,11 @@
     "PersonName":"اسم الشخص",
     "PersonRole":"دور الشخص",
     "TakenAction":"الأجراء المتخذ",
-    "TakenActionDate":"تاريخ الأجراء"
+    "TakenActionDate":"تاريخ الأجراء",
+    "Actions:NoAction":"-",
+    "Actions:ReturnToCreator":"إعادة للمعد",
+    "Actions:Finish":"إنتهاء",
+    "Actions:Approve":"موافقة"
+
   }
 }
