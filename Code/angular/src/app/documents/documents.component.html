@@ -2,28 +2,25 @@
     <div class="pb-3 pt-3">
         <div class="row">
             <div class="col col-md-6">
-                <div class="d-flex   justify-content-start align-items-center ps-3 mt-2">
+                <div class="d-flex bread_crumb align-items-center ps-3 mt-2">
                     <div>
                         <mat-icon>arrow_forward</mat-icon>
                     </div>
                 
-                    
                     <a routerLink="/" class="bread_crumb_item">
                         {{ "::Document:Home" | abpLocalization }}
                     </a>
                 
                     / 
                 
-                
                     <a  [routerLink]="['/documents']" class="bread_crumb_item">
                         {{ "::Document:DocumentManagement" | abpLocalization }}
                     </a>
-                
                     
                 </div>
             </div>
             <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                <a *abpPermission="'ComplianceSystem.Document.Create'" mat-raised-button id="createBtn"  routerLink="/documents/create" class="btn btn-primary me-3" >
+                <a *abpPermission="'ComplianceSystem.Document.Create'" mat-raised-button id="createBtn" routerLink="/documents/create" class="btn btn-primary me-3" >
                     <i class="fa fa-plus me-1"></i>
                     <span>{{ "::Document:AddDocument" | abpLocalization }}</span>
                 </a>
