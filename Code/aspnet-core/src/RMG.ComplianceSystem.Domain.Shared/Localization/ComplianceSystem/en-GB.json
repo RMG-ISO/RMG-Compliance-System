@@ -99,7 +99,7 @@
     "DueDate": "Due Date",
     "ActionName": "Action Name",
     "ActionDate": "Action Date",
-    "creatorName": "creator Name",
+    "CreatorName": "creator Name",
     "WorkFlowStage": "WorkFlow Stage",
     "Changelog": "Activity History",
     "PreviousStep": "Previous Step",

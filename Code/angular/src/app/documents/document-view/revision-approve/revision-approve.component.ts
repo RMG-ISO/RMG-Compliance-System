@@ -7,7 +7,7 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 
 enum DocumentRoles {
-  Creator = "Creator",
+  Creator = "CreatorName",
   Owner = "Owner",
   RequiredReviewr = "RequiredReviewr",
   OptionalReviewr = "OptionalReviewr",

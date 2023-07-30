@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { documentTypeOptions } from '@proxy/documents';
+import { DocumentType } from '@proxy/documents';
+import { DocumentDto } from '@proxy/documents/dtos';
 
 @Component({
   selector: 'app-details',
@@ -7,16 +8,33 @@ import { documentTypeOptions } from '@proxy/documents';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent {
-  DocumentType = documentTypeOptions;
+  documentData:DocumentDto;
+
+  
+  DocumentType = DocumentType;
 
   selected;
-  documentData;
   employeesObj;
+
+  requiredApprovers = [];
+  optionalApprovers = [];
+
+  requiredReviewers = [];
+  optionalReviewers = [];
+
   ngOnInit(): void {
     console.log('this.documentData');
     console.log(this.documentData);
-  
 
+    this.documentData.approvers.map(u => {
+      if(u.isRequired) this.requiredApprovers.push(u);
+      else this.optionalApprovers.push(u);
+    })
+
+    this.documentData.reviewers.map(u => {
+      if(u.isRequired) this.requiredReviewers.push(u);
+      else this.optionalReviewers.push(u);
+    })
 
    
     //this.form.patchValue(this.selected);
