@@ -118,7 +118,7 @@ namespace RMG.ComplianceSystem.Documents
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.UnderReview;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.UnderReview, input.Role, ActionLogType.Approve));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.Approve));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentSentForRevision), entity.Reviewers.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentSentForRevision, NotySource.DocumentSentForRevision, entity);
         }
 
@@ -127,7 +127,7 @@ namespace RMG.ComplianceSystem.Documents
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.ReturnToCreator;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator, input.Role, ActionLogType.ReturnToCreator));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.ReturnToCreator));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentReturnedToContributor), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReturnedToContributor, NotySource.DocumentReturnedToContributor, entity);
 
         }
@@ -137,7 +137,7 @@ namespace RMG.ComplianceSystem.Documents
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.Accepted;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Accepted, input.Role, ActionLogType.Approve));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.Approve));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentSentForApproval), entity.Approvers.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentSentForApproval, NotySource.DocumentSentForApproval, entity);
         }
 
@@ -146,7 +146,7 @@ namespace RMG.ComplianceSystem.Documents
         {
             var entity = await Repository.GetAsync(id);
             entity.Status = DocumentStatus.Approved;
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Approved, input.Role, ActionLogType.Approve));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.Approve));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentApproved), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApproved, NotySource.DocumentApproved, entity);
         }
 
@@ -154,7 +154,7 @@ namespace RMG.ComplianceSystem.Documents
         public async Task FinishUserRevision(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Accepted, input.Role, ActionLogType.Finish));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.Finish));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentReviewedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReviewedByUser, NotySource.DocumentReviewedByUser, entity, CurrentUser.Id);
         }
 
@@ -162,7 +162,7 @@ namespace RMG.ComplianceSystem.Documents
         public async Task FinishUserApproval(Guid id, TakeActionWithNotes input)
         {
             var entity = await Repository.GetAsync(id);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.Approved, input.Role, ActionLogType.Finish));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.Finish));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentApprovedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApprovedByUser, NotySource.DocumentApprovedByUser, entity, CurrentUser.Id);
         }
 
