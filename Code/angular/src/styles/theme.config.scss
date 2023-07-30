@@ -503,3 +503,20 @@ ngb-datepicker-navigation {
         }
     }
 }
+
+
+
+.bread_crumb {
+    margin-top: 10px;
+    padding-bottom: 4px;
+    .bread_crumb_item{
+        text-decoration: none!important;
+        color: #A0A3BD ;
+        margin: 0 10px;
+        font-size: 17px;
+        font-weight: bold;
+        &:last-of-type {
+            color: #000;
+        }
+    }
+}

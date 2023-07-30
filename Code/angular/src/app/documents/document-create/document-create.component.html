@@ -1,10 +1,10 @@
-<div class="d-flex   justify-content-start align-items-center ps-3 mb-2" *ngIf="mode == FormMode.Create ">
+<div class="d-flex bread_crumb align-items-center ps-3 mb-2" *ngIf="mode == FormMode.Create ">
     <div>
         <mat-icon>arrow_forward</mat-icon>
     </div>
 
 
-    <a href="#" class="bread_crumb_item">
+    <a routerLink="/" class="bread_crumb_item">
         {{ "::Document:Home" | abpLocalization }}
     </a>
 
@@ -22,7 +22,7 @@
 
     /
     
-    <a href="#" class="bread_crumb_item">
+    <a class="bread_crumb_item">
         {{ "::Document:AddDocument" | abpLocalization }}
     </a>
 </div>
@@ -158,12 +158,12 @@
 
 
         <div class="d-flex actions align-items-center mb-4">
-            <button mat-raised-button color="primary" class="save m-3" type="submit">
-                {{ 'AbpAccount::Save' | abpLocalization }}
-            </button>
             <a mat-raised-button class="m-3" color="warn" routerLink="/documents/list">
                 {{ 'AbpAccount::Cancel' | abpLocalization }}
             </a>
+            <button mat-raised-button color="primary" class="save m-3" type="submit">
+                {{ 'AbpAccount::Save' | abpLocalization }}
+            </button>
         </div>
 
     </div>

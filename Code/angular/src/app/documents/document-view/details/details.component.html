@@ -6,7 +6,7 @@
     </h3>
 
     <div>
-        <a mat-flat-button class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >
+        <a mat-raised-button  *abpPermission="'ComplianceSystem.Document.Update'" class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >
             {{ '::Edit' | abpLocalization }}  
             <mat-icon>edit</mat-icon>
         </a>
