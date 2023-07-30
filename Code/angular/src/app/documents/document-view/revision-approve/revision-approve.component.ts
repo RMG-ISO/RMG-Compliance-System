@@ -71,11 +71,9 @@ export class RevisionApproveComponent implements OnInit {
     if(this.actionsLog.length) {
       let indcies = [];
       for(let i = this.actionsLog.length - 1; i >= 0; i--) {
-        console.log('status ', this.actionsLog[i].status !== this.documentData.status )
         if(this.actionsLog[i].status !== this.documentData.status ) {
           break;
         } else {
-          console.log('creatorId', this.actionsLog[i].creatorId == this.userId )
           if(this.actionsLog[i].creatorId == this.userId) {
             indcies.push(i);
           }
@@ -84,7 +82,7 @@ export class RevisionApproveComponent implements OnInit {
 
       console.log('indcies', indcies);
       if(indcies.length) {
-        console.log('getting in elese')
+        // console.log('getting in elese')
         let currentRow = this.actionsLog[indcies[0]];
         this.addFunctionsAndData(currentRow);
       } else {
