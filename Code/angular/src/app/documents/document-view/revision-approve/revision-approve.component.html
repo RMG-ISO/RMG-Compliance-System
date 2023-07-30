@@ -11,13 +11,25 @@ scrollbarV="true"
 appNgxdatatable>
 
     <ngx-datatable-column [name]="'::PersonName' | abpLocalization" prop="creatorName"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" prop="role"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" prop="action"> </ngx-datatable-column>
+    <!-- <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" prop="role"> </ngx-datatable-column> -->
+    <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" [maxWidth]="200" [width]="200" prop="role">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ ('::' + value) | abpLocalization }}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <!-- <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" prop="action"> </ngx-datatable-column> -->
     <!-- <ngx-datatable-column [name]="'::تاريخ الأجراء' | abpLocalization" prop="creationTime"> </ngx-datatable-column> -->
 
-    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="type">
+    <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" [maxWidth]="200" [width]="200" prop="type">
         <ng-template let-value="value" ngx-datatable-cell-template>
             {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="creationTime">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
         </ng-template>
     </ngx-datatable-column>
 
