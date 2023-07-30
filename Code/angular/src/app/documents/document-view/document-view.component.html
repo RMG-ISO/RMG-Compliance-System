@@ -1,87 +1,82 @@
-<div class="d-flex   justify-content-start align-items-center ps-3">
-    <div>
-        <mat-icon>arrow_forward</mat-icon>
-    </div>
-
+<div class="d-flex justify-content-start align-items-center ps-3 bread_crumb">
+    <!-- <mat-icon>arrow_forward</mat-icon> -->
     
-    <a href="#" class="bread_crumb_item">
+    <a routerLink="/" class="bread_crumb_item">
         {{ "::Document:Home" | abpLocalization }}
     </a>
 
     / 
 
     <a [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Document:Policies" | abpLocalization }}
+        {{ "::Document:Policies" | abpLocalization }}
     </a>
 
     /
 
     <a  [routerLink]="['/documents']" class="bread_crumb_item">
-        {{ ":::Document:DocumentManagement" | abpLocalization }}
+        {{ "::Document:DocumentManagement" | abpLocalization }}
     </a>
 
     /
     
-    <a href="#" class="bread_crumb_item">
-        {{ ":::Document:DocumentView" | abpLocalization }}
+    <a class="bread_crumb_item">
+        {{ "::Document:DocumentView" | abpLocalization }}
     </a>
 </div>
 
 
-<div class="info">
-
+<div class="info mb-3 mt-3">
     <div class="card-top">
-      <h3>
+      <h2 class="m-0">
         {{ documentData?.name }}
-      </h3>
+      </h2>
     </div>
 
     <div>
+        <div>
+            <span>
+            {{ "::DocumentCode" | abpLocalization }}
+            </span>
+            <h4>
+                {{ documentData?.code }}
+            </h4>
+        </div>
+        
+        <!-- <div>
+            <span>
+            {{ "::Document:DocumentOwner" | abpLocalization }}
+            </span>
+            <h4>
+                <span  *ngFor="let item of documentData?.owners" class="badge m-1">{{item?.name}}</span>
+            </h4>
+        </div> -->
 
-      <div>
-        <span>
-          {{ "::DocumentCode" | abpLocalization }}
-        </span>
-        <h4>
-            {{ documentData?.code }}
-        </h4>
-      </div>
-      
-    <!-- <div>
-        <span>
-          {{ "::Document:DocumentOwner" | abpLocalization }}
-        </span>
-        <h4>
-            <span  *ngFor="let item of documentData?.owners" class="badge m-1">{{item?.name}}</span>
-        </h4>
-    </div> -->
+        <div>
+            <span>
+                {{ '::CreationTime' | abpLocalization }}
+            </span>
+            <h4>
+                {{ documentData?.creationTime | date : 'yyyy/MM/dd' }}
+            </h4>
+        </div>
 
-    <div>
-        <span>
-            {{ '::CreationTime' | abpLocalization }}
-        </span>
-        <h4>
-            {{ documentData?.creationTime | date : 'yyyy/MM/dd' }}
-        </h4>
-    </div>
+        <div>
+            <span>
+                {{ '::Document:CompliancePercentage' | abpLocalization }}
+            </span>
+            <span >
+                {{ documentData?.compliancePercentage }}
+            </span>
+        </div>
 
-    <div>
-        <span>
-            {{ '::Document:CompliancePercentage' | abpLocalization }}
-        </span>
-        <span >
-            {{ documentData?.compliancePercentage }}
-        </span>
-    </div>
-
-    <div>
-        <span>
-            {{ '::Document:Status' | abpLocalization }}
-        </span>
-        <span class="status" [class]="DocumentStatus[documentData?.status]">
-            {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
-        </span>
-    </div>
+        <div>
+            <span>
+                {{ '::Document:Status' | abpLocalization }}
+            </span>
+            <span class="status" [class]="DocumentStatus[documentData?.status]">
+                {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
+            </span>
+        </div>
  
     </div>
   </div>

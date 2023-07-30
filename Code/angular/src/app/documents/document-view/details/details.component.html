@@ -1,122 +1,118 @@
 
-<ng-container>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        
-        <div>
-            <b>{{ "::Document:DocumentDetails" | abpLocalization }}</b>
-        </div>
-
-        <div>
-            <a mat-flat-button class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >تعديل  
-                <mat-icon>edit</mat-icon>
-            </a>
-
-        </div>
-    </div>
-    <div class="details-table-cont">
-        <table class="table">
-            <tr>
-                <td width="25%">
-                    {{ "::DocumentName" | abpLocalization }}
-                </td>
-                <td >
-                    {{ documentData?.name }}
-                </td>
-             
-            </tr>
-            <tr>
-                <td>
-                    {{ "::DocumentType" | abpLocalization }}
-                </td>
-                <td>
-                    {{ ( '::Document:' + DocumentType[documentData?.type] )  | abpLocalization }}
-                   
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    {{ "::Document:DocumentOwners" | abpLocalization }}
-                </td>
-                <td>
-                    <span  *ngFor="let item of documentData?.owners" class="badge m-1">{{item?.name}}</span>
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::Documents:ValidationStartDate" | abpLocalization }}
-                </td>
-                <td>
-                    {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::Documents:ValidationEndDate" | abpLocalization }}
-                </td>
-                <td >
-                    {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::RequiredReviewers" | abpLocalization }}
-                </td>
-                <td >
-                    <span  *ngFor="let item of requiredReviewers" class="badge m-1">{{item?.name}}</span>
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::OptionalReviewers" | abpLocalization }}
-                </td>
-                <td >
-                    <span  *ngFor="let item of optionalReviewers" class="badge m-1">{{item?.name}}</span>
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::RequiredApprovers" | abpLocalization }}
-                </td>
-                <td >
-                    <span  *ngFor="let item of requiredApprovers" class="badge m-1">{{item?.name}}</span>
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::OptionalApprovers" | abpLocalization }}
-                </td>
-                <td >
-                    <span  *ngFor="let item of optionalApprovers" class="badge m-1">{{item?.name}}</span>
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::Document:Categories" | abpLocalization }}
-                </td>
-                <td >
-                    <span  *ngFor="let item of documentData?.categories" class="badge m-1">{{item?.name}}</span>
-                </td>
-            </tr>
-
-            <tr >
-                <td>
-                    {{ "::Document:Description" | abpLocalization }}
-                </td>
-                <td >
-                    {{ documentData?.description }}
-                </td>
-            </tr>
-
-        </table>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    
+    <div>
+        <b>{{ "::Document:DocumentDetails" | abpLocalization }}</b>
     </div>
 
-  
-</ng-container>
+    <div>
+        <a mat-flat-button class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >تعديل  
+            <mat-icon>edit</mat-icon>
+        </a>
+
+    </div>
+</div>
+<div class="details-table-cont">
+    <table class="table">
+        <tr>
+            <td width="25%">
+                {{ "::DocumentName" | abpLocalization }}
+            </td>
+            <td >
+                {{ documentData?.name }}
+            </td>
+            
+        </tr>
+        <tr>
+            <td>
+                {{ "::DocumentType" | abpLocalization }}
+            </td>
+            <td>
+                {{ ( '::Document:' + DocumentType[documentData?.type] )  | abpLocalization }}
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                {{ "::Document:DocumentOwners" | abpLocalization }}
+            </td>
+            <td>
+                <span  *ngFor="let item of documentData?.owners" class="badge m-1">{{item?.name}}</span>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::Documents:ValidationStartDate" | abpLocalization }}
+            </td>
+            <td>
+                {{ documentData?.validationStartDate  | date:'yyyy/MM/dd' }}
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::Documents:ValidationEndDate" | abpLocalization }}
+            </td>
+            <td >
+                {{documentData?.validationEndtDate  | date:'yyyy/MM/dd'}}
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::RequiredReviewers" | abpLocalization }}
+            </td>
+            <td >
+                <span  *ngFor="let item of requiredReviewers" class="badge m-1">{{item?.name}}</span>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::OptionalReviewers" | abpLocalization }}
+            </td>
+            <td >
+                <span  *ngFor="let item of optionalReviewers" class="badge m-1">{{item?.name}}</span>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::RequiredApprovers" | abpLocalization }}
+            </td>
+            <td >
+                <span  *ngFor="let item of requiredApprovers" class="badge m-1">{{item?.name}}</span>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::OptionalApprovers" | abpLocalization }}
+            </td>
+            <td >
+                <span  *ngFor="let item of optionalApprovers" class="badge m-1">{{item?.name}}</span>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::Document:Categories" | abpLocalization }}
+            </td>
+            <td >
+                <span  *ngFor="let item of documentData?.categories" class="badge m-1">{{item?.name}}</span>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                {{ "::Document:Description" | abpLocalization }}
+            </td>
+            <td >
+                {{ documentData?.description }}
+            </td>
+        </tr>
+
+    </table>
+</div>
