@@ -2,9 +2,10 @@ import { ConfigStateService, ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionLogType, DocumentService, DocumentStatus } from '@proxy/documents';
-import { DocumentActionLogDto, DocumentDto } from '@proxy/documents/dtos';
+import { DocumentActionLogDto, DocumentDto } from '@proxy/Documents/dtos';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
+import { DocumentViewComponent } from '../document-view.component';
 
 enum DocumentRoles {
   Creator = "CreatorName",
@@ -29,6 +30,8 @@ enum DocumentRoles {
   providers:[ListService]
 })
 export class RevisionApproveComponent implements OnInit {
+  parent:DocumentViewComponent;
+
   DocumentStatus = DocumentStatus;
   ActionLogType = ActionLogType;
   ColumnMode = ColumnMode;
@@ -55,9 +58,11 @@ export class RevisionApproveComponent implements OnInit {
     if(this.actionsLog.length) {
       let indcies = [];
       for(let i = this.actionsLog.length - 1; i >= 0; i--) {
+        console.log('status ', this.actionsLog[i].status !== this.documentData.status )
         if(this.actionsLog[i].status !== this.documentData.status ) {
           break;
         } else {
+          console.log('creatorId', this.actionsLog[i].creatorId == this.userId )
           if(this.actionsLog[i].creatorId == this.userId) {
             indcies.push(i);
           }
@@ -174,6 +179,7 @@ export class RevisionApproveComponent implements OnInit {
       notes:'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor',
     }).subscribe(r => {
       console.log(r);
+      this.parent.getDocument();
     })
   }
 
@@ -183,6 +189,7 @@ export class RevisionApproveComponent implements OnInit {
       role:row.role
     }).subscribe(r => {
       console.log(r);
+      this.parent.getDocument();
     })
   }
 

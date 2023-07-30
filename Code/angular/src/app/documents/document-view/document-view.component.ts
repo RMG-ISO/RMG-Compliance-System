@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentService } from '@proxy/documents';
-import { EmployeeService } from '@proxy/employees';
 import {  DocumentStatus  } from '@proxy/documents';
 
 
@@ -20,7 +19,6 @@ export class DocumentViewComponent {
     public  activatedRoute:ActivatedRoute,
     public  matDialog: MatDialog,
     private documentService: DocumentService,
-    private employeeService: EmployeeService,
 
   ) { }
 
@@ -37,11 +35,6 @@ export class DocumentViewComponent {
     this.documentData = null;
     this.documentService.get(this.documentId).subscribe(data => {
       this.documentData = data;
-      this.employeeService.getEmployeeListLookup().subscribe(result => {
-        result.items.map(x => this.employeesObj[x.id]=x.fullName)
-        this.allEmployees = result.items;
-        //this.documentOwners = this.filterArray(this.allEmployees,this.documentData['ownersIds']);
-      });
     });
   }
 
