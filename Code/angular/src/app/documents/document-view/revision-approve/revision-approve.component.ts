@@ -228,12 +228,23 @@ export class RevisionApproveComponent implements OnInit {
       notes:new FormControl(null, Validators.required),
       role:new FormControl(row.role),
     });
-    return;
+    
 
-    this.documentService.returnToCreatorByIdAndInput(this.documentData.id, this.actionForm.value).subscribe(r => {
-      console.log(r);
-      this.parent.getDocument();
+    let dialog = this.matDialog.open(this.notesDialog, {
+      disableClose:true
     })
+
+    dialog.afterClosed().subscribe(cond => {
+      if(!cond) return;
+      this.documentService.returnToCreatorByIdAndInput(this.documentData.id, this.actionForm.value).subscribe(r => {
+        console.log(r);
+        this.parent.getDocument();
+        this.toasterService.success(this.localizationService.instant(this.actionsMsgs.returnToCreatorByIdAndInput));
+      })
+    })
+
+
+
   }
 
 }
