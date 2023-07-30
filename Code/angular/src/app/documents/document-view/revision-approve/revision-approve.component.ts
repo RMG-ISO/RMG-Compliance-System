@@ -32,6 +32,8 @@ export class RevisionApproveComponent implements OnInit {
   DocumentStatus = DocumentStatus;
   ActionLogType = ActionLogType;
   ColumnMode = ColumnMode;
+  DocumentRoles = DocumentRoles;
+  
   constructor(
     public readonly list: ListService,
     public  matDialog: MatDialog,
@@ -147,7 +149,7 @@ export class RevisionApproveComponent implements OnInit {
       role:null,
       requiredFunction:null, // means at least finish function 
       optionalFunction:null, // means the approve function
-      action:ActionLogType.NoAction
+      type:ActionLogType.NoAction
     }
   }
 
