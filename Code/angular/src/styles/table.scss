@@ -259,12 +259,13 @@ span.status {
             background:#FF0000;
         }
     }
-    &.Approved, &.Accepted  {
+    &.Approved, &.Accepted, &.Approve  {
         color:var(--main-color);
         &::before{
             background:var(--main-color);
         }
     }
+    
     &.NewFramework {
         color:#607D8B;
         &::before{
@@ -277,7 +278,7 @@ span.status {
             background:#FF8F00;
         }
     }
-    &.UnderApproval {
+    &.UnderApproval, &.Finish {
         color:#6bac7b;
         &::before{
             background:#6bac7b;

@@ -22,7 +22,7 @@ enum DocumentRoles {
 //   NoAction = "NoAction",
 //   ReturnToCreator = "ReturnToCreator",
 //   Approve = "Approve",
-//   Finish = "Finish"
+//   Finish = "Finish" 
 // }
 
 //  send ,accept, , return to creator, final accept  موافقة نهائية , approve, return to creator , final approve اعتماد نهائي 
