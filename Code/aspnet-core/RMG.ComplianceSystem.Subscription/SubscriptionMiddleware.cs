@@ -23,6 +23,7 @@ namespace RMG.ComplianceSystem.Subscription
             if (IsExpired() && (httpContext.Request.Path.Value.Contains("api/app") || httpContext.Request.Path.Value.Contains("account")))
             {   
                 httpContext.Response.StatusCode = 205;
+                httpContext.Response.Body = Stream.Null;
             }
 
             await requestDelegate(httpContext);
