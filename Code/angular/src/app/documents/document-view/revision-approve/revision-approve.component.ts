@@ -25,6 +25,7 @@ enum DocumentRoles {
 //   Finish = "Finish"
 // }
 
+//  send ,accept, , return to creator, final accept  موافقة نهائية , approve, return to creator , final approve اعتماد نهائي 
 
 
 @Component({

@@ -79,19 +79,23 @@ const routes: Routes = [
 
   {
     path: 'tenant-management',
+    canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () =>
       import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
   },
   {
     path: 'setting-management',
+    canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
   {
     path:'settings',
+    canActivate: [AuthGuard, PermissionGuard],
     loadChildren:() => import('./settings/settings.module').then(m => m.SettingsModule)
   },
   {
     path:'documents',
+    canActivate: [AuthGuard, PermissionGuard],
     loadChildren:() => import('./documents/documents.module').then(m => m.DocumentsModule)
   },
   {

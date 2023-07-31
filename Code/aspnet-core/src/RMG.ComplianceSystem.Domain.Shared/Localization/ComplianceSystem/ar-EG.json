@@ -707,7 +707,25 @@
     "Actions:SendForApproval":"تم الإرسال للإعتماد",
     "Actions:SendForRevision":"تم الإرسال للمراجعة",
     "Actions:Approved":"تم إعتماد الوثيقة",
-    "Document:Policy":"وثيقة"
+    "Document:Policy":"وثيقة",
+    "CreatorNameNoAction" : "-",
+    "OwnerNoAction" : "-",
+    "RequiredReviewrNoAction" : "-",
+    "OptionalApproverNoAction" : "-",
+    "OptionalReviewrNoAction" : "-",
+    "RequiredApproverNoAction" : "-",
+    "CreatorNameApprove" : "إرسال",
+    "OwnerApprove" : "إرسال",
+    "RequiredReviewrReturnToCreator":"إعادة للمعد",
+    "RequiredApproverReturnToCreator":"إعادة للمعد",
+    "OptionalReviewrReturnToCreator":"إعادة للمعد",
+    "OptionalApproverReturnToCreator":"إعادة للمعد",
+    "OptionalReviewrFinish":"موافقة نهائية",
+    "RequiredReviewrFinish":"موافقة نهائية",
+    "RequiredReviewrApprove":"اعتماد",
+    "OptionalApproverFinish":"موافقة نهائية",
+    "RequiredApproverFinish":"موافقة نهائية",
+    "RequiredApproverApprove":"اعتماد نهائي"
 
   }
 }

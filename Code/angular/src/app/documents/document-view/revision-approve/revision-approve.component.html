@@ -22,8 +22,9 @@ appNgxdatatable>
     <!-- <ngx-datatable-column [name]="'::تاريخ الأجراء' | abpLocalization" prop="creationTime"> </ngx-datatable-column> -->
 
     <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" [maxWidth]="200" [width]="200" prop="type">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }}
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <!-- {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }} -->
+            {{ ('::' + row.role + ActionLogType[value]) | abpLocalization }}
         </ng-template>
     </ngx-datatable-column>
 
