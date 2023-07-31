@@ -75,6 +75,11 @@ export interface DocumentSectionGetListInputDto extends PagedAndSortedResultRequ
 }
 
 export interface TakeActionWithNotes {
+  notes?: string;
+  role?: string;
+}
+
+export interface TakeActionWithRequiredNotes {
   notes: string;
   role?: string;
 }

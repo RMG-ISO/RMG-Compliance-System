@@ -1,4 +1,4 @@
-import type { CreateDocumentDto, DocumentDto, DocumentGetListInputDto, TakeActionWithNotes } from './dtos/models';
+import type { CreateDocumentDto, DocumentDto, DocumentGetListInputDto, TakeActionWithNotes, TakeActionWithRequiredNotes } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -80,7 +80,7 @@ export class DocumentService {
     { apiName: this.apiName,...config });
   
 
-  returnToCreatorByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
+  returnToCreatorByIdAndInput = (id: string, input: TakeActionWithRequiredNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/document/${id}/return-to-creator`,

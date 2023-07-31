@@ -19,7 +19,7 @@ namespace RMG.ComplianceSystem.Documents
         Task<ListResultDto<NameId<Guid>>> GetAllCategories();
 
         Task SendForRevision(Guid id, TakeActionWithNotes input);
-        Task ReturnToCreator(Guid id, TakeActionWithNotes input);
+        Task ReturnToCreator(Guid id, TakeActionWithRequiredNotes input);
         Task SendForApproval(Guid id, TakeActionWithNotes input);
         Task Approve(Guid id, TakeActionWithNotes input);
 
