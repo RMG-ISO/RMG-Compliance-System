@@ -126,7 +126,7 @@ namespace RMG.ComplianceSystem.Documents
         public async Task ReturnToCreator(Guid id, TakeActionWithRequiredNotes input)
         {
             var entity = await Repository.GetAsync(id);
-            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, DocumentStatus.ReturnToCreator, input.Role, ActionLogType.ReturnToCreator));
+            await _actionLogRepository.InsertAsync(new DocumentActionLog(GuidGenerator.Create(), id, input.Notes, entity.Status, input.Role, ActionLogType.ReturnToCreator));
             await NotifyUsersAsync(nameof(NotificationSource.DocumentReturnedToContributor), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentReturnedToContributor, NotySource.DocumentReturnedToContributor, entity);
 
         }
