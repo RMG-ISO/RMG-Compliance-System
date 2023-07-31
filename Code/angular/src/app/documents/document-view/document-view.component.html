@@ -64,9 +64,9 @@
             <span>
                 {{ '::Document:CompliancePercentage' | abpLocalization }}
             </span>
-            <span >
+            <h4>
                 {{ documentData?.compliancePercentage }}
-            </span>
+            </h4>
         </div>
 
         <div>
@@ -74,7 +74,7 @@
                 {{ '::Document:Status' | abpLocalization }}
             </span>
             <span class="status" [class]="DocumentStatus[documentData?.status]">
-                {{ ( '::Enum:SharedStatus:' + documentData?.status  ) | abpLocalization }}
+                {{ ( '::Document:Enum:' + DocumentStatus[documentData?.status]  ) | abpLocalization }}
             </span>
         </div>
  
