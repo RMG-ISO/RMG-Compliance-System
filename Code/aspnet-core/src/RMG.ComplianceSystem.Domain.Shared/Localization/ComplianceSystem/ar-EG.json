@@ -662,7 +662,7 @@
     "Document:Enum:Retired":"متقاعد",
     "Document:DocumentDetails":"تفاصيل الوثيقة",
     "Document:DocumentTitle":"عنوان الوثيقة",
-    "Document:DocumentOwners":"ﻣﺎﻟﻜﻲ اﻟﻮﺛﻴﻘﺔ",
+    "Document:DocumentOwners":"معدو اﻟﻮﺛﻴﻘﺔ",
     "Document:Revisors":"المراجعون",
     "Document:Approvers":"المعتمدون",
     "Document:Description":"الوصف",
@@ -706,7 +706,26 @@
     "Actions:ReturnToCreatorMSG":"تم الإعادة للمعد",
     "Actions:SendForApproval":"تم الإرسال للإعتماد",
     "Actions:SendForRevision":"تم الإرسال للمراجعة",
-    "Actions:Approved":"تم إعتماد الوثيقة"
+    "Actions:Approved":"تم إعتماد الوثيقة",
+    "Document:Policy":"وثيقة",
+    "CreatorNameNoAction" : "-",
+    "OwnerNoAction" : "-",
+    "RequiredReviewrNoAction" : "-",
+    "OptionalApproverNoAction" : "-",
+    "OptionalReviewrNoAction" : "-",
+    "RequiredApproverNoAction" : "-",
+    "CreatorNameApprove" : "إرسال",
+    "OwnerApprove" : "إرسال",
+    "RequiredReviewrReturnToCreator":"إعادة للمعد",
+    "RequiredApproverReturnToCreator":"إعادة للمعد",
+    "OptionalReviewrReturnToCreator":"إعادة للمعد",
+    "OptionalApproverReturnToCreator":"إعادة للمعد",
+    "OptionalReviewrFinish":"موافقة نهائية",
+    "RequiredReviewrFinish":"موافقة نهائية",
+    "RequiredReviewrApprove":"اعتماد",
+    "OptionalApproverFinish":"موافقة نهائية",
+    "RequiredApproverFinish":"موافقة نهائية",
+    "RequiredApproverApprove":"اعتماد نهائي"
 
   }
 }

@@ -25,6 +25,9 @@ enum DocumentRoles {
 //   Finish = "Finish"
 // }
 
+//  send ,accept, , return to creator, final accept  موافقة نهائية , approve, return to creator , final approve اعتماد نهائي 
+
+
 @Component({
   selector: 'app-revision-approve',
   templateUrl: './revision-approve.component.html',
@@ -55,8 +58,6 @@ export class RevisionApproveComponent implements OnInit {
     private configService:ConfigStateService,
     private toasterService:ToasterService,
     private localizationService:LocalizationService
-
-
   ) { }
 
   documentData:DocumentDto;
@@ -163,7 +164,6 @@ export class RevisionApproveComponent implements OnInit {
 
   addRow( ) {
     console.log(this.configService.getAll().currentUser);
-
     return {
       creationTime:null,
       creatorId:null,

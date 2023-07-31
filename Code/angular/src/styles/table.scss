@@ -283,7 +283,7 @@ span.status {
             background:#6bac7b;
         }
     }
-    &.ReturnedToCreator {
+    &.ReturnedToCreator, &.ReturnToCreator {
         color:#f4511e;
         &::before{
             background:#f4511e;
