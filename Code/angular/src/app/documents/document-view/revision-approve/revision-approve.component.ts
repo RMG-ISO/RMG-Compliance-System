@@ -25,6 +25,8 @@ enum DocumentRoles {
 //   Finish = "Finish"
 // }
 
+
+
 @Component({
   selector: 'app-revision-approve',
   templateUrl: './revision-approve.component.html',
@@ -55,8 +57,6 @@ export class RevisionApproveComponent implements OnInit {
     private configService:ConfigStateService,
     private toasterService:ToasterService,
     private localizationService:LocalizationService
-
-
   ) { }
 
   documentData:DocumentDto;
@@ -163,7 +163,6 @@ export class RevisionApproveComponent implements OnInit {
 
   addRow( ) {
     console.log(this.configService.getAll().currentUser);
-
     return {
       creationTime:null,
       creatorId:null,
