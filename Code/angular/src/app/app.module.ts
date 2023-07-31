@@ -56,6 +56,8 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { MyRolesModule } from './my-roles/my-roles.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SubscriptionInterceptor } from './shared/interceptor/subscription.interceptor';
 
 // export let AppInjector: Injector;
 
@@ -148,6 +150,11 @@ import { MyRolesModule } from './my-roles/my-roles.module';
         getAccessToken: () => '', // return access token
       },
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass : SubscriptionInterceptor,
+      multi : true
+    }
   ],
   bootstrap: [AppComponent],
 })

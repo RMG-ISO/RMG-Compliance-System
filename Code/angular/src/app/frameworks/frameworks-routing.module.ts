@@ -18,7 +18,6 @@ const routes: Routes = [
   {
     path:'list',
     component:FrameworksListComponent,
-    canActivate : [SubscriptionGuard]
   },
   {
     path:'sub-domains/:subDomainId/controls',

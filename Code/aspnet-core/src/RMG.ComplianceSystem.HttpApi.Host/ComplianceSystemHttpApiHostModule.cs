@@ -63,6 +63,7 @@ namespace RMG.ComplianceSystem
             ConfigureSwaggerServices(context, configuration);
 
             context.Services.AddTransient<Notifications.NotificationHub>();
+            context.Services.AddTransient<SubscriptionMiddleware>();
         }
 
         private void ConfigureBundles()
@@ -205,8 +206,7 @@ namespace RMG.ComplianceSystem
                 app.UseDeveloperExceptionPage();
             }
 
-            string redirectUrl = context.GetConfiguration().GetSection("App").GetValue(typeof(string), "ClientUrl").ToString() + "/subscription";
-            app.UseMiddleware<SubscriptionMiddleware>(redirectUrl);
+            
 
             app.UseAbpRequestLocalization();
 
@@ -215,6 +215,7 @@ namespace RMG.ComplianceSystem
                 app.UseErrorPage();
             }
 
+            app.UseMiddleware<SubscriptionMiddleware>();
             app.UseCorrelationId();
             app.UseStaticFiles();
             app.UseRouting();
@@ -245,7 +246,7 @@ namespace RMG.ComplianceSystem
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
             app.UseConfiguredEndpoints();
-            
+
         }
     }
 }

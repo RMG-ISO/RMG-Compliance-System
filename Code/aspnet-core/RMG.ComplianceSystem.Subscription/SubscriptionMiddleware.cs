@@ -3,31 +3,29 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static RMG.ComplianceSystem.Subscription.SubscriptionDate;
 namespace RMG.ComplianceSystem.Subscription
 {
-    public class SubscriptionMiddleware
+    public class SubscriptionMiddleware : IMiddleware
     {
-        private readonly RequestDelegate _next;
-        private readonly string _redirectUrl;
+        private readonly IConfiguration _configuration;
 
-        public SubscriptionMiddleware(RequestDelegate next, string redirectUrl)
+        public SubscriptionMiddleware(IConfiguration configuration)
         {
-            _next = next;
-            _redirectUrl = redirectUrl;
+            _configuration = configuration;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext)
-        {
-            if (IsExpired())
-            {
-                httpContext.Response.Redirect(_redirectUrl, true);
-                return;
+        public async Task InvokeAsync(HttpContext httpContext , RequestDelegate requestDelegate)
+        { 
+            if (IsExpired() && (httpContext.Request.Path.Value.Contains("api/app") || httpContext.Request.Path.Value.Contains("account")))
+            {   
+                httpContext.Response.StatusCode = 205;
             }
 
-            await _next(httpContext);
+            await requestDelegate(httpContext);
         }
     }
 }

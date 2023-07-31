@@ -10,7 +10,6 @@ const routes: Routes = [
   {
     path:'login',
     component:LoginComponent,
-    canActivate : [SubscriptionGuard]
     // component: ReplaceableRouteContainerComponent,
     // data:{
     //   replaceableComponent: {
