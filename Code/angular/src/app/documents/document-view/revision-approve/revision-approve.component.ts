@@ -85,7 +85,12 @@ export class RevisionApproveComponent implements OnInit {
       if(indcies.length) {
         // console.log('getting in elese')
         let currentRow = this.actionsLog[indcies[0]];
-        this.addFunctionsAndData(currentRow);
+        if(currentRow.type == ActionLogType.ReturnToCreator)  {
+          let row = this.addFunctionsAndData(this.addRow());
+          if(row.role) this.actionsLog.push(row as any)
+        } else {
+          this.addFunctionsAndData(currentRow);
+        }
       } else {
         console.log('getting in elese')
         let row = this.addFunctionsAndData(this.addRow());
