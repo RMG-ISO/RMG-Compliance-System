@@ -96,7 +96,10 @@ const routes: Routes = [
   {
     path:'documents',
     canActivate: [AuthGuard, PermissionGuard],
-    loadChildren:() => import('./documents/documents.module').then(m => m.DocumentsModule)
+    loadChildren:() => import('./documents/documents.module').then(m => m.DocumentsModule),
+    data:{
+      requiredPolicy:'ComplianceSystem.Document'
+    }
   },
   {
     path:'',
