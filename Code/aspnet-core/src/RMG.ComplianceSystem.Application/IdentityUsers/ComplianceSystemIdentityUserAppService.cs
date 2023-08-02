@@ -10,7 +10,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 using static RMG.ComplianceSystem.Subscription.SubscriptionDate;
 
-namespace RMG.ComplianceSystem.IdentityUser
+namespace RMG.ComplianceSystem.IdentityUsers
 {
     [Dependency(ReplaceServices = true)]
     [ExposeServices(typeof(IIdentityUserAppService), typeof(IdentityUserAppService), typeof(ComplianceSystemIdentityUserAppService))]
