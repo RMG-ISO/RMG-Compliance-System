@@ -1,4 +1,4 @@
-import { AuthGuard, PermissionGuard } from '@abp/ng.core';
+import { AuthGuard, PermissionGuard, ReplaceableRouteContainerComponent } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -95,14 +95,14 @@ const routes: Routes = [
     loadChildren:() => import('./documents/documents.module').then(m => m.DocumentsModule)
   },
   {
+    path :'subscription',
+    loadChildren : () => import('./subscription/subscription.module').then(m => m.SubscriptionModule)
+  },
+  {
     path:'',
     redirectTo:'/home',
     pathMatch:'full'
   },
-  {
-    path :'subscription',
-    loadChildren : () => import('./subscription/subscription.module').then(m => m.SubscriptionModule)
-  }
 ];
 
 @NgModule({

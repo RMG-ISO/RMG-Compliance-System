@@ -15,6 +15,7 @@ import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { MyRolesComponent } from './my-roles/my-roles.component';
 import { IdentityRoleDto, IdentityRoleService } from '@abp/ng.identity/proxy';
 import { DOCUMENT } from '@angular/common';
+import { ExpiredSubscriptionComponent } from './subscription/expired-subscription/expired-subscription.component';
 
 @Component({
   selector: 'app-root',
@@ -56,6 +57,7 @@ export class AppComponent {
       component: MyRolesComponent,
       key: eIdentityComponents.Roles,
     });
+
 
 
     /* this.themeWrapper.style.setProperty(

@@ -9,6 +9,15 @@ function configureRoutes(routesService: RoutesService) {
   return () => {
     routesService.remove(['AbpUiNavigation::Menu:Administration'])
     routesService.add([
+      {
+        path:'/subscription',
+        name:'Subscription',
+        iconClass: 'fas fa-user-tag',
+        order: 2,
+        layout: eLayoutType.empty,
+        invisible:true
+      },
+
       // {
       //   path:'/dashboard',
       //   name:'::Dashboard:Title',
@@ -247,6 +256,7 @@ function configureRoutes(routesService: RoutesService) {
       },
 
 
+      
      
     ]);
   };

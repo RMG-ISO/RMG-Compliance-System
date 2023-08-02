@@ -117,7 +117,7 @@ import { SubscriptionInterceptor } from './shared/interceptor/subscription.inter
     AppComponent,
     ComplianceLayoutComponent,
     ErrorInterceptComponent,
-    PermissionManagementComponent
+    PermissionManagementComponent,
   ],
   providers: [
     APP_ROUTE_PROVIDER,
