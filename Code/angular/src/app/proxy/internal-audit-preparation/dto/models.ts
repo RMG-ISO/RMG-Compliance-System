@@ -1,4 +1,5 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { IdentityUserDto } from '../../volo/abp/identity/models';
 import type { DepartmentDto } from '../../departments/dtos/models';
 import type { RiskAndOpportunityDto } from '../../risks/dtos/models';
 import type { FrameworkDto } from '../../frameworks/dtos/models';

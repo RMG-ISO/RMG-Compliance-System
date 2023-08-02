@@ -1,9 +1,9 @@
 import type { SharedStatus } from '../../shared/shared-status.enum';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { IdentityUserDto } from '../../volo/abp/identity/models';
 import type { ComplianceStatus } from '../../shared/compliance-status.enum';
 import type { NameId } from '../../shared/models';
 import type { ControlDto } from '../../controls/dtos/models';
-import { IdentityUserDto } from '@abp/ng.identity/proxy';
 
 export interface CreateUpdateDomainDto {
   nameAr?: string;

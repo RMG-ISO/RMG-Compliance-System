@@ -1,6 +1,6 @@
 import type { AuditedEntityDto, FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import type { RiskTreatmentDto } from '../../risk-treatments/models';
 import type { IdentityUserDto } from '../../volo/abp/identity/models';
+import type { RiskTreatmentDto } from '../../risk-treatments/models';
 
 export interface RiskAndOpportunityDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   nameAr?: string;

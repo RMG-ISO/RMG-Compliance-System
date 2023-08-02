@@ -1,7 +1,7 @@
 import type { AttachmentDto } from '../attachments/dtos/models';
 import type { RiskAndOpportunityDto } from '../risks/dtos/models';
 import type { FullAuditedEntityWithUserDto } from '@abp/ng.core';
-import { IdentityUserDto } from '@abp/ng.identity/proxy';
+import type { IdentityUserDto } from '../volo/abp/identity/models';
 
 export interface CreateUpdateRiskTreatmentDto {
   riskOpportunityId?: string;
