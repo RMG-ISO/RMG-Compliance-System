@@ -10,7 +10,7 @@ using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Employees
 {
-    public class CreateUserHandler : ILocalEventHandler<EntityChangedEventData<IdentityUser>>, ITransientDependency
+    public class CreateUserHandler : ILocalEventHandler<EntityChangedEventData<Volo.Abp.Identity.IdentityUser>>, ITransientDependency
     {
         private readonly IEmployeeAppService _employeeAppService;
 
@@ -26,7 +26,7 @@ namespace RMG.ComplianceSystem.Employees
         /// </summary>
         /// <param name="eventData"></param>
         /// <returns></returns>
-        public async Task HandleEventAsync(EntityChangedEventData<IdentityUser> eventData)
+        public async Task HandleEventAsync(EntityChangedEventData<Volo.Abp.Identity.IdentityUser> eventData)
         {
             await _employeeAppService.CreateOrUpdateAsync(eventData.Entity.Id, eventData.Entity.Name + " " + eventData.Entity.Surname, eventData.Entity.Email,eventData.Entity.IsDeleted);
         }
