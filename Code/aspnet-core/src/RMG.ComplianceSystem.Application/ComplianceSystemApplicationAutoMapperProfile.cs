@@ -47,6 +47,12 @@ namespace RMG.ComplianceSystem
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+            CreateMap<Control, NameId<Guid>>()
+                .ForMember(d => d.Name, x => x.MapFrom(s => s.NameAr));
+
+            CreateMap<CreateUpdatePrincipleDto, Principle>();
+            CreateMap<Principle, PrincipleDto>()
+                .ForMember(d => d.Controls, x => x.MapFrom(s => s.PrincipleControls.Select(x => x.Control)));
 
             CreateMap<DocumentActionLog, DocumentActionLogDto>();
 

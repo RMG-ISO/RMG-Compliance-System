@@ -4,6 +4,7 @@ import type { ActionLogType } from '../action-log-type.enum';
 import type { DocumentStatus } from '../document-status.enum';
 import type { NameId } from '../../shared/models';
 import type { DocumentSectionStatus } from '../document-section-status.enum';
+import type { PrincipleStatus } from '../principle-status.enum';
 
 export interface CreateDocumentDto {
   name?: string;
@@ -24,6 +25,13 @@ export interface CreateUpdateDocumentSectionDto {
   title: string;
   content: string;
   documentId: string;
+}
+
+export interface CreateUpdatePrincipleDto {
+  documentId: string;
+  name: string;
+  description?: string;
+  controls: string[];
 }
 
 export interface DocumentActionLogDto extends CreationAuditedEntityDto<string> {
@@ -71,6 +79,20 @@ export interface DocumentSectionDto extends FullAuditedEntityDto<string> {
 }
 
 export interface DocumentSectionGetListInputDto extends PagedAndSortedResultRequestDto {
+  documentId?: string;
+}
+
+export interface PrincipleDto extends FullAuditedEntityDto<string> {
+  documentId?: string;
+  reference?: string;
+  name?: string;
+  description?: string;
+  complianceScore: number;
+  status?: PrincipleStatus;
+  controls: NameId<string>[];
+}
+
+export interface PrincipleGetListInputDto extends PagedAndSortedResultRequestDto {
   documentId?: string;
 }
 

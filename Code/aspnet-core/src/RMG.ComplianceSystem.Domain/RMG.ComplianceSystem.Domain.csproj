@@ -8,6 +8,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Policies\**" />
+	  <EmbeddedResource Remove="Policies\**" />
+	  <None Remove="Policies\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\RMG.ComplianceSystem.Domain.Shared\RMG.ComplianceSystem.Domain.Shared.csproj" />
 	</ItemGroup>
 
@@ -24,10 +30,6 @@
 		<PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="7.1.1" />
 		<PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="7.1.1" />
 		<PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="7.1.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Policies\" />
 	</ItemGroup>
 
 </Project>

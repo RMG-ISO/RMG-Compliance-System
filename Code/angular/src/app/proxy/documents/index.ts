@@ -5,4 +5,6 @@ export * from './document-section.service';
 export * from './document-status.enum';
 export * from './document-type.enum';
 export * from './document.service';
+export * from './principle-status.enum';
+export * from './principle.service';
 export { Dtos };

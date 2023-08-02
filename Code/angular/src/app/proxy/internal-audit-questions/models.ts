@@ -1,4 +1,5 @@
 import type { FullAuditedEntityWithUserDto } from '@abp/ng.core';
+import type { IdentityUserDto } from '../volo/abp/identity/models';
 import type { FrameworkDto } from '../frameworks/dtos/models';
 
 export interface CreateUpdateInternalAuditQuestionDto {
