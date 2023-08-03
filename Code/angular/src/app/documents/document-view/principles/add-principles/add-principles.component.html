@@ -1,6 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
-        <h2 >
+    <div mat-dialog-title class="d-flex align-items-center justify-content-center">
+        <button mat-button (click)="ref.close()" type="button"> 
+            <mat-icon color="warn">close</mat-icon>
+        </button>
+
+        <h2>
             {{ '::' + mode | abpLocalization }}
             {{ '::Document:Principle' | abpLocalization }}
         </h2>
@@ -8,22 +12,18 @@
     
     <mat-dialog-content class="mat-typography">
         <div class="row">
-            <div class="col-12">
-                <div class="form-group">
-                    <label for="name">{{ '::اسم القاعدة' | abpLocalization }}</label><span> * </span>
-                    <input id="name" class="form-control" formControlName="name">
-                </div>
+            <div class="col-12 form-group">
+                <label for="name">{{ '::اسم القاعدة' | abpLocalization }}</label><span> * </span>
+                <input id="name" class="form-control" formControlName="name">
             </div>
 
-            <div class="col-12">
-                <div class="form-group">
-                    <label for="description">{{ '::Document:Description' | abpLocalization }}</label>
-                    <textarea id="description" class="form-control" formControlName="description"></textarea>
-                </div>
+            <div class="col-12 form-group">
+                <label for="description">{{ '::Document:Description' | abpLocalization }}</label>
+                <textarea id="description" class="form-control" formControlName="description"></textarea>
             </div>
 
-            <div class="col-12">
-                <label>Multi select + Typeahead + Custom items (tags)</label>
+            <div class="col-12 form-group">
+                <label>الكنترول</label>
                 <ng-select 
                         appendTo="body"
                         bindLabel="nameAr"
@@ -44,7 +44,7 @@
             </div>
         </div>
     </mat-dialog-content>
-    <mat-dialog-actions class="actions">
+    <mat-dialog-actions class="actions justify-content-center">
         <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
             <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}

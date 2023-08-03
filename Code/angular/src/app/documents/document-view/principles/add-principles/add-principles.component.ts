@@ -38,7 +38,15 @@ export class AddPrinciplesComponent {
       id: new FormControl(null),
     })
 
-    if (this.data) this.form.patchValue(this.data);
+    if (this.data) {
+      this.form.patchValue(this.data);
+      this.controlsRes = this.data.controls.map(x => {
+        x.nameAr = x.name;
+        return x;
+      })
+    }
+
+    
     this.loadControls();
   }
 

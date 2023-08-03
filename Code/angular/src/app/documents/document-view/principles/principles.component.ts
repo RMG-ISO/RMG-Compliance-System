@@ -8,7 +8,7 @@ import { EmployeeService } from '@proxy/employees';
 import { DocumentViewComponent } from '../document-view.component';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { MatDialog } from '@angular/material/dialog';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { ControlService } from '@proxy/controls';
 
 @Component({
@@ -21,11 +21,13 @@ import { ControlService } from '@proxy/controls';
 })
 export class PrinciplesComponent {
   @ViewChild('dialog') dialog;
+  @ViewChild('table') table: DatatableComponent;
 
   documentData:DocumentDto;
   parent:DocumentViewComponent;
   ColumnMode = ColumnMode;
   PrincipleStatus = PrincipleStatus;
+  FormMode = FormMode;
 
   
   constructor(
@@ -59,6 +61,11 @@ export class PrinciplesComponent {
     });
   }
 
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
+
+
   delete(model: PrincipleDto) {
     this.confirmation.warn('::FrameworkDeletionConfirmationMessage', '::AreYouSure', { messageLocalizationParams: [ model.name] }).subscribe((status) => {
       if (status === Confirmation.Status.confirm) {
@@ -73,6 +80,7 @@ export class PrinciplesComponent {
         data,
         mode
       },
+      maxWidth:750,
       disableClose:true
     });
     ref.afterClosed().subscribe(con => {
