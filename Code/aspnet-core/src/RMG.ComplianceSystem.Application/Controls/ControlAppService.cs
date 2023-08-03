@@ -16,6 +16,7 @@ using RMG.ComplianceSystem.Assessments;
 using RMG.ComplianceSystem.Assessments.Dtos;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Entities.Events.Distributed;
+using RMG.ComplianceSystem.Shared;
 
 namespace RMG.ComplianceSystem.Controls
 {
@@ -146,6 +147,17 @@ namespace RMG.ComplianceSystem.Controls
                 ImplementedPercentage = a.ImplementedPercentage
             }).ToList();
             return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
+        }
+
+        public async Task<PagedResultDto<NameId<Guid>>> GetListLookup(ControlLookupPagedResultRequestDto input)
+        {
+            var query = (await Repository.GetQueryableAsync()).WhereIf(!input.Search.IsNullOrEmpty(), x => x.NameAr.Contains(input.Search) || x.NameEn.Contains(input.Search));
+            query = query.OrderByDescending(x => x.CreationTime);
+
+            int count = query.Count();
+            query = query.Skip(input.SkipCount).Take(input.MaxResultCount);
+            var items = await AsyncExecuter.ToListAsync(query);
+            return new PagedResultDto<NameId<Guid>>(count, ObjectMapper.Map<List<Control>, List<NameId<Guid>>>(items));
         }
     }
 }
