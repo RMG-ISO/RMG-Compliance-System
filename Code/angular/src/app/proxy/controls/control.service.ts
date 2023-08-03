@@ -1,7 +1,8 @@
-import type { ControlDto, ControlPagedAndSortedResultRequestDto, CreateUpdateControlDto } from './dtos/models';
+import type { ControlDto, ControlLookupPagedResultRequestDto, ControlPagedAndSortedResultRequestDto, CreateUpdateControlDto } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { NameId } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +59,15 @@ export class ControlService {
       method: 'GET',
       url: '/api/app/control/controls-by-framwork',
       params: { mainControlId: input.mainControlId, isMainControl: input.isMainControl, search: input.search, status: input.status, domainId: input.domainId, frameWorkId: input.frameWorkId, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getListLookupByInput = (input: ControlLookupPagedResultRequestDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<NameId<string>>>({
+      method: 'GET',
+      url: '/api/app/control/lookup',
+      params: { maxResultCount: input.maxResultCount, skipCount: input.skipCount, search: input.search },
     },
     { apiName: this.apiName,...config });
   

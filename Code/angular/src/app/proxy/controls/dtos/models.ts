@@ -17,6 +17,12 @@ export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto
   compliancePercentage: number;
 }
 
+export interface ControlLookupPagedResultRequestDto {
+  maxResultCount: number;
+  skipCount: number;
+  search?: string;
+}
+
 export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   mainControlId?: string;
   isMainControl: boolean;
