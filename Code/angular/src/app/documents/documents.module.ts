@@ -15,6 +15,7 @@ import {NgxPrintModule} from 'ngx-print';
 import { RevisionApproveComponent } from './document-view/revision-approve/revision-approve.component';
 import { DetailsComponent } from './document-view/details/details.component';
 import { PrinciplesComponent } from './document-view/principles/principles.component';
+import { AddPrinciplesComponent } from './document-view/principles/add-principles/add-principles.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PrinciplesComponent } from './document-view/principles/principles.compo
     RevisionApproveComponent,
     DetailsComponent,
     PrinciplesComponent,
+    AddPrinciplesComponent,
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,13 @@
+<div class="d-flex justify-content-between mb-4">
+    <button mat-raised-button color="primary" (click)="openDialog()">
+        إضافة قاعدة
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <button mat-raised-button color="primary">
+        إرسال للتقييم
+    </button>
+</div>
 <ngx-datatable
 class="material fullscreen"
 [rows]="items"
@@ -10,7 +20,16 @@ scrollbarV="true"
 [columnMode]="ColumnMode.force"
 appNgxdatatable>
 
-    <ngx-datatable-column [name]="'::المرجع' | abpLocalization" prop="reference"> </ngx-datatable-column>
+    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div style="padding-left:35px;">
+            <div><strong>Address</strong></div>
+            <div>{{ row | json }}</div>
+        </div>
+        </ng-template>
+    </ngx-datatable-row-detail>
+
+    <ngx-datatable-column [name]="'::المرجع' | abpLocalization" prop="reference" [maxWidth]="100" [width]="100"> </ngx-datatable-column>
     <ngx-datatable-column [name]="'::اسم القاعدة' | abpLocalization" prop="name"> </ngx-datatable-column>
 
     <ngx-datatable-column [name]="'::الوصف' | abpLocalization" prop="description" [width]="350">
@@ -21,11 +40,12 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [name]="'::Status' | abpLocalization" [maxWidth]="200" [width]="200" prop="status">
+    <ngx-datatable-column [name]="'::Status' | abpLocalization" [maxWidth]="200" [width]="200" prop="complianceStatus">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <!-- {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }} -->
-            <span [class]="ActionLogType[value]" >
-                {{ ('::' + PrincipleStatus[value]) | abpLocalization }}
+            {{value}}
+            <span [class]="PrincipleStatus[value]" >
+                {{ value !== null ? ( ('::' + PrincipleStatus[value]) | abpLocalization ) : '' }}
             </span>
         </ng-template>
     </ngx-datatable-column>
@@ -44,3 +64,7 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <app-add-principles [data]="data.data" [ref]="ref" [mode]="data.mode" [documentId]="documentData.id"></app-add-principles>
+</ng-template>

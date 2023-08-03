@@ -1,0 +1,18 @@
+:host ng-select.ng-select {
+    ::ng-deep {
+        .ng-select-container {
+            height: auto;
+            min-height: 6rem;
+            .ng-value {
+                display: flex;
+                .ng-value-label {
+                    max-width: 150px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+        
+    }
+}

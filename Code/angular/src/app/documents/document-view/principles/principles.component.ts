@@ -9,6 +9,7 @@ import { DocumentViewComponent } from '../document-view.component';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { MatDialog } from '@angular/material/dialog';
 import { ColumnMode } from '@swimlane/ngx-datatable';
+import { ControlService } from '@proxy/controls';
 
 @Component({
   selector: 'app-principles',
@@ -26,6 +27,7 @@ export class PrinciplesComponent {
   ColumnMode = ColumnMode;
   PrincipleStatus = PrincipleStatus;
 
+  
   constructor(
     private configStateService:ConfigStateService,
     private router:Router,
@@ -34,9 +36,16 @@ export class PrinciplesComponent {
     private employeeService: EmployeeService,
     public list:ListService,
     private confirmation: ConfirmationService,
-    private matDialog:MatDialog
+    private matDialog:MatDialog,
+    private controlService:ControlService
   ) {
     this.getList();
+    
+  }
+  
+
+  onDetailToggle(event) {
+    console.log('Detail Toggled', event);
   }
 
 
@@ -58,7 +67,7 @@ export class PrinciplesComponent {
     });
   }
 
-  openDialog(data = null, mode = FormMode.Create) {
+  openDialog(mode = FormMode.Create, data = null) {
     let ref = this.matDialog.open(this.dialog, {
       data:{
         data,
@@ -67,7 +76,6 @@ export class PrinciplesComponent {
       disableClose:true
     });
     ref.afterClosed().subscribe(con => {
-      
       if(con) this.list.get();
     })
   }
