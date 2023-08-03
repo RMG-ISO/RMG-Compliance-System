@@ -149,6 +149,7 @@ namespace RMG.ComplianceSystem.Controls
             return assessments.Any() ? (int)assessments.Average(a => a.CompliancePercentage) : 0;
         }
 
+        [AllowAnonymous]
         public async Task<PagedResultDto<NameId<Guid>>> GetListLookup(ControlLookupPagedResultRequestDto input)
         {
             var query = (await Repository.GetQueryableAsync()).WhereIf(!input.Search.IsNullOrEmpty(), x => x.NameAr.Contains(input.Search) || x.NameEn.Contains(input.Search));
