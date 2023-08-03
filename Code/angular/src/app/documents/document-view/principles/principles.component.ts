@@ -10,6 +10,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { MatDialog } from '@angular/material/dialog';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { ControlService } from '@proxy/controls';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-principles',
@@ -36,13 +37,12 @@ export class PrinciplesComponent {
     private toasterService:ToasterService,
     private principleService: PrincipleService,
     private employeeService: EmployeeService,
-    public list:ListService,
+    public  list:ListService,
     private confirmation: ConfirmationService,
     private matDialog:MatDialog,
     private controlService:ControlService
   ) {
     this.getList();
-    
   }
   
 
@@ -61,8 +61,28 @@ export class PrinciplesComponent {
     });
   }
 
+  formsContainers = {};
+
   toggleExpandRow(row) {
+    console.log('toggleExpanf', row);
     this.table.rowDetail.toggleExpandRow(row);
+    if(!this.formsContainers[row.id]) {
+      this.formsContainers[row.id] = new FormGroup({
+        principleId: new FormControl(row.id),
+        status: new FormControl(null),
+        isApplicable: new FormControl(null),
+        comment: new FormControl(null),
+        score: new FormControl(null),
+        attachmentId: new FormControl(null),
+      })
+    }
+  }
+
+  changeComply(group) {
+    group.controls.score.setValidators(
+      group.isApplicable == PrincipleStatus.PartiallyComply ? [Validators.required, Validators.min(1), Validators.max(99)] : null
+    );
+    group.controls.score.updateValueAndValidity();
   }
 
 

@@ -16,6 +16,7 @@ import { RevisionApproveComponent } from './document-view/revision-approve/revis
 import { DetailsComponent } from './document-view/details/details.component';
 import { PrinciplesComponent } from './document-view/principles/principles.component';
 import { AddPrinciplesComponent } from './document-view/principles/add-principles/add-principles.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { AddPrinciplesComponent } from './document-view/principles/add-principle
     MatExpansionModule,
     CKEditorModule,
     DragDropModule,
-    NgxPrintModule
+    NgxPrintModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DocumentsModule { }

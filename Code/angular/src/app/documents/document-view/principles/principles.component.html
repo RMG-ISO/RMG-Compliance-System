@@ -74,10 +74,45 @@ appNgxdatatable>
 
     <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-        <div style="padding-left:35px;">
-            <div><strong>Address</strong></div>
-            <div>{{ row | json }}</div>
-        </div>
+            <form [formGroup]="formsContainers[row.id]" *ngIf="formsContainers[row.id]">
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <label for="">
+                            : هل القاعدة قابلة للتطبيق
+                        </label>
+                        <mat-radio-group formControlName="isApplicable">
+                            <mat-radio-button [value]="true">
+                                {{ '::yes' | abpLocalization }}
+                            </mat-radio-button>
+                            <mat-radio-button [value]="PrincipleStatus.NotApplicable">
+                                {{ '::no' | abpLocalization }}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <ng-container *ngIf="formsContainers[row.id].controls?.isApplicable?.value">
+                        <div class=" col-md-6 form-group">
+                            <label for="">
+                                : الامتثال
+                            </label>
+                            <mat-radio-group formControlName="status" (change)="changeComply(formsContainers[row.id])">
+                                <mat-radio-button [value]="PrincipleStatus.Comply">NotComply</mat-radio-button>
+                                <mat-radio-button [value]="PrincipleStatus.NotComply">NotComply</mat-radio-button>
+                                <mat-radio-button [value]="PrincipleStatus.PartiallyComply">PartiallyComply</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-md-6 form-group" [class.d-none]="formsContainers[row.id].controls.status.value != PrincipleStatus.PartiallyComply">
+                            <label for="">
+                                النسبة
+                            </label>
+                            <input type="number" formControlName="score">
+                        </div>
+
+                    </ng-container>
+                </div>
+               
+
+             
+            </form>
         </ng-template>
     </ngx-datatable-row-detail>
 </ngx-datatable>

@@ -26,19 +26,19 @@
                 <label>الكنترول</label>
                 <ng-select 
                         appendTo="body"
-                        bindLabel="nameAr"
+                        bindLabel="name"
                         [addTag]="false"
                         [clearSearchOnAdd]="false"
                         [multiple]="true"
                         [hideSelected]="true"
                         [trackByFn]="trackByFn"
-                        [minTermLength]="2"
+                        [minTermLength]="minTermLength"
                         [loading]="controlsLoading"
                         typeToSearchText="Please enter 2 or more characters"
                         [typeahead]="controlsInput$"
                         formControlName="controls">
                         <ng-option *ngFor="let control of controls$ | async" [value]="control.id">
-                            {{ control.nameAr }}
+                            {{ control.name }}
                         </ng-option>
                 </ng-select>
             </div>

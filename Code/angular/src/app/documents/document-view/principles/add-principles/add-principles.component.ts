@@ -5,6 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ControlService } from '@proxy/controls';
 import { ControlDto } from '@proxy/controls/dtos';
 import { PrincipleService } from '@proxy/documents';
+import { PrincipleDto } from '@proxy/documents/dtos';
+import { NameId } from '@proxy/shared';
 import { BehaviorSubject, Observable, Subject, catchError, concat, distinctUntilChanged, finalize, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -14,7 +16,7 @@ import { BehaviorSubject, Observable, Subject, catchError, concat, distinctUntil
   host: { class:'app-dialog' },
 })
 export class AddPrinciplesComponent {
-  @Input('data') data;
+  @Input('data') data:PrincipleDto;
   @Input('mode') mode;
   @Input('ref') ref;
   @Input('documentId') documentId;
@@ -39,44 +41,24 @@ export class AddPrinciplesComponent {
     })
 
     if (this.data) {
+      // let data = JSON.parse(JSON.stringify(this.data));
+      // data.controls = data.controls.map(x => x.id) as any;
       this.form.patchValue(this.data);
-      this.controlsRes = this.data.controls.map(x => {
-        x.nameAr = x.name;
-        return x;
-      })
+      this.controlsRes = this.data.controls;
+      console.log('this.controlsRes', this.controlsRes);
+      // .map(x => {
+      //   x.nameAr = x.name;
+      //   return x;
+      // })
     }
 
     
     this.loadControls();
   }
 
-  isSaving = false;
-  save() {
-    console.log(this.form)
-    if (this.form.invalid) return;
-    this.isSaving = true;
-    const request = this.data?.id
-      ? this.principleService.update(this.data.id, this.form.getRawValue())
-      : this.principleService.create(this.form.getRawValue());
-
-    request
-    .pipe(
-      finalize(() => this.isSaving = false)
-    ).subscribe((res) => {
-      this.toasterService.success('::SuccessfullySaved', "");
-      this.ref.close(res);
-    });
-  }
-
-  // getControls() {
-  //   this.controlService.getListWithoutPaging({search:search} as any).subscribe(r => {
-  //     console.log(r);
-  //   })
-  // }
 
 
-
-  controls$: Observable<ControlDto[]>;
+  controls$: Observable<NameId<string>[]>;
   controlsInput$ = new Subject<string>();
   selectedPersons: ControlDto[] = [];
 
@@ -86,7 +68,7 @@ export class AddPrinciplesComponent {
 
   controlsLoading  = false;
   searchTerm;
-  searchTermMinLength = 2;
+  minTermLength = 2;
   controlsRes = [];
   private loadControls() {
     // this.controls$ = concat(
@@ -112,17 +94,17 @@ export class AddPrinciplesComponent {
         distinctUntilChanged(),
         switchMap((term) => {
           console.log('term', term)
-          if(!term || (term.length < this.searchTermMinLength)){
+          if(!term || (term.length < this.minTermLength)){
             return of(this.controlsRes);
           }
           this.controlsLoading = true
-          return this.controlService.getListWithoutPaging({search:term} as any).pipe(
+          return this.controlService.getListLookupByInput({search:term} as any).pipe(
             catchError(() => {
               this.controlsRes = [];
               return of([])
             }), // empty list on error
             tap(() => (this.controlsLoading = false)),
-            map( (res:ListResultDto<ControlDto>) => {
+            map( (res:ListResultDto<NameId<string>>) => {
               this.controlsRes = res.items
               return res.items
             })
@@ -136,5 +118,25 @@ export class AddPrinciplesComponent {
   }
 
 
+
+
+  isSaving = false;
+  save() {
+    console.log(this.form)
+    if (this.form.invalid) return;
+    this.isSaving = true;
+    let value = {...this.form.value};
+    if(value.id) value.controls = value.controls.map(x => x.id)
+    const request = this.data?.id
+      ? this.principleService.update(this.data.id, value)
+      : this.principleService.create(value);
+    request
+    .pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe((res) => {
+      this.toasterService.success('::SuccessfullySaved', "");
+      this.ref.close(res);
+    });
+  }
 
 }
