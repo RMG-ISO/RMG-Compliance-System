@@ -92,7 +92,9 @@ export interface PrincipleDto extends FullAuditedEntityDto<string> {
   name?: string;
   description?: string;
   complianceScore: number;
-  status?: PrincipleStatus;
+  complianceStatus?: PrincipleStatus;
+  attachmentId?: string;
+  complianceComment?: string;
   controls: NameId<string>[];
 }
 
@@ -115,4 +117,12 @@ export interface TakeActionWithNotes {
 export interface TakeActionWithRequiredNotes {
   notes: string;
   role?: string;
+}
+
+export interface UpdatePrincipleComplianceDto {
+  principleId: string;
+  status: PrincipleStatus;
+  comment?: string;
+  score: number;
+  attachmentId?: string;
 }

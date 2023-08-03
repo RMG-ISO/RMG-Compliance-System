@@ -60,6 +60,6 @@
         public const string NoPrinciplesToComply = $"{ParentGroupName}:{DocumentGroupName}:001";
         public const string PrinciplesComplianceStartDateShouldBeInTheFuture = $"{ParentGroupName}:{DocumentGroupName}:002";
         public const string PrinciplesComplianceEndDateShouldBeAfterStartDate = $"{ParentGroupName}:{DocumentGroupName}:003";
-
+        public const string CannotStartPrincipleComplianceYet = $"{ParentGroupName}:{DocumentGroupName}:004";
     }
 }

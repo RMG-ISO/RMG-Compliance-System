@@ -188,7 +188,7 @@ namespace RMG.ComplianceSystem.Documents
             document.ComplianceScheduledStartDate = input.ScheduledStartDate;
             document.ComplianceScheduledEndDate = input.ScheduledEndDate;
 
-            await Repository.UpdateAsync(document);
+            await Repository.UpdateAsync(document, true);
 
             await NotifyUsersAsync(nameof(NotificationSource.DocumentShouldStartPrinciplesCompliance), new List<Guid> { input.ResponsibleId }, NotificationSource.DocumentShouldStartPrinciplesCompliance, NotySource.DocumentShouldStartPrinciplesCompliance, document);
         }

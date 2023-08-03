@@ -48,7 +48,8 @@ namespace RMG.ComplianceSystem.Notifications
         DocumentSentForApproval,
         DocumentApprovedByUser,
         DocumentApproved,
-        DocumentShouldStartPrinciplesCompliance
+        DocumentShouldStartPrinciplesCompliance,
+        PrincipleComplianceDataFilled
     }
 
 }

@@ -13,7 +13,9 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         public string Name { get; set; }
         public string Description { get; set; }
         public int ComplianceScore { get; set; }
-        public PrincipleStatus? Status { get; set; }
+        public PrincipleStatus? ComplianceStatus { get; set; }
+        public Guid? AttachmentId { get; set; }
+        public string ComplianceComment { get; set; }
         public List<NameId<Guid>> Controls { get; set; } = new List<NameId<Guid>>();
     }
 }

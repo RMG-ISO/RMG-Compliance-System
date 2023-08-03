@@ -15,5 +15,6 @@ namespace RMG.ComplianceSystem.Documents
          PrincipleGetListInputDto, //Used for paging/sorting
          CreateUpdatePrincipleDto> //Used to create/update a book
     {
+        Task<PrincipleDto> UpdateCompliance(UpdatePrincipleComplianceDto input);
     }
 }
