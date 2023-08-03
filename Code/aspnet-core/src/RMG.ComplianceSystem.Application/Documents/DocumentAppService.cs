@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using RMG.ComplianceSystem.EmailTemplates;
+using RMG.ComplianceSystem.Permissions;
 
 namespace RMG.ComplianceSystem.Documents
 {
@@ -24,6 +25,7 @@ namespace RMG.ComplianceSystem.Documents
     public class DocumentAppService : CrudAppService<Document, DocumentDto, Guid, DocumentGetListInputDto, CreateDocumentDto>, IDocumentAppService
     {
         private readonly IDataFilter _dataFilter;
+        private readonly IPrincipleRepository _principleRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRepository<Category, Guid> _categoryRepository;
         private readonly IRepository<DocumentCategory, Guid> _documentCategoryRepository;
@@ -39,6 +41,7 @@ namespace RMG.ComplianceSystem.Documents
         public DocumentAppService(
             IDocumentRepository repository,
             IEmployeeRepository employeeRepository,
+            IPrincipleRepository principleRepository,
             IRepository<Category, Guid> categoryRepository,
             IRepository<DocumentCategory, Guid> documentCategoryRepository,
             IRepository<DocumentApprover, Guid> documentApproverRepository,
@@ -54,6 +57,7 @@ namespace RMG.ComplianceSystem.Documents
         {
             _dataFilter = dataFilter;
             _employeeRepository = employeeRepository;
+            _principleRepository = principleRepository;
             _categoryRepository = categoryRepository;
             _documentApproverRepository = documentApproverRepository;
             _documentOwnerRepository = documentOwnerRepository;
@@ -165,6 +169,30 @@ namespace RMG.ComplianceSystem.Documents
             await NotifyUsersAsync(nameof(NotificationSource.DocumentApprovedByUser), entity.Owners.Select(r => r.EmployeeId).ToList(), NotificationSource.DocumentApprovedByUser, NotySource.DocumentApprovedByUser, entity, CurrentUser.Id);
         }
 
+        [HttpPut]
+        //[Authorize(ComplianceSystemPermissions.Document.SendPrinciplesForCompliance)]
+        public async Task SendPrinciplesForCompliance(SendPrinciplesForComplianceDto input)
+        {
+            if (!await _principleRepository.AnyAsync(p => p.DocumentId == input.DocumentId))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.NoPrinciplesToComply);
+
+            if (input.ScheduledStartDate < Clock.Now.Date)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.PrinciplesComplianceStartDateShouldBeInTheFuture);
+
+            if (input.ScheduledStartDate > input.ScheduledEndDate)
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.PrinciplesComplianceEndDateShouldBeAfterStartDate);
+
+            var document = await Repository.GetAsync(input.DocumentId, false);
+            await _employeeRepository.EnsureExistsAsync(input.ResponsibleId);
+            document.ComplianceResponsibleId = input.ResponsibleId;
+            document.ComplianceScheduledStartDate = input.ScheduledStartDate;
+            document.ComplianceScheduledEndDate = input.ScheduledEndDate;
+
+            await Repository.UpdateAsync(document, true);
+
+            await NotifyUsersAsync(nameof(NotificationSource.DocumentShouldStartPrinciplesCompliance), new List<Guid> { input.ResponsibleId }, NotificationSource.DocumentShouldStartPrinciplesCompliance, NotySource.DocumentShouldStartPrinciplesCompliance, document);
+        }
+
         protected override async Task<DocumentDto> MapToGetOutputDtoAsync(Document entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
@@ -253,7 +281,7 @@ namespace RMG.ComplianceSystem.Documents
 
 
         private async Task NotifyUsersAsync(string emailTemplateKey, List<Guid> receiversIds, NotificationSource notificationSource, NotySource notySource, Document document, Guid? actionById = null)
-        { 
+        {
             List<Notification> notificationList = new List<Notification>();
 
             var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
@@ -286,6 +314,17 @@ namespace RMG.ComplianceSystem.Documents
                                 DocumentName = document.Name,
                                 URL = Utility.GetURL(notificationSource, document.Id, null, null),
                                 ActionByName = employees.FirstOrDefault(e => e.Id == actionById)?.FullName
+                            };
+                            break;
+                        }
+                    case NotificationSource.DocumentShouldStartPrinciplesCompliance:
+                        {
+                            emailTemplateModel = new SendPrinciplesForComplianceEmailDto
+                            {
+                                ReceiverName = Receiver.FullName,
+                                DocumentName = document.Name,
+                                URL = Utility.GetURL(notificationSource, document.Id, null, null),
+                                ScheduledStartDate = document.ComplianceScheduledStartDate.Value
                             };
                             break;
                         }

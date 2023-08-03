@@ -82,7 +82,6 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateAuthorWithBookDto, Author>();
             CreateMap<CreateBookDto, Book>();
             CreateMap<Author, AuthorWithDetailsDto>();
-            CreateMap<Document, DocumentDto>();
             CreateMap<CreateDocumentDto, Document>();
             CreateMap<RiskOpportunity, RiskAndOpportunityDto>();
             CreateMap<CreateUpdateRiskAndOpportunityDto, RiskOpportunity>();
@@ -141,6 +140,7 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
 
             CreateMap<Document, DocumentDto>()
+                .ForMember(dest => dest.ComplianceResponsibleName, ops => ops.MapFrom(src => src.ComplianceResponsible.FullName))
                 .ForMember(dest => dest.Owners, ops => ops.MapFrom(src => src.Owners.Select(x => x.Employee)))
                 .ForMember(dest => dest.Categories, ops => ops.MapFrom(src => src.DocumentCategories.Select(x => x.Category)));
 

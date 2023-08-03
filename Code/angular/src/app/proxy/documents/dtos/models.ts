@@ -53,6 +53,10 @@ export interface DocumentDto extends FullAuditedEntityDto<string> {
   approvers: DocumentEmployeeDto[];
   validationStartDate?: string;
   validationEndtDate?: string;
+  complianceResponsibleId?: string;
+  complianceResponsibleName?: string;
+  complianceScheduledStartDate?: string;
+  complianceScheduledEndDate?: string;
   compliancePercentage: number;
   status: DocumentStatus;
   description?: string;
@@ -88,12 +92,21 @@ export interface PrincipleDto extends FullAuditedEntityDto<string> {
   name?: string;
   description?: string;
   complianceScore: number;
-  status?: PrincipleStatus;
+  complianceStatus?: PrincipleStatus;
+  attachmentId?: string;
+  complianceComment?: string;
   controls: NameId<string>[];
 }
 
 export interface PrincipleGetListInputDto extends PagedAndSortedResultRequestDto {
   documentId?: string;
+}
+
+export interface SendPrinciplesForComplianceDto {
+  documentId: string;
+  responsibleId: string;
+  scheduledStartDate: string;
+  scheduledEndDate: string;
 }
 
 export interface TakeActionWithNotes {
@@ -104,4 +117,12 @@ export interface TakeActionWithNotes {
 export interface TakeActionWithRequiredNotes {
   notes: string;
   role?: string;
+}
+
+export interface UpdatePrincipleComplianceDto {
+  principleId: string;
+  status: PrincipleStatus;
+  comment?: string;
+  score: number;
+  attachmentId?: string;
 }

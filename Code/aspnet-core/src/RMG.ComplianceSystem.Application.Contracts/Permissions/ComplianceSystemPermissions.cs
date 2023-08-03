@@ -66,15 +66,17 @@ namespace RMG.ComplianceSystem.Permissions
             public const string Update = Default + ".Update";
             public const string Delete = Default + ".Delete";
             public const string DownLoad = Default + ".DownLoad";
+            public const string SendPrinciplesForCompliance = Default + ".SendPrinciplesForCompliance";
         }
 
-        public class DocumentCategory
-        {
-            public const string Default = GroupName + ".DocumentCategory";
-            public const string Update = Default + ".Update";
-            public const string Create = Default + ".Create";
-            public const string Delete = Default + ".Delete";
-        }
+        //public class DocumentCategory
+        //{
+        //    public const string Default = GroupName + ".DocumentCategory";
+        //    public const string Update = Default + ".Update";
+        //    public const string Create = Default + ".Create";
+        //    public const string Delete = Default + ".Delete";
+        //}
+
         public class RiskAndOpportunity
         {
             public const string Default = GroupName + ".RiskAndOpportunity";

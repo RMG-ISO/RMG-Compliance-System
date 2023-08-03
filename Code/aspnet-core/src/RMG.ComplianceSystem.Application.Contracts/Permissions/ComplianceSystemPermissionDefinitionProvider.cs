@@ -91,11 +91,12 @@ namespace RMG.ComplianceSystem.Permissions
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Update, L("Permission:Update"));
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.Delete, L("Permission:Delete"));
             DocumentPermission.AddChild(ComplianceSystemPermissions.Document.DownLoad, L("Permission:DownLoad"));
+            DocumentPermission.AddChild(ComplianceSystemPermissions.Document.SendPrinciplesForCompliance, L("Permission:SendPrinciplesForCompliance"));
 
-            var DocumentCategoryPermission = myGroup.AddPermission(ComplianceSystemPermissions.DocumentCategory.Default, L("Permission:DocumentCategory"));
-            DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Create, L("Permission:Create"));
-            DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Update, L("Permission:Update"));
-            DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Delete, L("Permission:Delete"));
+            //var DocumentCategoryPermission = myGroup.AddPermission(ComplianceSystemPermissions.DocumentCategory.Default, L("Permission:DocumentCategory"));
+            //DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Create, L("Permission:Create"));
+            //DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Update, L("Permission:Update"));
+            //DocumentCategoryPermission.AddChild(ComplianceSystemPermissions.DocumentCategory.Delete, L("Permission:Delete"));
 
             var departmentPermission = myGroup.AddPermission(ComplianceSystemPermissions.Department.Default, L("Permission:Department"));
             departmentPermission.AddChild(ComplianceSystemPermissions.Department.Create, L("Permission:Create"));

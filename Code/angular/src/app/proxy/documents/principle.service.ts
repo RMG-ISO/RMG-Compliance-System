@@ -1,4 +1,4 @@
-import type { CreateUpdatePrincipleDto, PrincipleDto, PrincipleGetListInputDto } from './dtos/models';
+import type { CreateUpdatePrincipleDto, PrincipleDto, PrincipleGetListInputDto, UpdatePrincipleComplianceDto } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -48,6 +48,15 @@ export class PrincipleService {
     this.restService.request<any, PrincipleDto>({
       method: 'PUT',
       url: `/api/app/principle/${id}`,
+      body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  updateComplianceByInput = (input: UpdatePrincipleComplianceDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PrincipleDto>({
+      method: 'PUT',
+      url: '/api/app/principle/compliance',
       body: input,
     },
     { apiName: this.apiName,...config });
