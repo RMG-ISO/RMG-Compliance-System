@@ -40,7 +40,8 @@ namespace RMG.ComplianceSystem.Shared
         DocumentSentForApproval,
         DocumentApprovedByUser,
         DocumentApproved,
-        DocumentShouldStartPrinciplesCompliance
+        DocumentShouldStartPrinciplesCompliance,
+        PrincipleComplianceDataFilled
 
     }
     public enum Status

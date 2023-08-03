@@ -16,6 +16,10 @@ using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Data;
 using RMG.ComplianceSystem.Controls;
 using Volo.Abp.Domain.Entities;
+using RMG.ComplianceSystem.EmailTemplates;
+using RMG.ComplianceSystem.Notifications;
+using RMG.ComplianceSystem.Shared;
+using RMG.ComplianceSystem.Employees;
 
 namespace RMG.ComplianceSystem.Documents
 {
@@ -44,6 +48,11 @@ namespace RMG.ComplianceSystem.Documents
         private readonly IDocumentRepository _documentRepository;
         private readonly IControlRepository _controlRepository;
         private readonly IDataFilter _dataFilter;
+        private readonly IEmailTemplateRepository _emailTemplateRepository;
+        private readonly IEmailTemplateAppService _emailTemplateAppService;
+        private readonly INotificationRepository _notificationRepository;
+        private readonly INotificationAppService _notificationAppService;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public PrincipleAppService(
             IdentityUserManager _User, 
@@ -52,15 +61,25 @@ namespace RMG.ComplianceSystem.Documents
             IRepository<PrincipleControl, Guid> principleControlRepository,
             IDataFilter dataFilter,
             IControlRepository controlRepository,
-            IDocumentRepository documentRepository
+            IDocumentRepository documentRepository,
+            IEmployeeRepository employeeRepository,
+            IEmailTemplateRepository emailTemplateRepository,
+            IEmailTemplateAppService emailTemplateAppService,
+            INotificationRepository notificationRepository,
+            INotificationAppService notificationAppService
             ) : base(repository)
         {
             User = _User;
+            _employeeRepository = employeeRepository;
             _dataFilter = dataFilter;
             _attachmentRepository = attachmentRepository;
             _documentRepository = documentRepository;
             _principleControlRepository = principleControlRepository;
             _controlRepository = controlRepository;
+            _emailTemplateRepository = emailTemplateRepository;
+            _emailTemplateAppService = emailTemplateAppService;
+            _notificationRepository = notificationRepository;
+            _notificationAppService = notificationAppService;
         }
 
         public override async Task<PrincipleDto> CreateAsync(CreateUpdatePrincipleDto input)
@@ -89,6 +108,43 @@ namespace RMG.ComplianceSystem.Documents
             return await MapToGetOutputDtoAsync(entity);
         }
 
+        [HttpPut]
+        public async Task<PrincipleDto> UpdateCompliance(UpdatePrincipleComplianceDto input)
+        {
+
+            var principle = await Repository.GetAsync(input.PrincipleId);
+            var document = await _documentRepository.GetAsync(principle.DocumentId);
+            if (!document.ComplianceScheduledStartDate.HasValue
+                || (document.ComplianceScheduledStartDate.HasValue && document.ComplianceScheduledStartDate.Value < Clock.Now.Date))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotStartPrincipleComplianceYet);
+
+            principle.ComplianceStatus = input.Status;
+            principle.ComplianceComment = input.Comment;
+            principle.AttachmentId = input.AttachmentId;
+            switch (input.Status)
+            {
+                case PrincipleStatus.NotApplicable:
+                    break;
+                case PrincipleStatus.NotComply:
+                    principle.ComplianceScore = 0;
+                    break;
+                case PrincipleStatus.PartiallyComply:
+                    principle.ComplianceScore = input.Score;
+                    break;
+                case PrincipleStatus.Comply:
+                    principle.ComplianceScore = 100;
+                    break;
+                default:
+                    break;
+            }
+
+            await Repository.UpdateAsync(principle, true);
+
+            await NotifyUsersAsync(nameof(NotificationSource.PrincipleComplianceDataFilled), document.Owners.Select(o => o.EmployeeId).ToList(), NotificationSource.PrincipleComplianceDataFilled, NotySource.PrincipleComplianceDataFilled, principle);
+            return await MapToGetOutputDtoAsync(principle);
+        }
+        
+
         protected override async Task<IQueryable<Principle>> CreateFilteredQueryAsync(PrincipleGetListInputDto input)
         {
             var query = await Repository.WithDetailsAsync();
@@ -112,6 +168,98 @@ namespace RMG.ComplianceSystem.Documents
                 await _controlRepository.GetAsync(item, false);
             }
         }
+
+
+        private async Task NotifyUsersAsync(string emailTemplateKey, List<Guid> receiversIds, NotificationSource notificationSource, NotySource notySource, Principle principle)
+        {
+            List<Notification> notificationList = new List<Notification>();
+
+            var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
+            var employees = (await _employeeRepository.GetQueryableAsync()).Where(e => receiversIds.Contains(e.Id)).ToList();
+            foreach (var receiverId in receiversIds)
+            {
+                var Receiver = employees.FirstOrDefault(x => x.Id == receiverId);
+                //Email Notification
+
+                object emailTemplateModel = null;
+                switch (notificationSource)
+                {
+                    case NotificationSource.PrincipleComplianceDataFilled:
+                        emailTemplateModel = new PrincipleComplianceDataFilledEmailDto
+                        {
+                            ReceiverName = Receiver.FullName,
+                            PrincipleName = principle.Name,
+                            URL = Utility.GetURL(notificationSource, principle.Id, null, null)
+                        };
+                        break;
+                    default:
+                        emailTemplateModel = new
+                        {
+
+                        };
+                        break;
+                }
+
+                var expandoData = Utility.ConvertTypeToExpandoObject(emailTemplateModel);
+                var emailTemplateData = await _emailTemplateAppService.RenderTemplate(emailTemplateKey, expandoData);
+
+                var notification = new Notification(
+                    GuidGenerator.Create(),
+                    "Compliance System",
+                    null,
+                    Receiver.Email,
+                    null,
+                    null,
+                    emailTemplate.Subject,
+                    Priority.Normal,
+                    NotificationType.Email,
+                    Notifications.Status.Created,
+                    Clock.Now,
+                    emailTemplateData.Body,
+                    true,
+                    true,
+                    null,
+                    null,
+                    null,
+                    null,
+                    false
+                );
+                notificationList.Add(notification);
+
+                //Push Notification
+
+                var PushNotification = new Notification(
+                    Guid.NewGuid(),
+                    "ComplianceSystem",
+                    null,
+                    Receiver.Id.ToString(),
+                    null,
+                    null,
+                    emailTemplate.Subject,
+                    Priority.Normal,
+                    NotificationType.Push,
+                    Notifications.Status.NotSeen,
+                    Clock.Now,
+                    emailTemplate.NotificationBody,
+                    true,
+                    true,
+                    null,
+                    Utility.GetURL(notificationSource, principle.Id, null, null),
+                    notySource,
+                    null,
+                    false
+                );
+                notificationList.Add(PushNotification);
+            }
+
+            await _notificationRepository.InsertManyAsync(notificationList, true);
+            foreach (var not in notificationList.Where(t => t.Type == NotificationType.Push))
+            {
+                await _notificationAppService.NotifyUser(Guid.Parse(not.To));
+
+            }
+        }
+
 
     }
 }
