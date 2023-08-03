@@ -21,6 +21,7 @@ export enum NotySource {
   DocumentSentForApproval = 17,
   DocumentApprovedByUser = 18,
   DocumentApproved = 19,
+  DocumentShouldStartPrinciplesCompliance = 20,
 }
 
 export const notySourceOptions = mapEnumToOptions(NotySource);
