@@ -84,6 +84,8 @@ namespace RMG.ComplianceSystem.Shared
                     or NotificationSource.DomainSentToOwner
                     or NotificationSource.FrameworkApproveCompliance:
                     return "https://iso.digitaltransformationinstitute.org:11001/compliance-assessment/" + id;
+                case NotificationSource.DocumentShouldStartPrinciplesCompliance:
+                    return $"https://iso.digitaltransformationinstitute.org:11001/documents/{id}/details";
                 default:
                     break;
             }
