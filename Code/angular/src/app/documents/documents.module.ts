@@ -14,6 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import {NgxPrintModule} from 'ngx-print';
 import { RevisionApproveComponent } from './document-view/revision-approve/revision-approve.component';
 import { DetailsComponent } from './document-view/details/details.component';
+import { PrinciplesComponent } from './document-view/principles/principles.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DetailsComponent } from './document-view/details/details.component';
     SettingsComponent,
     RevisionApproveComponent,
     DetailsComponent,
+    PrinciplesComponent,
   ],
   imports: [
     CommonModule,

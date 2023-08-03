@@ -42,7 +42,6 @@ export class DocumentViewComponent {
   changeRoute(component) {
     this.activeComponent = component;
     component.documentData = this.documentData;
-    component.employeesObj = this.employeesObj;
     component.parent = this;
   }
   

@@ -9,6 +9,7 @@ import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { SettingsComponent } from './document-view/settings/settings.component';
 import { DetailsComponent } from './document-view/details/details.component';
 import { RevisionApproveComponent } from './document-view/revision-approve/revision-approve.component';
+import { PrinciplesComponent } from './document-view/principles/principles.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path:'settings',
         component:SettingsComponent
+      },
+      {
+        path:'principles',
+        component:PrinciplesComponent
       },
       // {
       //   path:'activities',
