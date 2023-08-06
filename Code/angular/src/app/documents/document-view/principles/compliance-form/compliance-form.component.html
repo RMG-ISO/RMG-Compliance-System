@@ -49,7 +49,14 @@
                 <label for="score">
                     {{ '::Percentage' | abpLocalization }}
                 </label>
-                <input id="score" type="number" formControlName="score" class="form-control">
+
+                <ng-template #showProgress>
+                    <app-progress-bar  [value]="form.controls.score.value"></app-progress-bar>
+                </ng-template>
+                
+
+
+                <input *ngIf="!form.disabled; else showProgress" id="score" type="number" formControlName="score" class="form-control">
             </div>
             <div class="col-12"></div>
             <div class="col-md-6 form-group">

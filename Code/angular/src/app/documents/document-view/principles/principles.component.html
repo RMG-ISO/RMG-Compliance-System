@@ -44,7 +44,7 @@ appNgxdatatable>
 
     <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" [maxWidth]="200" [width]="200" prop="complianceScore">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            {{value}}%
+            <app-progress-bar [value]="value"></app-progress-bar>
             <!-- {{ ('::' + value) | abpLocalization }} -->
         </ng-template>
     </ngx-datatable-column>
