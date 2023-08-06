@@ -7,30 +7,46 @@
             :
             <mat-radio-group class="me-3" formControlName="isApplicable" (change)="changeIsApplicable(form, $event)">
                 <mat-radio-button [value]="true">
-                    {{ '::yes' | abpLocalization }}
+                    <span class="mt-2 d-block">
+                        {{ '::yes' | abpLocalization }}
+                    </span>
                 </mat-radio-button>
                 <mat-radio-button [value]="PrincipleStatus.NotApplicable">
-                    {{ '::no' | abpLocalization }}
+                    <span class="mt-2 d-block">
+                        {{ '::no' | abpLocalization }}
+                    </span>
                 </mat-radio-button>
             </mat-radio-group>
         </div>
         <ng-container *ngIf="form.controls?.isApplicable?.value">
-            <div class=" col-md-6 form-group">
+            <div class=" col-md-6 form-group mb-0">
                 <label >
                     الامتثال
                 </label>
                 :
                 <mat-radio-group class="d-block" formControlName="status" (change)="changeComply(form, $event)">
-                    <mat-radio-button [value]="PrincipleStatus.Comply">NotComply</mat-radio-button>
-                    <mat-radio-button [value]="PrincipleStatus.NotComply">NotComply</mat-radio-button>
-                    <mat-radio-button [value]="PrincipleStatus.PartiallyComply">PartiallyComply</mat-radio-button>
+                    <mat-radio-button [value]="PrincipleStatus.Comply">
+                        <span class="mt-2 d-block">
+                            NotComply
+                        </span>
+                    </mat-radio-button>
+                    <mat-radio-button [value]="PrincipleStatus.NotComply">
+                        <span class="mt-2 d-block">
+                            NotComply
+                        </span>
+                    </mat-radio-button>
+                    <mat-radio-button [value]="PrincipleStatus.PartiallyComply">
+                        <span class="mt-2 d-block">
+                            PartiallyComply
+                        </span>
+                    </mat-radio-button>
                 </mat-radio-group>
             </div>
-            <div class="col-md-4 form-group" [class.d-none]="form.controls.status.value != PrincipleStatus.PartiallyComply">
-                <label for="">
+            <div class="col-md-4 form-group mb-0" [class.d-none]="form.controls.status.value != PrincipleStatus.PartiallyComply">
+                <label for="score">
                     النسبة
                 </label>
-                <input type="number" formControlName="score" class="form-control">
+                <input id="score" type="number" formControlName="score" class="form-control">
             </div>
             <div class="col-12"></div>
             <div class="col-md-6 form-group">
