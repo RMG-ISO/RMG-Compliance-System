@@ -17,6 +17,8 @@ import { DetailsComponent } from './document-view/details/details.component';
 import { PrinciplesComponent } from './document-view/principles/principles.component';
 import { AddPrinciplesComponent } from './document-view/principles/add-principles/add-principles.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { ComplianceFormComponent } from './document-view/principles/compliance-form/compliance-form.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DetailsComponent,
     PrinciplesComponent,
     AddPrinciplesComponent,
+    ComplianceFormComponent,
   ],
   imports: [
     CommonModule,
@@ -40,7 +43,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DragDropModule,
     NgxPrintModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatRadioModule
   ]
 })
 export class DocumentsModule { }

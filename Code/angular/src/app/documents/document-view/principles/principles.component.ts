@@ -63,7 +63,7 @@ export class PrinciplesComponent {
 
   formsContainers = {};
 
-  toggleExpandRow(row) {
+  toggleExpandRow(row, event) {
     console.log('toggleExpanf', row);
     this.table.rowDetail.toggleExpandRow(row);
     if(!this.formsContainers[row.id]) {
@@ -78,12 +78,8 @@ export class PrinciplesComponent {
     }
   }
 
-  changeComply(group) {
-    group.controls.score.setValidators(
-      group.isApplicable == PrincipleStatus.PartiallyComply ? [Validators.required, Validators.min(1), Validators.max(99)] : null
-    );
-    group.controls.score.updateValueAndValidity();
-  }
+ 
+
 
 
   delete(model: PrincipleDto) {
@@ -107,5 +103,8 @@ export class PrinciplesComponent {
       if(con) this.list.get();
     })
   }
+
+
+
 
 }

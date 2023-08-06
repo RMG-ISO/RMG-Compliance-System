@@ -74,13 +74,14 @@ appNgxdatatable>
 
     <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-            <form [formGroup]="formsContainers[row.id]" *ngIf="formsContainers[row.id]">
+            <!-- <form [formGroup]="formsContainers[row.id]" (ngSubmit)="saveCompliance(formsContainers[row.id])">
                 <div class="row">
                     <div class="col-12 form-group">
                         <label for="">
-                            : هل القاعدة قابلة للتطبيق
+                            هل القاعدة قابلة للتطبيق
                         </label>
-                        <mat-radio-group formControlName="isApplicable">
+                        :
+                        <mat-radio-group class="me-3" formControlName="isApplicable" (change)="changeIsApplicable(formsContainers[row.id], $event)">
                             <mat-radio-button [value]="true">
                                 {{ '::yes' | abpLocalization }}
                             </mat-radio-button>
@@ -91,28 +92,51 @@ appNgxdatatable>
                     </div>
                     <ng-container *ngIf="formsContainers[row.id].controls?.isApplicable?.value">
                         <div class=" col-md-6 form-group">
-                            <label for="">
-                                : الامتثال
+                            <label >
+                                الامتثال
                             </label>
-                            <mat-radio-group formControlName="status" (change)="changeComply(formsContainers[row.id])">
+                            :
+                            <mat-radio-group class="d-block" formControlName="status" (change)="changeComply(formsContainers[row.id], $event)">
                                 <mat-radio-button [value]="PrincipleStatus.Comply">NotComply</mat-radio-button>
                                 <mat-radio-button [value]="PrincipleStatus.NotComply">NotComply</mat-radio-button>
                                 <mat-radio-button [value]="PrincipleStatus.PartiallyComply">PartiallyComply</mat-radio-button>
                             </mat-radio-group>
                         </div>
-                        <div class="col-md-6 form-group" [class.d-none]="formsContainers[row.id].controls.status.value != PrincipleStatus.PartiallyComply">
+                        <div class="col-md-4 form-group" [class.d-none]="formsContainers[row.id].controls.status.value != PrincipleStatus.PartiallyComply">
                             <label for="">
                                 النسبة
                             </label>
-                            <input type="number" formControlName="score">
+                            <input type="number" formControlName="score" class="form-control">
+                        </div>
+                        <div class="col-12"></div>
+                        <div class="col-md-6 form-group">
+                            <label for="comment">
+                                الوصف
+                            </label>
+                            <textarea formControlName="comment" name="comment" id="comment" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <app-table-files
+                            [attachment]="{isMultiple:false}"
+                            [attachmentId]="formsContainers[row.id].controls.attachmentId.value"
+                            [disabled]="formsContainers[row.id].controls.attachmentId.disabled"
+                            (OnFileUploaded)="OnFileUploaded($event, formsContainers[row.id])" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                            (OnFileEndUpload)="OnFileEndUpload($event)"
+                            (OnDeleteFile)="OnDeleteFile($event)">
+                            </app-table-files>
                         </div>
 
                     </ng-container>
-                </div>
-               
 
-             
-            </form>
+                    <div class="actions">
+                        <button mat-raised-button color="primary">
+                            {{ '::Save' | abpLocalization }}
+                        </button>
+                    </div>
+                </div>
+            </form> -->
+            <app-compliance-form [form]="formsContainers[row.id]"></app-compliance-form>
         </ng-template>
     </ngx-datatable-row-detail>
 </ngx-datatable>

@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="saveCompliance(form)">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="">
+                هل القاعدة قابلة للتطبيق
+            </label>
+            :
+            <mat-radio-group class="me-3" formControlName="isApplicable" (change)="changeIsApplicable(form, $event)">
+                <mat-radio-button [value]="true">
+                    {{ '::yes' | abpLocalization }}
+                </mat-radio-button>
+                <mat-radio-button [value]="PrincipleStatus.NotApplicable">
+                    {{ '::no' | abpLocalization }}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <ng-container *ngIf="form.controls?.isApplicable?.value">
+            <div class=" col-md-6 form-group">
+                <label >
+                    الامتثال
+                </label>
+                :
+                <mat-radio-group class="d-block" formControlName="status" (change)="changeComply(form, $event)">
+                    <mat-radio-button [value]="PrincipleStatus.Comply">NotComply</mat-radio-button>
+                    <mat-radio-button [value]="PrincipleStatus.NotComply">NotComply</mat-radio-button>
+                    <mat-radio-button [value]="PrincipleStatus.PartiallyComply">PartiallyComply</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="col-md-4 form-group" [class.d-none]="form.controls.status.value != PrincipleStatus.PartiallyComply">
+                <label for="">
+                    النسبة
+                </label>
+                <input type="number" formControlName="score" class="form-control">
+            </div>
+            <div class="col-12"></div>
+            <div class="col-md-6 form-group">
+                <label for="comment">
+                    الوصف
+                </label>
+                <textarea formControlName="comment" name="comment" id="comment" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="col-12">
+                <app-table-files
+                [attachment]="{isMultiple:false}"
+                [attachmentId]="form.controls.attachmentId.value"
+                [disabled]="form.controls.attachmentId.disabled"
+                (OnFileUploaded)="OnFileUploaded($event, form)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                (OnFileEndUpload)="OnFileEndUpload($event)"
+                (OnDeleteFile)="OnDeleteFile($event)">
+                </app-table-files>
+            </div>
+
+        </ng-container>
+
+        <div class="col-md-12 d-flex actions mt-4" *ngIf="!form.disabled">
+            <button mat-button class="green" [disabled]="uploading || isSaving" type="submit" >
+                <i class="fa fa-check me-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+   
+
+ 
+</form>
