@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { ComplianceFormComponent } from './document-view/principles/compliance-form/compliance-form.component';
 import { PrinciplesComplianceDialogComponent } from './document-view/principles/principles-compliance-dialog/principles-compliance-dialog.component';
+import { ProgressBarComponent } from '../shared/components/progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { PrinciplesComplianceDialogComponent } from './document-view/principles/
     NgxPrintModule,
     FormsModule,
     ReactiveFormsModule,
-    MatRadioModule
+    MatRadioModule,
+    ProgressBarComponent
   ]
 })
 export class DocumentsModule { }
