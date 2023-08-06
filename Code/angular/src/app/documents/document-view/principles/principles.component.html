@@ -1,11 +1,12 @@
-<div class="d-flex justify-content-between mb-4">
+<div class="d-flex justify-content-between mb-4" *ngIf="isContributor">
     <button mat-raised-button color="primary" (click)="openDialog()">
-        إضافة قاعدة
+        {{ '::Create' | abpLocalization }}
+        {{ '::Principle' | abpLocalization }}
         <mat-icon>add</mat-icon>
     </button>
 
-    <button mat-raised-button color="primary">
-        إرسال للتقييم
+    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
+        {{ '::SendForEvaluation' | abpLocalization }}
     </button>
 </div>
 <ngx-datatable
@@ -20,13 +21,10 @@ class="material fullscreen"
 scrollbarV="true"
 [columnMode]="ColumnMode.force"
 appNgxdatatable>
+    <ngx-datatable-column [name]="'::StandardReference' | abpLocalization" prop="reference" [maxWidth]="100" [width]="100"> </ngx-datatable-column>
+    <ngx-datatable-column [name]="'::PrincipleName' | abpLocalization" prop="name"> </ngx-datatable-column>
 
-  
-
-    <ngx-datatable-column [name]="'::المرجع' | abpLocalization" prop="reference" [maxWidth]="100" [width]="100"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::اسم القاعدة' | abpLocalization" prop="name"> </ngx-datatable-column>
-
-    <ngx-datatable-column [name]="'::الوصف' | abpLocalization" prop="description" [width]="350">
+    <ngx-datatable-column [name]="'::Document:Description' | abpLocalization" prop="description" >
         <ng-template let-value="value" ngx-datatable-cell-template>
             <p class="notes-cont">
                 {{value}}
@@ -53,94 +51,36 @@ appNgxdatatable>
 
 
     <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="170" [minWidth]="170" [sortable]="false" cellClass="options">
-        <ng-template let-row="row" ngx-datatable-cell-template let-expanded="expanded">
-            <button mat-button color="warn" (click)="delete(row)">
-                <mat-icon color="warn">delete_forever</mat-icon>
-            </button>
+        <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template let-expanded="expanded">
+            <ng-container *ngIf="isContributor">
+                <button mat-button color="warn" (click)="delete(row)">
+                    <mat-icon color="warn">delete_forever</mat-icon>
+                </button>
+    
+                <button mat-button (click)="openDialog(FormMode.Edit, row)">
+                    <mat-icon color="accent">edit</mat-icon>
+                </button>
+            </ng-container>
 
-            <button mat-button (click)="openDialog(FormMode.Edit, row)">
-                <mat-icon color="accent">edit</mat-icon>
-            </button>
-
-            <button mat-button (click)="toggleExpandRow(row)">
+            <button *ngIf="documentData.complianceResponsibleId" mat-button (click)="toggleExpandRow(row, rowIndex)">
                 <mat-icon>
                     {{ expanded ? 'expand_less' : 'expand_more' }}
                 </mat-icon>
             </button>
-
         </ng-template>
-
     </ngx-datatable-column>
 
     <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-            <!-- <form [formGroup]="formsContainers[row.id]" (ngSubmit)="saveCompliance(formsContainers[row.id])">
-                <div class="row">
-                    <div class="col-12 form-group">
-                        <label for="">
-                            هل القاعدة قابلة للتطبيق
-                        </label>
-                        :
-                        <mat-radio-group class="me-3" formControlName="isApplicable" (change)="changeIsApplicable(formsContainers[row.id], $event)">
-                            <mat-radio-button [value]="true">
-                                {{ '::yes' | abpLocalization }}
-                            </mat-radio-button>
-                            <mat-radio-button [value]="PrincipleStatus.NotApplicable">
-                                {{ '::no' | abpLocalization }}
-                            </mat-radio-button>
-                        </mat-radio-group>
-                    </div>
-                    <ng-container *ngIf="formsContainers[row.id].controls?.isApplicable?.value">
-                        <div class=" col-md-6 form-group">
-                            <label >
-                                الامتثال
-                            </label>
-                            :
-                            <mat-radio-group class="d-block" formControlName="status" (change)="changeComply(formsContainers[row.id], $event)">
-                                <mat-radio-button [value]="PrincipleStatus.Comply">NotComply</mat-radio-button>
-                                <mat-radio-button [value]="PrincipleStatus.NotComply">NotComply</mat-radio-button>
-                                <mat-radio-button [value]="PrincipleStatus.PartiallyComply">PartiallyComply</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="col-md-4 form-group" [class.d-none]="formsContainers[row.id].controls.status.value != PrincipleStatus.PartiallyComply">
-                            <label for="">
-                                النسبة
-                            </label>
-                            <input type="number" formControlName="score" class="form-control">
-                        </div>
-                        <div class="col-12"></div>
-                        <div class="col-md-6 form-group">
-                            <label for="comment">
-                                الوصف
-                            </label>
-                            <textarea formControlName="comment" name="comment" id="comment" class="form-control" rows="4"></textarea>
-                        </div>
-
-                        <div class="col-12">
-                            <app-table-files
-                            [attachment]="{isMultiple:false}"
-                            [attachmentId]="formsContainers[row.id].controls.attachmentId.value"
-                            [disabled]="formsContainers[row.id].controls.attachmentId.disabled"
-                            (OnFileUploaded)="OnFileUploaded($event, formsContainers[row.id])" (OnFileBeginUpload)="OnFileBeginUpload($event)"
-                            (OnFileEndUpload)="OnFileEndUpload($event)"
-                            (OnDeleteFile)="OnDeleteFile($event)">
-                            </app-table-files>
-                        </div>
-
-                    </ng-container>
-
-                    <div class="actions">
-                        <button mat-raised-button color="primary">
-                            {{ '::Save' | abpLocalization }}
-                        </button>
-                    </div>
-                </div>
-            </form> -->
-            <app-compliance-form [form]="formsContainers[row.id]"></app-compliance-form>
+           <app-compliance-form (afterSend)="afterSend($event)" [form]="formsContainers[row.id]"></app-compliance-form>
         </ng-template>
     </ngx-datatable-row-detail>
 </ngx-datatable>
 
 <ng-template #dialog let-data let-ref="dialogRef">
     <app-add-principles [data]="data.data" [ref]="ref" [mode]="data.mode" [documentId]="documentData.id"></app-add-principles>
+</ng-template>
+
+<ng-template #complianceDialog let-data let-ref="dialogRef">
+    <app-principles-compliance-dialog [employees]="employees" [ref]="ref" [documentId]="documentData.id"></app-principles-compliance-dialog>
 </ng-template>

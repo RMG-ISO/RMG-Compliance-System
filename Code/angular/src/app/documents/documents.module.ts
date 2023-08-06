@@ -19,6 +19,7 @@ import { AddPrinciplesComponent } from './document-view/principles/add-principle
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { ComplianceFormComponent } from './document-view/principles/compliance-form/compliance-form.component';
+import { PrinciplesComplianceDialogComponent } from './document-view/principles/principles-compliance-dialog/principles-compliance-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ComplianceFormComponent } from './document-view/principles/compliance-f
     PrinciplesComponent,
     AddPrinciplesComponent,
     ComplianceFormComponent,
+    PrinciplesComplianceDialogComponent,
   ],
   imports: [
     CommonModule,

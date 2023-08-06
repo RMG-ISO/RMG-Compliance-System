@@ -8,12 +8,15 @@
 
 
 
-<ngx-datatable class="material fullscreen"  [rows]="items" [count]="totalCount" appNgxdatatable
+<ngx-datatable class="material fullscreen"
+[rows]="items"
+[count]="totalCount"
 columnMode="force"
 [headerHeight]="50"
 [footerHeight]="50"
 rowHeight="auto"
 [scrollbarH]="true"
+appNgxdatatable
 >
 
   <ngx-datatable-column [name]="'::AttachmentFileName' | abpLocalization" prop="displayName"></ngx-datatable-column>

@@ -25,7 +25,6 @@ export class DocumentViewComponent {
   allEmployees;
   documentId;
   documentData;
-  employeesObj = {};
   ngOnInit(): void {
     this.documentId = this.activatedRoute.snapshot.params.documentId;
     this.getDocument();

@@ -730,6 +730,20 @@
     "ComplianceSystem:Document:001": "لم يتم إضافة قواعد بعد لإرسالها للامتثال",
     "ComplianceSystem:Document:002": "يجب أن يكون تاريخ بدء الامتثال في المستقبل",
     "ComplianceSystem:Document:003": "يجب أن يكون تاريخ انتهاء الامتثال بعد تاريخ البدء",
-    "ComplianceSystem:Document:004": "لا يمكنك بدء امثتال القواعد بعد"
+    "ComplianceSystem:Document:004": "لا يمكنك بدء امثتال القواعد بعد",
+    "ResponsiblePerson": "الشخص المسؤول",
+    "SendForEvaluation":"إرسال للتقييم",
+    "RequiredStartDate":"تاريخ البدء المطلوب",
+    "RequiredEndDate":"تاريخ الانتهاء المطلوب",
+    "CanBeApplicable":"هل القاعدة قابلة للتطبيق",
+    "TheCompliance":"الإمتثال",
+    "NotComply":"غير ممتثل",
+    "Document:Principles":"القواعد",
+    "Principle":"قاعدة",
+    "PrincipleName":"اسم القاعدة",
+    "Percentage":"النسبة",
+    "SendForEvaluationSucc":"تم الإرسال للتقييم"
+
+
   }
 }

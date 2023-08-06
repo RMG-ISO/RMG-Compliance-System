@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { ToasterService } from '@abp/ng.theme.shared';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { PrincipleStatus } from '@proxy/documents';
+import { PrincipleService, PrincipleStatus } from '@proxy/documents';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-compliance-form',
@@ -10,25 +12,34 @@ import { PrincipleStatus } from '@proxy/documents';
 export class ComplianceFormComponent {
   @Input('form') form:FormGroup;
   PrincipleStatus = PrincipleStatus;
+  @Output('afterSend') afterSend = new EventEmitter()
 
-  changeIsApplicable(group, event) {
+  constructor(
+    private principleService: PrincipleService,
+    private toasterService:ToasterService,
+
+  ) {
+
+  }
+
+  changeIsApplicable( event) {
     console.log(event)
-    group.controls.status.setValidators(
+    this.form.controls.status.setValidators(
       event.value == true ? [Validators.required] : null
     );
-    group.controls.status.updateValueAndValidity();
+    this.form.controls.status.updateValueAndValidity();
   }
 
-  changeComply(group, event) {
+  changeComply(event) {
     console.log(event)
-    group.controls.score.setValidators(
+    this.form.controls.score.setValidators(
       event.value == PrincipleStatus.PartiallyComply ? [Validators.required, Validators.min(1), Validators.max(99)] : null
     );
-    group.controls.score.updateValueAndValidity();
+    this.form.controls.score.updateValueAndValidity();
   }
 
-  OnFileUploaded(attachmentId: string, form:FormGroup) {
-    form.controls['attachmentId'].patchValue(attachmentId);
+  OnFileUploaded(attachmentId: string) {
+    this.form.controls['attachmentId'].patchValue(attachmentId);
   }
 
   uploading;
@@ -49,8 +60,22 @@ export class ComplianceFormComponent {
     // this.form.controls.addFiles.setValue(!!this.uploadedCount ? true : null);
   }
 
-  saveCompliance(form:FormGroup) {
-    console.log(form);
-    if(form.invalid) return;
+  isSaving
+  saveCompliance() {
+    console.log(this.form);
+    if(this.form.invalid) return;
+
+    let value = {...this.form.value};
+    if(!value.isApplicable) value.status = value.isApplicable 
+
+
+    this.isSaving = true;
+    this.principleService.updateComplianceByInput(value)
+    .pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe(response => {
+      this.toasterService.success('::SuccessfullySaved', "");
+      this.afterSend.emit({form:this.form, response});
+    })
   }
 }
