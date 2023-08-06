@@ -1,0 +1,39 @@
+:host ng-select.ng-select {
+    ::ng-deep {
+        .ng-select-container {
+            height: auto;
+            min-height: 6rem;
+            .ng-value {
+                display: flex;
+                .ng-value-label {
+                    max-width: 150px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+        
+    }
+}
+.mat-mdc-dialog-title {
+    button {
+        position: absolute;
+        right: 1rem;
+        mat-icon{
+            margin: 0;
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+mat-dialog-content.mat-mdc-dialog-content {
+    border-top: none;
+    border-bottom: none;
+}
+
+mat-dialog-actions {
+    margin-bottom: 1rem;
+}

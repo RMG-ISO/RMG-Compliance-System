@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-between mb-4" *ngIf="isContributor">
+    <button mat-raised-button color="primary" (click)="openDialog()">
+        {{ '::Create' | abpLocalization }}
+        {{ '::Principle' | abpLocalization }}
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
+        {{ '::SendForEvaluation' | abpLocalization }}
+    </button>
+</div>
+<ngx-datatable
+#table
+class="material fullscreen"
+[rows]="items"
+[list]="list"
+[footerHeight]="0"
+[externalPaging]="true"
+[count]="100"
+[limit]="100"
+scrollbarV="true"
+[columnMode]="ColumnMode.force"
+appNgxdatatable>
+    <ngx-datatable-column [name]="'::StandardReference' | abpLocalization" prop="reference" [maxWidth]="100" [width]="100"> </ngx-datatable-column>
+    <ngx-datatable-column [name]="'::PrincipleName' | abpLocalization" prop="name"> </ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::Document:Description' | abpLocalization" prop="description" >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <p class="notes-cont">
+                {{value}}
+            </p>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::Status' | abpLocalization" [maxWidth]="200" [width]="200" prop="complianceStatus">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <!-- {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }} -->
+            <span [class]="PrincipleStatus[value]" >
+                {{ row.complianceStatus !== null ? ( ('::' + PrincipleStatus[value]) | abpLocalization ) : '-' }}
+            </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" [maxWidth]="200" [width]="200" prop="complianceScore">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}%
+            <!-- {{ ('::' + value) | abpLocalization }} -->
+        </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="170" [minWidth]="170" [sortable]="false" cellClass="options">
+        <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template let-expanded="expanded">
+            <ng-container *ngIf="isContributor">
+                <button mat-button color="warn" (click)="delete(row)">
+                    <mat-icon color="warn">delete_forever</mat-icon>
+                </button>
+    
+                <button mat-button (click)="openDialog(FormMode.Edit, row)">
+                    <mat-icon color="accent">edit</mat-icon>
+                </button>
+            </ng-container>
+
+            <button *ngIf="documentData.complianceResponsibleId" mat-button (click)="toggleExpandRow(row, rowIndex)">
+                <mat-icon>
+                    {{ expanded ? 'expand_less' : 'expand_more' }}
+                </mat-icon>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+           <app-compliance-form (afterSend)="afterSend($event)" [form]="formsContainers[row.id]"></app-compliance-form>
+        </ng-template>
+    </ngx-datatable-row-detail>
+</ngx-datatable>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <app-add-principles [data]="data.data" [ref]="ref" [mode]="data.mode" [documentId]="documentData.id"></app-add-principles>
+</ng-template>
+
+<ng-template #complianceDialog let-data let-ref="dialogRef">
+    <app-principles-compliance-dialog [employees]="employees" [ref]="ref" [documentId]="documentData.id"></app-principles-compliance-dialog>
+</ng-template>
