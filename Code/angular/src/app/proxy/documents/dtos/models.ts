@@ -57,6 +57,8 @@ export interface DocumentDto extends FullAuditedEntityDto<string> {
   complianceResponsibleName?: string;
   complianceScheduledStartDate?: string;
   complianceScheduledEndDate?: string;
+  complianceStartDate?: string;
+  complianceEndDate?: string;
   compliancePercentage: number;
   status: DocumentStatus;
   description?: string;

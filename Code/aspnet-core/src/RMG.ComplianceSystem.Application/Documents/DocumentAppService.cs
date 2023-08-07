@@ -18,6 +18,7 @@ using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.Frameworks.Dtos;
 using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.Permissions;
+using IdentityModel;
 
 namespace RMG.ComplianceSystem.Documents
 {
@@ -193,6 +194,30 @@ namespace RMG.ComplianceSystem.Documents
             await NotifyUsersAsync(nameof(NotificationSource.DocumentShouldStartPrinciplesCompliance), new List<Guid> { input.ResponsibleId }, NotificationSource.DocumentShouldStartPrinciplesCompliance, NotySource.DocumentShouldStartPrinciplesCompliance, document);
         }
 
+
+        public async Task StartPrinciplesCompliance(Guid id)
+        {
+            var entity = await Repository.GetAsync(id);
+            entity.ComplianceStartDate = Clock.Now;
+            await Repository.UpdateAsync(entity);
+
+            await NotifyUsersAsync(nameof(NotificationSource.PrincipleComplianceStarted), entity.Owners.Select(o => o.EmployeeId).ToList(), NotificationSource.PrincipleComplianceStarted, NotySource.PrincipleComplianceStarted, entity);
+
+        }
+
+
+        public async Task EndPrinciplesCompliance(Guid id)
+        {
+            var entity = await Repository.GetAsync(id);
+            if (await _principleRepository.AnyAsync(p => p.DocumentId == id && !p.ComplianceStatus.HasValue))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.YouMustFillAllPrinciplesDataBeforeEndingCompliance);
+            entity.ComplianceEndDate = Clock.Now;
+            await Repository.UpdateAsync(entity);
+            await NotifyUsersAsync(nameof(NotificationSource.PrincipleComplianceEnded), entity.Owners.Select(o => o.EmployeeId).ToList(), NotificationSource.PrincipleComplianceEnded, NotySource.PrincipleComplianceEnded, entity);
+
+        }
+
+
         protected override async Task<DocumentDto> MapToGetOutputDtoAsync(Document entity)
         {
             var dto = await base.MapToGetOutputDtoAsync(entity);
@@ -297,7 +322,9 @@ namespace RMG.ComplianceSystem.Documents
                     case NotificationSource.DocumentSentForRevision or
                         NotificationSource.DocumentReturnedToContributor or
                         NotificationSource.DocumentSentForApproval or
-                        NotificationSource.DocumentApproved:
+                        NotificationSource.DocumentApproved or
+                        NotificationSource.PrincipleComplianceStarted or
+                        NotificationSource.PrincipleComplianceEnded:
                         emailTemplateModel = new DocumentStepAHeadWorkflowEmailDto
                         {
                             ReceiverName = Receiver.FullName,

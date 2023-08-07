@@ -30,6 +30,8 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         public DateTime? ComplianceScheduledStartDate { get; set; }
         public DateTime? ComplianceScheduledEndDate { get; set; }
 
+        public DateTime? ComplianceStartDate { get; set; }
+        public DateTime? ComplianceEndDate { get; set; }
 
         [Range(0, 100)]
         public int CompliancePercentage { get; set; }

@@ -36,6 +36,9 @@ namespace RMG.ComplianceSystem.Documents
         public DateTime? ComplianceScheduledStartDate { get; set; }
         public DateTime? ComplianceScheduledEndDate { get; set; }
 
+        public DateTime? ComplianceStartDate { get; set; }
+        public DateTime? ComplianceEndDate { get; set; }
+
         public virtual ICollection<DocumentOwner> Owners { get; set; } = new List<DocumentOwner>();
         public virtual ICollection<DocumentReviewer> Reviewers { get; set; } = new List<DocumentReviewer>();
         public virtual ICollection<DocumentApprover> Approvers { get; set; } = new HashSet<DocumentApprover>();

@@ -675,10 +675,11 @@
     "Policy:Procedure": "Procedure",
     "Policy:Plan": "Plan",
     "Policy:Strategy": "Strategy",
-    "Permission:SendPrinciplesForCompliance": "Send principles for compliance",
-    "ComplianceSystem:Document:001": "No principles added yet to send for compliance",
-    "ComplianceSystem:Document:002": "Compliance start date should be in the future",
-    "ComplianceSystem:Document:003": "Compliance end date should be after start date",
-    "ComplianceSystem:Document:004": "You cannot start principles compliance yet"
+    "Permission:SendPrinciplesForCompliance": "Send principles for assessment",
+    "ComplianceSystem:Document:001": "No principles added yet to send for assessment",
+    "ComplianceSystem:Document:002": "Assessment start date should be in the future",
+    "ComplianceSystem:Document:003": "Assessment end date should be after start date",
+    "ComplianceSystem:Document:004": "You cannot start principles assessment yet",
+    "ComplianceSystem:Document:005": "You must fill all principles data first before ending assessment"
   }
 }

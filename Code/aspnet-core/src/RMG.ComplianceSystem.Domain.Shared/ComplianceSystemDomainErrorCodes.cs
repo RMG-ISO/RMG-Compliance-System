@@ -57,9 +57,12 @@
         public const string YouMustAnswerPriorityQuestionForThisFrameworkControls = $"{ParentGroupName}:{AssessmentGroupName}:008";
         public const string CannotAssessMainControlIfItHasSubs = $"{ParentGroupName}:{AssessmentGroupName}:009";
 
+
+        // Document
         public const string NoPrinciplesToComply = $"{ParentGroupName}:{DocumentGroupName}:001";
         public const string PrinciplesComplianceStartDateShouldBeInTheFuture = $"{ParentGroupName}:{DocumentGroupName}:002";
         public const string PrinciplesComplianceEndDateShouldBeAfterStartDate = $"{ParentGroupName}:{DocumentGroupName}:003";
         public const string CannotStartPrincipleComplianceYet = $"{ParentGroupName}:{DocumentGroupName}:004";
+        public const string YouMustFillAllPrinciplesDataBeforeEndingCompliance = $"{ParentGroupName}:{DocumentGroupName}:005";
     }
 }

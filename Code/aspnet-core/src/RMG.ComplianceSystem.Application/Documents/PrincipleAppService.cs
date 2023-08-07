@@ -140,10 +140,9 @@ namespace RMG.ComplianceSystem.Documents
 
             await Repository.UpdateAsync(principle, true);
 
-            await NotifyUsersAsync(nameof(NotificationSource.PrincipleComplianceDataFilled), document.Owners.Select(o => o.EmployeeId).ToList(), NotificationSource.PrincipleComplianceDataFilled, NotySource.PrincipleComplianceDataFilled, principle);
+            //await NotifyUsersAsync(nameof(NotificationSource.PrincipleComplianceStarted), document.Owners.Select(o => o.EmployeeId).ToList(), NotificationSource.PrincipleComplianceStarted, NotySource.PrincipleComplianceStarted, principle);
             return await MapToGetOutputDtoAsync(principle);
         }
-        
 
         protected override async Task<IQueryable<Principle>> CreateFilteredQueryAsync(PrincipleGetListInputDto input)
         {
@@ -170,95 +169,95 @@ namespace RMG.ComplianceSystem.Documents
         }
 
 
-        private async Task NotifyUsersAsync(string emailTemplateKey, List<Guid> receiversIds, NotificationSource notificationSource, NotySource notySource, Principle principle)
-        {
-            List<Notification> notificationList = new List<Notification>();
+        //private async Task NotifyUsersAsync(string emailTemplateKey, List<Guid> receiversIds, NotificationSource notificationSource, NotySource notySource, Principle principle)
+        //{
+        //    List<Notification> notificationList = new List<Notification>();
 
-            var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
-            var employees = (await _employeeRepository.GetQueryableAsync()).Where(e => receiversIds.Contains(e.Id)).ToList();
-            foreach (var receiverId in receiversIds)
-            {
-                var Receiver = employees.FirstOrDefault(x => x.Id == receiverId);
-                //Email Notification
+        //    var emailTemplate = await _emailTemplateRepository.GetAsync(x => x.Key == emailTemplateKey);
+        //    var employees = (await _employeeRepository.GetQueryableAsync()).Where(e => receiversIds.Contains(e.Id)).ToList();
+        //    foreach (var receiverId in receiversIds)
+        //    {
+        //        var Receiver = employees.FirstOrDefault(x => x.Id == receiverId);
+        //        //Email Notification
 
-                object emailTemplateModel = null;
-                switch (notificationSource)
-                {
-                    case NotificationSource.PrincipleComplianceDataFilled:
-                        emailTemplateModel = new PrincipleComplianceDataFilledEmailDto
-                        {
-                            ReceiverName = Receiver.FullName,
-                            PrincipleName = principle.Name,
-                            URL = Utility.GetURL(notificationSource, principle.Id, null, null)
-                        };
-                        break;
-                    default:
-                        emailTemplateModel = new
-                        {
+        //        object emailTemplateModel = null;
+        //        switch (notificationSource)
+        //        {
+        //            case NotificationSource.PrincipleComplianceStarted:
+        //                emailTemplateModel = new PrincipleComplianceDataFilledEmailDto
+        //                {
+        //                    ReceiverName = Receiver.FullName,
+        //                    PrincipleName = principle.Name,
+        //                    URL = Utility.GetURL(notificationSource, principle.Id, null, null)
+        //                };
+        //                break;
+        //            default:
+        //                emailTemplateModel = new
+        //                {
 
-                        };
-                        break;
-                }
+        //                };
+        //                break;
+        //        }
 
-                var expandoData = Utility.ConvertTypeToExpandoObject(emailTemplateModel);
-                var emailTemplateData = await _emailTemplateAppService.RenderTemplate(emailTemplateKey, expandoData);
+        //        var expandoData = Utility.ConvertTypeToExpandoObject(emailTemplateModel);
+        //        var emailTemplateData = await _emailTemplateAppService.RenderTemplate(emailTemplateKey, expandoData);
 
-                var notification = new Notification(
-                    GuidGenerator.Create(),
-                    "Compliance System",
-                    null,
-                    Receiver.Email,
-                    null,
-                    null,
-                    emailTemplate.Subject,
-                    Priority.Normal,
-                    NotificationType.Email,
-                    Notifications.Status.Created,
-                    Clock.Now,
-                    emailTemplateData.Body,
-                    true,
-                    true,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false
-                );
-                notificationList.Add(notification);
+        //        var notification = new Notification(
+        //            GuidGenerator.Create(),
+        //            "Compliance System",
+        //            null,
+        //            Receiver.Email,
+        //            null,
+        //            null,
+        //            emailTemplate.Subject,
+        //            Priority.Normal,
+        //            NotificationType.Email,
+        //            Notifications.Status.Created,
+        //            Clock.Now,
+        //            emailTemplateData.Body,
+        //            true,
+        //            true,
+        //            null,
+        //            null,
+        //            null,
+        //            null,
+        //            false
+        //        );
+        //        notificationList.Add(notification);
 
-                //Push Notification
+        //        //Push Notification
 
-                var PushNotification = new Notification(
-                    Guid.NewGuid(),
-                    "ComplianceSystem",
-                    null,
-                    Receiver.Id.ToString(),
-                    null,
-                    null,
-                    emailTemplate.Subject,
-                    Priority.Normal,
-                    NotificationType.Push,
-                    Notifications.Status.NotSeen,
-                    Clock.Now,
-                    emailTemplate.NotificationBody,
-                    true,
-                    true,
-                    null,
-                    Utility.GetURL(notificationSource, principle.Id, null, null),
-                    notySource,
-                    null,
-                    false
-                );
-                notificationList.Add(PushNotification);
-            }
+        //        var PushNotification = new Notification(
+        //            Guid.NewGuid(),
+        //            "ComplianceSystem",
+        //            null,
+        //            Receiver.Id.ToString(),
+        //            null,
+        //            null,
+        //            emailTemplate.Subject,
+        //            Priority.Normal,
+        //            NotificationType.Push,
+        //            Notifications.Status.NotSeen,
+        //            Clock.Now,
+        //            emailTemplate.NotificationBody,
+        //            true,
+        //            true,
+        //            null,
+        //            Utility.GetURL(notificationSource, principle.Id, null, null),
+        //            notySource,
+        //            null,
+        //            false
+        //        );
+        //        notificationList.Add(PushNotification);
+        //    }
 
-            await _notificationRepository.InsertManyAsync(notificationList, true);
-            foreach (var not in notificationList.Where(t => t.Type == NotificationType.Push))
-            {
-                await _notificationAppService.NotifyUser(Guid.Parse(not.To));
+        //    await _notificationRepository.InsertManyAsync(notificationList, true);
+        //    foreach (var not in notificationList.Where(t => t.Type == NotificationType.Push))
+        //    {
+        //        await _notificationAppService.NotifyUser(Guid.Parse(not.To));
 
-            }
-        }
+        //    }
+        //}
 
 
     }

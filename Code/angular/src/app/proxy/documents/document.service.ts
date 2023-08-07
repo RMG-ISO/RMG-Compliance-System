@@ -37,6 +37,14 @@ export class DocumentService {
     { apiName: this.apiName,...config });
   
 
+  endPrinciplesComplianceById = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/document/${id}/end-principles-compliance`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   finishUserApprovalByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
@@ -112,6 +120,14 @@ export class DocumentService {
       method: 'PUT',
       url: '/api/app/document/send-principles-for-compliance',
       body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  startPrinciplesComplianceById = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/document/${id}/start-principles-compliance`,
     },
     { apiName: this.apiName,...config });
   

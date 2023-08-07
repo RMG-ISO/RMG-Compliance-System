@@ -26,5 +26,8 @@ namespace RMG.ComplianceSystem.Documents
         Task FinishUserRevision(Guid id, TakeActionWithNotes input);
         Task FinishUserApproval(Guid id, TakeActionWithNotes input);
         Task SendPrinciplesForCompliance(SendPrinciplesForComplianceDto input);
+
+        Task StartPrinciplesCompliance(Guid id);
+        Task EndPrinciplesCompliance(Guid id);
     }
 }
