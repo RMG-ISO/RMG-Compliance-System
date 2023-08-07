@@ -115,6 +115,8 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
         public DbSet<DocumentSection> DocumentSections { get; set; }
         public DbSet<DocumentCategory> DocumentCategories { get; set; }
         public DbSet<DocumentActionLog> DocumentActionsLog { get; set; }
+        public DbSet<Principle> Principles { get; set; }
+        public DbSet<PrincipleControl> PrinciplesControls { get; set; }
 
 
 
@@ -154,6 +156,20 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
             //    b.ConfigureByConvention(); //auto configure for the base class props
             //    //...
             //});
+
+
+            builder.Entity<Principle>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "Principles", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
+
+
+            builder.Entity<PrincipleControl>(b =>
+            {
+                b.ToTable(ComplianceSystemConsts.DbTablePrefix + "PrinciplesControls", ComplianceSystemConsts.DbSchema);
+                b.ConfigureByConvention();
+            });
 
             builder.Entity<DocumentActionLog>(b =>
             {

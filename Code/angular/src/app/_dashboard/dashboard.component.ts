@@ -1,7 +1,7 @@
 import { LocalizationService,ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { SignalrService } from '@proxy/signalrService';
 
 @Component({

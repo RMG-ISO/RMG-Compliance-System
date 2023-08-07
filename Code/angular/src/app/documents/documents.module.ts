@@ -14,6 +14,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import {NgxPrintModule} from 'ngx-print';
 import { RevisionApproveComponent } from './document-view/revision-approve/revision-approve.component';
 import { DetailsComponent } from './document-view/details/details.component';
+import { PrinciplesComponent } from './document-view/principles/principles.component';
+import { AddPrinciplesComponent } from './document-view/principles/add-principles/add-principles.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { ComplianceFormComponent } from './document-view/principles/compliance-form/compliance-form.component';
+import { PrinciplesComplianceDialogComponent } from './document-view/principles/principles-compliance-dialog/principles-compliance-dialog.component';
+import { ProgressBarComponent } from '../shared/components/progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +31,10 @@ import { DetailsComponent } from './document-view/details/details.component';
     SettingsComponent,
     RevisionApproveComponent,
     DetailsComponent,
+    PrinciplesComponent,
+    AddPrinciplesComponent,
+    ComplianceFormComponent,
+    PrinciplesComplianceDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +44,11 @@ import { DetailsComponent } from './document-view/details/details.component';
     MatExpansionModule,
     CKEditorModule,
     DragDropModule,
-    NgxPrintModule
+    NgxPrintModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    ProgressBarComponent
   ]
 })
 export class DocumentsModule { }

@@ -1,0 +1,92 @@
+<form [formGroup]="form" (ngSubmit)="saveCompliance()">
+    <div class="row">
+        <div class="col-6 form-group">
+            <label for="">
+                {{ '::CanBeApplicable' | abpLocalization }}
+            </label>
+            :
+            <mat-radio-group class="me-3" formControlName="isApplicable" (change)="changeIsApplicable($event)">
+                <mat-radio-button [value]="1">
+                    <span class="mt-2 d-block">
+                        {{ '::yes' | abpLocalization }}
+                    </span>
+                </mat-radio-button>
+                <mat-radio-button [value]="PrincipleStatus.NotApplicable">
+                    <span class="mt-2 d-block">
+                        {{ '::no' | abpLocalization }}
+                    </span>
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <ng-container *ngIf="form.controls?.isApplicable?.value">
+            <div class="col-12"></div>
+            <div class=" col-md-6 form-group mb-0">
+                <div class="d-flex align-items-center">
+                    <label class="mb-0">
+                        {{ '::TheCompliance' | abpLocalization }}
+                    </label>
+                    :
+                    <mat-radio-group class="d-block" formControlName="status" (change)="changeComply($event)">
+                        <mat-radio-button [value]="PrincipleStatus.Comply">
+                            <span class="mt-2 d-block">
+                                {{ '::Comply' | abpLocalization }}
+                            </span>
+                        </mat-radio-button>
+                        <mat-radio-button [value]="PrincipleStatus.NotComply">
+                            <span class="mt-2 d-block">
+                                {{ '::NotComply' | abpLocalization }}
+                            </span>
+                        </mat-radio-button>
+                        <mat-radio-button [value]="PrincipleStatus.PartiallyComply">
+                            <span class="mt-2 d-block">
+                                {{ '::PartiallyComply' | abpLocalization }}
+                            </span>
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="col-md-4 form-group mb-0" [class.d-none]="form.controls.status.value != PrincipleStatus.PartiallyComply">
+                <label for="score">
+                    {{ '::Percentage' | abpLocalization }}
+                </label>
+
+                <ng-template #showProgress>
+                    <app-progress-bar  [value]="form.controls.score.value"></app-progress-bar>
+                </ng-template>
+                
+
+
+                <input *ngIf="!form.disabled; else showProgress" id="score" type="number" formControlName="score" class="form-control">
+            </div>
+            <div class="col-12"></div>
+            <div class="col-md-6 form-group">
+                <label for="comment">
+                    {{ '::Document:Description' | abpLocalization }}
+                </label>
+                <textarea formControlName="comment" name="comment" id="comment" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="col-12">
+                <app-table-files
+                [attachment]="{isMultiple:false}"
+                [attachmentId]="form.controls.attachmentId.value"
+                [disabled]="form.controls.attachmentId.disabled"
+                (OnFileUploaded)="OnFileUploaded($event)" (OnFileBeginUpload)="OnFileBeginUpload($event)"
+                (OnFileEndUpload)="OnFileEndUpload($event)"
+                (OnDeleteFile)="OnDeleteFile($event)">
+                </app-table-files>
+            </div>
+
+        </ng-container>
+
+        <div class="col-md-6 d-flex actions mb-4" *ngIf="!form.disabled">
+            <button mat-button class="green" [disabled]="uploading || isSaving" type="submit" >
+                <i class="fa fa-check me-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+   
+
+ 
+</form>

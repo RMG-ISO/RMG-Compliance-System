@@ -60,8 +60,14 @@ button.back-button {
 
 .form-control {
     color: #000000;
+    transition: all .3s ease-in-out;
     &:not([type="search"]) {
-        border-color: #4b74ff;
+        border-color: rgba(0,0,0, .7);
+        &:focus{
+            // border-color: #4b74ff;
+            border-color: #36f;
+            background-color: #F8F8F8;
+        }
     }
 }
 
@@ -69,14 +75,22 @@ input.form-control:not([type="search"]), textarea.form-control {
     // background-color: #f7f9fc;
     // border-color: #e4e9f2;
 
+    // background-color: #ffffff;
+    // border-color: #4b74ff;
+    // border-radius: 10px;
+    // height: calc(1.5em + 0.75rem + 12px);
+
+
     background-color: #ffffff;
-    border-color: #4b74ff;
-    border-radius: 10px;
-    height: calc(1.5em + 0.75rem + 12px);
+    border-color: rgba(0,0,0, .7);
+    border-radius: 5px;
+    height: 3rem;
+
     &:focus{
-        background-color: #fff;
+        // background-color: #fff;
         border-color: #36f;
         box-shadow: none;
+        background-color: #F8F8F8;
     }
 }
 textarea.form-control {
@@ -87,12 +101,25 @@ textarea.form-control {
 ng-select.ng-select {
     // height: 48px;
     .ng-select-container {
-        min-height: 46px !important;
+        // min-height: 46px !important;
         background-color: #fff !important;
         box-shadow: none;
-        border: 1px solid #4b74ff !important;
+        border: 1px solid rgba(0,0,0, .7) !important;
+
+
+        background-color: #ffffff;
+        // border-color: ;
+        border-radius: 5px;
+        height: 3rem;
+        min-height: 3rem;
+
         // background-color: #f7f9fc!important;
         // border-color: #e4e9f2!important;
+    }
+    &.ng-select-opened {
+        .ng-select-container {
+            border-color: #36f !important;
+        }
     }
 }
 
@@ -473,6 +500,23 @@ ngb-datepicker-navigation {
             color: #fff;
             background-color: #00897b;
             border-color: #0a9688;
+        }
+    }
+}
+
+
+
+.bread_crumb {
+    margin-top: 10px;
+    padding-bottom: 4px;
+    .bread_crumb_item{
+        text-decoration: none!important;
+        color: #A0A3BD ;
+        margin: 0 10px;
+        font-size: 17px;
+        font-weight: bold;
+        &:last-of-type {
+            color: #000;
         }
     }
 }

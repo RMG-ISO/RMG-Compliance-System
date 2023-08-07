@@ -1,8 +1,8 @@
 import type { Priority } from '../priority.enum';
-import type { Type } from '../type.enum';
 import type { Status } from '../status.enum';
 import type { FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { Source } from '../source.num';
+import type { NotificationType } from '../notification-type.enum';
+import type { NotySource } from '../noty-source.enum';
 
 export interface CreateUpdateNotificationDto {
   displayName?: string;
@@ -12,7 +12,7 @@ export interface CreateUpdateNotificationDto {
   cc?: string;
   subject?: string;
   priority?: Priority;
-  type: Type;
+  type: any;
   status: Status;
   sendDate?: string;
   body?: string;
@@ -29,7 +29,7 @@ export interface NotificationDto extends FullAuditedEntityDto<string> {
   cc?: string;
   subject?: string;
   priority?: Priority;
-  type: Type;
+  type: NotificationType;
   status: Status;
   sendDate?: string;
   body?: string;
@@ -37,7 +37,7 @@ export interface NotificationDto extends FullAuditedEntityDto<string> {
   isSSL: boolean;
   attachments?: string;
   url?: string;
-  source?: Source;
+  source?: NotySource;
   referenceId?: string;
   sourceIsDeleted: boolean;
 }
@@ -45,7 +45,7 @@ export interface NotificationDto extends FullAuditedEntityDto<string> {
 export interface NotificationPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {
   body?: string;
   creationTime?: string;
-  source?: Source;
+  source?: NotySource;
 }
 
 export interface NotifyUserDto {

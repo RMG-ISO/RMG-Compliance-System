@@ -6,13 +6,12 @@ import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentDto } from '@proxy/departments/dtos';
-import { DepartmentService } from '@proxy/departments';
 import { DocumentService } from '@proxy/documents';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmployeeService } from '@proxy/employees';
-import {  DocumentStatus  } from '@proxy/documents/document-status.enum';
+import {  DocumentStatus  } from '@proxy/documents';
 import { ActivatedRoute, Router } from '@angular/router';
-import { documentTypeOptions } from '@proxy/documents/document-type.enum';
+import { DocumentType } from '@proxy/documents';
 import { ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
@@ -22,7 +21,7 @@ import { ToasterService } from '@abp/ng.theme.shared';
   providers:[ListService]
 
 })
-export class DocumentsComponent {
+export class DocumentsComponent implements OnInit{
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
   @ViewChild('dataTable', { static: false }) table: DatatableComponent;
@@ -36,7 +35,8 @@ export class DocumentsComponent {
   form: FormGroup;
   allEmployees;
   DocumentStatus = DocumentStatus;
-  DocumentType = documentTypeOptions;
+  // DocumentType = documentTypeOptions;
+  DocumentType = DocumentType;
   constructor(
     public readonly list: ListService,
     private documentService: DocumentService,

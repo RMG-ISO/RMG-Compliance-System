@@ -15,6 +15,13 @@ export enum NotySource {
   FrameworkCreatedForReviewer = 11,
   FrameworkCreatedForApprover = 12,
   FrameworkCreatedForOwner = 13,
+  DocumentSentForRevision = 14,
+  DocumentReturnedToContributor = 15,
+  DocumentReviewedByUser = 16,
+  DocumentSentForApproval = 17,
+  DocumentApprovedByUser = 18,
+  DocumentApproved = 19,
+  DocumentShouldStartPrinciplesCompliance = 20,
 }
 
 export const notySourceOptions = mapEnumToOptions(NotySource);

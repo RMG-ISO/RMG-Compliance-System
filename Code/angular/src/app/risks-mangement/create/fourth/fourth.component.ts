@@ -2,12 +2,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
-import { RiskTreatmentService } from '@proxy/RiskTreatments';
+import { RiskTreatmentService } from '@proxy/risk-treatments';
 import { ActivatedRoute } from '@angular/router';
 import { IdentityUserService} from '@abp/ng.identity/proxy';
-import { StaticDataService } from '@proxy/StaticData';
+import { StaticDataService } from '@proxy/static-data';
 import { HistoryAction, Status } from '../../module.enums';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
@@ -83,7 +83,7 @@ export class FourthComponent implements OnInit {
 
     this.potentials =[{id:1,nameEn:'Very Low',nameAr:'ضعيف جدا'},{id:2,nameEn:'Low',nameAr:'ضعيف '},{id:4,nameEn:'Medium',nameAr:'متوسط'},{id:8,nameEn:'High',nameAr:'عالي'},{id:12,nameEn:'very High',nameAr:'عالي جدا'}];
     
-    this.staticDataService.getList({Type:'9', search:null, maxResultCount:null }).subscribe(r => {
+    this.staticDataService.getList({type:9, search:null, maxResultCount:null }).subscribe(r => {
       this.standards = r.items;
     });
 

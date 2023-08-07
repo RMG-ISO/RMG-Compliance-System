@@ -24,6 +24,14 @@ namespace RMG.ComplianceSystem.Documents.Dtos
         public DateTime ValidationStartDate { get; set; }
         public DateTime ValidationEndtDate { get; set; }
 
+        public Guid? ComplianceResponsibleId { get; set; }
+        public string ComplianceResponsibleName { get; set; }
+
+        public DateTime? ComplianceScheduledStartDate { get; set; }
+        public DateTime? ComplianceScheduledEndDate { get; set; }
+
+        public DateTime? ComplianceStartDate { get; set; }
+        public DateTime? ComplianceEndDate { get; set; }
 
         [Range(0, 100)]
         public int CompliancePercentage { get; set; }

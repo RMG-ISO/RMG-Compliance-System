@@ -1,5 +1,5 @@
-import { IdentityUserDto } from '@abp/ng.identity/proxy';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { IdentityUserDto } from '../../volo/abp/identity/models';
 import type { SharedStatus } from '../../shared/shared-status.enum';
 
 export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
@@ -15,6 +15,12 @@ export interface ControlDto extends FullAuditedEntityWithUserDto<IdentityUserDto
   mainControlNameEn?: string;
   domainId?: string;
   compliancePercentage: number;
+}
+
+export interface ControlLookupPagedResultRequestDto {
+  maxResultCount: number;
+  skipCount: number;
+  search?: string;
 }
 
 export interface ControlPagedAndSortedResultRequestDto extends PagedAndSortedResultRequestDto {

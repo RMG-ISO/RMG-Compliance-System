@@ -1,7 +1,7 @@
 import { ConfigStateService, ListService, LocalizationService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { Type, Status, HistoryAction } from '../module.enums';
 import * as moment from 'moment';
 import { IdentityUserService} from '@abp/ng.identity/proxy';
@@ -46,7 +46,7 @@ export class ListComponent implements OnInit {
   getList() {
     this.activeTabName = '::' +  Type[this.selectedType] + ':';
     // const streamCreator = (query) => this.riskAndOpportunityService.getList({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter });
-    const streamCreator = (query) => this.riskAndOpportunityService.getListByOwner({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter, UserId:this.userId });
+    const streamCreator = (query) => this.riskAndOpportunityService.getListRiskByOwnerId({ ...query, search: this.searchVal, type:this.selectedType, ...this.filter, UserId:this.userId });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       response.items.map(item => {
         // if(item['reEvaluation']) {

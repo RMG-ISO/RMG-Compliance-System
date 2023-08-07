@@ -1,5 +1,5 @@
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
-import { IdentityUserDto } from '@abp/ng.identity/proxy';
+import type { IdentityUserDto } from '../../volo/abp/identity/models';
 import type { SharedStatus } from '../../shared/shared-status.enum';
 import type { FrameworkStatus } from '../../shared/framework-status.enum';
 import type { ComplianceStatus } from '../../shared/compliance-status.enum';

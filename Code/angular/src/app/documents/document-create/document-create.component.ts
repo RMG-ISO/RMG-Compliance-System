@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { DocumentService } from '@proxy/documents';
 import { EmployeeService } from '@proxy/employees';
-import { documentTypeOptions } from '@proxy/documents/document-type.enum';
+import { documentTypeOptions } from '@proxy/documents';
 import { parseISO } from 'date-fns';
 
 @Component({
@@ -54,8 +54,7 @@ export class DocumentCreateComponent implements OnInit{
     this.form = new FormGroup({
       code: new FormControl({value:null, disabled:true}, Validators.required),
       type: new FormControl(null, Validators.required),
-      nameAr: new FormControl(null, Validators.required),
-      nameEn: new FormControl(null),
+      name: new FormControl(null, Validators.required),
       ownersIds: new FormControl(null, Validators.required),
       //reviewersIds: new FormControl({value:this.documentData?.reviewersIds?.map(t=>t.id)}, Validators.required),
       requiredReviewersIds: new FormControl(null, Validators.required),
@@ -64,12 +63,9 @@ export class DocumentCreateComponent implements OnInit{
       optionalApproversIds: new FormControl(null, Validators.required),
       validationStartDate: new FormControl(null, Validators.required),
       validationEndtDate: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
-      categoryIds: new FormControl(null, Validators.required),
+      description: new FormControl(null),
+      categoriesIds: new FormControl(null, Validators.required),
   });
-
-
-
 
   if(this.mode == this.FormMode.Edit) {
     this.documentService.get(this.activatedRoute.snapshot.params.documentId).subscribe( data => {
@@ -77,12 +73,30 @@ export class DocumentCreateComponent implements OnInit{
       let DocumentData:any = {...data};
       DocumentData['validationStartDate'] = DocumentData?.validationStartDate ? parseISO(DocumentData['validationStartDate']) : null;
       DocumentData['validationEndtDate'] = DocumentData?.validationEndtDate ? parseISO(DocumentData['validationEndtDate']) : null;
-      DocumentData['optionalReviewersIds'] = DocumentData?.optionalReviewersIds?.map(t=>t.employeeId)
-      DocumentData['requiredReviewersIds'] = DocumentData?.requiredReviewersIds?.map(t=>t.employeeId)
-      DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
-      DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
-      DocumentData['ownersIds'] = DocumentData?.ownersIds?.map(t=>t.employeeId)
-      DocumentData['categoryIds'] = DocumentData?.categoryIds?.map(t=>t.id)
+      DocumentData['optionalReviewersIds'] = []
+      DocumentData['requiredReviewersIds'] = []
+      DocumentData['optionalApproversIds'] = []
+      DocumentData['requiredApproversIds'] = []
+
+      console.log(DocumentData);
+      DocumentData.reviewers.map(u => {
+        if(u.isRequired) DocumentData['requiredReviewersIds'].push(u.employeeId);
+        else DocumentData['optionalReviewersIds'].push(u.employeeId);
+      });
+
+      DocumentData.approvers.map(u => {
+        if(u.isRequired) DocumentData['requiredApproversIds'].push(u.employeeId);
+        else DocumentData['optionalApproversIds'].push(u.employeeId);
+      });
+
+      console.log(DocumentData);
+
+      // DocumentData['optionalReviewersIds'] = DocumentData?.optionalReviewersIds?.map(t=>t.employeeId)
+      // DocumentData['requiredReviewersIds'] = DocumentData?.requiredReviewersIds?.map(t=>t.employeeId)
+      // DocumentData['optionalApproversIds'] = DocumentData?.optionalApproversIds?.map(t=>t.employeeId)
+      // DocumentData['requiredApproversIds'] = DocumentData?.requiredApproversIds?.map(t=>t.employeeId)
+      DocumentData['ownersIds'] = DocumentData?.owners?.map(t=>t.id)
+      DocumentData['categoriesIds'] = DocumentData?.categories?.map(t=>t.id)
       // delete DocumentData["code"];
       this.form.patchValue(DocumentData);
     })
@@ -100,8 +114,7 @@ export class DocumentCreateComponent implements OnInit{
     let data = this.form.getRawValue();
     data['validationStartDate'] = data['validationStartDate'] ? moment(data['validationStartDate']).toISOString() : null;
     data['validationEndtDate'] = data['validationEndtDate'] ? moment(data['validationEndtDate']).toISOString() : null;
-    
-    data['nameEn'] = data['nameAr'] ;
+
     const request = this.documentData?.id
       ? this.documentService.update(this.documentData.id, data)
       : this.documentService.create(data);

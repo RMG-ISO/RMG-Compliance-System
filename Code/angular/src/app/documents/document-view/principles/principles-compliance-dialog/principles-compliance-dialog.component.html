@@ -1,0 +1,46 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-title class="d-flex align-items-center justify-content-center">
+        <button mat-button (click)="ref.close()" type="button"> 
+            <mat-icon color="warn">close</mat-icon>
+        </button>
+
+        <h2>
+            {{ '::SendForEvaluation' | abpLocalization }}
+        </h2>
+    </div>
+    
+    <mat-dialog-content class="mat-typography">
+        <div class="row">
+            <div class="col-12 form-group">
+                <label for="name">{{ '::ResponsiblePerson' | abpLocalization }}</label><span> * </span>
+                <ng-select formControlName="responsibleId">
+                    <ng-option *ngFor="let emp of employees" [value]="emp.id">
+                        {{ emp.fullName }}
+                    </ng-option>
+                </ng-select>
+            </div>
+
+            <div class="col-12 form-group">
+                <label for="scheduledStartDate"> {{ '::RequiredStartDate' | abpLocalization }} </label>
+                <input #scheduledStartDate="ngbDatepicker" class="form-control" id="scheduledStartDate" name="date" formControlName="scheduledStartDate"
+                ngbDatepicker (click)="scheduledStartDate.toggle()" />
+            </div>
+
+            <div class="col-12 form-group">
+                <label for="scheduledEndDate"> {{ '::RequiredEndDate' | abpLocalization }} </label>
+                <input #scheduledEndDate="ngbDatepicker" class="form-control" id="scheduledEndDate" name="date" formControlName="scheduledEndDate"
+                ngbDatepicker (click)="scheduledEndDate.toggle()" />
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="actions justify-content-center">
+        <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+            <i class="fa fa-check me-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+
+        <button type="button" mat-button (click)="ref.close()" class="red"> 
+            {{ '::Cancel' | abpLocalization }}
+        </button>
+    </mat-dialog-actions>
+</form>

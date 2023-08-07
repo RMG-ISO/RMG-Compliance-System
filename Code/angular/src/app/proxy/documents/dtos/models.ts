@@ -1,8 +1,10 @@
 import type { DocumentType } from '../document-type.enum';
 import type { CreationAuditedEntityDto, FullAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { ActionLogType } from '../action-log-type.enum';
 import type { DocumentStatus } from '../document-status.enum';
 import type { NameId } from '../../shared/models';
 import type { DocumentSectionStatus } from '../document-section-status.enum';
+import type { PrincipleStatus } from '../principle-status.enum';
 
 export interface CreateDocumentDto {
   name?: string;
@@ -25,7 +27,16 @@ export interface CreateUpdateDocumentSectionDto {
   documentId: string;
 }
 
+export interface CreateUpdatePrincipleDto {
+  documentId: string;
+  name: string;
+  description?: string;
+  controls: string[];
+}
+
 export interface DocumentActionLogDto extends CreationAuditedEntityDto<string> {
+  role?: string;
+  type: ActionLogType;
   creatorName?: string;
   notes?: string;
   status: DocumentStatus;
@@ -42,6 +53,12 @@ export interface DocumentDto extends FullAuditedEntityDto<string> {
   approvers: DocumentEmployeeDto[];
   validationStartDate?: string;
   validationEndtDate?: string;
+  complianceResponsibleId?: string;
+  complianceResponsibleName?: string;
+  complianceScheduledStartDate?: string;
+  complianceScheduledEndDate?: string;
+  complianceStartDate?: string;
+  complianceEndDate?: string;
   compliancePercentage: number;
   status: DocumentStatus;
   description?: string;
@@ -71,6 +88,43 @@ export interface DocumentSectionGetListInputDto extends PagedAndSortedResultRequ
   documentId?: string;
 }
 
-export interface RejectWithNotes {
+export interface PrincipleDto extends FullAuditedEntityDto<string> {
+  documentId?: string;
+  reference?: string;
+  name?: string;
+  description?: string;
+  complianceScore: number;
+  complianceStatus?: PrincipleStatus;
+  attachmentId?: string;
+  complianceComment?: string;
+  controls: NameId<string>[];
+}
+
+export interface PrincipleGetListInputDto extends PagedAndSortedResultRequestDto {
+  documentId?: string;
+}
+
+export interface SendPrinciplesForComplianceDto {
+  documentId: string;
+  responsibleId: string;
+  scheduledStartDate: string;
+  scheduledEndDate: string;
+}
+
+export interface TakeActionWithNotes {
+  notes?: string;
+  role?: string;
+}
+
+export interface TakeActionWithRequiredNotes {
   notes: string;
+  role?: string;
+}
+
+export interface UpdatePrincipleComplianceDto {
+  principleId: string;
+  status: PrincipleStatus;
+  comment?: string;
+  score: number;
+  attachmentId?: string;
 }

@@ -14,6 +14,7 @@ namespace RMG.ComplianceSystem.Documents
 
             return queryable
                 // .Include(x => x.xxx) // TODO: AbpHelper generated
+                .Include(t => t.ComplianceResponsible)
                 .Include(t => t.ActionsLog)
                 .Include(t => t.Approvers).ThenInclude(t => t.Employee)
                 .Include(t => t.Owners).ThenInclude(t => t.Employee)

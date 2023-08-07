@@ -1,7 +1,7 @@
 import { Type,WorkFlowStages } from './../../module.enums';
 import { Component, Input, OnInit } from '@angular/core';
-import { StaticDataService } from '@proxy/StaticData';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { StaticDataService } from '@proxy/static-data';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { CreateComponent } from './../../create/create.component';
 @Component({
   selector: 'app-third',

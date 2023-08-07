@@ -1,17 +1,51 @@
 <ngx-datatable
 class="material fullscreen"
 [rows]="items"
-[count]="totalCount"
 [list]="list"
+[footerHeight]="0"
+[externalPaging]="true"
+[count]="100"
+[limit]="100"
+scrollbarV="true"
+[columnMode]="ColumnMode.force"
 appNgxdatatable>
 
-    <ngx-datatable-column [name]="'::اسم الشخص' | abpLocalization" prop="name"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::دور الشخص' | abpLocalization" prop="role"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::الأجراء المتخذ' | abpLocalization" prop="action"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::تاريخ الأجراء' | abpLocalization" prop="date"> </ngx-datatable-column>
-    <ngx-datatable-column [name]="'::الحالة' | abpLocalization" prop="status"> </ngx-datatable-column>
+    <ngx-datatable-column [name]="'::PersonName' | abpLocalization" prop="creatorName"> </ngx-datatable-column>
+    <!-- <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" prop="role"> </ngx-datatable-column> -->
+    <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" [maxWidth]="200" [width]="200" prop="role">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ ('::' + value) | abpLocalization }}
+        </ng-template>
+    </ngx-datatable-column>
 
-    <ngx-datatable-column [name]="'::الملاحظات' | abpLocalization" prop="notes" [width]="350">
+    <!-- <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" prop="action"> </ngx-datatable-column> -->
+    <!-- <ngx-datatable-column [name]="'::تاريخ الأجراء' | abpLocalization" prop="creationTime"> </ngx-datatable-column> -->
+
+    <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" [maxWidth]="200" [width]="200" prop="type">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <!-- {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }} -->
+            <span [ngClass]="{'status': value !==  ActionLogType.NoAction}" [class]="ActionLogType[value]" >
+                {{ ('::' + row.role + ActionLogType[value]) | abpLocalization }}
+            </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="creationTime">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span> {{value | date:'yyyy/MM/dd'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span class="status" [class]="DocumentStatus[value]">
+                {{ ( '::Document:Enum:' + DocumentStatus[value] ) | abpLocalization }}
+            </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [name]="'::Notes' | abpLocalization" prop="notes" [width]="350">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <p class="notes-cont">
                 {{value}}
@@ -22,17 +56,56 @@ appNgxdatatable>
 
     <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="170" [minWidth]="170" [sortable]="false" cellClass="options">
         <ng-template let-row="row" ngx-datatable-cell-template>
-           <div class="table-actions">
-                <button mat-button >
-                    <mat-icon class="ms-0 me-0 send">send</mat-icon>
-                </button>
-                <button mat-button color="primary">
-                    <mat-icon class="ms-0 me-0">done</mat-icon>
-                </button>
-                <button mat-button color="warn">
-                    <mat-icon class="ms-0 me-0">close</mat-icon>
-                </button>
+           <div class="table-actions" *ngIf="row.requiredFunction || row.optionalFunction">
+                <span style="width: 40px;">
+                    <!--   *ngIf=" (row.optionalFunction && row.type == ActionLogType.Finish) || -->
+                    <button mat-button 
+                    *ngIf=" (row.optionalFunction && row.creationTime) ||
+                    (documentData.status == DocumentStatus.Draft || documentData.status == DocumentStatus.ReturnToCreator)" (click)="takeAction(row, row.optionalFunction)">
+                        <mat-icon class="ms-0 me-0 send" color="accent">send</mat-icon>
+                    </button>
+                </span>
+
+                <!-- <ng-container *ngIf="row.requiredFunction && row.type == ActionLogType.NoAction"> -->
+                <ng-container *ngIf="row.requiredFunction && !row.creationTime">
+                    <button mat-button (click)="takeAction(row, row.requiredFunction)">
+                        <mat-icon class="ms-0 me-0" color="primary">done</mat-icon>
+                    </button>
+                    <button mat-button (click)="returnToCreator(row)">
+                        <mat-icon class="ms-0 me-0" color="warn">close</mat-icon>
+                    </button>
+                </ng-container>
            </div>
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>
+
+<ng-template #notesDialog>
+    <form class="app-dialog" [formGroup]="actionForm">
+        <div mat-dialog-title>
+            <h2 > {{ '::TakenActionNotes' | abpLocalization }} </h2>
+        </div>
+        <mat-dialog-content>
+          <div class="form-group">
+            <label for="notes" class="d-block">
+                {{ '::Notes' | abpLocalization }}
+            </label>
+            <textarea id="notes" class="form-control" cols="50" rows="5" formControlName="notes"></textarea>
+          </div>
+        </mat-dialog-content>
+        <mat-dialog-actions class="actions">
+            
+
+          <button mat-button type="button" color="warn" [mat-dialog-close]="false">
+            {{ '::Cancel' | abpLocalization }}
+          </button>
+          
+            <button mat-raised-button [mat-dialog-close]="true" color="primary" [disabled]="actionForm.invalid">
+                {{ '::Save' | abpLocalization }}
+            </button>
+
+        </mat-dialog-actions>
+    </form>
+</ng-template>
+
+

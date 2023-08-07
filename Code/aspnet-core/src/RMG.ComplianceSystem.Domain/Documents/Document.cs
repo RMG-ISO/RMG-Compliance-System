@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using RMG.ComplianceSystem.Documents.Dtos;
+using RMG.ComplianceSystem.Employees;
 using RMG.ComplianceSystem.Shared;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,15 @@ namespace RMG.ComplianceSystem.Documents
         public DocumentStatus Status { get; set; }
         [NotNull]
         public string Description { get; set; }
+
+        public Guid? ComplianceResponsibleId { get; set; }
+        public Employee ComplianceResponsible { get; set; }
+
+        public DateTime? ComplianceScheduledStartDate { get; set; }
+        public DateTime? ComplianceScheduledEndDate { get; set; }
+
+        public DateTime? ComplianceStartDate { get; set; }
+        public DateTime? ComplianceEndDate { get; set; }
 
         public virtual ICollection<DocumentOwner> Owners { get; set; } = new List<DocumentOwner>();
         public virtual ICollection<DocumentReviewer> Reviewers { get; set; } = new List<DocumentReviewer>();

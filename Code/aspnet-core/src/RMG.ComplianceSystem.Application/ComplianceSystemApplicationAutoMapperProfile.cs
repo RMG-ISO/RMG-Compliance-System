@@ -47,6 +47,12 @@ namespace RMG.ComplianceSystem
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+            CreateMap<Control, NameId<Guid>>()
+                .ForMember(d => d.Name, x => x.MapFrom(s => s.NameAr));
+
+            CreateMap<CreateUpdatePrincipleDto, Principle>();
+            CreateMap<Principle, PrincipleDto>()
+                .ForMember(d => d.Controls, x => x.MapFrom(s => s.PrincipleControls.Select(x => x.Control)));
 
             CreateMap<DocumentActionLog, DocumentActionLogDto>();
 
@@ -76,7 +82,6 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateAuthorWithBookDto, Author>();
             CreateMap<CreateBookDto, Book>();
             CreateMap<Author, AuthorWithDetailsDto>();
-            CreateMap<Document, DocumentDto>();
             CreateMap<CreateDocumentDto, Document>();
             CreateMap<RiskOpportunity, RiskAndOpportunityDto>();
             CreateMap<CreateUpdateRiskAndOpportunityDto, RiskOpportunity>();
@@ -135,6 +140,7 @@ namespace RMG.ComplianceSystem
             CreateMap<CreateUpdateAssessmentDto, Assessment>(MemberList.Source);
 
             CreateMap<Document, DocumentDto>()
+                .ForMember(dest => dest.ComplianceResponsibleName, ops => ops.MapFrom(src => src.ComplianceResponsible.FullName))
                 .ForMember(dest => dest.Owners, ops => ops.MapFrom(src => src.Owners.Select(x => x.Employee)))
                 .ForMember(dest => dest.Categories, ops => ops.MapFrom(src => src.DocumentCategories.Select(x => x.Category)));
 

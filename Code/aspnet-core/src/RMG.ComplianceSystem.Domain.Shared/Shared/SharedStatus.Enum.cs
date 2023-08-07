@@ -32,7 +32,18 @@ namespace RMG.ComplianceSystem.Shared
         FrameworkApproveCompliance,
         FrameworkCreatedForReviewer,
         FrameworkCreatedForApprover,
-        FrameworkCreatedForOwner
+        FrameworkCreatedForOwner,
+
+        DocumentSentForRevision,
+        DocumentReturnedToContributor,
+        DocumentReviewedByUser,
+        DocumentSentForApproval,
+        DocumentApprovedByUser,
+        DocumentApproved,
+        DocumentShouldStartPrinciplesCompliance,
+        PrincipleComplianceStarted,
+        PrincipleComplianceEnded
+
     }
     public enum Status
     {

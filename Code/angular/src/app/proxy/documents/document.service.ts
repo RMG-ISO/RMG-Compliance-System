@@ -1,4 +1,4 @@
-import type { CreateDocumentDto, DocumentDto, DocumentGetListInputDto, RejectWithNotes } from './dtos/models';
+import type { CreateDocumentDto, DocumentDto, DocumentGetListInputDto, SendPrinciplesForComplianceDto, TakeActionWithNotes, TakeActionWithRequiredNotes } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -11,10 +11,11 @@ export class DocumentService {
   apiName = 'Default';
   
 
-  approveById = (id: string, config?: Partial<Rest.Config>) =>
+  approveByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/document/${id}/approve`,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -36,18 +37,28 @@ export class DocumentService {
     { apiName: this.apiName,...config });
   
 
-  finishUserApprovalById = (id: string, config?: Partial<Rest.Config>) =>
+  endPrinciplesComplianceById = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
-      method: 'PUT',
-      url: `/api/app/document/${id}/finish-user-approval`,
+      method: 'POST',
+      url: `/api/app/document/${id}/end-principles-compliance`,
     },
     { apiName: this.apiName,...config });
   
 
-  finishUserRevisionById = (id: string, config?: Partial<Rest.Config>) =>
+  finishUserApprovalByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: `/api/app/document/${id}/finish-user-approval`,
+      body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  finishUserRevisionByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/document/${id}/finish-user-revision`,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
@@ -77,7 +88,7 @@ export class DocumentService {
     { apiName: this.apiName,...config });
   
 
-  returnToCreatorByIdAndInput = (id: string, input: RejectWithNotes, config?: Partial<Rest.Config>) =>
+  returnToCreatorByIdAndInput = (id: string, input: TakeActionWithRequiredNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/document/${id}/return-to-creator`,
@@ -86,18 +97,37 @@ export class DocumentService {
     { apiName: this.apiName,...config });
   
 
-  sendForApprovalById = (id: string, config?: Partial<Rest.Config>) =>
+  sendForApprovalByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/document/${id}/send-for-approval`,
+      body: input,
     },
     { apiName: this.apiName,...config });
   
 
-  sendForRevisionById = (id: string, config?: Partial<Rest.Config>) =>
+  sendForRevisionByIdAndInput = (id: string, input: TakeActionWithNotes, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: `/api/app/document/${id}/send-for-revision`,
+      body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  sendPrinciplesForComplianceByInput = (input: SendPrinciplesForComplianceDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'PUT',
+      url: '/api/app/document/send-principles-for-compliance',
+      body: input,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  startPrinciplesComplianceById = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/app/document/${id}/start-principles-compliance`,
     },
     { apiName: this.apiName,...config });
   

@@ -1,7 +1,7 @@
 import { LocalizationService } from '@abp/ng.core';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DepartmentService } from '@proxy/departments';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 
 @Component({
   selector: 'app-risks-opports',

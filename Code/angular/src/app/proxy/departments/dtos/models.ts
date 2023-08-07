@@ -1,11 +1,11 @@
-import { IdentityUserDto } from '@abp/ng.identity/proxy';
 import type { FullAuditedEntityWithUserDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
+import type { IdentityUserDto } from '../../volo/abp/identity/models';
 
-export interface CreateUpdateDepartmentDto {
+export interface DepartmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
   name?: string;
 }
 
-export interface DepartmentDto extends FullAuditedEntityWithUserDto<IdentityUserDto, string> {
+export interface CreateUpdateDepartmentDto {
   name?: string;
 }
 

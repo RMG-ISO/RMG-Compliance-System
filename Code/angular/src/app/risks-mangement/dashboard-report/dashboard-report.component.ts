@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { Type, Status } from '../module.enums';
 import { ListService, LocalizationService } from '@abp/ng.core';
 import { ExcelService } from './excel.service';

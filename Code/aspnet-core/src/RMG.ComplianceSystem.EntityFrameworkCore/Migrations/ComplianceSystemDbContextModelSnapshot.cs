@@ -705,8 +705,23 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("ComplianceEndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CompliancePercentage")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("ComplianceResponsibleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ComplianceScheduledEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ComplianceScheduledStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ComplianceStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -767,6 +782,8 @@ namespace RMG.ComplianceSystem.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ComplianceResponsibleId");
 
                     b.ToTable("AppDocuments", (string)null);
                 });
@@ -965,7 +982,13 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -973,6 +996,92 @@ namespace RMG.ComplianceSystem.Migrations
                     b.HasIndex("DocumentId");
 
                     b.ToTable("AppDocumentActionsLog", (string)null);
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Principle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ComplianceComment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ComplianceScore")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ComplianceStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("AppPrinciples", (string)null);
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.PrincipleControl", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ControlId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PrincipleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ControlId");
+
+                    b.HasIndex("PrincipleId");
+
+                    b.ToTable("AppPrinciplesControls", (string)null);
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
@@ -4774,6 +4883,15 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("LastModifier");
                 });
 
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Document", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Employees.Employee", "ComplianceResponsible")
+                        .WithMany()
+                        .HasForeignKey("ComplianceResponsibleId");
+
+                    b.Navigation("ComplianceResponsible");
+                });
+
             modelBuilder.Entity("RMG.ComplianceSystem.Documents.DocumentApprover", b =>
                 {
                     b.HasOne("RMG.ComplianceSystem.Documents.Document", null)
@@ -4864,6 +4982,36 @@ namespace RMG.ComplianceSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Principle", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Documents.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.PrincipleControl", b =>
+                {
+                    b.HasOne("RMG.ComplianceSystem.Controls.Control", "Control")
+                        .WithMany()
+                        .HasForeignKey("ControlId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RMG.ComplianceSystem.Documents.Principle", "Principle")
+                        .WithMany("PrincipleControls")
+                        .HasForeignKey("PrincipleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Control");
+
+                    b.Navigation("Principle");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>
@@ -5586,6 +5734,11 @@ namespace RMG.ComplianceSystem.Migrations
                     b.Navigation("Owners");
 
                     b.Navigation("Reviewers");
+                });
+
+            modelBuilder.Entity("RMG.ComplianceSystem.Documents.Principle", b =>
+                {
+                    b.Navigation("PrincipleControls");
                 });
 
             modelBuilder.Entity("RMG.ComplianceSystem.Domains.Domain", b =>

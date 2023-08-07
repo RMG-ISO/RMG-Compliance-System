@@ -1,7 +1,7 @@
 import { LocalizationService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '@proxy/departments';
-import { RiskAndOpportunityService } from '@proxy/RiskAndOpportunity';
+import { RiskAndOpportunityService } from '@proxy/risks';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
