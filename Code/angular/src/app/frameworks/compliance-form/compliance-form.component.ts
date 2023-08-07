@@ -69,6 +69,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
       priority: new FormControl(null, this.frameWorkData.hasPriority ? Validators.required : null),
     }, {
       validators:[
+        // DateValidators.MinDate('complianceDate'),
         DateValidators.ValidateTwoDates('complianceDate', 'nextComplianceDate')
       ]
     });
@@ -76,6 +77,7 @@ export class ComplianceFormComponent implements OnInit, OnChanges {
     this.assessmentService.getByControlId(this.controlData.id).subscribe(r => {
       this.pathFormValue(r);
       this.assessmentData = r;
+
     });
   }
 

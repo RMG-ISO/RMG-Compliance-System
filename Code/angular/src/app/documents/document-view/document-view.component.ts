@@ -25,7 +25,6 @@ export class DocumentViewComponent {
   allEmployees;
   documentId;
   documentData;
-  employeesObj = {};
   ngOnInit(): void {
     this.documentId = this.activatedRoute.snapshot.params.documentId;
     this.getDocument();
@@ -42,7 +41,6 @@ export class DocumentViewComponent {
   changeRoute(component) {
     this.activeComponent = component;
     component.documentData = this.documentData;
-    component.employeesObj = this.employeesObj;
     component.parent = this;
   }
   

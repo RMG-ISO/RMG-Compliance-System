@@ -43,14 +43,13 @@ export class DateValidators {
           form.controls[end] &&
           this.createDate(form.controls[start].value) > this.createDate(form.controls[end].value)
         ) {
-        
           form.controls[end].setErrors({
             lessThanStart: true
-          })
+          });
         } else {
           let errors = {...form.controls[end].errors};
           delete errors['lessThanStart'];
-          form.controls[end].setErrors( Object.assign(errors).length > 0 ? errors : null);
+          form.controls[end].setErrors( Object.keys(errors).length > 0 ? errors : null);
         }
       }
   }
