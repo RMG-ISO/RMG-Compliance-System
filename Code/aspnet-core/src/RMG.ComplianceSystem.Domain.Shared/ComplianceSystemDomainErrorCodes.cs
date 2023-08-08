@@ -64,5 +64,7 @@
         public const string PrinciplesComplianceEndDateShouldBeAfterStartDate = $"{ParentGroupName}:{DocumentGroupName}:003";
         public const string CannotStartPrincipleComplianceYet = $"{ParentGroupName}:{DocumentGroupName}:004";
         public const string YouMustFillAllPrinciplesDataBeforeEndingCompliance = $"{ParentGroupName}:{DocumentGroupName}:005";
+        public const string SameUserCannotBeRequiredAndOptional = $"{ParentGroupName}:{DocumentGroupName}:006";
+
     }
 }
