@@ -1,4 +1,5 @@
 <div class="d-flex justify-content-between mb-4">
+    
     <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId; else showElse">
     <!-- r && !documentData.complianceResponsibleId -->
         <button mat-raised-button color="primary" (click)="openDialog()">
@@ -16,12 +17,17 @@
         <span></span>
     </ng-template>
 
-    <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()" *ngIf="showStartCompliance">
-        {{ '::StartCompliance' | abpLocalization }}
-    </button>
-    <button mat-raised-button color="primary" (click)="endPrinciplesCompliance()" *ngIf="showEndCompliance">
-        {{ '::EndCompliance' | abpLocalization }}
-    </button>
+    <div *ngIf="showStartCompliance" [matTooltipDisabled]="!canStart" [matTooltip]=" '::CantStartCompliancePrinciples' | abpLocalization:startDate ">
+        <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()"  [disabled]="!canStart">
+            {{ '::StartCompliance' | abpLocalization }}
+        </button>
+    </div>
+    <div *ngIf="showEndCompliance" [matTooltipDisabled]="allQuestionsAnswered" [matTooltip]=" '::CantEndCompliancePrinciples' | abpLocalization ">
+        <button mat-raised-button color="primary" (click)="endPrinciplesCompliance()" [disabled]="!allQuestionsAnswered">
+            {{ '::EndCompliance' | abpLocalization }}
+        </button>
+    </div>
+  
 </div>
 
 <ngx-datatable
@@ -56,14 +62,12 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 
-
     <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" [maxWidth]="200" [width]="200" prop="complianceScore">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <app-progress-bar [value]="value"></app-progress-bar>
             <!-- {{ ('::' + value) | abpLocalization }} -->
         </ng-template>
     </ngx-datatable-column>
-
 
     <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="170" [minWidth]="170" [sortable]="false" cellClass="options">
         <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template let-expanded="expanded">

@@ -31,6 +31,8 @@ export class ConfirmationDialogComponent {
   iconName = 'warning';
   iconColor = 'warn'
 
+
+
   constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData) {
     Object.assign(this,data || {})
   }

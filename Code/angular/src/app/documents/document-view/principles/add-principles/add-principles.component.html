@@ -1,19 +1,18 @@
-<form [formGroup]="form" (ngSubmit)="save()">
+<form [formGroup]="form" (ngSubmit)="save()" (keyup.enter)="$event.preventdefault()">
     <div mat-dialog-title class="d-flex align-items-center justify-content-center">
         <button mat-button (click)="ref.close()" type="button"> 
             <mat-icon color="warn">close</mat-icon>
         </button>
-
         <h2>
             {{ '::' + mode | abpLocalization }}
-            {{ '::Document:Principle' | abpLocalization }}
+            {{ '::Principle' | abpLocalization }}
         </h2>
     </div>
     
     <mat-dialog-content class="mat-typography">
         <div class="row">
             <div class="col-12 form-group">
-                <label for="name">{{ '::اسم القاعدة' | abpLocalization }}</label><span> * </span>
+                <label for="name">{{ '::PrincipleName' | abpLocalization }}</label><span> * </span>
                 <input id="name" class="form-control" formControlName="name">
             </div>
 

@@ -743,6 +743,14 @@
     "PrincipleName":"اسم القاعدة",
     "Percentage":"النسبة",
     "SendForEvaluationSucc":"تم الإرسال للتقييم",
-    "ComplianceSystem:Document:005": "يجب ملء بيانات جميع القواعد أولاً قبل إنهاء التقييم"
+    "ComplianceSystem:Document:005": "يجب ملء بيانات جميع القواعد أولاً قبل إنهاء التقييم",
+    "StartCompliance":"بدء التقييم",
+    "EndCompliance":"انهاء التقييم",
+    "StartComplianceMSG":"هل تريد البدء فى التقييم الآن؟",
+    "EndComplianceMSG":"هل تريد انهاء التقييم الآن؟",
+    "NotApplicable": "لا ينطبق",
+    "CantEndCompliancePrinciples":"لا تزال هناك قواعد لم يتم تقييمها"
+
+
   }
 }
