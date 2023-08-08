@@ -8,6 +8,13 @@
     <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
         {{ '::SendForEvaluation' | abpLocalization }}
     </button>
+
+    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showStartCompliance">
+        {{ '::StartCompliance' | abpLocalization }}
+    </button>
+    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showEndCompliance">
+        {{ '::EndCompliance' | abpLocalization }}
+    </button>
 </div>
 <ngx-datatable
 #table

@@ -51,10 +51,18 @@ export class PrinciplesComponent implements OnInit {
   }
 
   userId;
-  isContributor 
+  isContributor;
+
+  showStartCompliance;
+  showEndCompliance
   ngOnInit(): void {
     this.userId = this.configService.getAll().currentUser.id;
     this.showSendForEvaluation = this.documentData.status == DocumentStatus.Approved && !this.documentData.complianceResponsibleId;
+
+    this.showStartCompliance = this.documentData.complianceResponsibleId && !this.documentData.complianceStartDate;
+    this.showEndCompliance = this.documentData.complianceResponsibleId && this.documentData.complianceStartDate;
+
+
     this.isContributor = this.documentData.creatorId == this.userId || this.documentData.owners.find(x => x.id == this.userId)
   }
   
