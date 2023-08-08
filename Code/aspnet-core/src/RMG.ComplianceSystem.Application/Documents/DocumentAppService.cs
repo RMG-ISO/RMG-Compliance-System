@@ -249,6 +249,11 @@ namespace RMG.ComplianceSystem.Documents
             if (!input.EmployeesIds.All(employeesIds.Contains))
                 throw new UserFriendlyException(L["EmployeesNotExists"]);
 
+            if (input.RequiredReviewersIds.Intersect(input.OptionalReviewersIds).Any())
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.SameUserCannotBeRequiredAndOptional);
+
+            if (input.RequiredApproversIds.Intersect(input.OptionalApproversIds).Any())
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.SameUserCannotBeRequiredAndOptional);
             //category check
             var categoriesIds = (await _categoryRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
             if (!input.CategoriesIds.All(categoriesIds.Contains))
