@@ -7,6 +7,9 @@ import {
 export interface ConfirmationDialogData {
   title: string;
   description: string;
+  showIcon:boolean;
+  iconName : string;
+  iconColor : string;
 }
 
 
@@ -22,5 +25,13 @@ export interface ConfirmationDialogData {
   ],
 })
 export class ConfirmationDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData) {}
+  title;
+  description;
+  showIcon = true;
+  iconName = 'warning';
+  iconColor = 'warn'
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData) {
+    Object.assign(this,data || {})
+  }
 }

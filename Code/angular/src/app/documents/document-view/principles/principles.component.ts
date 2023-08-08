@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { ControlService } from '@proxy/controls';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-principles',
@@ -59,8 +60,8 @@ export class PrinciplesComponent implements OnInit {
     this.userId = this.configService.getAll().currentUser.id;
     this.showSendForEvaluation = this.documentData.status == DocumentStatus.Approved && !this.documentData.complianceResponsibleId;
 
-    this.showStartCompliance = this.documentData.complianceResponsibleId && !this.documentData.complianceStartDate;
-    this.showEndCompliance = this.documentData.complianceResponsibleId && this.documentData.complianceStartDate;
+    this.showStartCompliance = this.documentData.complianceResponsibleId && this.userId == this.documentData.complianceResponsibleId  && !this.documentData.complianceStartDate;
+    this.showEndCompliance = this.documentData.complianceResponsibleId && this.userId == this.documentData.complianceResponsibleId && this.documentData.complianceStartDate;
 
 
     this.isContributor = this.documentData.creatorId == this.userId || this.documentData.owners.find(x => x.id == this.userId)
@@ -151,6 +152,32 @@ export class PrinciplesComponent implements OnInit {
     ref.afterClosed().subscribe(con => {
       console.log('con', con)
       if(con) this.parent.getDocument();
+    })
+  }
+
+
+  startPrinciplesCompliance() {
+    let ref = this.matDialog.open(ConfirmationDialogComponent, {
+      maxWidth:750,
+      disableClose:true,
+      data:{
+        title:'::StartCompliance',
+        description: 'هل تريد البدء فى التقييم الان',
+        showIcon:false
+      }
+    });
+    ref.afterClosed().subscribe(con => {
+      if(con)  this.documentService.startPrinciplesComplianceById(this.documentData.id).subscribe(r => {
+        this.toasterService.success('::SuccessfullySaved', "");
+        this.parent.getDocument();
+      })
+    })
+  }
+
+  endPrinciplesCompliance() {
+    this.documentService.endPrinciplesComplianceById(this.documentData.id).subscribe(r => {
+      this.toasterService.success('::SuccessfullySaved', "");
+      this.parent.getDocument();
     })
   }
 

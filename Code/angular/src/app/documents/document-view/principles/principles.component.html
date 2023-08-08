@@ -1,21 +1,29 @@
-<div class="d-flex justify-content-between mb-4" *ngIf="isContributor">
-    <button mat-raised-button color="primary" (click)="openDialog()">
-        {{ '::Create' | abpLocalization }}
-        {{ '::Principle' | abpLocalization }}
-        <mat-icon>add</mat-icon>
-    </button>
+<div class="d-flex justify-content-between mb-4">
+    <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId; else showElse">
+    <!-- r && !documentData.complianceResponsibleId -->
+        <button mat-raised-button color="primary" (click)="openDialog()">
+            {{ '::Create' | abpLocalization }}
+            {{ '::Principle' | abpLocalization }}
+            <mat-icon>add</mat-icon>
+        </button>
 
-    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
-        {{ '::SendForEvaluation' | abpLocalization }}
-    </button>
+        <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
+            {{ '::SendForEvaluation' | abpLocalization }}
+        </button>
+    </ng-container>
 
-    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showStartCompliance">
+    <ng-template #showElse>
+        <span></span>
+    </ng-template>
+
+    <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()" *ngIf="showStartCompliance">
         {{ '::StartCompliance' | abpLocalization }}
     </button>
-    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showEndCompliance">
+    <button mat-raised-button color="primary" (click)="endPrinciplesCompliance()" *ngIf="showEndCompliance">
         {{ '::EndCompliance' | abpLocalization }}
     </button>
 </div>
+
 <ngx-datatable
 #table
 class="material fullscreen"
@@ -59,7 +67,7 @@ appNgxdatatable>
 
     <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="170" [minWidth]="170" [sortable]="false" cellClass="options">
         <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template let-expanded="expanded">
-            <ng-container *ngIf="isContributor">
+            <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId">
                 <button mat-button color="warn" (click)="delete(row)">
                     <mat-icon color="warn">delete_forever</mat-icon>
                 </button>
@@ -69,7 +77,7 @@ appNgxdatatable>
                 </button>
             </ng-container>
 
-            <button *ngIf="documentData.complianceResponsibleId" mat-button (click)="toggleExpandRow(row, rowIndex)">
+            <button *ngIf="documentData.complianceStartDate" mat-button (click)="toggleExpandRow(row, rowIndex)">
                 <mat-icon>
                     {{ expanded ? 'expand_less' : 'expand_more' }}
                 </mat-icon>
