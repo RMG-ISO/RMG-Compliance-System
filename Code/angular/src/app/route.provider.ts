@@ -58,7 +58,7 @@ function configureRoutes(routesService: RoutesService) {
       },
       {
         path:'/policy',
-        name:'::Policies',
+        name:'::Document:Documents',
         iconClass: 'fas fa-file',
         order: 1,
         layout: eLayoutType.application,
@@ -71,7 +71,7 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
         //requiredPolicy:'ComplianceSystem.Policy',
-        parentName:'::Policies',
+        parentName:'::Document:Documents',
       },
       {
         path:'/notifications',
