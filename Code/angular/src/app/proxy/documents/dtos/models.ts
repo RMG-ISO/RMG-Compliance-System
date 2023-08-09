@@ -74,6 +74,7 @@ export interface DocumentEmployeeDto extends NameId<string> {
 export interface DocumentGetListInputDto extends PagedAndSortedResultRequestDto {
   code?: string;
   name?: string;
+  search?: string;
 }
 
 export interface DocumentSectionDto extends FullAuditedEntityDto<string> {

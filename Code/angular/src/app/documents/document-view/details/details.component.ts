@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { DocumentType } from '@proxy/documents';
+import { Component, OnInit } from '@angular/core';
+import { DocumentStatus, DocumentType } from '@proxy/documents';
 import { DocumentDto } from '@proxy/documents/dtos';
 
 @Component({
@@ -7,11 +7,12 @@ import { DocumentDto } from '@proxy/documents/dtos';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
   documentData:DocumentDto;
 
   
   DocumentType = DocumentType;
+  DocumentStatus = DocumentStatus;
 
   selected;
   employeesObj;
@@ -23,9 +24,6 @@ export class DetailsComponent {
   optionalReviewers = [];
 
   ngOnInit(): void {
-    console.log('this.documentData');
-    console.log(this.documentData);
-
     this.documentData.approvers.map(u => {
       if(u.isRequired) this.requiredApprovers.push(u);
       else this.optionalApprovers.push(u);
