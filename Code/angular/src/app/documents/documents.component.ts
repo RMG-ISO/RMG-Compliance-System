@@ -54,8 +54,9 @@ export class DocumentsComponent implements OnInit{
   
   }
 
+  searchTerm
   getList(search = null) {
-    const streamCreator = (query) => this.documentService.getList({...query, search:search});
+    const streamCreator = (query) => this.documentService.getList({...query, search:this.searchTerm});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
