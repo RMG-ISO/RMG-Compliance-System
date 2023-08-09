@@ -1,13 +1,30 @@
 
 
 #addBtn{
-    color: #55C270!important;
-    border: 2px solid #55C270;
+    color:var(--main-green)!important;
+    border: 2px solid var(--main-green);
     border-radius: 5px;
     padding: 2px 14px;
 }
 
 #addBtn:hover{
-    background: #55C270!important;
+    background: var(--main-green)!important;
     color: #E3FEF3!important;
+}
+
+button.mat-mdc-outlined-button {
+    // font-size: .9rem;
+    // padding-top: 0.35rem;
+    // padding-bottom: 0.35rem;
+    // height: auto;
+    // font-weight: bold;
+
+    font-size: .9rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    height: auto;
+    font-weight: bold;
+    border-radius: 50px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }

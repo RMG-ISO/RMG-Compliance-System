@@ -56,6 +56,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { MyRolesModule } from './my-roles/my-roles.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // export let AppInjector: Injector;
 
@@ -91,7 +92,7 @@ import { MyRolesModule } from './my-roles/my-roles.module';
     MatMenuModule,
     MatIconModule,
     MatCardModule,
-
+    MatDialogModule,
     NgxValidateCoreModule.forRoot({
       blueprints: {
         ...DEFAULT_VALIDATION_BLUEPRINTS,
@@ -115,7 +116,7 @@ import { MyRolesModule } from './my-roles/my-roles.module';
     AppComponent,
     ComplianceLayoutComponent,
     ErrorInterceptComponent,
-    PermissionManagementComponent
+    
   ],
   providers: [
     APP_ROUTE_PROVIDER,

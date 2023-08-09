@@ -1,8 +1,8 @@
-import { ConfigStateService, CurrentUserDto, ReplaceableComponents } from '@abp/ng.core';
+import { ConfigStateService, CoreModule, CurrentUserDto, ReplaceableComponents } from '@abp/ng.core';
 import {
 PermissionManagement
 } from '@abp/ng.permission-management';
-import { LocaleDirection } from '@abp/ng.theme.shared';
+import { LocaleDirection, ThemeSharedModule } from '@abp/ng.theme.shared';
 import {
   Component,
   EventEmitter, Inject, Input, Optional, Output, TrackByFunction,ViewChild
@@ -11,8 +11,12 @@ import { of } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
 import { PermissionsService } from '@abp/ng.permission-management/proxy';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 type  GetPermissionListResultDto  = {
@@ -56,25 +60,26 @@ type PermissionWithStyle = {
   selector: 'app-permission-management',
   templateUrl: './permission-management.component.html',
   styleUrls: ['permission-management.component.scss'],
+  host: { class:'app-dialog' },
+  standalone:true,
+  imports:[MatDialogModule,MatButtonModule,MatExpansionModule, MatIconModule, CoreModule, MatProgressSpinnerModule],
   styles: [
     `
-      .overflow-scroll {
+      /* .overflow-scroll {
         max-height: 70vh;
         overflow-y: scroll;
-      }
+      } */
     `,
   ],
 })
   
-export class PermissionManagementComponent
-  implements
-  PermissionManagement.PermissionManagementComponentInputs,
-  PermissionManagement.PermissionManagementComponentOutputs {
+export class PermissionManagementComponent {
   protected _providerName: string;
   @ViewChild('content') content: Input;
+  @Input('ref') ref;
   @Input()
   get providerName(): string {
-    if (this.replaceableData) return this.replaceableData.inputs.providerName;
+    if (this.replaceableData) return this.replaceableData.providerName;
 
     return this._providerName;
   }
@@ -86,7 +91,7 @@ export class PermissionManagementComponent
   protected _providerKey: string;
   @Input()
   get providerKey(): string {
-    if (this.replaceableData) return this.replaceableData.inputs.providerKey;
+    if (this.replaceableData) return this.replaceableData.providerKey;
 
     return this._providerKey;
   }
@@ -98,7 +103,7 @@ export class PermissionManagementComponent
   protected _hideBadges = false;
   @Input()
   get hideBadges(): boolean {
-    if (this.replaceableData) return this.replaceableData.inputs.hideBadges;
+    if (this.replaceableData) return this.replaceableData.hideBadges;
 
     return this._hideBadges;
   }
@@ -107,30 +112,30 @@ export class PermissionManagementComponent
     this._hideBadges = value;
   }
 
-  protected _visible = false;
-  @Input()
-  get visible(): boolean {
-    return this._visible;
-  }
+  // protected _visible = false;
+  // @Input()
+  // get visible(): boolean {
+  //   return this._visible;
+  // }
 
-  set visible(value: boolean) {
-    if (value === this._visible) return;
+  // set visible(value: boolean) {
+  //   if (value === this._visible) return;
 
-    if (value) {
-      this.openModal().subscribe(() => {
-        this._visible = true;
-        this.visibleChange.emit(true);
-        if (this.replaceableData) this.replaceableData.outputs.visibleChange(true);
-      });
-    } else {
-      this.selectedGroup = null;
-      this._visible = false;
-      this.visibleChange.emit(false);
-      if (this.replaceableData) this.replaceableData.outputs.visibleChange(false);
-    }
-  }
+  //   if (value) {
+  //     this.openModal().subscribe(() => {
+  //       this._visible = true;
+  //       this.visibleChange.emit(true);
+  //       if (this.replaceableData) this.replaceableData.outputs.visibleChange(true);
+  //     });
+  //   } else {
+  //     this.selectedGroup = null;
+  //     this._visible = false;
+  //     this.visibleChange.emit(false);
+  //     if (this.replaceableData) this.replaceableData.outputs.visibleChange(false);
+  //   }
+  // }
 
-  @Output() readonly visibleChange = new EventEmitter<boolean>();
+  // @Output() readonly visibleChange = new EventEmitter<boolean>();
 
   data: GetPermissionListResultDto = { groups: [], entityDisplayName: null };
 
@@ -171,30 +176,37 @@ export class PermissionManagementComponent
       console.log(dad);
       this.fac = true;
     }
+
+    console.log('daddaddad', dad);
+
+
     return dad;
   }
 
-  get isVisible(): boolean {
-    if (!this.replaceableData) return this.visible;
+  // get isVisible(): boolean {
+  //   if (!this.replaceableData) return this.visible;
 
-    return this.replaceableData.inputs.visible;
-  }
+  //   return this.replaceableData.visible;
+  // }
 
+  @Input('replaceableData')  replaceableData;
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    @Optional()
-    @Inject('REPLACEABLE_DATA')
+    // @Optional()
+    // @Inject('REPLACEABLE_DATA')
     
-    public replaceableData: ReplaceableComponents.ReplaceableTemplateData<
-      PermissionManagement.PermissionManagementComponentInputs,
-      PermissionManagement.PermissionManagementComponentOutputs
-    >,
-    private service: PermissionsService,
+    // public replaceableData: ReplaceableComponents.ReplaceableTemplateData<
+    //   PermissionManagement.PermissionManagementComponentInputs,
+    //   PermissionManagement.PermissionManagementComponentOutputs
+    // >,
+    private permissionsService: PermissionsService,
     private configState: ConfigStateService,
     private config: NgbModalConfig, 
     public  matDialog: MatDialog,
     private modalService: NgbModal
-  ) {}
+  ) {
+    console.log('prrrf')
+  }
 
   @ViewChild('dialog') dialog;
 
@@ -294,6 +306,7 @@ export class PermissionManagementComponent
 
   onChangeGroup(group: PermissionGroupDto) {
     this.selectedGroup = group;
+    console.log('selectedGroup', this.selectedGroup);
     this.setTabCheckboxState();
   }
 
@@ -311,12 +324,13 @@ export class PermissionManagementComponent
       .map(({ name, isGranted }) => ({ name, isGranted }));
 
     if (!changedPermissions.length) {
-      this.visible = false;
+      // this.visible = false;
+      this.ref.close(false)
       return;
     }
 
     this.modalBusy = true;
-    this.service
+    this.permissionsService
       .update(this.providerName, this.providerKey, { permissions: changedPermissions })
       .pipe(
         switchMap(() =>
@@ -325,25 +339,43 @@ export class PermissionManagementComponent
         finalize(() => (this.modalBusy = false)),
       )
       .subscribe(() => {
-        this.visible = false;
+        this.ref.close(true);
+        // this.visible = false;
       });
   }
 
-  openModal() {
-    if (!this.providerKey || !this.providerName) {
-      throw new Error('Provider Key and Provider Name are required.');
-    }
+  // openModal() {
+  //   console.log(this.providerKey)
+  //   if (!this.providerKey || !this.providerName) {
+  //     throw new Error('Provider Key and Provider Name are required.');
+  //   }
 
-    return this.service.get(this.providerName, this.providerKey).pipe(
+
+  //   return this.service.get(this.providerName, this.providerKey).pipe(
+  //     tap((permissionRes: GetPermissionListResultDto) => {
+  //       this.data = permissionRes;
+  //       this.selectedGroup = permissionRes.groups[0];
+  //       this.permissions = getPermissions(permissionRes.groups);
+  //     }),
+  //   );
+  // }
+
+
+  isGettingData = true;
+  ngOnInit(){
+    this.document.body.classList.add('permission_setting_modal_body');
+    console.log(this.permissionsService);
+    if(this.providerName && this.providerKey) this.permissionsService.get(this.providerName, this.providerKey).pipe(
       tap((permissionRes: GetPermissionListResultDto) => {
         this.data = permissionRes;
         this.selectedGroup = permissionRes.groups[0];
         this.permissions = getPermissions(permissionRes.groups);
       }),
-    );
-  }
-  ngOnInit(){
-    this.document.body.classList.add('permission_setting_modal_body');
+    )
+    .pipe(finalize(() => this.isGettingData = false))
+    .subscribe();
+
+ 
  }
   initModal() {
     this.setTabCheckboxState();
@@ -357,14 +389,14 @@ export class PermissionManagementComponent
     );
   }
 
-  onVisibleChange(visible: boolean) {
-    this.visible = visible;
+  // onVisibleChange(visible: boolean) {
+  //   this.visible = visible;
 
-    if (this.replaceableData) {
-      this.replaceableData.inputs.visible = visible;
-      this.replaceableData.outputs.visibleChange(visible);
-    }
-  }
+  //   if (this.replaceableData) {
+  //     this.replaceableData.visible = visible;
+  //     this.replaceableData.outputs.visibleChange(visible);
+  //   }
+  // }
   
   shouldFetchAppConfig() {
     const currentUser = this.configState.getOne('currentUser') as CurrentUserDto;

@@ -753,6 +753,11 @@
     "CantStartCompliancePrinciples":"لا يمكن بدء التقييم لأن تاريخ البدء {0}",
     "ComplianceSystem:Document:006": "لا يمكن أن يكون نفس الشخص أساسي واختياري",
     "YouMustApproveDocument":"يجب إعتماد الوثيقة أولا",
-    "SavedSuccessfully": "تم الحفظ بنجاح"
+    "SavedSuccessfully": "تم الحفظ بنجاح",
+    "RoleName":"اسم الدور",
+    "Default":"افتراضي",
+    "Public":"عام",
+    "RoleType":"نوع الدور",
+    "pleaseWait":"الرجاء الإنتظار..."
   }
 }
