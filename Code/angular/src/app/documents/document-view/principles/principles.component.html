@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between mb-4">
     
-    <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId; else showElse">
+    <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId &&  documentData.status == DocumentStatus.Approved; else showElse">
     <!-- r && !documentData.complianceResponsibleId -->
         <button mat-raised-button color="primary" (click)="openDialog()">
             {{ '::Create' | abpLocalization }}
