@@ -36,6 +36,7 @@ export class PrinciplesComponent implements OnInit {
   
 
   showSendForEvaluation = false;
+  DocumentStatus = DocumentStatus;
   constructor(
     private configStateService:ConfigStateService,
     private router:Router,
