@@ -75,6 +75,9 @@ namespace RMG.ComplianceSystem.Documents
         {
             await CheckCreatePolicyAsync();
             await ValidateCreateUpdate(input);
+            if (!input.OwnersIds.Any(o => o == CurrentUser.Id))
+                input.OwnersIds.Add(CurrentUser.Id.Value);
+
             var entity = await MapToEntityAsync(input);
             using (_dataFilter.Disable<ISoftDelete>())
             {
