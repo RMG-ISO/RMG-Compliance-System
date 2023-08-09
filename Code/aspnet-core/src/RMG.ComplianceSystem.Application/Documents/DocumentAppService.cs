@@ -81,7 +81,7 @@ namespace RMG.ComplianceSystem.Documents
             var entity = await MapToEntityAsync(input);
             using (_dataFilter.Disable<ISoftDelete>())
             {
-                entity.Code = "DOC-" + (await Repository.CountAsync()) + 1;
+                entity.Code = "DOC-" + (await Repository.CountAsync() + 1);
             }
             entity.Status = DocumentStatus.Draft;
             MapCategories(entity, input.CategoriesIds);
@@ -241,7 +241,8 @@ namespace RMG.ComplianceSystem.Documents
         {
             var query = await Repository.WithDetailsAsync();
             query = query.WhereIf(!input.Code.IsNullOrEmpty(), x => x.Code.Contains(input.Code))
-                        .WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.Contains(input.Name));
+                        .WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.Contains(input.Name))
+                        .WhereIf(!input.Search.IsNullOrEmpty(), x => x.Name.Contains(input.Search) || x.Code.Contains(input.Search));
             return query;
         }
 

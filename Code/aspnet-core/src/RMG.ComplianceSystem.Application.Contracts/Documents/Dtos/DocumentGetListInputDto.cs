@@ -8,6 +8,7 @@ namespace RMG.ComplianceSystem.Documents.Dtos
 {
     public class DocumentGetListInputDto : PagedAndSortedResultRequestDto
     {
+        public string Search { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     }
