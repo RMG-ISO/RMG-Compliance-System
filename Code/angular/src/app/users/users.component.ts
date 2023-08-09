@@ -71,6 +71,7 @@ export class MyUsersComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('sdsd')
       this.hookToQuery();
       
     }
