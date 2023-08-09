@@ -751,6 +751,7 @@
     "NotApplicable": "لا ينطبق",
     "CantEndCompliancePrinciples":"لا تزال هناك قواعد لم يتم تقييمها",
     "CantStartCompliancePrinciples":"لا يمكن بدء التقييم لأن تاريخ البدء {0}",
-    "ComplianceSystem:Document:006": "لا يمكن أن يكون نفس الشخص أساسي واختياري"
+    "ComplianceSystem:Document:006": "لا يمكن أن يكون نفس الشخص أساسي واختياري",
+    "YouMustApproveDocument":"يجب إعتماد الوثيقة أولا"
   }
 }
