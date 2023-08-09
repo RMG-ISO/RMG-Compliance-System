@@ -24,7 +24,8 @@
                 <i class="fa fa-plus me-1"></i>
                 <span>{{ "::Document:AddDocument" | abpLocalization }}</span>
             </a>
-            <app-search (search)="getList($event)"></app-search>
+            <!-- <app-search (search)="getList($event)"></app-search> -->
+            <app-search (search)="searchTerm = $event;getList()"></app-search>
         </div>
     </div>
 </div>
