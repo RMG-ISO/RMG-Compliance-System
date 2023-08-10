@@ -72,7 +72,7 @@
         </h3>
         <ng-container *ngIf="showButton">
           <button *abpPermission="'ComplianceSystem.Framework.Update'" mat-button
-            (click)="openFrameDialog(FormMode.Edit)">
+            (click)="openFrameDialog(FormMode.Edit)" class="edit-fram-btn">
             <mat-icon class="me-1">edit</mat-icon>
             {{ '::Edit' | abpLocalization }}
           </button>
@@ -116,14 +116,14 @@
         </div>
         <div>
           <ng-select *ngIf="frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation"  [searchable]="false" [clearable]="false" #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
-              <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
-              <ng-option [value]="true">
-                  {{ '::Import' | abpLocalization }}
-              </ng-option>
-              <ng-option [value]="false">
-                  <a #download style="display: none;"></a>
-                  {{ '::DownloadTemp' | abpLocalization }}
-              </ng-option>
+            <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
+            <ng-option [value]="true">
+              {{ '::Import' | abpLocalization }}
+            </ng-option>
+            <ng-option [value]="false">
+              <a #download style="display: none;"></a>
+              {{ '::DownloadTemp' | abpLocalization }}
+            </ng-option>
           </ng-select>
       </div>
         <div *ngIf="frameWorkData?.hasMainControl">

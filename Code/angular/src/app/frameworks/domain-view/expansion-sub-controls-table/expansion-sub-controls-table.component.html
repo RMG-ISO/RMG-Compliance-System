@@ -18,22 +18,26 @@
 
   <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false" cellClass="options">
     <ng-template let-row="row" ngx-datatable-cell-template>
+      <button mat-button
+        color="primary"
+        (click)="openDomainDetailsDialog(row); $event.stopPropagation()">
+          <mat-icon>
+              visibility
+          </mat-icon>
+        </button>
+
       <ng-container *ngIf="showButton">
+        <button *abpPermission="'ComplianceSystem.Control.Update'" mat-button
+        color="accent"
+          (click)="$event.stopPropagation();openDialog(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
         <button *abpPermission="'ComplianceSystem.Control.Delete'" mat-button color="warn"
           (click)="$event.stopPropagation();delete(row)">
           <mat-icon>delete_forever</mat-icon>
         </button>
-        <button *abpPermission="'ComplianceSystem.Control.Update'" mat-button
-          (click)="$event.stopPropagation();openDialog(row)">
-          <mat-icon>edit</mat-icon>
-        </button>
       </ng-container>
-      <button class="mr-3 small-btn" mat-button
-      (click)="openDomainDetailsDialog(row); $event.stopPropagation()">
-          <mat-icon>
-              visibility
-          </mat-icon>
-      </button>
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>

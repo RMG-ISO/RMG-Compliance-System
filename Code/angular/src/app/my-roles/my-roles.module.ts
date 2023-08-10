@@ -6,19 +6,27 @@ import { UiExtensionsModule } from '@abp/ng.theme.shared/extensions';
 import { SharedModule } from '../shared/shared.module';
 import { NgbCollapseModule,NgbAccordionModule,NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { AddRoleComponent } from './add-role/add-role.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PermissionManagementComponent } from '../permission-management/permission-management.component';
 
 
 
 @NgModule({
   declarations: [
-    MyRolesComponent
+    MyRolesComponent,
+    AddRoleComponent
   ],
   imports: [
     CommonModule,
     SharedModule, 
     UiExtensionsModule,
     MatExpansionModule,
-    PermissionManagementModule
+    PermissionManagementModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    PermissionManagementComponent
   ],
   exports: [
     MyRolesComponent,

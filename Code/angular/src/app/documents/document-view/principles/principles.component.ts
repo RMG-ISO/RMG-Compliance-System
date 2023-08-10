@@ -200,10 +200,9 @@ export class PrinciplesComponent implements OnInit {
       disableClose:true,
       data:{
         title:'::StartCompliance',
-        description: "StartComplianceMSG",
+        description: "::StartComplianceMSG",
         iconName: "edit_calendar",
         iconColor:"accent"
-        
       }
     });
     ref.afterClosed().subscribe(con => {
@@ -220,7 +219,7 @@ export class PrinciplesComponent implements OnInit {
       disableClose:true,
       data:{
         title:'::EndCompliance',
-        description: "EndComplianceMSG",
+        description: "::EndComplianceMSG",
         iconName: "event_available",
         iconColor:"accent"
         

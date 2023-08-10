@@ -1,130 +1,167 @@
-
-<abp-modal [visible]="isVisible"   size="Large" (visibleChange)="onVisibleChange($event)" [busy]="modalBusy">
-    <ng-container *ngIf="data.entityDisplayName" >
-      <ng-template #abpHeader>
-        <h4>
-          {{ 'AbpPermissionManagement::Permissions' | abpLocalization }} -
-          {{ data.entityDisplayName }}
-        </h4>
-      </ng-template>
-      <ng-template #abpBody>
-        <!-- <div class="custom-checkbox custom-control mb-2">
-          <input
-            type="checkbox"
-            id="select-all-in-all-tabs"
-            name="select-all-in-all-tabs"
-            class="custom-control-input"
-            [(ngModel)]="selectAllTab"
-            (click)="onClickSelectAll()"
-          />
-          <label class="custom-control-label" for="select-all-in-all-tabs">{{
-            'AbpPermissionManagement::SelectAllInAllTabs' | abpLocalization
-          }}</label>
-        </div> -->
-  
-        <hr class="mt-2 mb-2" />
-
-      
-
-        <div class="row">
-
-
-
-           <div class="overflow-scroll col-md-12" id="permissions_list_tabs">
-            <mat-accordion> 
-              <mat-expansion-panel hideToggle  #panel  *ngFor="let group of data.groups; trackBy: trackByFn" (opened)="onChangeGroup(group)"  [expanded]="selectedGroup?.name === group?.name"  class=" mb-3">
-                  <mat-expansion-panel-header class="panel_header">
-                    <mat-panel-title>
-                      <div class="me-3 ms-1">
-                        <mat-icon >{{panel.expanded? 'remove_circle' : 'add_circle'}}</mat-icon>
-                      </div>
-                      
-                      <div class="mt-1">
-                        {{group?.displayName}}
-                      </div>
-
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-
-
-                  <div class="row mt-4" style="position: relative;top:20px">
-                    <div class="col-sm-4">
-                      كل الصلاحيات
-                    </div>
-                      <div class="col-sm-4">
-                        <div class="custom-checkbox custom-control">
-                          <input
-                            type="checkbox"
-                            id="select-all-in-this-tabs"
-                            name="select-all-in-this-tabs"
-                            class="custom-control-input"
-                            [(ngModel)]="selectThisTab"
-                            (click)="onClickSelectThisTab()"
-                          />
-                          <label class="custom-control-label" for="select-all-in-this-tabs">الكل</label>
-                        </div>
-                      </div>
-                  </div>
-
-
-                  
-                  <div  >
-                    <div
-                      *ngFor="let permission of selectedGroupPermissions; let i = index; trackBy: trackByFn"
-                      [style.width]="permission.isParent?'':'100%'"
-                      [style.float]="permission.isParent?'right':''"
-                      [style.margin-top]="permission.isParent?'5px':'50px'"
-                      [style.margin-left]="permission.isParent?'20px':'5px'"
-                      [style.padding-top]="permission.isParent?'':'20px'"
-                      [style.clear]="permission.isParent?'':'both'"
-                      [style.font-weight]="permission.isParent?'':'bold'"
-                      [style.font-size]="permission.isParent?'':'15px'"
-                      [style.color]="permission.isParent?'#848484':''"
-                      [style.border-top]="permission.isParent?'':'1px dashed #ccc'"
-                  
-
-                      class="custom-checkbox custom-control !">
-
-                     
-
-                        <div>
-                          <input
-                            #permissionCheckbox
-                            type="checkbox"
-                            [checked]="getChecked(permission.name)"
-                            [value]="getChecked(permission.name)"
-                            [attr.id]="permission.name"
-                            class="custom-control-input"
-                            [disabled]="isGrantedByOtherProviderName(permission.grantedProviders)"
-                          />
-                        
-                          <label
-                            class="custom-control-label"
-                            [attr.for]="permission.name"
-                            (click)="onClickCheckbox(permission, permissionCheckbox.value)"
-                            >{{ permission.displayName }}
-                          </label>
-                      </div>
-
-                      <div style="clear:both"></div>
-
-
-                    </div>
+<!-- <abp-modal [visible]="isVisible"   size="Large" (visibleChange)="onVisibleChange($event)" [busy]="modalBusy">
+  <ng-container *ngIf="data.entityDisplayName" >
+    <ng-template #abpHeader>
+      <h4>
+        {{ 'AbpPermissionManagement::Permissions' | abpLocalization }} -
+        {{ data.entityDisplayName }}
+      </h4>
+    </ng-template>
+    <ng-template #abpBody>
+      <mat-accordion> 
+        <mat-expansion-panel hideToggle  #panel  *ngFor="let group of data.groups; trackBy: trackByFn" (opened)="onChangeGroup(group)"  [expanded]="selectedGroup?.name === group?.name"  class=" mb-3">
+            <mat-expansion-panel-header class="panel_header">
+              <mat-panel-title>
+                <div class="me-3 ms-1">
+                  <mat-icon >{{panel.expanded? 'remove_circle' : 'add_circle'}}</mat-icon>
+                </div>
+                
+                <div class="mt-1">
+                  {{group?.displayName}}
                 </div>
 
-              </mat-expansion-panel>
-            </mat-accordion>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+
+            <div class=" mt-4 mb-3 custom-checkbox custom-control">
+              <input
+                type="checkbox"
+                id="select-all-in-this-tabs"
+                name="select-all-in-this-tabs"
+                class="custom-control-input"
+                [(ngModel)]="selectThisTab"
+                (click)="onClickSelectThisTab()"
+              />
+              <label class="custom-control-label" for="select-all-in-this-tabs">كل الصلاحيات</label>
+            </div>
+
+            
+            <div class="permission-cont">
+              <div
+                *ngFor="let permission of selectedGroupPermissions; let i = index; trackBy: trackByFn"
+                [style.width]="permission.isParent?'':'100%'"
+                  [style.float]="permission.isParent?'right':''"
+                  [style.margin-top]="permission.isParent?'5px':'50px'" 
+                  [style.margin-left]="permission.isParent?'20px':'5px'"
+                  [style.padding-top]="permission.isParent?'':'20px'"
+                  [style.clear]="permission.isParent?'':'both'"
+                  [style.font-weight]="permission.isParent?'':'bold'"
+                  [style.font-size]="permission.isParent?'':'15px'"
+                  [style.color]="permission.isParent?'#848484':''"
+                  [style.border-top]="permission.isParent?'':'1px dashed #ccc'"
+                class="custom-checkbox custom-control ">
+                <input
+                  #permissionCheckbox
+                  type="checkbox"
+                  [checked]="getChecked(permission.name)"
+                  [value]="getChecked(permission.name)"
+                  [attr.id]="permission.name"
+                  class="custom-control-input"
+                  [disabled]="isGrantedByOtherProviderName(permission.grantedProviders)"
+                />
+              
+                <label
+                  class="custom-control-label"
+                  [attr.for]="permission.name"
+                  (click)="onClickCheckbox(permission, permissionCheckbox.value)"
+                  >{{ permission.displayName }}
+                </label>
+              </div>
           </div>
 
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-template>
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" abpClose>
+        {{ 'AbpIdentity::Cancel' | abpLocalization }}
+      </button>
+      <abp-button iconClass="fa fa-check" (click)="submit()">{{
+        'AbpIdentity::Save' | abpLocalization
+      }}</abp-button>
+    </ng-template>
+  </ng-container>
+</abp-modal> -->
+
+
+<div mat-dialog-title class="d-flex align-items-center justify-content-center">
+  <button mat-button (click)="ref.close()" type="button"> 
+    <mat-icon class="m-0" color="warn">close</mat-icon>
+  </button>
+  <h2>
+    {{ 'AbpPermissionManagement::Permissions' | abpLocalization }}
+  </h2>
+</div>
+
+<mat-dialog-content class="mat-typography">
+  <mat-accordion *ngIf="!isGettingData; else showLoader"> 
+    <mat-expansion-panel hideToggle  #panel  *ngFor="let group of data.groups; trackBy: trackByFn" (opened)="onChangeGroup(group)"  [expanded]="selectedGroup?.name === group?.name"  class=" mb-3">
+        <mat-expansion-panel-header class="panel_header">
+          <mat-panel-title>
+            <div class="me-3 ms-1">
+              <mat-icon >{{panel.expanded? 'remove_circle' : 'add_circle'}}</mat-icon>
+            </div>
+            
+            <div class="mt-1">
+              {{group?.displayName}}
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class=" mt-4 mb-3 custom-checkbox custom-control">
+          <input
+            type="checkbox"
+            id="select-all-in-this-tabs"
+            name="select-all-in-this-tabs"
+            class="custom-control-input"
+            [(ngModel)]="selectThisTab"
+            (click)="onClickSelectThisTab()"
+          />
+          <label class="custom-control-label" for="select-all-in-this-tabs">كل الصلاحيات</label>
         </div>
-      </ng-template>
-      <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" abpClose>
-          {{ 'AbpIdentity::Cancel' | abpLocalization }}
-        </button>
-        <abp-button iconClass="fa fa-check" (click)="submit()">{{
-          'AbpIdentity::Save' | abpLocalization
-        }}</abp-button>
-      </ng-template>
-    </ng-container>
-  </abp-modal>
+        
+        <div class="permission-cont">
+          <div
+            *ngFor="let permission of selectedGroupPermissions; let i = index; trackBy: trackByFn"
+            [class.is-parent]="!permission.isParent"
+            class="custom-checkbox custom-control ">
+            <input
+              #permissionCheckbox
+              type="checkbox"
+              [checked]="getChecked(permission.name)"
+              [value]="getChecked(permission.name)"
+              [attr.id]="permission.name"
+              class="custom-control-input"
+              [disabled]="isGrantedByOtherProviderName(permission.grantedProviders)"
+            />
+            <label
+              class="custom-control-label"
+              [attr.for]="permission.name"
+              (click)="onClickCheckbox(permission, permissionCheckbox.value)"
+              >{{ permission.displayName }}
+            </label>
+          </div>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  <ng-template #showLoader>
+    <div class="no-data">
+      <div>
+        <mat-spinner diameter="30" strokeWidth="3" color="primary"></mat-spinner>
+        {{ '::pleaseWait' | abpLocalization }}
+      </div>
+    </div>
+  </ng-template>
+  
+</mat-dialog-content>
+<mat-dialog-actions class="actions justify-content-center">
+  <button mat-button cdkFocusInitial class="green" type="submit" (click)="submit()" [disabled]="modalBusy" >
+    <i class="fa fa-check me-1"></i>
+    {{ '::Save' | abpLocalization }}
+  </button>
+
+  <button type="button" mat-button (click)="ref.close()" class="red"> 
+    {{ '::Cancel' | abpLocalization }}
+  </button>
+</mat-dialog-actions>
