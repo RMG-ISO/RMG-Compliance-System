@@ -5,11 +5,17 @@
                 {{ '::CheckLists' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
-                <button  mat-button class="add-btn me-3" type="button"  >
+                <!-- <button  mat-button class="add-btn me-3" type="button"  >
                     <i class="fa fa-plus me-2"></i>
                     <span class="line me-2"></span>
                     <span>{{ "::Create" | abpLocalization }}</span>
+                </button> -->
+
+                <button mat-button class="add-btn me-3" type="button" (click)="openUserModel()" >
+                    <i class="fa fa-plus me-1"></i>
+                    <span>{{ "::Create" | abpLocalization }}</span>
                 </button>
+
                 <app-search (search)="searchVal = $event;list.get()"></app-search>
             </div>
         </div>
@@ -28,7 +34,7 @@
                     <button  mat-button  (click)="delete(row)">
                         <mat-icon color="warn">delete_forever</mat-icon>
                     </button>
-                    <button mat-button >
+                    <button mat-button (click)="openUserModel(row)" >
                         <mat-icon color="primary">edit</mat-icon>
                     </button>
                 </ng-template>
@@ -38,6 +44,10 @@
 </div>
 
 
+<ng-template #userDialog let-data let-ref="dialogRef">
+    <app-create [data]="data.data" [ref]="ref" ></app-create>
+  </ng-template>
+  
 <ng-template #permissionsDialog let-data let-ref="dialogRef">
     <app-permission-management [replaceableData]="data.data" [ref]="ref" ></app-permission-management>
 </ng-template>

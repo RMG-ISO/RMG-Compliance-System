@@ -8,11 +8,20 @@
         </div>
         <div class="text-end col col-md-6">
           <!-- <abp-page-toolbar [record]="data.items"></abp-page-toolbar> -->
-          <button mat-stroked-button color="primary" (click)="openRoleModel()">
+          <button mat-button class="add-btn me-3" type="button" (click)="openRoleModel()" >
+              <i class="fa fa-plus me-1"></i>
+              <span>
+                {{ '::Create' | abpLocalization }} 
+                {{ '::Role' | abpLocalization }}
+              </span>
+          </button>
+
+
+          <!-- <button mat-stroked-button color="primary" (click)="openRoleModel()">
               <mat-icon>add_circle</mat-icon>
               {{ '::Create' | abpLocalization }} 
               {{ '::Role' | abpLocalization }}
-          </button>
+          </button> -->
         </div>
       </div>
     </div>

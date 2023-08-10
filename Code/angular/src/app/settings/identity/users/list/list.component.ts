@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ListComponent implements OnInit {
   @ViewChild('permissionsDialog') permissionsDialog;
+  @ViewChild('userDialog') userDialog;
 
   searchVal;
   constructor(
@@ -29,8 +30,8 @@ export class ListComponent implements OnInit {
 
   items;
   totalCount
-  getList(search = null) {
-    const streamCreator = (query) => this.identityUserService.getList({ ...query, search: search});
+  getList() {
+    const streamCreator = (query) => this.identityUserService.getList({ ...query, search: this.searchVal});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -46,6 +47,21 @@ export class ListComponent implements OnInit {
         });
       }
     });
+  }
+
+
+
+  openUserModel(data = null) {
+    let ref = this.matDialog.open(this.userDialog, {
+      data:{
+        data,
+      },
+      maxWidth:750,
+      disableClose:true
+    });
+    ref.afterClosed().subscribe(con => {
+      if(con) this.list.get();
+    })
   }
 
 
