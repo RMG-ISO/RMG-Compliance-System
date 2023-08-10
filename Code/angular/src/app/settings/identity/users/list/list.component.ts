@@ -1,7 +1,8 @@
 import { ListService } from '@abp/ng.core';
 import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-list',
@@ -10,12 +11,15 @@ import { Component, OnInit } from '@angular/core';
   providers:[ListService]
 })
 export class ListComponent implements OnInit {
+  @ViewChild('permissionsDialog') permissionsDialog;
+
   searchVal;
   constructor(
     private identityUserService:IdentityUserService,
     public list:ListService,
     private confirmation:ConfirmationService,
-    private toasterService:ToasterService
+    private toasterService:ToasterService,
+    private matDialog:MatDialog
 
   ) { }
 
@@ -42,6 +46,29 @@ export class ListComponent implements OnInit {
         });
       }
     });
+  }
+
+
+  providerKey
+  openPermissionsModal(providerKey: string) {
+    this.providerKey = providerKey;
+    
+    let ref = this.matDialog.open(this.permissionsDialog, {
+      data:{
+        data:{
+          providerName: 'U',
+          providerKey: providerKey,
+          hideBadges: true
+        },
+      },
+      disableClose:true
+    });
+    ref.afterClosed().subscribe(con => {
+      if(con) this.list.get();
+    })
+    // setTimeout(() => {
+    //   this.visiblePermissions = true;
+    // }, 0);
   }
 
 }

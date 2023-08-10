@@ -177,9 +177,6 @@ export class PermissionManagementComponent {
       this.fac = true;
     }
 
-    console.log('daddaddad', dad);
-
-
     return dad;
   }
 

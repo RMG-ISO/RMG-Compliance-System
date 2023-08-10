@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { ListComponent } from './list/list.component';
+import { PermissionManagementComponent } from 'src/app/permission-management/permission-management.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ListComponent } from './list/list.component';
   imports: [
     CommonModule,
     UsersRoutingModule,
-    SharedModule
+    SharedModule,
+    PermissionManagementComponent
   ]
 })
 export class UsersModule { }

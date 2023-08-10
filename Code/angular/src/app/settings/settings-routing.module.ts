@@ -9,8 +9,9 @@ const routes: Routes = [
     loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule)
   },
   {
-    path: 'identity',
-    loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
+    path:'identity',
+    canActivate: [AuthGuard, PermissionGuard],
+    loadChildren: () => import('./identity/identity.module').then(m => m.IdentityModule)
   },
   {
     path:'department',
@@ -22,10 +23,10 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard],
     loadChildren:() => import('./email-templates/email-templates.module').then(m => m.EmailTemplatesModule)
   },
-  {
-    path:'test-users',
-    loadChildren:() => import('./users/users.module').then(m => m.UsersModule)
-  }
+  // {
+  //   path:'test-users',
+  //   loadChildren:() => import('./users/users.module').then(m => m.UsersModule)
+  // }
 ];
 
 @NgModule({

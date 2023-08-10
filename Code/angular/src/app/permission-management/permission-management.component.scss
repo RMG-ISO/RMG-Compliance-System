@@ -24,6 +24,9 @@
         width: 100%;
         // margin-top: 1rem;
         padding-bottom: 0;
+        label {
+            font-weight: bold;
+        }
         &::before {
             width: 100%;
             content: "";
