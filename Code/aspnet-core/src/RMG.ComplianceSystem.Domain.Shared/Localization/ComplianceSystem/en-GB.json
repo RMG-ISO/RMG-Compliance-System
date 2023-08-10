@@ -756,6 +756,9 @@
     "Users:Dialog:PhoneNumber:P": "Phone number",
     "Users:Dialog:LockoutEnabled": "Lock account after failed login attempts",
     "Users:Dialog:Roles": "Roles",
-    "Users:Dialog:RolesValidation": "You have to select one role at least"
+    "Users:Dialog:RolesValidation": "You have to select one role at least",
+    "ComplianceSystem:Document:007": "Only document contributors can update it",
+    "ISO:Identity:001": "You cannot change this user's username",
+    "ISO:Identity:002": "You cannot change this user's password"
   }
 }

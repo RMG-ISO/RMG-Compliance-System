@@ -78,13 +78,13 @@
                     [routerLink]="['/documents/',row.id, 'details']">
                     <mat-icon color="accent">visibility</mat-icon>
                 </a>
-                <ng-container *ngIf="row.status !== DocumentStatus.Approved">
+                <ng-container *ngIf="canEditAndDelete(row)">
                     <a *abpPermission="'ComplianceSystem.Document.Update'" mat-button
                         [routerLink]="['/documents/',row.id, 'edit']">
                         <mat-icon color="primary">edit</mat-icon>
                     </a>
                 </ng-container>
-                <ng-container *ngIf="row.status !== DocumentStatus.Approved">
+                <ng-container *ngIf="canEditAndDelete(row)">
                     <button *abpPermission="'ComplianceSystem.Document.Delete'" mat-button
                         (click)="$event.stopPropagation();delete(row)">
                         <mat-icon color="warn">delete</mat-icon>

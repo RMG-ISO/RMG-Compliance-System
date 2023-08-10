@@ -784,6 +784,9 @@
     "Users:Dialog:PhoneNumber:P": "رقم الهاتف",
     "Users:Dialog:LockoutEnabled": "تأمين الحساب بعد محاولات تسجيل الدخول الفاشلة",
     "Users:Dialog:Roles": "الأدوار",
-    "Users:Dialog:RolesValidation": "يجب إختيار دور على الأقل"
+    "Users:Dialog:RolesValidation": "يجب إختيار دور على الأقل",
+    "ComplianceSystem:Document:007": "يمكن لمعدي الوثيقة فقط التعديل عليها",
+    "ISO:Identity:001": "لا يمكن تغيير اسم المستخدم لهذا المستخدم",
+    "ISO:Identity:002": "لا يمكن تغيير كلمة السر لهذا المستخدم"
   }
 }
