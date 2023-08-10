@@ -24,8 +24,14 @@ export class ListComponent implements OnInit {
 
   ) { }
 
+  allRoles;
   ngOnInit(): void {
     this.getList();
+
+    this.identityUserService.getAssignableRoles().subscribe(r => {
+      this.allRoles = r.items;
+    })
+
   }
 
   items;

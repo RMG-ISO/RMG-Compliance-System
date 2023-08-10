@@ -38,7 +38,7 @@
                     </span>
                 </h2>
                 <ng-container *abpPermission="'ComplianceSystem.Control.Update'">
-                    <button *ngIf="showButton" mat-button (click)="openDialog()" class="add-blue">
+                    <button *ngIf="showButton" mat-button (click)="openDialog()" color="primary" class="round">
                         <mat-icon class="me-1">edit</mat-icon>
                         {{ '::Edit' | abpLocalization }}
                     </button>

@@ -1,0 +1,45 @@
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+
+h3 {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+:host {
+    mat-selection-list ::ng-deep {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+        mat-list-option{
+          // width: 50%;
+          flex: 50%;
+          flex-direction: row-reverse;
+
+          .mat-list-item-content{
+            flex-direction: row;
+            // .mat-pseudo-checkbox-checked {
+            //   background-color: var(--light-main-color) !important;
+            // }
+            // .mat-list-text {
+            //   padding: 0;
+            //   margin: 0 16px;
+            //   font-family: "Tajawal", sans-serif;
+            //   font-size: 16px;
+            //   color: #A5B1C2;
+            //   font-weight: bold;
+            // }
+          }
+        //   &[aria-selected="true"] {
+        //     .mat-list-item-content{
+        //       .mat-list-text {
+        //         color: #000000;
+        //       }
+        //     }
+        //   }
+        }
+    }
+}

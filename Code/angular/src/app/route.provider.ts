@@ -224,7 +224,6 @@ function configureRoutes(routesService: RoutesService) {
         parentName:'::Menu:ComplianceSystemSettings',
         layout: eLayoutType.application,
         order: 1,
-        // requiredPolicy:'AbpIdentity'
       },
       {
         path:'/settings/identity/users',

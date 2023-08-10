@@ -57,6 +57,7 @@ import { of } from 'rxjs';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { MyRolesModule } from './my-roles/my-roles.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { APP_VALIDATION_BLUEPRINTS } from './shared/validators/app-validations';
 
 // export let AppInjector: Injector;
 
@@ -94,17 +95,18 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     MatDialogModule,
     NgxValidateCoreModule.forRoot({
-      blueprints: {
-        ...DEFAULT_VALIDATION_BLUEPRINTS,
-        minLength: '::Validations:MinLength[{{ minLength }}]',
-        maxLength: '::Validations:MaxLength[{{ maxLength }}]',
-        minToday: '::Validations:MinDateToday',
-        minDate: '::Validations:MinDate[{{ minDate }}]',
-        maxDate: '::Validations:MaxDate[{{ maxDate }}]',
-        lessThanStart: '::Validations:DueDateLessThanStart',
-        min: '::Validations:Min[{{ min }}]',
-        max: '::Validations:Max[{{ max }}]',
-      },
+      // blueprints: {
+      //   ...DEFAULT_VALIDATION_BLUEPRINTS,
+      //   minLength: '::Validations:MinLength[{{ minLength }}]',
+      //   maxLength: '::Validations:MaxLength[{{ maxLength }}]',
+      //   minToday: '::Validations:MinDateToday',
+      //   minDate: '::Validations:MinDate[{{ minDate }}]',
+      //   maxDate: '::Validations:MaxDate[{{ maxDate }}]',
+      //   lessThanStart: '::Validations:DueDateLessThanStart',
+      //   min: '::Validations:Min[{{ min }}]',
+      //   max: '::Validations:Max[{{ max }}]',
+      // },
+      blueprints:APP_VALIDATION_BLUEPRINTS,
       validateOnSubmit:true,
       targetSelector:'.form-group',
       errorTemplate:ValidationErrorComponent,

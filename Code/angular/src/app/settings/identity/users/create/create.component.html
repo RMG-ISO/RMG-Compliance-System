@@ -4,13 +4,141 @@
             <mat-icon class="m-0" color="warn">close</mat-icon>
         </button>
 
-        <h3>
+        <h2>
             {{ (data ? 'AbpIdentity::Edit' : 'AbpIdentity::NewUser') | abpLocalization }}
-        </h3>
+        </h2>
     </div>
     
     <mat-dialog-content class="mat-typography">
+        <mat-tab-group>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                   <h3>
+                        {{ '::Users:Dialog:UserInformations' | abpLocalization }}
+                   </h3>
+                </ng-template>
+
+                <div class="row ms-0 me-0 mt-4">
+                    <div class="col-md-12 form-group">
+                      <label for="userName">
+                        {{ '::Users:Dialog:Username' | abpLocalization }}
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="userName"
+                        formControlName="userName"
+                        fullWidth
+                        [placeholder]="'::Users:Dialog:Username:P' | abpLocalization"
+                      />
+                    </div>
+                    
+                    <div class="col-md-12 form-group" *ngIf="form.controls.password">
+                        <label for="password">{{ '::Users:Dialog:Password' | abpLocalization }}</label>
+                        <div class="passowrd-cont d-flex align-items-center">
+                          <input 
+                          id="password"
+                          type="password"
+                          class="form-control"
+                          fullWidth
+                          formControlName="password"
+                          [placeholder]="'::Users:Dialog:Password:P' | abpLocalization"
+                          #passwordInput
+                          />
+                          <button mat-button type="button" class="ms-2" (click)="passwordInput.type = passwordInput.type == 'password' ? 'text' : 'password' ">
+                            <i class="fas" [class]=" passwordInput.type == 'password'? 'fa-eye' : 'fa-eye-slash' "></i>
+                          </button>
+                        </div>
+                        <div *ngIf="data">{{ '::LeaveBlankToUnchangeIt' | abpLocalization}}</div>
+                      </div>
         
+                    <div class="col-md-6 form-group">
+                      <label for="name">
+                        {{ '::Users:Dialog:Name' | abpLocalization }}
+                      </label>
+                      <input
+                      id="name"
+                        type="text"
+                        class="form-control"
+                        fullWidth
+                        formControlName="name"
+                        [placeholder]="'::Users:Dialog:Name:P' | abpLocalization"
+                      />
+                    </div>
+                    
+                    <div class="col-md-6 form-group">
+                      <label for="surname">
+                        {{ '::Users:Dialog:Surname' | abpLocalization }}
+                      </label>
+                      <input
+                      id="surname"
+                        type="text"
+                        class="form-control"
+                        fullWidth
+                        formControlName="surname"
+                        [placeholder]="'::Users:Dialog:Surname:P' | abpLocalization"
+                      />
+                    </div>
+        
+                    <div class="col-md-6 form-group">
+                      <label for="email">
+                        {{ '::Users:Dialog:Email' | abpLocalization }}
+                      </label>
+                      <input
+                        id="email"
+                        type="text"
+                        class="form-control"
+                        fullWidth
+                        formControlName="email"
+                        [placeholder]="'::Users:Dialog:Email:P' | abpLocalization"
+                      />
+                    </div>
+        
+                    <div class="col-md-6 form-group">
+                      <label for="phoneNumber">
+                        {{ '::Users:Dialog:PhoneNumber' | abpLocalization }}
+                      </label>
+                      <input
+                        id="phoneNumber"
+                        type="tel"
+                        class="form-control"
+                        fullWidth
+                        formControlName="phoneNumber"
+                        [placeholder]="'::Users:Dialog:PhoneNumber:P' | abpLocalization"
+                      />
+                    </div>
+                    
+                    <div class="col-md-12 form-group">
+                      <mat-checkbox formControlName="lockoutEnabled">
+                        {{ '::Users:Dialog:LockoutEnabled' | abpLocalization }}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+
+            </mat-tab>
+          
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <!-- <mat-icon>thumb_up</mat-icon> -->
+                <h3>
+                    {{ '::Users:Dialog:Roles' | abpLocalization }}
+                </h3>
+              </ng-template>
+              
+              <mat-selection-list #rolesSelectionList (selectionChange)="showErrors = true">
+                <mat-list-option  *ngFor="let role of allRoles" [value]="role.name">
+                  {{role.name}}
+                </mat-list-option>
+              </mat-selection-list>
+
+              
+            </mat-tab>
+        </mat-tab-group>
+
+        <div class="invalid-feedback d-block pl-5 pr-5" *ngIf="showErrors && !rolesSelectionList.selectedOptions.selected.length">
+            {{ '::Users:Dialog:RolesValidation' | abpLocalization }}
+          </div>
+
     </mat-dialog-content>
     
     <mat-dialog-actions class="actions justify-content-center">
