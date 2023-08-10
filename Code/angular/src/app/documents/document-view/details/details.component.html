@@ -5,7 +5,7 @@
         {{ "::Document:DocumentDetails" | abpLocalization }}
     </h3>
 
-    <div *ngIf="documentData.status !== DocumentStatus.Approved">
+    <div *ngIf="canEdit">
         <a mat-raised-button  *abpPermission="'ComplianceSystem.Document.Update'" class="mainGreenBg" [routerLink]="['/documents/',documentData?.id, 'edit']" >
             {{ '::Edit' | abpLocalization }}  
             <mat-icon>edit</mat-icon>

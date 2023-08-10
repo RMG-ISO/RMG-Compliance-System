@@ -98,6 +98,9 @@ namespace RMG.ComplianceSystem.Documents
             await CheckUpdatePolicyAsync();
             await ValidateCreateUpdate(input);
             var entity = await Repository.GetAsync(id);
+            if (!entity.Owners.Select(o => o.EmployeeId).Any(x => x == CurrentUser.Id))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyDocumentOwnersCanEditDocumentInfo);
+
             await MapToEntityAsync(input, entity);
 
             await _documentCategoryRepository.DeleteAsync(x => x.DocumentId == id);

@@ -732,6 +732,7 @@
     "Document:DocumentSettings": "Document settings",
     "Document:DocumentActivities": "Document activities",
     "Document:Document": "Document",
-    "SavedSuccessfully": "Saved successfully"
+    "SavedSuccessfully": "Saved successfully",
+    "ComplianceSystem:Document:007": "Only document contributors can update it"
   }
 }
