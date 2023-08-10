@@ -35,7 +35,7 @@ namespace RMG.ComplianceSystem.Identity
             {
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotChangeSuperAdminPassword);
             }
-            return base.UpdateAsync(id, input);
+            return await base.UpdateAsync(id, input);
         }
     }
 }
