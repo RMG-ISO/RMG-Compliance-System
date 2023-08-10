@@ -754,6 +754,8 @@
     "ComplianceSystem:Document:006": "لا يمكن أن يكون نفس المستخدم أساسي واختياري",
     "YouMustApproveDocument": "يجب إعتماد الوثيقة أولا",
     "SavedSuccessfully": "تم الحفظ بنجاح",
-    "ComplianceSystem:Document:007": "يمكن لمعدي الوثيقة فقط التعديل عليها"
+    "ComplianceSystem:Document:007": "يمكن لمعدي الوثيقة فقط التعديل عليها",
+    "ISO:Identity:001": "لا يمكن تغيير اسم المستخدم لهذا المستخدم",
+    "ISO:Identity:002": "لا يمكن تغيير كلمة السر لهذا المستخدم"
   }
 }
