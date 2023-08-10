@@ -22,16 +22,18 @@
         <span></span>
     </ng-template>
 
-    <div *ngIf="showStartCompliance" [matTooltipDisabled]="!canStart" [matTooltip]=" '::CantStartCompliancePrinciples' | abpLocalization:startDate ">
-        <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()"  [disabled]="!canStart">
-            {{ '::StartCompliance' | abpLocalization }}
-        </button>
-    </div>
-    <div *ngIf="showEndCompliance" [matTooltipDisabled]="allQuestionsAnswered" [matTooltip]=" '::CantEndCompliancePrinciples' | abpLocalization ">
-        <button mat-raised-button color="primary" (click)="endPrinciplesCompliance()" [disabled]="!allQuestionsAnswered">
-            {{ '::EndCompliance' | abpLocalization }}
-        </button>
-    </div>
+    <ng-container *ngIf="items.length">
+        <div *ngIf="showStartCompliance" [matTooltipDisabled]="!canStart" [matTooltip]=" '::CantStartCompliancePrinciples' | abpLocalization:startDate ">
+            <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()"  [disabled]="!canStart">
+                {{ '::StartCompliance' | abpLocalization }}
+            </button>
+        </div>
+        <div *ngIf="showEndCompliance" [matTooltipDisabled]="allQuestionsAnswered" [matTooltip]=" '::CantEndCompliancePrinciples' | abpLocalization ">
+            <button mat-raised-button color="primary" (click)="endPrinciplesCompliance()" [disabled]="!allQuestionsAnswered">
+                {{ '::EndCompliance' | abpLocalization }}
+            </button>
+        </div>
+    </ng-container>
   
 </div>
 
