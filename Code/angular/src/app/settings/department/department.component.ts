@@ -19,6 +19,7 @@ export class DepartmentComponent implements OnInit {
   FormMode = FormMode;
   sharedStatusOptions = sharedStatusOptions;
   @ViewChild('dataTable', { static: false }) table: DatatableComponent;
+  @ViewChild('departmentDialog') departmentDialog;
 
 
   items: DepartmentDto[];
@@ -41,8 +42,9 @@ export class DepartmentComponent implements OnInit {
     this.getList();
   }
 
-  getList(search = null) {
-    const streamCreator = (query) => this.departmentService.getList({...query, search:search});
+  search = '';
+  getList() {
+    const streamCreator = (query) => this.departmentService.getList({...query, search:this.search});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
@@ -57,34 +59,49 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
+  // openDialog(data: DepartmentDto) {
+  //   this.selected = data;
+  //   this.buildForm();
+  //   this.isModalOpen = true;
+  // }
+
+  // buildForm() {
+  //   this.form = new FormGroup({
+  //     name: new FormControl(null, Validators.required),
+  //     id: new FormControl(null)
+  //   })
+  //   this.form.patchValue(this.selected);
+  // }
+  
   openDialog(data: DepartmentDto) {
-    this.selected = data;
-    this.buildForm();
-    this.isModalOpen = true;
-  }
-
-  buildForm() {
-    this.form = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      id: new FormControl(null)
-    })
-    this.form.patchValue(this.selected);
-  }
-
-  save() {
-    if (this.form.invalid) {
-      return;
-    }
-
-    const request = this.selected?.id
-      ? this.departmentService.update(this.selected.id, this.form.value)
-      : this.departmentService.create(this.form.value);
-
-    request.subscribe(() => {
-      this.isModalOpen = false;
-      this.form.reset();
-      this.list.get();
+    let ref = this.dialog.open(this.departmentDialog, {
+      data:{
+        data,
+      },
+      maxWidth:750,
+      disableClose:true
     });
+    ref.afterClosed().subscribe(con => {
+      if(con) this.list.get();
+    })
   }
+
+
+
+  // save() {
+  //   if (this.form.invalid) {
+  //     return;
+  //   }
+
+  //   const request = this.selected?.id
+  //     ? this.departmentService.update(this.selected.id, this.form.value)
+  //     : this.departmentService.create(this.form.value);
+
+  //   request.subscribe(() => {
+  //     this.isModalOpen = false;
+  //     this.form.reset();
+  //     this.list.get();
+  //   });
+  // }
 
 }
