@@ -162,7 +162,8 @@
           <ng-select [disabled]="isSendingStatus" (change)="changeFrameActivityStatus($event)" *ngIf="
               frameWorkData?.frameworkStatus === SharedFrameworkStatus.Approved &&
               frameWorkData?.ownerId == userId &&
-              frameWorkData?.complianceStatus == ComplianceStatus.NotStarted
+              frameWorkData?.complianceStatus == ComplianceStatus.NotStarted &&
+              parentPath !== 'compliance-assessment'
             " [placeholder]="'::ChangeStatus' | abpLocalization">
             <ng-option *ngFor="let stauts of sharedStatusOptions" [value]="stauts.value">
               {{ '::Enum:SharedStatus:' + stauts.value | abpLocalization }}

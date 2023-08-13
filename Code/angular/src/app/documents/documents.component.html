@@ -24,11 +24,48 @@
                 <i class="fa fa-plus me-1"></i>
                 <span>{{ "::Document:AddDocument" | abpLocalization }}</span>
             </a>
-            <!-- <app-search (search)="getList($event)"></app-search> -->
-            <app-search (search)="searchTerm = $event;getList()"></app-search>
+
+            <button mat-button class="filter-btn me-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
+                <i class="fas fa-filter"></i>
+                {{ '::Filter' | abpLocalization }}
+            </button>
+
+            <!-- <app-search (search)="searchTerm = $event;getList()"></app-search> -->
         </div>
     </div>
 </div>
+
+<form [formGroup]="filterForm" class="filter-form">
+    <div class="row filter-row mt-3" [class.show]="showFilters">
+        <div class="col-md-3 form-group">
+            <input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control" formControlName="search">
+        </div>
+        
+        <div class="col-md-3 form-group">
+            <ng-select formControlName="status" [placeholder]="'::Status' | abpLocalization" >
+                <ng-option *ngFor="let stauts of documentStatusOptions" [value]="stauts.value">
+                    {{ ( '::Document:Enum:' + stauts.key ) | abpLocalization }}
+                </ng-option>
+            </ng-select>
+        </div>
+
+        <div class="col-md-3 form-group">
+            <ng-select formControlName="type" [placeholder]="'::DocumentType' | abpLocalization" >
+                <ng-option *ngFor="let stauts of documentTypeOptions" [value]="stauts.value">
+                    {{ ( '::Document:' + stauts.key ) | abpLocalization }}
+                </ng-option>
+            </ng-select>
+        </div>
+        
+        <div class="col-md-3">
+            <button mat-button class="reset" (click)="filterForm.reset()" >
+                {{ '::ResetFilter' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+</form>
+
+
 <div class="card-body">
     <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
         rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list"
