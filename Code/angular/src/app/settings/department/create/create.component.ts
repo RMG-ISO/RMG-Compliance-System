@@ -1,35 +1,35 @@
-import { IdentityRoleService } from '@abp/ng.identity/proxy';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DepartmentService } from '@proxy/departments';
 import { finalize } from 'rxjs';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 
 @Component({
-  selector: 'app-add-role',
-  templateUrl: './add-role.component.html',
-  styleUrls: ['./add-role.component.scss'],
+  selector: 'app-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.scss'],
   host: { class:'app-dialog' },
 })
-export class AddRoleComponent implements OnInit {
+export class CreateComponent implements OnInit {
+
+
   @Input('data') data;
   @Input('ref') ref;
   
   constructor(
-    protected service: IdentityRoleService,
+    private departmentService: DepartmentService,
     private toasterService:ToasterService
   ) {
 
   }
-
+  
   form:FormGroup;
-  mode:FormMode;
-  ngOnInit(): void {
+  mode;
+  ngOnInit() {
     this.form = new FormGroup({
-      id: new FormControl(null),
-      isDefault: new FormControl(null),
-      isPublic: new FormControl(null),
       name: new FormControl(null, Validators.required),
+      id: new FormControl(null)
     });
 
     this.mode = this.data ? FormMode.Edit : FormMode.Create;
@@ -37,20 +37,15 @@ export class AddRoleComponent implements OnInit {
     if(this.data && this.data.isStatic) {
       this.form.disable();
     }
-
-    console.log(this.data)
   }
-
 
   isSaving = false;
   save() {
     if(this.form.invalid) return;
 
     this.isSaving = true;
-
     let value = {...this.form.getRawValue()};
-
-    const request = this.data?.id ? this.service.update(this.data.id, value) : this.service.create(value);
+    const request = this.data?.id ? this.departmentService.update(this.data.id, value) : this.departmentService.create(value);
     request
     .pipe(
       finalize(() => this.isSaving = false)
@@ -59,4 +54,5 @@ export class AddRoleComponent implements OnInit {
       this.ref.close(res);
     });
   }
+
 }

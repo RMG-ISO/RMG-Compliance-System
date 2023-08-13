@@ -89,7 +89,11 @@ export class RevisionApproveComponent implements OnInit {
           let row = this.addFunctionsAndData(this.addRow());
           if(row.role) this.actionsLog.push(row as any)
         } else {
-          this.addFunctionsAndData(currentRow);
+          console.log('getting in 1111')
+          if(this.actionsLog.length === 1) {
+            let row = this.addFunctionsAndData(this.addRow());
+            if(row.role) this.actionsLog.push(row as any)
+          } else this.addFunctionsAndData(currentRow);
         }
       } else {
         console.log('getting in elese')
