@@ -69,8 +69,14 @@ export class PrinciplesComponent implements OnInit {
       this.startDate.setHours(0);
       this.startDate.setMinutes(0);
       this.startDate.setSeconds(0);
-      if(new Date() >= this.startDate) this.canStart = true;
-      console.log(this.startDate);
+      this.startDate.setMilliseconds(0);
+      let date = new Date();
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      if(  +this.startDate >= +date) this.canStart = true;
+      this.startDate = moment(this.startDate).format('yyyy-MM-DD');
 
       this.showStartCompliance  =  this.userId == this.documentData.complianceResponsibleId  && !this.documentData.complianceStartDate;
       this.showEndCompliance    =  this.userId == this.documentData.complianceResponsibleId && this.documentData.complianceStartDate && !this.documentData.complianceEndDate;

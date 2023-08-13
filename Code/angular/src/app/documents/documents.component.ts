@@ -6,12 +6,13 @@ import { sharedStatusOptions } from '@proxy/shared';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DepartmentDto } from '@proxy/departments/dtos';
-import { DocumentService, DocumentType, DocumentStatus } from '@proxy/documents';
+import { DocumentService, DocumentType, DocumentStatus, documentStatusOptions, documentTypeOptions } from '@proxy/documents';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { EmployeeService } from '@proxy/employees';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { DocumentDto } from '@proxy/documents/dtos';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-documents',
@@ -34,8 +35,9 @@ export class DocumentsComponent implements OnInit{
   form: FormGroup;
   allEmployees;
   DocumentStatus = DocumentStatus;
-  // DocumentType = documentTypeOptions;
+  documentStatusOptions = documentStatusOptions;
   DocumentType = DocumentType;
+  documentTypeOptions = documentTypeOptions;
   constructor(
     public readonly list: ListService,
     private documentService: DocumentService,
@@ -50,15 +52,32 @@ export class DocumentsComponent implements OnInit{
 
   documentId;
   userId;
+  filterForm;
+  showFilters = false;
   ngOnInit(): void {
     this.userId = this.configService.getAll().currentUser.id;
-    this.getList();
   
+    this.filterForm = new FormGroup({
+      search:new FormControl(),
+      status:new FormControl(this.activatedRoute.snapshot.queryParams.status || null),
+      type:new FormControl(),
+    });
+
+
+    this.getList();
+
+    this.filterForm.valueChanges.pipe(
+    debounceTime(1000),
+    distinctUntilChanged())
+    .subscribe(value => {
+      this.list.get();
+    });
+
   }
 
   searchTerm
   getList(search = null) {
-    const streamCreator = (query) => this.documentService.getList({...query, search:this.searchTerm});
+    const streamCreator = (query) => this.documentService.getList({...query, ...this.filterForm.value});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

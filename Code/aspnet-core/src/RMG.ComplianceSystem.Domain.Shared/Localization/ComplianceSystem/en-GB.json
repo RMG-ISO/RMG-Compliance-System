@@ -763,6 +763,7 @@
     "FrameworkComplianceApprovedSuccessfully": "Framework compliance approved successfully",
     "FrameworkSentForInternalAssessmentSuccessfully": "Framework sent for internal assessment successfully",
     "LeaveBlankToUnchangeIt": "Leave field blank if you don't want to change the password",
-    "ISO:Identity:003": "Email address is invalid"
+    "ISO:Identity:003": "Email address is invalid",
+    "SelectSearchMSG":"Please enter 2 or more characters"
   }
 }

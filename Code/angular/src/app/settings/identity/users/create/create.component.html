@@ -141,14 +141,14 @@
 
     </mat-dialog-content>
     
-    <mat-dialog-actions class="actions justify-content-center">
-        <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
-            <i class="fa fa-check me-1"></i>
-            {{ '::Save' | abpLocalization }}
-        </button>
+    <mat-dialog-actions class="actions">
+      <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+        <i class="fa fa-check me-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
 
-        <button type="button" mat-button (click)="ref.close()" class="red"> 
-            {{ '::Cancel' | abpLocalization }}
-        </button>
+      <button type="button" mat-button (click)="ref.close()" class="red"> 
+        {{ '::Cancel' | abpLocalization }}
+      </button>
     </mat-dialog-actions>
 </form>

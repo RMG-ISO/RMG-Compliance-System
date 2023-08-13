@@ -22,8 +22,8 @@
         <span></span>
     </ng-template>
 
-    <ng-container *ngIf="items.length">
-        <div *ngIf="showStartCompliance" [matTooltipDisabled]="!canStart" [matTooltip]=" '::CantStartCompliancePrinciples' | abpLocalization:startDate ">
+    <ng-container *ngIf="items?.length">
+        <div *ngIf="showStartCompliance" [matTooltipDisabled]="canStart" [matTooltip]=" '::CantStartCompliancePrinciples' | abpLocalization:startDate ">
             <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()"  [disabled]="!canStart">
                 {{ '::StartCompliance' | abpLocalization }}
             </button>
