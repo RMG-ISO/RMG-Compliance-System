@@ -12,8 +12,8 @@ import { ToasterService } from '@abp/ng.theme.shared';
 enum DocumentRoles {
   Creator = "CreatorName",
   Owner = "Owner",
-  RequiredReviewr = "RequiredReviewr",
-  OptionalReviewr = "OptionalReviewr",
+  RequiredReviewer = "RequiredReviewer",
+  OptionalReviewer = "OptionalReviewer",
   RequiredApprover = "RequiredApprover",
   OptionalApprover = "OptionalApprover",
 }
@@ -128,14 +128,14 @@ export class RevisionApproveComponent implements OnInit {
           if(reviewer.employeeId == this.userId) {
             if(reviewer.isRequired) {
               console.log('is reqiored')
-              row.role = DocumentRoles.RequiredReviewr;
+              row.role = DocumentRoles.RequiredReviewer;
               // row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
               // row.optionalFunction = this.documentService.sendForApprovalByIdAndInput
               row.requiredFunction = 'finishUserRevisionByIdAndInput'
               row.optionalFunction = 'sendForApprovalByIdAndInput'
               break;
             } else {
-              row.role = DocumentRoles.OptionalReviewr;
+              row.role = DocumentRoles.OptionalReviewer;
               // row.requiredFunction = this.documentService.finishUserRevisionByIdAndInput
               row.requiredFunction = 'finishUserRevisionByIdAndInput'
             }
