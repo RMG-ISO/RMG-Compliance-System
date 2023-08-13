@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center header-content">
             <h3 class="card-title m-0">
-                {{ '::CheckLists' | abpLocalization }}
+                {{ 'AbpIdentity::Users' | abpLocalization }}
             </h3>
             <div class="d-flex justify-content-end">
                 <button *abpPermission="'AbpIdentity.Users.Create'" mat-button class="add-btn me-3" type="button" (click)="openUserModel()" >
@@ -25,7 +25,7 @@
             <ngx-datatable-column [name]="'AbpIdentity::EmailAddress' | abpLocalization" prop="email"></ngx-datatable-column>
             <ngx-datatable-column [name]="'AbpIdentity::PhoneNumber' | abpLocalization" prop="phoneNumber"></ngx-datatable-column>
 
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="180" [sortable]="false"cellClass="options">
+            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="200" width="200" [sortable]="false"cellClass="options">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <button mat-button [matTooltip]=" '::Permissions' | abpLocalization "
                     *abpPermission="'AbpIdentity.Users.ManagePermissions'"
