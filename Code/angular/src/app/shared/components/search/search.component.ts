@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterTextUpdate.pipe(
-      debounceTime(1000),
+      debounceTime(500),
       distinctUntilChanged())
       .subscribe(value => {
         this.search.emit(value);
