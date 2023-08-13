@@ -12,8 +12,11 @@ ul {
     }
 
 
-    ::ng-deep .ngx-datatable .datatable-header .datatable-header-cell {
+    ::ng-deep .ngx-datatable .datatable-header .datatable-row-center{ 
         background-color: grey !important;
+        .datatable-header-cell {
+            background-color: grey !important;
+        }
     }
     // ngx-datatable ::ng-deep{
     //     datatable-body-row {

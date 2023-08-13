@@ -253,22 +253,14 @@
 
 <ng-template #refuseCauseDialog let-ref="dialogRef">
   <form [formGroup]="form" (ngSubmit)="ref.close(true)" class="app-dialog">
-    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+    <div mat-dialog-title class="d-flex align-items-center justify-content-center" >
+      <button mat-button (click)="ref.close()" type="button"> 
+        <mat-icon color="warn">close</mat-icon>
+      </button>
       <h2>
         {{ '::RefuseCause' | abpLocalization }}
         <!-- {{ (data?.id ? '::EditControl' : '::CreateControl' ) | abpLocalization:( ( mainControl ? '::ControlSubControl' : '::ControlMainControl' ) | abpLocalization ) }} -->
       </h2>
-
-      <div class="actions">
-        <button type="button" mat-button (click)="ref.close(false)" class="red">
-          {{ '::Cancel' | abpLocalization }}
-        </button>
-
-        <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="form.invalid">
-          <i class="fa fa-check me-1"></i>
-          {{ '::Save' | abpLocalization }}
-        </button>
-      </div>
     </div>
 
     <mat-dialog-content class="mat-typography">
@@ -278,5 +270,15 @@
         <textarea id="control-nameAr" class="form-control" formControlName="reason"></textarea>
       </div>
     </mat-dialog-content>
+    <mat-dialog-actions class="actions justify-content-center">
+      <button type="button" mat-button (click)="ref.close(false)" class="red">
+        {{ '::Cancel' | abpLocalization }}
+      </button>
+
+      <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="form.invalid">
+        <i class="fa fa-check me-1"></i>
+        {{ '::Save' | abpLocalization }}
+      </button>
+    </mat-dialog-actions>
   </form>
 </ng-template>
