@@ -115,7 +115,24 @@
           </span>
         </div>
         <div>
-          <ng-select *ngIf="frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation"  [searchable]="false" [clearable]="false" #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
+          <!-- <ng-select *ngIf="frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation"  [searchable]="false" [clearable]="false" #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
+            <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
+            <ng-option [value]="true">
+              {{ '::Import' | abpLocalization }}
+            </ng-option>
+            <ng-option [value]="false">
+              <a #download style="display: none;"></a>
+              {{ '::DownloadTemp' | abpLocalization }}
+            </ng-option>
+          </ng-select> -->
+
+          <div *ngIf="
+            (frameWorkData?.frameworkStatus === SharedFrameworkStatus.NewFramework ||
+            frameWorkData?.frameworkStatus === SharedFrameworkStatus.ReturnedToCreator) &&
+            frameWorkData?.creatorId == userId;
+            else showDownloadOnly
+          ">
+          <ng-select [searchable]="false" [clearable]="false" #ngSelect [placeholder]="'::ExcelFile' | abpLocalization" (change)="uploadDownloadExcel($event,ngSelect)">
             <input #fileInput type="file" style="display: none;" (change)="onfileSelected($event)" accept=".xlsx,.xls">
             <ng-option [value]="true">
               {{ '::Import' | abpLocalization }}
@@ -125,6 +142,20 @@
               {{ '::DownloadTemp' | abpLocalization }}
             </ng-option>
           </ng-select>
+
+          </div>
+
+          <ng-template #showDownloadOnly>
+            <a #download style="display: none;"></a>
+            <button mat-raised-button type="button" (click)="uploadDownloadExcel(false, false)" color="primary">
+              <mat-icon class="me-2">
+                download
+              </mat-icon>
+              {{ '::DownloadTemp' | abpLocalization }}
+            </button>
+          </ng-template>
+          
+          
       </div>
         <div *ngIf="frameWorkData?.hasMainControl">
           <ng-select *ngIf="

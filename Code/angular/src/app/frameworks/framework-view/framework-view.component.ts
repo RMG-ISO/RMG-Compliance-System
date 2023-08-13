@@ -10,6 +10,7 @@ import { ComplianceStatus, FrameworkStatus, SharedStatus, sharedStatusOptions } 
 import { EMPTY } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-framework-view',
@@ -203,7 +204,7 @@ export class FrameworkViewComponent implements OnInit {
     })
   }
 
-  uploadDownloadExcel($event , ngSelect) {
+  uploadDownloadExcel($event , ngSelect?) {
     if($event == undefined) return;
 
     if ($event) {
@@ -213,16 +214,20 @@ export class FrameworkViewComponent implements OnInit {
 
     this.downloadExcelFile();
     
-    ngSelect.clearModel();
+    if(ngSelect) ngSelect.clearModel();
   }
 
   downloadExcelFile() {
     this.frameworkService.getTempExcelFile().subscribe(file => {
-      const downloadUrl =window.URL.createObjectURL(file);
-      this.downloadElement.nativeElement.href = downloadUrl;
-      this.downloadElement.nativeElement.download = "Framework Data.xlsx";
-      this.downloadElement.nativeElement.click();
-      window.URL.revokeObjectURL(downloadUrl);
+
+      saveAs(file, (this.localizationService.currentLang == "ar-EG" ? this.frameWorkData.nameAr  : this.frameWorkData.nameEn )+  ".xlsx")
+
+      // const downloadUrl =window.URL.createObjectURL(file);
+      // this.downloadElement.nativeElement.href = downloadUrl;
+      
+      // this.downloadElement.nativeElement.download = (this.localizationService.currentLang == "ar-EG" ? this.frameWorkData.nameAr  : this.frameWorkData.nameEn )+  ".xlsx";
+      // this.downloadElement.nativeElement.click();
+      // window.URL.revokeObjectURL(downloadUrl);
 
       this.toasterService.success('::SuccessfullyDownloaded' , '', { life : 3000})
     });
