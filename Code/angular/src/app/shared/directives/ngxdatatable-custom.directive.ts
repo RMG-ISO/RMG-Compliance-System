@@ -151,15 +151,8 @@ export class NgxdatatableCustomDirective implements AfterViewInit, OnDestroy {
     this.fixStyleOnWindowResize();
     //todo
     this.appLayoutService.naveToggle.subscribe(result => {
-      console.log('naveToggle ', result);
       this.table.recalculate();
     });
-    
-    setTimeout(() => {
-      console.log('this.table.recalculate')
-      this.table.recalculate();
-      console.log('this.table._innerWidth', this.table._innerWidth)
-    }, 200)
   }
 
   ngOnDestroy() {
