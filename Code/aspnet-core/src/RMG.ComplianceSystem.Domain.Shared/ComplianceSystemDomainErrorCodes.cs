@@ -71,6 +71,6 @@
         // Identity
         public const string CannotChangeSuperAdminUsername = $"{ParentGroupName}:{IdentityGroupName}:001";
         public const string CannotChangeSuperAdminPassword = $"{ParentGroupName}:{IdentityGroupName}:002";
-
+        public const string InvalidEmail = $"{ParentGroupName}:{IdentityGroupName}:003";
     }
 }

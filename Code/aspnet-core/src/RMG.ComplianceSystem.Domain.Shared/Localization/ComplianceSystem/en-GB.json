@@ -759,6 +759,10 @@
     "Users:Dialog:RolesValidation": "You have to select one role at least",
     "ComplianceSystem:Document:007": "Only document contributors can update it",
     "ISO:Identity:001": "You cannot change this user's username",
-    "ISO:Identity:002": "You cannot change this user's password"
+    "ISO:Identity:002": "You cannot change this user's password",
+    "FrameworkComplianceApprovedSuccessfully": "Framework compliance approved successfully",
+    "FrameworkSentForInternalAssessmentSuccessfully": "Framework sent for internal assessment successfully",
+    "LeaveBlankToUnchangeIt": "Leave field blank if you don't want to change the password",
+    "ISO:Identity:003": "Email address is invalid"
   }
 }

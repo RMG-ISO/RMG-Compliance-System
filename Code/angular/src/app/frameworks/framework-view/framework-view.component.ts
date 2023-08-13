@@ -149,7 +149,7 @@ export class FrameworkViewComponent implements OnInit {
       if(con) {
         this.frameworkService.returnToCreatorByIdAndInput(this.frameWorkData.id, this.form.value).subscribe(r => {
           // window.location.reload();
-          this.toasterService.success('::SuccessfullySaved', "");
+          this.toasterService.success('::FrameworkReturnedToCreator', "");
           this.getFrameWork();
         });
       } else ngSelect.clearModel();
@@ -188,13 +188,17 @@ export class FrameworkViewComponent implements OnInit {
   }
 
   sendForInternalAssessment() {
-    this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => window.location.reload());
+    this.frameworkService.sendForInternalAssessmentById(this.frameWorkData.id).subscribe(r => {
+      this.toasterService.success('::FrameworkSentForInternalAssessmentSuccessfully', "");
+      this.getFrameWork();
+      // window.location.reload()
+    });
   }
 
   approveFramework() {
     this.frameworkService.approveComplianceById(this.frameWorkData.id).subscribe( r => {
       // window.location.reload();
-      this.toasterService.success('::SuccessfullySaved', "");
+      this.toasterService.success('::FrameworkComplianceApprovedSuccessfully', "");
       this.getFrameWork();
     })
   }
