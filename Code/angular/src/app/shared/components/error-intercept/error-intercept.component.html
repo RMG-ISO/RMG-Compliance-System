@@ -29,8 +29,7 @@
         <!-- {{ '::Error' | abpLocalization }} -->
       </h2>
     </div>
-    <p mat-dialog-title>
-      {{ content | abpLocalization }}
+    <p mat-dialog-title [innerHTML]="content | abpLocalization">
     </p>
   </div>
 </mat-dialog-content>

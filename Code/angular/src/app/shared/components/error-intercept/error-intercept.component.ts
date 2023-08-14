@@ -22,8 +22,10 @@ export class ErrorInterceptComponent implements OnInit {
   returnUrl;
   ngOnInit(): void {
     console.log(this);
-    if(this.title.includes('403') || this.title.includes('401')) {
-      this.returnUrl = '/home'
+    if( typeof this.title === 'string') {
+      if(this.title.includes('403') || this.title.includes('401')) {
+        this.returnUrl = '/home'
+      }
     }
   }
 
