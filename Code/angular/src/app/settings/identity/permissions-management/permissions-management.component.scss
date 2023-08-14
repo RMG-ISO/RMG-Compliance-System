@@ -22,10 +22,72 @@ mat-dialog-content {
 
 .inner-expansion-content {
     border-top: 1px dashed #DDDDDD;
-    border-bottom: 1px dashed #DDDDDD;
+    padding-bottom: 0.25rem;
+    // border-bottom: 1px dashed #DDDDDD;
     .col {
         min-width: 200px;
         width: 200px;
         flex: none;
+        scale: .95;
+        mat-checkbox {
+            height: 34px;
+            ::ng-deep .mdc-form-field {
+                height: 34px;
+            }
+        }
+    }
+
+    .col-12 {
+        margin-bottom: -4px;
+        mat-checkbox {
+            ::ng-deep {
+                label {
+                    font-weight: bold;
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}
+
+// .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true])
+// 
+
+:host {
+    ::ng-deep {
+        .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+            background-color: var(--theme-primary-600) !important;
+        }
+    }
+    ::ng-deep .mat-expansion-panel {
+        .inner-expansion-content:first-of-type {
+            // border-top: none;
+        }
+        &:not(.mat-expanded) {
+            mat-expansion-panel-header.mat-expansion-panel-header {
+                &::hover, &::focus {
+                    background-color: var(--theme-primary-600) !important;
+                }
+            } 
+        }
+        mat-expansion-panel-header.mat-expansion-panel-header {
+            height: 48px !important;
+            background-color: var(--theme-primary-700);
+        
+            // &::hover, &::focus {
+            //     background-color: var(--theme-primary-600) !important;
+            // }
+        
+            mat-panel-title {
+                color: var(--theme-primary-contrast-700);
+            }
+            &::hover, &::focus {
+                background-color: var(--theme-primary-600) !important;
+            }
+
+            .mat-expansion-indicator::after {
+                color: var(--theme-primary-contrast-700);
+            }
+        }
     }
 }

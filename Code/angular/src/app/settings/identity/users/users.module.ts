@@ -9,6 +9,7 @@ import { CreateComponent } from './create/create.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
+import { PermissionsManagementComponent } from '../permissions-management/permissions-management.component';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { MatListModule } from '@angular/material/list';
     PermissionManagementComponent,
     MatTabsModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+
+    PermissionsManagementComponent
   ]
 })
 export class UsersModule { }
