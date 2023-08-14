@@ -29,7 +29,7 @@
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <button mat-button [matTooltip]=" '::Permissions' | abpLocalization "
                     *abpPermission="'AbpIdentity.Users.ManagePermissions'"
-                    (click)="openPermissionsModal(row.id,row.name)">
+                    (click)="openPermissionsModal(row.id,row.userName)">
                         <mat-icon color="accent">lock</mat-icon>
                     </button>
                     <button mat-button
@@ -53,6 +53,11 @@
     <app-create [data]="data.data" [ref]="ref" [allRoles]="allRoles" ></app-create>
   </ng-template>
   
-<ng-template #permissionsDialog let-data let-ref="dialogRef">
+<!-- <ng-template #permissionsDialog let-data let-ref="dialogRef">
     <app-permission-management [replaceableData]="data.data" [ref]="ref" ></app-permission-management>
+</ng-template> -->
+
+
+<ng-template #permissionsDialog let-data let-ref="dialogRef">
+    <app-permissions-management [id]="data.id" [cardTitle]="data.cardTitle" [providerName]="'U'" [ref]="ref"></app-permissions-management>
 </ng-template>

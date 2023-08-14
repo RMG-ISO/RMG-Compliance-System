@@ -72,16 +72,18 @@ export class ListComponent implements OnInit {
 
 
   providerKey
-  openPermissionsModal(providerKey: string) {
+  openPermissionsModal(providerKey: string, name) {
     this.providerKey = providerKey;
     
     let ref = this.matDialog.open(this.permissionsDialog, {
       data:{
-        data:{
-          providerName: 'U',
-          providerKey: providerKey,
-          hideBadges: true
-        },
+        id:providerKey,
+        cardTitle:name,
+        // data:{
+        //   providerName: 'U',
+        //   providerKey: providerKey,
+        //   hideBadges: true
+        // },
       },
       disableClose:true
     });

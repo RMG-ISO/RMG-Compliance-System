@@ -109,6 +109,11 @@
   <app-add-role [data]="data.data" [ref]="ref" ></app-add-role>
 </ng-template>
 
-<ng-template #permissionsDialog let-data let-ref="dialogRef">
+<!-- <ng-template #permissionsDialog let-data let-ref="dialogRef">
   <app-permission-management [replaceableData]="data.data" [ref]="ref" ></app-permission-management>
+</ng-template> -->
+
+
+<ng-template #permissionsDialog let-data let-ref="dialogRef">
+  <app-permissions-management [id]="data.id" [cardTitle]="data.cardTitle" [providerName]="'R'" [ref]="ref"></app-permissions-management>
 </ng-template>
