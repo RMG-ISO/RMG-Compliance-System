@@ -83,7 +83,7 @@ export class DocumentService {
     this.restService.request<any, PagedResultDto<DocumentDto>>({
       method: 'GET',
       url: '/api/app/document',
-      params: { search: input.search, code: input.code, name: input.name, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { type: input.type, status: input.status, search: input.search, code: input.code, name: input.name, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   

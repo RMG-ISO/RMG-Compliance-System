@@ -114,7 +114,7 @@ namespace RMG.ComplianceSystem.Documents
             var principle = await Repository.GetAsync(input.PrincipleId);
             var document = await _documentRepository.GetAsync(principle.DocumentId);
             if (!document.ComplianceScheduledStartDate.HasValue
-                || (document.ComplianceScheduledStartDate.HasValue && document.ComplianceScheduledStartDate.Value > Clock.Now.Date))
+                || (document.ComplianceScheduledStartDate.HasValue && document.ComplianceScheduledStartDate.Value > Clock.Now))
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotStartPrincipleComplianceYet);
 
             principle.ComplianceStatus = input.Status;
