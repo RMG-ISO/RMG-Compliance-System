@@ -201,22 +201,41 @@
             </ng-option>
           </ng-select>
 
-          <button (click)="sendForInternalAssessment()" class="round" mat-raised-button color="primary" *ngIf="
-              frameWorkData?.canSendForInternalAssessment &&
+          
+          <ng-container *ngIf="parentPath === 'compliance-assessment'">
+            <div *ngIf="
               frameWorkData?.ownerId == userId &&
               frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation
-            ">
-            {{ '::SendForInternalAssessment' | abpLocalization }}
-          </button>
+            "
+              [matTooltip]=" '::YouShouldAddControlsComplianceData' | abpLocalization " [matTooltipDisabled]="frameWorkData?.canSendForInternalAssessment">
+                <button (click)="sendForInternalAssessment()" class="round"
+                mat-raised-button
+                color="primary"
+                [disabled]="!frameWorkData?.canSendForInternalAssessment"
+                >
+                {{ '::SendForInternalAssessment' | abpLocalization }}
+              </button>
 
-          <button (click)="approveFramework()" class="round" mat-raised-button color="primary" *ngIf="
-              frameWorkData?.canSendForInternalAssessment &&
-              frameWorkData?.ownerId == userId &&
-              frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision &&
-              frameWorkData?.canApproveCompliance
-            ">
-            {{ '::FrameworkApprove' | abpLocalization }}
-          </button>
+            </div>
+
+
+            <!-- <button (click)="sendForInternalAssessment()" class="round" mat-raised-button color="primary" *ngIf="
+                frameWorkData?.canSendForInternalAssessment &&
+                frameWorkData?.ownerId == userId &&
+                frameWorkData?.complianceStatus == ComplianceStatus.UnderPreparation
+              ">
+              {{ '::SendForInternalAssessment' | abpLocalization }}
+            </button> -->
+
+            <button (click)="approveFramework()" class="round" mat-raised-button color="primary" *ngIf="
+                frameWorkData?.canSendForInternalAssessment &&
+                frameWorkData?.ownerId == userId &&
+                frameWorkData?.complianceStatus == ComplianceStatus.UnderRevision &&
+                frameWorkData?.canApproveCompliance
+              ">
+              {{ '::FrameworkApprove' | abpLocalization }}
+            </button>
+          </ng-container>
         </div>
       </div>
     </div>

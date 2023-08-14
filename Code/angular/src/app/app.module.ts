@@ -7,7 +7,7 @@ import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
 import { ThemeBasicModule, ValidationErrorComponent } from '@abp/ng.theme.basic';
-import { ThemeSharedModule } from '@abp/ng.theme.shared';
+import { ThemeSharedModule, ErrorHandler  } from '@abp/ng.theme.shared';
 import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -58,6 +58,8 @@ import { PermissionManagementComponent } from './permission-management/permissio
 import { MyRolesModule } from './my-roles/my-roles.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { APP_VALIDATION_BLUEPRINTS } from './shared/validators/app-validations';
+import { AppErrorHandler } from './app.error-handler';
+import { ConfirmationDialogComponent } from './shared/components/confirmation-dialog/confirmation-dialog.component';
 
 // export let AppInjector: Injector;
 
@@ -124,6 +126,12 @@ import { APP_VALIDATION_BLUEPRINTS } from './shared/validators/app-validations';
     APP_ROUTE_PROVIDER,
     // ListService,
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+
+    {
+      provide: ErrorHandler,
+      useClass :AppErrorHandler
+    },
+
     // {
     //   provide: VALIDATION_BLUEPRINTS,
     //   useValue: {
