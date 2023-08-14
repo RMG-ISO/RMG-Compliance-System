@@ -56,16 +56,19 @@ export class RolesComponent {
 
 
   providerKey
-  openPermissionsModal(providerKey: string) {
+  openPermissionsModal(providerKey: string, name) {
     this.providerKey = providerKey;
 
     let ref = this.matDialog.open(this.permissionsDialog, {
       data:{
-        data:{
-            providerName: 'R',
-            providerKey: providerKey,
-            hideBadges: true
-        },
+        cardTitle: name,
+        id:providerKey,
+
+        // data:{
+        //     providerName: 'R',
+        //     providerKey: providerKey,
+        //     hideBadges: true
+        // },
       },
       disableClose:true
     });
