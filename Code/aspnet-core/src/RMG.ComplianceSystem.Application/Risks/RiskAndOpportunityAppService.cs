@@ -196,6 +196,8 @@ namespace RMG.ComplianceSystem.Risks
                 var propertyInfo = typeof(RiskAndOpportunityDto).GetProperty(input.Sorting);
                 Risks.OrderBy(p => propertyInfo.GetValue(p, null));
             }
+            else
+                Risks = Risks.OrderByDescending(x => x.CreationTime).ToList();
             var RisksData = new List<RiskAndOpportunityDto>();
             foreach (var item in Risks)
             {

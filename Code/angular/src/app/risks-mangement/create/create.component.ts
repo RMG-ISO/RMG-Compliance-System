@@ -77,7 +77,7 @@ export class CreateComponent implements OnInit {
       ownerId         : new FormControl(null,       [Validators.required]),
       status          : new FormControl(Status.Open                      ),
       riskContext     : new FormControl(null,       [Validators.required]),
-      frameworkId     : new FormControl(null,       [Validators.required])
+      frameWorkId     : new FormControl(null,       [Validators.required])
     });
 
 
@@ -127,7 +127,7 @@ export class CreateComponent implements OnInit {
   getData() {
     this.riskAndOpportunityService.get(this.id).subscribe(r => {
       this.itemData = r;
-      r['frameworkId'] = r['frameWorkId']
+      // r['frameworkId'] = r['frameWorkId']
       this.firstForm.patchValue(r);
       this.secondForm.patchValue(r);
       this.thirdForm.patchValue(r);

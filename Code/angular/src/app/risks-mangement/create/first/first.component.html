@@ -124,7 +124,7 @@
                 {{ '::Framework' | abpLocalization }}
                 <span> * </span>
             </label>
-            <ng-select [formControl]="form.controls.frameworkId">
+            <ng-select [formControl]="form.controls.frameWorkId">
                 <ng-option *ngFor="let framework of frameworks" [value]="framework.id">
                     {{ framework | lang:'name' }}
                 </ng-option>
