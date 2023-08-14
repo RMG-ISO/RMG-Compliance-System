@@ -38,7 +38,8 @@
   <!-- <button mat-button mat-dialog-close [mat-dialog-close]="false" routerLink="/home">
     {{ '::Cancel' | abpLocalization }}
   </button> -->
-  <button mat-raised-button color="primary" [mat-dialog-close]="true" routerLink="/home">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="route()">
     {{ '::Back' | abpLocalization }}
   </button>
 </mat-dialog-actions>
+

@@ -30,7 +30,10 @@ mat-dialog-content {
     }
     p {
         font-size: 16px;
-        margin-top: 24px;
+        max-width: 500px;
+        color: #575757;
+        margin-top: 20px;
+        margin-bottom: 0;
     }
 }
 
