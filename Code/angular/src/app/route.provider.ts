@@ -1,11 +1,12 @@
 import { RoutesService, eLayoutType } from '@abp/ng.core';
 import { APP_INITIALIZER } from '@angular/core';
-
+import { ConfigStateService } from '@abp/ng.core';
 export const APP_ROUTE_PROVIDER = [
-  { provide: APP_INITIALIZER, useFactory: configureRoutes, deps: [RoutesService], multi: true },
+  { provide: APP_INITIALIZER, useFactory: configureRoutes, deps: [RoutesService , ConfigStateService], multi: true },
 ];
 
-function configureRoutes(routesService: RoutesService) {
+function configureRoutes(routesService: RoutesService,config : ConfigStateService) {
+  console.log(config.getGlobalFeatures());
   return () => {
     routesService.remove(['AbpUiNavigation::Menu:Administration'])
     routesService.add([
@@ -17,7 +18,7 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.empty,
         invisible:true
       },
-
+      
       // {
       //   path:'/dashboard',
       //   name:'::Dashboard:Title',
@@ -48,11 +49,12 @@ function configureRoutes(routesService: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Framework',
+        
       },
       // {
-      //   path:'/assessment',
-      //   name:'::Menu:Assessment',
-      //   iconClass: 'fas fa-sitemap',
+        //   path:'/assessment',
+        //   name:'::Menu:Assessment',
+        //   iconClass: 'fas fa-sitemap',
       //   order: 1,
       //   layout: eLayoutType.application,
       //   requiredPolicy:'ComplianceSystem.Assessment',
@@ -259,5 +261,11 @@ function configureRoutes(routesService: RoutesService) {
       
      
     ]);
+    // if (config.getGlobalFeatureIsEnabled('FrameworkManagment')){
+    //   routesService.remove(['::Menu:Frameworks']);
+    // }
+    
+    
+    
   };
 }

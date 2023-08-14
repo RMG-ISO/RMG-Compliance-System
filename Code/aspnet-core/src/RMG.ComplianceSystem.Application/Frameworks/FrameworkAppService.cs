@@ -38,9 +38,12 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.Identity;
 using System.Security;
 using RMG.ComplianceSystem.Authorization;
+using Volo.Abp.GlobalFeatures;
+using RMG.ComplianceSystem.Subscription.Features;
 
 namespace RMG.ComplianceSystem.Frameworks
 {
+    [RequiresGlobalFeature(typeof(FrameworkFeature))]
     public class FrameworkAppService : CrudAppService<Framework, FrameworkDto, Guid, FrameworkPagedAndSortedResultRequestDto, CreateUpdateFrameworkDto, CreateUpdateFrameworkDto>,
         IFrameworkAppService
     {

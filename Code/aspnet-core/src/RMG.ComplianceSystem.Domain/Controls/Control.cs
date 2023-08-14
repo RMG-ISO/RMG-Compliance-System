@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.GlobalFeatures;
 using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Controls
 {
+    [GlobalFeatureName("FrameworkManagment")]
     public class Control : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
     {
         public string NameAr { get; set; }

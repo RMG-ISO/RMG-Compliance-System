@@ -9,10 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.GlobalFeatures;
 using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Domains
 {
+    [GlobalFeatureName("FrameworkManagment")]
     public class Domain : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
     {
         public string NameAr { get; set; }

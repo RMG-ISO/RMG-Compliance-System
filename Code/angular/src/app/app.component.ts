@@ -1,4 +1,4 @@
-import { ReplaceableComponentsService } from '@abp/ng.core';
+import { ConfigStateService, ReplaceableComponentsService } from '@abp/ng.core';
 import { Component, Inject } from '@angular/core';
 import { eThemeBasicComponents } from 'projects/theme-basic/src/lib/enums';
 import { ComplianceLayoutComponent } from './compliance-layout/compliance-layout.component';
@@ -15,6 +15,7 @@ import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { MyRolesComponent } from './my-roles/my-roles.component';
 import { IdentityRoleDto, IdentityRoleService } from '@abp/ng.identity/proxy';
 import { DOCUMENT } from '@angular/common';
+import { RoutesService } from '@abp/ng.core';
 import { ExpiredSubscriptionComponent } from './subscription/expired-subscription/expired-subscription.component';
 
 @Component({
@@ -34,7 +35,9 @@ export class AppComponent {
     private localizationService:LocalizationService,
     private matIconRegistry:MatIconRegistry,
     private domSanitizer:DomSanitizer,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private routerService : RoutesService,
+    private config : ConfigStateService
   ){
     if( this.localizationService.currentLang == 'ar-EG') {
       document.body.dir = 'rtl';
@@ -60,6 +63,9 @@ export class AppComponent {
 
 
 
+    if(!this.config.getGlobalFeatureIsEnabled("FrameworkManagment")) {
+      this.routerService.remove(['::Menu:Frameworks'])
+    }
     /* this.themeWrapper.style.setProperty(
       '--main-green','#fafc22'
     ); */

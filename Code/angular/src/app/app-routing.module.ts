@@ -1,6 +1,7 @@
-import { AuthGuard, PermissionGuard, ReplaceableRouteContainerComponent } from '@abp/ng.core';
+import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SubscriptionGuard } from './shared/guards/subscription.guard';
 
 const routes: Routes = [
   {
@@ -15,9 +16,10 @@ const routes: Routes = [
   // },
   {
     path:'frameworks',
-    canActivate: [AuthGuard, PermissionGuard],
+    canActivate: [AuthGuard, PermissionGuard,SubscriptionGuard],
     loadChildren: () => import('./frameworks/frameworks.module').then(m => m.FrameworksModule),
     data:{
+      feature : "FrameworkManagment",
       requiredPolicy:'ComplianceSystem.Framework'
     }
   },
@@ -79,18 +81,15 @@ const routes: Routes = [
 
   {
     path: 'tenant-management',
-    canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () =>
       import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
   },
   {
     path: 'setting-management',
-    canActivate: [AuthGuard, PermissionGuard],
     loadChildren: () => import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
   {
     path:'settings',
-    canActivate: [AuthGuard, PermissionGuard],
     loadChildren:() => import('./settings/settings.module').then(m => m.SettingsModule)
   },
   {

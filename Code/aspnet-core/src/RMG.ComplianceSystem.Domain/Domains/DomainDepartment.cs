@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.GlobalFeatures;
 
 namespace RMG.ComplianceSystem.Domains
 {
+    [GlobalFeatureName("FrameworkManagment")]
     public class DomainDepartment : Entity
     {
         public Guid DomainId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RMG.ComplianceSystem.Subscription.Features;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
@@ -11,6 +12,7 @@ namespace RMG.ComplianceSystem.EntityFrameworkCore
 
         public static void Configure()
         {
+            GlobalFeatureConfigurator.Configure();
             ComplianceSystemGlobalFeatureConfigurator.Configure();
             ComplianceSystemModuleExtensionConfigurator.Configure();
 

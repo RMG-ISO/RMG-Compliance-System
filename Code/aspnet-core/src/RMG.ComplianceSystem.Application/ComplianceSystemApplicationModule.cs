@@ -1,6 +1,7 @@
 ﻿using RMG.ComplianceSystem.Authorization;
 using RMG.ComplianceSystem.Notifications;
 using RMG.ComplianceSystem.Permissions;
+using RMG.ComplianceSystem.Subscription;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.Authorization.Permissions;
@@ -29,7 +30,8 @@ namespace RMG.ComplianceSystem
         typeof(AbpSettingManagementApplicationModule),
         typeof(AbpTextTemplatingModule),
         typeof(AbpBackgroundWorkersQuartzModule),
-        typeof(AbpLocalizationModule)
+        typeof(AbpLocalizationModule),
+        typeof(ComplianceSystemSubscriptionModule)
         )]
     public class ComplianceSystemApplicationModule : AbpModule
     {
