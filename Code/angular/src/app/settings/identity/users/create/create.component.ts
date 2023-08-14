@@ -95,6 +95,15 @@ export class CreateComponent {
     } else {
       this.form.reset();
       this.form.controls.lockoutEnabled.patchValue(true);
+
+
+      setTimeout(() => {
+        this.selectedRoles = this.allRoles.filter(x => x.isDefault);
+        let selected = this.selectedRoles.map(x => x.name)
+        for(let option of this.rolesSelectionList.options._results){
+          if(selected.includes(option.value)) option.selected = true;
+        }
+      }, 100)
     }
   }
 
