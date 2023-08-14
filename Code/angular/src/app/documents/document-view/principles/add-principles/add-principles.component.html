@@ -35,7 +35,7 @@
                         [trackByFn]="trackByFn"
                         [minTermLength]="minTermLength"
                         [loading]="controlsLoading"
-                        typeToSearchText="Please enter 2 or more characters"
+                        [typeToSearchText]="'::SelectSearchMSG' | abpLocalization"
                         [typeahead]="controlsInput$"
                         formControlName="controls">
                         <ng-option *ngFor="let control of controls$ | async" [value]="control.id">
@@ -45,7 +45,7 @@
             </div>
         </div>
     </mat-dialog-content>
-    <mat-dialog-actions class="actions justify-content-center">
+    <mat-dialog-actions class="actions">
         <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
             <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}
