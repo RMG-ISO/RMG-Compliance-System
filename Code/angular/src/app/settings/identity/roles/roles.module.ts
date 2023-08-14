@@ -6,7 +6,7 @@ import { RolesComponent } from './roles.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { PermissionManagementComponent } from 'src/app/permission-management/permission-management.component';
+// import { PermissionManagementComponent } from 'src/app/permission-management/permission-management.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { PermissionsManagementComponent } from '../permissions-management/permissions-management.component';
 
@@ -22,7 +22,7 @@ import { PermissionsManagementComponent } from '../permissions-management/permis
     SharedModule,
     MatChipsModule,
     MatCheckboxModule,
-    PermissionManagementComponent,
+    // PermissionManagementComponent,
 
     PermissionsManagementComponent
     

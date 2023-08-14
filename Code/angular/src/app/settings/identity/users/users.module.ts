@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { ListComponent } from './list/list.component';
-import { PermissionManagementComponent } from 'src/app/permission-management/permission-management.component';
+// import { PermissionManagementComponent } from 'src/app/permission-management/permission-management.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CreateComponent } from './create/create.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -21,7 +21,7 @@ import { PermissionsManagementComponent } from '../permissions-management/permis
     CommonModule,
     UsersRoutingModule,
     SharedModule,
-    PermissionManagementComponent,
+    // PermissionManagementComponent,
     MatTabsModule,
     MatCheckboxModule,
     MatListModule,
