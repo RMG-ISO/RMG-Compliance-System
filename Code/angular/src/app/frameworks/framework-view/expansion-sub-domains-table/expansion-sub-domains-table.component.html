@@ -26,11 +26,11 @@
     <ngx-datatable-column [name]="'::Actions' | abpLocalization" [width]="200" [maxWidth]="200" [sortable]="false"
         cellClass="options">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button class="mr-3" mat-button (click)="openDomainDetailsDialog(row); $event.stopPropagation()">
+            <!-- <button class="mr-3" mat-button (click)="openDomainDetailsDialog(row); $event.stopPropagation()">
                 <mat-icon color="primary">
                     visibility
                 </mat-icon>
-            </button>
+            </button> -->
 
             <ng-container *ngIf="showButton">
                 <button *abpPermission="'ComplianceSystem.Domain.Update'" mat-button
