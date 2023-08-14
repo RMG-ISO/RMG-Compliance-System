@@ -93,6 +93,13 @@ namespace RMG.ComplianceSystem.StaticData
             );
         }
 
+        protected override async Task<IQueryable<StaticDatatb>> CreateFilteredQueryAsync(StaticDataPagedAndSortedResultRequestDto input)
+        {
+            var query = await base.CreateFilteredQueryAsync(input);
+            query = query.WhereIf(input.Type.HasValue, x => x.Type == input.Type);
+            return query;
+        }
+
         public async Task<List<getEnumTypeStaticData>> getTypeStaticData()
         { 
         var Types=new List<getEnumTypeStaticData>();
@@ -100,7 +107,7 @@ namespace RMG.ComplianceSystem.StaticData
             //{
 
             //Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "الادارات", NameEn = "Managements" });
-            Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "القطاعات", NameEn = "Sectors" });
+            Types.Add(new getEnumTypeStaticData { Id = 8, NameAr = "الأصول", NameEn = "Assets" });
             Types.Add(new getEnumTypeStaticData { Id = 1, NameAr = "تصنيف الخطر", NameEn = "Categories" });
             //Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "إحتمال الخطر", NameEn = "Likelihood" });
             //Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "تأثير الخطر", NameEn = "Impacts" });

@@ -262,19 +262,19 @@ namespace RMG.ComplianceSystem.Risks
         {
             var getdata = new getMatrix();
             var Types = new List<getEnumTypeStaticData>();
-            Types.Add(new getEnumTypeStaticData { Id = 1, NameAr = "تقريبا متأكد", NameEn = "Almost certain" });
-            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "محتمل", NameEn = "likely" });
-            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "غير محتمل", NameEn = "Unlikely" });
-            Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "نادر", NameEn = "Rare" });
+            Types.Add(new getEnumTypeStaticData { Id = 4, NameAr = "احتمالية ضعيفة", NameEn = "Low probability" });
+            Types.Add(new getEnumTypeStaticData { Id = 3, NameAr = "احتمالية متوسطة", NameEn = "Medium probability" });
+            Types.Add(new getEnumTypeStaticData { Id = 2, NameAr = "احتمالية عالية", NameEn = "High probability" });
+            Types.Add(new getEnumTypeStaticData { Id = 1, NameAr = "احتمالية عالية جداً", NameEn = "Very high probability" });
 
             var Impacts = new List<getEnumTypeStaticData>();
-            Impacts.Add(new getEnumTypeStaticData { Id = 1, NameAr = "ضئيل", NameEn = "Insignificant" });
-            Impacts.Add(new getEnumTypeStaticData { Id = 2, NameAr = "ثانوي", NameEn = "Minor" });
-            Impacts.Add(new getEnumTypeStaticData { Id = 3, NameAr = "هام", NameEn = "Significant" });
-            Impacts.Add(new getEnumTypeStaticData { Id = 4, NameAr = "شديد", NameEn = "Extreme" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 1, NameAr = "شدة ضعيفة", NameEn = "Low impact" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 2, NameAr = "شدة متوسطة", NameEn = "Medium impact" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 3, NameAr = "شدة عالية", NameEn = "High impact" });
+            Impacts.Add(new getEnumTypeStaticData { Id = 4, NameAr = "شدة عالية جداً", NameEn = "Very high impact" });
 
             var likehood = Types.Take(matrix);
-            var Impact = Impacts.Take(matrix);
+            var Impact = Impacts.Take(matrix).Reverse();
             getdata.Impact = Impact.ToList();
             getdata.likehood = likehood.ToList();
             return getdata;

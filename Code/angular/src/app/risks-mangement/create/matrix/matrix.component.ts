@@ -26,14 +26,7 @@ export class MatrixComponent implements OnInit, OnChanges {
       { likelihood: 2, impact: 3, Potential: 6, levelNum: 2, levelEn: 'Medium', levelAr: 'متوسط' },
     ],
     [
-      {
-        likelihood: 1,
-        impact: 1,
-        Potential: 1,
-        levelNum: 0,
-        levelEn: 'very Low',
-        levelAr: 'ضعيف جدا',
-      },
+      { likelihood: 1, impact: 1, Potential: 1, levelNum: 0, levelEn: 'very Low', levelAr: 'ضعيف جدا' },
       { likelihood: 1, impact: 2, Potential: 2, levelNum: 1, levelEn: 'Low', levelAr: 'ضعيف' },
       { likelihood: 1, impact: 3, Potential: 3, levelNum: 1, levelEn: 'Low', levelAr: 'ضعيف' },
     ],
