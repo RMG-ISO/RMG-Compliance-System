@@ -27,8 +27,8 @@ export class AddRoleComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       id: new FormControl(null),
-      isDefault: new FormControl(null),
-      isPublic: new FormControl(null),
+      isDefault: new FormControl(false),
+      isPublic: new FormControl(false),
       name: new FormControl(null, Validators.required),
     });
 
