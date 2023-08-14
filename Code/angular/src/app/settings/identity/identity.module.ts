@@ -5,7 +5,9 @@ import { IdentityRoutingModule } from './identity-routing.module';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
   imports: [
     CommonModule,
     IdentityRoutingModule
