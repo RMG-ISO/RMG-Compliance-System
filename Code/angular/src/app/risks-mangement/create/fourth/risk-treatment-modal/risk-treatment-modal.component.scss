@@ -8,7 +8,10 @@
     font-weight: bold;
 }
 
-
+mat-card-content {
+    min-width: 60vw;
+    min-height: 50vh;
+}
 .form-group {
     span{
         color: red;
