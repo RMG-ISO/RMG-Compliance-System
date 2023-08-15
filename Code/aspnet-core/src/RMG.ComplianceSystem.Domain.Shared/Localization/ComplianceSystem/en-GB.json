@@ -765,6 +765,7 @@
     "LeaveBlankToUnchangeIt": "Leave field blank if you don't want to change the password",
     "ISO:Identity:003": "Email address is invalid",
     "SelectSearchMSG": "Please enter 2 or more characters",
-    "Asset": "Asset"
+    "Asset": "Asset",
+    "App.Logo": "Application logo"
   }
 }

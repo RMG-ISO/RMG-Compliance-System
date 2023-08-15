@@ -793,8 +793,9 @@
     "FrameworkSentForInternalAssessmentSuccessfully": "تم إرسال الإطار للتقييم الداخلي بنجاح",
     "LeaveBlankToUnchangeIt": "اترك الحقل فارغ إذا لم ترغب بتغيير كلمة المرور",
     "ComplianceSystem:Identity:003": "البريد الالكتروني غير صحيح",
-    "SelectSearchMSG":"الرجاء إدخال حرفين أو أكثر",
-    "YouShouldAddControlsComplianceData":"يجب تعبئة جميع بيانات الضوابط أولا",
-    "Asset": "الأصول"
+    "SelectSearchMSG": "الرجاء إدخال حرفين أو أكثر",
+    "YouShouldAddControlsComplianceData": "يجب تعبئة جميع بيانات الضوابط أولا",
+    "Asset": "الأصول",
+    "App.Logo": "شعار التطبيق"
   }
 }
