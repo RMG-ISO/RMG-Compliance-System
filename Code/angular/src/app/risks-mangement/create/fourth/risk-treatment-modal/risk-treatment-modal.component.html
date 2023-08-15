@@ -10,8 +10,8 @@
                 {{ '::ActionPlan' |  abpLocalization }}
             </h2>
         </mat-card-title>
-        <mat-card-content *ngIf="showContent" [mat-dialog-content]="ref">
-            <div class="row">
+        <mat-card-content mat-dialog-content>
+            <div class="row" *ngIf="showContent" >
                 <div class="col-md-6 form-group">
                     <label for="mitigateActionPlanAr">
                         {{ '::mitigateActionPlanAr' | abpLocalization }}
@@ -100,7 +100,7 @@
         </mat-card-content>
 
         <div class="actions py-3" mat-dialog-actions>
-            <ng-container *ngIf="!form.disabled">
+            <ng-container *ngIf="!form.disabled && showContent">
                 <ng-template #showOther>
                     <!-- <mat-spinner diameter="30" [strokeWidth]="2"></mat-spinner> -->
                     <button [disabled]="isSaving" mat-raised-button color="primary" [disabled]="uploading">
