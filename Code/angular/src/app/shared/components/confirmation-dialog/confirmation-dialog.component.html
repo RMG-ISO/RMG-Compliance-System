@@ -1,11 +1,15 @@
 <mat-dialog-content>
     <div class="dialog-container">
-      <mat-icon class="warn-icon" color="warn">warning</mat-icon>
-      <h2 mat-dialog-title>{{ data.title | abpLocalization }}</h2>
-      <p mat-dialog-title>{{ data.description | abpLocalization }}</p>
+      <div class="d-flex align-items-center">
+        <mat-icon *ngIf="showIcon" class="warn-icon" [color]="iconColor">
+          {{iconName}}
+        </mat-icon>
+        <h2 mat-dialog-title>{{ title | abpLocalization }}</h2>
+      </div>
+      <p mat-dialog-title>{{ description | abpLocalization }}</p>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions>
+  <mat-dialog-actions class="mb-2">
     <button mat-button mat-dialog-close [mat-dialog-close]="false">
       {{ '::Cancel' | abpLocalization }}
     </button>

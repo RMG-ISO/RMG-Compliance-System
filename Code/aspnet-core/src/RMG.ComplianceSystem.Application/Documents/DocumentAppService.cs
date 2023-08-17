@@ -75,10 +75,13 @@ namespace RMG.ComplianceSystem.Documents
         {
             await CheckCreatePolicyAsync();
             await ValidateCreateUpdate(input);
+            if (!input.OwnersIds.Any(o => o == CurrentUser.Id))
+                input.OwnersIds.Add(CurrentUser.Id.Value);
+
             var entity = await MapToEntityAsync(input);
             using (_dataFilter.Disable<ISoftDelete>())
             {
-                entity.Code = "DOC-" + (await Repository.CountAsync()) + 1;
+                entity.Code = "DOC-" + (await Repository.CountAsync() + 1);
             }
             entity.Status = DocumentStatus.Draft;
             MapCategories(entity, input.CategoriesIds);
@@ -95,6 +98,9 @@ namespace RMG.ComplianceSystem.Documents
             await CheckUpdatePolicyAsync();
             await ValidateCreateUpdate(input);
             var entity = await Repository.GetAsync(id);
+            if (!entity.Owners.Select(o => o.EmployeeId).Any(x => x == CurrentUser.Id))
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.OnlyDocumentOwnersCanEditDocumentInfo);
+
             await MapToEntityAsync(input, entity);
 
             await _documentCategoryRepository.DeleteAsync(x => x.DocumentId == id);
@@ -238,7 +244,10 @@ namespace RMG.ComplianceSystem.Documents
         {
             var query = await Repository.WithDetailsAsync();
             query = query.WhereIf(!input.Code.IsNullOrEmpty(), x => x.Code.Contains(input.Code))
-                        .WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.Contains(input.Name));
+                        .WhereIf(input.Status.HasValue, x => x.Status == input.Status)
+                        .WhereIf(input.Type.HasValue, x => x.Type == input.Type)
+                        .WhereIf(!input.Name.IsNullOrEmpty(), x => x.Name.Contains(input.Name))
+                        .WhereIf(!input.Search.IsNullOrEmpty(), x => x.Name.Contains(input.Search) || x.Code.Contains(input.Search));
             return query;
         }
 
@@ -249,6 +258,11 @@ namespace RMG.ComplianceSystem.Documents
             if (!input.EmployeesIds.All(employeesIds.Contains))
                 throw new UserFriendlyException(L["EmployeesNotExists"]);
 
+            if (input.RequiredReviewersIds.Intersect(input.OptionalReviewersIds).Any())
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.SameUserCannotBeRequiredAndOptional);
+
+            if (input.RequiredApproversIds.Intersect(input.OptionalApproversIds).Any())
+                throw new BusinessException(ComplianceSystemDomainErrorCodes.SameUserCannotBeRequiredAndOptional);
             //category check
             var categoriesIds = (await _categoryRepository.GetQueryableAsync()).Select(x => x.Id).ToList();
             if (!input.CategoriesIds.All(categoriesIds.Contains))

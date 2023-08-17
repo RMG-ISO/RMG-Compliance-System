@@ -41,11 +41,8 @@ export class AddPrinciplesComponent {
     })
 
     if (this.data) {
-      // let data = JSON.parse(JSON.stringify(this.data));
-      // data.controls = data.controls.map(x => x.id) as any;
       this.form.patchValue(this.data);
       this.controlsRes = this.data.controls;
-      console.log('this.controlsRes', this.controlsRes);
       // .map(x => {
       //   x.nameAr = x.name;
       //   return x;
@@ -93,7 +90,6 @@ export class AddPrinciplesComponent {
       this.controlsInput$.pipe(
         distinctUntilChanged(),
         switchMap((term) => {
-          console.log('term', term)
           if(!term || (term.length < this.minTermLength)){
             return of(this.controlsRes);
           }
@@ -122,11 +118,10 @@ export class AddPrinciplesComponent {
 
   isSaving = false;
   save() {
-    console.log(this.form)
     if (this.form.invalid) return;
     this.isSaving = true;
     let value = {...this.form.value};
-    if(value.id) value.controls = value.controls.map(x => x.id)
+    if(value.id) value.controls = value.controls.map(x => x.id !== undefined ? x.id : x)
     const request = this.data?.id
       ? this.principleService.update(this.data.id, value)
       : this.principleService.create(value);

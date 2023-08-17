@@ -2,14 +2,16 @@
     <div class="card-header">
       <div class="row">
         <div class="col col-md-6">
-          <h2 class="card-title">اﻷدوار</h2>
+          <h2 class="card-title">
+            {{ '::Roles' | abpLocalization }}
+          </h2>
         </div>
         <div class="text-end col col-md-6">
           <!-- <abp-page-toolbar [record]="data.items"></abp-page-toolbar> -->
-          <button mat-button id="addBtn"   class="btn btn-success  btn-sm "
-              (click)="$event.stopPropagation();add()">
+          <button mat-stroked-button color="primary" (click)="openRoleModel()">
               <mat-icon>add_circle</mat-icon>
-              إضافة دور
+              {{ '::Create' | abpLocalization }} 
+              {{ '::Role' | abpLocalization }}
           </button>
         </div>
       </div>
@@ -47,109 +49,48 @@
     </div>
   </div> -->
 
-
-
     <div class="card-body">
-    
-      
-     
-
-
       <ngx-datatable
-      
         class="material fullscreen with-row-pointer"
         [rows]="data.items"
         [count]="data.totalCount"
         [list]="list"
         appNgxdatatable>
+        <ngx-datatable-column [name]="'::RoleName' | abpLocalization" prop="name"> </ngx-datatable-column>
 
-        <ngx-datatable-column  [name]="'#'"  prop="name">
-          <ng-template let-value="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{rowIndex+1}}
+        <ngx-datatable-column [name]="'::RoleType' | abpLocalization">
+          <ng-template ngx-datatable-cell-template let-row="row" >
+            <button class="me-2" mat-stroked-button extended *ngIf="row.isDefault" color="primary">
+              {{ '::Default' | abpLocalization }}
+            </button>
+
+            <button mat-stroked-button extended class="me-3" *ngIf="row.isPublic" color="accent">
+              {{ '::Public' | abpLocalization }}
+            </button>
           </ng-template>
         </ngx-datatable-column>
 
-
-        <ngx-datatable-column  [name]="'اسم الدور'"  prop="name">
-          <ng-template let-value="value" ngx-datatable-cell-template let-rowIndex="rowIndex">
-              {{value}}
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [name]="'الاجراء'" prop="name"> 
+        <ngx-datatable-column [name]="'::Actions' | abpLocalization" width="250" maxWidth="250"> 
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <ng-container >
-
-                <div ngbDropdown container="body">
-                    <button type="button" class="btn btn-outline-primary btn-sm dropDownCustom" id="dropdownConfig" ngbDropdownToggle>
-                      <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownConfig">
-                        <button ngbDropdownItem  (click)="$event.stopPropagation();openPermissionsModal(row.name)">
-                          <mat-icon class="text-success">visibility</mat-icon>
-                          اذوﻧﺎت
-                        </button>
-                        <button ngbDropdownItem  (click)="$event.stopPropagation();edit(row.id)">
-                          <mat-icon class="text-primary">edit</mat-icon>
-                          ﺗﻌﺪﻳﻞ
-                        </button>
-                        <button ngbDropdownItem  (click)="$event.stopPropagation();delete(row.id,row.name)">
-                          <mat-icon class="text-danger">delete</mat-icon>
-                          ﺣﺬف
-                        </button>
-                    </div>
-                </div>
-           
-            
-
-            </ng-container>
+            <button mat-button [matTooltip]=" '::Permissions' | abpLocalization " (click)="openPermissionsModal(row.id,row.name)">
+              <mat-icon color="accent">lock</mat-icon>
+            </button>
+            <button mat-button [matTooltip]=" '::Edit' | abpLocalization " (click)="openRoleModel(row)">
+              <mat-icon color="primary">edit</mat-icon>
+            </button>
+            <button mat-button [matTooltip]="'::Delete' | abpLocalization" (click)="delete(row.id,row.name)">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
           </ng-template>
         </ngx-datatable-column>
-
-
-
     </ngx-datatable>
-
-
     </div>
   </div>
   
-  <abp-modal size="md" [(visible)]="isModalVisible" [busy]="modalBusy">
-    <ng-template #abpHeader>
-      <h3>{{ (selected.id? 'AbpIdentity::Edit' : 'AbpIdentity::NewRole') | abpLocalization }}</h3>
-    </ng-template>
-  
-    <ng-template #abpBody>
-      <form [formGroup]="form" (ngSubmit)="save()" validateOnSubmit>
-        <abp-extensible-form [selectedRecord]="selected"></abp-extensible-form>
-      </form>
-    </ng-template>
-  
-    <ng-template #abpFooter>
-      <button type="button" class="btn btn-secondary" abpClose>
-        {{ 'AbpIdentity::Cancel' | abpLocalization }}
-      </button>
-      <abp-button iconClass="fa fa-check" [disabled]="form?.invalid" (click)="save()">{{
-        'AbpIdentity::Save' | abpLocalization
-      }}</abp-button>
-    </ng-template>
-  </abp-modal>
+<ng-template #roleDialog let-data let-ref="dialogRef">
+  <app-add-role [data]="data.data" [ref]="ref" ></app-add-role>
+</ng-template>
 
-  <abp-permission-management
-    #abpPermissionManagement="abpPermissionManagement"
-    *abpReplaceableTemplate="
-      {
-        inputs: {
-          providerName: { value: 'R' },
-          providerKey: { value: providerKey },
-          visible: { value: visiblePermissions, twoWay: true },
-          hideBadges: { value: true }
-        },
-        outputs: { visibleChange: onVisiblePermissionChange },
-        componentKey: permissionManagementKey
-      };
-      let init = initTemplate
-    "
-    (abpInit)="init(abpPermissionManagement)"
-  >
-  </abp-permission-management>
+<ng-template #permissionsDialog let-data let-ref="dialogRef">
+  <app-permission-management [replaceableData]="data.data" [ref]="ref" ></app-permission-management>
+</ng-template>

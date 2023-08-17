@@ -66,13 +66,13 @@ namespace RMG.ComplianceSystem.Shared
             switch (NotificationSource)
             {
                 case NotificationSource.RiskTreatment:
-                    return "https://iso.digitaltransformationinstitute.org:11001/risks-management/risk-treatment/"+id;
+                    return "https://iso.digitaltransformationinstitute.org:11001/risks-management/risk-treatment/" + id;
                 case NotificationSource.Risk:
-                    return "https://iso.digitaltransformationinstitute.org:11001/risks-management/" + id +"/edit";
+                    return "https://iso.digitaltransformationinstitute.org:11001/risks-management/" + id + "/edit";
                 case NotificationSource.InternalAuditPreparation:
                     return "https://iso.digitaltransformationinstitute.org:11001/internal-audit/audit-setup/" + id + "/edit";
-                case NotificationSource.FrameworkWorkflowAction 
-                    or NotificationSource.FrameworkApproved 
+                case NotificationSource.FrameworkWorkflowAction
+                    or NotificationSource.FrameworkApproved
                     or NotificationSource.FrameworkCreatedForReviewer
                     or NotificationSource.FrameworkCreatedForApprover
                     or NotificationSource.FrameworkCreatedForOwner:
@@ -84,8 +84,17 @@ namespace RMG.ComplianceSystem.Shared
                     or NotificationSource.DomainSentToOwner
                     or NotificationSource.FrameworkApproveCompliance:
                     return "https://iso.digitaltransformationinstitute.org:11001/compliance-assessment/" + id;
-                case NotificationSource.DocumentShouldStartPrinciplesCompliance:
-                    return $"https://iso.digitaltransformationinstitute.org:11001/documents/{id}/details";
+                case NotificationSource.DocumentSentForRevision or
+                    NotificationSource.DocumentReturnedToContributor or
+                    NotificationSource.DocumentReviewedByUser or
+                    NotificationSource.DocumentSentForApproval or
+                    NotificationSource.DocumentApprovedByUser or
+                    NotificationSource.DocumentApproved:
+                    return $"https://iso.digitaltransformationinstitute.org:11001/documents/{id}/revision-approve";
+                case NotificationSource.DocumentShouldStartPrinciplesCompliance or
+                    NotificationSource.PrincipleComplianceStarted or
+                    NotificationSource.PrincipleComplianceEnded:
+                    return $"https://iso.digitaltransformationinstitute.org:11001/documents/{id}/principles";
                 default:
                     break;
             }

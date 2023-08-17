@@ -8,7 +8,10 @@
     font-weight: bold;
 }
 
-
+mat-card-content {
+    min-width: 60vw;
+    min-height: 50vh;
+}
 .form-group {
     span{
         color: red;
@@ -24,31 +27,31 @@ mat-card-title {
     margin-bottom: 32px;
 }
 
-.actions {
-    margin-top: -55px;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    button {
-        min-width: 100px;
-        margin: 0 10px;
-        &.secondary {
-            color: #fff;
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
-        &.primary {
-            color: #fff;
-            background-color: #0069d9;
-            border-color: #0062cc;
-        }
-        &.send {
-            color: #fff;
-            background-color: #00897b;
-            border-color: #0a9688;
-        }
-    }
-}
+// .actions {
+//     margin-top: -55px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: end;
+//     button {
+//         min-width: 100px;
+//         margin: 0 10px;
+//         &.secondary {
+//             color: #fff;
+//             background-color: #5a6268;
+//             border-color: #545b62;
+//         }
+//         &.primary {
+//             color: #fff;
+//             background-color: #0069d9;
+//             border-color: #0062cc;
+//         }
+//         &.send {
+//             color: #fff;
+//             background-color: #00897b;
+//             border-color: #0a9688;
+//         }
+//     }
+// }
 
 // :host.in-modal {
 //     mat-card {

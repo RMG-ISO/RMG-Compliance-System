@@ -7,7 +7,76 @@
   mat.define-typography-config($font-family: 'Times')
 );
 
+
+
+:root {
+  --theme-primary-50: #e4f5e8;
+  --theme-primary-100: #bbe7c6;
+  --theme-primary-200: #8ed7a0;
+  --theme-primary-300: #60c679;
+  --theme-primary-400: #3eba5d;
+  --theme-primary-500: #1cae40;
+  --theme-primary-600: #19a73a;
+  --theme-primary-700: #149d32;
+  --theme-primary-800: #11942a;
+  --theme-primary-900: #09841c;
+  --theme-primary-A100: #b3ffbc;
+  --theme-primary-A200: #80ff8f;
+  --theme-primary-A400: #4dff61;
+  --theme-primary-A700: #34ff4b;
+
+  --theme-primary-contrast-50: rgba(black, 0.87);
+  --theme-primary-contrast-100: rgba(black, 0.87);
+  --theme-primary-contrast-200: rgba(black, 0.87);
+  --theme-primary-contrast-300: rgba(black, 0.87);
+  --theme-primary-contrast-400: rgba(black, 0.87);
+  --theme-primary-contrast-500: white;
+  --theme-primary-contrast-600: white;
+  --theme-primary-contrast-700: white;
+  --theme-primary-contrast-800: white;
+  --theme-primary-contrast-900: white;
+  --theme-primary-contrast-A100: rgba(black, 0.87);
+  --theme-primary-contrast-A200: rgba(black, 0.87);
+  --theme-primary-contrast-A400: white;
+  --theme-primary-contrast-A700: white;
+}
+
+//   50 : var(--theme-primary-50),
+//   100 : var(--theme-primary-100),
+//   200 : var(--theme-primary-200),
+//   300 : var(--theme-primary-300),
+//   400 : var(--theme-primary-400),
+//   500 : var(--theme-primary-500),
+//   600 : var(--theme-primary-600),
+//   700 : var(--theme-primary-700),
+//   800 : var(--theme-primary-800),
+//   900 : var(--theme-primary-900),
+//   A100 : var(--theme-primary-A100),
+//   A200 : var(--theme-primary-A200),
+//   A400 : var(--theme-primary-A400),
+//   A700 : var(--theme-primary-A700),
+//   contrast: (
+//     50: var(--theme-primary-contrast-50),
+//     100: var(--theme-primary-contrast-100),
+//     200: var(--theme-primary-contrast-200),
+//     300: var(--theme-primary-contrast-300),
+//     400: var(--theme-primary-contrast-400),
+//     500: var(--theme-primary-contrast-500),
+//     600: var(--theme-primary-contrast-600),
+//     700: var(--theme-primary-contrast-700),
+//     800: var(--theme-primary-contrast-800),
+//     900: var(--theme-primary-contrast-900),
+//     A100: var(--theme-primary-contrast-A100),
+//     A200: var(--theme-primary-contrast-A200),
+//     A400: var(--theme-primary-contrast-A400),
+//     A700: var(--theme-primary-contrast-A700),
+//   )
+// );
+
+$contrast-700:var(--theme-primary-contrast-700);
+
 $app-primary-palette: (
+  
   50: #e4f5e8,
   100: #bbe7c6,
   200: #8ed7a0,
@@ -38,6 +107,39 @@ $app-primary-palette: (
     A400: white,
     A700: white,
   )
+  
+
+
+  // 50 : var(--theme-primary-50),
+  // 100 : var(--theme-primary-100),
+  // 200 : var(--theme-primary-200),
+  // 300 : var(--theme-primary-300),
+  // 400 : var(--theme-primary-400),
+  // 500 : var(--theme-primary-500),
+  // 600 : var(--theme-primary-600),
+  // 700 : var(--theme-primary-700),
+  // 800 : var(--theme-primary-800),
+  // 900 : var(--theme-primary-900),
+  // A100 : var(--theme-primary-A100),
+  // A200 : var(--theme-primary-A200),
+  // A400 : var(--theme-primary-A400),
+  // A700 : var(--theme-primary-A700),
+  // contrast: (
+  //   50: var(--theme-primary-contrast-50),
+  //   100: var(--theme-primary-contrast-100),
+  //   200: var(--theme-primary-contrast-200),
+  //   300: var(--theme-primary-contrast-300),
+  //   400: var(--theme-primary-contrast-400),
+  //   500: var(--theme-primary-contrast-500),
+  //   600: var(--theme-primary-contrast-600),
+  //   700: var(--theme-primary-contrast-700),
+  //   800: var(--theme-primary-contrast-800),
+  //   900: var(--theme-primary-contrast-900),
+  //   A100: var(--theme-primary-contrast-A100),
+  //   A200: var(--theme-primary-contrast-A200),
+  //   A400: var(--theme-primary-contrast-A400),
+  //   A700: var(--theme-primary-contrast-A700),
+  // )
 );
 
 $app-accent-palette: (

@@ -12,7 +12,7 @@ appNgxdatatable>
 
     <ngx-datatable-column [name]="'::PersonName' | abpLocalization" prop="creatorName"> </ngx-datatable-column>
     <!-- <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" prop="role"> </ngx-datatable-column> -->
-    <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" [maxWidth]="200" [width]="200" prop="role">
+    <ngx-datatable-column [name]="'::PersonRole' | abpLocalization" [maxWidth]="150" [width]="150" prop="role">
         <ng-template let-value="value" ngx-datatable-cell-template>
             {{ ('::' + value) | abpLocalization }}
         </ng-template>
@@ -21,7 +21,7 @@ appNgxdatatable>
     <!-- <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" prop="action"> </ngx-datatable-column> -->
     <!-- <ngx-datatable-column [name]="'::تاريخ الأجراء' | abpLocalization" prop="creationTime"> </ngx-datatable-column> -->
 
-    <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" [maxWidth]="200" [width]="200" prop="type">
+    <ngx-datatable-column [name]="'::TakenAction' | abpLocalization" [maxWidth]="150" [width]="150" prop="type">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <!-- {{ ('::Actions:' + ActionLogType[value]) | abpLocalization }} -->
             <span [ngClass]="{'status': value !==  ActionLogType.NoAction}" [class]="ActionLogType[value]" >
@@ -30,7 +30,7 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="creationTime">
+    <ngx-datatable-column [name]="'::TakenActionDate' | abpLocalization" [maxWidth]="150" [width]="150" prop="creationTime">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
             <span> {{value | date:'yyyy/MM/dd'}}</span>
         </ng-template>
@@ -45,7 +45,7 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [name]="'::Notes' | abpLocalization" prop="notes" [width]="350">
+    <ngx-datatable-column [name]="'::Notes' | abpLocalization" prop="notes" [width]="300">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <p class="notes-cont">
                 {{value}}

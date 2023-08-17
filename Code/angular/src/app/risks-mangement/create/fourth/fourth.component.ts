@@ -93,7 +93,8 @@ export class FourthComponent implements OnInit {
 
 
   getList() {
-    const streamCreator = (query) => this.riskTreatmentService.getList({ RiskOpportunityId :this.route.snapshot.params.id || this.itemData.id, sorting: 'creationtime desc', ...query});
+    console.log('this.route.snapshot.params', this.route.snapshot.params.id || this.itemData.id);
+    const streamCreator = (query) => this.riskTreatmentService.getList({ riskOpportunityId :this.route.snapshot.params.id || this.itemData.id, sorting: 'creationtime desc', ...query});
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;

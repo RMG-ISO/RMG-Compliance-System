@@ -17,7 +17,8 @@ import { RiskAndOpportunityService } from '@proxy/risks';
 @Component({
   selector: 'app-risk-treatment-modal',
   templateUrl: './risk-treatment-modal.component.html',
-  styleUrls: ['./risk-treatment-modal.component.scss']
+  styleUrls: ['./risk-treatment-modal.component.scss'],
+  host: { class:'app-dialog' },
 })
 export class RiskTreatmentModalComponent implements OnInit {
   @Input('data') data = {} as any;

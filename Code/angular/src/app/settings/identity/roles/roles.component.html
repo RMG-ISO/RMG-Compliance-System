@@ -1,0 +1,119 @@
+<div id="identity-roles-wrapper" class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-md-6">
+          <h2 class="card-title">
+            {{ '::Roles' | abpLocalization }}
+          </h2>
+        </div>
+        <div class="text-end col col-md-6">
+          <!-- <abp-page-toolbar [record]="data.items"></abp-page-toolbar> -->
+          <button mat-button class="add-btn me-3" type="button" (click)="openRoleModel()" *abpPermission="'AbpIdentity.Roles.Create'">
+              <i class="fa fa-plus me-1"></i>
+              <span>
+                {{ '::Create' | abpLocalization }} 
+                {{ '::Role' | abpLocalization }}
+              </span>
+          </button>
+
+
+          <!-- <button mat-stroked-button color="primary" (click)="openRoleModel()">
+              <mat-icon>add_circle</mat-icon>
+              {{ '::Create' | abpLocalization }} 
+              {{ '::Role' | abpLocalization }}
+          </button> -->
+        </div>
+      </div>
+    </div>
+  
+   <!--  <div class="row">
+      <div class="col col-md-6">
+
+      
+        <mat-accordion>
+
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Personal data
+                </mat-panel-title>
+              
+              </mat-expansion-panel-header>
+          
+              <p>I'm visible because I am open</p>
+           
+          </mat-expansion-panel>
+
+          <mat-expansion-panel >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              
+              <p>I'm visible because I am open</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+    </div>
+  </div> -->
+
+    <div class="card-body">
+      <ngx-datatable
+        class="material fullscreen with-row-pointer"
+        [rows]="data.items"
+        [count]="data.totalCount"
+        [list]="list"
+        appNgxdatatable>
+        <ngx-datatable-column [name]="'::RoleName' | abpLocalization" prop="name"> </ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'::RoleType' | abpLocalization">
+          <ng-template ngx-datatable-cell-template let-row="row" >
+            <button class="me-2" mat-stroked-button extended *ngIf="row.isDefault" color="primary">
+              {{ '::Default' | abpLocalization }}
+            </button>
+
+            <button mat-stroked-button extended class="me-3" *ngIf="row.isPublic" color="accent">
+              {{ '::Public' | abpLocalization }}
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [name]="'::Actions' | abpLocalization" width="250" maxWidth="250"> 
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-button
+            [matTooltip]=" '::Permissions' | abpLocalization "
+            (click)="openPermissionsModal(row.id,row.name)"
+            *abpPermission="'AbpIdentity.Roles.ManagePermissions'">
+              <mat-icon color="accent">lock</mat-icon>
+            </button>
+            <button mat-button
+            [matTooltip]=" '::Edit' | abpLocalization "
+            (click)="openRoleModel(row)"
+            *abpPermission="'AbpIdentity.Roles.Update'">
+              <mat-icon color="primary">edit</mat-icon>
+            </button>
+            <button mat-button
+            [matTooltip]="'::Delete' | abpLocalization"
+            (click)="delete(row.id,row.name)"
+            *abpPermission="'AbpIdentity.Roles.Delete'">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    </div>
+  </div>
+  
+<ng-template #roleDialog let-data let-ref="dialogRef">
+  <app-add-role [data]="data.data" [ref]="ref" ></app-add-role>
+</ng-template>
+
+<!-- <ng-template #permissionsDialog let-data let-ref="dialogRef">
+  <app-permission-management [replaceableData]="data.data" [ref]="ref" ></app-permission-management>
+</ng-template> -->
+
+
+<ng-template #permissionsDialog let-data let-ref="dialogRef">
+  <app-permissions-management [id]="data.id" [cardTitle]="data.cardTitle" [providerName]="'R'" [ref]="ref"></app-permissions-management>
+</ng-template>
