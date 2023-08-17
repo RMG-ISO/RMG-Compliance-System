@@ -4,3 +4,7 @@ export interface ConfigurationDto {
   displayName?: string;
   value?: string;
 }
+
+export interface UpdateLogoDto {
+  imageAsBase64?: string;
+}

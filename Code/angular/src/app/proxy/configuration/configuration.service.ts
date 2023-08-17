@@ -1,4 +1,4 @@
-import type { ConfigurationDto } from './dtos/models';
+import type { ConfigurationDto, UpdateLogoDto } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
@@ -17,11 +17,11 @@ export class ConfigurationService {
     { apiName: this.apiName,...config });
   
 
-  updateLogoByLogo = (logo: string, config?: Partial<Rest.Config>) =>
+  updateLogoByDto = (dto: UpdateLogoDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
       method: 'PUT',
       url: '/api/app/configuration/logo',
-      params: { logo },
+      body: dto,
     },
     { apiName: this.apiName,...config });
 
