@@ -19,10 +19,12 @@ using RMG.ComplianceSystem.Frameworks.Dtos;
 using RMG.ComplianceSystem.EmailTemplates;
 using RMG.ComplianceSystem.Permissions;
 using IdentityModel;
+using Volo.Abp.Features;
 
 namespace RMG.ComplianceSystem.Documents
 {
     [Authorize]
+    [RequiresFeature("Document")]
     public class DocumentAppService : CrudAppService<Document, DocumentDto, Guid, DocumentGetListInputDto, CreateDocumentDto>, IDocumentAppService
     {
         private readonly IDataFilter _dataFilter;

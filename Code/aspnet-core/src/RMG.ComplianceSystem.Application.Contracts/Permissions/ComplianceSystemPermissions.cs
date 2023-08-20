@@ -3,6 +3,7 @@ namespace RMG.ComplianceSystem.Permissions
     public static class ComplianceSystemPermissions
     {
         public const string GroupName = "ComplianceSystem";
+        public const string ManageFeatures = GroupName + ".Features";
 
         //Add your own permission names. Example:
         //public const string MyPermission1 = GroupName + ".MyPermission1";

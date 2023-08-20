@@ -15,6 +15,7 @@ namespace RMG.ComplianceSystem.Permissions
             context.RemoveGroup("SettingManagement");
 
             var myGroup = context.AddGroup(ComplianceSystemPermissions.GroupName, L("Permission:SytemPermissions"));
+            myGroup.AddPermission(ComplianceSystemPermissions.ManageFeatures,L("Permission:Features"));
             //Define your own permissions here. Example:
             //myGroup.AddPermission(ComplianceSystemPermissions.MyPermission1, L("Permission:MyPermission1"));
 

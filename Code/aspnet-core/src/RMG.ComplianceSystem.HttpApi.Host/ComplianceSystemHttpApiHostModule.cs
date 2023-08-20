@@ -30,6 +30,9 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.AspNetCore.SignalR;
 using RMG.ComplianceSystem.Subscription;
+using Volo.Abp.FeatureManagement;
+using RMG.ComplianceSystem.Permissions;
+using Volo.Abp.Features;
 
 namespace RMG.ComplianceSystem
 {
@@ -63,6 +66,10 @@ namespace RMG.ComplianceSystem
             ConfigureSwaggerServices(context, configuration);
 
             context.Services.AddTransient<Notifications.NotificationHub>();
+            context.Services.Configure<FeatureManagementOptions>(options =>
+            {
+                options.ProviderPolicies[TenantFeatureValueProvider.ProviderName] = ComplianceSystemPermissions.ManageFeatures;
+            });
             context.Services.AddTransient<SubscriptionMiddleware>();
         }
 

@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.SignalR;
+using Volo.Abp.Features;
 using Volo.Abp.Identity;
 
 namespace RMG.ComplianceSystem.Dashboards
@@ -29,18 +30,21 @@ namespace RMG.ComplianceSystem.Dashboards
         private readonly IRiskTreatmentRepository _riskTreatmentRepository;
         private readonly IInternalAuditPreparationRepository _internalAuditPreparationRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
+        private readonly IFeatureChecker _featureChecker;
+
 
         public DashboardAppService(
-            IRiskAndOpportunityRepository riskAndOpportunityRepository, 
-            IHubContext<NotificationHub> notificationHubContext, 
+            IRiskAndOpportunityRepository riskAndOpportunityRepository,
+            IHubContext<NotificationHub> notificationHubContext,
             IRiskTreatmentRepository riskTreatmentRepository,
             IFrameworkAppService frameworkAppService,
             IIdentityUserRepository identityUserRepository,
             IInternalAuditPreparationRepository internalAuditPreparationRepository,
             IDepartmentRepository departmentRepository,
-            IFrameworkRepository frameworkRepository)
+            IFrameworkRepository frameworkRepository,
+            IFeatureChecker featureChecker)
         {
-            _riskAndOpportunityRepository= riskAndOpportunityRepository;
+            _riskAndOpportunityRepository = riskAndOpportunityRepository;
             _riskTreatmentRepository = riskTreatmentRepository;
             _notificationHubContext = notificationHubContext;
             _frameworkRepository = frameworkRepository;
@@ -48,6 +52,7 @@ namespace RMG.ComplianceSystem.Dashboards
             _frameworkAppService = frameworkAppService;
             _identityUserRepository = identityUserRepository;
             _internalAuditPreparationRepository = internalAuditPreparationRepository;
+            _featureChecker = featureChecker;
         }
 
         public async Task<DashboardDto> GetDashboard()
@@ -94,10 +99,14 @@ namespace RMG.ComplianceSystem.Dashboards
             };
             var frameworks = (await _frameworkRepository.GetQueryableAsync()).Where(f => f.ComplianceStatus == ComplianceStatus.Approved).Select(f => f.Id).ToList();
             var frameworksCompliance = new Dictionary<Guid, int>();
-            foreach (var id in frameworks)
+            
+            if ((await _featureChecker.IsEnabledAsync("Frameworks")))
             {
-                frameworksCompliance.Add(id, await _frameworkAppService.CalculateCompliancePercentage(id));
-                
+                foreach (var id in frameworks)
+                {
+                    frameworksCompliance.Add(id, await _frameworkAppService.CalculateCompliancePercentage(id));
+
+                }
             }
             dashboard.FrameworkCompliancePercentage.Add(new DashboardFrameworkCompliancePercentage
             {
