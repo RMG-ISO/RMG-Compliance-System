@@ -20,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ControlViewComponent } from './control-view/control-view.component';
 import { FrameworksSharedModule } from './frameworks-shared.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatProgressSpinnerModule,
     MatRadioModule,
     FrameworksSharedModule,
+    MatTooltipModule
   
   ]
 })

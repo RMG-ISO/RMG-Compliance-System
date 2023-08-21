@@ -7,7 +7,7 @@ import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
 import { ThemeBasicModule, ValidationErrorComponent } from '@abp/ng.theme.basic';
-import { ThemeSharedModule } from '@abp/ng.theme.shared';
+import { ThemeSharedModule, ErrorHandler  } from '@abp/ng.theme.shared';
 import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,6 +56,10 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { PermissionManagementComponent } from './permission-management/permission-management.component';
 import { MyRolesModule } from './my-roles/my-roles.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { APP_VALIDATION_BLUEPRINTS } from './shared/validators/app-validations';
+import { AppErrorHandler } from './app.error-handler';
+import { ConfirmationDialogComponent } from './shared/components/confirmation-dialog/confirmation-dialog.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SubscriptionInterceptor } from './shared/interceptor/subscription.interceptor';
 
@@ -93,19 +97,20 @@ import { SubscriptionInterceptor } from './shared/interceptor/subscription.inter
     MatMenuModule,
     MatIconModule,
     MatCardModule,
-
+    MatDialogModule,
     NgxValidateCoreModule.forRoot({
-      blueprints: {
-        ...DEFAULT_VALIDATION_BLUEPRINTS,
-        minLength: '::Validations:MinLength[{{ minLength }}]',
-        maxLength: '::Validations:MaxLength[{{ maxLength }}]',
-        minToday: '::Validations:MinDateToday',
-        minDate: '::Validations:MinDate[{{ minDate }}]',
-        maxDate: '::Validations:MaxDate[{{ maxDate }}]',
-        lessThanStart: '::Validations:DueDateLessThanStart',
-        min: '::Validations:Min[{{ min }}]',
-        max: '::Validations:Max[{{ max }}]',
-      },
+      // blueprints: {
+      //   ...DEFAULT_VALIDATION_BLUEPRINTS,
+      //   minLength: '::Validations:MinLength[{{ minLength }}]',
+      //   maxLength: '::Validations:MaxLength[{{ maxLength }}]',
+      //   minToday: '::Validations:MinDateToday',
+      //   minDate: '::Validations:MinDate[{{ minDate }}]',
+      //   maxDate: '::Validations:MaxDate[{{ maxDate }}]',
+      //   lessThanStart: '::Validations:DueDateLessThanStart',
+      //   min: '::Validations:Min[{{ min }}]',
+      //   max: '::Validations:Max[{{ max }}]',
+      // },
+      blueprints:APP_VALIDATION_BLUEPRINTS,
       validateOnSubmit:true,
       targetSelector:'.form-group',
       errorTemplate:ValidationErrorComponent,
@@ -117,12 +122,18 @@ import { SubscriptionInterceptor } from './shared/interceptor/subscription.inter
     AppComponent,
     ComplianceLayoutComponent,
     ErrorInterceptComponent,
-    PermissionManagementComponent,
+    
   ],
   providers: [
     APP_ROUTE_PROVIDER,
     // ListService,
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+
+    {
+      provide: ErrorHandler,
+      useClass :AppErrorHandler
+    },
+
     // {
     //   provide: VALIDATION_BLUEPRINTS,
     //   useValue: {

@@ -27,6 +27,10 @@ export class ComplianceFormComponent {
     this.form.controls.status.setValidators(
       event.value == true ? [Validators.required] : null
     );
+    if(event.value === PrincipleStatus.NotApplicable) {
+      this.form.controls.status.setValue(null);
+      this.form.controls.score.setValue(0);
+    }
     this.form.controls.status.updateValueAndValidity();
   }
 
@@ -74,7 +78,7 @@ export class ComplianceFormComponent {
     .pipe(
       finalize(() => this.isSaving = false)
     ).subscribe(response => {
-      this.toasterService.success('::SuccessfullySaved', "");
+      this.toasterService.success('::SuccessfullySaved');
       this.afterSend.emit({form:this.form, response});
     })
   }

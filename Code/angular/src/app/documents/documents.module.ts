@@ -21,6 +21,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ComplianceFormComponent } from './document-view/principles/compliance-form/compliance-form.component';
 import { PrinciplesComplianceDialogComponent } from './document-view/principles/principles-compliance-dialog/principles-compliance-dialog.component';
 import { ProgressBarComponent } from '../shared/components/progress-bar/progress-bar.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ProgressBarComponent } from '../shared/components/progress-bar/progress
     FormsModule,
     ReactiveFormsModule,
     MatRadioModule,
-    ProgressBarComponent
+    ProgressBarComponent,
+    MatTooltipModule
   ]
 })
 export class DocumentsModule { }

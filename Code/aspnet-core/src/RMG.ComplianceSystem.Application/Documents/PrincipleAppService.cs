@@ -111,11 +111,10 @@ namespace RMG.ComplianceSystem.Documents
         [HttpPut]
         public async Task<PrincipleDto> UpdateCompliance(UpdatePrincipleComplianceDto input)
         {
-
             var principle = await Repository.GetAsync(input.PrincipleId);
             var document = await _documentRepository.GetAsync(principle.DocumentId);
             if (!document.ComplianceScheduledStartDate.HasValue
-                || (document.ComplianceScheduledStartDate.HasValue && document.ComplianceScheduledStartDate.Value < Clock.Now.Date))
+                || (document.ComplianceScheduledStartDate.HasValue && document.ComplianceScheduledStartDate.Value > Clock.Now))
                 throw new BusinessException(ComplianceSystemDomainErrorCodes.CannotStartPrincipleComplianceYet);
 
             principle.ComplianceStatus = input.Status;
@@ -124,6 +123,7 @@ namespace RMG.ComplianceSystem.Documents
             switch (input.Status)
             {
                 case PrincipleStatus.NotApplicable:
+                    principle.ComplianceScore = 0;
                     break;
                 case PrincipleStatus.NotComply:
                     principle.ComplianceScore = 0;

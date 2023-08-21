@@ -1,0 +1,152 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-title class="d-flex align-items-center justify-content-center">
+        <button mat-button (click)="ref.close()" type="button"> 
+            <mat-icon class="m-0" color="warn">close</mat-icon>
+        </button>
+
+        <h2>
+            <!-- {{ '::' + mode | abpLocalization }}
+            {{ '::Role' | abpLocalization }} -->
+
+            {{ 'AbpPermissionManagement::Permissions' | abpLocalization }}
+            -
+            {{ cardTitle }}
+        </h2>
+    </div>
+    
+    <mat-dialog-content class="mat-typography">
+        <mat-accordion color="primary" *ngFor="let group of form.controls.groups['controls']; index as i; let first = first ;let last = last;">
+            <mat-expansion-panel #panel class="mb-4">
+                <mat-expansion-panel-header color="primary">
+                    <mat-panel-title>
+                        <!-- <button class="toggle-btn" [class.first]="first" [class.last]="last" mat-button type="button" (click)="panel.expanded = !panel.expanded; $event.preventDefault()">
+                            <span class="top"></span>
+                            <span class="horizontal"></span>
+                            <span class="bottom"></span>
+                            {{ panel.expanded ? '-' : '+' }}
+                        </button> -->
+
+                        {{ group.value.displayName }}
+
+                        <!-- <mat-checkbox (change)="selectAllSubGroups($event.checked, group)" [formControl]="group.controls.isGranted" [indeterminate]="group.controls.indeterminate.value" >
+                            {{ group.value.displayName }}
+                            -
+                            {{ group.value.checkedCount }}
+                        </mat-checkbox> -->
+                        
+                    </mat-panel-title>
+                    <!-- {{group.value.displayName}} -->
+                    <!-- <h4>
+                        <mat-checkbox (change)="selectAllSubGroups($event.checked, group)" [formControl]="group.controls.isGranted" [indeterminate]="group.controls.indeterminate.value" >
+                            {{ group.value.displayName }}
+                            -
+                            {{ group.value.checkedCount }}
+                        </mat-checkbox>
+                    </h4> -->
+                </mat-expansion-panel-header>
+            
+                <ng-template matExpansionPanelContent></ng-template>
+            
+                <mat-checkbox color="primary" (change)="selectAllSubGroups($event.checked, group)"
+                [formControl]="group.controls.isGranted" [indeterminate]="group.controls.indeterminate.value" class="mt-3 mb-2">
+                    كل الصلاحيات
+                    -
+                    {{ group.value.checkedCount }}
+                </mat-checkbox>
+                <br>
+
+                <div class="row inner-expansion-content" *ngFor="let subGroup of group.controls.subGroups['controls'];let firstSubGroup = first; let lastSubGroup = last">
+                    <!-- <mat-accordion displayMode="flat">
+                        <mat-expansion-panel [disabled]="true" hideToggle #subPanel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title (click)="$event.preventDefault()"> -->
+                                    <!-- <button
+                                    *ngIf="subGroup.controls.permissions['controls'].length; else noSubPermissions"
+                                    class="toggle-btn"
+                                    [class.first]="firstSubGroup"
+                                    mat-button
+                                    type="button"
+                                    (click)="subPanel.expanded = !subPanel.expanded; $event.preventDefault()"
+                                    >
+                                        <span class="top"></span>
+                                        {{ subPanel.expanded ? '-' : '+' }}
+                                    </button> -->
+                                    <!-- <ng-template #noSubPermissions>
+                                        <button class="toggle-btn no-spans" mat-button disabled type="button">
+
+                                        </button>
+                                    </ng-template> -->
+                                <!-- </mat-panel-title> -->
+                                <div class="col-12">
+                                    <mat-checkbox color="primary" [formControl]="subGroup.controls.isGranted" (change)="subGroupChanged(subGroup, $event.checked)" [indeterminate]="subGroup.controls.indeterminate.value">
+                                        {{ subGroup.value.displayName }}
+                                    </mat-checkbox>
+                                </div>
+                                <ng-container  *ngIf="subGroup.controls.permissions['controls'].length">
+                                    <div class="col permissions-grid" *ngFor="let permission of subGroup.controls.permissions['controls']; let lastPermissions = last; index as permissionIndex" >
+                                        <mat-checkbox color="primary" [formControl]="permission.controls.isGranted" (change)="permissionChanged(permission, permissionIndex,  $event.checked)">
+                                            {{ permission.value.displayName }}
+                                            <ng-container *ngIf="!permissionIndex">
+                                                -
+                                                {{ '::View' | abpLocalization }}
+                                            </ng-container>
+                                        </mat-checkbox>
+                                    </div>
+                                </ng-container>
+
+                                
+                            <!-- </mat-expansion-panel-header> -->
+                
+                            <!-- <div class="inner-expansion-content" *ngIf="subGroup.controls.permissions['controls'].length">
+                                <div class="permissions-grid" *ngFor="let permission of subGroup.controls.permissions['controls']; let lastPermissions = last; index as permissionIndex" >
+                                    <span class="toggle-btn" [class.last]="lastPermissions">
+                                        <span class="top"></span>
+                                        <span class="horizontal"></span>
+                                        <span class="bottom"></span>
+                                    </span>
+                                    <mat-checkbox [formControl]="permission.controls.isGranted" (change)="permissionChanged(permission, permissionIndex,  $event.checked)">
+                                        {{ permission.value.displayName }}
+                                        <ng-container *ngIf="!permissionIndex">
+                                            -
+                                            {{ '::View' | abpLocalization }}
+                                        </ng-container>
+                                    </mat-checkbox>
+                                </div>
+                            </div> -->
+
+                            <!-- <ng-template matExpansionPanelContent>
+                                <div class="inner-expansion-content" *ngIf="subGroup.controls.permissions['controls'].length">
+                                    <div class="permissions-grid" *ngFor="let permission of subGroup.controls.permissions['controls']; let lastPermissions = last; index as permissionIndex" >
+                                        <span class="toggle-btn" [class.last]="lastPermissions">
+                                            <span class="top"></span>
+                                            <span class="horizontal"></span>
+                                            <span class="bottom"></span>
+                                        </span>
+                                        <mat-checkbox [formControl]="permission.controls.isGranted" (change)="permissionChanged(permission, permissionIndex,  $event.checked)">
+                                            {{ permission.value.displayName }}
+                                            <ng-container *ngIf="!permissionIndex">
+                                                -
+                                                {{ '::View' | abpLocalization }}
+                                            </ng-container>
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </ng-template> -->
+                
+                        <!-- </mat-expansion-panel> -->
+                    <!-- </mat-accordion> -->
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-dialog-content>
+    <mat-dialog-actions class="actions">
+        <button mat-raised-button cdkFocusInitial color="primary" type="submit" [disabled]="isSaving" >
+            <i class="fa fa-check me-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+
+        <button type="button" mat-raised-button (click)="ref.close()" color="warn" > 
+            {{ '::Cancel' | abpLocalization }}
+        </button>
+    </mat-dialog-actions>
+</form>

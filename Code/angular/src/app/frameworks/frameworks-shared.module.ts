@@ -23,6 +23,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FrameFilesComponent } from './framework-view/frame-files/frame-files.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { FrameReportComponent } from './framework-view/frame-report/frame-report.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
@@ -56,6 +57,7 @@ import { FrameReportComponent } from './framework-view/frame-report/frame-report
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    MatTooltipModule
   ],
   exports:[
     CreateFrameworkComponent,

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { DocumentType } from '@proxy/documents';
+import { ConfigStateService } from '@abp/ng.core';
+import { Component, OnInit } from '@angular/core';
+import { DocumentStatus, DocumentType } from '@proxy/documents';
 import { DocumentDto } from '@proxy/documents/dtos';
 
 @Component({
@@ -7,11 +8,12 @@ import { DocumentDto } from '@proxy/documents/dtos';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
   documentData:DocumentDto;
 
   
   DocumentType = DocumentType;
+  DocumentStatus = DocumentStatus;
 
   selected;
   employeesObj;
@@ -21,11 +23,15 @@ export class DetailsComponent {
 
   requiredReviewers = [];
   optionalReviewers = [];
+  owners = [];
+  userId;
+  canEdit = false;
+  constructor(private configService: ConfigStateService) {
+
+  }
 
   ngOnInit(): void {
-    console.log('this.documentData');
-    console.log(this.documentData);
-
+    this.userId = this.configService.getAll().currentUser.id;
     this.documentData.approvers.map(u => {
       if(u.isRequired) this.requiredApprovers.push(u);
       else this.optionalApprovers.push(u);
@@ -36,6 +42,8 @@ export class DetailsComponent {
       else this.optionalReviewers.push(u);
     })
 
+    this.owners = this.documentData.owners.map(o => o.id);
+    this.canEdit = this.documentData.status !== DocumentStatus.Approved && this.owners.some(o => o == this.userId);
    
     //this.form.patchValue(this.selected);
   }

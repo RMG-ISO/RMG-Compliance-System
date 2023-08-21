@@ -29,7 +29,6 @@ namespace RMG.ComplianceSystem.Notifications
         private readonly IStringLocalizer<ComplianceSystemResource> _localizer;
 
         private readonly IRiskAndOpportunityRepository _riskAndOpportunityRepository;
-        private readonly IRiskTreatmentRepository _RiskOpportunityRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
         private readonly IEmailTemplateAppService _emailTemplateAppService;
@@ -37,7 +36,7 @@ namespace RMG.ComplianceSystem.Notifications
         private readonly INotificationAppService _notificationAppService;
 
         public CreateRiskOpportunityHandler(CurrentUser currentUser, IGuidGenerator guidGenerator, INotificationRepository notificationsRepository, IClock clock,
-            IStringLocalizer<ComplianceSystemResource> localizer, IRiskTreatmentRepository RiskOpportunityRepository,
+            IStringLocalizer<ComplianceSystemResource> localizer,
             IEmployeeRepository employeeRepository, IIdentityUserRepository identityUserRepository,
             IEmailTemplateAppService emailTemplateAppService,
             IEmailTemplateRepository emailTemplatesRepository,
@@ -50,7 +49,6 @@ namespace RMG.ComplianceSystem.Notifications
             _notificationsRepository = notificationsRepository;
             _clock = clock;
             _localizer = localizer;
-            _RiskOpportunityRepository = RiskOpportunityRepository;
             _employeeRepository = employeeRepository;
             _identityUserRepository = identityUserRepository;
             _emailTemplateAppService = emailTemplateAppService;
@@ -175,7 +173,7 @@ namespace RMG.ComplianceSystem.Notifications
         {
             List<Notification> notificationList = new List<Notification>();
             var emailTemplate = await _emailTemplatesRepository.GetAsync(x => x.Key == "RisksCreated");
-            var existingRiskOpportunity = await _RiskOpportunityRepository.GetAsync(eventData.Entity.Id);
+            var existingRiskOpportunity = await _riskAndOpportunityRepository.GetAsync(eventData.Entity.Id);
             List<Guid> _managerIds = new List<Guid>();
             List<string> _managerEmails = new List<string>();
 

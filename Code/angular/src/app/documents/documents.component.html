@@ -1,99 +1,134 @@
-
-    <div class="pb-3 pt-3">
-        <div class="row">
-            <div class="col col-md-6">
-                <div class="d-flex bread_crumb align-items-center ps-3 mt-2">
-                    <div>
-                        <mat-icon>arrow_forward</mat-icon>
-                    </div>
-                
-                    <a routerLink="/" class="bread_crumb_item">
-                        {{ "::Document:Home" | abpLocalization }}
-                    </a>
-                
-                    / 
-                
-                    <a  [routerLink]="['/documents']" class="bread_crumb_item">
-                        {{ "::Document:DocumentManagement" | abpLocalization }}
-                    </a>
-                    
+<div class="pb-3 pt-3">
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="d-flex bread_crumb align-items-center ps-3 mt-2">
+                <div>
+                    <mat-icon>arrow_forward</mat-icon>
                 </div>
-            </div>
-            <div class="col col-md-6 pt-2 d-flex justify-content-end">
-                <a *abpPermission="'ComplianceSystem.Document.Create'" mat-raised-button id="createBtn" routerLink="/documents/create" class="btn btn-primary me-3" >
-                    <i class="fa fa-plus me-1"></i>
-                    <span>{{ "::Document:AddDocument" | abpLocalization }}</span>
+
+                <a routerLink="/" class="bread_crumb_item">
+                    {{ "::Document:Home" | abpLocalization }}
                 </a>
-                <app-search (search)="getList($event)"></app-search>
+
+                /
+
+                <a [routerLink]="['/documents']" class="bread_crumb_item">
+                    {{ "::Document:DocumentManagement" | abpLocalization }}
+                </a>
+
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        <ngx-datatable
-        class="material fullscreen"
-        columnMode="force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        rowHeight="auto"
-        [scrollbarH]="true"
-        #dataTable
-        [rows]="items"
-        [count]="totalCount"
-        [list]="list"
-        appNgxdatatable
-        >
-            <!-- <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="name"></ngx-datatable-column> -->
+        <div class="col col-md-6 pt-2 d-flex justify-content-end">
+            <a *abpPermission="'ComplianceSystem.Document.Create'" mat-raised-button id="createBtn"
+                routerLink="/documents/create" class="btn btn-primary me-3">
+                <i class="fa fa-plus me-1"></i>
+                <span>{{ "::Document:AddDocument" | abpLocalization }}</span>
+            </a>
 
-            <ngx-datatable-column [name]="'::DocumentCode' | abpLocalization" prop="code"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::DocumentName' | abpLocalization" prop="name"></ngx-datatable-column>
-            <!-- <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name">
+            <button mat-button class="filter-btn me-3" (click)="showFilters = !showFilters" [class.show]="showFilters">
+                <i class="fas fa-filter"></i>
+                {{ '::Filter' | abpLocalization }}
+            </button>
+
+            <!-- <app-search (search)="searchTerm = $event;getList()"></app-search> -->
+        </div>
+    </div>
+</div>
+
+<form [formGroup]="filterForm" class="filter-form">
+    <div class="row filter-row mt-3" [class.show]="showFilters">
+        <div class="col-md-3 form-group">
+            <input type="search" [placeholder]="'::Search' | abpLocalization " class="form-control" formControlName="search">
+        </div>
+        
+        <div class="col-md-3 form-group">
+            <ng-select formControlName="status" [placeholder]="'::Status' | abpLocalization" >
+                <ng-option *ngFor="let stauts of documentStatusOptions" [value]="stauts.value">
+                    {{ ( '::Document:Enum:' + stauts.key ) | abpLocalization }}
+                </ng-option>
+            </ng-select>
+        </div>
+
+        <div class="col-md-3 form-group">
+            <ng-select formControlName="type" [placeholder]="'::DocumentType' | abpLocalization" >
+                <ng-option *ngFor="let stauts of documentTypeOptions" [value]="stauts.value">
+                    {{ ( '::Document:' + stauts.key ) | abpLocalization }}
+                </ng-option>
+            </ng-select>
+        </div>
+        
+        <div class="col-md-3">
+            <button mat-button class="reset" (click)="filterForm.reset()" >
+                {{ '::ResetFilter' | abpLocalization }}
+            </button>
+        </div>
+    </div>
+</form>
+
+
+<div class="card-body">
+    <ngx-datatable class="material fullscreen" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+        rowHeight="auto" [scrollbarH]="true" #dataTable [rows]="items" [count]="totalCount" [list]="list"
+        appNgxdatatable>
+        <!-- <ngx-datatable-column [name]="'::DepartmentName' | abpLocalization" prop="name"></ngx-datatable-column> -->
+
+        <ngx-datatable-column [name]="'::DocumentCode' | abpLocalization" prop="code"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::DocumentName' | abpLocalization" prop="name"></ngx-datatable-column>
+        <!-- <ngx-datatable-column [name]="'مالك الوثيقة'" prop="name">
                 
             </ngx-datatable-column> -->
-            <ngx-datatable-column [name]="'::DocumentType' | abpLocalization" prop="type">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{ ('::Document:' + DocumentType[value]) | abpLocalization }}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" prop="compliancePercentage">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    {{value}} %
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="status" [class]="DocumentStatus[value]">
-                        {{ ( '::Document:Enum:' + DocumentStatus[value] ) | abpLocalization }}
-                    </span>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Documents:ValidationStartDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="validationStartDate">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Documents:ValidationEndDate' | abpLocalization" [maxWidth]="200" [width]="200" prop="validationEndtDate">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
-                </ng-template>
-            </ngx-datatable-column>
-                
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="170"  [sortable]="false" cellClass="options">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                   
-                    <a *abpPermission="'ComplianceSystem.Document'" mat-button [routerLink]="['/documents/',row.id, 'details']" >
-                        <mat-icon color="accent">visibility</mat-icon>
-                    </a>
+        <ngx-datatable-column [name]="'::DocumentType' | abpLocalization" prop="type">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{ ('::Document:' + DocumentType[value]) | abpLocalization }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" prop="compliancePercentage">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value}} %
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Status' | abpLocalization" prop="status">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <span class="status" [class]="DocumentStatus[value]">
+                    {{ ( '::Document:Enum:' + DocumentStatus[value] ) | abpLocalization }}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Documents:ValidationStartDate' | abpLocalization" [maxWidth]="200"
+            [width]="200" prop="validationStartDate">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Documents:ValidationEndDate' | abpLocalization" [maxWidth]="200" [width]="200"
+            prop="validationEndtDate">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <span title="{{value | date}}">{{value | date:'yyyy/MM/dd'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
 
-                    <a *abpPermission="'ComplianceSystem.Document.Update'" mat-button [routerLink]="['/documents/',row.id, 'edit']" >
+        <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="350" [width]="170" [sortable]="false"
+            cellClass="options">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+
+                <a *abpPermission="'ComplianceSystem.Document'" mat-button
+                    [routerLink]="['/documents/',row.id, 'details']">
+                    <mat-icon color="accent">visibility</mat-icon>
+                </a>
+                <ng-container *ngIf="canEditAndDelete(row)">
+                    <a *abpPermission="'ComplianceSystem.Document.Update'" mat-button
+                        [routerLink]="['/documents/',row.id, 'edit']">
                         <mat-icon color="primary">edit</mat-icon>
                     </a>
-                    
-                    <button *abpPermission="'ComplianceSystem.Document.Delete'" mat-button (click)="$event.stopPropagation();delete(row)">
+                </ng-container>
+                <ng-container *ngIf="canEditAndDelete(row)">
+                    <button *abpPermission="'ComplianceSystem.Document.Delete'" mat-button
+                        (click)="$event.stopPropagation();delete(row)">
                         <mat-icon color="warn">delete</mat-icon>
                     </button>
+                </ng-container>
 
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
-
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

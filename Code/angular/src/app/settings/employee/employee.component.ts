@@ -8,6 +8,7 @@ import { EmployeeDto } from '@proxy/employees/dtos';
 import { DepartmentDto } from '@proxy/departments/dtos';
 import { EmployeeService } from '@proxy/employees';
 import { DepartmentService } from '@proxy/departments';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employee',
@@ -18,6 +19,8 @@ import { DepartmentService } from '@proxy/departments';
 export class EmployeeComponent implements OnInit {
   FormMode = FormMode;
   @ViewChild('dataTable', { static: false }) table: DatatableComponent;
+  @ViewChild('addDialog') addDialog;
+
 
   items: EmployeeDto[];
   totalCount: number;
@@ -31,7 +34,8 @@ export class EmployeeComponent implements OnInit {
     public readonly list: ListService,
     private employeeService: EmployeeService,
     private confirmation: ConfirmationService,
-    private departmentService: DepartmentService
+    private departmentService: DepartmentService,
+    private matDialog:MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -59,9 +63,21 @@ export class EmployeeComponent implements OnInit {
   }
 
   openDialog(data: EmployeeDto) {
-    this.selected = data;
-    this.buildForm();
-    this.isModalOpen = true;
+    // this.selected = data;
+    // this.buildForm();
+    // this.isModalOpen = true;
+
+    let ref = this.matDialog.open(this.addDialog, {
+      data:{
+        data,
+      },
+      maxWidth:750,
+      disableClose:true
+    });
+    ref.afterClosed().subscribe(con => {
+      if(con) this.list.get();
+    })
+
   }
 
 

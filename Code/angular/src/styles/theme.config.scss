@@ -23,10 +23,12 @@ body[dir="rtl"] {
     padding: 0 1rem;
 }
 
-mat-checkbox {
-    width: 40px;
-    height: 40px;
-}
+// mat-checkbox {
+//     width: 40px;
+//     height: 40px;
+// }
+
+
 mat-chip-listbox.mat-mdc-chip-listbox {
     background-color: transparent;
     padding: 0;
@@ -62,11 +64,14 @@ button.back-button {
     color: #000000;
     transition: all .3s ease-in-out;
     &:not([type="search"]) {
-        border-color: rgba(0,0,0, .7);
+        // border-color: rgba(0,0,0, .7);
+        border: 0.5px solid #79867C;
+        background-color: #fff;
+
         &:focus{
             // border-color: #4b74ff;
-            border-color: #36f;
-            background-color: #F8F8F8;
+            border-color: var(--main-color);
+            background-color: #fff;
         }
     }
 }
@@ -82,15 +87,19 @@ input.form-control:not([type="search"]), textarea.form-control {
 
 
     background-color: #ffffff;
-    border-color: rgba(0,0,0, .7);
+    // border-color: rgba(0,0,0, .7);
+    border: 0.5px solid #79867C;
     border-radius: 5px;
     height: 3rem;
 
     &:focus{
         // background-color: #fff;
-        border-color: #36f;
+        // border-color: #36f;
         box-shadow: none;
-        background-color: #F8F8F8;
+
+        border-color: var(--main-color);
+        background-color: #fff;
+
     }
 }
 textarea.form-control {

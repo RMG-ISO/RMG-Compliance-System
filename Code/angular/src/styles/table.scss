@@ -18,6 +18,7 @@ ngx-datatable {
     .datatable-header .datatable-header-cell.resizeable .resize-handle {
         visibility: visible;
         border-color: #ddd;
+        display: none;
     }
 
     datatable-header-cell.datatable-header-cell{
@@ -43,15 +44,19 @@ ngx-datatable {
         justify-content: center;
         .datatable-body-cell-label {
             // word-break: break-all;
+            text-align: start;
         }
         &.options {
             display: flex;
             align-items: center;
             justify-content:center;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
             // padding-left: 10px !important;
             // padding-right: 10px !important;
             .datatable-body-cell-label {
                 display: flex;
+                width: 100%;
             }
             button, a {
                 width: auto;

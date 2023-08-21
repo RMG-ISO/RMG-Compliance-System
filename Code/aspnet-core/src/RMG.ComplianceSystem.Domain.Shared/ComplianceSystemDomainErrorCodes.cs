@@ -8,7 +8,7 @@
         private const string DomainGroupName = "Domain";
         private const string AssessmentGroupName = "Assessment";
         private const string DocumentGroupName = "Document";
-
+        private const string IdentityGroupName = "Identity";
 
         public const string AuthorAlreadyExists = "AngularMaterial:001";
 
@@ -64,5 +64,13 @@
         public const string PrinciplesComplianceEndDateShouldBeAfterStartDate = $"{ParentGroupName}:{DocumentGroupName}:003";
         public const string CannotStartPrincipleComplianceYet = $"{ParentGroupName}:{DocumentGroupName}:004";
         public const string YouMustFillAllPrinciplesDataBeforeEndingCompliance = $"{ParentGroupName}:{DocumentGroupName}:005";
+        public const string SameUserCannotBeRequiredAndOptional = $"{ParentGroupName}:{DocumentGroupName}:006";
+        public const string OnlyDocumentOwnersCanEditDocumentInfo = $"{ParentGroupName}:{DocumentGroupName}:007";
+
+
+        // Identity
+        public const string CannotChangeSuperAdminUsername = $"{ParentGroupName}:{IdentityGroupName}:001";
+        public const string CannotChangeSuperAdminPassword = $"{ParentGroupName}:{IdentityGroupName}:002";
+        public const string InvalidEmail = $"{ParentGroupName}:{IdentityGroupName}:003";
     }
 }

@@ -5,17 +5,21 @@ import { CommonModule } from '@angular/common';
 
 import { EmployeeComponent } from './employee.component';
 import { EmployeeRoutingModule } from './employee-routing.module';
+import { CreateComponent } from './create/create.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
   declarations: [
     EmployeeComponent,
+    CreateComponent,
   ],
   imports: [
     CommonModule,
     EmployeeRoutingModule,
     SharedModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule
   ]
 })
 export class EmployeeModule { }

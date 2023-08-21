@@ -9,7 +9,7 @@ using Volo.Abp.EventBus;
 
 namespace RMG.ComplianceSystem.Documents
 {
-    public class UpdateDocumentComplianceHandler : ILocalEventHandler<EntityUpdatedEventData<Principle>>, ITransientDependency
+    public class UpdateDocumentComplianceHandler : ILocalEventHandler<EntityChangedEventData<Principle>>, ITransientDependency
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly IPrincipleRepository _principleRepository;
@@ -21,10 +21,10 @@ namespace RMG.ComplianceSystem.Documents
 
         }
 
-        public async Task HandleEventAsync(EntityUpdatedEventData<Principle> eventData)
+        public async Task HandleEventAsync(EntityChangedEventData<Principle> eventData)
         {
             var document = await _documentRepository.GetAsync(eventData.Entity.DocumentId, false);
-            var principles = (await _principleRepository.GetQueryableAsync()).Where(x => x.DocumentId == document.Id && x.ComplianceStatus.HasValue).Select(x => x.ComplianceScore);
+            var principles = (await _principleRepository.GetQueryableAsync()).Where(x => x.DocumentId == document.Id && x.ComplianceStatus.HasValue && x.ComplianceStatus.Value != PrincipleStatus.NotApplicable).Select(x => x.ComplianceScore);
             if (principles.Any())
             {
                 document.CompliancePercentage = (int)Math.Round(principles.Average());

@@ -4,7 +4,7 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { MatDialog } from '@angular/material/dialog';
 import { FormMode } from 'src/app/shared/interfaces/form-mode';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DocumentSectionService } from '@proxy/documents';
+import { DocumentSectionService, DocumentStatus } from '@proxy/documents';
 import { finalize } from 'rxjs';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -30,6 +30,8 @@ export class SettingsComponent implements OnInit {
   ) { }
   
   documentData
+
+  DocumentStatus = DocumentStatus;
   
   form:FormGroup;
   sectionsFormArr:FormArray;
@@ -208,12 +210,12 @@ export class SettingsComponent implements OnInit {
 
   updatedIndex = null;
   updateContent() {
-    console.log('updatedIndex', this.updatedIndex);
     let updateGroup = this.sectionsFormArr.controls[this.updatedIndex];
     if(updateGroup.invalid) return;
 
     this.documentSectionService.update(updateGroup.value.id, updateGroup.value).subscribe(r => {
       this.sections[this.updatedIndex] = r;
+      this.toasterService.success('::SavedSuccessfully');
     });
   }
 
