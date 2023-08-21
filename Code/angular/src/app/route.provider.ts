@@ -256,6 +256,12 @@ function configureRoutes(routesService: RoutesService,config : ConfigStateServic
         layout: eLayoutType.application,
         requiredPolicy:'AbpIdentity.Roles',
       },
+      {
+        path: '/features',
+        name : 'Features',
+        iconClass : 'fas fa-asterisk',
+        layout : eLayoutType.application,
+      }
 
 
       

@@ -33,6 +33,7 @@ using RMG.ComplianceSystem.Subscription;
 using Volo.Abp.FeatureManagement;
 using RMG.ComplianceSystem.Permissions;
 using Volo.Abp.Features;
+using RMG.ComplianceSystem.Features;
 
 namespace RMG.ComplianceSystem
 {
@@ -66,9 +67,14 @@ namespace RMG.ComplianceSystem
             ConfigureSwaggerServices(context, configuration);
 
             context.Services.AddTransient<Notifications.NotificationHub>();
+
+            Configure<AbpFeatureOptions>(options =>
+            {
+                options.ValueProviders.Add<ComplianceSystemFeatureValueProvider>();
+            });
             context.Services.Configure<FeatureManagementOptions>(options =>
             {
-                options.ProviderPolicies[TenantFeatureValueProvider.ProviderName] = ComplianceSystemPermissions.ManageFeatures;
+                options.ProviderPolicies["SA"] = ComplianceSystemPermissions.ManageFeatures;
             });
             context.Services.AddTransient<SubscriptionMiddleware>();
         }

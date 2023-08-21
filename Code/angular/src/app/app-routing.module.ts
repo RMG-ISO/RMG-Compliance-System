@@ -105,6 +105,10 @@ const routes: Routes = [
     loadChildren : () => import('./subscription/subscription.module').then(m => m.SubscriptionModule)
   },
   {
+    path : 'features',
+    loadChildren : () => import('./features-management/features-management.module').then(m => m.FeaturesManagementModule)
+  },
+  {
     path:'',
     redirectTo:'/home',
     pathMatch:'full'

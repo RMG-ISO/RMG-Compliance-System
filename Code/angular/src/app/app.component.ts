@@ -61,7 +61,7 @@ export class AppComponent {
       key: eIdentityComponents.Roles,
     });
 
-
+    this.validateFeature();
 
     if(!this.config.getGlobalFeatureIsEnabled("FrameworkManagment")) {
       this.routerService.remove(['::Menu:Frameworks'])
@@ -87,6 +87,13 @@ export class AppComponent {
     style.rel = 'stylesheet';
     style.href = `${styleName}`;
     head.prepend(style);
+  }
+
+  validateFeature() {
+    if(!this.config.getFeature('Frameworks'))
+      this.routerService.remove(['::Menu:Frameworks']);
+    if (!this.config.getFeature('ComplianceManagement'))
+      this.routerService.remove(['::Menu:Assessment'])
   }
 
 }
