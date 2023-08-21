@@ -10,13 +10,13 @@ namespace RMG.ComplianceSystem.Features
         public override void Define(IFeatureDefinitionContext context)
         {
             var group = context.AddGroup("App");
-            group.AddFeature("Frameworks");
+            group.AddFeature("Frameworks", "true");
 
-            group.AddFeature("ComplianceManagement");
+            group.AddFeature("ComplianceManagement", "false");
 
-            group.AddFeature("DocumentManagement");
+            group.AddFeature("DocumentManagement", "true");
 
-            group.AddFeature("RiskManagement");
+            group.AddFeature("RiskManagement", "false");
         }
     }
 }

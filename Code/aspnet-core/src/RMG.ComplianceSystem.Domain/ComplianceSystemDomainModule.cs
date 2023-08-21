@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using RMG.ComplianceSystem.Features;
 using RMG.ComplianceSystem.MultiTenancy;
 using System;
 using Volo.Abp.AuditLogging;
@@ -25,7 +26,7 @@ namespace RMG.ComplianceSystem
         typeof(ComplianceSystemDomainSharedModule),
         typeof(AbpAuditLoggingDomainModule),
         typeof(AbpBackgroundJobsDomainModule),
-        //typeof(AbpFeatureManagementDomainModule),
+        typeof(AbpFeatureManagementDomainModule),
         typeof(AbpIdentityDomainModule),
         typeof(AbpPermissionManagementDomainIdentityModule),
         typeof(AbpIdentityServerDomainModule),
@@ -46,6 +47,11 @@ namespace RMG.ComplianceSystem
             Configure<AbpClockOptions>(options =>
             {
                 options.Kind = DateTimeKind.Utc;
+            });
+
+            context.Services.Configure<FeatureManagementOptions>(options =>
+            {
+                options.Providers.Add<ComplianceSystemFeatureManagementProvider>();
             });
 
             Configure<AbpBlobStoringOptions>(options =>

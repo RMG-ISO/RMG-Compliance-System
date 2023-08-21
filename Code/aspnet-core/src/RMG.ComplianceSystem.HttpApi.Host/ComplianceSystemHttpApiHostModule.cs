@@ -74,7 +74,7 @@ namespace RMG.ComplianceSystem
             });
             context.Services.Configure<FeatureManagementOptions>(options =>
             {
-                options.ProviderPolicies["SA"] = ComplianceSystemPermissions.ManageFeatures;
+                options.ProviderPolicies["CS"] = ComplianceSystemPermissions.ManageFeatures;
             });
             context.Services.AddTransient<SubscriptionMiddleware>();
         }

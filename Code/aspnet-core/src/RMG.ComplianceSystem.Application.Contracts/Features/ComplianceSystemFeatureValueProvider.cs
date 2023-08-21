@@ -15,7 +15,7 @@ namespace RMG.ComplianceSystem.Features
 
         public override Task<string> GetOrNullAsync(FeatureDefinition feature)
         {
-             return Task.FromResult("true");
+            return FeatureStore.GetOrNullAsync(feature.Name, Name, null);
         }
     }
 }
