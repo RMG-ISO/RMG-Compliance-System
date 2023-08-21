@@ -767,6 +767,7 @@
     "SelectSearchMSG": "Please enter 2 or more characters",
     "Asset": "Asset",
     "App.Logo": "Application logo",
-    "CreateUserError": "You have exceeded Maximum Number Of Users"
+    "CreateUserError": "You have exceeded Maximum Number Of Users",
+    "ExpirationMessage": "{0} days Remaining for system to be expired"
   }
 }

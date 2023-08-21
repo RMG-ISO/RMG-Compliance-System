@@ -797,6 +797,7 @@
     "YouShouldAddControlsComplianceData": "يجب تعبئة جميع بيانات الضوابط أولا",
     "Asset": "الأصول",
     "App.Logo": "شعار التطبيق",
-    "CreateUserError": "لقد تجاوزت الحد المسموح لك بعدد المستخدمين"
+    "CreateUserError": "لقد تجاوزت الحد المسموح لك بعدد المستخدمين",
+    "ExpirationMessage" :  "متبقي {0} يوم ليكون النظام خارج الصلاحية"
   }
 }

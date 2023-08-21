@@ -25,6 +25,7 @@ import { AbpOAuthService } from '@abp/ng.oauth';
 export class CurrentUserComponent implements OnInit {
 
 
+  remainingDays : number;
   constructor(
     @Inject(NAVIGATE_TO_MANAGE_PROFILE) public navigateToManageProfile,
     private authService: AuthService,
@@ -77,6 +78,8 @@ export class CurrentUserComponent implements OnInit {
       // this.notificationItemsCount = result.unReadNotifications;
       this.setNotifications(result)
     });
+
+    this.remainingDays = Number.parseInt(this.configState.getSetting('ComplianceSystem.Subscription.RemainingDays'));
   }
 
   setNotifications(list) {
