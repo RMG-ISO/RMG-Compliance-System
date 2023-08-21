@@ -1,4 +1,4 @@
-import { ListService } from '@abp/ng.core';
+import { ConfigStateService, ListService } from '@abp/ng.core';
 import { IdentityUserService} from '@abp/ng.identity/proxy';
 import { Confirmation, ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -20,18 +20,22 @@ export class ListComponent implements OnInit {
     public list:ListService,
     private confirmation:ConfirmationService,
     private toasterService:ToasterService,
-    private matDialog:MatDialog
+    private matDialog:MatDialog,
+    private configState : ConfigStateService
 
   ) { }
 
   allRoles;
+  remainingUserCount : number;
   ngOnInit(): void {
     this.getList();
 
     this.identityUserService.getAssignableRoles().subscribe(r => {
       this.allRoles = r.items;
     })
-
+     this.remainingUserCount = Number.parseInt(this.configState.getSetting('ComplianceSystem.Subscription.RemainingUsersCount'));
+     console.log(this.remainingUserCount , 'remaining');
+     
   }
 
   items;
