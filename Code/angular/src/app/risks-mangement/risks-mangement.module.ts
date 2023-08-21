@@ -46,7 +46,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatRadioModule,
     MatExpansionModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ]
 })
 export class RisksMangementModule { }

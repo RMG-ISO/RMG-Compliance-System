@@ -1,0 +1,45 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+    <div mat-dialog-title class="d-flex align-items-center justify-content-center">
+        <button mat-button (click)="ref.close()" type="button"> 
+            <mat-icon class="m-0" color="warn">close</mat-icon>
+        </button>
+
+        <h2>
+            {{ '::' + mode | abpLocalization }}
+            {{ '::Role' | abpLocalization }}
+        </h2>
+    </div>
+    
+    <mat-dialog-content class="mat-typography">
+        <div class="row">
+            <div class="col-12 form-group">
+                <label for="name"> {{ '::RoleName' | abpLocalization }} </label>
+                <input class="form-control" id="name" name="date" formControlName="name"  />
+            </div>
+
+            <div class="col-12 form-group">
+                <label>
+                    {{ '::RoleType' | abpLocalization }}
+                </label>
+                <div class="d-flex align-items-center ">
+                    <mat-checkbox formControlName="isDefault" color="primary" class="me-4">
+                        {{ '::Default' | abpLocalization }}
+                    </mat-checkbox>
+                    <mat-checkbox formControlName="isPublic" color="accent">
+                        {{ '::Public' | abpLocalization }}
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="actions">
+        <button mat-button cdkFocusInitial class="green" type="submit" [disabled]="isSaving" >
+            <i class="fa fa-check me-1"></i>
+            {{ '::Save' | abpLocalization }}
+        </button>
+
+        <button type="button" mat-button (click)="ref.close()" class="red"> 
+            {{ '::Cancel' | abpLocalization }}
+        </button>
+    </mat-dialog-actions>
+</form>

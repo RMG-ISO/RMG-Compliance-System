@@ -16,7 +16,6 @@ using Volo.Abp;
 
 namespace RMG.ComplianceSystem.Reports
 {
-    [Authorize]
     public class ReportsAppService : ComplianceSystemAppService
     {
         private readonly IDomainRepository _domainRepository;
@@ -46,14 +45,14 @@ namespace RMG.ComplianceSystem.Reports
 
             // if main domains doesn't have at least Controller
 
-            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr, x => GetAssessmentsByMainDomainIds(x.Id));
+            var mainDomainNamesDict = domains.ToDictionary(x => x.NameAr+ "_"+Guid.NewGuid(), x => GetAssessmentsByMainDomainIds(x.Id));
 
 
             foreach (var item in mainDomainNamesDict)
             {
                 result.Add(new ComplianceLevelTableDto
                 {
-                    DomainName = item.Key,
+                    DomainName = item.Key.Split("_")[0],
                     NotImplemented = item.Value.Count(x => (int)x.ComplianceLevel == 0 || !x.ComplianceLevel.HasValue),
                     Intial = item.Value.Count(x => x.ComplianceLevel == ComplianceLevelType.ComplianceLevel1),
                     Defined = item.Value.Count(x => x.ComplianceLevel == ComplianceLevelType.ComplianceLevel2),

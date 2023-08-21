@@ -134,6 +134,12 @@ namespace RMG.ComplianceSystem.RiskTreatments
 
         #endregion
 
+        protected override async Task<IQueryable<RisksTreatment>> CreateFilteredQueryAsync(RiskTreatmentPagedAndSortedResultRequestDto input)
+        {
+            var query = await base.CreateFilteredQueryAsync(input);
+            query = query.WhereIf(input.RiskOpportunityId.HasValue, x => x.RiskOpportunityId == input.RiskOpportunityId);
+            return query;
+        }
 
     }
 }

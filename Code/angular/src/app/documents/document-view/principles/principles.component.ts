@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { ControlService } from '@proxy/controls';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-principles',
@@ -34,6 +36,7 @@ export class PrinciplesComponent implements OnInit {
   
 
   showSendForEvaluation = false;
+  DocumentStatus = DocumentStatus;
   constructor(
     private configStateService:ConfigStateService,
     private router:Router,
@@ -51,10 +54,35 @@ export class PrinciplesComponent implements OnInit {
   }
 
   userId;
-  isContributor 
+  isContributor;
+
+  showStartCompliance;
+  showEndCompliance
+  canStart = false;
+  startDate;
   ngOnInit(): void {
     this.userId = this.configService.getAll().currentUser.id;
     this.showSendForEvaluation = this.documentData.status == DocumentStatus.Approved && !this.documentData.complianceResponsibleId;
+
+    if(this.documentData.complianceResponsibleId) {
+      this.startDate = moment.utc(this.documentData.complianceScheduledStartDate).toDate();
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setSeconds(0);
+      this.startDate.setMilliseconds(0);
+      let date = new Date();
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      if(  +this.startDate >= +date) this.canStart = true;
+      this.startDate = moment(this.startDate).format('yyyy-MM-DD');
+
+      this.showStartCompliance  =  this.userId == this.documentData.complianceResponsibleId  && !this.documentData.complianceStartDate;
+      this.showEndCompliance    =  this.userId == this.documentData.complianceResponsibleId && this.documentData.complianceStartDate && !this.documentData.complianceEndDate;
+    }
+
+
     this.isContributor = this.documentData.creatorId == this.userId || this.documentData.owners.find(x => x.id == this.userId)
   }
   
@@ -67,12 +95,23 @@ export class PrinciplesComponent implements OnInit {
   items;
   totalCount;
   employees;
+  allQuestionsAnswered = true;
   getList() {
     this.employeeService.getEmployeeListLookup().subscribe(r => this.employees = r.items);
     const streamCreator = (query) => this.principleService.getList({ ...query, documentId:this.documentData.id });
     this.list.hookToQuery(streamCreator).subscribe((response) => {
       this.items = response.items;
       this.totalCount = response.totalCount;
+
+      this.checkAnsweredRows();
+
+      // for(let item of response.items) {
+      //   if (item.complianceStatus === null) {
+      //     this.allQuestionsAnswered = false;
+      //     break;
+      //     // to validate all questions Has been answered
+      //   }
+      // }
     });
   }
 
@@ -100,15 +139,29 @@ export class PrinciplesComponent implements OnInit {
 
       form.patchValue(data);
 
-      if(this.documentData.complianceResponsibleId !== this.userId) form.disable();
+      if(this.documentData.complianceResponsibleId !== this.userId || !this.showEndCompliance) form.disable();
       this.formsContainers[row.id] = form;
-    } else this.formsContainers[row.id].controls.rowIndex.setValue(rowIndex)
+    } else this.formsContainers[row.id].controls.rowIndex.setValue(rowIndex);
   }
 
   afterSend(data:{form:FormGroup, response:PrincipleDto}) {
     // console.log(form);
     data.form;
     this.items[data.form.value.rowIndex] = data.response;
+    this.checkAnsweredRows();
+
+  }
+
+  checkAnsweredRows() {
+    this.allQuestionsAnswered = true;
+    for(let item of this.items) {
+      if (item.complianceStatus === null) {
+        this.allQuestionsAnswered = false;
+        break;
+        // to validate all questions Has been answered
+      }
+    }
+
   }
 
   delete(model: PrincipleDto) {
@@ -144,6 +197,48 @@ export class PrinciplesComponent implements OnInit {
       console.log('con', con)
       if(con) this.parent.getDocument();
     })
+  }
+
+
+  startPrinciplesCompliance() {
+    let ref = this.matDialog.open(ConfirmationDialogComponent, {
+      maxWidth:750,
+      disableClose:true,
+      data:{
+        title:'::StartCompliance',
+        description: "::StartComplianceMSG",
+        iconName: "edit_calendar",
+        iconColor:"accent"
+      }
+    });
+    ref.afterClosed().subscribe(con => {
+      if(con)  this.documentService.startPrinciplesComplianceById(this.documentData.id).subscribe(r => {
+        this.toasterService.success('::SuccessfullySaved', "");
+        this.parent.getDocument();
+      })
+    })
+  }
+
+  endPrinciplesCompliance() {
+    let ref = this.matDialog.open(ConfirmationDialogComponent, {
+      maxWidth:750,
+      disableClose:true,
+      data:{
+        title:'::EndCompliance',
+        description: "::EndComplianceMSG",
+        iconName: "event_available",
+        iconColor:"accent"
+        
+      }
+    });
+    ref.afterClosed().subscribe(con => {
+      if(con)  this.documentService.endPrinciplesComplianceById(this.documentData.id).subscribe(r => {
+        this.toasterService.success('::SuccessfullySaved', "");
+        this.parent.getDocument();
+      })
+    })
+
+    
   }
 
 }

@@ -1,14 +1,42 @@
-<div class="d-flex justify-content-between mb-4" *ngIf="isContributor">
-    <button mat-raised-button color="primary" (click)="openDialog()">
-        {{ '::Create' | abpLocalization }}
-        {{ '::Principle' | abpLocalization }}
-        <mat-icon>add</mat-icon>
-    </button>
+<div class="d-flex justify-content-between mb-4">
+    
+    <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId; else showElse">
+    <!-- r && !documentData.complianceResponsibleId -->
+        
+        <div [matTooltipDisabled]="documentData.status === DocumentStatus.Approved" [matTooltip]=" '::YouMustApproveDocument' | abpLocalization:startDate ">
+            <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="documentData.status !== DocumentStatus.Approved">
+                {{ '::Create' | abpLocalization }}
+                {{ '::Principle' | abpLocalization }}
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
 
-    <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
-        {{ '::SendForEvaluation' | abpLocalization }}
-    </button>
+        <div [matTooltip]=" '::YouMustApproveDocument' | abpLocalization:startDate" [matTooltipDisabled]="showSendForEvaluation && items?.length">
+            <button mat-raised-button color="primary" (click)="openComplianceDialog()" *ngIf="showSendForEvaluation" [disabled]="showSendForEvaluation && !items?.length">
+                {{ '::SendForEvaluation' | abpLocalization }}
+            </button>
+        </div>
+    </ng-container>
+
+    <ng-template #showElse>
+        <span></span>
+    </ng-template>
+
+    <ng-container *ngIf="items?.length">
+        <div *ngIf="showStartCompliance" [matTooltipDisabled]="canStart" [matTooltip]=" '::CantStartCompliancePrinciples' | abpLocalization:startDate ">
+            <button mat-raised-button color="primary" (click)="startPrinciplesCompliance()"  [disabled]="!canStart">
+                {{ '::StartCompliance' | abpLocalization }}
+            </button>
+        </div>
+        <div *ngIf="showEndCompliance" [matTooltipDisabled]="allQuestionsAnswered" [matTooltip]=" '::CantEndCompliancePrinciples' | abpLocalization ">
+            <button mat-raised-button color="primary" (click)="endPrinciplesCompliance()" [disabled]="!allQuestionsAnswered">
+                {{ '::EndCompliance' | abpLocalization }}
+            </button>
+        </div>
+    </ng-container>
+  
 </div>
+
 <ngx-datatable
 #table
 class="material fullscreen"
@@ -41,7 +69,6 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 
-
     <ngx-datatable-column [name]="'::CompliancePercentage' | abpLocalization" [maxWidth]="200" [width]="200" prop="complianceScore">
         <ng-template let-value="value" ngx-datatable-cell-template>
             <app-progress-bar [value]="value"></app-progress-bar>
@@ -49,10 +76,9 @@ appNgxdatatable>
         </ng-template>
     </ngx-datatable-column>
 
-
     <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="170" [minWidth]="170" [sortable]="false" cellClass="options">
         <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template let-expanded="expanded">
-            <ng-container *ngIf="isContributor">
+            <ng-container *ngIf="isContributor && !documentData.complianceResponsibleId">
                 <button mat-button color="warn" (click)="delete(row)">
                     <mat-icon color="warn">delete_forever</mat-icon>
                 </button>
@@ -62,7 +88,7 @@ appNgxdatatable>
                 </button>
             </ng-container>
 
-            <button *ngIf="documentData.complianceResponsibleId" mat-button (click)="toggleExpandRow(row, rowIndex)">
+            <button *ngIf="documentData.complianceStartDate" mat-button (click)="toggleExpandRow(row, rowIndex)">
                 <mat-icon>
                     {{ expanded ? 'expand_less' : 'expand_more' }}
                 </mat-icon>

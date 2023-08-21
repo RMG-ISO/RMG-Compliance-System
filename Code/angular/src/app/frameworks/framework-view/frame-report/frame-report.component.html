@@ -71,21 +71,33 @@
                   <td >{{item.value[2][phase_status_filter]}}</td>
                   <td class="bg-4" >{{item.value[3]['controllersCount']}}</td>
                   <td class="bg-4" >{{item.value[3][phase_status_filter]}}</td>
-                  <td >%{{math.floor((item.value[1][phase_status_filter]/item.value[1]['controllersCount'])*100)}}</td>
-                  <td class="bg-4" >%{{math.floor((item.value[2][phase_status_filter]/item.value[2]['controllersCount'])*100)}}</td>
-                  <td >%{{math.floor((item.value[3][phase_status_filter]/item.value[3]['controllersCount'])*100)}}</td>
+                  
+                  <td >%
+                    <span *ngIf="item.value[1]['controllersCount'] > 0; else zero"  >
+                      {{math.floor((item.value[1][phase_status_filter]/item.value[1]['controllersCount'])*100)}}
+                    </span>
+                    <ng-template #zero>
+                      <span >0</span>
+                    </ng-template>
+                  </td>
 
+                  <td class="bg-4">%
+                    <span *ngIf="item.value[2]['controllersCount'] > 0 ; else zero " >
+                      {{math.floor((item.value[2][phase_status_filter]/item.value[2]['controllersCount'])*100)}}
+                    </span>
+                    <ng-template #zero>
+                      <span >0</span>
+                    </ng-template>
+                  </td>
 
-                  <!-- <td >{{item.key}}</td>
-                  <td class="bg-4" >{{item.value[1]['controllersCount']}}</td>
-                  <td class="bg-4" >{{item.value[1]['complianceCount']}}</td>
-                  <td >{{item.value[2]['complianceCount']}}</td>
-                  <td >{{item.value[2]['complianceCount']}}</td>
-                  <td class="bg-4" >{{item.value[3]['complianceCount']}}</td>
-                  <td class="bg-4" >{{item.value[3]['complianceCount']}}</td>
-                  <td >{{item.value[1]['percentage']}}</td>
-                  <td class="bg-4" >{{item.value[2]['percentage']}}</td>
-                  <td >{{item.value[3]['percentage']}}</td> -->
+                  <td >%
+                    <span *ngIf="item.value[3]['controllersCount'] > 0 ; else zero  ">
+                      {{math.floor((item.value[3][phase_status_filter]/item.value[3]['controllersCount'])*100)}}
+                    </span>
+                    <ng-template #zero>
+                      <span >0</span>
+                    </ng-template>
+                  </td>
               </tr>
               
               

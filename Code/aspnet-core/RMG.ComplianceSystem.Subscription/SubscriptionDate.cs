@@ -10,6 +10,6 @@
         }
 
 
-        public static int MaxUserCount = 20;
+        public static int MaxUserCount = 5;
     }
 }

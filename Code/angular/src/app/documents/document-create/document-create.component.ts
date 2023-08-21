@@ -9,6 +9,7 @@ import { DocumentService } from '@proxy/documents';
 import { EmployeeService } from '@proxy/employees';
 import { documentTypeOptions } from '@proxy/documents';
 import { parseISO } from 'date-fns';
+import { DateValidators } from 'src/app/shared/validators/date-validator';
 
 @Component({
   selector: 'app-document-create',
@@ -65,6 +66,11 @@ export class DocumentCreateComponent implements OnInit{
       validationEndtDate: new FormControl(null, Validators.required),
       description: new FormControl(null),
       categoriesIds: new FormControl(null, Validators.required),
+  },
+  {
+    validators:[
+      DateValidators.ValidateTwoDates('validationStartDate', 'validationEndtDate')
+    ]
   });
 
   if(this.mode == this.FormMode.Edit) {

@@ -1,40 +1,27 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-    <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+    <!-- <div mat-dialog-title class="d-flex align-items-center justify-content-between">
+        <button mat-button (click)="ref.close()" type="button"> 
+            <mat-icon class="m-0" color="warn">close</mat-icon>
+        </button>
+
         <h2 >
             {{ title | abpLocalization }}
         </h2>
+    </div> -->
 
-        <div class="actions">
-            <!-- <button type="button" mat-button (click)="ref.close()" class="red"> 
-                {{ '::Cancel' | abpLocalization }}
-            </button>
-        
-            <button mat-button cdkFocusInitial class="green" type="submit" >
-                <i class="fa fa-check me-1"></i>
-                {{ '::Save' | abpLocalization }}
-            </button> -->
+    <div mat-dialog-title class="d-flex align-items-center justify-content-center">
+        <button mat-button (click)="ref.close()" type="button"> 
+            <mat-icon class="m-0" color="warn">close</mat-icon>
+        </button>
 
-            
-            <button type="button" mat-button [disabled]="activeTab == 1" (click)="activeTab = activeTab - 1">
-                <mat-icon>
-                    keyboard_double_arrow_right
-                </mat-icon> 
-                {{ '::Previous' | abpLocalization }}
-            </button>
-
-            <button mat-button type="button" [disabled]="activeTab == 3" (click)="navNext()" class="flex-row-reverse">
-                <span>
-                    {{ '::Next' | abpLocalization }}
-                </span>
-                <mat-icon class="ms-1 me-1">
-                    keyboard_double_arrow_left
-                </mat-icon>
-            </button>
-        </div>
+        <h2>
+            {{ title | abpLocalization }}
+        </h2>
     </div>
+
     
-    <mat-dialog-content class="mat-typography" >
-        <div class="navs d-flex align-items-center">
+    <mat-dialog-content class="mat-typography pt-0" >
+        <div class="navs d-flex align-items-center pt-0">
             <button
               mat-button
               type="button"
@@ -281,14 +268,44 @@
         </div>
         
     </mat-dialog-content>
-    <mat-dialog-actions align="end">
+    <mat-dialog-actions class="justify-content-between mb-2" >
+        <!-- <button type="button" mat-button (click)="ref.close()" class="red"> 
+            {{ '::Cancel' | abpLocalization }}
+        </button>
+    
         <button mat-button cdkFocusInitial class="green" type="submit" >
             <i class="fa fa-check me-1"></i>
             {{ '::Save' | abpLocalization }}
-        </button>
+        </button> -->
 
-        <button type="button" mat-button (click)="ref.close()" class="red"> 
-            {{ '::Cancel' | abpLocalization }}
-        </button>    
+            
+        <div>
+            <button mat-raised-button cdkFocusInitial color="primary" type="submit" class="me-2 round" [disabled]="activeTab !== 3" >
+                <i class="fa fa-check me-1"></i>
+                {{ '::Save' | abpLocalization }}
+            </button>
+    
+            <button type="button" mat-raised-button (click)="ref.close()" color="warn" class="round"> 
+                {{ '::Cancel' | abpLocalization }}
+            </button>    
+        </div>
+
+        <div class="actions">
+            <button type="button" mat-button [disabled]="activeTab == 1" (click)="activeTab = activeTab - 1">
+                <mat-icon>
+                    keyboard_double_arrow_right
+                </mat-icon> 
+                {{ '::Previous' | abpLocalization }}
+            </button>
+
+            <button mat-button type="button" [disabled]="activeTab == 3" (click)="navNext()" class="flex-row-reverse">
+                <span>
+                    {{ '::Next' | abpLocalization }}
+                </span>
+                <mat-icon class="ms-1 me-1">
+                    keyboard_double_arrow_left
+                </mat-icon>
+            </button>
+        </div>
     </mat-dialog-actions>
 </form>
