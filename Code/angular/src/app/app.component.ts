@@ -70,6 +70,9 @@ export class AppComponent {
       '--main-green','#fafc22'
     ); */
 
+    
+    
+
     for(let icon of RegisteredIcons) {
       this.matIconRegistry.addSvgIcon(
         icon.name,
@@ -90,10 +93,19 @@ export class AppComponent {
   }
 
   validateFeature() {
-    if(!this.config.getFeature('Frameworks'))
+    if(this.config.getFeature('Frameworks') === 'false')
       this.routerService.remove(['::Menu:Frameworks']);
-    if (!this.config.getFeature('ComplianceManagement'))
+    if (this.config.getFeature('ComplianceManagement') === 'false')
       this.routerService.remove(['::Menu:Assessment'])
+
+      if (this.config.getFeature('DocumentManagement') === 'false')
+      this.routerService.remove(['::Menu:DocumentsManagement'])
+
+      if (this.config.getFeature('PoliciesManagement') === 'false')
+      this.routerService.remove(['::Policies'])
+
+      if (this.config.getFeature('RiskManagement') === 'false')
+      this.routerService.remove(['::Menu:RiskManagement'])
   }
 
 }

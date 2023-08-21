@@ -14,11 +14,12 @@ export class SubscriptionGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if (this.config.getGlobalFeatureIsEnabled(route.data.feature))
-      {
-        return true;
-      }
-    
+      // if (this.config.getGlobalFeatureIsEnabled(route.data.feature))
+      // {
+      //   return true;
+      // }
+    if (this.config.getFeature(route.data.feature) === 'true')
+      return true;
     this.router.navigateByUrl('/');
     return false;
   }

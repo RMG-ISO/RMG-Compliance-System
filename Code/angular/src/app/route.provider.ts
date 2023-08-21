@@ -49,7 +49,7 @@ function configureRoutes(routesService: RoutesService,config : ConfigStateServic
         order: 1,
         layout: eLayoutType.application,
         requiredPolicy:'ComplianceSystem.Framework',
-        
+        //invisible : config.getFeature('Frameworks')
       },
       // {
         //   path:'/assessment',

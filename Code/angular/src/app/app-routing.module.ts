@@ -19,21 +19,22 @@ const routes: Routes = [
     canActivate: [AuthGuard, PermissionGuard,SubscriptionGuard],
     loadChildren: () => import('./frameworks/frameworks.module').then(m => m.FrameworksModule),
     data:{
-      feature : "FrameworkManagment",
+      feature : "Frameworks",
       requiredPolicy:'ComplianceSystem.Framework'
     }
   },
   {
     path:'compliance-assessment',
-    canActivate: [AuthGuard, PermissionGuard],
+    canActivate: [AuthGuard, PermissionGuard , SubscriptionGuard],
     loadChildren: () => import('./compliance-assessment/compliance-assessment.module').then(m => m.ComplianceAssessmentModule),
     data:{
+      feature : "ComplianceManagement",
       requiredPolicy:'ComplianceSystem.Assessment'
     }
   },
   {
     path:'assessment',
-    canActivate: [AuthGuard, PermissionGuard],
+    canActivate: [AuthGuard, PermissionGuard ,SubscriptionGuard],
     loadChildren: () => import('./assessment/assessment.module').then(m => m.AssessmentModule)
   },
   // {
@@ -51,8 +52,11 @@ const routes: Routes = [
   // },
   {
     path:'risks-management',
-    canActivate: [AuthGuard, PermissionGuard],
-    loadChildren: () => import('./risks-mangement/risks-mangement.module').then(m => m.RisksMangementModule)
+    canActivate: [AuthGuard, PermissionGuard , SubscriptionGuard],
+    loadChildren: () => import('./risks-mangement/risks-mangement.module').then(m => m.RisksMangementModule),
+    data : {
+      feature : "RiskManagement",
+    }
   },
   {
     path:'notifications',
@@ -94,10 +98,11 @@ const routes: Routes = [
   },
   {
     path:'documents',
-    canActivate: [AuthGuard, PermissionGuard],
+    canActivate: [AuthGuard, PermissionGuard , SubscriptionGuard],
     loadChildren:() => import('./documents/documents.module').then(m => m.DocumentsModule),
     data:{
-      requiredPolicy:'ComplianceSystem.Document'
+      requiredPolicy:'ComplianceSystem.Document',
+      feature : "DocumentManagement"
     }
   },
   {
