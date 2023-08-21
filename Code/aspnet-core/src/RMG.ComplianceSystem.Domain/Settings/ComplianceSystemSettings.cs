@@ -23,7 +23,7 @@
             public const string SubscriptionModule = ".Subscription";
 
 
-            public const string ElapsedDays = Prefix + SubscriptionModule + ".ElapsedDays";
+            public const string RemainingDays = Prefix + SubscriptionModule + ".RemainingDays";
             public const string RemainingUsersCount = Prefix + SubscriptionModule + ".RemainingUsersCount";
         }
     }

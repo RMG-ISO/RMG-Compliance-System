@@ -1,4 +1,5 @@
 ﻿using RMG.ComplianceSystem.Subscription;
+using System;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Settings;
@@ -20,7 +21,7 @@ namespace RMG.ComplianceSystem.Settings
             //context.Add(new SettingDefinition(ComplianceSystemSettings.MySetting1));
             var userCount = _identityUserRepository.GetCountAsync().Result;
             context.Add(new SettingDefinition(LocalizationSettingNames.DefaultLanguage, "ar-EG"));
-            context.Add(new SettingDefinition(ComplianceSystemSettings.Subscription.ElapsedDays, (SubscriptionDate.EndDate - SubscriptionDate.StartDate).Days.ToString(), isVisibleToClients : true));
+            context.Add(new SettingDefinition(ComplianceSystemSettings.Subscription.RemainingDays, (SubscriptionDate.EndDate - DateTime.Now).Days.ToString(), isVisibleToClients : true));
             context.Add(new SettingDefinition(ComplianceSystemSettings.Subscription.RemainingUsersCount, (SubscriptionDate.MaxUserCount -  userCount).ToString(), isVisibleToClients : true));
             context.Add(new SettingDefinition(ComplianceSystemSettings.Attachment.IsMultiple, "true", isVisibleToClients: true));
             context.Add(new SettingDefinition(ComplianceSystemSettings.Attachment.MaxFileSize, "10", isVisibleToClients: true));
