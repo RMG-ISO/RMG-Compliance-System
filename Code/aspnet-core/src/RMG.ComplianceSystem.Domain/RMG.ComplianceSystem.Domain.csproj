@@ -14,6 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\RMG.ComplianceSystem.Subscription\RMG.ComplianceSystem.Subscription.csproj" />
 		<ProjectReference Include="..\RMG.ComplianceSystem.Domain.Shared\RMG.ComplianceSystem.Domain.Shared.csproj" />
 	</ItemGroup>
 

@@ -17,5 +17,14 @@
             public const string MaxFileSize = Prefix + AttachmentModule + ".MaxFileSize";
             public const string FileExtentions = Prefix + AttachmentModule + ".FileExtentions";
         }
+
+        public static class Subscription 
+        {
+            public const string SubscriptionModule = ".Subscription";
+
+
+            public const string ElapsedDays = Prefix + SubscriptionModule + ".ElapsedDays";
+            public const string RemainingUsersCount = Prefix + SubscriptionModule + ".RemainingUsersCount";
+        }
     }
 }
